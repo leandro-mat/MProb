@@ -45,6 +45,33 @@ latexmk -pdf sup-inf.tex
 
 O PDF final sai na própria subpasta (ex.: `sup-inf/sup-inf.pdf`).
 
+## Colaboração dos alunos
+
+O repositório é **público** e os alunos são adicionados como **colaboradores**
+com acesso de escrita. A branch `main` é **protegida**: nenhum commit entra
+diretamente nela — toda correção passa por um *pull request* revisado e
+aprovado pelo professor.
+
+Fluxo para um aluno enviar uma correção:
+
+1. Clonar o repositório: `git clone https://github.com/leandro-mat/MProb.git`
+2. Criar um branch para a correção: `git checkout -b corrige-typo`
+3. Fazer as edições e commitar: `git add -A && git commit -m "corrige typo em capitulo1"`
+4. Enviar o branch: `git push -u origin corrige-typo`
+5. Abrir um *pull request* no GitHub apontando para `main`
+
+O professor adiciona novos colaboradores com:
+
+```bash
+gh repo collaborator add <usuario-do-github> --permission push
+```
+
+Alternativamente, qualquer pessoa (mesmo sem ser colaboradora) pode abrir um
+*pull request* a partir de um *fork* do repositório.
+
 ## Licença
 
-Material didático de livre uso. Ao citar ou reutilizar, mencione a origem e o autor.
+Este material está licenciado sob a **Creative Commons
+Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional**
+(CC BY-NC-SA 4.0), como indicado no arquivo [`LICENSE`](LICENSE) e no rodapé
+das notas de aula. Ao citar ou reutilizar, mencione a origem e o autor.
