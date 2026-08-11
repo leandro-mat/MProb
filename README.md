@@ -1,5 +1,7 @@
 # MProb — Notas de Aula de Métodos Probabilísticos
 
+![Compilar LaTeX](https://github.com/leandro-mat/MProb/actions/workflows/compilar.yml/badge.svg)
+
 Notas de aula da disciplina **Métodos Probabilísticos**, do curso de
 Meteorologia da **Universidade de Brasília (UnB)**.
 
@@ -37,13 +39,27 @@ da figura do cabeçalho e do `.bib`.
 
 ## Compilação
 
-Dentro da subpasta da nota, compile com `latexmk`:
+Os PDFs são **compilados automaticamente pelo GitHub Actions** a cada alteração
+nos arquivos `.tex` ou `.bib` (badge de status acima). Não é preciso compilar
+nem subir o PDF manualmente — a própria CI atualiza os PDFs no repositório.
+
+Compilação manual (opcional), dentro da subpasta da nota:
 
 ```bash
 latexmk -pdf sup-inf.tex
 ```
 
 O PDF final sai na própria subpasta (ex.: `sup-inf/sup-inf.pdf`).
+
+## Notas em PDF
+
+Links diretos de download (funcionam sem conta no GitHub):
+
+- [Supremos, ínfimos e completude da reta](https://github.com/leandro-mat/MProb/raw/main/sup-inf/sup-inf.pdf)
+
+Para adicionar uma nova nota, basta criar a subpasta com o `.tex` principal
+(e os capítulos) e enviar para o `main` — o GitHub Actions compila e o link
+aparece aqui.
 
 ## Colaborações e Correções
 

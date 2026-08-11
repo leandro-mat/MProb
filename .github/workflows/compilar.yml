@@ -1,0 +1,54 @@
+name: Compilar LaTeX
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.tex'
+      - '**/*.bib'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  compilar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Descobrir documentos principais
+        id: notas
+        run: |
+          docs=""
+          while IFS= read -r dir; do
+            base="$(basename "$dir")"
+            [ -f "$dir/$base.tex" ] && docs="$docs $dir/$base.tex"
+          done < <(find . -mindepth 2 -maxdepth 2 -type d \
+            -not -path './.git*' \
+            -not -path '*/arquivos-aux*' | sort)
+          docs="${docs# }"
+          echo "docs=$docs"
+          echo "docs=$docs" >> "$GITHUB_OUTPUT"
+
+      - name: Compilar notas de aula
+        if: steps.notas.outputs.docs != ''
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: ${{ steps.notas.outputs.docs }}
+          work_in_root_file_dir: true
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+
+      - name: Commit dos PDFs compilados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.pdf'
+          if git diff --cached --quiet; then
+            echo "Nenhuma mudança nos PDFs — nada a commitar."
+          else
+            git commit -m "Atualiza PDFs compilados pelas Actions [skip ci]"
+            git push
+          fi
