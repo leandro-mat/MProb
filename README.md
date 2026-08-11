@@ -86,7 +86,7 @@ sugestões de conteúdo ou novas notas de aula.
      de escrita. Envie seu usuário do GitHub para o professor, que o adiciona
      com:
      ```bash
-     gh repo collaborator add <usuario-do-github> --permission push
+     gh api -X PUT repos/leandro-mat/MProb/collaborators/<usuario-do-github> -f permission=push
      ```
    - **Demais interessados**: faça um *fork* do repositório e trabalhe a partir
      do seu fork.
