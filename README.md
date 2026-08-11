@@ -4,9 +4,6 @@
   <a href="https://github.com/leandro-mat/MProb/issues/new?template=cadastro-colaborador.yml">
     <img alt="Quero Colaborar" src="https://img.shields.io/badge/-Quero%20colaborar%20com%20as%20corre%C3%A7%C3%B5es-2ea44f?style=for-the-badge&logo=github&logoColor=white">
   </a>
-  <a href="https://github.com/leandro-mat/MProb/actions/workflows/compilar.yml">
-    <img alt="Compilar LaTeX" src="https://github.com/leandro-mat/MProb/actions/workflows/compilar.yml/badge.svg">
-  </a>
 </p>
 
 Notas de aula da disciplina **Métodos Probabilísticos**, do curso de
@@ -45,6 +42,8 @@ da figura do cabeçalho e do `.bib`.
    inclusive a figura do cabeçalho e a bibliografia — nada precisa ser copiado.
 
 ## Compilação
+
+[![Compilar LaTeX](https://github.com/leandro-mat/MProb/actions/workflows/compilar.yml/badge.svg)](https://github.com/leandro-mat/MProb/actions)
 
 Os PDFs são **compilados automaticamente pelo GitHub Actions** a cada alteração
 nos arquivos `.tex` ou `.bib` (badge de status acima). Não é preciso compilar
