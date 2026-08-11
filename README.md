@@ -3,7 +3,7 @@
 ![Compilar LaTeX](https://github.com/leandro-mat/MProb/actions/workflows/compilar.yml/badge.svg)
 
 Notas de aula da disciplina **Métodos Probabilísticos**, do curso de
-Meteorologia da **Universidade de Brasília (UnB)**.
+Inteligência Artificial da **Universidade de Brasília (UnB)**.
 
 ## Estrutura
 
