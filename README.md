@@ -45,29 +45,89 @@ latexmk -pdf sup-inf.tex
 
 O PDF final sai na própria subpasta (ex.: `sup-inf/sup-inf.pdf`).
 
-## Colaboração dos alunos
+## Colaborações e Correções
 
-O repositório é **público** e os alunos são adicionados como **colaboradores**
-com acesso de escrita. A branch `main` é **protegida**: nenhum commit entra
-diretamente nela — toda correção passa por um *pull request* revisado e
-aprovado pelo professor.
+Este material é mantido como um projeto aberto. Qualquer pessoa interessada
+pode colaborar — com correções de erros de digitação, ajustes em demonstrações,
+sugestões de conteúdo ou novas notas de aula.
 
-Fluxo para um aluno enviar uma correção:
+### Regras básicas
 
-1. Clonar o repositório: `git clone https://github.com/leandro-mat/MProb.git`
-2. Criar um branch para a correção: `git checkout -b corrige-typo`
-3. Fazer as edições e commitar: `git add -A && git commit -m "corrige typo em capitulo1"`
-4. Enviar o branch: `git push -u origin corrige-typo`
-5. Abrir um *pull request* no GitHub apontando para `main`
+- O repositório é **público**; qualquer um pode clonar, ler e abrir *issues*.
+- A branch `main` é **protegida**: nada é commitado diretamente nela. Toda
+  mudança entra por um *pull request* revisado e aprovado pelo professor.
+- Mensagens de commit devem ser curtas e em português, descrevendo o que mudou.
+- Nunca versione artefatos de compilação LaTeX (`.aux`, `.log`, `.out`, `.toc`,
+  `.synctex.gz`, etc.) — o `.gitignore` já cuida disso.
+- Mantenha a estrutura atual: cada nota de aula em sua própria subpasta, com os
+  recursos compartilhados referenciados de `arquivos-aux/`.
 
-O professor adiciona novos colaboradores com:
+### Antes de começar
 
-```bash
-gh repo collaborator add <usuario-do-github> --permission push
-```
+1. Tenha uma conta no GitHub e o `git` instalado.
+2. Obtenha o repositório de uma destas formas:
+   - **Alunos da disciplina**: são adicionados como **colaboradores** com acesso
+     de escrita. Envie seu usuário do GitHub para o professor, que o adiciona
+     com:
+     ```bash
+     gh repo collaborator add <usuario-do-github> --permission push
+     ```
+   - **Demais interessados**: faça um *fork* do repositório e trabalhe a partir
+     do seu fork.
 
-Alternativamente, qualquer pessoa (mesmo sem ser colaboradora) pode abrir um
-*pull request* a partir de um *fork* do repositório.
+### Fluxo para enviar uma correção
+
+1. **Obtenha o código.** Para colaboradores:
+   ```bash
+   git clone https://github.com/leandro-mat/MProb.git
+   ```
+   Para quem usou fork: clone o seu fork e registre o repositório original como
+   `upstream`:
+   ```bash
+   git clone https://github.com/<seu-usuario>/MProb.git
+   cd MProb
+   git remote add upstream https://github.com/leandro-mat/MProb.git
+   ```
+
+2. **Atualize a `main` e crie um branch** para a sua correção:
+   ```bash
+   git checkout main && git pull
+   git checkout -b corrige-typo
+   ```
+   (quem usou fork, use `git pull upstream main` no passo de atualização)
+
+3. **Edite** o arquivo da nota que deseja corrigir (ex.:
+   `sup-inf/capitulos/capitulo1.tex`).
+
+4. **Compile** para conferir que o documento continua válido:
+   ```bash
+   latexmk -pdf sup-inf.tex   # executar dentro de sup-inf/
+   ```
+
+5. **Commit** com uma mensagem descritiva em português:
+   ```bash
+   git add -A && git commit -m "corrige typo em capitulo1"
+   ```
+
+6. **Envie o branch**:
+   ```bash
+   git push -u origin corrige-typo
+   ```
+
+7. **Abra um pull request** no GitHub apontando para a branch `main` do
+   repositório original, descrevendo o que foi alterado e por quê.
+
+### Depois de abrir o PR
+
+- A proteção do `main` exige **1 aprovação** — o professor revisará o PR.
+- Responda a eventuais comentários de revisão e mantenha o PR atualizado
+  (`git push` no mesmo branch).
+- Após a aprovação, o PR é mesclado e você pode apagar o branch da correção.
+
+### Sugestões sem código
+
+Se você encontrou um erro mas prefere não editar, abra uma *issue* no GitHub
+descrevendo o problema e a localização (nota, seção, página).
 
 ## Licença
 
