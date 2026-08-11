@@ -1,0 +1,28 @@
+# Arquivos gerados pelo LaTeX (nunca versionar)
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+*.nlo
+*.nls
+*.run.xml
+*.bcf
+*.nav
+*.snm
+*.vrb
+compile.log
+texput.log
+
+# Sistema
+.DS_Store

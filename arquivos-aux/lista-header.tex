@@ -1,0 +1,21 @@
+\documentclass{standalone}
+\usepackage{graphicx}
+\usepackage{calc} % Para usar largura total do texto
+\usepackage{tikz}
+
+\begin{document}
+	
+	\begin{tikzpicture}
+		% Largura total definida
+		\def\totalwidth{16.70cm}
+		
+		% Inserir a primeira figura no canto esquerdo
+		\node[anchor=west] at (0,0) 
+{\includegraphics{logo-mat-unb.pdf}};
+		
+		% Inserir a segunda figura no canto direito
+		\node[anchor=east] at (\totalwidth,0) 
+{\includegraphics{icone-lista.pdf}};
+	\end{tikzpicture}
+	
+\end{document}
