@@ -1,0 +1,32 @@
+name: Cadastro de Colaborador
+description: Solicite acesso como colaborador(a) para enviar correções às notas de aula
+title: "Colaborador: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado(a) pelo interesse em colaborar! Preencha os campos abaixo.
+        O professor adicionará seu usuário ao repositório e fechará esta issue.
+  - type: input
+    id: username
+    attributes:
+      label: Seu usuário do GitHub
+      description: O nick da sua conta no GitHub (sem o @).
+      placeholder: ex. joao-silva
+    validations:
+      required: true
+  - type: dropdown
+    id: disciplina
+    attributes:
+      label: Disciplina
+      description: Para qual disciplina você quer colaborar?
+      options:
+        - Métodos Probabilísticos
+        - Outra
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Depois de cadastrado, leia a seção **Colaborações e Correções** do
+        README para saber como enviar um *pull request*.
