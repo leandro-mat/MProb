@@ -1,0 +1,1166 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazil]{babel}        % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+% \makeindex[name=remissivo, columns=2, title=Índice Remissivo, intoc=true]
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{fontawesome5}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores (do Teorema Ergódico)
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+% O texto colado do Grimmett usa \chapter; na classe article, vira seção sem número
+\newcommand{\chapter}[1]{\section*{#1}}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark}
+
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+  pdftitle={Espaços de Probabilidade},
+  pdfauthor={L. Cioletti},
+  pdfsubject={Axiomas de Kolmogorov, sigmas-álgebras, medidas de probabilidade},
+  pdfkeywords={Medidas de Probabilidade, Espaços de Probabilidade, Propriedades de Medidas de Probabilidade}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheorem{exercise}{Exercício}
+
+% Ambientes não numerados usados no texto colado do Grimmett
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Nomes em português para os ambientes
+\addto\captionsbrazil{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Placeholder para figuras ainda não verificadas (do preâmbulo do Grimmett)
+\newcommand{\figureplaceholder}[4]{%
+  \begin{figure}[htbp]
+    \centering
+    \fbox{%
+      \begin{minipage}[c][0.16\textheight][c]{0.78\textwidth}
+        \centering\small
+        Figure #1 placeholder\\[0.5em]
+        JSON image: \texttt{\detokenize{#2}}\\
+        JSON page: #3
+      \end{minipage}%
+    }
+    \par\smallskip
+    \textbf{Fig. #1} #4
+  \end{figure}%
+}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+\vspace{0.5cm}
+
+% --- TÍTULO, AUTOR E DATA ---
+\begin{center}
+{\LARGE\bf Espaços de Probabilidade}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Agosto de 2026}
+\end{center}
+
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Introduzimos o conceito de espaços de probabilidade e apresentamos as provas das propriedades elementares
+de uma medida de probabilidade.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+
+% Sessions 02--04: JSON pages 13--32.
+% Session 02 -- JSON pages 13--24. Chapter 1 opens here with its title,
+% summary, and sections 1.1--1.8 through the partition theorem.
+% Session 03 -- JSON pages 25--32. Bayes' theorem (1.8), sections 1.9
+% (Probability measures are continuous) and 1.10 (Worked problems), and
+% section 1.11 (Problems).
+
+% The printed Problems sections mark some problems with a star before the
+% printed number. enumitem freezes the label template at the environment
+% start, so a starred problem supplies its own label via \starredproblem,
+% which steps the counter and hangs the star in the margin.
+\providecommand{\starredproblem}{%
+  \stepcounter{enumi}\llap{\textasteriskcentered\,}\arabic{enumi}.}
+
+%%% JSON page 13 (PDF page 14)
+\chapter{Events and probabilities}
+
+\emph{Summary.} The very basic principles and tools of probability theory are
+set out. An event involving randomness may be described in mathematical terms
+as a probability space. Following an account of the properties of probability
+spaces, the concept of conditional probability is explained, and also that of
+the independence of events. There are many worked examples of calculations of
+probabilities.
+
+\section{Experiments with chance}
+
+Many actions have outcomes which are largely unpredictable in
+advance---tossing a coin and throwing a dart are simple examples. Probability
+theory is about such actions and their consequences. The mathematical theory
+starts with the idea of an \emph{experiment} (or \emph{trial}), being a course
+of action whose consequence is not predetermined. This experiment is
+reformulated as a mathematical object called a \emph{probability space}. In
+broad terms, the probability space corresponding to a given experiment
+comprises three items:
+\begin{enumerate}[label=(\roman*)]
+  \item the set of all possible outcomes of the experiment,
+  \item a list of all the events which may possibly occur as consequences of
+        the experiment,
+  \item an assessment of the likelihoods of these events.
+\end{enumerate}
+
+For example, if the experiment is the throwing of a fair six-sided die, then
+the probability space amounts to the following:
+\begin{enumerate}[label=(\roman*)]
+  \item the set \(\{1, 2, 3, 4, 5, 6\}\) of possible outcomes,
+  \item a list of events such as
+        \begin{itemize}
+          \item the result is 3,
+          \item the result is at least 4,
+          \item the result is a prime number,
+        \end{itemize}
+  \item each number \(1, 2, 3, 4, 5, 6\) is equally likely to be the result of
+        the throw.
+\end{enumerate}
+
+Given any experiment involving chance, there is a corresponding probability
+space, and the study of such spaces is called \emph{probability theory}. Next,
+we shall see how to construct such spaces more explicitly.
+
+\section{Outcomes and events}
+
+We use the letter \(\mathcal{E}\) to denote a particular experiment whose
+outcome is not completely predetermined. The first thing which we do is to
+make a list of all the possible outcomes of \(\mathcal{E}\).
+
+%%% JSON page 14 (PDF page 15)
+The set of all such possible outcomes is called the \emph{sample space} of
+\(\mathcal{E}\) and we usually denote it by \(\Omega\). The Greek letter
+\(\omega\) denotes a typical member of \(\Omega\), and we call each member
+\(\omega\) an \emph{elementary event}.
+
+If, for example, \(\mathcal{E}\) is the experiment of throwing a fair die
+once, then
+\[
+  \Omega = \{1, 2, 3, 4, 5, 6\}.
+\]
+
+There are many questions which we may wish to ask about the actual outcome of
+this experiment (questions such as ``is the outcome a prime number?''), and
+all such questions may be rewritten in terms of subsets of \(\Omega\) (the
+previous question becomes ``does the outcome lie in the subset \(\{2, 3,
+5\}\) of \(\Omega\)?''). The second thing which we do is to make a list of all
+the events which are interesting to us. This list takes the form of a
+collection of subsets of \(\Omega\), each such subset \(A\) representing the
+event ``the outcome of \(\mathcal{E}\) lies in \(A\)''. Thus we ask ``which
+possible events are interesting to us'', and then we make a list of the
+corresponding subsets of \(\Omega\). This relationship between \emph{events}
+and \emph{subsets} is very natural, especially because two or more events
+combine with each other in just the same way as the corresponding subsets
+combine. For example, if \(A\) and \(B\) are subsets of \(\Omega\), then
+\begin{itemize}
+  \item the set \(A \cup B\) corresponds to the event ``either \(A\) or \(B\)
+        occurs'',
+  \item the set \(A \cap B\) corresponds to the event ``both \(A\) and \(B\)
+        occur'',
+  \item the complement \(A^c := \Omega \setminus A\) corresponds to the event
+        ``\(A\) does not occur'',\footnote{For any subset \(A\) of
+        \(\Omega\), the \emph{complement} of \(A\) is the set of all members
+        of \(\Omega\) which are not members of \(A\). We denote the complement
+        of \(A\) by either \(\Omega \setminus A\) or \(A^c\), depending on the
+        context.}
+\end{itemize}
+where we say that a subset \(C\) of \(\Omega\) ``occurs'' whenever the outcome
+of \(\mathcal{E}\) lies in \(C\). Thus all set-theoretic statements and
+combinations may be interpreted in terms of events. For example, the formula
+\[
+  \Omega \setminus (A \cap B) = (\Omega \setminus A) \cup (\Omega \setminus B)
+\]
+may be read as ``if \(A\) and \(B\) do not both occur, then either \(A\) does
+not occur or \(B\) does not occur''. In a similar way, if \(A_1, A_2, \dots\)
+are events, then the sets \(\bigcup_{i=1}^{\infty} A_i\) and
+\(\bigcap_{i=1}^{\infty} A_i\) represent the events ``\(A_i\) occurs, for some
+\(i\)'' and ``\(A_i\) occurs, for every \(i\)'', respectively.
+
+Thus we write down a collection \(\mathcal{F} = \{A_i : i \in I\}\) of subsets
+of \(\Omega\) which are interesting to us; each \(A \in \mathcal{F}\) is called
+an \emph{event}. In simple cases, such as the die-throwing example above, we
+usually take \(\mathcal{F}\) to be the set of \emph{all} subsets of
+\(\Omega\) (called the \emph{power set} of \(\Omega\)), but for reasons which
+may be appreciated later there are many circumstances in which we take
+\(\mathcal{F}\) to be a very much smaller collection than the entire power
+set.\footnote{This is explained in Footnote 3 on p.~6.} In all cases we demand
+a certain consistency of \(\mathcal{F}\), in the following sense. If \(A, B,
+C, \dots \in \mathcal{F}\), we may reasonably be interested also in the events
+``\(A\) does \emph{not} occur'' and ``at least one of \(A, B, C, \dots\)
+occurs''. With this in mind, we require that \(\mathcal{F}\) satisfy the
+following definition.
+
+%%% JSON page 15 (PDF page 16)
+\begin{definition}[1.1]
+  \emph{The collection \(\mathcal{F}\) of subsets of the sample space
+  \(\Omega\) is called an} \textbf{event space} \emph{if}
+  \begin{align}
+    \mathcal{F} \text{ is non-empty}, \tag{1.2} \label{eq:1.2} \\
+    \text{if } A \in \mathcal{F} \text{ then } \Omega \setminus A \in
+      \mathcal{F}, \tag{1.3} \label{eq:1.3} \\
+    \text{if } A_1, A_2, \dots \in \mathcal{F} \text{ then }
+      \bigcup_{i=1}^{\infty} A_i \in \mathcal{F}. \tag{1.4} \label{eq:1.4}
+  \end{align}
+\end{definition}
+
+We speak of an event space \(\mathcal{F}\) as being ``closed under the
+operations of taking complements and countable unions''. Here are some
+elementary consequences of axioms \eqref{eq:1.2}--\eqref{eq:1.4}.
+
+\begin{enumerate}[label=(\alph*)]
+  \item An event space \(\mathcal{F}\) must contain the empty set
+        \(\varnothing\) and the whole set \(\Omega\). This holds as follows.
+        By \eqref{eq:1.2}, there exists some \(A \in \mathcal{F}\). By
+        \eqref{eq:1.3}, \(A^c \in \mathcal{F}\). We set \(A_1 = A\), \(A_i =
+        A^c\) for \(i \ge 2\) in \eqref{eq:1.4}, and deduce that
+        \(\mathcal{F}\) contains the union \(\Omega = A \cup A^c\). By
+        \eqref{eq:1.3} again, the complement \(\Omega \setminus \Omega =
+        \varnothing\) lies in \(\mathcal{F}\) also.
+  \item An event space is closed under the operation of \emph{finite} unions,
+        as follows. Let \(A_1, A_2, \allowbreak \dots, A_m \in
+        \mathcal{F}\), and set
+        \(A_i = \varnothing\) for \(i > m\). Then \(A := \bigcup_{i=1}^m
+        A_i\) satisfies \(A = \bigcup_{i=1}^\infty A_i\), so that \(A \in
+        \mathcal{F}\) by \eqref{eq:1.4}.
+  \item The third condition \eqref{eq:1.4} is written in terms of
+        \emph{unions}. An event space is also closed under the operations of
+        taking finite or countable \emph{intersections}. This follows by the
+        elementary formula \((A \cap B)^c = A^c \cup B^c\), and its extension
+        to finite and countable families.
+\end{enumerate}
+
+Here are some examples of pairs \((\Omega, \mathcal{F})\) of sample spaces and
+event spaces.
+
+\begin{example}[1.5]
+  \(\Omega\) is any non-empty set and \(\mathcal{F}\) is the power set of
+  \(\Omega\).
+\end{example}
+
+\begin{example}[1.6]
+  \(\Omega\) is any non-empty set and \(\mathcal{F} = \{\varnothing, A,
+  \Omega \setminus A, \Omega\}\), where \(A\) is a given non-trivial subset of
+  \(\Omega\).
+\end{example}
+
+\begin{example}[1.7]
+  \(\Omega = \{1, 2, 3, 4, 5, 6\}\) and \(\mathcal{F}\) is the collection
+  \[
+    \varnothing, \{1, 2\}, \{3, 4\}, \{5, 6\}, \{1, 2, 3, 4\}, \{3, 4, 5, 6\},
+    \{1, 2, 5, 6\}, \Omega
+  \]
+  of subsets of \(\Omega\). This event space is unlikely to arise naturally in
+  practice.
+\end{example}
+
+In the following exercises, \(\Omega\) is a set and \(\mathcal{F}\) is an
+event space of subsets of \(\Omega\).
+
+\begin{exercise}[1.8]
+  If \(A, B \in \mathcal{F}\), show that \(A \cap B \in \mathcal{F}\).
+\end{exercise}
+
+\begin{exercise}[1.9]
+  The \emph{difference} \(A \setminus B\) of two subsets \(A\) and \(B\) of
+  \(\Omega\) is the set \(A \cap (\Omega \setminus B)\) of all points of
+  \(\Omega\) which are in \(A\) but not in \(B\). Show that if \(A, B \in
+  \mathcal{F}\), then \(A \setminus B \in \mathcal{F}\).
+\end{exercise}
+
+\begin{exercise}[1.10]
+  The \emph{symmetric difference} \(A \triangle B\) of two subsets \(A\) and
+  \(B\) of \(\Omega\) is defined to be the set of points of \(\Omega\) which
+  are in either \(A\) or \(B\) but not both. If \(A, B \in \mathcal{F}\), show
+  that \(A \triangle B \in \mathcal{F}\).
+\end{exercise}
+
+\begin{exercise}[1.11]
+  If \(A_1, A_2, \dots, A_m \in \mathcal{F}\) and \(k\) is a positive integer,
+  show that the set of points in \(\Omega\) which belong to exactly \(k\) of
+  the \(A_i\) belongs to \(\mathcal{F}\) (the previous exercise is the case
+  when \(m = 2\) and \(k = 1\)).
+\end{exercise}
+
+\begin{exercise}[1.12]
+  Show that, if \(\Omega\) is a finite set, then \(\mathcal{F}\) contains an
+  even number of subsets of \(\Omega\).
+\end{exercise}
+
+%%% JSON page 16 (PDF page 17)
+\section{Probabilities}
+
+From our experiment \(\mathcal{E}\), we have so far constructed a sample space
+\(\Omega\) and an event space \(\mathcal{F}\) associated with
+\(\mathcal{E}\), but there has been no mention yet of probabilities. The third
+thing which we do is to allocate probabilities to each event in
+\(\mathcal{F}\), writing \(\mathbb{P}(A)\) for the probability of the event
+\(A\). We shall assume that this can be done in such a way that the
+probability function \(\mathbb{P}\) satisfies certain intuitively attractive
+conditions:
+\begin{enumerate}[label=(\alph*)]
+  \item each event \(A\) in the event space has a probability
+        \(\mathbb{P}(A)\) satisfying \(0 \leq \mathbb{P}(A) \leq 1\),
+  \item the event \(\Omega\), that ``something happens'', has probability 1,
+        and the event \(\varnothing\), that ``nothing happens'', has
+        probability 0,
+  \item if \(A\) and \(B\) are disjoint events (in that \(A \cap B =
+        \varnothing\)), then \(\mathbb{P}(A \cup B) = \mathbb{P}(A) +
+        \mathbb{P}(B)\).
+\end{enumerate}
+
+We collect these conditions into a formal definition as follows.\footnote{This
+is where the assumptions of an event space come to the fore. Banach and
+Kuratowski proved in 1929 that there exists no probability measure
+\(\mathbb{P}\) defined on all subsets of the interval \([0, 1]\) satisfying
+\(\mathbb{P}(\{x\}) = 0\) for every singleton \(x \in [0, 1]\).}
+
+\begin{definition}[1.13]
+  A mapping \(\mathbb{P}: \mathcal{F} \to \mathbb{R}\) is called a
+  \emph{probability measure} on \((\Omega, \mathcal{F})\) if
+  \begin{enumerate}[label=(\alph*)]
+    \item \(\mathbb{P}(A) \geq 0\) for \(A \in \mathcal{F}\),
+    \item \(\mathbb{P}(\Omega) = 1\) and \(\mathbb{P}(\varnothing) = 0\),
+    \item if \(A_1, A_2, \ldots\) are disjoint events in \(\mathcal{F}\) (in
+          that \(A_i \cap A_j = \varnothing\) whenever \(i \neq j\)) then
+          \begin{equation}
+            \mathbb{P}\left(\bigcup_{i=1}^{\infty} A_i\right) =
+            \sum_{i=1}^{\infty} \mathbb{P}(A_i). \tag{1.14} \label{eq:1.14}
+          \end{equation}
+  \end{enumerate}
+\end{definition}
+
+We emphasize that a probability measure \(\mathbb{P}\) on \((\Omega,
+\mathcal{F})\) is defined only on those subsets of \(\Omega\) which lie in
+\(\mathcal{F}\). Here are two notes about probability measures.
+
+\begin{enumerate}[label=(\roman*)]
+  \item The second part of condition (b) is superfluous in the above
+        definition. To see this, define the disjoint events \(A_1 = \Omega\),
+        \(A_i = \varnothing\) for \(i \geq 2\). By condition (c),
+        \[
+          \mathbb{P}(\Omega) = \mathbb{P}\left(\bigcup_{i=1}^{\infty}
+          A_i\right) = \mathbb{P}(\Omega) + \sum_{i=2}^{\infty}
+          \mathbb{P}(\varnothing).
+        \]
+  \item Condition (c) above is expressed as saying that \(\mathbb{P}\) is
+        \emph{countably additive}. The probability measure \(\mathbb{P}\) is
+        also \emph{finitely additive} in that
+        \[
+          \mathbb{P}\left(\bigcup_{i=1}^{m} A_i\right) =
+          \sum_{i=1}^{m} \mathbb{P}(A_i)
+        \]
+        for disjoint events \(A_i\). This is deduced from condition (c) by
+        setting \(A_i = \varnothing\) for \(i > m\).
+\end{enumerate}
+
+Condition \eqref{eq:1.14} requires that the probability of the union of a
+countable collection of disjoint sets is the sum of the individual
+probabilities.\footnote{A set \(S\) is called \emph{countable} if it may be
+put in one-one correspondence with a subset of the natural numbers \(\{1, 2,
+3, \ldots\}\).}
+
+%%% JSON page 17 (PDF page 18)
+\begin{example}[1.15]
+  Let \(\Omega\) be a non-empty set and let \(A\) be a proper, non-empty
+  subset of \(\Omega\) (so that \(A \neq \varnothing, \Omega\)). If
+  \(\mathcal{F}\) is the event space \(\{\varnothing, A, \Omega \setminus A,
+  \Omega\}\), then all probability measures on \((\Omega, \mathcal{F})\) have
+  the form
+  \[
+    \mathbb{P}(\varnothing) = 0, \quad \mathbb{P}(A) = p,
+  \]
+  \[
+    \mathbb{P}(\Omega \setminus A) = 1 - p, \quad \mathbb{P}(\Omega) = 1,
+  \]
+  for some \(p\) satisfying \(0 \leq p \leq 1\). \(\triangle\)
+\end{example}
+
+\begin{example}[1.16]
+  Let \(\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\}\) be a finite set of
+  exactly \(N\) points, and let \(\mathcal{F}\) be the power set of
+  \(\Omega\). It is easy to check that the function \(\mathbb{P}\) defined by
+  \[
+    \mathbb{P}(A) = \frac{1}{N} |A| \quad \text{for } A \in \mathcal{F}
+  \]
+  is a probability measure on \((\Omega, \mathcal{F})\).\footnote{The
+  cardinality \(|A|\) of a set \(A\) is the number of points in \(A\).}
+  \(\triangle\)
+\end{example}
+
+\begin{exercise}[1.17]
+  Let \(p_1, p_2, \ldots, p_N\) be non-negative numbers such that \(p_1 +
+  p_2 + \cdots + p_N = 1\), and let \(\Omega = \{\omega_1, \omega_2, \ldots,
+  \omega_N\}\), with \(\mathcal{F}\) the power set of \(\Omega\), as in
+  Example 1.16. Show that the function \(\mathbb{Q}\) given by
+  \[
+    \mathbb{Q}(A) = \sum_{i: \omega_i \in A} p_i \quad \text{for } A \in
+    \mathcal{F}
+  \]
+  is a probability measure on \((\Omega, \mathcal{F})\). Is \(\mathbb{Q}\) a
+  probability measure on \((\Omega, \mathcal{F})\) if \(\mathcal{F}\) is not
+  the power set of \(\Omega\) but merely some event space of subsets of
+  \(\Omega\)?
+\end{exercise}
+
+\section{Probability spaces}
+
+We combine the previous ideas in a formal definition.
+
+\begin{definition}[1.18]
+  A probability space is a triple \((\Omega, \mathcal{F}, \mathbb{P})\) of
+  objects such that
+  \begin{enumerate}[label=(\alph*)]
+    \item \(\Omega\) is a non-empty set,
+    \item \(\mathcal{F}\) is an event space of subsets of \(\Omega\),
+    \item \(\mathbb{P}\) is a probability measure on \((\Omega,
+          \mathcal{F})\).
+  \end{enumerate}
+\end{definition}
+
+There are many elementary consequences of the axioms underlying this
+definition, and we describe some of these. Let \((\Omega, \mathcal{F},
+\mathbb{P})\) be a probability space.
+
+\begin{property}
+  If \(A, B \in \mathcal{F}\), then\footnote{\(A \setminus B = A \cap
+  (\Omega \setminus B)\) is the set of points in \(A\) which are not in
+  \(B\).} \(A \setminus B \in \mathcal{F}\).
+\end{property}
+
+\begin{proof}
+  The complement of \(A \setminus B\) equals \((\Omega \setminus A) \cup B\),
+  which is the union of events and is therefore an event. Hence \(A
+  \setminus B\) is an event, by \eqref{eq:1.3}.
+\end{proof}
+
+\begin{property}
+  If \(A_1, A_2, \ldots \in \mathcal{F}\), then \(\bigcap_{i=1}^{\infty} A_i
+  \in \mathcal{F}\).
+\end{property}
+
+%%% JSON page 18 (PDF page 19)
+\begin{proof}
+  The complement of \(\bigcap_{i=1}^{\infty} A_i\) equals
+  \(\bigcup_{i=1}^{\infty} (\Omega \setminus A_i)\), which is the union of
+  the complements of events and is therefore an event. Hence the intersection
+  of the \(A_i\) is an event also, as before.
+\end{proof}
+
+\begin{property}
+  If \(A \in \mathcal{F}\) then \(\mathbb{P}(A) + \mathbb{P}(\Omega
+  \setminus A) = 1\).
+\end{property}
+
+\begin{proof}
+  The events \(A\) and \(\Omega \setminus A\) are disjoint with union
+  \(\Omega\), and so
+  \[
+    1 = \mathbb{P}(\Omega) = \mathbb{P}(A) + \mathbb{P}(\Omega \setminus A).
+  \]
+\end{proof}
+
+\begin{property}
+  If \(A, B \in \mathcal{F}\) then \(\mathbb{P}(A \cup B) + \mathbb{P}(A
+  \cap B) = \mathbb{P}(A) + \mathbb{P}(B)\).
+\end{property}
+
+\begin{proof}
+  The set \(A\) is the union of the disjoint sets \(A \setminus B\) and \(A
+  \cap B\), and hence
+  \[
+    \mathbb{P}(A) = \mathbb{P}(A \setminus B) + \mathbb{P}(A \cap B) \quad
+    \text{by \eqref{eq:1.14}.}
+  \]
+  A similar remark holds for the set \(B\), giving that
+  \[
+    \begin{aligned}
+      \mathbb{P}(A) + \mathbb{P}(B) &= \mathbb{P}(A \setminus B) +
+      2\mathbb{P}(A \cap B) + \mathbb{P}(B \setminus A) \\
+      &= \mathbb{P}\big((A \setminus B) \cup (A \cap B) \cup (B \setminus
+        A)\big) + \mathbb{P}(A \cap B) \quad \text{by \eqref{eq:1.14}} \\
+      &= \mathbb{P}(A \cup B) + \mathbb{P}(A \cap B).
+    \end{aligned}
+  \]
+\end{proof}
+
+\begin{property}
+  If \(A, B \in \mathcal{F}\) and \(A \subseteq B\) then \(\mathbb{P}(A)
+  \leq \mathbb{P}(B)\).
+\end{property}
+
+\begin{proof}
+  We have that \(\mathbb{P}(B) = \mathbb{P}(A) + \mathbb{P}(B \setminus A)
+  \geq \mathbb{P}(A)\).
+\end{proof}
+
+It is often useful to draw a Venn diagram when working with probabilities.
+For example, to illustrate the formula \(\mathbb{P}(A \cup B) + \mathbb{P}(A
+\cap B) = \mathbb{P}(A) + \mathbb{P}(B)\), we might draw the diagram in
+Figure 1.1, and note that the probability of \(A \cup B\) is the sum of
+\(\mathbb{P}(A)\) and \(\mathbb{P}(B)\) minus \(\mathbb{P}(A \cap B)\), since
+the last probability is counted twice in the simple sum \(\mathbb{P}(A) +
+\mathbb{P}(B)\).
+
+\figureplaceholder{1.1}{img-1.jpeg}{18}{A Venn diagram illustrating the fact
+that \(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A
+\cap B)\).}
+
+In the following exercises, \((\Omega, \mathcal{F}, \mathbb{P})\) is a
+probability space.
+
+%%% JSON page 19 (PDF page 20)
+\begin{exercise}[1.19]
+  If \(A, B \in \mathcal{F}\), show that \(\mathbb{P}(A \setminus B) =
+  \mathbb{P}(A) - \mathbb{P}(A \cap B)\).
+\end{exercise}
+
+\begin{exercise}[1.20]
+  If \(A, B, C \in \mathcal{F}\), show that
+  \[
+    \mathbb{P}(A \cup B \cup C) = \mathbb{P}(A) + \mathbb{P}(B) +
+    \mathbb{P}(C) - \mathbb{P}(A \cap B) - \mathbb{P}(B \cap C) -
+    \mathbb{P}(A \cap C) + \mathbb{P}(A \cap B \cap C).
+  \]
+\end{exercise}
+
+\begin{exercise}[1.21]
+  Let \(A, B, C\) be three events such that
+  \[
+    \begin{aligned}
+      \mathbb{P}(A) = \tfrac{5}{10}, \qquad \mathbb{P}(B) = \tfrac{7}{10},
+      \qquad \mathbb{P}(C) = \tfrac{6}{10}, \\
+      \mathbb{P}(A \cap B) = \tfrac{3}{10}, \qquad \mathbb{P}(B \cap C) =
+      \tfrac{4}{10}, \qquad \mathbb{P}(A \cap C) = \tfrac{2}{10}, \\
+      \mathbb{P}(A \cap B \cap C) = \tfrac{1}{10}.
+    \end{aligned}
+  \]
+  By drawing a Venn diagram or otherwise, find the probability that exactly
+  two of the events \(A, B, C\) occur.
+\end{exercise}
+
+\begin{exercise}[1.22]
+  A fair coin is tossed 10 times (so that heads appears with probability
+  \(\tfrac{1}{2}\) at each toss). Describe the appropriate probability space
+  in detail for the two cases when
+  \begin{enumerate}[label=(\alph*)]
+    \item the outcome of every toss is of interest,
+    \item only the total number of tails is of interest.
+  \end{enumerate}
+  In the first case your event space should have \(2^{2^{10}}\) events, but
+  in the second case it need have only \(2^{11}\) events.
+\end{exercise}
+
+\section{Discrete sample spaces}
+
+Let \(\mathcal{E}\) be an experiment with probability space \((\Omega,
+\mathcal{F}, \mathbb{P})\). The structure of this space depends greatly on
+whether \(\Omega\) is a countable set (that is, a finite or countably
+infinite set) or an uncountable set. If \(\Omega\) is a countable set, we
+normally take \(\mathcal{F}\) to be the set of all subsets of \(\Omega\), for
+the following reason. Suppose that \(\Omega = \{\omega_1, \omega_2,
+\ldots\}\) and, for each \(\omega \in \Omega\), we are interested in whether
+or not this given \(\omega\) is the actual outcome of \(\mathcal{E}\); then we
+require that each singleton set \(\{\omega\}\) belongs to \(\mathcal{F}\). Let
+\(A \subseteq \Omega\). Then \(A\) is countable (since \(\Omega\) is
+countable), and so \(A\) may be expressed as the union of the countably many
+\(\omega_i\) which belong to \(A\), giving that \(A = \bigcup_{\omega \in A}
+\{\omega\} \in \mathcal{F}\) by \eqref{eq:1.4}. The probability
+\(\mathbb{P}(A)\) of the event \(A\) is determined by the collection of
+probabilities \(\mathbb{P}(\{\omega\})\) as \(\omega\) ranges over
+\(\Omega\), since, by \eqref{eq:1.14},
+\[
+  \mathbb{P}(A) = \sum_{\omega \in A} \mathbb{P}(\{\omega\}).
+\]
+
+We usually write \(\mathbb{P}(\omega)\) for the probability
+\(\mathbb{P}(\{\omega\})\) of an event containing only one point in
+\(\Omega\).
+
+\begin{example}[1.23 (Equiprobable outcomes)]
+  If \(\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\}\) and
+  \(\mathbb{P}(\omega_i) = \mathbb{P}(\omega_j)\) for all \(i\) and \(j\),
+  then \(\mathbb{P}(\omega) = 1/N\) for \(\omega \in \Omega\), and
+  \(\mathbb{P}(A) = |A|/N\) for \(A \subseteq \Omega\). \(\triangle\)
+\end{example}
+
+\begin{example}[1.24 (Random integers)]
+  There are ``intuitively clear'' statements which are without meaning in
+  probability theory, and here is an example: if we pick a positive integer
+  at random, then it is an even integer with probability \(\tfrac{1}{2}\).
+  Interpreting ``at random'' to mean that each positive integer is equally
+  likely to be picked, then this experiment would have probability space
+  \((\Omega, \mathcal{F}, \mathbb{P})\), where
+  \begin{enumerate}[label=(\alph*)]
+%%% JSON page 20 (PDF page 21)
+    \item \(\Omega = \{1, 2, \ldots\}\),
+    \item \(\mathcal{F}\) is the set of all subsets of \(\Omega\),
+    \item if \(A \subseteq \Omega\), then \(\mathbb{P}(A) = \sum_{i \in A}
+          \mathbb{P}(i) = \pi |A|\), where \(\pi\) is the probability that
+          any given integer, \(i\) say, is picked.
+  \end{enumerate}
+  However,
+  \[
+    \begin{aligned}
+      \text{if } \pi = 0 \text{ then } \mathbb{P}(\Omega) =
+      \sum_{i=1}^{\infty} 0 = 0, \\
+      \text{if } \pi > 0 \text{ then } \mathbb{P}(\Omega) =
+      \sum_{i=1}^{\infty} \pi = \infty,
+    \end{aligned}
+  \]
+  neither of which is in agreement with the rule that \(\mathbb{P}(\Omega) =
+  1\). One possible way of interpreting the italicized statement above is as
+  follows. Let \(N\) be a large positive integer, and let \(\mathcal{E}_N\) be
+  the experiment of picking an integer from the finite set \(\Omega_N = \{1,
+  2, \ldots, N\}\) at random. The probability that the outcome of
+  \(\mathcal{E}_N\) is even is
+  \[
+    \frac{1}{2} \text{ if } N \text{ is even, and } \frac{1}{2} \left( 1 -
+    \frac{1}{N} \right) \text{ if } N \text{ is odd},
+  \]
+  so that, as \(N \to \infty\), the required probability tends to
+  \(\tfrac{1}{2}\). Despite this sensible interpretation of the italicized
+  statement, we emphasize that this statement is without meaning in its
+  present form and should be shunned by serious probabilists. \(\triangle\)
+\end{example}
+
+The most elementary problems in probability theory are those which involve
+experiments such as the shuffling of cards or the throwing of dice, and these
+usually give rise to situations in which every possible outcome is equally
+likely to occur. This is the case of Example 1.23 above. Such problems usually
+reduce to the problem of counting the number of ways in which some event may
+occur, and the following exercises are of this type.
+
+\begin{exercise}[1.25]
+  Show that if a coin is tossed \(n\) times, then there are exactly
+  \[
+    \binom{n}{k} = \frac{n!}{k!(n-k)!}
+  \]
+  sequences of possible outcomes in which exactly \(k\) heads are obtained.
+  If the coin is fair (so heads and tails are equally likely on each toss),
+  show that the probability of getting at least \(k\) heads is
+  \[
+    \frac{1}{2^n} \sum_{r=k}^{n} \binom{n}{r}.
+  \]
+\end{exercise}
+
+\begin{exercise}[1.26]
+  We distribute \(r\) distinguishable balls into \(n\) cells at random,
+  multiple occupancy being permitted. Show that
+  \begin{enumerate}[label=(\alph*)]
+    \item there are \(n^r\) possible arrangements,
+    \item there are \(\binom{r}{k}(n-1)^{r-k}\) arrangements in which the
+          first cell contains exactly \(k\) balls,
+%%% JSON page 21 (PDF page 22)
+    \item the probability that the first cell contains exactly \(k\) balls is
+          \[
+            \binom{r}{k} \left(\frac{1}{n}\right)^k \left(1 -
+            \frac{1}{n}\right)^{r-k}.
+          \]
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}[1.27]
+  In a game of bridge, the 52 cards of a conventional pack are distributed at
+  random between the four players in such a way that each player receives 13
+  cards. Show that the probability that each player receives one ace is
+  \[
+    \frac{24 \cdot 48! \cdot 13^4}{52!} = 0.105 \dots.
+  \]
+\end{exercise}
+
+\begin{exercise}[1.28]
+  Show that the probability that two given hands in bridge contain \(k\) aces
+  between them is
+  \[
+    \binom{4}{k} \binom{48}{26-k} \Big/ \binom{52}{26}.
+  \]
+\end{exercise}
+
+\begin{exercise}[1.29]
+  Show that the probability that a hand in bridge contains 6 spades, 3
+  hearts, 2 diamonds and 2 clubs is
+  \[
+    \binom{13}{6} \binom{13}{3} \binom{13}{2}^2 \Big/ \binom{52}{13}.
+  \]
+\end{exercise}
+
+\begin{exercise}[1.30]
+  Which of the following is more probable:
+  \begin{enumerate}[label=(\alph*)]
+    \item getting at least one six with 4 throws of a die,
+    \item getting at least one double six with 24 throws of two dice?
+  \end{enumerate}
+  This is sometimes called ``de M\'er\'e's paradox'', after the professional
+  gambler Chevalier de M\'er\'e, who believed these two events to have equal
+  probability.
+\end{exercise}
+
+\section{Probability measures are continuous}
+
+There is a certain property of probability measures which will be very useful
+later, and we describe this next. Too great an emphasis should not be placed
+on the property at this stage, and we recommend to the reader that he or she
+omit this section at the first reading.
+
+A sequence \(A_1, A_2, \ldots\) of events in a probability space \((\Omega,
+\mathcal{F}, \mathbb{P})\) is called \emph{increasing} if
+\[
+  A_n \subseteq A_{n+1} \quad \text{for } n = 1, 2, \ldots.
+\]
+The union
+\[
+  A = \bigcup_{i=1}^{\infty} A_i
+\]
+of such a sequence is called the \emph{limit} of the sequence, and it is an
+elementary consequence of the axioms for an event space that \(A\) is an
+event. It is perhaps not surprising that the probability \(\mathbb{P}(A)\) of
+\(A\) may be expressed as the limit \(\lim_{n \to \infty} \mathbb{P}(A_n)\)
+of the probabilities of the \(A_n\).
+
+\begin{theorem}[1.54 (Continuity of probability measures)]
+  Let \((\Omega, \mathcal{F}, \mathbb{P})\) be a probability space. If
+  \(A_1, A_2, \ldots\) is an increasing sequence of events in
+  \(\mathcal{F}\) with limit \(A\), then
+  \[
+    \mathbb{P}(A) = \lim_{n \to \infty} \mathbb{P}(A_n).
+  \]
+\end{theorem}
+
+We precede the proof of the theorem with an application.
+
+\begin{example}[1.55]
+  It is intuitively clear that the chance of obtaining no heads in an
+  infinite set of tosses of a fair coin is 0. A rigorous proof goes as
+  follows. Let \(A_n\) be the event that the first \(n\) tosses of the coin
+  yield at least one head. Then
+  \[
+    A_n \subseteq A_{n+1} \quad \text{for } n = 1, 2, \ldots,
+  \]
+  so that the \(A_n\) form an increasing sequence. The limit set \(A\) is the
+  event that heads occurs sooner or later. By the continuity of
+  \(\mathbb{P}\), Theorem 1.54,
+  \[
+    \mathbb{P}(A) = \lim_{n \to \infty} \mathbb{P}(A_n).
+  \]
+  However, \(\mathbb{P}(A_n) = 1 - \left(\tfrac{1}{2}\right)^n\), and so
+  \(\mathbb{P}(A_n) \to 1\) as \(n \to \infty\). Thus \(\mathbb{P}(A) = 1\),
+  giving that the probability \(\mathbb{P}(\Omega \setminus A)\), that no
+  head ever appears, equals 0. \(\triangle\)
+\end{example}
+
+\begin{proof}[Proof of Theorem 1.54]
+  Let \(B_i = A_i \setminus A_{i-1}\). Then
+  \[
+    A = A_1 \cup B_2 \cup B_3 \cup \cdots
+  \]
+  is the union of disjoint events in \(\mathcal{F}\) (draw a Venn diagram to
+  make this clear). By \eqref{eq:1.14},
+  \[
+    \begin{aligned}
+      \mathbb{P}(A) &= \mathbb{P}(A_1) + \mathbb{P}(B_2) + \mathbb{P}(B_3) +
+        \cdots \\
+      &= \mathbb{P}(A_1) + \lim_{n \to \infty} \sum_{k=2}^{n}
+        \mathbb{P}(B_k).
+    \end{aligned}
+  \]
+\end{proof}
+
+%%% JSON page 27 (PDF page 28)
+However,
+\[
+  \mathbb{P}(B_i) = \mathbb{P}(A_i) - \mathbb{P}(A_{i-1}) \quad \text{for }
+  i = 2, 3, \dots,
+\]
+and so
+\[
+  \begin{aligned}
+    \mathbb{P}(A) &= \mathbb{P}(A_1) + \lim_{n \to \infty} \sum_{k=2}^n
+      [\mathbb{P}(A_k) - \mathbb{P}(A_{k-1})] \\
+    &= \lim_{n \to \infty} \mathbb{P}(A_n)
+  \end{aligned}
+\]
+as required, since the last sum collapses.
+
+The conclusion of Theorem 1.54 is expressed in terms of an \emph{increasing}
+sequence of events, but the corresponding statement for a \emph{decreasing}
+sequence is valid too: if \(B_1, B_2, \dots\) is a sequence of events in
+\(\mathcal{F}\) such that \(B_i \supseteq B_{i+1}\) for \(i = 1, 2, \dots\),
+then \(\mathbb{P}(B_n) \to \mathbb{P}(B)\) as \(n \to \infty\), where
+\(B = \bigcap_{i=1}^\infty B_i\) is the limit of the \(B_i\) as \(i \to
+\infty\). The shortest way to show this is to set \(A_i = \Omega \setminus
+B_i\) in the theorem.
+
+\section{Problems}
+
+\begin{enumerate}[label={\arabic*.}]
+  \item A fair die is thrown \(n\) times. Show that the probability that
+        there are an even number of sixes is \(\tfrac{1}{2}[1 +
+        (\tfrac{2}{3})^n]\). For the purpose of this question, 0 is an even
+        number.
+  \item Does there exist an event space containing just six events?
+  \item Prove Boole's inequality:
+        \[
+          \mathbb{P}\left(\bigcup_{i=1}^n A_i\right) \leq \sum_{i=1}^n
+          \mathbb{P}(A_i).
+        \]
+%%% JSON page 30 (PDF page 31)
+  \item Prove that
+        \[
+          \mathbb{P}\left(\bigcap_{i=1}^n A_i\right) \geq 1 - n +
+          \sum_{i=1}^n \mathbb{P}(A_i).
+        \]
+        This is sometimes called \emph{Bonferroni's inequality}, but the
+        term is not recommended since it has multiple uses.
+  \item Two fair dice are thrown. Let \(A\) be the event that the first
+        shows an odd number, \(B\) be the event that the second shows an
+        even number, and \(C\) be the event that either both are odd or both
+        are even. Show that \(A, B, C\) are pairwise independent but not
+        independent.
+  \item Urn I contains 4 white and 3 black balls, and Urn II contains 3
+        white and 7 black balls. An urn is selected at random, and a ball is
+        picked from it. What is the probability that this ball is black? If
+        this ball is white, what is the probability that Urn I was selected?
+  \item A single card is removed at random from a deck of 52 cards. From the
+        remainder we draw two cards at random and find that they are both
+        spades. What is the probability that the first card removed was also
+        a spade?
+  \item A fair coin is tossed \(3n\) times. Find the probability that the
+        number of heads is twice the number of tails. Expand your answer
+        using Stirling's formula.
+  \item Two people toss a fair coin \(n\) times each. Show that the
+        probability they throw equal numbers of heads is
+        \[
+          \binom{2n}{n} \left(\frac{1}{2}\right)^{2n}.
+        \]
+%  \figureplaceholder{1.2}{img-2.jpeg}{30}{Two electrical circuits incorporating switches.}
+  \item In the circuits in Figure 1.2, each switch is closed with
+        probability \(p\), independently of all other switches. For each
+        circuit, find the probability that a flow of current is possible
+        between \(A\) and \(B\).
+  \item Show that if \(u_n\) is the probability that \(n\) tosses of a fair
+        coin contain no run of 4 heads, then for \(n \geq 4\)
+        \[
+          u_n = \frac{1}{2}u_{n-1} + \frac{1}{4}u_{n-2} + \frac{1}{8}u_{n-3}
+          + \frac{1}{16}u_{n-4}.
+        \]
+        Use this difference equation to show that \(u_8 =
+        \frac{208}{256}\).
+  \item[\starredproblem] Any number \(\omega \in [0, 1]\) has a decimal expansion
+        \[
+          \omega = 0.x_1 x_2 \dots,
+        \]
+        and we write \(f_k(\omega, n)\) for the proportion of times that the
+        integer \(k\) appears in the first \(n\) digits in this expansion.
+        We call \(\omega\) a \emph{normal number} if
+        \[
+          f_k(\omega, n) \to \frac{1}{10} \quad \text{as } n \to \infty
+        \]
+        for \(k = 0, 1, 2, \dots, 9\). On intuitive grounds we may expect
+        that most numbers \(\omega \in [0, 1]\) are normal numbers, and
+        Borel proved that this is indeed true. It is quite another matter to
+        exhibit specific normal numbers. Prove the number
+%%% JSON page 31 (PDF page 32)
+        \(0.1234567891011121314\ldots\) is normal. It is an unsolved problem
+        of mathematics to show that \(e - 2\) and \(\pi - 3\) are normal
+        numbers also.
+  \item A square board is divided into 16 equal squares by lines drawn
+        parallel to its sides. A counter is placed at random on one of these
+        squares and is then moved \(n\) times. At each of these moves, it
+        can be transferred to any neighbouring square, horizontally,
+        vertically, or diagonally, all such moves being equally likely.
+
+        Let \(c_n\) be the probability that a particular corner site is
+        occupied after \(n\) such independent moves, and let the
+        corresponding probabilities for an intermediate site at the side of
+        the board and for a site in the middle of the board be \(s_n\) and
+        \(m_n\), respectively. Show that
+        \[
+          4c_n + 8s_n + 4m_n = 1, \qquad n = 0, 1, 2, \dots,
+        \]
+        and that
+        \[
+          c_n = \frac{2}{5}s_{n-1} + \frac{1}{5}m_{n-1}, \qquad n = 1, 2,
+          \dots.
+        \]
+        Find two other relations for \(s_n\) and \(m_n\) in terms of
+        \(c_{n-1}\), \(s_{n-1}\), and \(m_{n-1}\), and hence find \(c_n\),
+        \(s_n\), and \(m_n\). (Oxford 1974M)
+  \item \begin{enumerate}[label=(\alph*)]
+          \item Let \(\mathbb{P}(A)\) denote the probability of the
+                occurrence of an event \(A\). Prove carefully, for events
+                \(A_1, A_2, \dots, A_n\), that
+                \[
+                  \begin{array}{ll}
+                  \qquad \qquad \quad &\displaystyle\mathbb{P}\left(\bigcup_{i=1}^n A_i\right)
+                  =
+                  \mathbb{P}(A_i) - \sum_{i<j} \mathbb{P}(A_i \cap A_j) + 
+                  \\[0.5cm]
+                  &\displaystyle \qquad\qquad\qquad \qquad \qquad  \sum_i
+                  \sum_{i<j<k} \mathbb{P}(A_i \cap A_j \cap A_k) - \dots +
+                  (-1)^{n+1} \mathbb{P}\left(\bigcap_i A_i\right).
+                  \end{array}
+                \]
+          \item One evening, a bemused lodge-porter tried to hang \(n\) keys
+                on their \(n\) hooks, but only managed to hang them
+                independently and at random. There was no limit to the
+                number of keys which could be hung on any hook.
+                Alternatively, or by using (a), find an expression for the
+                probability that at least one key was hung on its own hook.
+
+                The following morning, the porter was rebuked by the Bursar,
+                so that in the evening she was careful to hang only one key
+                on each hook. But she still only managed to hang them
+                independently and at random. Find an expression for the
+                probability that no key was then hung on its own hook.
+
+                Find the limits of both expressions as \(n\) tends to
+                infinity.
+
+                You may assume that, for real \(x\),
+                \[
+                  e^x = \sum_{r=0}^{\infty} \frac{x^r}{r!} = \lim_{N \to
+                  \infty} \left(1 + \frac{x}{N}\right)^N.
+                \]
+          \end{enumerate}
+          (Oxford 1978M)
+  \item Two identical decks of cards, each containing \(N\) cards, are
+        shuffled randomly. We say that a \(k\)-matching occurs if the two
+        decks agree in exactly \(k\) places. Show that the probability that
+        there is a \(k\)-matching is
+        \[
+          \pi_k = \frac{1}{k!} \left(1 - \frac{1}{1!} + \frac{1}{2!} -
+          \frac{1}{3!} + \dots + \frac{(-1)^{N-k}}{(N-k)!}\right)
+        \]
+%%% JSON page 32 (PDF page 33)
+        for \(k = 0, 1, 2, \dots, N\). We note that \(\pi_k \simeq
+        1/(k!e)\) for large \(N\) and fixed \(k\). Such matching
+        probabilities are used in testing departures from randomness in
+        circumstances such as psychological tests and wine-tasting
+        competitions. (The convention is that \(0! = 1\).)
+  \item The buses which stop at the end of my road do not keep to the
+        timetable. They should run every quarter hour, at 08.30, 08.45,
+        09.00, \ldots, but in fact each bus is either five minutes early or
+        five minutes late, the two possibilities being equally probable and
+        different buses being independent. Other people arrive at the stop
+        in such a way that, \(t\) minutes after the departure of one bus,
+        the probability that no one is waiting for the next one is
+        \(e^{-t/5}\). What is the probability that no one is waiting at
+        09.00? One day, I come to the stop at 09.00 and find no one there;
+        show that the chances are more than four to one that I have missed
+        the nine o'clock bus.
+
+        You may use an approximation \(e^3 \approx 20\). (Oxford 1977M)
+  \item A coin is tossed repeatedly; on each toss a head is shown with
+        probability \(p\), or a tail with probability \(1 - p\). The
+        outcomes of the tosses are independent. Let \(E\) denote the event
+        that the first run of \(r\) successive heads occurs earlier than the
+        first run of \(s\) successive tails. Let \(A\) denote the outcome of
+        the first toss. Show that
+        \[
+          \mathbb{P}(E \mid A = \text{head}) = p^{r-1} + (1 -
+          p^{r-1})\mathbb{P}(E \mid A = \text{tail}).
+        \]
+        Find a similar expression for \(\mathbb{P}(E \mid A =
+        \text{tail})\), and hence find \(\mathbb{P}(E)\). (Oxford 1981M)
+  \item[\starredproblem] Show that the axiom that \(\mathbb{P}\) is countably additive is
+        equivalent to the axiom that \(\mathbb{P}\) is finitely additive and
+        continuous. That is to say, let \(\Omega\) be a set and
+        \(\mathcal{F}\) an event space of subsets of \(\Omega\). If
+        \(\mathbb{P}\) is a mapping from \(\mathcal{F}\) into \([0, 1]\)
+        satisfying
+        \[
+          \begin{aligned}
+            \text{(i)} &\quad \mathbb{P}(\Omega) = 1, \mathbb{P}(\varnothing)
+              = 0, \\
+            \text{(ii)} &\quad \text{if } A, B \in \mathcal{F} \text{ and }
+              A \cap B = \varnothing \text{ then } \mathbb{P}(A \cup B) =
+              \mathbb{P}(A) + \mathbb{P}(B), \\
+            \text{(iii)} &\quad \text{if } A_1, A_2, \dots \in
+              \mathcal{F} \text{ and } A_i \subseteq A_{i+1} \text{ for }
+              i = 1, 2, \dots, \text{ then } \mathbb{P}(A) = \lim_{i \to
+              \infty} \mathbb{P}(A_i),
+          \end{aligned}
+        \]
+        where \(A = \bigcup_{i=1}^{\infty} A_i\), then \(\mathbb{P}\)
+        satisfies
+        \[
+          \mathbb{P}\left(\bigcup_i A_i\right) = \sum_i \mathbb{P}(A_i)
+        \]
+        for all sequences \(A_1, A_2, \dots\) of disjoint events.
+  \item There are \(n\) socks in a drawer, three of which are red and the
+        rest black. John chooses his socks by selecting two at random from
+        the drawer, and puts them on. He is three times more likely to wear
+        socks of different colours than to wear matching red socks. Find
+        \(n\).
+
+        For this value of \(n\), what is the probability that John wears
+        matching black socks? (Cambridge 2008)
+\end{enumerate}
+
+
+%\section*{Agradecimentos}
+%Agradecemos a todos que colaboraram.
+
+% --- BIBLIOGRAFIA ---
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}  
+
+\end{document}
