@@ -969,32 +969,11 @@ B_i\) in the theorem.
         \]
         This is sometimes called \emph{Bonferroni's inequality}, but the
         term is not recommended since it has multiple uses.
-  \item Two fair dice are thrown. Let \(A\) be the event that the first
-        shows an odd number, \(B\) be the event that the second shows an
-        even number, and \(C\) be the event that either both are odd or both
-        are even. Show that \(A, B, C\) are pairwise independent but not
-        independent.
-  \item Urn I contains 4 white and 3 black balls, and Urn II contains 3
-        white and 7 black balls. An urn is selected at random, and a ball is
-        picked from it. What is the probability that this ball is black? If
-        this ball is white, what is the probability that Urn I was selected?
-  \item A single card is removed at random from a deck of 52 cards. From the
-        remainder we draw two cards at random and find that they are both
-        spades. What is the probability that the first card removed was also
-        a spade?
-  \item A fair coin is tossed \(3n\) times. Find the probability that the
-        number of heads is twice the number of tails. Expand your answer
-        using Stirling's formula.
   \item Two people toss a fair coin \(n\) times each. Show that the
         probability they throw equal numbers of heads is
         \[
           \binom{2n}{n} \left(\frac{1}{2}\right)^{2n}.
         \]
-%  \figureplaceholder{1.2}{img-2.jpeg}{30}{Two electrical circuits incorporating switches.}
-  \item In the circuits in Figure 1.2, each switch is closed with
-        probability \(p\), independently of all other switches. For each
-        circuit, find the probability that a flow of current is possible
-        between \(A\) and \(B\).
   \item Show that if \(u_n\) is the probability that \(n\) tosses of a fair
         coin contain no run of 4 heads, then for \(n \geq 4\)
         \[
@@ -1021,28 +1000,6 @@ B_i\) in the theorem.
         \(0.1234567891011121314\ldots\) is normal. It is an unsolved problem
         of mathematics to show that \(e - 2\) and \(\pi - 3\) are normal
         numbers also.
-  \item A square board is divided into 16 equal squares by lines drawn
-        parallel to its sides. A counter is placed at random on one of these
-        squares and is then moved \(n\) times. At each of these moves, it
-        can be transferred to any neighbouring square, horizontally,
-        vertically, or diagonally, all such moves being equally likely.
-
-        Let \(c_n\) be the probability that a particular corner site is
-        occupied after \(n\) such independent moves, and let the
-        corresponding probabilities for an intermediate site at the side of
-        the board and for a site in the middle of the board be \(s_n\) and
-        \(m_n\), respectively. Show that
-        \[
-          4c_n + 8s_n + 4m_n = 1, \qquad n = 0, 1, 2, \dots,
-        \]
-        and that
-        \[
-          c_n = \frac{2}{5}s_{n-1} + \frac{1}{5}m_{n-1}, \qquad n = 1, 2,
-          \dots.
-        \]
-        Find two other relations for \(s_n\) and \(m_n\) in terms of
-        \(c_{n-1}\), \(s_{n-1}\), and \(m_{n-1}\), and hence find \(c_n\),
-        \(s_n\), and \(m_n\). (Oxford 1974M)
   \item \begin{enumerate}[label=(\alph*)]
           \item Let \(\mathbb{P}(A)\) denote the probability of the
                 occurrence of an event \(A\). Prove carefully, for events
@@ -1051,9 +1008,9 @@ B_i\) in the theorem.
                   \begin{array}{ll}
                   \qquad \qquad \quad &\displaystyle\mathbb{P}\left(\bigcup_{i=1}^n A_i\right)
                   =
-                  \mathbb{P}(A_i) - \sum_{i<j} \mathbb{P}(A_i \cap A_j) + 
+                  \sum_i \mathbb{P}(A_i) - \sum_{i<j} \mathbb{P}(A_i \cap A_j) +
                   \\[0.5cm]
-                  &\displaystyle \qquad\qquad\qquad \qquad \qquad  \sum_i
+                  &\displaystyle \qquad\qquad\qquad \qquad \qquad
                   \sum_{i<j<k} \mathbb{P}(A_i \cap A_j \cap A_k) - \dots +
                   (-1)^{n+1} \mathbb{P}\left(\bigcap_i A_i\right).
                   \end{array}
@@ -1095,31 +1052,6 @@ B_i\) in the theorem.
         probabilities are used in testing departures from randomness in
         circumstances such as psychological tests and wine-tasting
         competitions. (The convention is that \(0! = 1\).)
-  \item The buses which stop at the end of my road do not keep to the
-        timetable. They should run every quarter hour, at 08.30, 08.45,
-        09.00, \ldots, but in fact each bus is either five minutes early or
-        five minutes late, the two possibilities being equally probable and
-        different buses being independent. Other people arrive at the stop
-        in such a way that, \(t\) minutes after the departure of one bus,
-        the probability that no one is waiting for the next one is
-        \(e^{-t/5}\). What is the probability that no one is waiting at
-        09.00? One day, I come to the stop at 09.00 and find no one there;
-        show that the chances are more than four to one that I have missed
-        the nine o'clock bus.
-
-        You may use an approximation \(e^3 \approx 20\). (Oxford 1977M)
-  \item A coin is tossed repeatedly; on each toss a head is shown with
-        probability \(p\), or a tail with probability \(1 - p\). The
-        outcomes of the tosses are independent. Let \(E\) denote the event
-        that the first run of \(r\) successive heads occurs earlier than the
-        first run of \(s\) successive tails. Let \(A\) denote the outcome of
-        the first toss. Show that
-        \[
-          \mathbb{P}(E \mid A = \text{head}) = p^{r-1} + (1 -
-          p^{r-1})\mathbb{P}(E \mid A = \text{tail}).
-        \]
-        Find a similar expression for \(\mathbb{P}(E \mid A =
-        \text{tail})\), and hence find \(\mathbb{P}(E)\). (Oxford 1981M)
   \item[\starredproblem] Show that the axiom that \(\mathbb{P}\) is countably additive is
         equivalent to the axiom that \(\mathbb{P}\) is finitely additive and
         continuous. That is to say, let \(\Omega\) be a set and
