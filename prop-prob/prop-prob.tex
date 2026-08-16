@@ -19,6 +19,12 @@
 \usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
 % \makeindex[name=remissivo, columns=2, title=Índice Remissivo, intoc=true]
 
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\geq\geqslant
+\let\ge\geqslant
+
 %----------------------------------------------------------------------
 % FORMATAÇÃO, LAYOUT E CORES
 %----------------------------------------------------------------------
@@ -55,16 +61,13 @@
 \titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
 \titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
 
-% O texto colado do Grimmett usa \chapter; na classe article, vira seção sem número
-\newcommand{\chapter}[1]{\section*{#1}}
-
 %----------------------------------------------------------------------
 % TIKZ E GRÁFICOS
 %----------------------------------------------------------------------
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
-\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns}
 
 
 %----------------------------------------------------------------------
@@ -220,13 +223,6 @@ de uma medida de probabilidade.
 %----------------------------------------------------------------------
 
 
-% Sessions 02--04: JSON pages 13--32.
-% Session 02 -- JSON pages 13--24. Chapter 1 opens here with its title,
-% summary, and sections 1.1--1.8 through the partition theorem.
-% Session 03 -- JSON pages 25--32. Bayes' theorem (1.8), sections 1.9
-% (Probability measures are continuous) and 1.10 (Worked problems), and
-% section 1.11 (Problems).
-
 % The printed Problems sections mark some problems with a star before the
 % printed number. enumitem freezes the label template at the environment
 % start, so a starred problem supplies its own label via \starredproblem,
@@ -234,252 +230,373 @@ de uma medida de probabilidade.
 \providecommand{\starredproblem}{%
   \stepcounter{enumi}\llap{\textasteriskcentered\,}\arabic{enumi}.}
 
-%%% JSON page 13 (PDF page 14)
-\chapter{Events and probabilities}
+\section{Um Primeiro Mapa da Teoria da Probabilidade}
 
-\emph{Summary.} The very basic principles and tools of probability theory are
-set out. An event involving randomness may be described in mathematical terms
-as a probability space. Following an account of the properties of probability
-spaces, the concept of conditional probability is explained, and also that of
-the independence of events. There are many worked examples of calculations of
-probabilities.
+Muitas ações produzem resultados que são, na prática, imprevisíveis. O
+lançamento de uma moeda e o arremesso de um dardo são exemplos simples disso.
+A teoria das probabilidades oferece uma das melhores ferramentas que dispomos
+hoje em dia para analisar
+estatisticamente sequências de resultados produzidas por ações desse tipo.
+É importante observar que ela não se propõe a prever com precisão o resultado de uma
+realização particular, mas sim a descrever de maneira qualitativa e quantitativa o comportamento observado quando a
+mesma ação é repetida, em princípio, um número arbitrariamente grande de vezes.
 
-\section{Experiments with chance}
+Antes de desenvolver cálculos e propriedades mais específicas, precisamos
+estabelecer a linguagem básica da teoria. Nesta seção, veremos como um
+experimento aleatório é representado por um modelo matemático e quais são os
+seus ingredientes fundamentais.
 
-Many actions have outcomes which are largely unpredictable in
-advance---tossing a coin and throwing a dart are simple examples. Probability
-theory is about such actions and their consequences. The mathematical theory
-starts with the idea of an \emph{experiment} (or \emph{trial}), being a course
-of action whose consequence is not predetermined. This experiment is
-reformulated as a mathematical object called a \emph{probability space}. In
-broad terms, the probability space corresponding to a given experiment
-comprises three items:
-\begin{enumerate}[label=(\roman*)]
-  \item the set of all possible outcomes of the experiment,
-  \item a list of all the events which may possibly occur as consequences of
-        the experiment,
-  \item an assessment of the likelihoods of these events.
-\end{enumerate}
+A teoria moderna das probabilidades baseia-se nos chamados axiomas de
+Kolmogorov. Um dos grandes méritos desse sistema axiomático é não restringir,
+de antemão, as interpretações que podem ser dadas a uma teoria matemática da
+probabilidade. Em vez de prescrever como uma teoria deve ser construída ou
+interpretada, os axiomas esclarecem quais propriedades toda teoria matemática
+da probabilidade deve satisfazer, independentemente da construção ou da
+interpretação adotada.
 
-For example, if the experiment is the throwing of a fair six-sided die, then
-the probability space amounts to the following:
-\begin{enumerate}[label=(\roman*)]
-  \item the set \(\{1, 2, 3, 4, 5, 6\}\) of possible outcomes,
-  \item a list of events such as
-        \begin{itemize}
-          \item the result is 3,
-          \item the result is at least 4,
-          \item the result is a prime number,
-        \end{itemize}
-  \item each number \(1, 2, 3, 4, 5, 6\) is equally likely to be the result of
-        the throw.
-\end{enumerate}
+Em termos filosóficos, é como se as diferentes interpretações e manifestações
+da ideia de probabilidade fornecessem a semântica dos problemas que desejamos
+estudar, enquanto os axiomas de Kolmogorov fornecessem a sua sintaxe.
 
-Given any experiment involving chance, there is a corresponding probability
-space, and the study of such spaces is called \emph{probability theory}. Next,
-we shall see how to construct such spaces more explicitly.
+Em termos mais concretos, os axiomas estabelecem as regras que as
+probabilidades devem obedecer, enquanto as diferentes interpretações
+esclarecem o que os eventos e suas probabilidades significam em cada contexto.
 
-\section{Outcomes and events}
+Como veremos, essa estrutura é compatível com visões bastante distintas da
+probabilidade, incluindo as interpretações frequentista e bayesiana, além de
+abordagens de natureza mais geométrica.
 
-We use the letter \(\mathcal{E}\) to denote a particular experiment whose
-outcome is not completely predetermined. The first thing which we do is to
-make a list of all the possible outcomes of \(\mathcal{E}\).
 
-%%% JSON page 14 (PDF page 15)
-The set of all such possible outcomes is called the \emph{sample space} of
-\(\mathcal{E}\) and we usually denote it by \(\Omega\). The Greek letter
-\(\omega\) denotes a typical member of \(\Omega\), and we call each member
-\(\omega\) an \emph{elementary event}.
+Tudo começa com um conjunto, que denotaremos por $\Omega$ e chamaremos de
+\emph{espaço amostral}. Este conjunto é escolhido ou construído de forma que 
+seus pontos representem todos os resultados possíveis
+de um experimento, embora não saibamos, \emph{a priori}, qual deles ocorrerá.
 
-If, for example, \(\mathcal{E}\) is the experiment of throwing a fair die
-once, then
+Para organizar e manipular esses resultados possíveis, consideramos certos
+subconjuntos de $\Omega$, que chamaremos de \emph{eventos}. A coleção de
+eventos relevante para o experimento deve satisfazer propriedades específicas,
+que serão apresentadas mais à frente. Esse tipo de coleção é chamada de
+$\sigma$-álgebra.
+
+Por fim, associamos a cada evento um número real no intervalo $[0,1]$, de modo
+que essa associação satisfaça determinadas regras. A função que realiza essa
+associação é chamada de \emph{medida de probabilidade}. Para cada evento $E$, o
+valor $\mathbb{P}(E)$ representa a probabilidade de ocorrência de $E$.
+
+Assim, um espaço de probabilidade reúne três ingredientes: os resultados
+possíveis, os eventos que desejamos estudar e uma regra que atribui uma
+probabilidade a cada evento. A formalização desses três ingredientes 
+será feita detalhadamente na próxima seção.
+
+
+
+\section{Resultados Possíveis e Eventos}
+
+Para facilitar a discussão vamos usar a letra \(\mathcal{E}\) 
+para denotar um experimento particular cujo
+resultado não é completamente predeterminado. 
+
+A primeira coisa que fazemos é
+elaborar uma lista de todos os resultados possíveis de \(\mathcal{E}\).
+Qualquer conjunto cujos elementos representem todos os resultados possíveis do
+experimento \(\mathcal{E}\) é chamado de \emph{espaço amostral} de \(\mathcal{E}\);
+usualmente, denotamos esse conjunto por \(\Omega\). É claro que podem existir
+vários conjuntos distintos que sirvam a esse propósito.
+Por exemplo, se \(\mathcal{E}\) é o experimento de lançar um dado justo uma
+única vez, podemos escolher qualquer um dos seguintes conjuntos como espaço
+amostral:
 \[
-  \Omega = \{1, 2, 3, 4, 5, 6\}.
+  \Omega = \{1, 2, 3, 4, 5, 6\}
+  \qquad
+  \text{e}
+  \qquad
+  \widetilde{\Omega} =
+  \left\{
+    \text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceThree},
+    \text{\faDiceFour}, \text{\faDiceFive}, \text{\faDiceSix}
+  \right\}.
 \]
 
-There are many questions which we may wish to ask about the actual outcome of
-this experiment (questions such as ``is the outcome a prime number?''), and
-all such questions may be rewritten in terms of subsets of \(\Omega\) (the
-previous question becomes ``does the outcome lie in the subset \(\{2, 3,
-5\}\) of \(\Omega\)?''). The second thing which we do is to make a list of all
-the events which are interesting to us. This list takes the form of a
-collection of subsets of \(\Omega\), each such subset \(A\) representing the
-event ``the outcome of \(\mathcal{E}\) lies in \(A\)''. Thus we ask ``which
-possible events are interesting to us'', and then we make a list of the
-corresponding subsets of \(\Omega\). This relationship between \emph{events}
-and \emph{subsets} is very natural, especially because two or more events
-combine with each other in just the same way as the corresponding subsets
-combine. For example, if \(A\) and \(B\) are subsets of \(\Omega\), then
+Do ponto de vista da notação e dos cálculos, é mais conveniente usar o primeiro
+conjunto como espaço amostral desse experimento \(\mathcal{E}\). A segunda opção,
+contudo, é igualmente válida: seus elementos representam as mesmas seis faces,
+apenas por meio de ícones. Essa segunda possibilidade é apresentada para que o
+leitor se familiarize com a generalidade permitida pela teoria.
+
+
+\medskip
+
+Em seguida, queremos identificar os eventos que são relevantes para o
+experimento. Podemos, por exemplo, perguntar: ``o resultado é um número
+primo?'' No caso do dado, essa pergunta corresponde ao subconjunto
+\(\{2, 3, 5\}\) de \(\Omega\), pois o evento ocorre exatamente quando o
+resultado pertence a esse subconjunto.
+
+Assim, representamos cada evento por um subconjunto \(A \subseteq \Omega\): o
+evento representado por \(A\) ocorre quando o resultado de \(\mathcal{E}\)
+pertence a \(A\). A coleção dos eventos que desejamos estudar é, portanto,
+uma coleção de subconjuntos de \(\Omega\). Essa identificação é especialmente
+útil porque as operações entre eventos correspondem às operações usuais entre
+conjuntos. Se \(A\) e \(B\) são subconjuntos de \(\Omega\), por exemplo,
 \begin{itemize}
-  \item the set \(A \cup B\) corresponds to the event ``either \(A\) or \(B\)
-        occurs'',
-  \item the set \(A \cap B\) corresponds to the event ``both \(A\) and \(B\)
-        occur'',
-  \item the complement \(A^c := \Omega \setminus A\) corresponds to the event
-        ``\(A\) does not occur'',\footnote{For any subset \(A\) of
-        \(\Omega\), the \emph{complement} of \(A\) is the set of all members
-        of \(\Omega\) which are not members of \(A\). We denote the complement
-        of \(A\) by either \(\Omega \setminus A\) or \(A^c\), depending on the
-        context.}
+  \item o conjunto \(A \cup B\) representa o evento em que pelo menos um dos
+        eventos \(A\) ou \(B\) ocorre;
+  \item o conjunto \(A \cap B\) representa o evento em que ambos os eventos
+        \(A\) e \(B\) ocorrem;
+  \item o complementar \(A^c := \Omega \setminus A\) representa o evento em
+        que \(A\) não ocorre;\footnote{Para qualquer subconjunto \(A\) de
+        \(\Omega\), o \emph{complementar} de \(A\) é o conjunto de todos os
+        membros de \(\Omega\) que não pertencem a \(A\). Denotamos o
+        complementar de \(A\) por \(\Omega \setminus A\) ou por \(A^c\),
+        dependendo do contexto.}
+  \item a diferença \(A \setminus B\) representa o evento em que \(A\) ocorre,
+        mas \(B\) não ocorre.
 \end{itemize}
-where we say that a subset \(C\) of \(\Omega\) ``occurs'' whenever the outcome
-of \(\mathcal{E}\) lies in \(C\). Thus all set-theoretic statements and
-combinations may be interpreted in terms of events. For example, the formula
+
+Em todas essas formulações, dizer que um subconjunto \(C\) ``ocorre'' significa
+que o resultado de \(\mathcal{E}\) pertence a \(C\). Essa correspondência
+permite traduzir afirmações da teoria dos conjuntos em afirmações sobre eventos.
+Por exemplo, a fórmula
+
 \[
   \Omega \setminus (A \cap B) = (\Omega \setminus A) \cup (\Omega \setminus B)
 \]
-may be read as ``if \(A\) and \(B\) do not both occur, then either \(A\) does
-not occur or \(B\) does not occur''. In a similar way, if \(A_1, A_2, \dots\)
-are events, then the sets \(\bigcup_{i=1}^{\infty} A_i\) and
-\(\bigcap_{i=1}^{\infty} A_i\) represent the events ``\(A_i\) occurs, for some
-\(i\)'' and ``\(A_i\) occurs, for every \(i\)'', respectively.
+pode ser lida como: ``o evento em que \(A\) e \(B\) não ocorrem simultaneamente
+é o mesmo que o evento em que \(A\) não ocorre ou \(B\) não ocorre''. De modo
+semelhante, se \(A_1, A_2, \dots\) são eventos, então os conjuntos
+\(\bigcup_{i=1}^{\infty} A_i\) e \(\bigcap_{i=1}^{\infty} A_i\) representam,
+respectivamente, os eventos ``pelo menos um dos \(A_i\) ocorre'' e ``todos os
+\(A_i\) ocorrem''.
 
-Thus we write down a collection \(\mathcal{F} = \{A_i : i \in I\}\) of subsets
-of \(\Omega\) which are interesting to us; each \(A \in \mathcal{F}\) is called
-an \emph{event}. In simple cases, such as the die-throwing example above, we
-usually take \(\mathcal{F}\) to be the set of \emph{all} subsets of
-\(\Omega\) (called the \emph{power set} of \(\Omega\)), but for reasons which
-may be appreciated later there are many circumstances in which we take
-\(\mathcal{F}\) to be a very much smaller collection than the entire power
-set.\footnote{This is explained in Footnote 3 on p.~6.} In all cases we demand
-a certain consistency of \(\mathcal{F}\), in the following sense. If \(A, B,
-C, \dots \in \mathcal{F}\), we may reasonably be interested also in the events
-``\(A\) does \emph{not} occur'' and ``at least one of \(A, B, C, \dots\)
-occurs''. With this in mind, we require that \(\mathcal{F}\) satisfy the
-following definition.
+Essa correspondência sugere que a coleção de eventos de um modelo
+probabilístico não deve ser escolhida de maneira arbitrária. Se certos eventos
+fazem parte da coleção, também é natural admitir os eventos obtidos a partir
+deles por meio dessas operações. Em particular, queremos que a coleção seja
+fechada sob uniões, interseções, complementos e diferenças, 
+uma vez que aplicar essas operações a
+eventos da coleção deve produzir outro evento que também pertença à coleção.
+Essa exigência será formalizada a seguir.
 
-%%% JSON page 15 (PDF page 16)
-\begin{definition}[1.1]
-  \emph{The collection \(\mathcal{F}\) of subsets of the sample space
-  \(\Omega\) is called an} \textbf{event space} \emph{if}
-  \begin{align}
-    \mathcal{F} \text{ is non-empty}, \tag{1.2} \label{eq:1.2} \\
-    \text{if } A \in \mathcal{F} \text{ then } \Omega \setminus A \in
-      \mathcal{F}, \tag{1.3} \label{eq:1.3} \\
-    \text{if } A_1, A_2, \dots \in \mathcal{F} \text{ then }
-      \bigcup_{i=1}^{\infty} A_i \in \mathcal{F}. \tag{1.4} \label{eq:1.4}
-  \end{align}
+\medskip 
+
+Suponha que vamos realizar um experimento $\mathcal{E}$ e que $\Omega$
+seja o conjunto de todos os resultados possíveis da realização deste experimento.
+Assuma adicionalmente que \(\mathcal{F} = \{A_i : i \in I\}\) consiste de uma família
+subconjuntos de \(\Omega\) que correspondam a eventos que estamos interessados
+a respeito da realização do experimento $\mathcal{E}$. 
+
+Vamos chamar cada subconjunto \(A \in \mathcal{F}\) de um \emph{evento}. 
+Em casos simples, tais como o
+exemplo do lançamento de dado acima, usualmente tomamos \(\mathcal{F}\) como o
+conjunto de \emph{todos} os subconjuntos de \(\Omega\) (chamado o
+\emph{conjunto das partes} de \(\Omega\)), mas, por razões que poderão ser
+apreciadas mais adiante, há muitas circunstâncias em que tomamos
+\(\mathcal{F}\) como sendo uma coleção muito menor do que o conjunto das partes.
+Isto poderá ser feito por questões de restrições técnicas ou por questões de simplificação do modelo. 
+De qualquer forma, em qualquer escolha desta família \(\mathcal{F} = \{A_i : i \in I\}\),
+é fundamental exigir uma certa consistência, no seguinte sentido. Se
+\(A, B, C, \dots \in \mathcal{F}\) correspondem a uma lista de eventos 
+que estamos interessados, então também podemos nos interessar, por questões operacionais,
+nos eventos ``\(A\) \emph{não} ocorre'' e ``pelo menos um dos eventos \(A, B,
+C, \dots\) ocorre''. Com isso em mente, é natural exigir que a família \(\mathcal{F}\)
+satisfaça a seguinte lista de exigências.
+
+\begin{definition}[\(\sigma\)-álgebra]
+Uma família \(\mathcal{F}\) de subconjuntos de um espaço amostral
+\(\Omega\) é chamada de uma $\sigma$-álgebra sobre \(\Omega\) se:
+\begin{enumerate}[label=(\roman*), ref=\roman*]
+  \item \(\mathcal{F}\) não é vazia; \label{eq:1.2}
+  \item se \(A \in \mathcal{F}\), então \(\Omega \setminus A \in
+        \mathcal{F}\); \label{eq:1.3}
+  \item se \(A_1, A_2, \dots \in \mathcal{F}\), então
+        \(\bigcup_{i=1}^{\infty} A_i \in \mathcal{F}\). \label{eq:1.4}
+\end{enumerate}
 \end{definition}
 
-We speak of an event space \(\mathcal{F}\) as being ``closed under the
-operations of taking complements and countable unions''. Here are some
-elementary consequences of axioms \eqref{eq:1.2}--\eqref{eq:1.4}.
 
-\begin{enumerate}[label=(\alph*)]
-  \item An event space \(\mathcal{F}\) must contain the empty set
-        \(\varnothing\) and the whole set \(\Omega\). This holds as follows.
-        By \eqref{eq:1.2}, there exists some \(A \in \mathcal{F}\). By
-        \eqref{eq:1.3}, \(A^c \in \mathcal{F}\). We set \(A_1 = A\), \(A_i =
-        A^c\) for \(i \ge 2\) in \eqref{eq:1.4}, and deduce that
-        \(\mathcal{F}\) contains the union \(\Omega = A \cup A^c\). By
-        \eqref{eq:1.3} again, the complement \(\Omega \setminus \Omega =
-        \varnothing\) lies in \(\mathcal{F}\) also.
-  \item An event space is closed under the operation of \emph{finite} unions,
-        as follows. Let \(A_1, A_2, \allowbreak \dots, A_m \in
-        \mathcal{F}\), and set
-        \(A_i = \varnothing\) for \(i > m\). Then \(A := \bigcup_{i=1}^m
-        A_i\) satisfies \(A = \bigcup_{i=1}^\infty A_i\), so that \(A \in
-        \mathcal{F}\) by \eqref{eq:1.4}.
-  \item The third condition \eqref{eq:1.4} is written in terms of
-        \emph{unions}. An event space is also closed under the operations of
-        taking finite or countable \emph{intersections}. This follows by the
-        elementary formula \((A \cap B)^c = A^c \cup B^c\), and its extension
-        to finite and countable families.
+
+As condições acima fazem da \(\sigma\)-álgebra uma coleção adequada para
+representar os eventos de um experimento. Elas garantem, em particular, que
+as operações usuais entre eventos, como complementos, uniões, interseções e
+diferenças, continuem produzindo eventos da mesma coleção.
+
+Por que exigir o fechamento sob uniões enumeráveis, e não apenas sob uniões
+finitas? Uma razão é que muitos eventos podem ser decompostos como uma união
+enumerável de eventos mais simples. Por exemplo, se
+\(E = \bigcup_{n=1}^{\infty} E_n\), com os eventos \(E_n\) dois a dois
+disjuntos, a aditividade enumerável da medida de probabilidade permitirá
+calcular a probabilidade de \(E\) a partir das probabilidades das partes
+\(E_n\). Esse tipo de decomposição aparece, por exemplo, em métodos de
+exaustão, como na aproximação da área de um círculo por somas de áreas de
+retângulos.
+
+Seria possível exigir o fechamento sob uniões arbitrárias, inclusive
+não-enumeráveis. Essa exigência, porém, seria forte e desnecessária: ela
+restringiria excessivamente o próximo ingrediente do modelo, a medida de
+probabilidade. A decisão de Kolmogorov de adotar, portanto, o fechamento sob uniões enumeráveis
+fornece um equilíbrio entre flexibilidade e generalidade.
+
+
+\bigskip 
+
+Observamos que a lista de propriedades abaixo segue diretamente da definição 
+dada acima de $\sigma$-álgebra.
+
+
+\begin{enumerate}[label=(\alph*), ref=\alph*]
+  \item Toda $\sigma$-álgebra \(\mathcal{F}\) deve conter o conjunto vazio
+        \(\varnothing\) e o conjunto todo \(\Omega\). De fato, por \eqref{eq:1.2}, existe algum \(A \in \mathcal{F}\). Por
+        \eqref{eq:1.3}, \(A^c \in \mathcal{F}\). Tomamos \(A_1 = A\), \(A_i =
+        A^c\) para \(i \ge 2\) em \eqref{eq:1.4}, e deduzimos que
+        \(\mathcal{F}\) contém a união \(\Omega = A \cup A^c\). Novamente por
+        \eqref{eq:1.3}, o complementar \(\Omega \setminus \Omega =
+        \varnothing\) também pertence a \(\mathcal{F}\).
+  \item Um espaço de eventos é fechado sob a operação de uniões
+        \emph{finitas}, como segue. Sejam \(A_1, A_2, \allowbreak \dots, A_m
+        \in \mathcal{F}\), e tome \(A_i = \varnothing\) para \(i > m\). Então
+        \(A := \bigcup_{i=1}^m A_i\) satisfaz \(A = \bigcup_{i=1}^\infty
+        A_i\), de modo que \(A \in \mathcal{F}\) por \eqref{eq:1.4}.
+  \item A terceira condição \eqref{eq:1.4} é escrita em termos de
+        \emph{uniões}. Um espaço de eventos também é fechado sob as operações
+        de tomar \emph{interseções} finitas ou enumeráveis. Isso segue da
+        fórmula elementar \((A \cap B)^c = A^c \cup B^c\), e de sua extensão
+        a famílias finitas e enumeráveis.
 \end{enumerate}
 
-Here are some examples of pairs \((\Omega, \mathcal{F})\) of sample spaces and
-event spaces.
 
-\begin{example}[1.5]
-  \(\Omega\) is any non-empty set and \(\mathcal{F}\) is the power set of
-  \(\Omega\).
+
+\begin{definition}[Espaços Mensuráveis]
+Um espaço mensurável é um par-ordenado $(\Omega,\mathcal{F})$, onde 
+$\Omega$ é um conjunto arbitrário e $\mathcal{F}$ é uma $\sigma$-álgebra
+de subconjuntos de $\Omega$. 
+\end{definition}
+
+
+Antes de prosseguir lembramos que o conjunto das partes de um conjunto $\Omega$ 
+é a coleção de todos os subconjuntos de $\Omega$. Esta coleção é comummente denotada
+por $\mathscr{P}(\Omega)$ e definida por
+\begin{align*}
+\mathscr{P}(\Omega) \equiv \{A\, :\, A\subseteq \Omega  \}.
+\end{align*}
+
+A seguir, vamos apresentar alguns exemplos de espaços mensuráveis que serão 
+úteis ao longo do texto. 
+
+
+\begin{example}\label{ex:1.5}
+ O par $(\Omega,\mathcal{F})$, onde \(\Omega\) é um conjunto não-vazio 
+ qualquer e \(\mathcal{F}\) é o conjunto
+  das partes de \(\Omega\) determina um espaço mensurável.
 \end{example}
 
-\begin{example}[1.6]
-  \(\Omega\) is any non-empty set and \(\mathcal{F} = \{\varnothing, A,
-  \Omega \setminus A, \Omega\}\), where \(A\) is a given non-trivial subset of
-  \(\Omega\).
+\begin{example}\label{ex:1.6}
+  O par \((\Omega,\mathcal{F})\), onde \(\Omega\) é um conjunto não-vazio
+  qualquer, \(A\) é um subconjunto próprio e não-vazio de \(\Omega\), e
+  \(\mathcal{F} = \{\varnothing, A, A^{c}, \Omega\}\),
+  determina um espaço mensurável.
 \end{example}
 
-\begin{example}[1.7]
-  \(\Omega = \{1, 2, 3, 4, 5, 6\}\) and \(\mathcal{F}\) is the collection
+\begin{example}\label{ex:1.7}
+  O par \((\Omega,\mathcal{F})\), onde
+  $
+    \Omega =
+    \left\{
+      \text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceThree},
+      \text{\faDiceFour}, \text{\faDiceFive}, \text{\faDiceSix}
+    \right\},
+  $
+  e \(\mathcal{F}\) é a coleção
   \[
-    \varnothing, \{1, 2\}, \{3, 4\}, \{5, 6\}, \{1, 2, 3, 4\}, \{3, 4, 5, 6\},
-    \{1, 2, 5, 6\}, \Omega
+    \mathcal{F} = \big\{
+      \varnothing,
+      \{\text{\faDiceOne}, \text{\faDiceTwo}\},
+      \{\text{\faDiceThree}, \text{\faDiceFour}\},
+      \{\text{\faDiceFive}, \text{\faDiceSix}\},
+      \{\text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceThree},
+      \text{\faDiceFour}\},
+      \{\text{\faDiceThree}, \text{\faDiceFour}, \text{\faDiceFive},
+      \text{\faDiceSix}\},
+      \{\text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceFive},
+      \text{\faDiceSix}\},
+      \Omega
+    \big\}.
   \]
-  of subsets of \(\Omega\). This event space is unlikely to arise naturally in
-  practice.
+  de subconjuntos de \(\Omega\), determina um espaço mensurável.
+  Embora este espaço mensurável seja totalmente legítimo, é pouco provável que
+  ele apareça naturalmente em problemas mais práticos de probabilidade. O
+  exemplo serve, sobretudo, para lembrar que os elementos do espaço amostral
+  não precisam ser números: podem ser objetos, símbolos ou descrições de
+  resultados.
 \end{example}
 
-In the following exercises, \(\Omega\) is a set and \(\mathcal{F}\) is an
-event space of subsets of \(\Omega\).
+Nos exercícios a seguir, assuma que \(\Omega\) é um conjunto arbitrário 
+e \(\mathcal{F}\) é uma $\sigma$-álgebra de eventos sobre \(\Omega\).
 
-\begin{exercise}[1.8]
-  If \(A, B \in \mathcal{F}\), show that \(A \cap B \in \mathcal{F}\).
+\begin{exercise}\label{exercise:1.8}
+  Se \(A, B \in \mathcal{F}\), mostre que \(A \cap B \in \mathcal{F}\).
 \end{exercise}
 
-\begin{exercise}[1.9]
-  The \emph{difference} \(A \setminus B\) of two subsets \(A\) and \(B\) of
-  \(\Omega\) is the set \(A \cap (\Omega \setminus B)\) of all points of
-  \(\Omega\) which are in \(A\) but not in \(B\). Show that if \(A, B \in
-  \mathcal{F}\), then \(A \setminus B \in \mathcal{F}\).
+\begin{exercise}\label{exercise:1.9}
+  A \emph{diferença} \(A \setminus B\) de dois subconjuntos \(A\) e \(B\) de
+  \(\Omega\) é o conjunto \(A \cap (\Omega \setminus B)\) de todos os pontos
+  de \(\Omega\) que estão em \(A\) mas não em \(B\). Mostre que, se \(A, B \in
+  \mathcal{F}\), então \(A \setminus B \in \mathcal{F}\).
 \end{exercise}
 
-\begin{exercise}[1.10]
-  The \emph{symmetric difference} \(A \triangle B\) of two subsets \(A\) and
-  \(B\) of \(\Omega\) is defined to be the set of points of \(\Omega\) which
-  are in either \(A\) or \(B\) but not both. If \(A, B \in \mathcal{F}\), show
-  that \(A \triangle B \in \mathcal{F}\).
+\begin{exercise}\label{exercise:1.10}
+  A \emph{diferença simétrica} \(A \triangle B\) de dois subconjuntos \(A\) e
+  \(B\) de \(\Omega\) é definida como o conjunto dos pontos de \(\Omega\) que
+  estão em \(A\) ou em \(B\), mas não em ambos, 
+  isto é, $A \triangle B \equiv (A\setminus B) \cup (B\setminus A) $. 
+  Se \(A, B \in \mathcal{F}\), mostre que \(A \triangle B \in \mathcal{F}\).
 \end{exercise}
 
-\begin{exercise}[1.11]
-  If \(A_1, A_2, \dots, A_m \in \mathcal{F}\) and \(k\) is a positive integer,
-  show that the set of points in \(\Omega\) which belong to exactly \(k\) of
-  the \(A_i\) belongs to \(\mathcal{F}\) (the previous exercise is the case
-  when \(m = 2\) and \(k = 1\)).
+\begin{exercise}\label{exercise:1.11}
+  Se \(A_1, A_2, \dots, A_m \in \mathcal{F}\) e \(k\) é um inteiro positivo,
+  mostre que o conjunto dos pontos de \(\Omega\) que pertencem a exatamente
+  \(k\) dos \(A_i\) pertence a \(\mathcal{F}\) (o exercício anterior é o caso
+  em que \(m = 2\) e \(k = 1\)).
 \end{exercise}
 
-\begin{exercise}[1.12]
-  Show that, if \(\Omega\) is a finite set, then \(\mathcal{F}\) contains an
-  even number of subsets of \(\Omega\).
+\begin{exercise}\label{exercise:1.12}
+  Mostre que, se \(\Omega\) é um conjunto finito, então \(\mathcal{F}\) contém
+  um número par de subconjuntos de \(\Omega\).
 \end{exercise}
 
-%%% JSON page 16 (PDF page 17)
-\section{Probabilities}
+\section{Medidas de Probabilidade}
 
-From our experiment \(\mathcal{E}\), we have so far constructed a sample space
-\(\Omega\) and an event space \(\mathcal{F}\) associated with
-\(\mathcal{E}\), but there has been no mention yet of probabilities. The third
-thing which we do is to allocate probabilities to each event in
-\(\mathcal{F}\), writing \(\mathbb{P}(A)\) for the probability of the event
-\(A\). We shall assume that this can be done in such a way that the
-probability function \(\mathbb{P}\) satisfies certain intuitively attractive
-conditions:
-\begin{enumerate}[label=(\alph*)]
-  \item each event \(A\) in the event space has a probability
-        \(\mathbb{P}(A)\) satisfying \(0 \leq \mathbb{P}(A) \leq 1\),
-  \item the event \(\Omega\), that ``something happens'', has probability 1,
-        and the event \(\varnothing\), that ``nothing happens'', has
-        probability 0,
-  \item if \(A\) and \(B\) are disjoint events (in that \(A \cap B =
-        \varnothing\)), then \(\mathbb{P}(A \cup B) = \mathbb{P}(A) +
-        \mathbb{P}(B)\).
+A partir do nosso experimento \(\mathcal{E}\), construímos até agora um espaço
+amostral \(\Omega\) e um espaço de eventos \(\mathcal{F}\), isto é, uma
+\(\sigma\)-álgebra de subconjuntos de \(\Omega\), associados ao experimento.
+Ainda não dissemos, porém, como atribuir probabilidades aos eventos.
+Nosso próximo passo é discutir como essa atribuição pode ser feita.
+Para isso, usaremos uma função, que denotaremos por \(\mathbb{P}\), cujo
+domínio é \(\mathcal{F}\) e que deve satisfazer as seguintes condições:
+
+\begin{enumerate}[label=(\alph*), ref=\alph*]
+  \item a cada evento \(A \in \mathcal{F}\) está associado um número
+        \(\mathbb{P}(A)\) entre 0 e 1;
+  \item o evento \(\Omega\), que representa a ocorrência de algum resultado
+        do experimento, tem probabilidade 1, enquanto o evento \(\varnothing\),
+        que representa uma situação impossível, tem probabilidade 0;
+  \item se \(A\) e \(B\) são eventos disjuntos, isto é, se \(A \cap B =
+        \varnothing\), então
+        \(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B)\).
 \end{enumerate}
 
-We collect these conditions into a formal definition as follows.\footnote{This
-is where the assumptions of an event space come to the fore. Banach and
-Kuratowski proved in 1929 that there exists no probability measure
-\(\mathbb{P}\) defined on all subsets of the interval \([0, 1]\) satisfying
-\(\mathbb{P}(\{x\}) = 0\) for every singleton \(x \in [0, 1]\).}
+Essas condições capturam as propriedades básicas que esperamos de uma
+atribuição de probabilidades. Na definição formal, a terceira condição será
+formulada na forma mais geral, exigindo que a regra de aditividade valha para
+qualquer família enumerável de eventos dois a dois disjuntos.
 
-\begin{definition}[1.13]
-  A mapping \(\mathbb{P}: \mathcal{F} \to \mathbb{R}\) is called a
-  \emph{probability measure} on \((\Omega, \mathcal{F})\) if
-  \begin{enumerate}[label=(\alph*)]
-    \item \(\mathbb{P}(A) \geq 0\) for \(A \in \mathcal{F}\),
-    \item \(\mathbb{P}(\Omega) = 1\) and \(\mathbb{P}(\varnothing) = 0\),
-    \item if \(A_1, A_2, \ldots\) are disjoint events in \(\mathcal{F}\) (in
-          that \(A_i \cap A_j = \varnothing\) whenever \(i \neq j\)) then
+\begin{definition}[Medida de probabilidade]\label{def:probability-measure}
+  Uma aplicação \(\mathbb{P}: \mathcal{F} \to \mathbb{R}\) é chamada uma
+  \emph{medida de probabilidade} sobre \((\Omega, \mathcal{F})\) se
+  \begin{enumerate}[label=(\alph*), ref=\alph*]
+    \item \(0\leqslant \mathbb{P}(A) \leqslant 1\), para todo \(A \in \mathcal{F}\);
+    \item \(\mathbb{P}(\Omega) = 1\) e \(\mathbb{P}(\varnothing) = 0\);
+    \item se \(A_1, A_2, \ldots\) são eventos em \(\mathcal{F}\) dois a dois
+          disjuntos, isto é, \(A_i \cap A_j = \varnothing\) se \(i \neq j\), então
           \begin{equation}
             \mathbb{P}\left(\bigcup_{i=1}^{\infty} A_i\right) =
             \sum_{i=1}^{\infty} \mathbb{P}(A_i). \tag{1.14} \label{eq:1.14}
@@ -487,193 +604,250 @@ Kuratowski proved in 1929 that there exists no probability measure
   \end{enumerate}
 \end{definition}
 
-We emphasize that a probability measure \(\mathbb{P}\) on \((\Omega,
-\mathcal{F})\) is defined only on those subsets of \(\Omega\) which lie in
-\(\mathcal{F}\). Here are two notes about probability measures.
+Enfatizamos que uma medida de probabilidade \(\mathbb{P}\) sobre
+\((\Omega, \mathcal{F})\), a rigor, só é definida para os subconjuntos de \(\Omega\) que
+pertencem a \(\mathcal{F}\). Idealmente uma medida de probabilidade estaria definida sobre
+$\mathscr{P}(\Omega)$ já que neste caso podemos atribuir probabilidade a qualquer subconjunto de $\Omega$.
+Entretanto, se exigimos que nossa medida de probabilidade possua propriedades adicionais, 
+que as vezes podem ser naturais, podemos acabar tendo conflito entre estas duas coisas impossibilitando 
+a existência de tal medida. 
 
-\begin{enumerate}[label=(\roman*)]
-  \item The second part of condition (b) is superfluous in the above
-        definition. To see this, define the disjoint events \(A_1 = \Omega\),
-        \(A_i = \varnothing\) for \(i \geq 2\). By condition (c),
+\bigskip 
+
+
+A seguir, fazemos duas observações
+sobre medidas de probabilidade.
+
+\begin{enumerate}[label=(\roman*), ref=\roman*]
+  \item A exigência \(\mathbb{P}(\varnothing) = 0\) em (b) é, na verdade,
+        consequência das demais condições. Para ver isso, considere os eventos
+        disjuntos \(A_1 = \Omega\) e \(A_i = \varnothing\), para \(i \geq 2\).
+        Pela condição (c),
         \[
           \mathbb{P}(\Omega) = \mathbb{P}\left(\bigcup_{i=1}^{\infty}
           A_i\right) = \mathbb{P}(\Omega) + \sum_{i=2}^{\infty}
           \mathbb{P}(\varnothing).
         \]
-  \item Condition (c) above is expressed as saying that \(\mathbb{P}\) is
-        \emph{countably additive}. The probability measure \(\mathbb{P}\) is
-        also \emph{finitely additive} in that
+        Como \(\mathbb{P}(\varnothing) \geq 0\), se esse número fosse
+        positivo, a série do lado direito seria infinita, enquanto
+        \(\mathbb{P}(\Omega) = 1\). Portanto, \(\mathbb{P}(\varnothing) = 0\).
+  \item A condição (c) é chamada de $\sigma$-aditividade da medida; também
+        dizemos que \(\mathbb{P}\) é \emph{contavelmente aditiva}. Dela segue
+        a aditividade finita: para eventos disjuntos \(A_1, \ldots, A_m\),
         \[
           \mathbb{P}\left(\bigcup_{i=1}^{m} A_i\right) =
-          \sum_{i=1}^{m} \mathbb{P}(A_i)
+          \sum_{i=1}^{m} \mathbb{P}(A_i).
         \]
-        for disjoint events \(A_i\). This is deduced from condition (c) by
-        setting \(A_i = \varnothing\) for \(i > m\).
+        Isso segue da condição (c) ao completarmos a sequência com
+        \(A_i = \varnothing\) para \(i > m\).
 \end{enumerate}
 
-Condition \eqref{eq:1.14} requires that the probability of the union of a
-countable collection of disjoint sets is the sum of the individual
-probabilities.\footnote{A set \(S\) is called \emph{countable} if it may be
-put in one-one correspondence with a subset of the natural numbers \(\{1, 2,
-3, \ldots\}\).}
+A igualdade \eqref{eq:1.14} é a forma precisa da aditividade enumerável: ela
+afirma que a probabilidade da união de uma coleção enumerável de eventos dois
+a dois disjuntos é igual à soma das probabilidades individuais.\footnote{Um
+conjunto \(S\) é chamado \emph{enumerável} quando existe uma correspondência
+biunívoca entre \(S\) e algum subconjunto dos números naturais
+\(\{1, 2, 3, \ldots\}\).}
 
-%%% JSON page 17 (PDF page 18)
-\begin{example}[1.15]
-  Let \(\Omega\) be a non-empty set and let \(A\) be a proper, non-empty
-  subset of \(\Omega\) (so that \(A \neq \varnothing, \Omega\)). If
-  \(\mathcal{F}\) is the event space \(\{\varnothing, A, \Omega \setminus A,
-  \Omega\}\), then all probability measures on \((\Omega, \mathcal{F})\) have
-  the form
+\begin{example}\label{ex:1.15}
+  Seja \(\Omega\) um conjunto não vazio e seja \(A\) um subconjunto próprio e
+  não vazio de \(\Omega\), isto é, \(A \neq \varnothing\) e \(A \neq \Omega\).
+  Se \(\mathcal{F} = \{\varnothing, A, \Omega \setminus A, \Omega\}\), então
+  toda medida de probabilidade sobre \((\Omega, \mathcal{F})\) é determinada
+  por um número \(p \in [0,1]\) e satisfaz
   \[
-    \mathbb{P}(\varnothing) = 0, \quad \mathbb{P}(A) = p,
+    \begin{aligned}
+      \mathbb{P}(\varnothing) &= 0, &
+      \mathbb{P}(A) &= p, \\
+      \mathbb{P}(\Omega \setminus A) &= 1 - p,\qquad \qquad  &
+      \mathbb{P}(\Omega) &= 1.
+    \end{aligned}
   \]
-  \[
-    \mathbb{P}(\Omega \setminus A) = 1 - p, \quad \mathbb{P}(\Omega) = 1,
-  \]
-  for some \(p\) satisfying \(0 \leq p \leq 1\). \(\triangle\)
+  Reciprocamente, cada escolha de \(p \in [0,1]\) define uma medida de
+  probabilidade com essas propriedades.
 \end{example}
 
-\begin{example}[1.16]
-  Let \(\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\}\) be a finite set of
-  exactly \(N\) points, and let \(\mathcal{F}\) be the power set of
-  \(\Omega\). It is easy to check that the function \(\mathbb{P}\) defined by
+\begin{example}\label{ex:1.16}
+  Seja \(\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\}\) um conjunto
+  finito com \(N\) elementos, e seja \(\mathcal{F}\) o conjunto das partes de
+  \(\Omega\). É fácil verificar que a função \(\mathbb{P}\) definida por
   \[
-    \mathbb{P}(A) = \frac{1}{N} |A| \quad \text{for } A \in \mathcal{F}
+    \mathbb{P}(A) = \frac{\# A}{N}, \qquad A \in \mathcal{F},
   \]
-  is a probability measure on \((\Omega, \mathcal{F})\).\footnote{The
-  cardinality \(|A|\) of a set \(A\) is the number of points in \(A\).}
-  \(\triangle\)
+  é uma medida de probabilidade sobre \((\Omega, \mathcal{F})\).
+  \footnote{Lembramos que $\# A$ denota a cardinalidade de um conjunto \(A\). 
+  Quando este conjunto é finito este número é simplesmente a quantidade de elementos de \(A\).}
 \end{example}
 
-\begin{exercise}[1.17]
-  Let \(p_1, p_2, \ldots, p_N\) be non-negative numbers such that \(p_1 +
-  p_2 + \cdots + p_N = 1\), and let \(\Omega = \{\omega_1, \omega_2, \ldots,
-  \omega_N\}\), with \(\mathcal{F}\) the power set of \(\Omega\), as in
-  Example 1.16. Show that the function \(\mathbb{Q}\) given by
+\begin{exercise}\label{exercise:1.17}
+  Sejam \(p_1, p_2, \ldots, p_N\) números não negativos tais que \(p_1 +
+  p_2 + \cdots + p_N = 1\), e seja \(\Omega = \{\omega_1, \omega_2, \ldots,
+  \omega_N\}\), com \(\mathcal{F}\) o conjunto das partes de \(\Omega\), como
+  em \Cref{ex:1.16}. Mostre que a função \(\mathbb{Q}\) dada por
   \[
-    \mathbb{Q}(A) = \sum_{i: \omega_i \in A} p_i \quad \text{for } A \in
-    \mathcal{F}
+    \mathbb{Q}(A) = \sum_{i: \omega_i \in A} p_i, \qquad A \in \mathcal{F},
   \]
-  is a probability measure on \((\Omega, \mathcal{F})\). Is \(\mathbb{Q}\) a
-  probability measure on \((\Omega, \mathcal{F})\) if \(\mathcal{F}\) is not
-  the power set of \(\Omega\) but merely some event space of subsets of
-  \(\Omega\)?
+  é uma medida de probabilidade sobre \((\Omega, \mathcal{F})\). A função
+  \(\mathbb{Q}\) continuará sendo uma medida de probabilidade se \(\mathcal{F}\)
+  não for o conjunto das partes de \(\Omega\), mas apenas uma coleção de
+  eventos formada por subconjuntos de \(\Omega\)?
 \end{exercise}
 
-\section{Probability spaces}
+\section{Espaços de Probabilidade}
 
-We combine the previous ideas in a formal definition.
+Reunimos as ideias discutidas nas seções anteriores na próxima definição.
 
-\begin{definition}[1.18]
-  A probability space is a triple \((\Omega, \mathcal{F}, \mathbb{P})\) of
-  objects such that
-  \begin{enumerate}[label=(\alph*)]
-    \item \(\Omega\) is a non-empty set,
-    \item \(\mathcal{F}\) is an event space of subsets of \(\Omega\),
-    \item \(\mathbb{P}\) is a probability measure on \((\Omega,
-          \mathcal{F})\).
+\begin{definition}[Espaço de probabilidade]\label{def:probability-space}
+  Um \emph{espaço de probabilidade} é uma tripla ordenada
+  \((\Omega, \mathcal{F}, \mathbb{P})\) tal que
+  \begin{enumerate}[label=(\alph*), ref=\alph*]
+    \item \(\Omega\) é um conjunto não vazio;
+    \item \(\mathcal{F}\) é uma \(\sigma\)-álgebra de subconjuntos de
+          \(\Omega\);
+    \item \(\mathbb{P}\) é uma medida de probabilidade sobre
+          \((\Omega, \mathcal{F})\).
   \end{enumerate}
 \end{definition}
 
-There are many elementary consequences of the axioms underlying this
-definition, and we describe some of these. Let \((\Omega, \mathcal{F},
-\mathbb{P})\) be a probability space.
+Dos axiomas que definem um espaço de probabilidade seguem várias
+consequências elementares. Apresentamos algumas delas. 
+A seguir vamos assumir que estamos trabalhando em um espaço 
+mensurável ou um espaço de probabilidade, de acordo com as considerações a serem feitas.
 
 \begin{property}
-  If \(A, B \in \mathcal{F}\), then\footnote{\(A \setminus B = A \cap
-  (\Omega \setminus B)\) is the set of points in \(A\) which are not in
-  \(B\).} \(A \setminus B \in \mathcal{F}\).
+  Se \(A, B \in \mathcal{F}\), então \(A \setminus B \in \mathcal{F}\).\footnote{
+  A diferença \(A \setminus B = A \cap (\Omega \setminus B)\) é o conjunto
+  dos elementos de \(A\) que não pertencem a \(B\).}
 \end{property}
 
 \begin{proof}
-  The complement of \(A \setminus B\) equals \((\Omega \setminus A) \cup B\),
-  which is the union of events and is therefore an event. Hence \(A
-  \setminus B\) is an event, by \eqref{eq:1.3}.
+  O complementar de \(A \setminus B\) é
+  \((\Omega \setminus A) \cup B\), que pertence a \(\mathcal{F}\), pois é
+  uma união de eventos. Logo, \(A \setminus B\) também pertence a
+  \(\mathcal{F}\), pela condição de fechamento sob complementos.
 \end{proof}
 
 \begin{property}
-  If \(A_1, A_2, \ldots \in \mathcal{F}\), then \(\bigcap_{i=1}^{\infty} A_i
-  \in \mathcal{F}\).
-\end{property}
-
-%%% JSON page 18 (PDF page 19)
-\begin{proof}
-  The complement of \(\bigcap_{i=1}^{\infty} A_i\) equals
-  \(\bigcup_{i=1}^{\infty} (\Omega \setminus A_i)\), which is the union of
-  the complements of events and is therefore an event. Hence the intersection
-  of the \(A_i\) is an event also, as before.
-\end{proof}
-
-\begin{property}
-  If \(A \in \mathcal{F}\) then \(\mathbb{P}(A) + \mathbb{P}(\Omega
-  \setminus A) = 1\).
+  Se \(A_1, A_2, \ldots \in \mathcal{F}\), então
+  \(\bigcap_{i=1}^{\infty} A_i \in \mathcal{F}\).
 \end{property}
 
 \begin{proof}
-  The events \(A\) and \(\Omega \setminus A\) are disjoint with union
-  \(\Omega\), and so
+  Pela lei de De Morgan,
   \[
-    1 = \mathbb{P}(\Omega) = \mathbb{P}(A) + \mathbb{P}(\Omega \setminus A).
+    \Omega \setminus \bigcap_{i=1}^{\infty} A_i
+    = \bigcup_{i=1}^{\infty} (\Omega \setminus A_i).
+  \]
+  Cada \(\Omega \setminus A_i\) pertence a \(\mathcal{F}\), e a união à
+  direita também pertence a \(\mathcal{F}\), pela definição de
+  \(\sigma\)-álgebra. Aplicando novamente o fechamento sob complementos,
+  concluímos que \(\bigcap_{i=1}^{\infty} A_i\) pertence a \(\mathcal{F}\).
+\end{proof}
+
+\begin{property}
+  Se \(A \in \mathcal{F}\), então
+  \(\mathbb{P}(A) + \mathbb{P}(\Omega \setminus A) = 1\).
+\end{property}
+
+\begin{proof}
+  Os eventos \(A\) e \(\Omega \setminus A\) são disjuntos e sua união é
+  \(\Omega\). Portanto,
+  \[
+    1 = \mathbb{P}(\Omega) = \mathbb{P}(A) +
+    \mathbb{P}(\Omega \setminus A).
   \]
 \end{proof}
 
 \begin{property}
-  If \(A, B \in \mathcal{F}\) then \(\mathbb{P}(A \cup B) + \mathbb{P}(A
-  \cap B) = \mathbb{P}(A) + \mathbb{P}(B)\).
+  Se \(A, B \in \mathcal{F}\), então
+  \[
+    \mathbb{P}(A \cup B) + \mathbb{P}(A \cap B) =
+    \mathbb{P}(A) + \mathbb{P}(B).
+  \]
 \end{property}
 
 \begin{proof}
-  The set \(A\) is the union of the disjoint sets \(A \setminus B\) and \(A
-  \cap B\), and hence
+  O conjunto \(A\) é a união disjunta de \(A \setminus B\) e \(A \cap B\),
+  de modo que, pela aditividade finita,
   \[
-    \mathbb{P}(A) = \mathbb{P}(A \setminus B) + \mathbb{P}(A \cap B) \quad
-    \text{by \eqref{eq:1.14}.}
+    \mathbb{P}(A) = \mathbb{P}(A \setminus B) + \mathbb{P}(A \cap B).
   \]
-  A similar remark holds for the set \(B\), giving that
+  De modo análogo,
+  \[
+    \mathbb{P}(B) = \mathbb{P}(B \setminus A) + \mathbb{P}(A \cap B).
+  \]
+  Somando as duas igualdades e observando que os conjuntos
+  \(A \setminus B\), \(A \cap B\) e \(B \setminus A\) são dois a dois
+  disjuntos, obtemos
   \[
     \begin{aligned}
-      \mathbb{P}(A) + \mathbb{P}(B) &= \mathbb{P}(A \setminus B) +
-      2\mathbb{P}(A \cap B) + \mathbb{P}(B \setminus A) \\
-      &= \mathbb{P}\big((A \setminus B) \cup (A \cap B) \cup (B \setminus
-        A)\big) + \mathbb{P}(A \cap B) \quad \text{by \eqref{eq:1.14}} \\
+      \mathbb{P}(A) + \mathbb{P}(B)
+      &= \mathbb{P}(A \setminus B) + 2\mathbb{P}(A \cap B)
+         + \mathbb{P}(B \setminus A) \\
       &= \mathbb{P}(A \cup B) + \mathbb{P}(A \cap B).
     \end{aligned}
   \]
+  Rearranjando os termos, segue a identidade desejada.
 \end{proof}
 
 \begin{property}
-  If \(A, B \in \mathcal{F}\) and \(A \subseteq B\) then \(\mathbb{P}(A)
-  \leq \mathbb{P}(B)\).
+  Se \(A, B \in \mathcal{F}\) e \(A \subseteq B\), então
+  \(\mathbb{P}(A) \leq \mathbb{P}(B)\).
 \end{property}
 
 \begin{proof}
-  We have that \(\mathbb{P}(B) = \mathbb{P}(A) + \mathbb{P}(B \setminus A)
-  \geq \mathbb{P}(A)\).
+  Como \(A \subseteq B\), o conjunto \(B\) é a união disjunta de \(A\) e
+  \(B \setminus A\). Logo,
+  \[
+    \mathbb{P}(B) = \mathbb{P}(A) + \mathbb{P}(B \setminus A)
+    \geq \mathbb{P}(A).
+  \]
 \end{proof}
 
-It is often useful to draw a Venn diagram when working with probabilities.
-For example, to illustrate the formula \(\mathbb{P}(A \cup B) + \mathbb{P}(A
-\cap B) = \mathbb{P}(A) + \mathbb{P}(B)\), we might draw the diagram in
-Figure 1.1, and note that the probability of \(A \cup B\) is the sum of
-\(\mathbb{P}(A)\) and \(\mathbb{P}(B)\) minus \(\mathbb{P}(A \cap B)\), since
-the last probability is counted twice in the simple sum \(\mathbb{P}(A) +
-\mathbb{P}(B)\).
+Ao trabalhar com probabilidades, é frequentemente útil desenhar diagramas de
+Venn. Por exemplo, a identidade
+\[
+  \mathbb{P}(A \cup B) + \mathbb{P}(A \cap B) =
+  \mathbb{P}(A) + \mathbb{P}(B)
+\]
+fica ilustrada na \Cref{fig:1.1}. O diagrama também ajuda a perceber que a
+probabilidade de \(A \cup B\) é a soma de \(\mathbb{P}(A)\) e
+\(\mathbb{P}(B)\) menos \(\mathbb{P}(A \cap B)\), pois a probabilidade da
+interseção é contada duas vezes na soma inicial.
 
-\figureplaceholder{1.1}{img-1.jpeg}{18}{A Venn diagram illustrating the fact
-that \(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A
-\cap B)\).}
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=1.15, line width=0.7pt]
+    \draw[thick] plot[smooth cycle, tension=1.15] coordinates {
+      (-2.9,1.7) (-0.4,2.1) (2.6,1.5) (3.6,0.6) (2.9,-1.5)
+      (0.2,-2.1) (-2.6,-1.6) (-3.4,-0.2)
+    };
+    \node at (-2.5,1.45) {\(\Omega\)};
+    \draw[thick, pattern={north west lines}, pattern color=black!70]
+      (-1.15,-0.1) circle[x radius=1.15, y radius=0.8, rotate=-8];
+    \draw[thick, pattern={north east lines}, pattern color=black!70]
+      (1.0,0.15) circle[x radius=1.65, y radius=1.0, rotate=22];
+    \node at (-2.1,0.85) {\(A\)};
+    \node at (2.95,0.25) {\(B\)};
+    \node at (-0.05,-1.75) {\(A \cap B\)};
+    \draw[-stealth, shorten >=2pt] (0.0,-1.5) -- (-0.2,-0.3);
+  \end{tikzpicture}
+  \caption{Diagrama de Venn que ilustra a identidade
+    \(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) -
+    \mathbb{P}(A \cap B)\).}\label{fig:1.1}
+\end{figure}
 
-In the following exercises, \((\Omega, \mathcal{F}, \mathbb{P})\) is a
-probability space.
 
-%%% JSON page 19 (PDF page 20)
-\begin{exercise}[1.19]
-  If \(A, B \in \mathcal{F}\), show that \(\mathbb{P}(A \setminus B) =
-  \mathbb{P}(A) - \mathbb{P}(A \cap B)\).
+Nos exercícios a seguir, \((\Omega, \mathcal{F}, \mathbb{P})\) é um espaço de
+probabilidade.
+
+\begin{exercise}\label{exercise:1.19}
+  Se \(A, B \in \mathcal{F}\), mostre que
+  \(\mathbb{P}(A \setminus B) = \mathbb{P}(A) - \mathbb{P}(A \cap B)\).
 \end{exercise}
 
-\begin{exercise}[1.20]
-  If \(A, B, C \in \mathcal{F}\), show that
+\begin{exercise}\label{exercise:1.20}
+  Se \(A, B, C \in \mathcal{F}\), mostre que
   \[
     \mathbb{P}(A \cup B \cup C) = \mathbb{P}(A) + \mathbb{P}(B) +
     \mathbb{P}(C) - \mathbb{P}(A \cap B) - \mathbb{P}(B \cap C) -
@@ -681,135 +855,336 @@ probability space.
   \]
 \end{exercise}
 
-\begin{exercise}[1.21]
-  Let \(A, B, C\) be three events such that
+\begin{exercise}\label{exercise:1.21}
+  Sejam \(A, B, C\) três eventos tais que
   \[
-    \begin{aligned}
-      \mathbb{P}(A) = \tfrac{5}{10}, \qquad \mathbb{P}(B) = \tfrac{7}{10},
-      \qquad \mathbb{P}(C) = \tfrac{6}{10}, \\
-      \mathbb{P}(A \cap B) = \tfrac{3}{10}, \qquad \mathbb{P}(B \cap C) =
-      \tfrac{4}{10}, \qquad \mathbb{P}(A \cap C) = \tfrac{2}{10}, \\
-      \mathbb{P}(A \cap B \cap C) = \tfrac{1}{10}.
-    \end{aligned}
+    \begin{alignedat}{3}
+      \mathbb{P}(A) &= \tfrac{5}{10}, &\qquad
+      \mathbb{P}(B) &= \tfrac{7}{10}, &\qquad
+      \mathbb{P}(C) &= \tfrac{6}{10}, \\
+      \mathbb{P}(A \cap B) &= \tfrac{3}{10},\qquad\qquad  &
+      \mathbb{P}(B \cap C) &= \tfrac{4}{10},\qquad \qquad  &
+      \mathbb{P}(A \cap C) &= \tfrac{2}{10}, \\
+      \mathbb{P}(A \cap B \cap C) &= \tfrac{1}{10}. &&
+    \end{alignedat}
   \]
-  By drawing a Venn diagram or otherwise, find the probability that exactly
-  two of the events \(A, B, C\) occur.
+  Desenhando um diagrama de Venn, ou por outro método, determine a
+  probabilidade de ocorrerem exatamente dois dos eventos \(A, B, C\).
 \end{exercise}
 
-\begin{exercise}[1.22]
-  A fair coin is tossed 10 times (so that heads appears with probability
-  \(\tfrac{1}{2}\) at each toss). Describe the appropriate probability space
-  in detail for the two cases when
-  \begin{enumerate}[label=(\alph*)]
-    \item the outcome of every toss is of interest,
-    \item only the total number of tails is of interest.
+\begin{exercise}\label{exercise:1.22}
+  Uma moeda honesta é lançada 10 vezes, de modo que, em cada lançamento, a
+  probabilidade de obter cara seja $1/2$. Construa detalhadamente
+  um espaço de probabilidade apropriado para tratar sobre eventos e cálculos de probabilidade
+  em que:
+  \begin{enumerate}[label=(\alph*), ref=\alph*]
+    \item o resultado de cada lançamento é relevante;
+    \item apenas o número total de coroas é relevante.
   \end{enumerate}
-  In the first case your event space should have \(2^{2^{10}}\) events, but
-  in the second case it need have only \(2^{11}\) events.
+  No primeiro caso, o espaço de eventos deve conter \(2^{2^{10}}\) eventos;
+  no segundo, basta que contenha \(2^{11}\) eventos.
 \end{exercise}
 
-\section{Discrete sample spaces}
+\section{Espaços Amostrais Discretos}
 
-Let \(\mathcal{E}\) be an experiment with probability space \((\Omega,
-\mathcal{F}, \mathbb{P})\). The structure of this space depends greatly on
-whether \(\Omega\) is a countable set (that is, a finite or countably
-infinite set) or an uncountable set. If \(\Omega\) is a countable set, we
-normally take \(\mathcal{F}\) to be the set of all subsets of \(\Omega\), for
-the following reason. Suppose that \(\Omega = \{\omega_1, \omega_2,
-\ldots\}\) and, for each \(\omega \in \Omega\), we are interested in whether
-or not this given \(\omega\) is the actual outcome of \(\mathcal{E}\); then we
-require that each singleton set \(\{\omega\}\) belongs to \(\mathcal{F}\). Let
-\(A \subseteq \Omega\). Then \(A\) is countable (since \(\Omega\) is
-countable), and so \(A\) may be expressed as the union of the countably many
-\(\omega_i\) which belong to \(A\), giving that \(A = \bigcup_{\omega \in A}
-\{\omega\} \in \mathcal{F}\) by \eqref{eq:1.4}. The probability
-\(\mathbb{P}(A)\) of the event \(A\) is determined by the collection of
-probabilities \(\mathbb{P}(\{\omega\})\) as \(\omega\) ranges over
-\(\Omega\), since, by \eqref{eq:1.14},
+Seja \(\mathcal{E}\) um experimento com espaço de probabilidade \((\Omega,
+\mathcal{F}, \mathbb{P})\). A estrutura deste espaço depende fortemente de
+\(\Omega\) ser um conjunto enumerável (isto é, um conjunto finito ou
+infinito enumerável) ou um conjunto não enumerável. Se \(\Omega\) é um
+conjunto enumerável, normalmente tomamos \(\mathcal{F}\) como o conjunto de
+todos os subconjuntos de \(\Omega\) (o conjunto das partes de \(\Omega\)),
+pela seguinte razão. Suponha que \(\Omega = \{\omega_1, \omega_2, \ldots\}\)
+e que, para cada \(\omega \in \Omega\), estejamos interessados em saber se
+esse \(\omega\) fixado é ou não o resultado de \(\mathcal{E}\); então exigimos
+que cada conjunto unitário \(\{\omega\}\) pertença a \(\mathcal{F}\). Seja \(A
+\subseteq \Omega\). Então \(A\) é enumerável (já que \(\Omega\) é
+enumerável), e assim \(A\) pode ser expresso como a união dos enumeráveis
+\(\omega_i\) que pertencem a \(A\), resultando em \(A = \bigcup_{\omega \in A}
+\{\omega\} \in \mathcal{F}\) por \eqref{eq:1.4}. A probabilidade
+\(\mathbb{P}(A)\) do evento \(A\) é determinada pela coleção de probabilidades
+\(\mathbb{P}(\{\omega\})\) à medida que \(\omega\) percorre \(\Omega\), uma
+vez que, por \eqref{eq:1.14},
 \[
   \mathbb{P}(A) = \sum_{\omega \in A} \mathbb{P}(\{\omega\}).
 \]
 
-We usually write \(\mathbb{P}(\omega)\) for the probability
-\(\mathbb{P}(\{\omega\})\) of an event containing only one point in
+Usualmente escrevemos \(\mathbb{P}(\omega)\) para denotar a probabilidade
+\(\mathbb{P}(\{\omega\})\) de um evento formado por um único ponto em
 \(\Omega\).
 
-\begin{example}[1.23 (Equiprobable outcomes)]
-  If \(\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\}\) and
-  \(\mathbb{P}(\omega_i) = \mathbb{P}(\omega_j)\) for all \(i\) and \(j\),
-  then \(\mathbb{P}(\omega) = 1/N\) for \(\omega \in \Omega\), and
-  \(\mathbb{P}(A) = |A|/N\) for \(A \subseteq \Omega\). \(\triangle\)
+\begin{example}[Resultados equiprováveis]\label{ex:1.23}
+  Se \(\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\}\) e
+  \(\mathbb{P}(\omega_i) = \mathbb{P}(\omega_j)\) para quaisquer \(i\) e
+  \(j\), então \(\mathbb{P}(\omega) = 1/N\) para todo \(\omega \in \Omega\),
+  e \(\mathbb{P}(A) = \# A / N\) para qualquer \(A \subseteq \Omega\).
 \end{example}
 
-\begin{example}[1.24 (Random integers)]
-  There are ``intuitively clear'' statements which are without meaning in
-  probability theory, and here is an example: if we pick a positive integer
-  at random, then it is an even integer with probability \(\tfrac{1}{2}\).
-  Interpreting ``at random'' to mean that each positive integer is equally
-  likely to be picked, then this experiment would have probability space
-  \((\Omega, \mathcal{F}, \mathbb{P})\), where
-  \begin{enumerate}[label=(\alph*)]
-%%% JSON page 20 (PDF page 21)
+\begin{example}[Inteiros aleatórios]\label{ex:1.24}
+  Existem afirmações ``intuitivamente claras'' que são desprovidas de
+  significado na Teoria da Probabilidade, e aqui está um exemplo: se escolhermos
+  um número inteiro positivo ao acaso, então ele será um número par com
+  probabilidade \(\tfrac{1}{2}\).
+  Interpretando ``ao acaso'' como significando que cada inteiro positivo tem a
+  mesma probabilidade de ser escolhido, esse experimento teria espaço de
+  probabilidade \((\Omega, \mathcal{F}, \mathbb{P})\), onde
+  \begin{enumerate}[label=(\alph*), ref=\alph*]
     \item \(\Omega = \{1, 2, \ldots\}\),
-    \item \(\mathcal{F}\) is the set of all subsets of \(\Omega\),
-    \item if \(A \subseteq \Omega\), then \(\mathbb{P}(A) = \sum_{i \in A}
-          \mathbb{P}(i) = \pi |A|\), where \(\pi\) is the probability that
-          any given integer, \(i\) say, is picked.
+    \item \(\mathcal{F}\) é o conjunto de todos os subconjuntos de \(\Omega\),
+    \item se \(A \subseteq \Omega\), então 
+    		$\mathbb{P}(A) = \sum_{i \in A} \mathbb{P}(i) = p (\# A)$, 
+    		onde $p$ é a probabilidade de que um determinado inteiro fixado, 
+    		digamos \(i\), seja escolhido.
   \end{enumerate}
-  However,
+  No entanto,
   \[
     \begin{aligned}
-      \text{if } \pi = 0 \text{ then } \mathbb{P}(\Omega) =
+      \text{se } p = 0, \text{ então } \mathbb{P}(\Omega) =
       \sum_{i=1}^{\infty} 0 = 0, \\
-      \text{if } \pi > 0 \text{ then } \mathbb{P}(\Omega) =
-      \sum_{i=1}^{\infty} \pi = \infty,
+      \text{se } p > 0, \text{ então } \mathbb{P}(\Omega) =
+      \sum_{i=1}^{\infty} p = \infty,
     \end{aligned}
   \]
-  neither of which is in agreement with the rule that \(\mathbb{P}(\Omega) =
-  1\). One possible way of interpreting the italicized statement above is as
-  follows. Let \(N\) be a large positive integer, and let \(\mathcal{E}_N\) be
-  the experiment of picking an integer from the finite set \(\Omega_N = \{1,
-  2, \ldots, N\}\) at random. The probability that the outcome of
-  \(\mathcal{E}_N\) is even is
+  nenhum dos quais está em conformidade com a regra de que \(\mathbb{P}(\Omega)
+  = 1\). Uma maneira possível de interpretar a afirmação em destaque acima é
+  a seguinte. Seja \(N\) um inteiro positivo grande e seja \(\mathcal{E}_N\)
+  o experimento de escolher ao acaso um inteiro do conjunto finito
+  \(\Omega_N = \{1, 2, \ldots, N\}\). A probabilidade de que o resultado de
+  \(\mathcal{E}_N\) seja par é
   \[
-    \frac{1}{2} \text{ if } N \text{ is even, and } \frac{1}{2} \left( 1 -
-    \frac{1}{N} \right) \text{ if } N \text{ is odd},
+    \frac{1}{2} \text{ se } N \text{ é par, e } \frac{1}{2} \left( 1 -
+    \frac{1}{N} \right) \text{ se } N \text{ é ímpar},
   \]
-  so that, as \(N \to \infty\), the required probability tends to
-  \(\tfrac{1}{2}\). Despite this sensible interpretation of the italicized
-  statement, we emphasize that this statement is without meaning in its
-  present form and should be shunned by serious probabilists. \(\triangle\)
+  de modo que, quando \(N \to \infty\), a probabilidade desejada tende a
+  \(\tfrac{1}{2}\). Apesar dessa interpretação razoável da afirmação em
+  destaque, enfatizamos que tal afirmação não tem significado matemático em sua
+  formulação original e deve ser evitada em formulações probabilísticas
+  rigorosas.
 \end{example}
 
-The most elementary problems in probability theory are those which involve
-experiments such as the shuffling of cards or the throwing of dice, and these
-usually give rise to situations in which every possible outcome is equally
-likely to occur. This is the case of Example 1.23 above. Such problems usually
-reduce to the problem of counting the number of ways in which some event may
-occur, and the following exercises are of this type.
+\begin{example}[Distribuição zeta]\label{ex:zeta}
+  O \Cref{ex:1.24} mostrou que não existe nenhuma medida de probabilidade
+  sobre os inteiros positivos que atribua a todos eles a mesma probabilidade.
+  Isso não significa, porém, que seja impossível escolher um inteiro positivo
+  ao acaso; significa apenas que tal escolha não pode ser uniforme. Uma
+  maneira natural de tornar essa ideia rigorosa é atribuir probabilidades
+  maiores aos inteiros menores, de modo que a soma de todas as
+  probabilidades ainda seja igual a 1.
 
-\begin{exercise}[1.25]
-  Show that if a coin is tossed \(n\) times, then there are exactly
+  Fixemos um número real \(s > 1\) e consideremos a série
+  \[
+    \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}.
+  \]
+  Essa série é convergente.\footnote{Uma justificativa elementar: agrupamos
+  os termos da série em blocos da forma
+  \(\{2^k, 2^k + 1, \dots, 2^{k+1} - 1\}\), para \(k = 0, 1, 2, \dots\).
+  Cada bloco contém \(2^k\) termos, todos menores ou iguais a
+  \((2^k)^{-s}\), de modo que a soma dos termos do \(k\)-ésimo bloco é no
+  máximo \(2^k (2^k)^{-s} = 2^{k(1-s)}\). Logo,
+  \(\zeta(s) \leq \sum_{k=0}^{\infty} 2^{k(1-s)}\), que é uma série
+  geométrica convergente, pois \(2^{1-s} < 1\).} A restrição \(s > 1\) é
+  essencial: quando \(s = 1\), obtemos a série harmônica, que é divergente.
+  A função \(\zeta\) é a chamada \emph{função zeta de Riemann}.
+
+  Consideremos agora o espaço de probabilidade
+  \((\Omega, \mathcal{F}, \mathbb{P})\) onde
+  \begin{enumerate}[label=(\alph*), ref=\alph*]
+    \item \(\Omega = \{1, 2, 3, \ldots\}\),
+    \item \(\mathcal{F}\) é o conjunto de todos os subconjuntos de
+          \(\Omega\),
+    \item para cada \(A \subseteq \Omega\),
+          \[
+            \mathbb{P}(A) = \frac{1}{\zeta(s)}\sum_{n \in A} \frac{1}{n^s}.
+          \]
+  \end{enumerate}
+  Então \(\mathbb{P}\) é uma medida de probabilidade sobre
+  \((\Omega, \mathcal{F})\). De fato, as condições (a) e (b) da
+  \Cref{def:probability-measure} são imediatas, pois os termos da série são
+  não negativos e
+  \[
+    \mathbb{P}(\Omega) = \frac{1}{\zeta(s)}\sum_{n=1}^{\infty} \frac{1}{n^s}
+    = 1,
+  \]
+  e a condição (c) segue do fato de que somas de termos não negativos podem
+  ser reagrupadas arbitrariamente. A probabilidade de um evento formado por
+  um único ponto é
+  \[
+    \mathbb{P}(\{n\}) = \frac{1}{n^s \zeta(s)}, \qquad n = 1, 2, 3, \dots,
+  \]
+  de modo que os inteiros menores são, de fato, os mais prováveis. O
+  parâmetro \(s\) controla a dispersão da distribuição: quando \(s\) se
+  aproxima de \(1\), a massa de probabilidade se espalha pelos inteiros
+  grandes; quando \(s\) é grande, a massa se concentra nos inteiros
+  pequenos, pois \(\mathbb{P}(\{1\}) = 1/\zeta(s) \to 1\) quando
+  \(s \to \infty\).
+
+  Nesse espaço, a probabilidade de que o inteiro escolhido seja divisível
+  por um inteiro fixado \(m \geq 1\) é
+  \[
+    \mathbb{P}(\{m, 2m, 3m, \dots\})
+    = \sum_{k=1}^{\infty} \frac{1}{(km)^s \zeta(s)}
+    = \frac{1}{m^s \zeta(s)} \sum_{k=1}^{\infty} \frac{1}{k^s}
+    = \frac{1}{m^s}.
+  \]
+  Em particular, a probabilidade de obter um número par é \(2^{-s}\), e não
+  \(\tfrac{1}{2}\). No caso particular \(s = 2\), em que
+  \(\zeta(2) = \tfrac{\pi^2}{6}\) (o célebre problema de Basileia,
+  resolvido por Euler), temos
+  \[
+    \mathbb{P}(\{n\}) = \frac{6}{\pi^2 n^2}, \qquad n = 1, 2, 3, \dots,
+  \]
+  e a probabilidade de obter um número par é \(\tfrac{1}{4}\). Esse valor
+  difere do valor ``intuitivo'' \(\tfrac{1}{2}\) discutido no
+  \Cref{ex:1.24}, o que ilustra mais uma vez como as respostas
+  probabilísticas dependem do modelo escolhido. A distribuição deste exemplo
+  é chamada de \emph{distribuição zeta}; ela aparece, por exemplo, na
+  descrição empírica da frequência de palavras em textos longos, conhecida
+  como lei de Zipf.
+\end{example}
+
+\begin{exercise}\label{exercise:zeta}
+  No espaço de probabilidade do \Cref{ex:zeta}, mostre que a probabilidade
+  de que o inteiro escolhido seja divisível por \(2\) ou por \(3\) é
+  \[
+    \frac{1}{2^s} + \frac{1}{3^s} - \frac{1}{6^s}.
+  \]
+\end{exercise}
+
+Há uma fatoração instrutiva escondida no \Cref{exercise:zeta}. A
+probabilidade de que o inteiro sorteado não seja divisível por \(2\) nem
+por \(3\), o complementar do evento daquele exercício é
+\[
+  1 - \frac{1}{2^s} - \frac{1}{3^s} + \frac{1}{6^s}
+  = \left(1 - \frac{1}{2^s}\right)\left(1 - \frac{1}{3^s}\right).
+\]
+Essa fatoração não é um acidente: ela reflete uma propriedade
+multiplicativa geral da distribuição zeta, que exploramos a seguir.
+
+Para cada primo \(p\), seja
+\[
+  A_p = \{p, 2p, 3p, \dots\}
+\]
+o evento de que o inteiro sorteado seja divisível por \(p\). Pelo
+\Cref{ex:zeta}, \(\mathbb{P}(A_p) = p^{-s}\). Se \(p\) e \(q\) são primos
+distintos, então, pelo teorema fundamental da aritmética, um inteiro é
+divisível por \(p\) e por \(q\) se, e somente se, é divisível por \(pq\).
+Logo,
+\[
+  \mathbb{P}(A_p \cap A_q)
+  = \mathbb{P}(\{pq, 2pq, 3pq, \dots\})
+  = \frac{1}{(pq)^s}
+  = \frac{1}{p^s} \cdot \frac{1}{q^s}
+  = \mathbb{P}(A_p)\,\mathbb{P}(A_q).
+\]
+A probabilidade da interseção coincide, assim, com o produto das
+probabilidades. O mesmo argumento vale para qualquer coleção finita de
+primos distintos \(p_1, \dots, p_k\):
+\[
+  \mathbb{P}(A_{p_1} \cap \cdots \cap A_{p_k})
+  = \prod_{i=1}^{k} \frac{1}{p_i^s}
+  = \prod_{i=1}^{k} \mathbb{P}(A_{p_i}).
+\]
+Enfatizamos que essa propriedade multiplicativa é peculiar aos primos: ela
+falha quando os divisores não são coprimos entre si. Por exemplo, como todo
+múltiplo de \(4\) é também múltiplo de \(2\), temos \(A_4 \subseteq A_2\) e
+\[
+  \mathbb{P}(A_2 \cap A_4) = \mathbb{P}(A_4) = \frac{1}{4^s}
+  \neq \frac{1}{2^s} \cdot \frac{1}{4^s}.
+\]
+
+Essa multiplicatividade está na base de uma das identidades mais célebres
+da matemática.
+
+\begin{proposition}[Produto de Euler]\label{prop:euler}
+  Para todo \(s > 1\),
+  \[
+    \frac{1}{\zeta(s)} = \prod_{p} \left(1 - \frac{1}{p^s}\right),
+  \]
+  onde o produto percorre todos os números primos, e o lado direito é
+  definido como o limite, quando \(N \to \infty\), do produto finito sobre
+  os primos \(p \leq N\).
+\end{proposition}
+
+\begin{proof}
+  Seja \(S_N\) o conjunto dos inteiros positivos cujos fatores primos são
+  todos menores ou iguais a \(N\). Ao expandirmos o produto
+  \[
+    \prod_{p \leq N} \left(\sum_{k=0}^{\infty} \frac{1}{p^{ks}}\right),
+  \]
+  cada escolha de expoentes \(k_p \geq 0\) produz exatamente um termo
+  \(n^{-s}\), onde \(n = \prod_{p \leq N} p^{k_p}\) percorre \(S_N\), pela
+  fatoração única dos inteiros. Como todos os termos são positivos, a
+  reordenação é legítima, e como
+  \(\sum_{k=0}^{\infty} p^{-ks} = (1 - p^{-s})^{-1}\), concluímos que
+  \[
+    \sum_{n \in S_N} \frac{1}{n^s}
+    = \prod_{p \leq N} \frac{1}{1 - p^{-s}}.
+  \]
+  Além disso, todo inteiro \(n \leq N\) tem todos os seus fatores primos
+  menores ou iguais a \(N\), de modo que \(\{1, \dots, N\} \subseteq S_N\);
+  equivalentemente, se \(n \notin S_N\), então \(n\) possui um fator primo
+  maior que \(N\), e portanto \(n > N\). Segue que
+  \[
+    0 \leq \zeta(s) - \sum_{n \in S_N} \frac{1}{n^s}
+    = \sum_{n \notin S_N} \frac{1}{n^s}
+    \leq \sum_{n > N} \frac{1}{n^s},
+  \]
+  e o último termo tende a \(0\) quando \(N \to \infty\), por ser o resto
+  de uma série convergente. Portanto,
+  \[
+    \zeta(s) = \lim_{N \to \infty} \sum_{n \in S_N} \frac{1}{n^s}
+    = \lim_{N \to \infty} \prod_{p \leq N} \frac{1}{1 - p^{-s}},
+  \]
+  que é o resultado desejado.
+\end{proof}
+
+Em termos do espaço de probabilidade do \Cref{ex:zeta}, a identidade do produto de Euler
+pode ser reescrita como
+\[
+  \mathbb{P}(\{1\}) = \frac{1}{\zeta(s)}
+  = \prod_{p} \left(1 - \mathbb{P}(A_p)\right).
+\]
+Essa igualdade admite uma interpretação sugestiva: como
+\(1 - \mathbb{P}(A_p)\) é a probabilidade de que o inteiro sorteado
+\emph{não} seja divisível por \(p\), o produto infinito corresponde a
+exigir que o inteiro sorteado não seja divisível por nenhum primo. Neste caso o
+único inteiro positivo com essa propriedade é o número \(1\).\footnote{O produto
+de Euler também fornece uma prova de que existem infinitos primos, devida
+ao próprio Euler: se houvesse apenas um número finito de primos, então todo
+inteiro positivo pertenceria a \(S_N\) para \(N\) bastante grande, e o
+argumento de expansão da prova acima, agora com \(s = 1\), mostraria que as
+somas parciais da série harmônica \(\sum_n 1/n\) são limitadas pelo produto
+finito \(\prod_p (1 - 1/p)^{-1}\); a série harmônica seria portanto
+convergente, uma contradição.}
+
+Os problemas mais elementares na Teoria da Probabilidade são aqueles que
+envolvem experimentos como o embaralhamento de cartas ou o lançamento de dados,
+e estes geralmente dão origem a situações em que cada resultado possível é
+igualmente provável de ocorrer. Esse é o caso do \Cref{ex:1.23} acima. Tais
+problemas geralmente se reduzem ao problema de contar o número de maneiras
+pelas quais um determinado evento pode ocorrer, e os exercícios a seguir são
+desse tipo.
+
+\begin{exercise}\label{exercise:1.25}
+  Mostre que, se uma moeda é lançada \(n\) vezes, existem exatamente
   \[
     \binom{n}{k} = \frac{n!}{k!(n-k)!}
   \]
-  sequences of possible outcomes in which exactly \(k\) heads are obtained.
-  If the coin is fair (so heads and tails are equally likely on each toss),
-  show that the probability of getting at least \(k\) heads is
+  sequências de resultados possíveis nas quais são obtidas exatamente \(k\) caras.
+  Se a moeda for honesta (de modo que cara e coroa sejam igualmente prováveis a cada lançamento),
+  mostre que a probabilidade de obter pelo menos \(k\) caras é
   \[
     \frac{1}{2^n} \sum_{r=k}^{n} \binom{n}{r}.
   \]
 \end{exercise}
 
-\begin{exercise}[1.26]
-  We distribute \(r\) distinguishable balls into \(n\) cells at random,
-  multiple occupancy being permitted. Show that
-  \begin{enumerate}[label=(\alph*)]
-    \item there are \(n^r\) possible arrangements,
-    \item there are \(\binom{r}{k}(n-1)^{r-k}\) arrangements in which the
-          first cell contains exactly \(k\) balls,
-%%% JSON page 21 (PDF page 22)
-    \item the probability that the first cell contains exactly \(k\) balls is
+\begin{exercise}\label{exercise:1.26}
+  Distribuímos \(r\) bolas distinguíveis em \(n\) urnas ao acaso, sendo
+  permitida a ocupação múltipla. Mostre que
+  \begin{enumerate}[label=(\alph*), ref=\alph*]
+    \item existem \(n^r\) distribuições possíveis,
+    \item existem \(\binom{r}{k}(n-1)^{r-k}\) distribuições nas quais a
+          primeira urna contém exatamente \(k\) bolas,
+    \item a probabilidade de que a primeira urna contenha exatamente \(k\) bolas é
           \[
             \binom{r}{k} \left(\frac{1}{n}\right)^k \left(1 -
             \frac{1}{n}\right)^{r-k}.
@@ -817,102 +1192,109 @@ occur, and the following exercises are of this type.
   \end{enumerate}
 \end{exercise}
 
-\begin{exercise}[1.27]
-  In a game of bridge, the 52 cards of a conventional pack are distributed at
-  random between the four players in such a way that each player receives 13
-  cards. Show that the probability that each player receives one ace is
+\begin{exercise}\label{exercise:1.27}
+  Em uma partida de \emph{Truco} para quatro jogadores, utiliza-se um baralho
+  tradicional de 40 cartas (sem os 8, 9 e 10, contendo 4 ases). Cada um dos
+  quatro jogadores recebe 3 cartas distribuídas ao acaso. Mostre que a
+  probabilidade de que cada jogador receba exatamente um ás é
   \[
-    \frac{24 \cdot 48! \cdot 13^4}{52!} = 0.105 \dots.
+    \frac{4! \cdot 3^4 \cdot 36!}{40!}
+    = \frac{1944}{40 \cdot 39 \cdot 38 \cdot 37}
+    \approx 0{,}000886 \quad (\text{cerca de } 0{,}09\%).
   \]
 \end{exercise}
 
-\begin{exercise}[1.28]
-  Show that the probability that two given hands in bridge contain \(k\) aces
-  between them is
+\begin{exercise}\label{exercise:1.28}
+  Ainda no contexto do \emph{Truco} com baralho de 40 cartas (\Cref{exercise:1.27}),
+  mostre que a probabilidade de que as mãos de dois jogadores fixados (por exemplo,
+  os dois parceiros de uma mesma dupla, que somam 6 cartas) contenham juntas
+  exatamente \(k\) ases (\(k \in \{0, 1, 2, 3, 4\}\)) é
   \[
-    \binom{4}{k} \binom{48}{26-k} \Big/ \binom{52}{26}.
+    \binom{4}{k} \binom{36}{6-k} \Big/ \binom{40}{6}.
   \]
 \end{exercise}
 
-\begin{exercise}[1.29]
-  Show that the probability that a hand in bridge contains 6 spades, 3
-  hearts, 2 diamonds and 2 clubs is
+\begin{exercise}\label{exercise:1.29}
+  No mesmo jogo de \emph{Truco} com 40 cartas (sendo 10 cartas de cada um dos
+  quatro naipes: espadas, copas, ouros e paus), mostre que a probabilidade de
+  que a mão de um jogador (3 cartas) contenha exatamente 2 cartas de espadas e
+  1 de copas é
   \[
-    \binom{13}{6} \binom{13}{3} \binom{13}{2}^2 \Big/ \binom{52}{13}.
+    \binom{10}{2} \binom{10}{1} \Big/ \binom{40}{3}.
   \]
 \end{exercise}
 
-\begin{exercise}[1.30]
-  Which of the following is more probable:
-  \begin{enumerate}[label=(\alph*)]
-    \item getting at least one six with 4 throws of a die,
-    \item getting at least one double six with 24 throws of two dice?
+\begin{exercise}\label{exercise:1.30}
+  Qual dos seguintes eventos é mais provável:
+  \begin{enumerate}[label=(\alph*), ref=\alph*]
+    \item obter pelo menos um seis em 4 lançamentos de um dado,
+    \item obter pelo menos um duplo seis em 24 lançamentos de dois dados?
   \end{enumerate}
-  This is sometimes called ``de M\'er\'e's paradox'', after the professional
-  gambler Chevalier de M\'er\'e, who believed these two events to have equal
-  probability.
+  Este problema é por vezes chamado de ``paradoxo de de M\'er\'e'', em referência
+  ao jogador profissional Chevalier de M\'er\'e, que acreditava que esses dois
+  eventos tinham igual probabilidade.
 \end{exercise}
 
-\section{Probability measures are continuous}
+\section{Continuidade das Medidas de Probabilidade}
 
-There is a certain property of probability measures which will be very useful
-later, and we describe this next. Too great an emphasis should not be placed
-on the property at this stage, and we recommend to the reader that he or she
-omit this section at the first reading.
+Existe uma propriedade importante das medidas de probabilidade que será muito
+útil mais adiante, e que descreveremos a seguir. Não se deve dar uma ênfase
+excessiva a essa propriedade neste momento inicial, e recomendamos ao leitor
+que omita esta seção em uma primeira leitura, se preferir.
 
-A sequence \(A_1, A_2, \ldots\) of events in a probability space \((\Omega,
-\mathcal{F}, \mathbb{P})\) is called \emph{increasing} if
+Uma sequência \(A_1, A_2, \ldots\) de eventos em um espaço de probabilidade
+\((\Omega, \mathcal{F}, \mathbb{P})\) é dita \emph{crescente} se
 \[
-  A_n \subseteq A_{n+1} \quad \text{for } n = 1, 2, \ldots.
+  A_n \subseteq A_{n+1} \quad \text{para todo } n = 1, 2, \ldots.
 \]
-The union
+A união
 \[
   A = \bigcup_{i=1}^{\infty} A_i
 \]
-of such a sequence is called the \emph{limit} of the sequence, and it is an
-elementary consequence of the axioms for an event space that \(A\) is an
-event. It is perhaps not surprising that the probability \(\mathbb{P}(A)\) of
-\(A\) may be expressed as the limit \(\lim_{n \to \infty} \mathbb{P}(A_n)\)
-of the probabilities of the \(A_n\).
+de tal sequência é chamada o \emph{limite} da sequência, e é uma consequência
+elementar dos axiomas de um espaço de eventos que \(A\) seja um evento. Não é
+surpreendente, talvez, que a probabilidade \(\mathbb{P}(A)\) de \(A\) possa ser
+expressa como o limite \(\lim_{n \to \infty} \mathbb{P}(A_n)\) das
+probabilidades dos \(A_n\).
 
-\begin{theorem}[1.54 (Continuity of probability measures)]
-  Let \((\Omega, \mathcal{F}, \mathbb{P})\) be a probability space. If
-  \(A_1, A_2, \ldots\) is an increasing sequence of events in
-  \(\mathcal{F}\) with limit \(A\), then
+\begin{theorem}[Continuidade das medidas de probabilidade]\label{thm:1.54}
+  Seja \((\Omega, \mathcal{F}, \mathbb{P})\) um espaço de probabilidade. Se
+  \(A_1, A_2, \ldots\) é uma sequência crescente de eventos em
+  \(\mathcal{F}\) com limite \(A\), então
   \[
     \mathbb{P}(A) = \lim_{n \to \infty} \mathbb{P}(A_n).
   \]
 \end{theorem}
 
-We precede the proof of the theorem with an application.
+Apresentamos uma aplicação antes da demonstração do teorema.
 
-\begin{example}[1.55]
-  It is intuitively clear that the chance of obtaining no heads in an
-  infinite set of tosses of a fair coin is 0. A rigorous proof goes as
-  follows. Let \(A_n\) be the event that the first \(n\) tosses of the coin
-  yield at least one head. Then
+\begin{example}\label{ex:1.55}
+  É intuitivamente claro que a chance de não obter nenhuma cara em uma sequência
+  infinita de lançamentos de uma moeda honesta é 0. Uma demonstração rigorosa é
+  feita como segue. Seja \(A_n\) o evento de que os primeiros \(n\) lançamentos
+  da moeda produzam pelo menos uma cara. Então
   \[
-    A_n \subseteq A_{n+1} \quad \text{for } n = 1, 2, \ldots,
+    A_n \subseteq A_{n+1} \quad \text{para todo } n = 1, 2, \ldots,
   \]
-  so that the \(A_n\) form an increasing sequence. The limit set \(A\) is the
-  event that heads occurs sooner or later. By the continuity of
-  \(\mathbb{P}\), Theorem 1.54,
+  de modo que os \(A_n\) formam uma sequência crescente. O conjunto limite
+  \(A\) é o evento de que cara ocorre mais cedo ou mais tarde. Pela continuidade
+  de \(\mathbb{P}\) (\Cref{thm:1.54}),
   \[
     \mathbb{P}(A) = \lim_{n \to \infty} \mathbb{P}(A_n).
   \]
-  However, \(\mathbb{P}(A_n) = 1 - \left(\tfrac{1}{2}\right)^n\), and so
-  \(\mathbb{P}(A_n) \to 1\) as \(n \to \infty\). Thus \(\mathbb{P}(A) = 1\),
-  giving that the probability \(\mathbb{P}(\Omega \setminus A)\), that no
-  head ever appears, equals 0. \(\triangle\)
+  No entanto, \(\mathbb{P}(A_n) = 1 - \left(\tfrac{1}{2}\right)^n\), e portanto
+  \(\mathbb{P}(A_n) \to 1\) quando \(n \to \infty\). Logo \(\mathbb{P}(A) = 1\),
+  o que implica que a probabilidade \(\mathbb{P}(\Omega \setminus A)\), de que
+  nenhuma cara jamais apareça, é igual a 0.
 \end{example}
 
-\begin{proof}[Proof of Theorem 1.54]
-  Let \(B_i = A_i \setminus A_{i-1}\). Then
+\begin{proof}[Prova do \Cref{thm:1.54}]
+  Seja \(B_1 = A_1\) e \(B_i = A_i \setminus A_{i-1}\) para \(i \geq 2\). Então
   \[
     A = A_1 \cup B_2 \cup B_3 \cup \cdots
   \]
-  is the union of disjoint events in \(\mathcal{F}\) (draw a Venn diagram to
-  make this clear). By \eqref{eq:1.14},
+  é a união de eventos disjuntos em \(\mathcal{F}\) (desenhe um diagrama de
+  Venn para tornar isso claro). Por \eqref{eq:1.14},
   \[
     \begin{aligned}
       \mathbb{P}(A) &= \mathbb{P}(A_1) + \mathbb{P}(B_2) + \mathbb{P}(B_3) +
@@ -923,13 +1305,12 @@ We precede the proof of the theorem with an application.
   \]
 \end{proof}
 
-%%% JSON page 27 (PDF page 28)
-However,
+No entanto,
 \[
-  \mathbb{P}(B_i) = \mathbb{P}(A_i) - \mathbb{P}(A_{i-1}) \quad \text{for }
+  \mathbb{P}(B_i) = \mathbb{P}(A_i) - \mathbb{P}(A_{i-1}) \quad \text{para }
   i = 2, 3, \dots,
 \]
-and so
+e portanto
 \[
   \begin{aligned}
     \mathbb{P}(A) &= \mathbb{P}(A_1) + \lim_{n \to \infty} \sum_{k=2}^n
@@ -937,76 +1318,77 @@ and so
     &= \lim_{n \to \infty} \mathbb{P}(A_n)
   \end{aligned}
 \]
-as required, since the last sum collapses.
+como queríamos demonstrar, visto que a última soma é telescópica.
 
-The conclusion of Theorem 1.54 is expressed in terms of an \emph{increasing}
-sequence of events, but the corresponding statement for a \emph{decreasing}
-sequence is valid too: if \(B_1, B_2, \dots\) is a sequence of events in
-\(\mathcal{F}\) such that \(B_i \supseteq B_{i+1}\) for \(i = 1, 2, \dots\),
-then \(\mathbb{P}(B_n) \to \mathbb{P}(B)\) as \(n \to \infty\), where
-\(B = \bigcap_{i=1}^\infty B_i\) is the limit of the \(B_i\) as \(i \to
-\infty\). The shortest way to show this is to set \(A_i = \Omega \setminus
-B_i\) in the theorem.
+A conclusão do \Cref{thm:1.54} é expressa em termos de uma sequência
+\emph{crescente} de eventos, mas a afirmação correspondente para uma sequência
+\emph{decrescente} também é válida: se \(B_1, B_2, \dots\) é uma sequência de
+eventos em \(\mathcal{F}\) tal que \(B_i \supseteq B_{i+1}\) para \(i = 1, 2,
+\dots\), então \(\mathbb{P}(B_n) \to \mathbb{P}(B)\) quando \(n \to \infty\),
+onde \(B = \bigcap_{i=1}^\infty B_i\) é o limite dos \(B_i\) quando \(i \to
+\infty\). A maneira mais rápida de demonstrar isso é definir \(A_i = \Omega
+\setminus B_i\) e aplicar o teorema.
 
-\section{Problems}
+\section{Problemas}
 
 \begin{enumerate}[label={\arabic*.}]
-  \item A fair die is thrown \(n\) times. Show that the probability that
-        there are an even number of sixes is \(\tfrac{1}{2}[1 +
-        (\tfrac{2}{3})^n]\). For the purpose of this question, 0 is an even
-        number.
-  \item Does there exist an event space containing just six events?
-  \item Prove Boole's inequality:
+  \item Um dado honesto é lançado \(n\) vezes. Mostre que a probabilidade de
+        que haja um número par de seis é \(\tfrac{1}{2}[1 +
+        (\tfrac{2}{3})^n]\). Para o propósito desta questão, 0 é considerado um
+        número par.
+  \item Existe um espaço de eventos contendo exatamente seis eventos?
+  \item Demonstre a desigualdade de Boole:
         \[
           \mathbb{P}\left(\bigcup_{i=1}^n A_i\right) \leq \sum_{i=1}^n
           \mathbb{P}(A_i).
         \]
-%%% JSON page 30 (PDF page 31)
-  \item Prove that
+  \item Demonstre que
         \[
           \mathbb{P}\left(\bigcap_{i=1}^n A_i\right) \geq 1 - n +
           \sum_{i=1}^n \mathbb{P}(A_i).
         \]
-        This is sometimes called \emph{Bonferroni's inequality}, but the
-        term is not recommended since it has multiple uses.
-  \item Two people toss a fair coin \(n\) times each. Show that the
-        probability they throw equal numbers of heads is
+        Esta desigualdade é por vezes chamada de \emph{desigualdade de
+        Bonferroni}, embora o termo não seja recomendado por possuir múltiplos
+        usos.
+  \item Duas pessoas lançam uma moeda honesta \(n\) vezes cada uma. Mostre que
+        a probabilidade de que ambas obtenham o mesmo número de caras é
         \[
           \binom{2n}{n} \left(\frac{1}{2}\right)^{2n}.
         \]
-  \item Show that if \(u_n\) is the probability that \(n\) tosses of a fair
-        coin contain no run of 4 heads, then for \(n \geq 4\)
+  \item Mostre que, se \(u_n\) é a probabilidade de que \(n\) lançamentos de
+        uma moeda honesta não contenham uma sequência consecutiva de 4 caras,
+        então, para \(n \geq 4\),
         \[
           u_n = \frac{1}{2}u_{n-1} + \frac{1}{4}u_{n-2} + \frac{1}{8}u_{n-3}
           + \frac{1}{16}u_{n-4}.
         \]
-        Use this difference equation to show that \(u_8 =
+        Use essa equação de diferenças para mostrar que \(u_8 =
         \frac{208}{256}\).
-  \item[\starredproblem] Any number \(\omega \in [0, 1]\) has a decimal expansion
+  \item[\starredproblem] Qualquer número \(\omega \in [0, 1]\) possui uma
+        expansão decimal
         \[
-          \omega = 0.x_1 x_2 \dots,
+          \omega = 0{,}x_1 x_2 \dots,
         \]
-        and we write \(f_k(\omega, n)\) for the proportion of times that the
-        integer \(k\) appears in the first \(n\) digits in this expansion.
-        We call \(\omega\) a \emph{normal number} if
+        e escrevemos \(f_k(\omega, n)\) para a proporção de vezes que o dígito
+        \(k\) aparece nos primeiros \(n\) dígitos dessa expansão. Dizemos que
+        \(\omega\) é um \emph{número normal} se
         \[
-          f_k(\omega, n) \to \frac{1}{10} \quad \text{as } n \to \infty
+          f_k(\omega, n) \to \frac{1}{10} \quad \text{quando } n \to \infty
         \]
-        for \(k = 0, 1, 2, \dots, 9\). On intuitive grounds we may expect
-        that most numbers \(\omega \in [0, 1]\) are normal numbers, and
-        Borel proved that this is indeed true. It is quite another matter to
-        exhibit specific normal numbers. Prove the number
-%%% JSON page 31 (PDF page 32)
-        \(0.1234567891011121314\ldots\) is normal. It is an unsolved problem
-        of mathematics to show that \(e - 2\) and \(\pi - 3\) are normal
-        numbers also.
-  \item \begin{enumerate}[label=(\alph*)]
-          \item Let \(\mathbb{P}(A)\) denote the probability of the
-                occurrence of an event \(A\). Prove carefully, for events
-                \(A_1, A_2, \dots, A_n\), that
+        para todo \(k = 0, 1, 2, \dots, 9\). Por intuição, podemos esperar
+        que a maioria dos números em \([0, 1]\) sejam normais, e Borel provou
+        que isso é de fato verdade. No entanto, exibir números normais
+        específicos é uma tarefa bem diferente. Demonstre que o número
+        \(0{,}1234567891011121314\ldots\) é normal. É um problema em aberto
+        na matemática provar se \(e - 2\) e \(\pi - 3\) também são números
+        normais.
+  \item \begin{enumerate}[label=(\alph*), ref=\alph*]
+          \item Seja \(\mathbb{P}(A)\) a probabilidade de ocorrência de um
+                evento \(A\). Demonstre cuidadosamente, para eventos
+                \(A_1, A_2, \dots, A_n\), que
                 \[
                   \begin{array}{ll}
-                  \qquad \qquad \quad &\displaystyle\mathbb{P}\left(\bigcup_{i=1}^n A_i\right)
+                  \qquad  &\displaystyle\mathbb{P}\left(\bigcup_{i=1}^n A_i\right)
                   =
                   \sum_i \mathbb{P}(A_i) - \sum_{i<j} \mathbb{P}(A_i \cap A_j) +
                   \\[0.5cm]
@@ -1015,76 +1397,78 @@ B_i\) in the theorem.
                   (-1)^{n+1} \mathbb{P}\left(\bigcap_i A_i\right).
                   \end{array}
                 \]
-          \item One evening, a bemused lodge-porter tried to hang \(n\) keys
-                on their \(n\) hooks, but only managed to hang them
-                independently and at random. There was no limit to the
-                number of keys which could be hung on any hook.
-                Alternatively, or by using (a), find an expression for the
-                probability that at least one key was hung on its own hook.
+          \item Certa noite, um porteiro confuso tentou pendurar \(n\) chaves
+                em seus \(n\) respectivos ganchos, mas apenas conseguiu
+                pendurá-las de forma independente e ao acaso. Não havia limite
+                para o número de chaves que poderiam ser penduradas em qualquer
+                gancho. Encontre uma expressão (diretamente ou usando o item
+                (a)) para a probabilidade de que pelo menos uma chave tenha sido
+                pendurada no seu próprio gancho.
 
-                The following morning, the porter was rebuked by the Bursar,
-                so that in the evening she was careful to hang only one key
-                on each hook. But she still only managed to hang them
-                independently and at random. Find an expression for the
-                probability that no key was then hung on its own hook.
+                Na manhã seguinte, o porteiro foi repreendido pelo administrador
+                do prédio, de modo que, na noite seguinte, ele teve o cuidado de
+                pendurar apenas uma chave em cada gancho. No entanto, ele ainda
+                as pendurou de maneira independente e aleatória. Encontre uma
+                expressão para a probabilidade de que nenhuma chave tenha sido
+                pendurada no seu próprio gancho.
 
-                Find the limits of both expressions as \(n\) tends to
-                infinity.
+                Calcule os limites de ambas as expressões quando \(n \to
+                \infty\).
 
-                You may assume that, for real \(x\),
+                Você pode assumir que, para \(x \in \mathbb{R}\),
                 \[
                   e^x = \sum_{r=0}^{\infty} \frac{x^r}{r!} = \lim_{N \to
                   \infty} \left(1 + \frac{x}{N}\right)^N.
                 \]
           \end{enumerate}
           (Oxford 1978M)
-  \item Two identical decks of cards, each containing \(N\) cards, are
-        shuffled randomly. We say that a \(k\)-matching occurs if the two
-        decks agree in exactly \(k\) places. Show that the probability that
-        there is a \(k\)-matching is
+  \item Dois baralhos idênticos de cartas, cada um contendo \(N\) cartas, são
+        embaralhados aleatoriamente. Dizemos que ocorre um \(k\)-emparelhamento
+        se os dois baralhos coincidem exatamente em \(k\) posições. Mostre que a
+        probabilidade de ocorrer um \(k\)-emparelhamento é
         \[
           \pi_k = \frac{1}{k!} \left(1 - \frac{1}{1!} + \frac{1}{2!} -
           \frac{1}{3!} + \dots + \frac{(-1)^{N-k}}{(N-k)!}\right)
         \]
-%%% JSON page 32 (PDF page 33)
-        for \(k = 0, 1, 2, \dots, N\). We note that \(\pi_k \simeq
-        1/(k!e)\) for large \(N\) and fixed \(k\). Such matching
-        probabilities are used in testing departures from randomness in
-        circumstances such as psychological tests and wine-tasting
-        competitions. (The convention is that \(0! = 1\).)
-  \item[\starredproblem] Show that the axiom that \(\mathbb{P}\) is countably additive is
-        equivalent to the axiom that \(\mathbb{P}\) is finitely additive and
-        continuous. That is to say, let \(\Omega\) be a set and
-        \(\mathcal{F}\) an event space of subsets of \(\Omega\). If
-        \(\mathbb{P}\) is a mapping from \(\mathcal{F}\) into \([0, 1]\)
-        satisfying
+        para \(k = 0, 1, 2, \dots, N\). Note que \(\pi_k \simeq
+        1/(k!e)\) para \(N\) grande e \(k\) fixado. Tais probabilidades de
+        emparelhamento são utilizadas para testar desvios de aleatoriedade em
+        circunstâncias como testes psicológicos e competições de degustação de
+        vinhos. (Adota-se a convenção de que \(0! = 1\).)
+  \item[\starredproblem] Mostre que o axioma de que \(\mathbb{P}\) é
+        $\sigma$-aditiva (contavelmente aditiva) é equivalente ao axioma de que
+        \(\mathbb{P}\) é finitamente aditiva e contínua. Isto é, seja \(\Omega\)
+        um conjunto e \(\mathcal{F}\) uma $\sigma$-álgebra de subconjuntos de
+        \(\Omega\). Se \(\mathbb{P}\) é uma aplicação de \(\mathcal{F}\) em
+        \([0, 1]\) satisfazendo
         \[
           \begin{aligned}
-            \text{(i)} &\quad \mathbb{P}(\Omega) = 1, \mathbb{P}(\varnothing)
+            \text{(i)} &\quad \mathbb{P}(\Omega) = 1, \quad \mathbb{P}(\varnothing)
               = 0, \\
-            \text{(ii)} &\quad \text{if } A, B \in \mathcal{F} \text{ and }
-              A \cap B = \varnothing \text{ then } \mathbb{P}(A \cup B) =
+            \text{(ii)} &\quad \text{se } A, B \in \mathcal{F} \text{ e }
+              A \cap B = \varnothing, \text{ então } \mathbb{P}(A \cup B) =
               \mathbb{P}(A) + \mathbb{P}(B), \\
-            \text{(iii)} &\quad \text{if } A_1, A_2, \dots \in
-              \mathcal{F} \text{ and } A_i \subseteq A_{i+1} \text{ for }
-              i = 1, 2, \dots, \text{ then } \mathbb{P}(A) = \lim_{i \to
+            \text{(iii)} &\quad \text{se } A_1, A_2, \dots \in
+              \mathcal{F} \text{ e } A_i \subseteq A_{i+1} \text{ para todo }
+              i = 1, 2, \dots, \text{ então } \mathbb{P}(A) = \lim_{i \to
               \infty} \mathbb{P}(A_i),
           \end{aligned}
         \]
-        where \(A = \bigcup_{i=1}^{\infty} A_i\), then \(\mathbb{P}\)
-        satisfies
+        onde \(A = \bigcup_{i=1}^{\infty} A_i\), então \(\mathbb{P}\)
+        satisfaz
         \[
           \mathbb{P}\left(\bigcup_i A_i\right) = \sum_i \mathbb{P}(A_i)
         \]
-        for all sequences \(A_1, A_2, \dots\) of disjoint events.
-  \item There are \(n\) socks in a drawer, three of which are red and the
-        rest black. John chooses his socks by selecting two at random from
-        the drawer, and puts them on. He is three times more likely to wear
-        socks of different colours than to wear matching red socks. Find
-        \(n\).
+        para toda sequência \(A_1, A_2, \dots\) de eventos dois a dois
+        disjuntos.
+  \item Há \(n\) meias em uma gaveta, das quais três são vermelhas e as
+        restantes são pretas. John escolhe suas meias retirando duas ao acaso da
+        gaveta e as calça. A probabilidade de que ele use meias de cores
+        diferentes é três vezes maior do que a de usar um par de meias
+        vermelhas. Encontre \(n\).
 
-        For this value of \(n\), what is the probability that John wears
-        matching black socks? (Cambridge 2008)
+        Para esse valor de \(n\), qual é a probabilidade de John usar um par de
+        meias pretas? (Cambridge 2008)
 \end{enumerate}
 
 
