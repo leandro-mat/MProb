@@ -38,6 +38,8 @@
 \usepackage{float}
 \usepackage{booktabs}
 \usepackage{fontawesome5}
+\newcommand{\cara}{\faSmile}
+\newcommand{\coroa}{\faCrown}
 \usepackage{caption}
 \usepackage{stackengine}
 \captionsetup{width=0.8\textwidth}
@@ -77,10 +79,10 @@
 citecolor={red}, urlcolor={blue!80!black}]{hyperref}
 
 \hypersetup{
-  pdftitle={Espaços de Probabilidade},
-  pdfauthor={L. Cioletti},
-  pdfsubject={Axiomas de Kolmogorov, sigmas-álgebras, medidas de probabilidade},
-  pdfkeywords={Medidas de Probabilidade, Espaços de Probabilidade, Propriedades de Medidas de Probabilidade}
+pdftitle={Espaços de Probabilidade},
+pdfauthor={L. Cioletti},
+pdfsubject={Axiomas de Kolmogorov, sigmas-álgebras, medidas de probabilidade},
+pdfkeywords={Medidas de Probabilidade, Espaços de Probabilidade, Propriedades de Medidas de Probabilidade}
 }
 
 % --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
@@ -162,19 +164,19 @@ citecolor={red}, urlcolor={blue!80!black}]{hyperref}
 
 % Placeholder para figuras ainda não verificadas (do preâmbulo do Grimmett)
 \newcommand{\figureplaceholder}[4]{%
-  \begin{figure}[htbp]
-    \centering
-    \fbox{%
-      \begin{minipage}[c][0.16\textheight][c]{0.78\textwidth}
-        \centering\small
-        Figure #1 placeholder\\[0.5em]
-        JSON image: \texttt{\detokenize{#2}}\\
-        JSON page: #3
-      \end{minipage}%
-    }
-    \par\smallskip
-    \textbf{Fig. #1} #4
-  \end{figure}%
+\begin{figure}[htbp]
+\centering
+\fbox{%
+\begin{minipage}[c][0.16\textheight][c]{0.78\textwidth}
+\centering\small
+Figure #1 placeholder\\[0.5em]
+JSON image: \texttt{\detokenize{#2}}\\
+JSON page: #3
+\end{minipage}%
+}
+\par\smallskip
+\textbf{Fig. #1} #4
+\end{figure}%
 }
 
 %----------------------------------------------------------------------
@@ -228,7 +230,7 @@ de uma medida de probabilidade.
 % start, so a starred problem supplies its own label via \starredproblem,
 % which steps the counter and hangs the star in the margin.
 \providecommand{\starredproblem}{%
-  \stepcounter{enumi}\llap{\textasteriskcentered\,}\arabic{enumi}.}
+\stepcounter{enumi}\llap{\textasteriskcentered\,}\arabic{enumi}.}
 
 \section{Um Primeiro Mapa da Teoria da Probabilidade}
 
@@ -242,7 +244,8 @@ realização particular, mas sim a descrever de maneira qualitativa e quantitati
 mesma ação é repetida, em princípio, um número arbitrariamente grande de vezes.
 
 Antes de desenvolver cálculos e propriedades mais específicas, precisamos
-estabelecer a linguagem básica da teoria. Nesta seção, veremos como um
+estabelecer a linguagem básica da teoria; seguimos de perto a exposição de
+\cite{GrimmettWelsh2014}, que recomendamos como leitura complementar. Nesta seção, veremos como um
 experimento aleatório é representado por um modelo matemático e quais são os
 seus ingredientes fundamentais.
 
@@ -306,15 +309,15 @@ Por exemplo, se \(\mathcal{E}\) é o experimento de lançar um dado justo uma
 única vez, podemos escolher qualquer um dos seguintes conjuntos como espaço
 amostral:
 \[
-  \Omega = \{1, 2, 3, 4, 5, 6\}
-  \qquad
-  \text{e}
-  \qquad
-  \widetilde{\Omega} =
-  \left\{
-    \text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceThree},
-    \text{\faDiceFour}, \text{\faDiceFive}, \text{\faDiceSix}
-  \right\}.
+\Omega = \{1, 2, 3, 4, 5, 6\}
+\qquad
+\text{e}
+\qquad
+\widetilde{\Omega} =
+\left\{
+\text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceThree},
+\text{\faDiceFour}, \text{\faDiceFive}, \text{\faDiceSix}
+\right\}.
 \]
 
 Do ponto de vista da notação e dos cálculos, é mais conveniente usar o primeiro
@@ -339,18 +342,18 @@ uma coleção de subconjuntos de \(\Omega\). Essa identificação é especialmen
 útil porque as operações entre eventos correspondem às operações usuais entre
 conjuntos. Se \(A\) e \(B\) são subconjuntos de \(\Omega\), por exemplo,
 \begin{itemize}
-  \item o conjunto \(A \cup B\) representa o evento em que pelo menos um dos
-        eventos \(A\) ou \(B\) ocorre;
-  \item o conjunto \(A \cap B\) representa o evento em que ambos os eventos
-        \(A\) e \(B\) ocorrem;
-  \item o complementar \(A^c := \Omega \setminus A\) representa o evento em
-        que \(A\) não ocorre;\footnote{Para qualquer subconjunto \(A\) de
-        \(\Omega\), o \emph{complementar} de \(A\) é o conjunto de todos os
-        membros de \(\Omega\) que não pertencem a \(A\). Denotamos o
-        complementar de \(A\) por \(\Omega \setminus A\) ou por \(A^c\),
-        dependendo do contexto.}
-  \item a diferença \(A \setminus B\) representa o evento em que \(A\) ocorre,
-        mas \(B\) não ocorre.
+\item o conjunto \(A \cup B\) representa o evento em que pelo menos um dos
+eventos \(A\) ou \(B\) ocorre;
+\item o conjunto \(A \cap B\) representa o evento em que ambos os eventos
+\(A\) e \(B\) ocorrem;
+\item o complementar \(A^c := \Omega \setminus A\) representa o evento em
+que \(A\) não ocorre;\footnote{Para qualquer subconjunto \(A\) de
+\(\Omega\), o \emph{complementar} de \(A\) é o conjunto de todos os
+membros de \(\Omega\) que não pertencem a \(A\). Denotamos o
+complementar de \(A\) por \(\Omega \setminus A\) ou por \(A^c\),
+dependendo do contexto.}
+\item a diferença \(A \setminus B\) representa o evento em que \(A\) ocorre,
+mas \(B\) não ocorre.
 \end{itemize}
 
 Em todas essas formulações, dizer que um subconjunto \(C\) ``ocorre'' significa
@@ -359,64 +362,83 @@ permite traduzir afirmações da teoria dos conjuntos em afirmações sobre even
 Por exemplo, a fórmula
 
 \[
-  \Omega \setminus (A \cap B) = (\Omega \setminus A) \cup (\Omega \setminus B)
+\Omega \setminus (A \cap B) = (\Omega \setminus A) \cup (\Omega \setminus B)
 \]
-pode ser lida como: ``o evento em que \(A\) e \(B\) não ocorrem simultaneamente
-é o mesmo que o evento em que \(A\) não ocorre ou \(B\) não ocorre'', como
-ilustra a \Cref{fig:demorgan}. De modo
+é uma das identidades de De Morgan. Ela afirma que o evento em que \(A\) e
+\(B\) não ocorrem simultaneamente coincide com o evento em que \(A\) não
+ocorre ou \(B\) não ocorre. O painel esquerdo da
+\Cref{fig:operacoes-conjuntos} representa esse evento. No painel direito,
+ilustramos uma operação relacionada, a \emph{diferença simétrica}:
+\[
+A \triangle B := (A \setminus B) \cup (B \setminus A),
+\]
+que corresponde ao evento em que exatamente um dos eventos \(A\) e \(B\)
+ocorre. De modo
 semelhante, se \(A_1, A_2, \dots\) são eventos, então os conjuntos
 \(\bigcup_{i=1}^{\infty} A_i\) e \(\bigcap_{i=1}^{\infty} A_i\) representam,
 respectivamente, os eventos ``pelo menos um dos \(A_i\) ocorre'' e ``todos os
 \(A_i\) ocorrem''.
 
 \begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}[scale=1.05, line width=0.7pt]
-    % Painel esquerdo: Omega \ (A cap B)
-    \begin{scope}[shift={(-2.45,0)}]
-      \fill[pattern={north west lines}, pattern color=black!55]
-        (-1.9,-1.2) rectangle (1.9,1.2);
-      \begin{scope}
-        \clip (-0.55,0) circle (0.95);
-        \fill[white] (0.55,0) circle (0.95);
-      \end{scope}
-      \draw (-0.55,0) circle (0.95);
-      \draw (0.55,0) circle (0.95);
-      \draw (-1.9,-1.2) rectangle (1.9,1.2);
-      \node at (-1.55,0.92) {\(\Omega\)};
-      \node[fill=white, inner sep=1pt] at (-1.2,0.5) {\(A\)};
-      \node[fill=white, inner sep=1pt] at (1.2,0.5) {\(B\)};
-      \node[fill=white, inner sep=1pt] at (0,0) {\(A \cap B\)};
-      \node at (0,-1.6) {\(\Omega \setminus (A \cap B)\)};
-    \end{scope}
-    % Painel direito: (Omega \ A) cup (Omega \ B)
-    \begin{scope}[shift={(2.45,0)}]
-      \fill[pattern={north west lines}, pattern color=black!55]
-        (-1.9,-1.2) rectangle (1.9,1.2);
-      \fill[white] (-0.55,0) circle (0.95);
-      \begin{scope}
-        \clip (-0.55,0) circle (0.95);
-        \fill[pattern={north east lines}, pattern color=black!55]
-          (-1.9,-1.2) rectangle (1.9,1.2);
-        \fill[white] (0.55,0) circle (0.95);
-      \end{scope}
-      \draw (-0.55,0) circle (0.95);
-      \draw (0.55,0) circle (0.95);
-      \draw (-1.9,-1.2) rectangle (1.9,1.2);
-      \node at (-1.55,0.92) {\(\Omega\)};
-      \node[fill=white, inner sep=1pt] at (-1.2,0.5) {\(A\)};
-      \node[fill=white, inner sep=1pt] at (1.2,0.5) {\(B\)};
-      \node[fill=white, inner sep=1pt] at (0,0) {\(A \cap B\)};
-      \node[fill=white, inner sep=1pt] at (-0.95,-0.4) {\footnotesize\(A \setminus B\)};
-      \node[fill=white, inner sep=1pt] at (0.95,-0.4) {\footnotesize\(\Omega \setminus A\)};
-      \node at (0,-1.6) {\((\Omega \setminus A) \cup (\Omega \setminus B)\)};
-    \end{scope}
-  \end{tikzpicture}
-  \caption{Os dois sombreamentos representam o mesmo evento:
-    \(\Omega \setminus (A \cap B) = (\Omega \setminus A) \cup
-    (\Omega \setminus B)\). À direita, \(\Omega \setminus A\) e
-    \(A \setminus B\) aparecem com padrões diferentes; juntos, eles
-    recobrem exatamente o complementar de \(A \cap B\).}\label{fig:demorgan}
+\centering
+\begin{tikzpicture}[line width=0.7pt]
+% Painel esquerdo: Omega \ (A cap B)
+\begin{scope}[shift={(-3.9,0)}]
+\begin{scope}[scale=2]
+% O complementar de A \cap B é a união de Omega \ A com A \ B.
+\fill[gray!55, fill opacity=0.50, even odd rule]
+(-1.9,-1.2) rectangle (1.9,1.2)
+(-0.55,0) circle (0.95);
+\begin{scope}
+\clip (-0.55,0) circle (0.95);
+\fill[gray!55, fill opacity=0.50]
+(-1.9,-1.2) rectangle (1.9,1.2);
+\fill[white] (0.55,0) circle (0.95);
+\end{scope}
+\draw (-0.55,0) circle (0.95);
+\draw (0.55,0) circle (0.95);
+\draw (-1.9,-1.2) rectangle (1.9,1.2);
+\node at (-1.55,0.92) {\(\Omega\)};
+\node at (-1.72,0.35) {\(A\)};
+\node at (1.72,0.35) {\(B\)};
+\node[fill=white, inner sep=1pt] at (0,0) {\(A \cap B\)};
+\node at (0,-1.6) {\(\Omega \setminus (A \cap B)\)};
+\end{scope}
+\end{scope}
+% Painel direito: A triangle B
+\begin{scope}[shift={(3.9,0)}]
+\begin{scope}[scale=2]
+% Região A \ B.
+\begin{scope}
+\clip (-0.55,0) circle (0.95);
+\fill[gray!55, fill opacity=0.50]
+(-1.9,-1.2) rectangle (1.9,1.2);
+\fill[white] (0.55,0) circle (0.95);
+\end{scope}
+% Região B \ A.
+\begin{scope}
+\clip (0.55,0) circle (0.95);
+\fill[gray!55, fill opacity=0.50]
+(-1.9,-1.2) rectangle (1.9,1.2);
+\fill[white] (-0.55,0) circle (0.95);
+\end{scope}
+\draw (-0.55,0) circle (0.95);
+\draw (0.55,0) circle (0.95);
+\draw (-1.9,-1.2) rectangle (1.9,1.2);
+\node at (-1.55,0.92) {\(\Omega\)};
+\node at (-1.72,0.35) {\(A\)};
+\node at (1.72,0.35) {\(B\)};
+\node[fill=white, inner sep=1pt] at (0,0) {\(A \cap B\)};
+\node at (-0.95,-0.4) {\footnotesize\(A \setminus B\)};
+\node at (0.95,-0.4) {\footnotesize\(B \setminus A\)};
+\node at (0,-1.6) {\(A \triangle B\)};
+\end{scope}
+\end{scope}
+\end{tikzpicture}
+\caption{No diagrama à esquerda, o sombreamento representa o evento
+\(\Omega \setminus (A \cap B)\). À direita, o sombreamento representa a
+diferença simétrica \(A \triangle B = (A \setminus B) \cup (B \setminus A)\).}
+\label{fig:operacoes-conjuntos}
 \end{figure}
 
 Essa correspondência sugere que a coleção de eventos de um modelo
@@ -456,11 +478,11 @@ satisfaça a seguinte lista de exigências.
 Uma família \(\mathcal{F}\) de subconjuntos de um espaço amostral
 \(\Omega\) é chamada de uma $\sigma$-álgebra sobre \(\Omega\) se:
 \begin{enumerate}[label=(\roman*), ref=\roman*]
-  \item \(\mathcal{F}\) não é vazia; \label{eq:1.2}
-  \item se \(A \in \mathcal{F}\), então \(\Omega \setminus A \in
-        \mathcal{F}\); \label{eq:1.3}
-  \item se \(A_1, A_2, \dots \in \mathcal{F}\), então
-        \(\bigcup_{i=1}^{\infty} A_i \in \mathcal{F}\). \label{eq:1.4}
+\item \(\mathcal{F}\) não é vazia; \label{eq:1.2}
+\item se \(A \in \mathcal{F}\), então \(\Omega \setminus A \in
+\mathcal{F}\); \label{eq:1.3}
+\item se \(A_1, A_2, \dots \in \mathcal{F}\), então
+\(\bigcup_{i=1}^{\infty} A_i \in \mathcal{F}\). \label{eq:1.4}
 \end{enumerate}
 \end{definition}
 
@@ -495,23 +517,23 @@ dada acima de $\sigma$-álgebra.
 
 
 \begin{enumerate}[label=(\alph*), ref=\alph*]
-  \item Toda $\sigma$-álgebra \(\mathcal{F}\) deve conter o conjunto vazio
-        \(\varnothing\) e o conjunto todo \(\Omega\). De fato, por \eqref{eq:1.2}, existe algum \(A \in \mathcal{F}\). Por
-        \eqref{eq:1.3}, \(A^c \in \mathcal{F}\). Tomamos \(A_1 = A\), \(A_i =
-        A^c\) para \(i \ge 2\) em \eqref{eq:1.4}, e deduzimos que
-        \(\mathcal{F}\) contém a união \(\Omega = A \cup A^c\). Novamente por
-        \eqref{eq:1.3}, o complementar \(\Omega \setminus \Omega =
-        \varnothing\) também pertence a \(\mathcal{F}\).
-  \item Um espaço de eventos é fechado sob a operação de uniões
-        \emph{finitas}, como segue. Sejam \(A_1, A_2, \allowbreak \dots, A_m
-        \in \mathcal{F}\), e tome \(A_i = \varnothing\) para \(i > m\). Então
-        \(A := \bigcup_{i=1}^m A_i\) satisfaz \(A = \bigcup_{i=1}^\infty
-        A_i\), de modo que \(A \in \mathcal{F}\) por \eqref{eq:1.4}.
-  \item A terceira condição \eqref{eq:1.4} é escrita em termos de
-        \emph{uniões}. Um espaço de eventos também é fechado sob as operações
-        de tomar \emph{interseções} finitas ou enumeráveis. Isso segue da
-        fórmula elementar \((A \cap B)^c = A^c \cup B^c\), e de sua extensão
-        a famílias finitas e enumeráveis.
+\item Toda $\sigma$-álgebra \(\mathcal{F}\) deve conter o conjunto vazio
+\(\varnothing\) e o conjunto todo \(\Omega\). De fato, por \eqref{eq:1.2}, existe algum \(A \in \mathcal{F}\). Por
+\eqref{eq:1.3}, \(A^c \in \mathcal{F}\). Tomamos \(A_1 = A\), \(A_i =
+A^c\) para \(i \ge 2\) em \eqref{eq:1.4}, e deduzimos que
+\(\mathcal{F}\) contém a união \(\Omega = A \cup A^c\). Novamente por
+\eqref{eq:1.3}, o complementar \(\Omega \setminus \Omega =
+\varnothing\) também pertence a \(\mathcal{F}\).
+\item Um espaço de eventos é fechado sob a operação de uniões
+\emph{finitas}, como segue. Sejam \(A_1, A_2, \allowbreak \dots, A_m
+\in \mathcal{F}\), e tome \(A_i = \varnothing\) para \(i > m\). Então
+\(A := \bigcup_{i=1}^m A_i\) satisfaz \(A = \bigcup_{i=1}^\infty
+A_i\), de modo que \(A \in \mathcal{F}\) por \eqref{eq:1.4}.
+\item A terceira condição \eqref{eq:1.4} é escrita em termos de
+\emph{uniões}. Um espaço de eventos também é fechado sob as operações
+de tomar \emph{interseções} finitas ou enumeráveis. Isso segue da
+fórmula elementar \((A \cap B)^c = A^c \cup B^c\), e de sua extensão
+a famílias finitas e enumeráveis.
 \end{enumerate}
 
 
@@ -535,116 +557,116 @@ A seguir, vamos apresentar alguns exemplos de espaços mensuráveis que serão
 
 
 \begin{example}\label{ex:1.5}
- O par $(\Omega,\mathcal{F})$, onde \(\Omega\) é um conjunto não-vazio 
- qualquer e \(\mathcal{F}\) é o conjunto
-  das partes de \(\Omega\) determina um espaço mensurável.
+O par $(\Omega,\mathcal{F})$, onde \(\Omega\) é um conjunto não-vazio 
+qualquer e \(\mathcal{F}\) é o conjunto
+das partes de \(\Omega\) determina um espaço mensurável.
 \end{example}
 
 \begin{example}\label{ex:1.6}
-  O par \((\Omega,\mathcal{F})\), onde \(\Omega\) é um conjunto não-vazio
-  qualquer, \(A\) é um subconjunto próprio e não-vazio de \(\Omega\), e
-  \(\mathcal{F} = \{\varnothing, A, A^{c}, \Omega\}\),
-  determina um espaço mensurável.
+O par \((\Omega,\mathcal{F})\), onde \(\Omega\) é um conjunto não-vazio
+qualquer, \(A\) é um subconjunto próprio e não-vazio de \(\Omega\), e
+\(\mathcal{F} = \{\varnothing, A, A^{c}, \Omega\}\),
+determina um espaço mensurável.
 \end{example}
 
 \begin{example}\label{ex:1.7}
-  O par \((\Omega,\mathcal{F})\), onde
-  $
-    \Omega =
-    \left\{
-      \text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceThree},
-      \text{\faDiceFour}, \text{\faDiceFive}, \text{\faDiceSix}
-    \right\},
-  $
-  e \(\mathcal{F}\) é a coleção
-  \[
-    \mathcal{F} = \big\{
-      \varnothing,
-      \{\text{\faDiceOne}, \text{\faDiceTwo}\},
-      \{\text{\faDiceThree}, \text{\faDiceFour}\},
-      \{\text{\faDiceFive}, \text{\faDiceSix}\},
-      \{\text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceThree},
-      \text{\faDiceFour}\},
-      \{\text{\faDiceThree}, \text{\faDiceFour}, \text{\faDiceFive},
-      \text{\faDiceSix}\},
-      \{\text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceFive},
-      \text{\faDiceSix}\},
-      \Omega
-    \big\}.
-  \]
-  de subconjuntos de \(\Omega\), determina um espaço mensurável.
-  Embora este espaço mensurável seja totalmente legítimo, é pouco provável que
-  ele apareça naturalmente em problemas mais práticos de probabilidade. O
-  exemplo serve, sobretudo, para lembrar que os elementos do espaço amostral
-  não precisam ser números: podem ser objetos, símbolos ou descrições de
-  resultados. A \Cref{fig:atomos} ilustra a estrutura dessa
-  \(\sigma\)-álgebra: seus eventos são exatamente as uniões de blocos da
-  partição de \(\Omega\) em pares de faces.
+O par \((\Omega,\mathcal{F})\), onde
+$
+\Omega =
+\left\{
+\text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceThree},
+\text{\faDiceFour}, \text{\faDiceFive}, \text{\faDiceSix}
+\right\},
+$
+e \(\mathcal{F}\) é a coleção
+\[
+\mathcal{F} = \big\{
+\varnothing,
+\{\text{\faDiceOne}, \text{\faDiceTwo}\},
+\{\text{\faDiceThree}, \text{\faDiceFour}\},
+\{\text{\faDiceFive}, \text{\faDiceSix}\},
+\{\text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceThree},
+\text{\faDiceFour}\},
+\{\text{\faDiceThree}, \text{\faDiceFour}, \text{\faDiceFive},
+\text{\faDiceSix}\},
+\{\text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceFive},
+\text{\faDiceSix}\},
+\Omega
+\big\}.
+\]
+de subconjuntos de \(\Omega\), determina um espaço mensurável.
+Embora este espaço mensurável seja totalmente legítimo, é pouco provável que
+ele apareça naturalmente em problemas mais práticos de probabilidade. O
+exemplo serve, sobretudo, para lembrar que os elementos do espaço amostral
+não precisam ser números: podem ser objetos, símbolos ou descrições de
+resultados. A \Cref{fig:atomos} ilustra a estrutura dessa
+\(\sigma\)-álgebra: seus eventos são exatamente as uniões de blocos da
+partição de \(\Omega\) em pares de faces.
 \end{example}
 
 \begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}[line width=0.7pt]
-    \draw[rounded corners=6pt] (-3.9,-2.5) rectangle (3.9,1.9);
-    \node at (-3.5,1.65) {\(\Omega\)};
-    % bloco 1
-    \fill[black!6, rounded corners=5pt] (-3.3,0.15) rectangle (-0.6,1.35);
-    \draw[rounded corners=5pt] (-3.3,0.15) rectangle (-0.6,1.35);
-    \node at (-1.95,0.75) {\large\text{\faDiceOne}\hspace{0.6em}\text{\faDiceTwo}};
-    % bloco 3
-    \fill[black!6, rounded corners=5pt] (0.6,0.15) rectangle (3.3,1.35);
-    \draw[rounded corners=5pt] (0.6,0.15) rectangle (3.3,1.35);
-    \node at (1.95,0.75) {\large\text{\faDiceFive}\hspace{0.6em}\text{\faDiceSix}};
-    % bloco 2
-    \fill[black!6, rounded corners=5pt] (-1.35,-1.95) rectangle (1.35,-0.75);
-    \draw[rounded corners=5pt] (-1.35,-1.95) rectangle (1.35,-0.75);
-    \node at (0,-1.35) {\large\text{\faDiceThree}\hspace{0.6em}\text{\faDiceFour}};
-    % evento A = bloco 1 uniao bloco 3
-    \draw[dashed, rounded corners=7pt, line width=0.9pt]
-      (-3.45,0.0) rectangle (-0.45,1.5);
-    \draw[dashed, rounded corners=7pt, line width=0.9pt]
-      (0.45,0.0) rectangle (3.45,1.5);
-    \node at (0,1.7) {\(A\)};
-  \end{tikzpicture}
-  \caption{A \(\sigma\)-álgebra do \Cref{ex:1.7}: os três blocos formam uma
-    partição de \(\Omega\), e cada evento é uma união de blocos. Em destaque,
-    o evento
-    \(A = \{\text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceFive},
-    \text{\faDiceSix}\}\).}\label{fig:atomos}
+\centering
+\begin{tikzpicture}[line width=0.7pt]
+\draw[rounded corners=6pt] (-3.9,-2.5) rectangle (3.9,1.9);
+\node at (-3.5,2.25) {\(\Omega\)};
+% bloco 1
+\fill[black!6, rounded corners=5pt] (-3.3,0.15) rectangle (-0.6,1.35);
+\draw[rounded corners=5pt] (-3.3,0.15) rectangle (-0.6,1.35);
+\node at (-1.95,0.75) {\large\text{\faDiceOne}\hspace{0.6em}\text{\faDiceTwo}};
+% bloco 3
+\fill[black!6, rounded corners=5pt] (0.6,0.15) rectangle (3.3,1.35);
+\draw[rounded corners=5pt] (0.6,0.15) rectangle (3.3,1.35);
+\node at (1.95,0.75) {\large\text{\faDiceFive}\hspace{0.6em}\text{\faDiceSix}};
+% bloco 2
+\fill[black!6, rounded corners=5pt] (-1.35,-1.95) rectangle (1.35,-0.75);
+\draw[rounded corners=5pt] (-1.35,-1.95) rectangle (1.35,-0.75);
+\node at (0,-1.35) {\large\text{\faDiceThree}\hspace{0.6em}\text{\faDiceFour}};
+% evento A = bloco 1 uniao bloco 3
+\draw[dashed, rounded corners=7pt, line width=0.9pt]
+(-3.45,0.0) rectangle (-0.45,1.5);
+\draw[dashed, rounded corners=7pt, line width=0.9pt]
+(0.45,0.0) rectangle (3.45,1.5);
+\node at (0,1.7) {\(A\)};
+\end{tikzpicture}
+\caption{A \(\sigma\)-álgebra do \Cref{ex:1.7}: os três blocos formam uma
+partição de \(\Omega\), e cada evento é uma união de blocos. Em destaque,
+o evento
+\(A = \{\text{\faDiceOne}, \text{\faDiceTwo}, \text{\faDiceFive},
+\text{\faDiceSix}\}\).}\label{fig:atomos}
 \end{figure}
 
 Nos exercícios a seguir, assuma que \(\Omega\) é um conjunto arbitrário 
 e \(\mathcal{F}\) é uma $\sigma$-álgebra de eventos sobre \(\Omega\).
 
 \begin{exercise}\label{exercise:1.8}
-  Se \(A, B \in \mathcal{F}\), mostre que \(A \cap B \in \mathcal{F}\).
+Se \(A, B \in \mathcal{F}\), mostre que \(A \cap B \in \mathcal{F}\).
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.9}
-  A \emph{diferença} \(A \setminus B\) de dois subconjuntos \(A\) e \(B\) de
-  \(\Omega\) é o conjunto \(A \cap (\Omega \setminus B)\) de todos os pontos
-  de \(\Omega\) que estão em \(A\) mas não em \(B\). Mostre que, se \(A, B \in
-  \mathcal{F}\), então \(A \setminus B \in \mathcal{F}\).
+A \emph{diferença} \(A \setminus B\) de dois subconjuntos \(A\) e \(B\) de
+\(\Omega\) é o conjunto \(A \cap (\Omega \setminus B)\) de todos os pontos
+de \(\Omega\) que estão em \(A\) mas não em \(B\). Mostre que, se \(A, B \in
+\mathcal{F}\), então \(A \setminus B \in \mathcal{F}\).
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.10}
-  A \emph{diferença simétrica} \(A \triangle B\) de dois subconjuntos \(A\) e
-  \(B\) de \(\Omega\) é definida como o conjunto dos pontos de \(\Omega\) que
-  estão em \(A\) ou em \(B\), mas não em ambos, 
-  isto é, $A \triangle B \equiv (A\setminus B) \cup (B\setminus A) $. 
-  Se \(A, B \in \mathcal{F}\), mostre que \(A \triangle B \in \mathcal{F}\).
+A \emph{diferença simétrica} \(A \triangle B\) de dois subconjuntos \(A\) e
+\(B\) de \(\Omega\) é definida como o conjunto dos pontos de \(\Omega\) que
+estão em \(A\) ou em \(B\), mas não em ambos, 
+isto é, $A \triangle B \equiv (A\setminus B) \cup (B\setminus A) $. 
+Se \(A, B \in \mathcal{F}\), mostre que \(A \triangle B \in \mathcal{F}\).
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.11}
-  Se \(A_1, A_2, \dots, A_m \in \mathcal{F}\) e \(k\) é um inteiro positivo,
-  mostre que o conjunto dos pontos de \(\Omega\) que pertencem a exatamente
-  \(k\) dos \(A_i\) pertence a \(\mathcal{F}\) (o exercício anterior é o caso
-  em que \(m = 2\) e \(k = 1\)).
+Se \(A_1, A_2, \dots, A_m \in \mathcal{F}\) e \(k\) é um inteiro positivo,
+mostre que o conjunto dos pontos de \(\Omega\) que pertencem a exatamente
+\(k\) dos \(A_i\) pertence a \(\mathcal{F}\) (o exercício anterior é o caso
+em que \(m = 2\) e \(k = 1\)).
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.12}
-  Mostre que, se \(\Omega\) é um conjunto finito, então \(\mathcal{F}\) contém
-  um número par de subconjuntos de \(\Omega\).
+Mostre que, se \(\Omega\) é um conjunto finito, então \(\mathcal{F}\) contém
+um número par de subconjuntos de \(\Omega\).
 \end{exercise}
 
 \section{Medidas de Probabilidade}
@@ -658,14 +680,14 @@ Para isso, usaremos uma função, que denotaremos por \(\mathbb{P}\), cujo
 domínio é \(\mathcal{F}\) e que deve satisfazer as seguintes condições:
 
 \begin{enumerate}[label=(\alph*), ref=\alph*]
-  \item a cada evento \(A \in \mathcal{F}\) está associado um número
-        \(\mathbb{P}(A)\) entre 0 e 1;
-  \item o evento \(\Omega\), que representa a ocorrência de algum resultado
-        do experimento, tem probabilidade 1, enquanto o evento \(\varnothing\),
-        que representa uma situação impossível, tem probabilidade 0;
-  \item se \(A\) e \(B\) são eventos disjuntos, isto é, se \(A \cap B =
-        \varnothing\), então
-        \(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B)\).
+\item a cada evento \(A \in \mathcal{F}\) está associado um número
+\(\mathbb{P}(A)\) entre 0 e 1;
+\item o evento \(\Omega\), que representa a ocorrência de algum resultado
+do experimento, tem probabilidade 1, enquanto o evento \(\varnothing\),
+que representa uma situação impossível, tem probabilidade 0;
+\item se \(A\) e \(B\) são eventos disjuntos, isto é, se \(A \cap B =
+\varnothing\), então
+\(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B)\).
 \end{enumerate}
 
 Essas condições capturam as propriedades básicas que esperamos de uma
@@ -674,18 +696,18 @@ formulada na forma mais geral, exigindo que a regra de aditividade valha para
 qualquer família enumerável de eventos dois a dois disjuntos.
 
 \begin{definition}[Medida de probabilidade]\label{def:probability-measure}
-  Uma aplicação \(\mathbb{P}: \mathcal{F} \to \mathbb{R}\) é chamada uma
-  \emph{medida de probabilidade} sobre \((\Omega, \mathcal{F})\) se
-  \begin{enumerate}[label=(\alph*), ref=\alph*]
-    \item \(0\leqslant \mathbb{P}(A) \leqslant 1\), para todo \(A \in \mathcal{F}\);
-    \item \(\mathbb{P}(\Omega) = 1\) e \(\mathbb{P}(\varnothing) = 0\);
-    \item se \(A_1, A_2, \ldots\) são eventos em \(\mathcal{F}\) dois a dois
-          disjuntos, isto é, \(A_i \cap A_j = \varnothing\) se \(i \neq j\), então
-          \begin{equation}
-            \mathbb{P}\left(\bigcup_{i=1}^{\infty} A_i\right) =
-            \sum_{i=1}^{\infty} \mathbb{P}(A_i). \tag{1.14} \label{eq:1.14}
-          \end{equation}
-  \end{enumerate}
+Uma aplicação \(\mathbb{P}: \mathcal{F} \to \mathbb{R}\) é chamada uma
+\emph{medida de probabilidade} sobre \((\Omega, \mathcal{F})\) se
+\begin{enumerate}[label=(\alph*), ref=\alph*]
+\item \(0\leqslant \mathbb{P}(A) \leqslant 1\), para todo \(A \in \mathcal{F}\);
+\item \(\mathbb{P}(\Omega) = 1\) e \(\mathbb{P}(\varnothing) = 0\);
+\item se \(A_1, A_2, \ldots\) são eventos em \(\mathcal{F}\) dois a dois
+disjuntos, isto é, \(A_i \cap A_j = \varnothing\) se \(i \neq j\), então
+\begin{equation}
+\mathbb{P}\left(\bigcup_{i=1}^{\infty} A_i\right) =
+\sum_{i=1}^{\infty} \mathbb{P}(A_i). \tag{1.14} \label{eq:1.14}
+\end{equation}
+\end{enumerate}
 \end{definition}
 
 Enfatizamos que uma medida de probabilidade \(\mathbb{P}\) sobre
@@ -703,27 +725,27 @@ A seguir, fazemos duas observações
 sobre medidas de probabilidade.
 
 \begin{enumerate}[label=(\roman*), ref=\roman*]
-  \item A exigência \(\mathbb{P}(\varnothing) = 0\) em (b) é, na verdade,
-        consequência das demais condições. Para ver isso, considere os eventos
-        disjuntos \(A_1 = \Omega\) e \(A_i = \varnothing\), para \(i \geq 2\).
-        Pela condição (c),
-        \[
-          \mathbb{P}(\Omega) = \mathbb{P}\left(\bigcup_{i=1}^{\infty}
-          A_i\right) = \mathbb{P}(\Omega) + \sum_{i=2}^{\infty}
-          \mathbb{P}(\varnothing).
-        \]
-        Como \(\mathbb{P}(\varnothing) \geq 0\), se esse número fosse
-        positivo, a série do lado direito seria infinita, enquanto
-        \(\mathbb{P}(\Omega) = 1\). Portanto, \(\mathbb{P}(\varnothing) = 0\).
-  \item A condição (c) é chamada de $\sigma$-aditividade da medida; também
-        dizemos que \(\mathbb{P}\) é \emph{contavelmente aditiva}. Dela segue
-        a aditividade finita: para eventos disjuntos \(A_1, \ldots, A_m\),
-        \[
-          \mathbb{P}\left(\bigcup_{i=1}^{m} A_i\right) =
-          \sum_{i=1}^{m} \mathbb{P}(A_i).
-        \]
-        Isso segue da condição (c) ao completarmos a sequência com
-        \(A_i = \varnothing\) para \(i > m\).
+\item A exigência \(\mathbb{P}(\varnothing) = 0\) em (b) é, na verdade,
+consequência das demais condições. Para ver isso, considere os eventos
+disjuntos \(A_1 = \Omega\) e \(A_i = \varnothing\), para \(i \geq 2\).
+Pela condição (c),
+\[
+\mathbb{P}(\Omega) = \mathbb{P}\left(\bigcup_{i=1}^{\infty}
+A_i\right) = \mathbb{P}(\Omega) + \sum_{i=2}^{\infty}
+\mathbb{P}(\varnothing).
+\]
+Como \(\mathbb{P}(\varnothing) \geq 0\), se esse número fosse
+positivo, a série do lado direito seria infinita, enquanto
+\(\mathbb{P}(\Omega) = 1\). Portanto, \(\mathbb{P}(\varnothing) = 0\).
+\item A condição (c) é chamada de $\sigma$-aditividade da medida; também
+dizemos que \(\mathbb{P}\) é \emph{contavelmente aditiva}. Dela segue
+a aditividade finita: para eventos disjuntos \(A_1, \ldots, A_m\),
+\[
+\mathbb{P}\left(\bigcup_{i=1}^{m} A_i\right) =
+\sum_{i=1}^{m} \mathbb{P}(A_i).
+\]
+Isso segue da condição (c) ao completarmos a sequência com
+\(A_i = \varnothing\) para \(i > m\).
 \end{enumerate}
 
 A igualdade \eqref{eq:1.14} é a forma precisa da aditividade enumerável: ela
@@ -734,47 +756,47 @@ biunívoca entre \(S\) e algum subconjunto dos números naturais
 \(\{1, 2, 3, \ldots\}\).}
 
 \begin{example}\label{ex:1.15}
-  Seja \(\Omega\) um conjunto não vazio e seja \(A\) um subconjunto próprio e
-  não vazio de \(\Omega\), isto é, \(A \neq \varnothing\) e \(A \neq \Omega\).
-  Se \(\mathcal{F} = \{\varnothing, A, \Omega \setminus A, \Omega\}\), então
-  toda medida de probabilidade sobre \((\Omega, \mathcal{F})\) é determinada
-  por um número \(p \in [0,1]\) e satisfaz
-  \[
-    \begin{aligned}
-      \mathbb{P}(\varnothing) &= 0, &
-      \mathbb{P}(A) &= p, \\
-      \mathbb{P}(\Omega \setminus A) &= 1 - p,\qquad \qquad  &
-      \mathbb{P}(\Omega) &= 1.
-    \end{aligned}
-  \]
-  Reciprocamente, cada escolha de \(p \in [0,1]\) define uma medida de
-  probabilidade com essas propriedades.
+Seja \(\Omega\) um conjunto não vazio e seja \(A\) um subconjunto próprio e
+não vazio de \(\Omega\), isto é, \(A \neq \varnothing\) e \(A \neq \Omega\).
+Se \(\mathcal{F} = \{\varnothing, A, \Omega \setminus A, \Omega\}\), então
+toda medida de probabilidade sobre \((\Omega, \mathcal{F})\) é determinada
+por um número \(p \in [0,1]\) e satisfaz
+\[
+\begin{aligned}
+\mathbb{P}(\varnothing) &= 0, &
+\mathbb{P}(A) &= p, \\
+\mathbb{P}(\Omega \setminus A) &= 1 - p,\qquad \qquad  &
+\mathbb{P}(\Omega) &= 1.
+\end{aligned}
+\]
+Reciprocamente, cada escolha de \(p \in [0,1]\) define uma medida de
+probabilidade com essas propriedades.
 \end{example}
 
 \begin{example}\label{ex:1.16}
-  Seja \(\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\}\) um conjunto
-  finito com \(N\) elementos, e seja \(\mathcal{F}\) o conjunto das partes de
-  \(\Omega\). É fácil verificar que a função \(\mathbb{P}\) definida por
-  \[
-    \mathbb{P}(A) = \frac{\# A}{N}, \qquad A \in \mathcal{F},
-  \]
-  é uma medida de probabilidade sobre \((\Omega, \mathcal{F})\).
-  \footnote{Lembramos que $\# A$ denota a cardinalidade de um conjunto \(A\). 
-  Quando este conjunto é finito este número é simplesmente a quantidade de elementos de \(A\).}
+Seja \(\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\}\) um conjunto
+finito com \(N\) elementos, e seja \(\mathcal{F}\) o conjunto das partes de
+\(\Omega\). É fácil verificar que a função \(\mathbb{P}\) definida por
+\[
+\mathbb{P}(A) = \frac{\# A}{N}, \qquad A \in \mathcal{F},
+\]
+é uma medida de probabilidade sobre \((\Omega, \mathcal{F})\).
+\footnote{Lembramos que $\# A$ denota a cardinalidade de um conjunto \(A\). 
+Quando este conjunto é finito este número é simplesmente a quantidade de elementos de \(A\).}
 \end{example}
 
 \begin{exercise}\label{exercise:1.17}
-  Sejam \(p_1, p_2, \ldots, p_N\) números não negativos tais que \(p_1 +
-  p_2 + \cdots + p_N = 1\), e seja \(\Omega = \{\omega_1, \omega_2, \ldots,
-  \omega_N\}\), com \(\mathcal{F}\) o conjunto das partes de \(\Omega\), como
-  em \Cref{ex:1.16}. Mostre que a função \(\mathbb{Q}\) dada por
-  \[
-    \mathbb{Q}(A) = \sum_{i: \omega_i \in A} p_i, \qquad A \in \mathcal{F},
-  \]
-  é uma medida de probabilidade sobre \((\Omega, \mathcal{F})\). A função
-  \(\mathbb{Q}\) continuará sendo uma medida de probabilidade se \(\mathcal{F}\)
-  não for o conjunto das partes de \(\Omega\), mas apenas uma coleção de
-  eventos formada por subconjuntos de \(\Omega\)?
+Sejam \(p_1, p_2, \ldots, p_N\) números não negativos tais que \(p_1 +
+p_2 + \cdots + p_N = 1\), e seja \(\Omega = \{\omega_1, \omega_2, \ldots,
+\omega_N\}\), com \(\mathcal{F}\) o conjunto das partes de \(\Omega\), como
+em \Cref{ex:1.16}. Mostre que a função \(\mathbb{Q}\) dada por
+\[
+\mathbb{Q}(A) = \sum_{i: \omega_i \in A} p_i, \qquad A \in \mathcal{F},
+\]
+é uma medida de probabilidade sobre \((\Omega, \mathcal{F})\). A função
+\(\mathbb{Q}\) continuará sendo uma medida de probabilidade se \(\mathcal{F}\)
+não for o conjunto das partes de \(\Omega\), mas apenas uma coleção de
+eventos formada por subconjuntos de \(\Omega\)?
 \end{exercise}
 
 \section{Espaços de Probabilidade}
@@ -782,15 +804,15 @@ biunívoca entre \(S\) e algum subconjunto dos números naturais
 Reunimos as ideias discutidas nas seções anteriores na próxima definição.
 
 \begin{definition}[Espaço de probabilidade]\label{def:probability-space}
-  Um \emph{espaço de probabilidade} é uma tripla ordenada
-  \((\Omega, \mathcal{F}, \mathbb{P})\) tal que
-  \begin{enumerate}[label=(\alph*), ref=\alph*]
-    \item \(\Omega\) é um conjunto não vazio;
-    \item \(\mathcal{F}\) é uma \(\sigma\)-álgebra de subconjuntos de
-          \(\Omega\);
-    \item \(\mathbb{P}\) é uma medida de probabilidade sobre
-          \((\Omega, \mathcal{F})\).
-  \end{enumerate}
+Um \emph{espaço de probabilidade} é uma tripla ordenada
+\((\Omega, \mathcal{F}, \mathbb{P})\) tal que
+\begin{enumerate}[label=(\alph*), ref=\alph*]
+\item \(\Omega\) é um conjunto não vazio;
+\item \(\mathcal{F}\) é uma \(\sigma\)-álgebra de subconjuntos de
+\(\Omega\);
+\item \(\mathbb{P}\) é uma medida de probabilidade sobre
+\((\Omega, \mathcal{F})\).
+\end{enumerate}
 \end{definition}
 
 Dos axiomas que definem um espaço de probabilidade seguem várias
@@ -799,100 +821,100 @@ A seguir vamos assumir que estamos trabalhando em um espaço
 mensurável ou um espaço de probabilidade, de acordo com as considerações a serem feitas.
 
 \begin{property}
-  Se \(A, B \in \mathcal{F}\), então \(A \setminus B \in \mathcal{F}\).\footnote{
-  A diferença \(A \setminus B = A \cap (\Omega \setminus B)\) é o conjunto
-  dos elementos de \(A\) que não pertencem a \(B\).}
+Se \(A, B \in \mathcal{F}\), então \(A \setminus B \in \mathcal{F}\).\footnote{
+A diferença \(A \setminus B = A \cap (\Omega \setminus B)\) é o conjunto
+dos elementos de \(A\) que não pertencem a \(B\).}
 \end{property}
 
 \begin{proof}
-  O complementar de \(A \setminus B\) é
-  \((\Omega \setminus A) \cup B\), que pertence a \(\mathcal{F}\), pois é
-  uma união de eventos. Logo, \(A \setminus B\) também pertence a
-  \(\mathcal{F}\), pela condição de fechamento sob complementos.
+O complementar de \(A \setminus B\) é
+\((\Omega \setminus A) \cup B\), que pertence a \(\mathcal{F}\), pois é
+uma união de eventos. Logo, \(A \setminus B\) também pertence a
+\(\mathcal{F}\), pela condição de fechamento sob complementos.
 \end{proof}
 
 \begin{property}
-  Se \(A_1, A_2, \ldots \in \mathcal{F}\), então
-  \(\bigcap_{i=1}^{\infty} A_i \in \mathcal{F}\).
+Se \(A_1, A_2, \ldots \in \mathcal{F}\), então
+\(\bigcap_{i=1}^{\infty} A_i \in \mathcal{F}\).
 \end{property}
 
 \begin{proof}
-  Pela lei de De Morgan,
-  \[
-    \Omega \setminus \bigcap_{i=1}^{\infty} A_i
-    = \bigcup_{i=1}^{\infty} (\Omega \setminus A_i).
-  \]
-  Cada \(\Omega \setminus A_i\) pertence a \(\mathcal{F}\), e a união à
-  direita também pertence a \(\mathcal{F}\), pela definição de
-  \(\sigma\)-álgebra. Aplicando novamente o fechamento sob complementos,
-  concluímos que \(\bigcap_{i=1}^{\infty} A_i\) pertence a \(\mathcal{F}\).
+Pela lei de De Morgan,
+\[
+\Omega \setminus \bigcap_{i=1}^{\infty} A_i
+= \bigcup_{i=1}^{\infty} (\Omega \setminus A_i).
+\]
+Cada \(\Omega \setminus A_i\) pertence a \(\mathcal{F}\), e a união à
+direita também pertence a \(\mathcal{F}\), pela definição de
+\(\sigma\)-álgebra. Aplicando novamente o fechamento sob complementos,
+concluímos que \(\bigcap_{i=1}^{\infty} A_i\) pertence a \(\mathcal{F}\).
 \end{proof}
 
 \begin{property}
-  Se \(A \in \mathcal{F}\), então
-  \(\mathbb{P}(A) + \mathbb{P}(\Omega \setminus A) = 1\).
+Se \(A \in \mathcal{F}\), então
+\(\mathbb{P}(A) + \mathbb{P}(\Omega \setminus A) = 1\).
 \end{property}
 
 \begin{proof}
-  Os eventos \(A\) e \(\Omega \setminus A\) são disjuntos e sua união é
-  \(\Omega\). Portanto,
-  \[
-    1 = \mathbb{P}(\Omega) = \mathbb{P}(A) +
-    \mathbb{P}(\Omega \setminus A).
-  \]
+Os eventos \(A\) e \(\Omega \setminus A\) são disjuntos e sua união é
+\(\Omega\). Portanto,
+\[
+1 = \mathbb{P}(\Omega) = \mathbb{P}(A) +
+\mathbb{P}(\Omega \setminus A).
+\]
 \end{proof}
 
 \begin{property}
-  Se \(A, B \in \mathcal{F}\), então
-  \[
-    \mathbb{P}(A \cup B) + \mathbb{P}(A \cap B) =
-    \mathbb{P}(A) + \mathbb{P}(B).
-  \]
+Se \(A, B \in \mathcal{F}\), então
+\[
+\mathbb{P}(A \cup B) + \mathbb{P}(A \cap B) =
+\mathbb{P}(A) + \mathbb{P}(B).
+\]
 \end{property}
 
 \begin{proof}
-  O conjunto \(A\) é a união disjunta de \(A \setminus B\) e \(A \cap B\),
-  de modo que, pela aditividade finita,
-  \[
-    \mathbb{P}(A) = \mathbb{P}(A \setminus B) + \mathbb{P}(A \cap B).
-  \]
-  De modo análogo,
-  \[
-    \mathbb{P}(B) = \mathbb{P}(B \setminus A) + \mathbb{P}(A \cap B).
-  \]
-  Somando as duas igualdades e observando que os conjuntos
-  \(A \setminus B\), \(A \cap B\) e \(B \setminus A\) são dois a dois
-  disjuntos, obtemos
-  \[
-    \begin{aligned}
-      \mathbb{P}(A) + \mathbb{P}(B)
-      &= \mathbb{P}(A \setminus B) + 2\mathbb{P}(A \cap B)
-         + \mathbb{P}(B \setminus A) \\
-      &= \mathbb{P}(A \cup B) + \mathbb{P}(A \cap B).
-    \end{aligned}
-  \]
-  Rearranjando os termos, segue a identidade desejada.
+O conjunto \(A\) é a união disjunta de \(A \setminus B\) e \(A \cap B\),
+de modo que, pela aditividade finita,
+\[
+\mathbb{P}(A) = \mathbb{P}(A \setminus B) + \mathbb{P}(A \cap B).
+\]
+De modo análogo,
+\[
+\mathbb{P}(B) = \mathbb{P}(B \setminus A) + \mathbb{P}(A \cap B).
+\]
+Somando as duas igualdades e observando que os conjuntos
+\(A \setminus B\), \(A \cap B\) e \(B \setminus A\) são dois a dois
+disjuntos, obtemos
+\[
+\begin{aligned}
+\mathbb{P}(A) + \mathbb{P}(B)
+&= \mathbb{P}(A \setminus B) + 2\mathbb{P}(A \cap B)
++ \mathbb{P}(B \setminus A) \\
+&= \mathbb{P}(A \cup B) + \mathbb{P}(A \cap B).
+\end{aligned}
+\]
+Rearranjando os termos, segue a identidade desejada.
 \end{proof}
 
 \begin{property}
-  Se \(A, B \in \mathcal{F}\) e \(A \subseteq B\), então
-  \(\mathbb{P}(A) \leq \mathbb{P}(B)\).
+Se \(A, B \in \mathcal{F}\) e \(A \subseteq B\), então
+\(\mathbb{P}(A) \leq \mathbb{P}(B)\).
 \end{property}
 
 \begin{proof}
-  Como \(A \subseteq B\), o conjunto \(B\) é a união disjunta de \(A\) e
-  \(B \setminus A\). Logo,
-  \[
-    \mathbb{P}(B) = \mathbb{P}(A) + \mathbb{P}(B \setminus A)
-    \geq \mathbb{P}(A).
-  \]
+Como \(A \subseteq B\), o conjunto \(B\) é a união disjunta de \(A\) e
+\(B \setminus A\). Logo,
+\[
+\mathbb{P}(B) = \mathbb{P}(A) + \mathbb{P}(B \setminus A)
+\geq \mathbb{P}(A).
+\]
 \end{proof}
 
 Ao trabalhar com probabilidades, é frequentemente útil desenhar diagramas de
 Venn. Por exemplo, a identidade
 \[
-  \mathbb{P}(A \cup B) + \mathbb{P}(A \cap B) =
-  \mathbb{P}(A) + \mathbb{P}(B)
+\mathbb{P}(A \cup B) + \mathbb{P}(A \cap B) =
+\mathbb{P}(A) + \mathbb{P}(B)
 \]
 fica ilustrada na \Cref{fig:1.1}. O diagrama também ajuda a perceber que a
 probabilidade de \(A \cup B\) é a soma de \(\mathbb{P}(A)\) e
@@ -900,25 +922,25 @@ probabilidade de \(A \cup B\) é a soma de \(\mathbb{P}(A)\) e
 interseção é contada duas vezes na soma inicial.
 
 \begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}[scale=1.15, line width=0.7pt]
-    \draw[thick] plot[smooth cycle, tension=1.15] coordinates {
-      (-2.9,1.7) (-0.4,2.1) (2.6,1.5) (3.6,0.6) (2.9,-1.5)
-      (0.2,-2.1) (-2.6,-1.6) (-3.4,-0.2)
-    };
-    \node at (-2.5,1.45) {\(\Omega\)};
-    \draw[thick, pattern={north west lines}, pattern color=black!70]
-      (-1.15,-0.1) circle[x radius=1.15, y radius=0.8, rotate=-8];
-    \draw[thick, pattern={north east lines}, pattern color=black!70]
-      (1.0,0.15) circle[x radius=1.65, y radius=1.0, rotate=22];
-    \node at (-2.1,0.85) {\(A\)};
-    \node at (2.95,0.25) {\(B\)};
-    \node at (-0.05,-1.75) {\(A \cap B\)};
-    \draw[-stealth, shorten >=2pt] (0.0,-1.5) -- (-0.2,-0.3);
-  \end{tikzpicture}
-  \caption{Diagrama de Venn que ilustra a identidade
-    \(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) -
-    \mathbb{P}(A \cap B)\).}\label{fig:1.1}
+\centering
+\begin{tikzpicture}[scale=1.15, line width=0.7pt]
+\draw[thick] plot[smooth cycle, tension=1.15] coordinates {
+(-2.9,1.7) (-0.4,2.1) (2.6,1.5) (3.6,0.6) (2.9,-1.5)
+(0.2,-2.1) (-2.6,-1.6) (-3.4,-0.2)
+};
+\node at (-2.5,1.45) {\(\Omega\)};
+\draw[thick, pattern={north west lines}, pattern color=black!70]
+(-1.15,-0.1) circle[x radius=1.15, y radius=0.8, rotate=-8];
+\draw[thick, pattern={north east lines}, pattern color=black!70]
+(1.0,0.15) circle[x radius=1.65, y radius=1.0, rotate=22];
+\node at (-2.1,0.85) {\(A\)};
+\node at (2.95,0.25) {\(B\)};
+\node at (-0.05,-1.75) {\(A \cap B\)};
+\draw[-stealth, shorten >=2pt] (0.0,-1.5) -- (-0.2,-0.3);
+\end{tikzpicture}
+\caption{Diagrama de Venn que ilustra a identidade
+\(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) -
+\mathbb{P}(A \cap B)\).}\label{fig:1.1}
 \end{figure}
 
 
@@ -926,47 +948,47 @@ Nos exercícios a seguir, \((\Omega, \mathcal{F}, \mathbb{P})\) é um espaço de
 probabilidade.
 
 \begin{exercise}\label{exercise:1.19}
-  Se \(A, B \in \mathcal{F}\), mostre que
-  \(\mathbb{P}(A \setminus B) = \mathbb{P}(A) - \mathbb{P}(A \cap B)\).
+Se \(A, B \in \mathcal{F}\), mostre que
+\(\mathbb{P}(A \setminus B) = \mathbb{P}(A) - \mathbb{P}(A \cap B)\).
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.20}
-  Se \(A, B, C \in \mathcal{F}\), mostre que
-  \[
-    \mathbb{P}(A \cup B \cup C) = \mathbb{P}(A) + \mathbb{P}(B) +
-    \mathbb{P}(C) - \mathbb{P}(A \cap B) - \mathbb{P}(B \cap C) -
-    \mathbb{P}(A \cap C) + \mathbb{P}(A \cap B \cap C).
-  \]
+Se \(A, B, C \in \mathcal{F}\), mostre que
+\[
+\mathbb{P}(A \cup B \cup C) = \mathbb{P}(A) + \mathbb{P}(B) +
+\mathbb{P}(C) - \mathbb{P}(A \cap B) - \mathbb{P}(B \cap C) -
+\mathbb{P}(A \cap C) + \mathbb{P}(A \cap B \cap C).
+\]
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.21}
-  Sejam \(A, B, C\) três eventos tais que
-  \[
-    \begin{alignedat}{3}
-      \mathbb{P}(A) &= \tfrac{5}{10}, &\qquad
-      \mathbb{P}(B) &= \tfrac{7}{10}, &\qquad
-      \mathbb{P}(C) &= \tfrac{6}{10}, \\
-      \mathbb{P}(A \cap B) &= \tfrac{3}{10},\qquad\qquad  &
-      \mathbb{P}(B \cap C) &= \tfrac{4}{10},\qquad \qquad  &
-      \mathbb{P}(A \cap C) &= \tfrac{2}{10}, \\
-      \mathbb{P}(A \cap B \cap C) &= \tfrac{1}{10}. &&
-    \end{alignedat}
-  \]
-  Desenhando um diagrama de Venn, ou por outro método, determine a
-  probabilidade de ocorrerem exatamente dois dos eventos \(A, B, C\).
+Sejam \(A, B, C\) três eventos tais que
+\[
+\begin{alignedat}{3}
+\mathbb{P}(A) &= \tfrac{5}{10}, &\qquad
+\mathbb{P}(B) &= \tfrac{7}{10}, &\qquad
+\mathbb{P}(C) &= \tfrac{6}{10}, \\
+\mathbb{P}(A \cap B) &= \tfrac{3}{10},\qquad\qquad  &
+\mathbb{P}(B \cap C) &= \tfrac{4}{10},\qquad \qquad  &
+\mathbb{P}(A \cap C) &= \tfrac{2}{10}, \\
+\mathbb{P}(A \cap B \cap C) &= \tfrac{1}{10}. &&
+\end{alignedat}
+\]
+Desenhando um diagrama de Venn, ou por outro método, determine a
+probabilidade de ocorrerem exatamente dois dos eventos \(A, B, C\).
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.22}
-  Uma moeda honesta é lançada 10 vezes, de modo que, em cada lançamento, a
-  probabilidade de obter cara seja $1/2$. Construa detalhadamente
-  um espaço de probabilidade apropriado para tratar sobre eventos e cálculos de probabilidade
-  em que:
-  \begin{enumerate}[label=(\alph*), ref=\alph*]
-    \item o resultado de cada lançamento é relevante;
-    \item apenas o número total de coroas é relevante.
-  \end{enumerate}
-  No primeiro caso, o espaço de eventos deve conter \(2^{2^{10}}\) eventos;
-  no segundo, basta que contenha \(2^{11}\) eventos.
+Uma moeda honesta é lançada 10 vezes, de modo que, em cada lançamento, a
+probabilidade de obter cara seja $1/2$. Construa detalhadamente
+um espaço de probabilidade apropriado para tratar sobre eventos e cálculos de probabilidade
+em que:
+\begin{enumerate}[label=(\alph*), ref=\alph*]
+\item o resultado de cada lançamento é relevante;
+\item apenas o número total de coroas é relevante.
+\end{enumerate}
+No primeiro caso, o espaço de eventos deve conter \(2^{2^{10}}\) eventos;
+no segundo, basta que contenha \(2^{11}\) eventos.
 \end{exercise}
 
 \section{Espaços Amostrais Discretos}
@@ -985,7 +1007,7 @@ cada conjunto unitário \(\{\omega\}\) pertença a \(\mathcal{F}\). Seja
 \(A \subseteq \Omega\). Como \(\Omega\) é enumerável, \(A\) também é
 enumerável e pode ser escrito como uma união enumerável de conjuntos unitários:
 \[
-  A = \bigcup_{\omega \in A} \{\omega\}.
+A = \bigcup_{\omega \in A} \{\omega\}.
 \]
 Pela propriedade \eqref{eq:1.4}, segue que \(A \in \mathcal{F}\). Portanto,
 nesse caso, exigir que todos os conjuntos unitários pertençam a
@@ -994,7 +1016,7 @@ de \(\Omega\). A probabilidade \(\mathbb{P}(A)\) do evento \(A\) é então
 determinada pelas probabilidades dos conjuntos unitários, pois, por
 \eqref{eq:1.14},
 \[
-  \mathbb{P}(A) = \sum_{\omega \in A} \mathbb{P}(\{\omega\}).
+\mathbb{P}(A) = \sum_{\omega \in A} \mathbb{P}(\{\omega\}).
 \]
 
 Usualmente escrevemos \(\mathbb{P}(\omega)\) para denotar a probabilidade
@@ -1002,194 +1024,191 @@ Usualmente escrevemos \(\mathbb{P}(\omega)\) para denotar a probabilidade
 \(\Omega\).
 
 \begin{example}[Resultados equiprováveis]\label{ex:1.23}
-  Se \(\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\}\) e
-  \(\mathbb{P}(\omega_i) = \mathbb{P}(\omega_j)\) para quaisquer \(i\) e
-  \(j\). Como \(\Omega\) é a união disjunta dos seus \(N\) conjuntos
-  unitários, \(\mathbb{P}(\omega) = 1/N\) para todo \(\omega \in \Omega\),
-  e \(\mathbb{P}(A) = \frac{\# A}{N}\) para qualquer \(A \subseteq \Omega\).
+Se \(\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\}\) e
+\(\mathbb{P}(\omega_i) = \mathbb{P}(\omega_j)\) para quaisquer \(i\) e
+\(j\). Como \(\Omega\) é a união disjunta dos seus \(N\) conjuntos
+unitários, \(\mathbb{P}(\omega) = 1/N\) para todo \(\omega \in \Omega\),
+e \(\mathbb{P}(A) = \frac{\# A}{N}\) para qualquer \(A \subseteq \Omega\).
 \end{example}
 
 \begin{example}[Inteiros aleatórios]\label{ex:1.24}
-  Existem afirmações ``intuitivamente claras'' que não têm significado
-  matemático preciso na teoria da probabilidade. Considere, por exemplo, a
-  afirmação: ``se escolhermos um número inteiro positivo ao acaso, ele será par
-  com probabilidade \(\tfrac{1}{2}\)''.
-  Interpretando ``ao acaso'' como significando que cada inteiro positivo tem a
-  mesma probabilidade de ser escolhido, esse experimento teria espaço de
-  probabilidade \((\Omega, \mathcal{F}, \mathbb{P})\), onde
-  \begin{enumerate}[label=(\alph*), ref=\alph*]
-    \item \(\Omega = \{1, 2, \ldots\}\),
-    \item \(\mathcal{F}\) é o conjunto de todos os subconjuntos de \(\Omega\),
-    \item se \(A \subseteq \Omega\), então
-          \(\mathbb{P}(A) = \sum_{i \in A} \mathbb{P}(\{i\}) = \sum_{i \in A} p\),
-          onde \(p\) é a probabilidade de que um inteiro fixado, digamos \(i\),
-          seja escolhido.
-  \end{enumerate}
-  No entanto,
-  \[
-    \begin{aligned}
-      \text{se } p = 0, \text{ então } \mathbb{P}(\Omega) =
-      \sum_{i=1}^{\infty} 0 = 0, \\
-      \text{se } p > 0, \text{ então } \mathbb{P}(\Omega) =
-      \sum_{i=1}^{\infty} p = \infty,
-    \end{aligned}
-  \]
-  Nenhuma dessas duas situações está em conformidade com a regra
-  \(\mathbb{P}(\Omega) = 1\). Uma maneira possível de interpretar a afirmação
-  acima é a seguinte. Seja \(N\) um inteiro positivo grande e seja \(\mathcal{E}_N\)
-  o experimento de escolher ao acaso um inteiro do conjunto finito
-  \(\Omega_N = \{1, 2, \ldots, N\}\). A probabilidade de que o resultado de
-  \(\mathcal{E}_N\) seja par é
-  \[
-    \frac{1}{2} \text{ se } N \text{ é par, e } \frac{1}{2} \left( 1 -
-    \frac{1}{N} \right) \text{ se } N \text{ é ímpar},
-  \]
-  de modo que, quando \(N \to \infty\), a probabilidade desejada tende a
-  \(\tfrac{1}{2}\). Apesar dessa interpretação razoável da afirmação em
-  destaque, enfatizamos que tal afirmação não tem significado matemático em sua
-  formulação original e deve ser evitada em formulações probabilísticas
-  rigorosas.
+Existem afirmações ``intuitivamente claras'' que não têm significado
+matemático preciso na teoria da probabilidade. Considere, por exemplo, a
+afirmação: ``se escolhermos um número inteiro positivo ao acaso, ele será par
+com probabilidade \(\tfrac{1}{2}\)''.
+Interpretando ``ao acaso'' como significando que cada inteiro positivo tem a
+mesma probabilidade de ser escolhido, esse experimento teria espaço de
+probabilidade \((\Omega, \mathcal{F}, \mathbb{P})\), onde
+\begin{enumerate}[label=(\alph*), ref=\alph*]
+\item \(\Omega = \{1, 2, \ldots\}\),
+\item \(\mathcal{F}\) é o conjunto de todos os subconjuntos de \(\Omega\),
+\item se \(A \subseteq \Omega\), então
+\(\mathbb{P}(A) = \sum_{i \in A} \mathbb{P}(\{i\}) = \sum_{i \in A} p\),
+onde \(p\) é a probabilidade de que um inteiro fixado, digamos \(i\),
+seja escolhido.
+\end{enumerate}
+No entanto,
+\[
+\begin{aligned}
+\text{se } p = 0, \text{ então } \mathbb{P}(\Omega) =
+\sum_{i=1}^{\infty} 0 = 0, \\
+\text{se } p > 0, \text{ então } \mathbb{P}(\Omega) =
+\sum_{i=1}^{\infty} p = \infty,
+\end{aligned}
+\]
+Nenhuma dessas duas situações está em conformidade com a regra
+\(\mathbb{P}(\Omega) = 1\). Uma maneira possível de interpretar a afirmação
+acima é a seguinte. Seja \(N\) um inteiro positivo grande e seja \(\mathcal{E}_N\)
+o experimento de escolher ao acaso um inteiro do conjunto finito
+\(\Omega_N = \{1, 2, \ldots, N\}\). A probabilidade de que o resultado de
+\(\mathcal{E}_N\) seja par é
+\[
+\frac{1}{2} \text{ se } N \text{ é par, e } \frac{1}{2} \left( 1 -
+\frac{1}{N} \right) \text{ se } N \text{ é ímpar},
+\]
+de modo que, quando \(N \to \infty\), a probabilidade desejada tende a
+\(\tfrac{1}{2}\). Apesar dessa interpretação razoável da afirmação em
+destaque, enfatizamos que tal afirmação não tem significado matemático em sua
+formulação original e deve ser evitada em formulações probabilísticas
+rigorosas.
 \end{example}
 
 \begin{example}[Distribuição zeta]\label{ex:zeta}
-  O \Cref{ex:1.24} mostrou que não existe nenhuma medida de probabilidade
-  sobre os inteiros positivos que atribua a todos eles a mesma probabilidade.
-  Isso não significa, porém, que seja impossível escolher um inteiro positivo
-  ao acaso; significa apenas que tal escolha não pode ser uniforme. Uma
-  maneira natural de tornar essa ideia rigorosa é atribuir probabilidades
-  maiores aos inteiros menores, de modo que a soma de todas as
-  probabilidades ainda seja igual a 1.
+O \Cref{ex:1.24} mostrou que não existe nenhuma medida de probabilidade
+sobre os inteiros positivos que atribua a todos eles a mesma probabilidade.
+Isso não significa, porém, que seja impossível escolher um inteiro positivo
+ao acaso; significa apenas que tal escolha não pode ser uniforme. Uma
+maneira natural de tornar essa ideia rigorosa é atribuir probabilidades
+maiores aos inteiros menores, de modo que a soma de todas as
+probabilidades ainda seja igual a 1.
 
-  Fixemos um número real \(s > 1\) e consideremos a série
-  \[
-    \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}.
-  \]
-  Essa série é convergente.\footnote{Uma justificativa elementar: agrupamos
-  os termos da série em blocos da forma
-  \(\{2^k, 2^k + 1, \dots, 2^{k+1} - 1\}\), para \(k = 0, 1, 2, \dots\).
-  Cada bloco contém \(2^k\) termos, todos menores ou iguais a
-  \((2^k)^{-s}\), de modo que a soma dos termos do \(k\)-ésimo bloco é no
-  máximo \(2^k (2^k)^{-s} = 2^{k(1-s)}\). Logo,
-  \(\zeta(s) \leq \sum_{k=0}^{\infty} 2^{k(1-s)}\), que é uma série
-  geométrica convergente, pois \(2^{1-s} < 1\).} A restrição \(s > 1\) é
-  essencial: quando \(s = 1\), obtemos a série harmônica, que é divergente.
-  A função \(\zeta\) é chamada de \emph{função zeta de Riemann}.
+Fixemos um número real \(s > 1\) e consideremos a série
+\[
+\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}.
+\]
+Essa série é convergente.\footnote{Uma justificativa elementar: agrupamos
+os termos da série em blocos da forma
+\(\{2^k, 2^k + 1, \dots, 2^{k+1} - 1\}\), para \(k = 0, 1, 2, \dots\).
+Cada bloco contém \(2^k\) termos, todos menores ou iguais a
+\((2^k)^{-s}\), de modo que a soma dos termos do \(k\)-ésimo bloco é no
+máximo \(2^k (2^k)^{-s} = 2^{k(1-s)}\). Logo,
+\(\zeta(s) \leq \sum_{k=0}^{\infty} 2^{k(1-s)}\), que é uma série
+geométrica convergente, pois \(2^{1-s} < 1\).} A restrição \(s > 1\) é
+essencial: quando \(s = 1\), obtemos a série harmônica, que é divergente.
+A função \(\zeta\) é chamada de \emph{função zeta de Riemann}.
 
-  Consideremos agora o espaço de probabilidade
-  \((\Omega, \mathcal{F}, \mathbb{P})\) onde
-  \begin{enumerate}[label=(\alph*), ref=\alph*]
-    \item \(\Omega = \{1, 2, 3, \ldots\}\),
-    \item \(\mathcal{F}\) é o conjunto de todos os subconjuntos de
-          \(\Omega\),
-    \item para cada \(A \subseteq \Omega\),
-          \[
-            \mathbb{P}(A) = \frac{1}{\zeta(s)}\sum_{n \in A} \frac{1}{n^s}.
-          \]
-  \end{enumerate}
-  Então \(\mathbb{P}\) é uma medida de probabilidade sobre
-  \((\Omega, \mathcal{F})\). De fato, as condições (a) e (b) da
-  \Cref{def:probability-measure} são imediatas, pois os termos da série são
-  não negativos e
-  \[
-    \mathbb{P}(\Omega) = \frac{1}{\zeta(s)}\sum_{n=1}^{\infty} \frac{1}{n^s}
-    = 1.
-  \]
-  A condição (c) segue da aditividade de séries de termos não negativos, que
-  permite reindexar e reagrupar seus termos sem alterar a soma. A probabilidade
-  de um evento formado por um único ponto é
-  \[
-    \mathbb{P}(\{n\}) = \frac{1}{n^s \zeta(s)}, \qquad n = 1, 2, 3, \dots,
-  \]
-  de modo que os inteiros menores são, de fato, os mais prováveis. O
-  parâmetro \(s\) controla a dispersão da distribuição: quando \(s\) se
-  aproxima de \(1\), a massa de probabilidade se espalha pelos inteiros
-  grandes; quando \(s\) é grande, a massa se concentra nos inteiros
-  pequenos, pois \(\mathbb{P}(\{1\}) = 1/\zeta(s) \to 1\) quando
-  \(s \to \infty\).
+Consideremos agora o espaço de probabilidade
+\((\Omega, \mathcal{F}, \mathbb{P})\) onde
+\begin{enumerate}[label=(\alph*), ref=\alph*]
+\item \(\Omega = \{1, 2, 3, \ldots\}\),
+\item \(\mathcal{F}\) é o conjunto de todos os subconjuntos de
+\(\Omega\),
+\item para cada \(A \subseteq \Omega\),
+\[
+\mathbb{P}(A) = \frac{1}{\zeta(s)}\sum_{n \in A} \frac{1}{n^s}.
+\]
+\end{enumerate}
+Então \(\mathbb{P}\) é uma medida de probabilidade sobre
+\((\Omega, \mathcal{F})\). De fato, as condições (a) e (b) da
+\Cref{def:probability-measure} são imediatas, pois os termos da série são
+não negativos e
+\[
+\mathbb{P}(\Omega) = \frac{1}{\zeta(s)}\sum_{n=1}^{\infty} \frac{1}{n^s}
+= 1.
+\]
+A condição (c) segue da aditividade de séries de termos não negativos, que
+permite reindexar e reagrupar seus termos sem alterar a soma. A probabilidade
+de um evento formado por um único ponto é
+\[
+\mathbb{P}(\{n\}) = \frac{1}{n^s \zeta(s)}, \qquad n = 1, 2, 3, \dots,
+\]
+de modo que os inteiros menores são, de fato, os mais prováveis. O
+parâmetro \(s\) controla a dispersão da distribuição: quando \(s\) se
+aproxima de \(1\), a massa de probabilidade se espalha pelos inteiros
+grandes; quando \(s\) é grande, a massa se concentra nos inteiros
+pequenos, pois \(\mathbb{P}(\{1\}) = 1/\zeta(s) \to 1\) quando
+\(s \to \infty\).
 
-  Nesse espaço, a probabilidade de que o inteiro escolhido seja divisível
-  por um inteiro fixado \(m \geq 1\) é
-  \[
-    \mathbb{P}(\{m, 2m, 3m, \dots\})
-    = \sum_{k=1}^{\infty} \frac{1}{(km)^s \zeta(s)}
-    = \frac{1}{m^s \zeta(s)} \sum_{k=1}^{\infty} \frac{1}{k^s}
-    = \frac{1}{m^s}.
-  \]
-  Em particular, a probabilidade de obter um número par é \(2^{-s}\), e não
-  \(\tfrac{1}{2}\). No caso particular \(s = 2\), em que
-  \(\zeta(2) = \tfrac{\pi^2}{6}\) (o célebre problema de Basileia,
-  resolvido por Euler), temos
-  \[
-    \mathbb{P}(\{n\}) = \frac{6}{\pi^2 n^2}, \qquad n = 1, 2, 3, \dots,
-  \]
-  e a probabilidade de obter um número par é \(\tfrac{1}{4}\) (veja a
-  \Cref{fig:zeta-massas}). Esse valor
-  difere do valor ``intuitivo'' \(\tfrac{1}{2}\) discutido no
-  \Cref{ex:1.24}, o que ilustra mais uma vez como as respostas
-  probabilísticas dependem do modelo escolhido. Essa distribuição é chamada
-  de \emph{distribuição zeta}; ela aparece, por exemplo, na descrição empírica
-  da frequência de palavras em textos longos, conhecida
-  como lei de Zipf.
+Nesse espaço, a probabilidade de que o inteiro escolhido seja divisível
+por um inteiro fixado \(m \geq 1\) é
+\[
+\mathbb{P}(\{m, 2m, 3m, \dots\})
+= \sum_{k=1}^{\infty} \frac{1}{(km)^s \zeta(s)}
+= \frac{1}{m^s \zeta(s)} \sum_{k=1}^{\infty} \frac{1}{k^s}
+= \frac{1}{m^s}.
+\]
+Em particular, a probabilidade de obter um número par é \(2^{-s}\), e não
+\(\tfrac{1}{2}\). No caso particular \(s = 2\), em que
+\(\zeta(2) = \tfrac{\pi^2}{6}\) (o célebre problema de Basileia,
+resolvido por Euler), temos
+\[
+\mathbb{P}(\{n\}) = \frac{6}{\pi^2 n^2}, \qquad n = 1, 2, 3, \dots,
+\]
+e a probabilidade de obter um número par é \(\tfrac{1}{4}\) (veja a
+\Cref{fig:zeta-massas}). Esse valor
+difere do valor ``intuitivo'' \(\tfrac{1}{2}\) discutido no
+\Cref{ex:1.24}, o que ilustra mais uma vez como as respostas
+probabilísticas dependem do modelo escolhido. Essa distribuição é chamada
+de \emph{distribuição zeta}; ela aparece, por exemplo, na descrição empírica
+da frequência de palavras em textos longos, conhecida
+como lei de Zipf.
 \end{example}
 
 \begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-      ybar,
-      bar width=4.5mm,
-      width=0.85\textwidth,
-      height=5.6cm,
-      xmin=0.4, xmax=12.6,
-      ymin=0,
-      xtick={1,2,...,12},
-      xlabel={\(n\)},
-      ylabel={\(\mathbb{P}(\{n\})\)},
-      yticklabel style={/pgf/number format/fixed,
-        /pgf/number format/precision=2},
-      tick label style={font=\small},
-      label style={font=\small},
-      legend style={at={(0.99,0.99)}, anchor=north west, font=\small},
-      enlarge x limits=0.05,
-    ]
-      \addplot+[ybar, fill=black!22, draw=black!55, mark=none] coordinates {
-        (1,0.6079) (3,0.0676) (5,0.0243) (7,0.0124) (9,0.0075) (11,0.0050)
-      };
-      \addplot+[ybar, fill=teal!55, draw=teal, mark=none] coordinates {
-        (2,0.1520) (4,0.0380) (6,0.0169) (8,0.0095) (10,0.0061) (12,0.0042)
-      };
-      \legend{\(n\) ímpar, \(n\) par}
-    \end{axis}
-  \end{tikzpicture}
-  \caption{As massas \(\mathbb{P}(\{n\}) = \dfrac{6}{\pi^2 n^2}\) da
-    distribuição zeta do \Cref{ex:zeta} no caso \(s = 2\), para
-    \(n = 1, \dots, 12\). A barra em \(n=1\) concentra mais de \(60\%\) da
-    massa total. As barras destacadas correspondem aos inteiros pares; a
-    soma de suas alturas é \(\mathbb{P}(\text{par}) = \tfrac{1}{4}\).
-    }\label{fig:zeta-massas}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+ybar,
+bar width=8mm,
+width=0.78\textwidth,
+height=5.2cm,
+xmin=0.4, xmax=5.6,
+ymin=0, ymax=1.0,
+xtick={1,2,3,4},
+xlabel={\(n\)},
+xlabel style={at={(axis description cs:1,0)}, anchor=north},
+ytick=\empty,
+axis lines=left,
+tick label style={font=\small},
+label style={font=\small},
+clip=false,
+]
+% Alturas esquemáticas: ajuste estes quatro valores se desejar.
+\addplot+[ybar, fill=teal!55, draw=teal, mark=none] coordinates {
+(1,0.90) (2,0.55) (3,0.33) (4,0.12)
+};
+\node[font=\large] at (axis cs:5.0,0.035) {\(\cdots\)};
+\node[anchor=east, font=\small] at (axis description cs:0,1)
+{\(\mathbb{P}(\{n\})\)};
+\end{axis}
+\end{tikzpicture}
+\caption{Diagrama ilustrando o valor da probabilidade de cada número natural segundo
+a função de probabilidade \(\mathbb{P}(\{n\}) = 6/\pi^2 n^2\)
+definida pela função zeta do
+\Cref{ex:zeta} no caso \(s=2\).}\label{fig:zeta-massas}
 \end{figure}
 
 \begin{exercise}\label{exercise:zeta}
-  No espaço de probabilidade do \Cref{ex:zeta}, mostre que a probabilidade
-  de que o inteiro escolhido seja divisível por \(2\) ou por \(3\) é
-  \[
-    \frac{1}{2^s} + \frac{1}{3^s} - \frac{1}{6^s}.
-  \]
+No espaço de probabilidade do \Cref{ex:zeta}, mostre que a probabilidade
+de que o inteiro escolhido seja divisível por \(2\) ou por \(3\) é
+\[
+\frac{1}{2^s} + \frac{1}{3^s} - \frac{1}{6^s}.
+\]
 \end{exercise}
 
 Há uma fatoração instrutiva escondida no \Cref{exercise:zeta}. O complementar
 do evento tratado naquele exercício é o evento em que o inteiro sorteado não é
 divisível nem por \(2\) nem por \(3\). Sua probabilidade é
 \[
-  1 - \frac{1}{2^s} - \frac{1}{3^s} + \frac{1}{6^s}
-  = \left(1 - \frac{1}{2^s}\right)\left(1 - \frac{1}{3^s}\right).
+1 - \frac{1}{2^s} - \frac{1}{3^s} + \frac{1}{6^s}
+= \left(1 - \frac{1}{2^s}\right)\left(1 - \frac{1}{3^s}\right).
 \]
 Essa fatoração não é um acidente: ela reflete uma propriedade
 multiplicativa geral da distribuição zeta, que exploramos a seguir.
 
 Para cada primo \(p\), seja
 \[
-  A_p = \{p, 2p, 3p, \dots\}
+A_p = \{p, 2p, 3p, \dots\}
 \]
 o evento de que o inteiro sorteado seja divisível por \(p\). Pelo
 \Cref{ex:zeta}, \(\mathbb{P}(A_p) = p^{-s}\). Se \(p\) e \(q\) são primos
@@ -1197,105 +1216,105 @@ distintos, então, pelo teorema fundamental da aritmética, um inteiro é
 divisível por \(p\) e por \(q\) se, e somente se, é divisível por \(pq\).
 Logo,
 \[
-  \mathbb{P}(A_p \cap A_q)
-  = \mathbb{P}(\{pq, 2pq, 3pq, \dots\})
-  = \frac{1}{(pq)^s}
-  = \frac{1}{p^s} \cdot \frac{1}{q^s}
-  = \mathbb{P}(A_p)\,\mathbb{P}(A_q).
+\mathbb{P}(A_p \cap A_q)
+= \mathbb{P}(\{pq, 2pq, 3pq, \dots\})
+= \frac{1}{(pq)^s}
+= \frac{1}{p^s} \cdot \frac{1}{q^s}
+= \mathbb{P}(A_p)\,\mathbb{P}(A_q).
 \]
 A probabilidade da interseção coincide, assim, com o produto das
 probabilidades. O mesmo argumento vale para qualquer coleção finita de
 primos distintos \(p_1, \dots, p_k\):
 \[
-  \mathbb{P}(A_{p_1} \cap \cdots \cap A_{p_k})
-  = \prod_{i=1}^{k} \frac{1}{p_i^s}
-  = \prod_{i=1}^{k} \mathbb{P}(A_{p_i}).
+\mathbb{P}(A_{p_1} \cap \cdots \cap A_{p_k})
+= \prod_{i=1}^{k} \frac{1}{p_i^s}
+= \prod_{i=1}^{k} \mathbb{P}(A_{p_i}).
 \]
 Enfatizamos que a hipótese de coprimalidade é essencial. A mesma propriedade
 vale, mais geralmente, para inteiros dois a dois coprimos, mas falha quando os
 divisores têm fatores comuns. Por exemplo, como todo múltiplo de \(4\) é também
 múltiplo de \(2\), temos \(A_4 \subseteq A_2\) e
 \[
-  \mathbb{P}(A_2 \cap A_4) = \mathbb{P}(A_4) = \frac{1}{4^s}
-  \neq \frac{1}{2^s} \cdot \frac{1}{4^s}.
+\mathbb{P}(A_2 \cap A_4) = \mathbb{P}(A_4) = \frac{1}{4^s}
+\neq \frac{1}{2^s} \cdot \frac{1}{4^s}.
 \]
 
 Essa multiplicatividade está na base de uma das identidades mais célebres
 da matemática.
 
 \begin{proposition}[Produto de Euler]\label{prop:euler}
-  Para todo \(s > 1\),
-  \[
-    \frac{1}{\zeta(s)} = \prod_{p} \left(1 - \frac{1}{p^s}\right),
-  \]
-  onde o produto percorre todos os números primos, e o lado direito é
-  definido como o limite, quando \(N \to \infty\), do produto finito sobre
-  os primos \(p \leq N\).
+Para todo \(s > 1\),
+\[
+\frac{1}{\zeta(s)} = \prod_{p} \left(1 - \frac{1}{p^s}\right),
+\]
+onde o produto percorre todos os números primos, e o lado direito é
+definido como o limite, quando \(N \to \infty\), do produto finito sobre
+os primos \(p \leq N\).
 \end{proposition}
 
 \begin{proof}
-  Seja \(S_N\) o conjunto dos inteiros positivos cujos fatores primos são
-  todos menores ou iguais a \(N\) (veja a \Cref{fig:crivo-euler}). Ao
-  expandirmos o produto
-  \[
-    \prod_{p \leq N} \left(\sum_{k=0}^{\infty} \frac{1}{p^{ks}}\right),
-  \]
-  cada escolha de expoentes \(k_p \geq 0\) produz exatamente um termo
-  \(n^{-s}\), onde \(n = \prod_{p \leq N} p^{k_p}\) percorre \(S_N\), pela
-  fatoração única dos inteiros. Como todos os termos são positivos, a
-  reordenação é legítima, e como
-  \(\sum_{k=0}^{\infty} p^{-ks} = (1 - p^{-s})^{-1}\), concluímos que
-  \[
-    \sum_{n \in S_N} \frac{1}{n^s}
-    = \prod_{p \leq N} \frac{1}{1 - p^{-s}}.
-  \]
-  Além disso, todo inteiro \(n \leq N\) tem todos os seus fatores primos
-  menores ou iguais a \(N\), de modo que \(\{1, \dots, N\} \subseteq S_N\);
-  equivalentemente, se \(n \notin S_N\), então \(n\) possui um fator primo
-  maior que \(N\), e portanto \(n > N\). Segue que
-  \[
-    0 \leq \zeta(s) - \sum_{n \in S_N} \frac{1}{n^s}
-    = \sum_{n \notin S_N} \frac{1}{n^s}
-    \leq \sum_{n > N} \frac{1}{n^s},
-  \]
-  e o último termo tende a \(0\) quando \(N \to \infty\), por ser o resto
-  de uma série convergente. Portanto,
-  \[
-    \zeta(s) = \lim_{N \to \infty} \sum_{n \in S_N} \frac{1}{n^s}
-    = \lim_{N \to \infty} \prod_{p \leq N} \frac{1}{1 - p^{-s}},
-  \]
-  que é o resultado desejado.
+Seja \(S_N\) o conjunto dos inteiros positivos cujos fatores primos são
+todos menores ou iguais a \(N\) (veja a \Cref{fig:crivo-euler}). Ao
+expandirmos o produto
+\[
+\prod_{p \leq N} \left(\sum_{k=0}^{\infty} \frac{1}{p^{ks}}\right),
+\]
+cada escolha de expoentes \(k_p \geq 0\) produz exatamente um termo
+\(n^{-s}\), onde \(n = \prod_{p \leq N} p^{k_p}\) percorre \(S_N\), pela
+fatoração única dos inteiros. Como todos os termos são positivos, a
+reordenação é legítima, e como
+\(\sum_{k=0}^{\infty} p^{-ks} = (1 - p^{-s})^{-1}\), concluímos que
+\[
+\sum_{n \in S_N} \frac{1}{n^s}
+= \prod_{p \leq N} \frac{1}{1 - p^{-s}}.
+\]
+Além disso, todo inteiro \(n \leq N\) tem todos os seus fatores primos
+menores ou iguais a \(N\), de modo que \(\{1, \dots, N\} \subseteq S_N\);
+equivalentemente, se \(n \notin S_N\), então \(n\) possui um fator primo
+maior que \(N\), e portanto \(n > N\). Segue que
+\[
+0 \leq \zeta(s) - \sum_{n \in S_N} \frac{1}{n^s}
+= \sum_{n \notin S_N} \frac{1}{n^s}
+\leq \sum_{n > N} \frac{1}{n^s},
+\]
+e o último termo tende a \(0\) quando \(N \to \infty\), por ser o resto
+de uma série convergente. Portanto,
+\[
+\zeta(s) = \lim_{N \to \infty} \sum_{n \in S_N} \frac{1}{n^s}
+= \lim_{N \to \infty} \prod_{p \leq N} \frac{1}{1 - p^{-s}},
+\]
+que é o resultado desejado.
 \end{proof}
 
 \begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}[scale=0.62, every node/.style={font=\small}]
-    % celulas 3-suaves (da forma 2^a 3^b), preenchidas
-    \foreach \m/\c/\r in {1/0/0, 2/1/0, 3/2/0, 4/3/0, 6/5/0, 8/7/0,
-                          9/8/0, 12/1/1, 16/5/1, 18/7/1, 24/3/2, 27/6/2} {
-      \fill[teal!25] (\c,-\r) rectangle ++(1,-1);
-    }
-    % grade e numeros
-    \foreach \n in {1,...,30} {
-      \pgfmathsetmacro{\c}{int(mod(\n-1,10))}
-      \pgfmathsetmacro{\r}{int((\n-1)/10)}
-      \draw (\c,-\r) rectangle ++(1,-1);
-      \node at (\c+0.5,-\r-0.5) {\n};
-    }
-  \end{tikzpicture}
-  \caption{O conjunto \(S_3\) (células sombreadas) entre os inteiros de
-    \(1\) a \(30\): os inteiros cujos fatores primos são todos menores ou
-    iguais a \(3\), isto é, da forma \(2^a 3^b\). Todo inteiro
-    \(n \leq 3\) pertence a \(S_3\), e cada inteiro fixado pertence a
-    \(S_N\) para \(N\) suficientemente grande --- os conjuntos \(S_N\)
-    exaurem \(\mathbb{N}\).}\label{fig:crivo-euler}
+\centering
+\begin{tikzpicture}[scale=0.62, every node/.style={font=\small}]
+% celulas 3-suaves (da forma 2^a 3^b), preenchidas
+\foreach \m/\c/\r in {1/0/0, 2/1/0, 3/2/0, 4/3/0, 6/5/0, 8/7/0,
+9/8/0, 12/1/1, 16/5/1, 18/7/1, 24/3/2, 27/6/2} {
+\fill[teal!25] (\c,-\r) rectangle ++(1,-1);
+}
+% grade e numeros
+\foreach \n in {1,...,30} {
+\pgfmathsetmacro{\c}{int(mod(\n-1,10))}
+\pgfmathsetmacro{\r}{int((\n-1)/10)}
+\draw (\c,-\r) rectangle ++(1,-1);
+\node at (\c+0.5,-\r-0.5) {\n};
+}
+\end{tikzpicture}
+\caption{O conjunto \(S_3\) (células sombreadas) entre os inteiros de
+\(1\) a \(30\): os inteiros cujos fatores primos são todos menores ou
+iguais a \(3\), isto é, da forma \(2^a 3^b\). Todo inteiro
+\(n \leq 3\) pertence a \(S_3\), e cada inteiro fixado pertence a
+\(S_N\) para \(N\) suficientemente grande. Observe que  os conjuntos \(S_N\)
+formam uma exaustão de \(\mathbb{N}\).}\label{fig:crivo-euler}
 \end{figure}
 
 Em termos do espaço de probabilidade do \Cref{ex:zeta}, a identidade do
 produto de Euler pode ser reescrita como
 \[
-  \mathbb{P}(\{1\}) = \frac{1}{\zeta(s)}
-  = \prod_{p} \left(1 - \mathbb{P}(A_p)\right).
+\mathbb{P}(\{1\}) = \frac{1}{\zeta(s)}
+= \prod_{p} \left(1 - \mathbb{P}(A_p)\right).
 \]
 Essa igualdade admite uma interpretação sugestiva. Como
 \(1 - \mathbb{P}(A_p)\) é a probabilidade de que o inteiro sorteado
@@ -1320,74 +1339,74 @@ pelas quais um determinado evento pode ocorrer, e os exercícios a seguir são
 desse tipo.
 
 \begin{exercise}\label{exercise:1.25}
-  Mostre que, se uma moeda é lançada \(n\) vezes, existem exatamente
-  \[
-    \binom{n}{k} = \frac{n!}{k!(n-k)!}
-  \]
-  sequências de resultados possíveis nas quais são obtidas exatamente \(k\) caras.
-  Se a moeda for honesta (de modo que cara e coroa sejam igualmente prováveis a cada lançamento),
-  mostre que a probabilidade de obter pelo menos \(k\) caras é
-  \[
-    \frac{1}{2^n} \sum_{r=k}^{n} \binom{n}{r}.
-  \]
+Mostre que, se uma moeda é lançada \(n\) vezes, existem exatamente
+\[
+\binom{n}{k} = \frac{n!}{k!(n-k)!}
+\]
+sequências de resultados possíveis nas quais são obtidas exatamente \(k\) caras.
+Se a moeda for honesta (de modo que cara e coroa sejam igualmente prováveis a cada lançamento),
+mostre que a probabilidade de obter pelo menos \(k\) caras é
+\[
+\frac{1}{2^n} \sum_{r=k}^{n} \binom{n}{r}.
+\]
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.26}
-  Distribuímos \(r\) bolas distinguíveis em \(n\) urnas ao acaso, sendo
-  permitida a ocupação múltipla. Mostre que
-  \begin{enumerate}[label=(\alph*), ref=\alph*]
-    \item existem \(n^r\) distribuições possíveis,
-    \item existem \(\binom{r}{k}(n-1)^{r-k}\) distribuições nas quais a
-          primeira urna contém exatamente \(k\) bolas,
-    \item a probabilidade de que a primeira urna contenha exatamente \(k\) bolas é
-          \[
-            \binom{r}{k} \left(\frac{1}{n}\right)^k \left(1 -
-            \frac{1}{n}\right)^{r-k}.
-          \]
-  \end{enumerate}
+Distribuímos \(r\) bolas distinguíveis em \(n\) urnas ao acaso, sendo
+permitida a ocupação múltipla. Mostre que
+\begin{enumerate}[label=(\alph*), ref=\alph*]
+\item existem \(n^r\) distribuições possíveis,
+\item existem \(\binom{r}{k}(n-1)^{r-k}\) distribuições nas quais a
+primeira urna contém exatamente \(k\) bolas,
+\item a probabilidade de que a primeira urna contenha exatamente \(k\) bolas é
+\[
+\binom{r}{k} \left(\frac{1}{n}\right)^k \left(1 -
+\frac{1}{n}\right)^{r-k}.
+\]
+\end{enumerate}
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.27}
-  Em uma partida de \emph{Truco} para quatro jogadores, utiliza-se um baralho
-  tradicional de 40 cartas (sem os 8, 9 e 10, contendo 4 ases). Cada um dos
-  quatro jogadores recebe 3 cartas distribuídas ao acaso. Mostre que a
-  probabilidade de que cada jogador receba exatamente um ás é
-  \[
-    \frac{4! \cdot 3^4 \cdot 36!}{40!}
-    = \frac{1944}{40 \cdot 39 \cdot 38 \cdot 37}
-    \approx 0{,}000886 \quad (\text{cerca de } 0{,}09\%).
-  \]
+Em uma partida de \emph{Truco} para quatro jogadores, utiliza-se um baralho
+tradicional de 40 cartas (sem os 8, 9 e 10, contendo 4 ases). Cada um dos
+quatro jogadores recebe 3 cartas distribuídas ao acaso. Mostre que a
+probabilidade de que cada jogador receba exatamente um ás é
+\[
+\frac{4! \cdot 3^4 \cdot 36!}{40!}
+= \frac{1944}{40 \cdot 39 \cdot 38 \cdot 37}
+\approx 0{,}000886 \quad (\text{cerca de } 0{,}09\%).
+\]
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.28}
-  Ainda no contexto do \emph{Truco} com baralho de 40 cartas (\Cref{exercise:1.27}),
-  mostre que a probabilidade de que as mãos de dois jogadores fixados (por exemplo,
-  os dois parceiros de uma mesma dupla, que somam 6 cartas) contenham juntas
-  exatamente \(k\) ases (\(k \in \{0, 1, 2, 3, 4\}\)) é
-  \[
-    \frac{\binom{4}{k} \binom{36}{6-k}}{\binom{40}{6}}.
-  \]
+Ainda no contexto do \emph{Truco} com baralho de 40 cartas (\Cref{exercise:1.27}),
+mostre que a probabilidade de que as mãos de dois jogadores fixados (por exemplo,
+os dois parceiros de uma mesma dupla, que somam 6 cartas) contenham juntas
+exatamente \(k\) ases (\(k \in \{0, 1, 2, 3, 4\}\)) é
+\[
+\frac{\binom{4}{k} \binom{36}{6-k}}{\binom{40}{6}}.
+\]
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.29}
-  No mesmo jogo de \emph{Truco} com 40 cartas (sendo 10 cartas de cada um dos
-  quatro naipes: espadas, copas, ouros e paus), mostre que a probabilidade de
-  que a mão de um jogador (3 cartas) contenha exatamente 2 cartas de espadas e
-  1 de copas é
-  \[
-    \frac{\binom{10}{2} \binom{10}{1}}{\binom{40}{3}}.
-  \]
+No mesmo jogo de \emph{Truco} com 40 cartas (sendo 10 cartas de cada um dos
+quatro naipes: espadas, copas, ouros e paus), mostre que a probabilidade de
+que a mão de um jogador (3 cartas) contenha exatamente 2 cartas de espadas e
+1 de copas é
+\[
+\frac{\binom{10}{2} \binom{10}{1}}{\binom{40}{3}}.
+\]
 \end{exercise}
 
 \begin{exercise}\label{exercise:1.30}
-  Qual dos seguintes eventos é mais provável:
-  \begin{enumerate}[label=(\alph*), ref=\alph*]
-    \item obter pelo menos um seis em 4 lançamentos de um dado,
-    \item obter pelo menos um duplo seis em 24 lançamentos de dois dados?
-  \end{enumerate}
-  Este problema é por vezes chamado de ``paradoxo de de M\'er\'e'', em referência
-  ao jogador profissional Chevalier de M\'er\'e, que acreditava que esses dois
-  eventos tinham igual probabilidade.
+Qual dos seguintes eventos é mais provável:
+\begin{enumerate}[label=(\alph*), ref=\alph*]
+\item obter pelo menos um seis em 4 lançamentos de um dado,
+\item obter pelo menos um duplo seis em 24 lançamentos de dois dados?
+\end{enumerate}
+Este problema é por vezes chamado de ``paradoxo de de M\'er\'e'', em referência
+ao jogador profissional Chevalier de M\'er\'e, que acreditava que esses dois
+eventos tinham igual probabilidade.
 \end{exercise}
 
 \section{Continuidade das Medidas de Probabilidade}
@@ -1400,163 +1419,301 @@ que omita esta seção em uma primeira leitura, se preferir.
 Uma sequência \(A_1, A_2, \ldots\) de eventos em um espaço de probabilidade
 \((\Omega, \mathcal{F}, \mathbb{P})\) é dita \emph{crescente} se
 \[
-  A_n \subseteq A_{n+1} \quad \text{para todo } n = 1, 2, \ldots.
+A_n \subseteq A_{n+1} \quad \text{para todo } n = 1, 2, \ldots.
 \]
 A união
 \[
-  A = \bigcup_{i=1}^{\infty} A_i
+A = \bigcup_{i=1}^{\infty} A_i
 \]
 de tal sequência é chamada o \emph{limite} da sequência, e é uma consequência
-elementar dos axiomas de um espaço de eventos que \(A\) seja um evento. Não é
+elementar dos axiomas de $\sigma$-álgebra que \(A\) seja um evento. Não é
 surpreendente, talvez, que a probabilidade \(\mathbb{P}(A)\) de \(A\) possa ser
 expressa como o limite \(\lim_{n \to \infty} \mathbb{P}(A_n)\) das
-probabilidades dos \(A_n\).
+probabilidades dos \(A_n\) \cite{GrimmettWelsh2014}.
 
 \begin{theorem}[Continuidade das medidas de probabilidade]\label{thm:1.54}
-  Seja \((\Omega, \mathcal{F}, \mathbb{P})\) um espaço de probabilidade. Se
-  \(A_1, A_2, \ldots\) é uma sequência crescente de eventos em
-  \(\mathcal{F}\) com limite \(A\), então
-  \[
-    \mathbb{P}(A) = \lim_{n \to \infty} \mathbb{P}(A_n).
-  \]
+Seja \((\Omega, \mathcal{F}, \mathbb{P})\) um espaço de probabilidade. Se
+\(A_1, A_2, \ldots\) é uma sequência crescente de eventos em
+\(\mathcal{F}\) com limite \(A\), então
+\[
+\mathbb{P}(A) = \lim_{n \to \infty} \mathbb{P}(A_n).
+\]
 \end{theorem}
 
-Apresentamos uma aplicação antes da demonstração do teorema.
-
-\begin{example}\label{ex:1.55}
-  É intuitivamente claro que a chance de não obter nenhuma cara em uma sequência
-  infinita de lançamentos de uma moeda honesta é 0. Uma demonstração rigorosa é
-  feita como segue. Seja \(A_n\) o evento de que os primeiros \(n\) lançamentos
-  da moeda produzam pelo menos uma cara. Então
-  \[
-    A_n \subseteq A_{n+1} \quad \text{para todo } n = 1, 2, \ldots,
-  \]
-  de modo que os \(A_n\) formam uma sequência crescente. O conjunto limite
-  \(A\) é o evento de que cara ocorre mais cedo ou mais tarde. Pela continuidade
-  de \(\mathbb{P}\) (\Cref{thm:1.54}),
-  \[
-    \mathbb{P}(A) = \lim_{n \to \infty} \mathbb{P}(A_n).
-  \]
-  No entanto, \(\mathbb{P}(A_n) = 1 - \left(\tfrac{1}{2}\right)^n\), e portanto
-  \(\mathbb{P}(A_n) \to 1\) quando \(n \to \infty\). Logo \(\mathbb{P}(A) = 1\),
-  o que implica que a probabilidade \(\mathbb{P}(\Omega \setminus A)\), de que
-  nenhuma cara jamais apareça, é igual a 0. A \Cref{fig:arvore-moeda}
-  ilustra a situação.
-\end{example}
-
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}[
-    scale=0.85, line width=0.7pt,
-    every node/.style={font=\small},
-    ponto/.style={circle, draw, minimum size=4.5mm, inner sep=1pt},
-    destaque/.style={ponto, fill=black!25, line width=0.9pt},
-  ]
-    \node[ponto, fill=black, minimum size=2.5mm] (r) at (0,0) {};
-    \node[ponto] (C) at (-2.8,-1.5) {C};
-    \node[destaque] (K) at (2.8,-1.5) {K};
-    \node[ponto] (CC) at (-4.2,-3) {CC};
-    \node[ponto] (CK) at (-1.4,-3) {CK};
-    \node[ponto] (KC) at (1.4,-3) {KC};
-    \node[destaque] (KK) at (4.2,-3) {KK};
-    \node[ponto] (CCC) at (-4.9,-4.5) {CCC};
-    \node[ponto] (CCK) at (-3.5,-4.5) {CCK};
-    \node[ponto] (CKC) at (-2.1,-4.5) {CKC};
-    \node[ponto] (CKK) at (-0.7,-4.5) {CKK};
-    \node[ponto] (KCC) at (0.7,-4.5) {KCC};
-    \node[ponto] (KCK) at (2.1,-4.5) {KCK};
-    \node[ponto] (KKC) at (3.5,-4.5) {KKC};
-    \node[destaque] (KKK) at (4.9,-4.5) {KKK};
-    \draw (r) -- node[midway, sloped, above] {\footnotesize C} (C);
-    \draw[line width=1.1pt] (r) -- node[midway, sloped, above] {\footnotesize K} (K);
-    \draw (C) -- node[midway, sloped, above] {\footnotesize C} (CC);
-    \draw (C) -- node[midway, sloped, above] {\footnotesize K} (CK);
-    \draw (K) -- node[midway, sloped, above] {\footnotesize C} (KC);
-    \draw[line width=1.1pt] (K) -- node[midway, sloped, above] {\footnotesize K} (KK);
-    \draw (CC) -- node[midway, sloped, above] {\footnotesize C} (CCC);
-    \draw (CC) -- node[midway, sloped, above] {\footnotesize K} (CCK);
-    \draw (CK) -- node[midway, sloped, above] {\footnotesize C} (CKC);
-    \draw (CK) -- node[midway, sloped, above] {\footnotesize K} (CKK);
-    \draw (KC) -- node[midway, sloped, above] {\footnotesize C} (KCC);
-    \draw (KC) -- node[midway, sloped, above] {\footnotesize K} (KCK);
-    \draw (KK) -- node[midway, sloped, above] {\footnotesize C} (KKC);
-    \draw[line width=1.1pt] (KK) -- node[midway, sloped, above] {\footnotesize K} (KKK);
-    \draw[dashed] (KKK.south) -- (4.9,-5.7);
-    \node at (4.9,-6.05) {\(\vdots\)};
-    \node[anchor=west] at (5.2,-5.4) {\footnotesize sempre coroa};
-    \node at (2.8,-2.15) {\footnotesize\(\tfrac{1}{2}\)};
-    \node[anchor=west] at (4.72,-3.0) {\footnotesize\(\tfrac{1}{4}\)};
-    \node[anchor=east] at (4.38,-4.5) {\footnotesize\(\tfrac{1}{8}\)};
-  \end{tikzpicture}
-  \caption{Os primeiros níveis da árvore de lançamentos do \Cref{ex:1.55}.
-    O caminho destacado corresponde a nunca obter cara: a probabilidade de
-    que os primeiros \(n\) lançamentos sejam todos coroa é \(2^{-n}\), que
-    tende a \(0\) quando \(n \to \infty\).}\label{fig:arvore-moeda}
+\begin{proof}
+O único instrumento de que dispomos neste momento são os axiomas de Kolmogorov.
+Dentre eles, o relevante aqui é o axioma de $\sigma$-aditividade, que só se
+aplica diretamente a coleções de eventos dois-a-dois disjuntos. Como a
+sequência $(A_n)$ é crescente, os eventos $A_n$ não são disjuntos; o primeiro
+passo é, portanto, reescrever a união que nos interessa como uma união
+disjunta. A ideia é decompor a união dos $A_n$ em uma espécie de coleção de
+``anéis'' disjuntos, como ilustra a \Cref{fig:telescopia}.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.5, transform shape=false, line width=0.7pt]
+% fatias, da mais externa (mais clara) para a mais interna (mais escura)
+\fill[black!5]  (0,0) circle (2.2);
+\fill[black!15] (0,0) circle (1.7);
+\fill[black!30] (0,0) circle (1.2);
+\fill[black!50] (0,0) circle (0.7);
+% contornos
+\draw (0,0) circle (0.7);
+\draw (0,0) circle (1.2);
+\draw (0,0) circle (1.7);
+\draw[dashed, line width=0.9pt] (0,0) circle (2.2);
+% rotulos das fatias (eixo vertical)
+\node[text=white] at (0,0) {\(B_1\)};
+\node at (0,0.95) {\(B_2\)};
+\node at (0,1.45) {\(B_3\)};
+\node at (0,2) {\(\vdots\)};
+% rótulos dos conjuntos A_i (dentro das fatias, na diagonal inferior)
+\node at (0.35,-0.30) {\(A_1\)};
+\node at (0.75,-0.62) {\(A_2\)};
+\node at (1.15,-0.91) {\(A_3\)};
+% limite
+\node at (0,2.55) {\(A = \bigcup_{i=1}^{\infty} A_i\)};
+\end{tikzpicture}
+\caption{Uma sequência crescente \(A_1 \subseteq A_2 \subseteq A_3 \subseteq
+\cdots\) e sua decomposição em ``anéis'' disjuntos $B_1, B_2,\ldots$. 
+}\label{fig:telescopia}
 \end{figure}
 
-\begin{proof}[Prova do \Cref{thm:1.54}]
-  Seja \(B_1 = A_1\) e \(B_i = A_i \setminus A_{i-1}\) para \(i \geq 2\). Então
-  \[
-    A = A_1 \cup B_2 \cup B_3 \cup \cdots
-  \]
-  é a união de eventos disjuntos em \(\mathcal{F}\) (veja a
-  \Cref{fig:telescopia}). Por \eqref{eq:1.14},
-  \[
-    \begin{aligned}
-      \mathbb{P}(A) &= \mathbb{P}(A_1) + \mathbb{P}(B_2) + \mathbb{P}(B_3) +
-        \cdots \\
-      &= \mathbb{P}(A_1) + \lim_{n \to \infty} \sum_{k=2}^{n}
-        \mathbb{P}(B_k).
-    \end{aligned}
-  \]
+Mais precisamente, definimos uma coleção auxiliar $\{B_n\}_{n\in\mathbb{N}}$ da seguinte maneira:
+\(B_1 = A_1\) e \(B_i = A_i \setminus A_{i-1}\) para \(i \geq 2\). Por
+construção, os \(B_n\) são dois-a-dois disjuntos: de fato, se \(i < j\), então
+\(B_i \subseteq A_i \subseteq A_{j-1}\), pois a sequência é crescente, enquanto
+\(B_j = A_j \setminus A_{j-1}\) é disjunto de \(A_{j-1}\); logo
+\(B_i \cap B_j = \emptyset\).
+Então para cada $n\in\mathbb{N}$ fixado temos 
+\begin{align}\label{eq-aux1-cont-prob}
+B_1 \cup B_2 \cup \ldots\cup B_n \,=\,  A_1\cup A_2\cup\ldots\cup A_n \, =\, A_n, 
+\end{align}
+onde a primeira igualdade expressa que os anéis \(B_1, \dots, B_n\) particionam
+\(A_n\), e a segunda usa o fato de que \((A_n)\) é uma sequência crescente.
+
+Tomando a união sobre todos os \(n\) em \eqref{eq-aux1-cont-prob}, obtemos
+\begin{align}\label{eq-aux2-cont-prob}
+\bigcup_{n=1}^{\infty} B_n = \bigcup_{n=1}^{\infty} A_n  = A.
+\end{align}
+
+Como os \(B_i\) são disjuntos, a aditividade finita da medida, juntamente com
+\eqref{eq-aux1-cont-prob}, dá, para cada \(n\),
+%
+\begin{align*}
+\mathbb{P}(A_n)
+&= \mathbb{P}\left( \bigcup_{i=1}^n B_i \right) \\
+&= \mathbb{P}(B_1)+\mathbb{P}(B_2)+\ldots+\mathbb{P}(B_n)
+\\
+&= \sum_{i=1}^{n} \mathbb{P}(B_i).
+\end{align*}
+
+
+Resta tomar o limite quando \(n \to \infty\). Como cada \(\mathbb{P}(B_i)\) é
+não negativo, as somas parciais
+\(\sum_{i=1}^n \mathbb{P}(B_i) = \mathbb{P}(A_n)\) formam uma sequência
+crescente e limitada superiormente por \(1\); o limite portanto existe.
+Aplicando a $\sigma$-aditividade à coleção disjunta \((B_i)\) e usando
+\eqref{eq-aux2-cont-prob}, obtemos
+\begin{align*}
+\lim_{n\to\infty} \mathbb{P}(A_n)
+&= \lim_{n\to\infty}\sum_{i=1}^{n} \mathbb{P}(B_i) \\
+&= \sum_{i=1}^{\infty} \mathbb{P}(B_i) \\
+&= \mathbb{P}\left( \bigcup_{i=1}^{\infty} B_i\right) \\
+&= \mathbb{P}(A),
+\end{align*}
+onde a segunda igualdade é a definição de série infinita. Isso conclui a
+demonstração.
 \end{proof}
 
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}[scale=1.0, line width=0.7pt]
-    % fatias, da mais externa (mais clara) para a mais interna (mais escura)
-    \fill[black!5]  (0,0) circle (2.2);
-    \fill[black!15] (0,0) circle (1.7);
-    \fill[black!30] (0,0) circle (1.2);
-    \fill[black!50] (0,0) circle (0.7);
-    % contornos
-    \draw (0,0) circle (0.7);
-    \draw (0,0) circle (1.2);
-    \draw (0,0) circle (1.7);
-    \draw[dashed, line width=0.9pt] (0,0) circle (2.2);
-    % rotulos das fatias (eixo vertical)
-    \node[text=white] at (0,0) {\(B_1\)};
-    \node at (0,0.95) {\(B_2\)};
-    \node at (0,1.45) {\(B_3\)};
-    \node at (0,1.95) {\(\cdots\)};
-    % rotulos dos conjuntos A_i (sobre as fronteiras, diagonal inferior)
-    \node[fill=white, inner sep=1pt] at (0.495,-0.495) {\(A_1\)};
-    \node[fill=white, inner sep=1pt] at (0.849,-0.849) {\(A_2\)};
-    \node[fill=white, inner sep=1pt] at (1.202,-1.202) {\(A_3\)};
-    % limite
-    \node at (0,2.55) {\(A = \bigcup_{i=1}^{\infty} A_i\)};
-  \end{tikzpicture}
-  \caption{Uma sequência crescente \(A_1 \subseteq A_2 \subseteq A_3 \subseteq
-    \cdots\) e sua decomposição em fatias disjuntas: \(B_1 = A_1\) e
-    \(B_i = A_i \setminus A_{i-1}\) para \(i \geq 2\). O limite é
-    \(A = \bigcup_{i=1}^{\infty} A_i = B_1 \cup B_2 \cup B_3 \cup \cdots\).
-    }\label{fig:telescopia}
+
+\begin{example}\label{ex:1.55}
+É intuitivamente claro que a chance de não obter nenhuma cara em uma sequência
+infinita de lançamentos de uma moeda honesta é \(0\) (cf.\
+\cite{GrimmettWelsh2014}). Antes de provar, porém,
+um aluno atento pode perguntar: \emph{qual é, exatamente, o espaço de
+probabilidade que modela infinitos lançamentos?} Vamos construí-lo.
+
+\textbf{O espaço de sequências.} Um lançamento isolado tem espaço
+\(\{0,1\}\), onde escrevemos \(1\) para cara e \(0\) para coroa. Um resultado
+de infinitos lançamentos é uma sequência
+\(\omega = (\omega_1, \omega_2, \ldots)\) com \(\omega_i \in \{0,1\}\); o
+espaço amostral é, portanto, o produto cartesiano enumerável
+\[
+\Omega = \{0,1\}^{\mathbb{N}} = \{ (\omega_1,\omega_2,\ldots) : \omega_i \in \{0,1\} \}.
+\]
+
+\textbf{Cilindros.} Não é viável descrever de uma vez todos os eventos de
+\(\Omega\); começamos com uma família intuitiva, os \emph{cilindros}, conjuntos
+em que fixamos um número finito de coordenadas e deixamos as restantes livres.
+Por exemplo,
+\[
+C(1,1) = \{ \omega \in \Omega : \omega_1 = 1,\ \omega_2 = 1 \} = (1,1,*,*,\ldots)
+\]
+é o evento ``os dois primeiros lançamentos dão cara'', em que \(*\) denota uma
+coordenada livre. A \Cref{fig:cilindros} ilustra este e outro cilindro.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  line width=0.7pt,
+  caixa/.style={draw, minimum size=8mm, inner sep=0pt, font=\small},
+  fixa/.style={caixa, fill=black!20},
+  livre/.style={caixa, dashed, text=muted},
+]
+\foreach \i in {1,...,5} {
+  \node[font=\scriptsize, anchor=south] at (1.15*\i,0.5) {\(\omega_{\i}\)};
+}
+\foreach \i/\c/\s in {1/1/fixa,2/1/fixa,3/*/livre,4/*/livre,5/*/livre}{
+  \node[\s] (a\i) at (1.15*\i,0) {\c};
+}
+\node[font=\small] at (1.15*6,0) {\(\ldots\)};
+\draw[decorate, decoration={brace, mirror, raise=3pt}]
+  (a1.south west) -- (a2.south east)
+  node[midway, below=8pt, font=\scriptsize] {fixado};
+\draw[decorate, decoration={brace, mirror, raise=3pt}]
+  (a3.south west) -- (a5.south east)
+  node[midway, below=8pt, font=\scriptsize] {livre};
+\foreach \i/\c/\s in {1/1/fixa,2/0/fixa,3/1/fixa,4/*/livre,5/*/livre}{
+  \node[\s] (b\i) at (1.15*\i,-1.8) {\c};
+}
+\node[font=\small] at (1.15*6,-1.8) {\(\ldots\)};
+\end{tikzpicture}
+\caption{Cilindros em \(\Omega = \{0,1\}^{\mathbb{N}}\). Acima,
+\(C(1,1) = (1,1,*,*,\ldots)\): duas coordenadas fixadas, demais livres,
+\(\mathbb{P} = 2^{-2} = 1/4\). Abaixo, \(C(1,0,1)\): três coordenadas
+fixadas, \(\mathbb{P} = 2^{-3} = 1/8\).}\label{fig:cilindros}
 \end{figure}
 
-No entanto,
+\textbf{A medida nos cilindros.} Que probabilidade atribuir a um cilindro? Se
+ele fixa \(k\) coordenadas, essas coordenadas correspondem a \(k\) lançamentos
+independentes de uma moeda honesta, e as coordenadas livres não impõem
+restrição alguma; a única escolha razoável é, pois,
 \[
-  \mathbb{P}(B_i) = \mathbb{P}(A_i) - \mathbb{P}(A_{i-1}) \quad \text{para }
-  i = 2, 3, \dots,
+\mathbb{P}(C) = 2^{-k}.
 \]
-e portanto
+Assim \(\mathbb{P}(C(1,1)) = 2^{-2} = 1/4\) e
+\(\mathbb{P}(C(1,0,1)) = 2^{-3} = 1/8\) (\Cref{fig:cilindros}).
+
+\textbf{A \(\sigma\)-álgebra.} Os cilindros não formam uma \(\sigma\)-álgebra:
+uniões enumeráveis de cilindros em geral não são cilindros. Tomamos como
+\(\sigma\)-álgebra de eventos a menor \(\sigma\)-álgebra que contém todos os
+cilindros,
 \[
-  \begin{aligned}
-    \mathbb{P}(A) &= \mathbb{P}(A_1) + \lim_{n \to \infty} \sum_{k=2}^n
-      [\mathbb{P}(A_k) - \mathbb{P}(A_{k-1})] \\
-    &= \lim_{n \to \infty} \mathbb{P}(A_n)
-  \end{aligned}
+\mathcal{F} = \sigma(\text{cilindros}),
 \]
-como queríamos demonstrar, visto que a última soma é telescópica.
+a \emph{\(\sigma\)-álgebra dos cilindros} (que coincide com a
+\(\sigma\)-álgebra de produto).
+
+O passo delicado é estender a atribuição \(C \mapsto 2^{-k}\), definida apenas
+nos cilindros, a uma medida de probabilidade em todo \((\Omega,\mathcal{F})\).
+Essa extensão --- e sua unicidade --- é garantida pelo teorema de extensão de
+Kolmogorov (equivalentemente, pela construção de Carathéodory); não a
+demonstraremos aqui (veja a \Cref{obs:extensao} e os exercícios a seguir).
+Aceitamos, pois, que um espaço \((\Omega,\mathcal{F},\mathbb{P})\) com essas
+propriedades existe.
+
+\textbf{O argumento.} Seja \(A_n\) o evento de que os primeiros \(n\)
+lançamentos produzam pelo menos uma cara. Então
+\(A_n \subseteq A_{n+1}\), de modo que os \(A_n\) formam uma sequência
+crescente, e o limite \(A\) é o evento ``cara ocorre mais cedo ou mais tarde''.
+Pela continuidade (\Cref{thm:1.54}),
+\(\mathbb{P}(A) = \lim_{n\to\infty} \mathbb{P}(A_n)\).
+
+Para calcular \(\mathbb{P}(A_n)\), observe que o complementar é o cilindro em
+que os \(n\) primeiros lançamentos são coroa:
+\[
+\Omega \setminus A_n = C(\underbrace{0,\ldots,0}_{n}),
+\]
+de modo que \(\mathbb{P}(\Omega \setminus A_n) = 2^{-n}\) e, portanto,
+\(\mathbb{P}(A_n) = 1 - 2^{-n} \to 1\). Logo \(\mathbb{P}(A) = 1\), e a
+probabilidade de que nenhuma cara jamais apareça,
+\(\mathbb{P}(\Omega \setminus A)\), é \(0\). A \Cref{fig:arvore-moeda} ilustra
+a situação.
+\end{example}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+scale=0.85, line width=0.7pt,
+every node/.style={font=\small},
+ponto/.style={circle, draw, minimum size=4.5mm, inner sep=1pt,
+font=\scriptsize},
+trio/.style={ponto, inner sep=2.25pt},
+rotulo/.style={midway, fill=white, inner sep=0.6pt},
+destaque/.style={ponto, fill=black!25, line width=0.9pt},
+]
+\node[ponto, fill=black, minimum size=2.5mm] (r) at (0,0) {};
+\node[ponto] (C) at (-4,-3) {\cara};
+\node[destaque] (K) at (4,-3) {\coroa};
+\node[ponto] (CC) at (-6,-6) {\cara\,\cara};
+\node[ponto] (CK) at (-2,-6) {\cara\,\coroa};
+\node[ponto] (KC) at (2,-6) {\coroa\,\cara};
+\node[destaque] (KK) at (6,-6) {\coroa\,\coroa};
+\node[trio] (CCC) at (-7,-10) {\cara\,\cara\,\cara};
+\node[trio] (CCK) at (-5,-10) {\cara\,\cara\,\coroa};
+\node[trio] (CKC) at (-3,-10) {\cara\,\coroa\,\cara};
+\node[trio] (CKK) at (-1,-10) {\cara\,\coroa\,\coroa};
+\node[trio] (KCC) at (1,-10) {\coroa\,\cara\,\cara};
+\node[trio] (KCK) at (3,-10) {\coroa\,\cara\,\coroa};
+\node[trio] (KKC) at (5,-10) {\coroa\,\coroa\,\cara};
+\node[destaque, trio] (KKK) at (7,-10) {\coroa\,\coroa\,\coroa};
+\draw (r) -- node[rotulo] {\footnotesize\cara} (C);
+\draw[line width=1.1pt] (r) -- node[rotulo] {\footnotesize\coroa} (K);
+\draw (C) -- node[rotulo] {\footnotesize\cara} (CC);
+\draw (C) -- node[rotulo] {\footnotesize\coroa} (CK);
+\draw (K) -- node[rotulo] {\footnotesize\cara} (KC);
+\draw[line width=1.1pt] (K) -- node[rotulo] {\footnotesize\coroa} (KK);
+\draw (CC) -- node[rotulo] {\footnotesize\cara} (CCC);
+\draw (CC) -- node[rotulo] {\footnotesize\coroa} (CCK);
+\draw (CK) -- node[rotulo] {\footnotesize\cara} (CKC);
+\draw (CK) -- node[rotulo] {\footnotesize\coroa} (CKK);
+\draw (KC) -- node[rotulo] {\footnotesize\cara} (KCC);
+\draw (KC) -- node[rotulo] {\footnotesize\coroa} (KCK);
+\draw (KK) -- node[rotulo] {\footnotesize\cara} (KKC);
+\draw[line width=1.1pt] (KK) -- node[rotulo] {\footnotesize\coroa} (KKK);
+\draw[dashed] (KKK.south) -- (7,-11.2);
+\node at (7,-11.55) {\(\vdots\)};
+\node[anchor=west] at (7.4,-10.9) {\footnotesize sempre coroa};
+\node[anchor=west] at (4.65,-3.0) {\large\(\tfrac{1}{2}\)};
+\node[anchor=west] at (6.65,-6.0) {\large\(\tfrac{1}{4}\)};
+\node[anchor=west] at (8.0,-10.0) {\large\(\tfrac{1}{8}\)};
+\end{tikzpicture}
+\caption{Os primeiros níveis da árvore de lançamentos do \Cref{ex:1.55}.
+O caminho destacado corresponde a nunca obter cara: a probabilidade de
+que os primeiros \(n\) lançamentos sejam todos coroa é \(2^{-n}\), que
+tende a \(0\) quando \(n \to \infty\).}\label{fig:arvore-moeda}
+\end{figure}
+
+\begin{remark}[Existência da medida de produto]\label{obs:extensao}
+A atribuição \(\mathbb{P}(C) = 2^{-k}\) é \emph{consistente}: ela é
+normalizada e finitamente aditiva em uniões disjuntas finitas de cilindros
+(veja o \Cref{ex:cilindros-particao}), o que a torna uma pré-medida na álgebra
+gerada pelos cilindros. O teorema de extensão de Carathéodory --- ou, na
+linguagem de processos aleatórios, o teorema de extensão de Kolmogorov
+\cite{TEK2025MatUnb, MR2893652} --- garante que essa pré-medida se estende, de
+modo único, a uma medida de
+probabilidade em \(\sigma(\text{cilindros})\). É esse resultado que legitima o
+espaço \((\Omega,\mathcal{F},\mathbb{P})\) do \Cref{ex:1.55}; sua prova foge ao
+escopo destas notas.
+\end{remark}
+
+\begin{exercise}\label{ex:cilindros-particao}
+Para cada \(k \geq 1\), mostre que \(\Omega\) é a união disjunta dos \(2^k\)
+cilindros que fixam as \(k\) primeiras coordenadas. Conclua que a soma das
+probabilidades \(2^{-k}\) desses cilindros é \(1\), isto é, a atribuição
+\(\mathbb{P}(C) = 2^{-k}\) é normalizada.
+\end{exercise}
+
+\begin{exercise}
+No \Cref{ex:1.55}, verifique que \(\Omega \setminus A_n = C(0,\ldots,0)\)
+(\(n\) zeros) e conclua que \(A_n \in \mathcal{F}\).
+\end{exercise}
+
+\begin{exercise}
+Mostre que o evento ``nunca sai cara'' pode ser escrito como
+\(\bigcap_{n=1}^{\infty} C(\underbrace{0,\ldots,0}_{n})\), uma interseção
+enumerável de cilindros, e conclua que ele pertence a \(\mathcal{F}\).
+\end{exercise}
 
 A conclusão do \Cref{thm:1.54} é expressa em termos de uma sequência
 \emph{crescente} de eventos, mas a afirmação correspondente para uma sequência
@@ -1570,143 +1727,143 @@ onde \(B = \bigcap_{i=1}^\infty B_i\) é o limite dos \(B_i\) quando \(i \to
 \section{Problemas}
 
 \begin{enumerate}[label={\arabic*.}]
-  \item Um dado honesto é lançado \(n\) vezes. Mostre que a probabilidade de
-        que haja um número par de seis é \(\tfrac{1}{2}[1 +
-        (\tfrac{2}{3})^n]\). Para o propósito desta questão, 0 é considerado um
-        número par.
-  \item Existe um espaço de eventos contendo exatamente seis eventos?
-  \item Demonstre a desigualdade de Boole:
-        \[
-          \mathbb{P}\left(\bigcup_{i=1}^n A_i\right) \leq \sum_{i=1}^n
-          \mathbb{P}(A_i).
-        \]
-  \item Demonstre que
-        \[
-          \mathbb{P}\left(\bigcap_{i=1}^n A_i\right) \geq 1 - n +
-          \sum_{i=1}^n \mathbb{P}(A_i).
-        \]
-        Esta desigualdade é por vezes chamada de \emph{desigualdade de
-        Bonferroni}, embora o termo não seja recomendado por possuir múltiplos
-        usos.
-  \item Duas pessoas lançam uma moeda honesta \(n\) vezes cada uma. Mostre que
-        a probabilidade de que ambas obtenham o mesmo número de caras é
-        \[
-          \binom{2n}{n} \left(\frac{1}{2}\right)^{2n}.
-        \]
-  \item Mostre que, se \(u_n\) é a probabilidade de que \(n\) lançamentos de
-        uma moeda honesta não contenham uma sequência consecutiva de 4 caras,
-        então, para \(n \geq 4\),
-        \[
-          u_n = \frac{1}{2}u_{n-1} + \frac{1}{4}u_{n-2} + \frac{1}{8}u_{n-3}
-          + \frac{1}{16}u_{n-4}.
-        \]
-        Use essa equação de diferenças para mostrar que \(u_8 =
-        \frac{208}{256}\).
-  \item[\starredproblem] Qualquer número \(\omega \in [0, 1]\) possui uma
-        expansão decimal
-        \[
-          \omega = 0{,}x_1 x_2 \dots,
-        \]
-        e escrevemos \(f_k(\omega, n)\) para a proporção de vezes que o dígito
-        \(k\) aparece nos primeiros \(n\) dígitos dessa expansão. Dizemos que
-        \(\omega\) é um \emph{número normal} se
-        \[
-          f_k(\omega, n) \to \frac{1}{10} \quad \text{quando } n \to \infty
-        \]
-        para todo \(k = 0, 1, 2, \dots, 9\). Por intuição, podemos esperar
-        que a maioria dos números em \([0, 1]\) sejam normais, e Borel provou
-        que isso é de fato verdade. No entanto, exibir números normais
-        específicos é uma tarefa bem diferente. Demonstre que o número
-        \(0{,}1234567891011121314\ldots\) é normal. É um problema em aberto
-        na matemática provar se \(e - 2\) e \(\pi - 3\) também são números
-        normais.
-  \item \begin{enumerate}[label=(\alph*), ref=\alph*]
-          \item Seja \(\mathbb{P}(A)\) a probabilidade de ocorrência de um
-                evento \(A\). Demonstre cuidadosamente, para eventos
-                \(A_1, A_2, \dots, A_n\), que
-                \[
-                  \begin{array}{ll}
-                  \qquad  &\displaystyle\mathbb{P}\left(\bigcup_{i=1}^n A_i\right)
-                  =
-                  \sum_i \mathbb{P}(A_i) - \sum_{i<j} \mathbb{P}(A_i \cap A_j) +
-                  \\[0.5cm]
-                  &\displaystyle \qquad\qquad\qquad \qquad \qquad
-                  \sum_{i<j<k} \mathbb{P}(A_i \cap A_j \cap A_k) - \dots +
-                  (-1)^{n+1} \mathbb{P}\left(\bigcap_i A_i\right).
-                  \end{array}
-                \]
-          \item Certa noite, um porteiro confuso tentou pendurar \(n\) chaves
-                em seus \(n\) respectivos ganchos, mas apenas conseguiu
-                pendurá-las de forma independente e ao acaso. Não havia limite
-                para o número de chaves que poderiam ser penduradas em qualquer
-                gancho. Encontre uma expressão (diretamente ou usando o item
-                (a)) para a probabilidade de que pelo menos uma chave tenha sido
-                pendurada no seu próprio gancho.
+\item Um dado honesto é lançado \(n\) vezes. Mostre que a probabilidade de
+que haja um número par de seis é \(\tfrac{1}{2}[1 +
+(\tfrac{2}{3})^n]\). Para o propósito desta questão, 0 é considerado um
+número par.
+\item Existe um espaço de eventos contendo exatamente seis eventos?
+\item Demonstre a desigualdade de Boole:
+\[
+\mathbb{P}\left(\bigcup_{i=1}^n A_i\right) \leq \sum_{i=1}^n
+\mathbb{P}(A_i).
+\]
+\item Demonstre que
+\[
+\mathbb{P}\left(\bigcap_{i=1}^n A_i\right) \geq 1 - n +
+\sum_{i=1}^n \mathbb{P}(A_i).
+\]
+Esta desigualdade é por vezes chamada de \emph{desigualdade de
+Bonferroni}, embora o termo não seja recomendado por possuir múltiplos
+usos.
+\item Duas pessoas lançam uma moeda honesta \(n\) vezes cada uma. Mostre que
+a probabilidade de que ambas obtenham o mesmo número de caras é
+\[
+\binom{2n}{n} \left(\frac{1}{2}\right)^{2n}.
+\]
+\item Mostre que, se \(u_n\) é a probabilidade de que \(n\) lançamentos de
+uma moeda honesta não contenham uma sequência consecutiva de 4 caras,
+então, para \(n \geq 4\),
+\[
+u_n = \frac{1}{2}u_{n-1} + \frac{1}{4}u_{n-2} + \frac{1}{8}u_{n-3}
++ \frac{1}{16}u_{n-4}.
+\]
+Use essa equação de diferenças para mostrar que \(u_8 =
+\frac{208}{256}\).
+\item[\starredproblem] Qualquer número \(\omega \in [0, 1]\) possui uma
+expansão decimal
+\[
+\omega = 0{,}x_1 x_2 \dots,
+\]
+e escrevemos \(f_k(\omega, n)\) para a proporção de vezes que o dígito
+\(k\) aparece nos primeiros \(n\) dígitos dessa expansão. Dizemos que
+\(\omega\) é um \emph{número normal} se
+\[
+f_k(\omega, n) \to \frac{1}{10} \quad \text{quando } n \to \infty
+\]
+para todo \(k = 0, 1, 2, \dots, 9\). Por intuição, podemos esperar
+que a maioria dos números em \([0, 1]\) sejam normais, e Borel provou
+que isso é de fato verdade. No entanto, exibir números normais
+específicos é uma tarefa bem diferente. Demonstre que o número
+\(0{,}1234567891011121314\ldots\) é normal. É um problema em aberto
+na matemática provar se \(e - 2\) e \(\pi - 3\) também são números
+normais.
+\item \begin{enumerate}[label=(\alph*), ref=\alph*]
+\item Seja \(\mathbb{P}(A)\) a probabilidade de ocorrência de um
+evento \(A\). Demonstre cuidadosamente, para eventos
+\(A_1, A_2, \dots, A_n\), que
+\[
+\begin{array}{ll}
+\qquad  &\displaystyle\mathbb{P}\left(\bigcup_{i=1}^n A_i\right)
+=
+\sum_i \mathbb{P}(A_i) - \sum_{i<j} \mathbb{P}(A_i \cap A_j) +
+\\[0.5cm]
+&\displaystyle \qquad\qquad\qquad \qquad \qquad
+\sum_{i<j<k} \mathbb{P}(A_i \cap A_j \cap A_k) - \dots +
+(-1)^{n+1} \mathbb{P}\left(\bigcap_i A_i\right).
+\end{array}
+\]
+\item Certa noite, um porteiro confuso tentou pendurar \(n\) chaves
+em seus \(n\) respectivos ganchos, mas apenas conseguiu
+pendurá-las de forma independente e ao acaso. Não havia limite
+para o número de chaves que poderiam ser penduradas em qualquer
+gancho. Encontre uma expressão (diretamente ou usando o item
+(a)) para a probabilidade de que pelo menos uma chave tenha sido
+pendurada no seu próprio gancho.
 
-                Na manhã seguinte, o porteiro foi repreendido pelo administrador
-                do prédio, de modo que, na noite seguinte, ele teve o cuidado de
-                pendurar apenas uma chave em cada gancho. No entanto, ele ainda
-                as pendurou de maneira independente e aleatória. Encontre uma
-                expressão para a probabilidade de que nenhuma chave tenha sido
-                pendurada no seu próprio gancho.
+Na manhã seguinte, o porteiro foi repreendido pelo administrador
+do prédio, de modo que, na noite seguinte, ele teve o cuidado de
+pendurar apenas uma chave em cada gancho. No entanto, ele ainda
+as pendurou de maneira independente e aleatória. Encontre uma
+expressão para a probabilidade de que nenhuma chave tenha sido
+pendurada no seu próprio gancho.
 
-                Calcule os limites de ambas as expressões quando \(n \to
-                \infty\).
+Calcule os limites de ambas as expressões quando \(n \to
+\infty\).
 
-                Você pode assumir que, para \(x \in \mathbb{R}\),
-                \[
-                  e^x = \sum_{r=0}^{\infty} \frac{x^r}{r!} = \lim_{N \to
-                  \infty} \left(1 + \frac{x}{N}\right)^N.
-                \]
-          \end{enumerate}
-          (Oxford 1978M)
-  \item Dois baralhos idênticos de cartas, cada um contendo \(N\) cartas, são
-        embaralhados aleatoriamente. Dizemos que ocorre um \(k\)-emparelhamento
-        se os dois baralhos coincidem exatamente em \(k\) posições. Mostre que a
-        probabilidade de ocorrer um \(k\)-emparelhamento é
-        \[
-          \pi_k = \frac{1}{k!} \left(1 - \frac{1}{1!} + \frac{1}{2!} -
-          \frac{1}{3!} + \dots + \frac{(-1)^{N-k}}{(N-k)!}\right)
-        \]
-        para \(k = 0, 1, 2, \dots, N\). Note que \(\pi_k \simeq
-        1/(k!e)\) para \(N\) grande e \(k\) fixado. Tais probabilidades de
-        emparelhamento são utilizadas para testar desvios de aleatoriedade em
-        circunstâncias como testes psicológicos e competições de degustação de
-        vinhos. (Adota-se a convenção de que \(0! = 1\).)
-  \item[\starredproblem] Mostre que o axioma de que \(\mathbb{P}\) é
-        $\sigma$-aditiva (contavelmente aditiva) é equivalente ao axioma de que
-        \(\mathbb{P}\) é finitamente aditiva e contínua. Isto é, seja \(\Omega\)
-        um conjunto e \(\mathcal{F}\) uma $\sigma$-álgebra de subconjuntos de
-        \(\Omega\). Se \(\mathbb{P}\) é uma aplicação de \(\mathcal{F}\) em
-        \([0, 1]\) satisfazendo
-        \[
-          \begin{aligned}
-            \text{(i)} &\quad \mathbb{P}(\Omega) = 1, \quad \mathbb{P}(\varnothing)
-              = 0, \\
-            \text{(ii)} &\quad \text{se } A, B \in \mathcal{F} \text{ e }
-              A \cap B = \varnothing, \text{ então } \mathbb{P}(A \cup B) =
-              \mathbb{P}(A) + \mathbb{P}(B), \\
-            \text{(iii)} &\quad \text{se } A_1, A_2, \dots \in
-              \mathcal{F} \text{ e } A_i \subseteq A_{i+1} \text{ para todo }
-              i = 1, 2, \dots, \text{ então } \mathbb{P}(A) = \lim_{i \to
-              \infty} \mathbb{P}(A_i),
-          \end{aligned}
-        \]
-        onde \(A = \bigcup_{i=1}^{\infty} A_i\), então \(\mathbb{P}\)
-        satisfaz
-        \[
-          \mathbb{P}\left(\bigcup_i A_i\right) = \sum_i \mathbb{P}(A_i)
-        \]
-        para toda sequência \(A_1, A_2, \dots\) de eventos dois a dois
-        disjuntos.
-  \item Há \(n\) meias em uma gaveta, das quais três são vermelhas e as
-        restantes são pretas. John escolhe suas meias retirando duas ao acaso da
-        gaveta e as calça. A probabilidade de que ele use meias de cores
-        diferentes é três vezes maior do que a de usar um par de meias
-        vermelhas. Encontre \(n\).
+Você pode assumir que, para \(x \in \mathbb{R}\),
+\[
+e^x = \sum_{r=0}^{\infty} \frac{x^r}{r!} = \lim_{N \to
+\infty} \left(1 + \frac{x}{N}\right)^N.
+\]
+\end{enumerate}
+(Oxford 1978M)
+\item Dois baralhos idênticos de cartas, cada um contendo \(N\) cartas, são
+embaralhados aleatoriamente. Dizemos que ocorre um \(k\)-emparelhamento
+se os dois baralhos coincidem exatamente em \(k\) posições. Mostre que a
+probabilidade de ocorrer um \(k\)-emparelhamento é
+\[
+\pi_k = \frac{1}{k!} \left(1 - \frac{1}{1!} + \frac{1}{2!} -
+\frac{1}{3!} + \dots + \frac{(-1)^{N-k}}{(N-k)!}\right)
+\]
+para \(k = 0, 1, 2, \dots, N\). Note que \(\pi_k \simeq
+1/(k!e)\) para \(N\) grande e \(k\) fixado. Tais probabilidades de
+emparelhamento são utilizadas para testar desvios de aleatoriedade em
+circunstâncias como testes psicológicos e competições de degustação de
+vinhos. (Adota-se a convenção de que \(0! = 1\).)
+\item[\starredproblem] Mostre que o axioma de que \(\mathbb{P}\) é
+$\sigma$-aditiva (contavelmente aditiva) é equivalente ao axioma de que
+\(\mathbb{P}\) é finitamente aditiva e contínua. Isto é, seja \(\Omega\)
+um conjunto e \(\mathcal{F}\) uma $\sigma$-álgebra de subconjuntos de
+\(\Omega\). Se \(\mathbb{P}\) é uma aplicação de \(\mathcal{F}\) em
+\([0, 1]\) satisfazendo
+\[
+\begin{aligned}
+\text{(i)} &\quad \mathbb{P}(\Omega) = 1, \quad \mathbb{P}(\varnothing)
+= 0, \\
+\text{(ii)} &\quad \text{se } A, B \in \mathcal{F} \text{ e }
+A \cap B = \varnothing, \text{ então } \mathbb{P}(A \cup B) =
+\mathbb{P}(A) + \mathbb{P}(B), \\
+\text{(iii)} &\quad \text{se } A_1, A_2, \dots \in
+\mathcal{F} \text{ e } A_i \subseteq A_{i+1} \text{ para todo }
+i = 1, 2, \dots, \text{ então } \mathbb{P}(A) = \lim_{i \to
+\infty} \mathbb{P}(A_i),
+\end{aligned}
+\]
+onde \(A = \bigcup_{i=1}^{\infty} A_i\), então \(\mathbb{P}\)
+satisfaz
+\[
+\mathbb{P}\left(\bigcup_i A_i\right) = \sum_i \mathbb{P}(A_i)
+\]
+para toda sequência \(A_1, A_2, \dots\) de eventos dois a dois
+disjuntos.
+\item Há \(n\) meias em uma gaveta, das quais três são vermelhas e as
+restantes são pretas. John escolhe suas meias retirando duas ao acaso da
+gaveta e as calça. A probabilidade de que ele use meias de cores
+diferentes é três vezes maior do que a de usar um par de meias
+vermelhas. Encontre \(n\).
 
-        Para esse valor de \(n\), qual é a probabilidade de John usar um par de
-        meias pretas? (Cambridge 2008)
+Para esse valor de \(n\), qual é a probabilidade de John usar um par de
+meias pretas? (Cambridge 2008)
 \end{enumerate}
 
 
