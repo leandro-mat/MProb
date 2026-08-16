@@ -1,0 +1,55 @@
+% Fragmento temporário para a seção ``Espaços Amostrais Discretos''.
+% Pode ser inserido no arquivo principal com: \input{medidas-gibbs}
+
+\begin{example}[Medidas de Gibbs]\label{ex:gibbs-measure}
+  Seja \(\Omega\) um conjunto finito e não vazio, e considere o espaço de
+  eventos \(\mathcal{F} = \mathscr{P}(\Omega)\). Seja também
+  \[
+    H : \Omega \longrightarrow \mathbb{R}
+  \]
+  uma função. Em mecânica estatística, a função \(H\) é chamada de
+  \emph{Hamiltoniano} e atribui uma energia a cada estado \(\omega \in
+  \Omega\). Fixado um parâmetro \(\beta > 0\), que interpretamos como o
+  inverso da temperatura (absorvendo a constante de Boltzmann na definição de
+  \(\beta\)), definimos a \emph{função de partição} por
+  \[
+    Z(\beta) = \sum_{\omega \in \Omega} e^{-\beta H(\omega)}.
+  \]
+
+  Como \(\Omega\) é finito e cada termo da soma é positivo,
+  \(0 < Z(\beta) < \infty\). A \emph{medida de Gibbs} associada a \(H\) e
+  \(\beta\) é a medida de probabilidade \(\mathbb{P}_\beta\) definida por
+  \[
+    \mathbb{P}_\beta(A)
+    = \frac{1}{Z(\beta)}
+      \sum_{\omega \in A} e^{-\beta H(\omega)},
+    \qquad A \in \mathcal{F}.
+  \]
+  Assim, estados de menor energia recebem maior peso, enquanto a função de
+  partição normaliza esses pesos para que a probabilidade total seja 1.
+\end{example}
+
+\begin{exercise}\label{exercise:gibbs-high-temperature}
+  No contexto do \Cref{ex:gibbs-measure}, fixe um evento \(A \in \mathcal{F}\).
+  Calcule o limite de alta temperatura
+  \[
+    \lim_{\beta \downarrow 0} \mathbb{P}_\beta(A).
+  \]
+  Interprete o resultado em termos da medida uniforme sobre \(\Omega\).
+\end{exercise}
+
+\begin{exercise}\label{exercise:gibbs-low-temperature}
+  No contexto do \Cref{ex:gibbs-measure}, defina
+  \[
+    h_{\min} = \min_{\omega \in \Omega} H(\omega),
+    \qquad
+    \Omega_{\min} = \{\omega \in \Omega : H(\omega) = h_{\min}\}.
+  \]
+  Calcule o limite de baixa temperatura
+  \[
+    \lim_{\beta \to \infty} \mathbb{P}_\beta(A).
+  \]
+  Mostre que, no limite, a medida se torna uniforme sobre os estados de menor
+  energia. Em particular, descreva o que acontece quando o estado de menor
+  energia é único.
+\end{exercise}
