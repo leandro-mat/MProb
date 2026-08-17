@@ -205,8 +205,17 @@ JSON page: #3
 
 % --- RESUMO (ABSTRACT) ---
 \begin{abstract}
-Introduzimos o conceito de espaços de probabilidade e apresentamos as provas das propriedades elementares
-de uma medida de probabilidade.
+Estas notas introduzem os conceitos básicos da teoria moderna da probabilidade
+a partir dos axiomas de Kolmogorov. Começamos com a descrição de experimentos
+aleatórios por meio de espaços amostrais e eventos. Em seguida, definimos
+\(\sigma\)-álgebras, medidas de probabilidade e espaços de probabilidade, e
+demonstramos algumas propriedades elementares dessas medidas. Discutimos
+espaços amostrais discretos por meio de exemplos que incluem resultados
+equiprováveis, medidas de Gibbs, distribuições sobre inteiros e a distribuição
+zeta. Apresentamos também a continuidade das medidas de probabilidade e sua
+aplicação ao espaço de sequências associado a lançamentos infinitos de uma
+moeda. O texto contém exemplos, exercícios e figuras que acompanham a
+introdução dos conceitos.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -1031,6 +1040,14 @@ unitários, \(\mathbb{P}(\omega) = 1/N\) para todo \(\omega \in \Omega\),
 e \(\mathbb{P}(A) = \frac{\# A}{N}\) para qualquer \(A \subseteq \Omega\).
 \end{example}
 
+O exemplo anterior atribui a mesma probabilidade a todos os estados. Em
+muitos modelos, porém, alguns estados são mais prováveis do que outros, e é
+natural descrevê-los por meio de pesos associados a uma função de energia.
+O próximo exemplo apresenta as medidas de Gibbs, que formalizam essa ideia em
+um espaço de estados finito.
+
+\input{medidas-gibbs}
+
 \begin{example}[Inteiros aleatórios]\label{ex:1.24}
 Existem afirmações ``intuitivamente claras'' que não têm significado
 matemático preciso na teoria da probabilidade. Considere, por exemplo, a
@@ -1429,7 +1446,7 @@ de tal sequência é chamada o \emph{limite} da sequência, e é uma consequênc
 elementar dos axiomas de $\sigma$-álgebra que \(A\) seja um evento. Não é
 surpreendente, talvez, que a probabilidade \(\mathbb{P}(A)\) de \(A\) possa ser
 expressa como o limite \(\lim_{n \to \infty} \mathbb{P}(A_n)\) das
-probabilidades dos \(A_n\) \cite{GrimmettWelsh2014}.
+probabilidades dos \(A_n\).
 
 \begin{theorem}[Continuidade das medidas de probabilidade]\label{thm:1.54}
 Seja \((\Omega, \mathcal{F}, \mathbb{P})\) um espaço de probabilidade. Se
@@ -1528,12 +1545,12 @@ demonstração.
 
 \begin{example}\label{ex:1.55}
 É intuitivamente claro que a chance de não obter nenhuma cara em uma sequência
-infinita de lançamentos de uma moeda honesta é \(0\) (cf.\
-\cite{GrimmettWelsh2014}). Antes de provar, porém,
-um aluno atento pode perguntar: \emph{qual é, exatamente, o espaço de
-probabilidade que modela infinitos lançamentos?} Vamos construí-lo.
+infinita de lançamentos de uma moeda honesta é \(0\). Antes de provar este fato, porém,
+um leitor mais atento pode se perguntar: qual é, exatamente, o espaço de
+probabilidade que modela infinitos lançamentos de uma moeda honesta?
+Vamos construí-lo.
 
-\textbf{O espaço de sequências.} Um lançamento isolado tem espaço
+\noindent\textbf{O espaço de sequências.} Um lançamento isolado tem espaço
 \(\{0,1\}\), onde escrevemos \(1\) para cara e \(0\) para coroa. Um resultado
 de infinitos lançamentos é uma sequência
 \(\omega = (\omega_1, \omega_2, \ldots)\) com \(\omega_i \in \{0,1\}\); o
@@ -1542,7 +1559,7 @@ espaço amostral é, portanto, o produto cartesiano enumerável
 \Omega = \{0,1\}^{\mathbb{N}} = \{ (\omega_1,\omega_2,\ldots) : \omega_i \in \{0,1\} \}.
 \]
 
-\textbf{Cilindros.} Não é viável descrever de uma vez todos os eventos de
+\noindent\textbf{Cilindros.} Não é viável descrever de uma vez todos os eventos de
 \(\Omega\); começamos com uma família intuitiva, os \emph{cilindros}, conjuntos
 em que fixamos um número finito de coordenadas e deixamos as restantes livres.
 Por exemplo,
@@ -1584,7 +1601,7 @@ coordenada livre. A \Cref{fig:cilindros} ilustra este e outro cilindro.
 fixadas, \(\mathbb{P} = 2^{-3} = 1/8\).}\label{fig:cilindros}
 \end{figure}
 
-\textbf{A medida nos cilindros.} Que probabilidade atribuir a um cilindro? Se
+\noindent\textbf{A medida nos cilindros.} Que probabilidade atribuir a um cilindro? Se
 ele fixa \(k\) coordenadas, essas coordenadas correspondem a \(k\) lançamentos
 independentes de uma moeda honesta, e as coordenadas livres não impõem
 restrição alguma; a única escolha razoável é, pois,
@@ -1594,7 +1611,7 @@ restrição alguma; a única escolha razoável é, pois,
 Assim \(\mathbb{P}(C(1,1)) = 2^{-2} = 1/4\) e
 \(\mathbb{P}(C(1,0,1)) = 2^{-3} = 1/8\) (\Cref{fig:cilindros}).
 
-\textbf{A \(\sigma\)-álgebra.} Os cilindros não formam uma \(\sigma\)-álgebra:
+\noindent\textbf{A \(\sigma\)-álgebra.} Os cilindros não formam uma \(\sigma\)-álgebra:
 uniões enumeráveis de cilindros em geral não são cilindros. Tomamos como
 \(\sigma\)-álgebra de eventos a menor \(\sigma\)-álgebra que contém todos os
 cilindros,
@@ -1612,7 +1629,7 @@ demonstraremos aqui (veja a \Cref{obs:extensao} e os exercícios a seguir).
 Aceitamos, pois, que um espaço \((\Omega,\mathcal{F},\mathbb{P})\) com essas
 propriedades existe.
 
-\textbf{O argumento.} Seja \(A_n\) o evento de que os primeiros \(n\)
+\noindent\textbf{O argumento.} Seja \(A_n\) o evento de que os primeiros \(n\)
 lançamentos produzam pelo menos uma cara. Então
 \(A_n \subseteq A_{n+1}\), de modo que os \(A_n\) formam uma sequência
 crescente, e o limite \(A\) é o evento ``cara ocorre mais cedo ou mais tarde''.

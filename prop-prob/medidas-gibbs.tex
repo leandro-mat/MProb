@@ -1,16 +1,16 @@
-% Fragmento temporário para a seção ``Espaços Amostrais Discretos''.
-% Pode ser inserido no arquivo principal com: \input{medidas-gibbs}
+% Exemplo incluído na seção ``Espaços Amostrais Discretos'' por meio de
+% \input{medidas-gibbs}.
 
 \begin{example}[Medidas de Gibbs]\label{ex:gibbs-measure}
-  Seja \(\Omega\) um conjunto finito e não vazio, e considere o espaço de
-  eventos \(\mathcal{F} = \mathscr{P}(\Omega)\). Seja também
+  Seja \(\Omega\) um conjunto finito e não vazio, e tome
+  \(\mathcal{F} = \mathscr{P}(\Omega)\). Considere uma função
   \[
     H : \Omega \longrightarrow \mathbb{R}
   \]
-  uma função. Em mecânica estatística, a função \(H\) é chamada de
-  \emph{Hamiltoniano} e atribui uma energia a cada estado \(\omega \in
-  \Omega\). Fixado um parâmetro \(\beta > 0\), que interpretamos como o
-  inverso da temperatura (absorvendo a constante de Boltzmann na definição de
+  que, em Mecânica Estatística, é chamada de \emph{Hamiltoniano}: a cada
+  estado \(\omega \in \Omega\), ela associa uma energia \(H(\omega)\).
+  Fixado um parâmetro \(\beta > 0\), interpretado como o inverso da
+  temperatura (com a constante de Boltzmann absorvida na definição de
   \(\beta\)), definimos a \emph{função de partição} por
   \[
     Z(\beta) = \sum_{\omega \in \Omega} e^{-\beta H(\omega)}.
@@ -18,20 +18,22 @@
 
   Como \(\Omega\) é finito e cada termo da soma é positivo,
   \(0 < Z(\beta) < \infty\). A \emph{medida de Gibbs} associada a \(H\) e
-  \(\beta\) é a medida de probabilidade \(\mathbb{P}_\beta\) definida por
+  \(\beta\) é definida, para \(A \in \mathcal{F}\), por
   \[
     \mathbb{P}_\beta(A)
     = \frac{1}{Z(\beta)}
-      \sum_{\omega \in A} e^{-\beta H(\omega)},
-    \qquad A \in \mathcal{F}.
+      \sum_{\omega \in A} e^{-\beta H(\omega)}.
   \]
-  Assim, estados de menor energia recebem maior peso, enquanto a função de
-  partição normaliza esses pesos para que a probabilidade total seja 1.
+  Essa função é uma medida de probabilidade: os pesos são não negativos,
+  \(\mathbb{P}_\beta(\Omega)=1\), e a aditividade segue da aditividade das
+  somas finitas. Estados de menor energia recebem maior peso, enquanto a
+  função de partição normaliza esses pesos para que a probabilidade total
+  seja 1.
 \end{example}
 
 \begin{exercise}\label{exercise:gibbs-high-temperature}
   No contexto do \Cref{ex:gibbs-measure}, fixe um evento \(A \in \mathcal{F}\).
-  Calcule o limite de alta temperatura
+  Calcule o limite de ``altas temperaturas''
   \[
     \lim_{\beta \downarrow 0} \mathbb{P}_\beta(A).
   \]
@@ -45,7 +47,7 @@
     \qquad
     \Omega_{\min} = \{\omega \in \Omega : H(\omega) = h_{\min}\}.
   \]
-  Calcule o limite de baixa temperatura
+  Calcule o limite de ``baixas temperaturas''
   \[
     \lim_{\beta \to \infty} \mathbb{P}_\beta(A).
   \]
