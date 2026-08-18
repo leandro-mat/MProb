@@ -1,0 +1,1185 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazil]{babel}        % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{fontawesome5}
+\newcommand{\cara}{\faSmile}
+\newcommand{\coroa}{\faCrown}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores (do Teorema Ergódico)
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Probabilidade Condicional e Independência},
+pdfauthor={L. Cioletti},
+pdfsubject={Probabilidade condicional, eventos independentes, teorema da partição, teorema de Bayes},
+pdfkeywords={Probabilidade Condicional, Independência, Teorema da Partição, Teorema de Bayes, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheorem{exercise}{Exercício}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\addto\captionsbrazil{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+\vspace{0.5cm}
+
+% --- TÍTULO, AUTOR E DATA ---
+\begin{center}
+{\LARGE\bf Probabilidade Condicional e Independência}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Agosto de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Estas notas apresentam um tratamento rigoroso e motivado dos conceitos fundamentais de probabilidade condicional e independência de eventos, harmonizando as perspectivas pedagógicas de Grimmett e Welsh~\cite{GrimmettWelsh2014} e Isaac~\cite{Isaac1995}. A partir da necessidade intuitiva de atualizar distribuições de probabilidade diante da aquisição de informações parciais sobre o desfecho de um experimento aleatório, deduzimos e justificamos a definição formal de probabilidade condicional, demonstrando que ela induz uma genuína medida de probabilidade sobre o espaço mensurável original. Examinamos em profundidade as sutilezas de modelagem e os paradoxos clássicos decorrentes da interpretação da evidência disponível, tais como o problema do rei e sua irmã e o dilema dos três prisioneiros. Em seguida, analisamos processos em múltiplos estágios e modelos de urnas, ressaltando o papel das simetrias temporais e da permutabilidade na simplificação do cálculo de probabilidades. Desenvolvemos o Teorema da Partição (ou da Probabilidade Total) e o Teorema de Bayes, enfatizando a inversão estocástica de causa e efeito com aplicações concretas a testes diagnósticos e à análise do fenômeno dos falsos positivos. Por fim, formalizamos a noção de independência em sua caracterização multiplicativa simétrica e estabelecemos a distinção conceitual crucial entre independência mútua e independência dois a dois.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+
+\section{Informação, Incerteza e a Regra da Adição}
+\label{sec:introducao}
+
+A Teoria da Probabilidade estuda experimentos aleatórios cujos desfechos não podem ser previstos com certeza absoluta. Contudo, em situações práticas e teóricas, a incerteza raramente permanece estática: à medida que novas informações ou pistas sobre o desfecho do experimento chegam ao nosso conhecimento, nossa avaliação das chances dos eventos deve ser atualizada de maneira racional e consistente. A formalização matemática desse processo de atualização é o objeto central destas notas, cuja exposição integra as abordagens clássicas de Grimmett e Welsh~\cite{GrimmettWelsh2014} e Isaac~\cite{Isaac1995}.
+
+Fixemos um espaço de probabilidade \((\Omega, \mathcal{F}, \mathbb{P})\) associado a um experimento \(\mathcal{E}\), onde \(\Omega\) é o espaço amostral, \(\mathcal{F}\) é uma \(\sigma\)-álgebra de subconjuntos de \(\Omega\) (denominados \emph{eventos}) e \(\mathbb{P}: \mathcal{F} \to [0,1]\) é uma medida de probabilidade.
+
+Antes de investigarmos o impacto de informações parciais, convém recordar como a medida de probabilidade se comporta em relação à união de eventos arbitrários. Se dois eventos \(A, B \in \mathcal{F}\) são \emph{disjuntos}, isto é, \(A \cap B = \varnothing\), a aditividade finita de \(\mathbb{P}\) garante que \(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B)\). Quando os eventos podem se sobrepor, uma correção algébrica direta é necessária para evitar a dupla contagem dos desfechos comuns.
+
+\begin{theorem}[Regra da Adição]\label{thm:adicao}
+Para quaisquer eventos \(A, B \in \mathcal{F}\), vale a identidade
+\begin{equation}\label{eq:regra-adicao}
+  \mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cap B).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Para tornar evidente a estrutura da união, decompomos \(A \cup B\), \(A\) e \(B\) em subconjuntos dois a dois disjuntos:
+\[
+  A \cup B = (A \setminus B) \cup (A \cap B) \cup (B \setminus A).
+\]
+Analogamente, podemos escrever \(A = (A \setminus B) \cup (A \cap B)\) e \(B = (B \setminus A) \cup (A \cap B)\). Pela aditividade de \(\mathbb{P}\) sobre eventos disjuntos, obtemos
+\[
+  \mathbb{P}(A) = \mathbb{P}(A \setminus B) + \mathbb{P}(A \cap B)
+  \quad\implies\quad
+  \mathbb{P}(A \setminus B) = \mathbb{P}(A) - \mathbb{P}(A \cap B),
+\]
+e, do mesmo modo, \(\mathbb{P}(B \setminus A) = \mathbb{P}(B) - \mathbb{P}(A \cap B)\). Substituindo essas relações na decomposição disjunta de \(A \cup B\), segue que
+\[
+  \begin{aligned}
+    \mathbb{P}(A \cup B) &= \mathbb{P}(A \setminus B) + \mathbb{P}(A \cap B) + \mathbb{P}(B \setminus A) \\
+    &= \big(\mathbb{P}(A) - \mathbb{P}(A \cap B)\big) + \mathbb{P}(A \cap B) + \big(\mathbb{P}(B) - \mathbb{P}(A \cap B)\big) \\
+    &= \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cap B),
+  \end{aligned}
+\]
+o que estabelece \eqref{eq:regra-adicao}.
+\end{proof}
+
+\begin{remark}
+A intuição geométrica subjacente a \Cref{thm:adicao} é límpida: pensando nas probabilidades como áreas de regiões planas, a área da figura total \(A \cup B\) é obtida somando-se a área de \(A\) com a área de \(B\) e subtraindo-se a área da região de interseção \(A \cap B\), que fora computada duas vezes na soma simples.
+\end{remark}
+
+\section{Probabilidade Condicional e Atualização de Medidas}
+\label{sec:prob-condicional}
+
+Suponha agora que o experimento \(\mathcal{E}\) tenha sido realizado, mas tenhamos acesso apenas a uma informação parcial sobre o resultado efetivo \(\omega \in \Omega\). Mais precisamente, fomos informados com certeza de que determinado evento \(B \in \mathcal{F}\) ocorreu (com \(\mathbb{P}(B) > 0\)), embora não saibamos qual elemento individual de \(B\) se concretizou.
+
+Como essa informação deve alterar a probabilidade atribuída a outro evento qualquer \(A \in \mathcal{F}\)?
+
+\subsection{A Heurística de Descoberta}
+
+Para entender de onde provém a definição de probabilidade condicional, consideremos o experimento de lançar um par de dados honestos (um vermelho e um azul). Podemos tomar como espaço amostral deste experimento o conjunto
+\[
+  \Omega = \{(i,j) : i,j \in \{1,2,3,4,5,6\}\}.
+\]
+Evidentemente \(\#\Omega = 36\) e como os dados são honestos 
+a melhor descrição que podemos dar para a probabilidade de cada resultado 
+é a probabilidade uniforme 
+\[
+\mathbb{P}(\{(i,j)\}) = \frac{1}{36}, \qquad \forall (i,j)\in\Omega
+\]
+
+Seja \(A\) o evento ``a soma das faces é 6''. Em nosso espaço de probabilidade 
+este evento corresponde ao conjunto 
+\[
+  A = \{(1,5), (2,4), (3,3), (4,2), (5,1)\}.
+\]
+Consequentemente, \(\mathbb{P}(A) = \displaystyle\frac{5}{36}\). 
+
+\medskip 
+Seja \(B\) o evento ``o primeiro dado (vermelho) mostra a face 1''. Note que a probabilidade a priori 
+(esquecendo a informação dada no parágrafo anterior)
+deste evento é justamente a probabilidade do conjunto 
+\[
+  B = \{(1,1), (1,2), (1,3), (1,4), (1,5), (1,6)\}
+  \quad\implies\quad
+  \mathbb{P}(B) = \frac{6}{36} = \frac{1}{6}.
+\]
+
+Suponha que um observador nos informe que o evento \(B\) de fato ocorreu. 
+Com esta informação ganha é natural esperar que agora a probabilidade que vamos associar ao evento $A$
+possa ter mudado e se este for o caso como reavaliar ou atualizar a probabilidade que associamos ao
+evento \(A\)?
+
+Algumas diretrizes e considerações naturais sobre a nossa nova avaliação desta probabilidade são:
+
+\begin{enumerate}[label=(\roman*)]
+  \item \textbf{Redução do espaço amostral:} Sabendo que \(B\) ocorreu, qualquer ponto fora de \(B\) tornou-se fisicamente impossível. O conjunto de possibilidades plausíveis colapsa de \(\Omega\) para o subconjunto \(B\).
+  \item \textbf{Restrição ao evento relevante:} Diante da certeza da ocorrência de \(B\), o evento \(A\) ocorre se, e somente se, o resultado pertence simultaneamente a \(A\) e a \(B\), isto é, ao conjunto \(A \cap B = \{(1,5)\}\).
+  \item \textbf{Preservação da proporcionalidade e normalização:} Como os resultados originais eram equiprováveis, os 6 elementos restantes de \(B\) devem permanecer igualmente prováveis entre si no novo cenário. Como \(A \cap B\) contém exatamente 1 desses 6 elementos, a probabilidade atualizada de \(A\) deve ser 
+  $\frac{1}{6}$.
+\end{enumerate}
+
+Em termos gerais, a probabilidade atualizada de \(A\) à luz da ocorrência de \(B\), que denotaremos por \(\mathbb{P}(A \mid B)\), deve ser diretamente proporcional à probabilidade original da interseção, isto é, \(\mathbb{P}(A \mid B) = c \cdot \mathbb{P}(A \cap B)\) para alguma constante de escala \(c > 0\). Para determinar \(c\), impomos o requisito natural de que, dado que \(B\) ocorreu, a probabilidade de que o próprio \(B\) tenha ocorrido seja igual a 1 (o evento certo sob a nova informação):
+\[
+  1 = \mathbb{P}(B \mid B) = c \cdot \mathbb{P}(B \cap B) = c \cdot \mathbb{P}(B)
+  \quad\implies\quad
+  c = \frac{1}{\mathbb{P}(B)}.
+\]
+Esta discussão motiva a definição axiomática dada a seguir.
+
+\begin{definition}[Probabilidade Condicional]\label{def:prob-cond}
+Seja \((\Omega, \mathcal{F}, \mathbb{P})\) um espaço de probabilidade e sejam \(A, B \in \mathcal{F}\) eventos tais que \(\mathbb{P}(B) > 0\). A \emph{probabilidade condicional de \(A\) dado \(B\)}, denotada por \(\mathbb{P}(A \mid B)\), é definida por
+\begin{equation}\label{eq:prob-cond}
+  \mathbb{P}(A \mid B) \equiv  \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}.
+\end{equation}
+\end{definition}
+
+\begin{remark}
+Não definimos probabilidades condicionais elementares quando \(\mathbb{P}(B) = 0\), pois a divisão por zero não é admissível e a intuição de reescala de massa perde o sentido discreto.\footnote{Em cursos avançados de Teoria da Medida e Processos Estocásticos, a esperança condicional em relação a sub-\(\sigma\)-álgebras estende essa noção para eventos e variáveis com condicionamento em conjuntos de medida nula via o Teorema de Radon-Nikodym.}
+\end{remark}
+
+\subsection{A Medida de Probabilidade Condicional}
+
+Um aspecto conceitual de suma importância, frequentemente negligenciado por iniciantes, é que a probabilidade condicional não é apenas um número calculado pontualmente: para cada evento condicionante fixo \(B\), ela define uma \emph{nova medida de probabilidade genuína} sobre a \(\sigma\)-álgebra \(\mathcal{F}\).
+
+\begin{theorem}[Espaço de Probabilidade Condicional]\label{thm:cond-espaco-prob}
+Seja \((\Omega, \mathcal{F}, \mathbb{P})\) um espaço de probabilidade e seja \(B \in \mathcal{F}\) com \(\mathbb{P}(B) > 0\). Definindo a função \(\mathbb{Q}: \mathcal{F} \to \mathbb{R}\) por
+\begin{equation}\label{eq:medida-Q}
+  \mathbb{Q}(A) \equiv \mathbb{P}(A \mid B), \qquad \forall A \in \mathcal{F},
+\end{equation}
+o terno ordenado \((\Omega, \mathcal{F}, \mathbb{Q})\) determina um espaço de probabilidade.
+\end{theorem}
+
+\begin{proof}
+Para demonstrar que \((\Omega, \mathcal{F}, \mathbb{Q})\) é um espaço de probabilidade, devemos verificar que a função \(\mathbb{Q}\) satisfaz os três axiomas fundamentais de Kolmogorov sobre a \(\sigma\)-álgebra \(\mathcal{F}\):
+
+\begin{enumerate}[label=\textbf{Axioma \arabic*:},leftmargin=*]
+  \item \textbf{Não negatividade:} Para qualquer \(A \in \mathcal{F}\), como \(\mathbb{P}\) é uma medida de probabilidade e \(\mathbb{P}(B) > 0\), temos \(\mathbb{P}(A \cap B) \ge 0\), de onde decorre imediatamente
+  \[
+    \mathbb{Q}(A) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)} \ge 0.
+  \]
+
+  \item \textbf{Normalização:} Considerando o espaço amostral total \(\Omega\), observamos que \(\Omega \cap B = B\). Portanto,
+  \[
+    \mathbb{Q}(\Omega) = \mathbb{P}(\Omega \mid B) = \frac{\mathbb{P}(\Omega \cap B)}{\mathbb{P}(B)} = \frac{\mathbb{P}(B)}{\mathbb{P}(B)} = 1.
+  \]
+  Adicionalmente, note que \(\mathbb{Q}(B) = \frac{\mathbb{P}(B \cap B)}{\mathbb{P}(B)} = 1\) e \(\mathbb{Q}(B^c) = \frac{\mathbb{P}(B^c \cap B)}{\mathbb{P}(B)} = \frac{\mathbb{P}(\varnothing)}{\mathbb{P}(B)} = 0\), confirmando que a nova medida \(\mathbb{Q}\) concentra toda a sua massa sobre o subconjunto \(B\).
+
+  \item \textbf{Aditividade enumerável (\(\sigma\)-aditividade):} Seja \((A_n)_{n=1}^{\infty}\) uma sequência de eventos em \(\mathcal{F}\) dois a dois disjuntos, isto é, \(A_i \cap A_j = \varnothing\) sempre que \(i \ne j\). Pela distributividade da interseção sobre uniões enumeráveis de conjuntos, temos
+  \[
+    \left(\bigcup_{n=1}^{\infty} A_n\right) \cap B = \bigcup_{n=1}^{\infty} (A_n \cap B).
+  \]
+  Como \((A_i \cap B) \cap (A_j \cap B) = (A_i \cap A_j) \cap B = \varnothing \cap B = \varnothing\) para \(i \ne j\), a família \((A_n \cap B)_{n=1}^{\infty}\) é também dois a dois disjunta em \(\mathcal{F}\). Aplicando a \(\sigma\)-aditividade da medida original \(\mathbb{P}\), obtemos
+  \[
+    \mathbb{P}\left(\left(\bigcup_{n=1}^{\infty} A_n\right) \cap B\right) = \sum_{n=1}^{\infty} \mathbb{P}(A_n \cap B).
+  \]
+  Multiplicando ambos os membros pelo fator positivo constante \(\frac{1}{\mathbb{P}(B)}\), segue que
+  \[
+    \mathbb{Q}\left(\bigcup_{n=1}^{\infty} A_n\right) = \frac{1}{\mathbb{P}(B)}\sum_{n=1}^{\infty} \mathbb{P}(A_n \cap B) = \sum_{n=1}^{\infty} \frac{\mathbb{P}(A_n \cap B)}{\mathbb{P}(B)} = \sum_{n=1}^{\infty} \mathbb{Q}(A_n).
+  \]
+\end{enumerate}
+Verificados os três axiomas, concluímos que \(\mathbb{Q}\) é uma medida de probabilidade bem definida sobre \((\Omega, \mathcal{F})\).
+\end{proof}
+
+\begin{remark}
+Uma consequência direta de \Cref{thm:cond-espaco-prob} é que \emph{todas} as propriedades e desigualdades válidas para medidas de probabilidade gerais continuam automaticamente válidas para a probabilidade condicional fixado o mesmo evento condicionante \(B\). Por exemplo:
+\begin{itemize}
+  \item \(\mathbb{P}(A^c \mid B) = 1 - \mathbb{P}(A \mid B)\);
+  \item Se \(A_1 \subseteq A_2\), então \(\mathbb{P}(A_1 \mid B) \le \mathbb{P}(A_2 \mid B)\);
+  \item \(\mathbb{P}(A_1 \cup A_2 \mid B) = \mathbb{P}(A_1 \mid B) + \mathbb{P}(A_2 \mid B) - \mathbb{P}(A_1 \cap A_2 \mid B)\).
+\end{itemize}
+\end{remark}
+
+\subsection{A Regra da Multiplicação}
+
+Multiplicando ambos os lados de \eqref{eq:prob-cond} por \(\mathbb{P}(B)\), obtemos a \emph{regra da multiplicação}:
+\begin{equation}\label{eq:regra-multiplicacao}
+  \mathbb{P}(A \cap B) = \mathbb{P}(B)\,\mathbb{P}(A \mid B) = \mathbb{P}(A)\,\mathbb{P}(B \mid A),
+\end{equation}
+válida sempre que \(\mathbb{P}(A), \mathbb{P}(B) > 0\). Esta identidade permite expressar a probabilidade da ocorrência conjunta de eventos através de probabilidades condicionais sucessivas, o que é de fundamental utilidade na análise de processos estocásticos temporais ou sequenciais.
+
+Generalizando por indução finita para uma sequência de \(n\) eventos, obtemos a \emph{regra da cadeia}:
+
+\begin{proposition}\label{prop:regra-cadeia}
+Sejam \(A_1, A_2, \ldots, A_n \in \mathcal{F}\) eventos tais que \(\mathbb{P}(A_1 \cap A_2 \cap \cdots \cap A_{n-1}) > 0\). Então
+\begin{equation}\label{eq:regra-cadeia}
+  \mathbb{P}(A_1 \cap A_2 \cap \cdots \cap A_n) = \mathbb{P}(A_1)\,\mathbb{P}(A_2 \mid A_1)\,\mathbb{P}(A_3 \mid A_1 \cap A_2)\cdots \mathbb{P}(A_n \mid A_1 \cap \cdots \cap A_{n-1}).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+A demonstração decorre da identificação de uma estrutura telescópica multiplicativa. 
+Escrevemos o lado direito expandindo cada probabilidade 
+condicional de acordo com a \Cref{def:prob-cond}:
+\[
+  \begin{aligned}
+    \mathbb{P}(A_1 \cap A_2 \cap \cdots \cap A_n) &= \mathbb{P}(A_1) \cdot \frac{\mathbb{P}(A_1 \cap A_2)}{\mathbb{P}(A_1)} \cdot \frac{\mathbb{P}(A_1 \cap A_2 \cap A_3)}{\mathbb{P}(A_1 \cap A_2)} \cdots \frac{\mathbb{P}(A_1 \cap \cdots \cap A_n)}{\mathbb{P}(A_1 \cap \cdots \cap A_{n-1})}.
+  \end{aligned}
+\]
+Como \(\mathbb{P}(A_1 \cap \cdots \cap A_{n-1}) > 0\), todas as probabilidades nos denominadores intermediários são estritamente positivas (pela monotonicidade da probabilidade). Os termos intermediários cancelam-se sucessivamente aos pares, restando apenas o numerador do último fator, que é precisamente \(\mathbb{P}(A_1 \cap \cdots \cap A_n)\).
+\end{proof}
+
+\section{Sutilezas da Linguagem e Modelagem:\\ Pseudo-Paradoxos e Condicionamentos}
+\label{sec:paradoxos-modelagem}
+
+O cálculo de probabilidades condicionais é rigoroso e direto uma vez que o espaço amostral e os eventos tenham sido formalizados. Contudo, a passagem da linguagem natural para o modelo formal esconde armadilhas conceituais sutis. Ambiguidade na interpretação da evidência pode levar a espaços amostrais condicionais distintos e, consequentemente, a conclusões conflitantes. Analisamos a seguir dois exemplos clássicos compilados por Isaac~\cite{Isaac1995}.
+
+\subsection{O Rei tem uma Irmã?}
+
+\begin{example}[O Rei e sua Irmã]\label{ex:rei}
+Um rei provém de uma família cujo o casal teve exatamente duas crianças. 
+Qual é a probabilidade de que o outro filho deste casal seja uma menina?
+\end{example}
+
+\begin{solution}
+Considere o espaço amostral \(S\) constituído pelos quatro pares ordenados
+\[
+  S = \{(H,H), (H,M), (M,H), (M,M)\},
+\]
+onde \(H\) denota filho homem, \(M\) denota filha mulher, e a ordem no par representa a ordem cronológica de nascimento (primogênito e segundo filho). Assumimos, como é padrão, que cada um dos quatro resultados tem probabilidade a priori igual a \(\frac{1}{4}\).
+
+
+\medskip 
+Muitos leitores são tentados a responder intuitivamente que a probabilidade 
+da outra criança ser uma menina é \(\frac{1}{2}\), argumentando que o sexo do outro 
+filho é biologicamente independente do sexo do rei. 
+Essa intuição falha porque o enunciado não especifica se o rei é o primogênito ou o segundo filho; na verdade, a única informação fornecida pelo enunciado é que \emph{pelo menos um dos dois filhos é homem}.
+
+Para ajudar a compreender como calcular esta probabilidade, vamos definir formalmente os eventos
+de interesse deste problema: 
+\[
+  V = \{\text{a família possui pelo menos um filho homem}\} = \{(H,H), (H,M), (M,H)\},
+\]
+\[
+  U = \{\text{a família possui uma filha mulher}\} = \{(H,M), (M,H), (M,M)\}.
+\]
+O evento de interesse é a ocorrência de \(U\) sob a informação \(V\). 
+Neste caso, a interseção é
+\[
+  U \cap V = \{(H,M), (M,H)\}.
+\]
+Aplicando a \Cref{def:prob-cond}:
+\[
+  \mathbb{P}(U \mid V) 
+  = 
+  \frac{\mathbb{P}(U \cap V)}{\mathbb{P}(V)} 
+  = 
+  \frac{ \displaystyle\frac{\#(U \cap V)}{\# S}  }{ \displaystyle \frac{\#V}{\# S}} = \frac{2/4}{3/4} = \frac{2}{3}.
+\]
+\end{solution}
+
+\begin{remark}
+Observe a distinção crucial entre duas perguntas aparentemente semelhantes:
+\begin{enumerate}[label=(\alph*)]
+  \item Se a informação fornecida fosse ``o \emph{filho mais velho} é o rei'', o espaço amostral condicional seria \(\{(H,H), (H,M)\}\), e a probabilidade de haver uma irmã seria \(\tfrac{1}{2}\).
+  \item Sob a informação de que ``o rei pertence à família'' (sem identificação posicional de nascimento), eliminamos unicamente o desfecho \((M,M)\). Restam 3 resultados equiprováveis, dos quais 2 contemplam uma irmã, resultando na probabilidade \(\tfrac{2}{3}\).
+\end{enumerate}
+\end{remark}
+
+\subsection{O Dilema dos Três Prisioneiros e a Dinâmica da Informação}
+
+\begin{example}[O Dilema dos Três Prisioneiros]\label{ex:prisioneiro}
+Três prisioneiros, denominados \(A\), \(B\) e \(C\), aguardam execução. O governador decide perdoar e libertar secretamente dois deles, escolhidos ao acaso com igual probabilidade, e executar o terceiro. O prisioneiro \(A\) aborda o carcereiro e pede: 
+\begin{quote}
+``Diga-me o nome de um dos meus colegas de cela (\(B\) ou \(C\)) que será libertado; afinal, ao menos um deles certamente será''.
+\end{quote} 
+O carcereiro recusa-se, argumentando: 
+\begin{quote}
+``Sua probabilidade atual de ser libertado é \(\tfrac{2}{3}\). Se eu lhe disser, por exemplo, que \(B\) será libertado, restarão apenas você e \(C\) com destino incerto, de modo que sua chance cairá para \(\tfrac{1}{2}\). Como não quero prejudicar suas chances, nada direi''. 
+\end{quote}
+O raciocínio do carcereiro está correto?
+\end{example}
+
+\begin{solution}
+O ponto delicado é que \(A\) não observa diretamente a dupla de prisioneiros libertados; ele observa apenas o nome anunciado pelo carcereiro. Para interpretar a declaração ``\(B\) será libertado'', precisamos modelar tanto a dupla escolhida quanto a regra usada pelo carcereiro para produzir o anúncio. Se a dupla for \(\{A,B\}\), ele será obrigado a anunciar \(B\); se for \(\{A,C\}\), anunciará \(C\); mas, se for \(\{B,C\}\), poderá anunciar qualquer um dos dois. Portanto, a probabilidade de ouvirmos \(B\) depende da dupla libertada e da regra de escolha do carcereiro.
+
+Para tornar essa dependência explícita, seja
+\[
+  p = \mathbb{P}(\text{o carcereiro anuncia } B \mid \text{a dupla libertada é } \{B,C\}).
+\]
+Denotemos por \(D_B\) o evento “o carcereiro anuncia \(B\)”. Como o anúncio é forçado nos casos \(\{A,B\}\) e \(\{A,C\}\), temos
+\[
+  \mathbb{P}(A\text{ é libertado}\mid D_B)
+  = \frac{1/3}{1/3+p/3} = \frac{1}{1+p}.
+\]
+Logo, sem especificar a regra de escolha do carcereiro, o enunciado não determina uma resposta única. Para obter um valor concreto, vamos assumir que, quando ambos \(B\) e \(C\) são libertados, o carcereiro escolhe entre eles jogando uma moeda honesta; isto é, \(p=\tfrac{1}{2}\).
+
+O espaço amostral das duplas de prisioneiros libertados é
+\[
+  \Omega = \{\{A,B\}, \{A,C\}, \{B,C\}\},
+\]
+onde cada dupla tem probabilidade \(\tfrac{1}{3}\). Esse espaço descreve apenas o estado do mundo, isto é, quem foi libertado; ele é suficiente para calcular probabilidades a priori, mas não registra qual informação foi transmitida pelo carcereiro. Definindo
+\[
+  L_A = \{\{A,B\},\{A,C\}\},
+\]
+temos \(\mathbb{P}(L_A) = \tfrac{1}{3} + \tfrac{1}{3} = \tfrac{2}{3}\).
+
+Para calcular a probabilidade condicional depois de ouvirmos o anúncio \(B\), precisamos, portanto, de um espaço amostral expandido \(\Omega^*\) que incorpore o mecanismo de observação. Cada ponto amostral será um par ordenado formado pela dupla de prisioneiros libertados e pelo nome anunciado pelo carcereiro:
+\[
+  \begin{aligned}
+    O_1 &= (\{A,B\}, \text{carcereiro anuncia } B), \\
+    O_2 &= (\{A,C\}, \text{carcereiro anuncia } C), \\
+    O_3 &= (\{B,C\}, \text{carcereiro anuncia } B), \\
+    O_4 &= (\{B,C\}, \text{carcereiro anuncia } C).
+  \end{aligned}
+\]
+\[
+  \Omega^* = \{O_1,O_2,O_3,O_4\}.
+\]
+Esses quatro resultados não são equiprováveis. Nos dois primeiros casos, o anúncio é forçado; nos dois últimos, a dupla \(\{B,C\}\), que tinha probabilidade total \(\tfrac{1}{3}\), é dividida pela escolha da moeda. Portanto:
+\begin{itemize}
+  \item Se a dupla libertada for \(\{A,B\}\), o carcereiro não pode mencionar \(A\) (pois o prisioneiro perguntou sobre os \emph{outros}); logo, é forçado a anunciar \(B\). Assim, \(\mathbb{P}(O_1) = \tfrac{1}{3}\).
+  \item Analogamente, se a dupla for \(\{A,C\}\), o carcereiro é obrigado a anunciar \(C\), donde \(\mathbb{P}(O_2) = \tfrac{1}{3}\).
+  \item Se a dupla for \(\{B,C\}\), ambos os colegas serão libertados, e a probabilidade total desse estado é \(\mathbb{P}(O_3) + \mathbb{P}(O_4) = \tfrac{1}{3}\).
+\end{itemize}
+
+Como a regra da moeda já foi fixada, podemos agora atribuir probabilidades aos resultados expandidos:
+\[
+  \mathbb{P}(O_3) = \frac{1}{3} \times \frac{1}{2} = \frac{1}{6}
+  \quad \text{e} \quad
+  \mathbb{P}(O_4) = \frac{1}{6}.
+\]
+O evento \(D_B = \{O_1,O_3\}\), isto é, “o carcereiro anuncia \(B\)”, tem probabilidade
+\[
+  \mathbb{P}(D_B) = \mathbb{P}(O_1) + \mathbb{P}(O_3) = \frac{1}{3} + \frac{1}{6} = \frac{1}{2}.
+\]
+No espaço expandido, o evento de que \(A\) é libertado é \(\{O_1,O_2\}\); portanto, sua interseção com \(D_B\) é \(\{O_1\}\). A probabilidade condicional procurada é
+\[
+  \mathbb{P}(A \text{ é libertado} \mid D_B) = \frac{\mathbb{P}(O_1)}{\mathbb{P}(D_B)} = \frac{1/3}{1/2} = \frac{2}{3}.
+\]
+Sob a hipótese da moeda honesta, a chance de libertação de \(A\) permanece rigorosamente igual a \(\tfrac{2}{3}\). Portanto, sob essa regra de escolha, o raciocínio do carcereiro está equivocado; sem especificar a regra, porém, o problema não tem resposta única.
+\end{solution}
+
+\begin{remark}[Conexão com o Problema de Monty Hall]
+Como demonstrado por Leonard Gillman (veja discussão em~\cite{Isaac1995}), este problema é matematicamente isomorfo ao célebre \emph{Problema das Portas (Monty Hall / Carro e Cabras)}. O ato de o apresentador abrir uma porta que contém uma cabra não altera a probabilidade de a escolha inicial conter o carro (\(\tfrac{1}{3}\)), concentrando a probabilidade residual de \(\tfrac{2}{3}\) sobre a porta não aberta restante.
+\end{remark}
+
+\section{Processos Sequenciais, Modelos de Urnas e Simetria Temporal}
+\label{sec:urnas-simetria}
+
+Uma das fontes mais férteis para o desenvolvimento da intuição probabilística reside nos experimentos de extração de bolas em urnas. Em modelos de múltiplos estágios, as probabilidades condicionais surgem de maneira orgânica na própria descrição do protocolo físico.
+
+\subsection{Amostragem sem Reposição}
+
+Considere uma urna contendo \(N = a + b\) bolas idênticas em peso e textura, sendo \(a\) bolas vermelhas e \(b\) bolas pretas (\(a, b \ge 1\)). Duas bolas são extraídas consecutivamente ao acaso e sem reposição. Definimos os eventos:
+\[
+  A_1 = \{\text{a primeira bola é vermelha}\}, \qquad A_2 = \{\text{a segunda bola é vermelha}\}.
+\]
+Para a primeira extração, temos \(a\) bolas favoráveis em \(a+b\) totais sob distribuição uniforme, logo
+\[
+  \mathbb{P}(A_1) = \frac{a}{a+b}.
+\]
+Para a ocorrência conjunta \(A_1 \cap A_2\), a regra da multiplicação \eqref{eq:regra-multiplicacao} estabelece:
+\[
+  \mathbb{P}(A_1 \cap A_2) = \mathbb{P}(A_1)\,\mathbb{P}(A_2 \mid A_1).
+\]
+Dado que a primeira bola retirada foi vermelha, a composição da urna imediatamente antes da segunda retirada passa a ser de \(a-1\) bolas vermelhas e \(b\) pretas, em um total de \(a+b-1\) bolas. Logo, \(\mathbb{P}(A_2 \mid A_1) = \tfrac{a-1}{a+b-1}\), e
+\[
+  \mathbb{P}(A_1 \cap A_2) = \frac{a}{a+b} \cdot \frac{a-1}{a+b-1}.
+\]
+
+E quanto à probabilidade marginal de \(A_2\)? Como a segunda bola é extraída posteriormente no tempo, o resultado da primeira retirada é uma informação latente. Podemos decompor \(A_2\) na união disjunta dos cenários possíveis da primeira etapa:
+\[
+  A_2 = (A_1 \cap A_2) \cup (A_1^c \cap A_2).
+\]
+Calculando o segundo termo via condicionamento em \(A_1^c\) (isto é, a primeira bola foi preta):
+\[
+  \mathbb{P}(A_1^c \cap A_2) = \mathbb{P}(A_1^c)\,\mathbb{P}(A_2 \mid A_1^c) = \frac{b}{a+b} \cdot \frac{a}{a+b-1}.
+\]
+Somando as probabilidades dos dois cenários disjuntos:
+\begin{equation}\label{eq:urna-segunda-bola}
+  \begin{aligned}
+    \mathbb{P}(A_2) &= \mathbb{P}(A_1 \cap A_2) + \mathbb{P}(A_1^c \cap A_2) \\
+    &= \frac{a(a-1)}{(a+b)(a+b-1)} + \frac{ba}{(a+b)(a+b-1)} \\
+    &= \frac{a(a - 1 + b)}{(a+b)(a+b-1)} = \frac{a(a+b-1)}{(a+b)(a+b-1)} = \frac{a}{a+b}.
+  \end{aligned}
+\end{equation}
+
+\subsection{O Insight da Simetria Temporal (Permutabilidade)}
+
+O fato de \(\mathbb{P}(A_2) = \mathbb{P}(A_1) = \tfrac{a}{a+b}\) à primeira vista parece surpreendente, pois a segunda extração ocorre após a alteração física do conteúdo da urna. A dependência temporal aparente esconde uma profunda simetria combinatória.
+
+Em vez de conceber o experimento como duas retiradas sucessivas no tempo, imagine que estendemos as duas mãos simultaneamente para o interior da urna e retiramos duas bolas de uma só vez: a bola na mão esquerda corresponde à primeira posição e a bola na mão direita à segunda. O espaço amostral é formado por todos os pares ordenados de bolas distintas, todos equiprováveis por simetria. Como a bijeção que troca a mão esquerda pela mão direita preserva a medida de probabilidade uniforme, o número de configurações favoráveis a ter uma bola vermelha na mão direita é exatamente idêntico ao de ter uma bola vermelha na mão esquerda!
+
+Por indução e argumento de permutabilidade (variáveis aleatórias trocáveis), para qualquer extração \(n \le a+b\), vale
+\begin{equation}
+  \mathbb{P}(\text{a } n\text{-ésima bola extraída é vermelha}) = \frac{a}{a+b}.
+\end{equation}
+
+\subsection{O Esquema de Urnas de Pólya}
+
+O modelo de amostragem sem reposição pode ser contrastado com modelos de realimentação positiva. No \emph{esquema de urnas de Pólya}, cada bola retirada é devolvida à urna juntamente com \(c \ge 1\) bolas adicionais da mesma cor que a sorteada.
+
+Esse processo gera dependência estocástica cumulativa: cada bola vermelha sorteada aumenta a proporção de vermelhas e, portanto, eleva a probabilidade de que retiradas futuras também resultem em bolas vermelhas. Trata-se de um modelo clássico para fenômenos de contágio epidêmico, formação de consensos e dinâmica populacional (efeito de reforço preferencial).
+
+\begin{example}[Uniformidade da contagem no esquema de Pólya]\label{ex:polya-uniformidade}
+Considere uma urna contendo inicialmente exatamente uma bola vermelha e uma bola preta. Em cada etapa, uma bola é escolhida uniformemente ao acaso, devolvida à urna e acompanhada de uma nova bola da mesma cor que foi sorteada.
+
+Para fixar as ideias, após $n$ extrações seja $E_{n,k}$ o evento ``exatamente $k$ das $n$ bolas extraídas são vermelhas'', onde $k \in \{0,1,\ldots,n\}$. Mostraremos que, apesar da dependência entre as extrações, todos esses eventos têm a mesma probabilidade:
+\begin{equation}\label{eq:polya-uniformidade}
+  \mathbb{P}(E_{n,k}) = \frac{1}{n+1},
+  \qquad k=0,1,\ldots,n.
+\end{equation}
+
+Antes de demonstrar o resultado, é útil destacar por que ele não é imediato. O reforço torna as extrações dependentes: depois de observar uma bola vermelha, por exemplo, a urna passa a favorecer novas bolas vermelhas. Portanto, as sequências de cores não são todas equiprováveis. A sequência com muitas bolas da mesma cor tende a ser mais provável que uma sequência muito alternada. O que permanece verdadeiro, e será a chave da demonstração, é uma simetria mais sutil: duas sequências com a mesma quantidade de bolas vermelhas têm a mesma probabilidade.
+
+A prova será organizada em duas etapas. Primeiro calcularemos a probabilidade de uma sequência específica de cores usando explicitamente a regra da multiplicação. Depois contaremos quantas sequências possuem exatamente $k$ bolas vermelhas.
+
+\smallskip
+\noindent\textbf{Etapa 1 -- Probabilidade de uma sequência fixa.}
+
+Consideremos o espaço amostral das sequências de cores observadas nas $n$ primeiras extrações,
+\[
+  \Omega_n = \{\mathsf{V},\mathsf{P}\}^n,
+\]
+onde $\mathsf{V}$ representa uma extração de uma bola vermelha e $\mathsf{P}$ representa uma extração de uma bola preta. Para cada etapa, definimos os eventos
+\[
+  \begin{aligned}
+    V_j &= \{\text{a $j$-ésima bola extraída é vermelha}\}, \\
+    P_j &= \{\text{a $j$-ésima bola extraída é preta}\}=V_j^c.
+  \end{aligned}
+\]
+
+Seja
+\[
+  \omega=(\omega_1,\omega_2,\ldots,\omega_n) \in \Omega_n
+\]
+uma sequência que contém exatamente $k$ ocorrências de $\mathsf{V}$ e $n-k$ ocorrências de $\mathsf{P}$. Para registrar os eventos envolvidos em cada etapa, definimos
+\[
+  H_j(\omega) =
+  \begin{cases}
+    V_j, & \text{se } \omega_j=\mathsf{V}, \\
+    P_j, & \text{se } \omega_j=\mathsf{P},
+  \end{cases}
+  \qquad
+  C_j(\omega)=\displaystyle\bigcap_{\ell=1}^j H_\ell(\omega).
+\]
+Assim, $C_j(\omega)$ é o evento ``as primeiras $j$ extrações coincidem com os primeiros $j$ símbolos da sequência $\omega$''. Em particular, $C_n(\omega)$ é o evento de observar a sequência completa $\omega$.
+
+Para calcular a probabilidade condicional da próxima cor, suponha que o evento $C_{j-1}(\omega)$ tenha ocorrido. Escrevamos formalmente
+\[
+  \begin{aligned}
+    r_{j-1}(\omega)
+    &=\#\{\ell\in\{1,\ldots,j-1\}:\omega_\ell=\mathsf{V}\}, \\
+    p_{j-1}(\omega)
+    &=\#\{\ell\in\{1,\ldots,j-1\}:\omega_\ell=\mathsf{P}\}.
+  \end{aligned}
+\]
+Assim, entre as primeiras $j-1$ extrações apareceram $r_{j-1}(\omega)$ bolas vermelhas e $p_{j-1}(\omega)$ bolas pretas. A urna contém, antes da $j$-ésima extração,
+\[
+  1+r_{j-1}(\omega) \quad \text{bolas vermelhas}
+  \qquad\text{e}\qquad
+  1+p_{j-1}(\omega) \quad \text{bolas pretas}.
+\]
+Como $r_{j-1}(\omega)+p_{j-1}(\omega)=j-1$, o total de bolas é $j+1$. Portanto,
+\begin{equation}\label{eq:polya-condicionais}
+  \mathbb{P}\big(V_j\mid C_{j-1}(\omega)\big)
+  =\frac{1+r_{j-1}(\omega)}{j+1},
+  \qquad
+  \mathbb{P}\big(P_j\mid C_{j-1}(\omega)\big)
+  =\frac{1+p_{j-1}(\omega)}{j+1}.
+\end{equation}
+Como toda sequência de cores é possível, os eventos $C_{j-1}(\omega)$ possuem probabilidade positiva; portanto, as probabilidades condicionais acima estão bem definidas.
+
+Agora aplicamos a regra da multiplicação aos eventos que descrevem a sequência. Como
+$C_j(\omega)=C_{j-1}(\omega)\cap H_j(\omega)$, temos, para cada $j\geq 1$,
+\[
+  \mathbb{P}\big(C_j(\omega)\big)
+  =\mathbb{P}\big(C_{j-1}(\omega)\big)
+   \mathbb{P}\big(H_j(\omega)\mid C_{j-1}(\omega)\big),
+\]
+com $C_0(\omega)=\Omega_n$. Iterando essa identidade, obtemos a regra da cadeia neste caso:
+\begin{equation}\label{eq:polya-regra-cadeia}
+  \mathbb{P}\big(C_n(\omega)\big)
+  =\mathbb{P}\big(H_1(\omega)\big)
+   \prod_{j=2}^n
+   \mathbb{P}\big(H_j(\omega)\mid C_{j-1}(\omega)\big).
+\end{equation}
+Observe que os eventos condicionantes estão agora completamente especificados: antes de calcular a probabilidade da $j$-ésima cor, condicionamos no evento de que toda a história anterior da sequência $\omega$ ocorreu.
+
+Chegamos ao ponto central da demonstração: mostrar que o produto em
+\eqref{eq:polya-regra-cadeia} depende apenas de $k$, e não da posição em que
+cada cor aparece. Para isso, analisamos os numeradores das frações em
+\eqref{eq:polya-condicionais}.
+
+\smallskip
+\noindent\textbf{Observação-chave (os numeradores não dependem da ordem).}
+O numerador associado a uma extração vermelha depende apenas de \emph{qual}
+extração vermelha ela é (primeira, segunda, terceira, \ldots), e não de
+\emph{onde} ela ocorre na sequência. Mais precisamente: se a $m$-ésima bola
+vermelha é sorteada na etapa $j$, então o numerador correspondente é
+exatamente $m$.
+
+De fato, a urna começa com uma única bola vermelha. Cada extração vermelha
+acrescenta exatamente uma bola vermelha à urna, ao passo que uma extração
+preta não altera o número de bolas vermelhas. Logo, imediatamente antes de
+qualquer extração, o número de bolas vermelhas na urna é $1$ mais o número de
+bolas vermelhas já sorteadas. Se estamos prestes a realizar a $m$-ésima
+extração vermelha, então exatamente $m-1$ bolas vermelhas já foram sorteadas
+antes dela, de modo que a urna contém, nesse instante,
+\[
+  1+(m-1)=m
+\]
+bolas vermelhas. É esse valor $m$ que aparece no numerador da fração
+correspondente em \eqref{eq:polya-condicionais}. A estrutura oculta aqui
+é que o numerador é determinado pela \emph{ordem da extração
+entre as bolas vermelhas}, e não pela sua posição absoluta na sequência.
+
+Consequentemente, como $\omega$ contém $k$ bolas vermelhas, os numeradores
+associados às ocorrências de $\mathsf{V}$ são, na ordem em que essas
+ocorrências aparecem, exatamente
+\[
+  1,\,2,\,\ldots,\,k,
+\]
+pois a primeira extração vermelha contribui com $1$, a segunda com $2$, e
+assim sucessivamente até a $k$-ésima, que contribui com $k$. O produto desses
+numeradores é $k!$, independentemente das posições ocupadas pelas bolas
+vermelhas na sequência. O mesmo raciocínio, aplicado às bolas pretas, mostra
+que os numeradores associados às ocorrências de $\mathsf{P}$ são
+$1,2,\ldots,n-k$, cujo produto é $(n-k)!$.
+
+Quanto aos denominadores, antes da $j$-ésima extração a urna contém
+$2+(j-1)=j+1$ bolas (começamos com $2$ bolas e adicionamos uma a cada etapa),
+de modo que os denominadores são $2,3,\ldots,n+1$, cujo produto é $(n+1)!$;
+este depende apenas de $n$.
+
+Substituindo as expressões de \eqref{eq:polya-condicionais} em
+\eqref{eq:polya-regra-cadeia}, obtemos
+\[
+  \begin{aligned}
+    \mathbb{P}\big(C_n(\omega)\big)
+    &= \frac{\big(1\cdot 2\cdots k\big)\;\big(1\cdot 2\cdots (n-k)\big)}{2\cdot 3\cdots(n+1)} \\
+    &= \frac{k!\,(n-k)!}{(n+1)!},
+  \end{aligned}
+\]
+onde usamos as convenções de que $0!=1$ e de que todo produto vazio vale $1$.
+A expressão final depende apenas de $k$ e de $n$, e não da ordem em que as
+cores aparecem. Está demonstrada a simetria anunciada: todas as sequências com
+a mesma quantidade de bolas vermelhas têm a mesma probabilidade. O
+\Cref{fig:polya-simetria} ilustra essa simetria no caso $n=3$ e $k=2$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  bolaV/.style={circle, draw=red!55!black, fill=red!75, minimum size=0.78cm, inner sep=0pt, line width=0.4pt},
+  bolaP/.style={circle, draw=black!75, fill=black!80, minimum size=0.78cm, inner sep=0pt, line width=0.4pt},
+  rotulo/.style={font=\small},
+  seq/.style={font=\small\bfseries},
+]
+% cabeçalho das etapas
+\node[rotulo] at (2.4,0.85) {$1^{\text{a}}$ extração};
+\node[rotulo] at (5.0,0.85) {$2^{\text{a}}$ extração};
+\node[rotulo] at (7.6,0.85) {$3^{\text{a}}$ extração};
+
+% linha 1: V V P
+\node[seq] at (0.3,0) {$\mathsf{VVP}$};
+\node[bolaV] at (2.4,0) {};
+\node[rotulo] at (2.4,-0.8) {$\frac{\color{red!55!black}1}{2}$};
+\node[bolaV] at (5.0,0) {};
+\node[rotulo] at (5.0,-0.8) {$\frac{\color{red!55!black}2}{3}$};
+\node[bolaP] at (7.6,0) {};
+\node[rotulo] at (7.6,-0.8) {$\frac{1}{4}$};
+\node[rotulo] at (11.8,0) {$\dfrac{1\cdot2\cdot1}{2\cdot3\cdot4}=\dfrac{1}{12}$};
+
+% linha 2: V P V
+\node[seq] at (0.3,-1.8) {$\mathsf{VPV}$};
+\node[bolaV] at (2.4,-1.8) {};
+\node[rotulo] at (2.4,-2.6) {$\frac{\color{red!55!black}1}{2}$};
+\node[bolaP] at (5.0,-1.8) {};
+\node[rotulo] at (5.0,-2.6) {$\frac{1}{3}$};
+\node[bolaV] at (7.6,-1.8) {};
+\node[rotulo] at (7.6,-2.6) {$\frac{\color{red!55!black}2}{4}$};
+\node[rotulo] at (11.8,-1.8) {$\dfrac{1\cdot1\cdot2}{2\cdot3\cdot4}=\dfrac{1}{12}$};
+
+% linha 3: P V V
+\node[seq] at (0.3,-3.6) {$\mathsf{PVV}$};
+\node[bolaP] at (2.4,-3.6) {};
+\node[rotulo] at (2.4,-4.4) {$\frac{1}{2}$};
+\node[bolaV] at (5.0,-3.6) {};
+\node[rotulo] at (5.0,-4.4) {$\frac{\color{red!55!black}1}{3}$};
+\node[bolaV] at (7.6,-3.6) {};
+\node[rotulo] at (7.6,-4.4) {$\frac{\color{red!55!black}2}{4}$};
+\node[rotulo] at (11.8,-3.6) {$\dfrac{1\cdot1\cdot2}{2\cdot3\cdot4}=\dfrac{1}{12}$};
+\end{tikzpicture}
+\caption{Simetria das sequências com $k=2$ bolas vermelhas em $n=3$ extrações.
+As três sequências $\mathsf{VVP}$, $\mathsf{VPV}$ e $\mathsf{PVV}$ têm a mesma
+probabilidade $\frac{1}{12}$: os numeradores vermelhos (em vermelho) são sempre
+$\{1,2\}$ e o numerador preto é sempre $\{1\}$, apenas reordenados; os
+denominadores são sempre $\{2,3,4\}$, pois dependem apenas da etapa.}
+\label{fig:polya-simetria}
+\end{figure}
+
+\smallskip
+\noindent\textbf{Etapa 2 -- Contagem das sequências com $k$ bolas vermelhas.}
+
+Resta contar quantas são essas sequências. Definindo
+\[
+  \Omega_{n,k}
+  =\left\{\omega\in\Omega_n:
+    \#\{j\in\{1,\ldots,n\}:\omega_j=\mathsf{V}\}=k\right\},
+\]
+temos
+\[
+  E_{n,k}=\bigcup_{\omega\in\Omega_{n,k}} C_n(\omega).
+\]
+Os eventos da união são dois a dois disjuntos, e $\#\Omega_{n,k}=\binom{n}{k}$, pois basta escolher quais $k$ posições serão ocupadas por $\mathsf{V}$. Pela aditividade finita da probabilidade e pelo cálculo anterior,
+\[
+  \begin{aligned}
+    \mathbb{P}(E_{n,k})
+    &= \sum_{\omega\in\Omega_{n,k}}\mathbb{P}\big(C_n(\omega)\big) \\
+    &= \binom{n}{k}\frac{k!(n-k)!}{(n+1)!} \\
+    &= \frac{n!}{k!(n-k)!}\frac{k!(n-k)!}{(n+1)!} \\
+    &= \frac{1}{n+1},
+  \end{aligned}
+\]
+provando \eqref{eq:polya-uniformidade}.
+
+Para visualizar o resultado no caso de três extrações, a regra da multiplicação dá, por exemplo,
+\[
+  \begin{aligned}
+    \mathbb{P}(V_1\cap V_2\cap V_3)
+    &=\mathbb{P}(V_1)\mathbb{P}(V_2\mid V_1)
+      \mathbb{P}(V_3\mid V_1\cap V_2) \\
+    &=\frac{1}{2}\cdot\frac{2}{3}\cdot\frac{3}{4}=\frac{1}{4},
+  \end{aligned}
+\]
+ao passo que
+\[
+  \begin{aligned}
+    \mathbb{P}(V_1\cap V_2\cap P_3)
+    &=\mathbb{P}(V_1)\mathbb{P}(V_2\mid V_1)
+      \mathbb{P}(P_3\mid V_1\cap V_2) \\
+    &=\frac{1}{2}\cdot\frac{2}{3}\cdot\frac{1}{4}=\frac{1}{12}.
+  \end{aligned}
+\]
+As outras sequências homogêneas têm probabilidade $\frac{1}{4}$, e cada uma das seis sequências que contêm uma ou duas bolas vermelhas tem probabilidade $\frac{1}{12}$. Consequentemente,
+\[
+  \mathbb{P}(E_{3,0})=\mathbb{P}(E_{3,1})
+  =\mathbb{P}(E_{3,2})=\mathbb{P}(E_{3,3})=\frac{1}{4}.
+\]
+\end{example}
+
+\begin{remark}
+O resultado anterior não significa que as extrações sejam independentes. Se $V_i$ denota o evento ``a $i$-ésima bola extraída é vermelha'', então
+\[
+  \mathbb{P}(V_1)=\frac{1}{2},
+  \qquad
+  \mathbb{P}(V_2\mid V_1)=\frac{2}{3},
+  \qquad
+  \mathbb{P}(V_2\mid V_1^c)=\frac{1}{3}.
+\]
+Pelo Teorema da Partição,
+\[
+  \mathbb{P}(V_2)
+  =\frac{2}{3}\cdot\frac{1}{2}+\frac{1}{3}\cdot\frac{1}{2}
+  =\frac{1}{2}.
+\]
+Como $\mathbb{P}(V_2\mid V_1)\ne\mathbb{P}(V_2)$, a primeira e a segunda extrações são dependentes. A beleza do esquema está no fato de que esse reforço, embora favoreça sequências com muitas bolas da mesma cor, produz uma distribuição uniforme para a contagem final de bolas vermelhas.
+\end{remark}
+
+\section{O Teorema da Partição e o Teorema de Bayes}
+\label{sec:particao-bayes}
+
+Uma das técnicas analíticas mais poderosas em Probabilidade consiste em decompor um evento complexo em fatias condicionais controladas sobre uma partição do espaço amostral.
+
+\begin{definition}[Partição do Espaço Amostral]\label{def:particao}
+Seja \((\Omega, \mathcal{F}, \mathbb{P})\) um espaço de probabilidade. Uma coleção finita ou enumerável de eventos \(\{B_i : i \in I\} \subseteq \mathcal{F}\) é dita uma \emph{partição de \(\Omega\)} se satisfaz:
+\begin{enumerate}[label=(\alph*)]
+  \item Os eventos são dois a dois disjuntos: \(B_i \cap B_j = \varnothing\) para quaisquer \(i \ne j \in I\);
+  \item A união recobre o espaço: \(\bigcup_{i \in I} B_i = \Omega\);
+  \item Cada elemento possui probabilidade não nula: \(\mathbb{P}(B_i) > 0\) para todo \(i \in I\).
+\end{enumerate}
+\end{definition}
+
+\subsection{O Teorema da Partição (Probabilidade Total)}
+
+\begin{theorem}[Teorema da Partição / Lei da Probabilidade Total]\label{thm:particao}
+Seja \(\{B_i : i \in I\}\) uma partição do espaço amostral \(\Omega\). Então, para qualquer evento \(A \in \mathcal{F}\),
+\begin{equation}\label{eq:particao}
+  \mathbb{P}(A) = \sum_{i \in I} \mathbb{P}(A \mid B_i)\,\mathbb{P}(B_i).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+A estratégia da demonstração consiste em fatiar o evento \(A\) de acordo com os estados fundamentais \(B_i\) e aplicar a propriedade de $\sigma$-aditividade da medida \(\mathbb{P}\)
+
+\begin{enumerate}[label=\textbf{Passo \arabic*:},leftmargin=*]
+  \item \textbf{Decomposição do evento:} Como \(\bigcup_{i \in I} B_i = \Omega\), temos
+  \[
+    A = A \cap \Omega = A \cap \left(\bigcup_{i \in I} B_i\right) = \bigcup_{i \in I} (A \cap B_i).
+  \]
+  \item \textbf{Disjunção das componentes:} Como os conjuntos \(B_i\) são dois a dois disjuntos, para quaisquer \(i \ne j\) temos
+  \[
+    (A \cap B_i) \cap (A \cap B_j) = A \cap (B_i \cap B_j) = A \cap \varnothing = \varnothing.
+  \]
+  Logo, a família de eventos \(\{A \cap B_i : i \in I\}\) é dois a dois disjunta.
+  \item \textbf{Aplicação da aditividade e condicionamento:} Aplicando a propriedade de $\sigma$-aditividade da medida \(\mathbb{P}\),
+  \[
+    \mathbb{P}(A) = \mathbb{P}\left(\bigcup_{i \in I} (A \cap B_i)\right) = \sum_{i \in I} \mathbb{P}(A \cap B_i).
+  \]
+  Substituindo a regra da multiplicação \(\mathbb{P}(A \cap B_i) = \mathbb{P}(A \mid B_i)\mathbb{P}(B_i)\) dada pela \Cref{def:prob-cond}, concluímos que
+  \[
+    \mathbb{P}(A) = \sum_{i \in I} \mathbb{P}(A \mid B_i)\,\mathbb{P}(B_i),
+  \]
+  o que encerra a demonstração.
+\end{enumerate}
+\end{proof}
+
+\begin{example}[Previsão do Tempo e Atraso]\label{ex:atraso}
+Amanhã ocorrerá chuva ou neve, mas não ambos os fenômenos. A probabilidade de chuva é \(\tfrac{2}{5}\) e a de neve é \(\tfrac{3}{5}\). Se chover, a probabilidade de um professor se atrasar para sua aula é \(\tfrac{1}{5}\); se nevar, a probabilidade de atraso sobe para \(\tfrac{3}{5}\). Qual é a probabilidade de o professor se atrasar?
+
+\begin{solution}
+Seja \(A\) o evento de atraso e \(C\) o evento de chuva (com \(C^c\) representando neve). O par \(\{C, C^c\}\) constitui uma partição de \(\Omega\). Pelo \Cref{thm:particao}:
+\[
+  \begin{aligned}
+    \mathbb{P}(A) &= \mathbb{P}(A \mid C)\,\mathbb{P}(C) + \mathbb{P}(A \mid C^c)\,\mathbb{P}(C^c) \\
+    &= \frac{1}{5} \cdot \frac{2}{5} + \frac{3}{5} \cdot \frac{3}{5} = \frac{2}{25} + \frac{9}{25} = \frac{11}{25} = 0{,}44.
+  \end{aligned}
+\]
+\end{solution}
+\end{example}
+
+\subsection{O Teorema de Bayes: Inversão Estocástica de Causa e Efeito}
+
+Em diversas investigações empíricas, conhecemos as probabilidades diretas de observar determinado sintoma ou evidência experimental \(A\) dado cada possível estado ou hipótese subjacente \(B_j\) (chamadas de \emph{verossimilhanças} \(\mathbb{P}(A \mid B_j)\)), bem como as probabilidades iniciais de cada hipótese (chamadas de \emph{probabilidades a priori} \(\mathbb{P}(B_j)\)). Ao observarmos a evidência \(A\), desejamos inverter o condicionamento e computar a \emph{probabilidade a posteriori} \(\mathbb{P}(B_j \mid A)\).
+
+\begin{theorem}[Teorema de Bayes]\label{thm:bayes}
+Seja \(\{B_i : i \in I\}\) uma partição do espaço amostral \(\Omega\). Para qualquer evento \(A \in \mathcal{F}\) com \(\mathbb{P}(A) > 0\) e para cada \(j \in I\),
+\begin{equation}\label{eq:bayes}
+  \mathbb{P}(B_j \mid A) = \frac{\mathbb{P}(A \mid B_j)\,\mathbb{P}(B_j)}{\sum_{i \in I} \mathbb{P}(A \mid B_i)\,\mathbb{P}(B_i)}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Pela \Cref{def:prob-cond}, a probabilidade condicional de \(B_j\) dado \(A\) é
+\[
+  \mathbb{P}(B_j \mid A) = \frac{\mathbb{P}(B_j \cap A)}{\mathbb{P}(A)} = \frac{\mathbb{P}(A \mid B_j)\,\mathbb{P}(B_j)}{\mathbb{P}(A)}.
+\]
+Substituindo \(\mathbb{P}(A)\) no denominador pela sua expansão obtida no Teorema da Partição (\Cref{thm:particao}), obtemos diretamente a equação \eqref{eq:bayes}.
+\end{proof}
+
+\begin{example}[Diagnóstico Clínico e o Paradoxo dos Falsos Positivos]\label{ex:falsos-positivos}
+Uma doença rara tem prevalência de 1 em \(10^5\) na população em geral. Um teste laboratorial para diagnóstico dessa enfermidade possui as seguintes características de acurácia:
+\begin{itemize}
+  \item \textbf{Sensibilidade:} Se o indivíduo é portador da doença, o teste resulta positivo com probabilidade \(0{,}90\) (\(\tfrac{9}{10}\));
+  \item \textbf{Taxa de falso positivo:} Se o indivíduo não tem a doença, o teste resulta positivo com probabilidade \(0{,}05\) (\(\tfrac{1}{20}\)).
+\end{itemize}
+Um indivíduo sorteado ao acaso na população realiza o teste e obtém resultado positivo. Qual é a probabilidade de ele efetivamente ser portador da doença?
+
+\begin{solution}
+Sejam \(D\) o evento ``o indivíduo tem a doença'' e \(P\) o evento ``o teste resulta positivo''. Temos:
+\[
+  \mathbb{P}(D) = 10^{-5} = 0{,}00001, \qquad \mathbb{P}(D^c) = 1 - 10^{-5} = 0{,}99999,
+\]
+\[
+  \mathbb{P}(P \mid D) = 0{,}90, \qquad \mathbb{P}(P \mid D^c) = 0{,}05.
+\]
+Pelo Teorema de Bayes (\Cref{thm:bayes}):
+\[
+  \begin{aligned}
+    \mathbb{P}(D \mid P) &= \frac{\mathbb{P}(P \mid D)\,\mathbb{P}(D)}{\mathbb{P}(P \mid D)\,\mathbb{P}(D) + \mathbb{P}(P \mid D^c)\,\mathbb{P}(D^c)} \\
+    &= \frac{0{,}90 \times 10^{-5}}{(0{,}90 \times 10^{-5}) + (0{,}05 \times 0{,}99999)} \\
+    &= \frac{0{,}000009}{0{,}000009 + 0{,}0499995} = \frac{0{,}000009}{0{,}0500085} \approx 0{,}00017997 \approx 0{,}018\%.
+  \end{aligned}
+\]
+\end{solution}
+
+A probabilidade a posteriori de ser portador da enfermidade após um teste positivo é inferior a \(0{,}02\%\) (menos de 1 em 5.000)! Embora o teste tenha sensibilidade alta (\(90\%\)), a extrema raridade da condição na população (baixa probabilidade a priori \(10^{-5}\)) faz com que o volume absoluto de falsos positivos na população sadia supere amplamente os verdadeiros positivos. Este fenômeno contra-intuitivo é conhecido como a \emph{falácia da taxa-base}.
+\end{example}
+
+\section{Eventos Independentes}
+\label{sec:independencia}
+
+Intuitivamente, dois eventos \(A\) e \(B\) são considerados \emph{independentes} quando a ocorrência de um deles não altera em nada o grau de certeza atribuído à ocorrência do outro.
+
+Formalmente, sob a ótica da probabilidade condicional, se \(\mathbb{P}(B) > 0\), a ausência de influência de \(B\) sobre \(A\) expressa-se pela igualdade:
+\begin{equation}\label{eq:indep-condicional}
+  \mathbb{P}(A \mid B) = \mathbb{P}(A).
+\end{equation}
+Multiplicando ambos os membros por \(\mathbb{P}(B)\), obtemos \(\mathbb{P}(A \cap B) = \mathbb{P}(A)\mathbb{P}(B)\). Esta última formulação possui duas vantagens teóricas cruciais sobre \eqref{eq:indep-condicional}:
+\begin{enumerate}[label=(\roman*)]
+  \item É perfeitamente \emph{simétrica} em relação aos eventos \(A\) e \(B\);
+  \item Permanece bem definida mesmo quando um dos eventos possui probabilidade nula (\(\mathbb{P} = 0\)).
+\end{enumerate}
+
+\begin{definition}[Independência de Dois Eventos]\label{def:independencia}
+Dois eventos \(A, B \in \mathcal{F}\) em um espaço de probabilidade \((\Omega, \mathcal{F}, \mathbb{P})\) são chamados \textbf{independentes} se
+\begin{equation}\label{eq:independencia}
+  \mathbb{P}(A \cap B) = \mathbb{P}(A)\,\mathbb{P}(B),
+\end{equation}
+e \textbf{dependentes} caso contrário.
+\end{definition}
+
+\begin{remark}
+Se \(\mathbb{P}(A) = 0\) ou \(\mathbb{P}(A) = 1\), então \(A\) é independente de qualquer outro evento \(B \in \mathcal{F}\). De fato, se \(\mathbb{P}(A) = 0\), como \(A \cap B \subseteq A\), temos \(0 \le \mathbb{P}(A \cap B) \le \mathbb{P}(A) = 0\), logo \(\mathbb{P}(A \cap B) = 0 = \mathbb{P}(A)\mathbb{P}(B)\).
+\end{remark}
+
+\begin{proposition}[Independência e Complementação]\label{prop:indep-complementares}
+Sejam \(A, B \in \mathcal{F}\). As seguintes afirmações são equivalentes:
+\begin{enumerate}[label=(\alph*)]
+  \item \(A\) e \(B\) são independentes;
+  \item \(A\) e \(B^c\) são independentes;
+  \item \(A^c\) e \(B\) são independentes;
+  \item \(A^c\) e \(B^c\) são independentes.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Mostraremos que (a) implica (b). Observe que podemos decompor \(A\) como a união disjunta \(A = (A \cap B) \cup (A \cap B^c)\). Pela aditividade de \(\mathbb{P}\):
+\[
+  \mathbb{P}(A) = \mathbb{P}(A \cap B) + \mathbb{P}(A \cap B^c)
+  \quad\implies\quad
+  \mathbb{P}(A \cap B^c) = \mathbb{P}(A) - \mathbb{P}(A \cap B).
+\]
+Usando a hipótese de independência \(\mathbb{P}(A \cap B) = \mathbb{P}(A)\mathbb{P}(B)\), fatoramos a expressão:
+\[
+  \mathbb{P}(A \cap B^c) = \mathbb{P}(A) - \mathbb{P}(A)\mathbb{P}(B) = \mathbb{P}(A)\big(1 - \mathbb{P}(B)\big) = \mathbb{P}(A)\,\mathbb{P}(B^c).
+\]
+Logo, \(A\) e \(B^c\) são independentes. As demais equivalências seguem aplicando-se sucessivamente este mesmo resultado trocando os papéis de \(A\) e \(B\).
+\end{proof}
+
+\subsection{Independência de Famílias Arbitrárias de Eventos}
+
+Ao estendermos a noção de independência para mais de dois eventos, a exigência de independência par a par (dois a dois) mostra-se estritamente insuficiente para capturar a ausência total de interações conjuntas.
+
+\begin{definition}[Famílias Independentes]\label{def:familia-indep}
+Seja \(\mathcal{A} = (A_i)_{i \in I}\) uma família de eventos em \((\Omega, \mathcal{F}, \mathbb{P})\).
+\begin{enumerate}[label=(\alph*)]
+  \item A família \(\mathcal{A}\) é dita \textbf{independente} (ou \emph{mutuamente independente}) se, para todo subconjunto finito não vazio \(J \subseteq I\), vale
+  \begin{equation}\label{eq:familia-indep}
+    \mathbb{P}\left(\bigcap_{i \in J} A_i\right) = \prod_{i \in J} \mathbb{P}(A_i).
+  \end{equation}
+  \item A família \(\mathcal{A}\) é dita \textbf{independente dois a dois} se a condição \eqref{eq:familia-indep} é satisfeita para todos os pares, isto é, sempre que \(\#J = 2\).
+\end{enumerate}
+\end{definition}
+
+Para três eventos \(A, B, C\), a independência mútua exige simultaneamente as seguintes quatro condições:
+\begin{align}
+  \mathbb{P}(A \cap B) &= \mathbb{P}(A)\mathbb{P}(B), \label{eq:indep-3-ab} \\
+  \mathbb{P}(A \cap C) &= \mathbb{P}(A)\mathbb{P}(C), \label{eq:indep-3-ac} \\
+  \mathbb{P}(B \cap C) &= \mathbb{P}(B)\mathbb{P}(C), \label{eq:indep-3-bc} \\
+  \mathbb{P}(A \cap B \cap C) &= \mathbb{P}(A)\mathbb{P}(B)\mathbb{P}(C). \label{eq:indep-3-abc}
+\end{align}
+A igualdade tripla \eqref{eq:indep-3-abc} não decorre das igualdades aos pares \eqref{eq:indep-3-ab}--\eqref{eq:indep-3-bc}, conforme ilustrado pelo contraexemplo canônico a seguir.
+
+\begin{example}[Independência Dois a Dois Não Implica Independência Mútua]\label{ex:dado-quatro-faces}
+Considere o lançamento de um dado tetraédrico equilibrado (ou um dado honesto de 4 faces numeradas de 1 a 4). O espaço amostral é \(\Omega = \{1, 2, 3, 4\}\), com probabilidade uniforme \(\mathbb{P}(\{\omega\}) = \tfrac{1}{4}\) para cada \(\omega \in \Omega\).
+
+Definamos os eventos:
+\[
+  A = \{1, 2\}, \qquad B = \{1, 3\}, \qquad C = \{1, 4\}.
+\]
+Calculando as probabilidades individuais e das interseções:
+\begin{itemize}
+  \item \textbf{Probabilidades marginais:} \(\mathbb{P}(A) = \mathbb{P}(B) = \mathbb{P}(C) = \tfrac{2}{4} = \tfrac{1}{2}\);
+  \item \textbf{Interseções dois a dois:}
+  \[
+    A \cap B = \{1\}, \quad A \cap C = \{1\}, \quad B \cap C = \{1\}.
+  \]
+  Assim, \(\mathbb{P}(A \cap B) = \tfrac{1}{4} = \mathbb{P}(A)\mathbb{P}(B)\), e o mesmo vale para \(A \cap C\) e \(B \cap C\). Portanto, a família \(\{A, B, C\}\) é \emph{independente dois a dois}.
+  \item \textbf{Interseção tripla:}
+  \[
+    A \cap B \cap C = \{1\} \implies \mathbb{P}(A \cap B \cap C) = \frac{1}{4}.
+  \]
+  Entretanto, o produto das probabilidades marginais fornece:
+  \[
+    \mathbb{P}(A)\,\mathbb{P}(B)\,\mathbb{P}(C) = \frac{1}{2} \cdot \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{8} \ne \frac{1}{4}.
+  \]
+\end{itemize}
+Os eventos \(A, B, C\) são independentes dois a dois, mas \textbf{não são mutuamente independentes}.
+
+\begin{remark}[Interpretação Informacional]
+Conhecer isoladamente a ocorrência de \(B\) nada nos diz sobre a chance de \(A\) (\(\mathbb{P}(A \mid B) = \tfrac{1/4}{1/2} = \tfrac{1}{2} = \mathbb{P}(A)\)). Porém, saber que \(B\) e \(C\) ocorreram simultaneamente revela com certeza absoluta que a face obtida foi \(1\), o que força a ocorrência de \(A\) com probabilidade 1 (\(\mathbb{P}(A \mid B \cap C) = 1\)). A informação conjunta de \(B\) e \(C\) determina \(A\) de forma determinística!
+\end{remark}
+\end{example}
+
+\section{Exercícios Propostos}
+\label{sec:exercicios}
+
+\begin{exercise}\label{exercise:dados-eventos}
+Seja \(S\) o espaço amostral usual referente ao lançamento de um par de dados honestos (um vermelho e um azul), sob medida uniforme. Sejam \(A\) o evento ``o primeiro dado mostra face ímpar'' e \(B\) o evento ``o segundo dado mostra face par''.
+\begin{enumerate}[label=(\alph*)]
+  \item Descreva em palavras os eventos \(A \cap B\), \((A \cap B) \cup (A^c \cap B^c)\), \(A^c\) e \((A \cup B)^c\);
+  \item Calcule a probabilidade de cada um desses quatro eventos.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:soma-11}
+Considere o lançamento de um par de dados honestos. Determine:
+\begin{enumerate}[label=(\alph*)]
+  \item A probabilidade incondicional de a soma das faces ser igual a 11;
+  \item A probabilidade de obter soma 11 dado que a soma das faces é um número ímpar;
+  \item A probabilidade de obter soma 11 dado que a soma das faces é um número ímpar estritamente maior que 3.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:moeda-quatro}
+Uma moeda honesta é lançada quatro vezes consecutivas. Calcule:
+\begin{enumerate}[label=(\alph*)]
+  \item A probabilidade de obter pelo menos duas caras;
+  \item A probabilidade de obter pelo menos duas caras dado que ocorreu pelo menos uma cara;
+  \item A probabilidade de obter quatro caras dado que ocorreram pelo menos duas caras.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:sete-moedas}
+Uma moeda honesta é lançada 7 vezes. Determine a probabilidade de se obter um número primo de caras, dado que cara ocorreu em pelo menos 6 dos 7 lançamentos.
+\end{exercise}
+
+\begin{exercise}\label{exercise:regra-produto}
+Sejam \(A, B, C\) eventos em \((\Omega, \mathcal{F}, \mathbb{P})\) tais que \(\mathbb{P}(A \cap B) > 0\). Utilizando a definição de probabilidade condicional, prove formalmente que
+\[
+  \mathbb{P}(A \cap B \cap C) = \mathbb{P}(A)\,\mathbb{P}(B \mid A)\,\mathbb{P}(C \mid A \cap B).
+\]
+\end{exercise}
+
+\begin{exercise}\label{exercise:indep-simetrica}
+Sejam \(A\) e \(B\) eventos com \(\mathbb{P}(A), \mathbb{P}(B) > 0\). Mostre que \(\mathbb{P}(A \mid B) = \mathbb{P}(A)\) se, e somente se, \(\mathbb{P}(B \mid A) = \mathbb{P}(B)\).
+\end{exercise}
+
+\begin{exercise}\label{exercise:disjuntos-indep}
+Sejam \(A\) e \(B\) eventos disjuntos (\(A \cap B = \varnothing\)) e simultaneamente independentes. O que se pode concluir necessariamente sobre as probabilidades \(\mathbb{P}(A)\) e \(\mathbb{P}(B)\)?
+\end{exercise}
+
+\begin{exercise}\label{exercise:indep-complementares}
+Mostre por indução finita que os eventos \(A_1, A_2, \ldots, A_m\) são mutuamente independentes se, e somente se, os eventos complementares \(A_1^c, A_2^c, \ldots, A_m^c\) são mutuamente independentes.
+\end{exercise}
+
+\begin{exercise}\label{exercise:p-eventos}
+Sejam \(A_1, A_2, \ldots, A_m\) eventos mutuamente independentes tais que \(\mathbb{P}(A_i) = p \in (0,1)\) para todo \(i = 1, 2, \ldots, m\). Determine uma fórmula fechada para a probabilidade de que:
+\begin{enumerate}[label=(\alph*)]
+  \item Nenhum dos eventos \(A_i\) ocorra;
+  \item Um número par de eventos \(A_i\) ocorra.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:dado-primo}
+Um dado especial possui um número primo \(p\) de faces equiprováveis, e é lançado uma única vez. Mostre que dois eventos \(A\) e \(B\) quaisquer associados a esse lançamento não podem ser independentes, a menos que pelo menos um deles seja o evento trivial (\(\varnothing\) ou \(\Omega\)).
+\end{exercise}
+
+\begin{exercise}\label{exercise:urna-reposicao}
+Uma urna contém inicialmente 5 bolas vermelhas e 5 pretas. Uma bola é retirada ao acaso; sua cor é observada e ela é devolvida à urna juntamente com outra bola de mesma cor. Uma segunda bola é então extraída ao acaso da urna. Calcule as probabilidades de que:
+\begin{enumerate}[label=(\alph*)]
+  \item A primeira bola seja vermelha e a segunda vermelha;
+  \item A primeira bola seja vermelha e a segunda preta;
+  \item A segunda bola seja vermelha;
+  \item A segunda bola seja preta.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:urnas}
+Você recebe duas urnas. A urna I contém 3 bolas brancas e 4 pretas, e a urna II contém 2 bolas brancas e 6 pretas.
+\begin{enumerate}[label=(\alph*)]
+  \item Uma bola é retirada ao acaso da urna I e colocada na urna II. Em seguida, uma bola é retirada ao acaso da urna II. Qual é a probabilidade de a bola retirada da urna II ser preta?
+  \item Desta vez, você escolhe uma urna ao acaso, cada uma das duas urnas sendo escolhida com probabilidade \(\tfrac{1}{3}\), e retira uma
+        % TODO-OCR[OCR-0002][JSON p.25]: o JSON lê "each of the two urns
+        % being picked with probability 1/3"; mantido conforme a leitura
+        % (decisão da Sessão 03). Verificar em uma passada visual se a
+        % versão impressa mostra 1/3 ou 1/2.
+        bola ao acaso da urna escolhida. Dado que a bola observada é preta, qual é a probabilidade de você ter escolhido a urna I?
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:moeda-viciada}
+Uma moeda viciada mostra cara com probabilidade \(p \in (0,1)\) (e coroa com probabilidade \(q = 1 - p\)) a cada lançamento independente. Seja \(u_n\) a probabilidade de que, em \(n\) lançamentos consecutivos, não ocorram duas caras seguidas.
+\begin{enumerate}[label=(\alph*)]
+  \item Condicionando no resultado do primeiro e do segundo lançamentos, mostre que a sequência \((u_n)_{n \ge 1}\) satisfaz a relação de recorrência
+  \[
+    u_{n+2} = q\,u_{n+1} + p\,q\,u_n, \qquad \forall n \ge 1.
+  \]
+  \item Determine os valores iniciais \(u_1\) e \(u_2\), e obtenha uma expressão explícita para o termo geral \(u_n\) no caso particular \(p = \tfrac{2}{3}\).
+\end{enumerate}
+\end{exercise}
+
+% --- BIBLIOGRAFIA ---
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}

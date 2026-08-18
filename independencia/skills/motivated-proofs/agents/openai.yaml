@@ -1,0 +1,4 @@
+interface:
+  display_name: "Motivated Proofs"
+  short_description: "Make proof steps purposeful and discoverable"
+  default_prompt: "Use $motivated-proofs to rewrite this proof for its intended audience, making every non-obvious step purposeful and discoverable."
