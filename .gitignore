@@ -26,3 +26,9 @@ texput.log
 
 # Sistema
 .DS_Store
+
+# Estado local da ferramenta opencode (nunca versionar)
+.opencode/
+
+# Guia local de notações e convenções (uso interno, não publicar)
+NOTACOES-E-CONVENCOES.md
