@@ -68,7 +68,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
-\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta}
 
 %----------------------------------------------------------------------
 % REFERÊNCIAS, LINKS E METADADOS DO PDF
@@ -723,7 +723,7 @@ Para fixar as ideias, após $n$ extrações seja $E_{n,k}$ o evento ``exatamente
 
 \begin{figure}[H]
 \centering
-\definecolor{PolyaAzul}{RGB}{41,111,200}
+\definecolor{PolyaPreta}{RGB}{35,35,35}
 \definecolor{PolyaVerm}{RGB}{216,50,45}
 \pgfmathtruncatemacro{\nlv}{3} % número de extrações (3 ou 4)
 \ifnum\nlv=3\relax\pgfmathsetmacro{\sep}{1.35}\else\pgfmathsetmacro{\sep}{1.00}\fi
@@ -731,9 +731,11 @@ Para fixar as ideias, após $n$ extrações seja $E_{n,k}$ o evento ``exatamente
 \pgfmathsetmacro{\bolaSep}{0.34}
 
 \tikzset{
-  bolaA/.style={circle, inner sep=0pt, minimum size=0.26cm, fill=PolyaAzul, draw=PolyaAzul!55!black, line width=0.3pt},
+  bolaA/.style={circle, inner sep=0pt, minimum size=0.26cm, fill=PolyaPreta, draw=PolyaPreta!60!black, line width=0.3pt},
   bolaV/.style={circle, inner sep=0pt, minimum size=0.26cm, fill=PolyaVerm, draw=PolyaVerm!55!black, line width=0.3pt},
   rb/.style={-, draw=gray!50, line width=0.8pt},
+  guia/.style={-, draw=gray!50, dashed, line width=0.6pt},
+  eixo/.style={-, draw=gray!45, line width=0.9pt},
   rot/.style={font=\small, text=gray!70!black},
 }
 
@@ -762,6 +764,19 @@ Para fixar as ideias, após $n$ extrações seja $E_{n,k}$ o evento ``exatamente
 }
 
 \begin{tikzpicture}
+  \pgfmathsetmacro{\yaxi}{-5.6}%
+  \pgfmathsetmacro{\yfin}{5.0}%
+  \foreach \j in {1,...,\nlv}{%
+    \pgfmathsetmacro{\xg}{(\j-0.5)*\bdx}%
+    \draw[guia] ({\xg},{\yaxi}) -- ({\xg},{\yfin});
+  }%
+  \draw[eixo,-{Stealth[length=2.6mm,width=2.2mm,inset=0.55mm]}] ({-0.7},{\yaxi}) -- ({(\nlv+0.4)*\bdx},{\yaxi});
+  \node[rot, below right, xshift=5pt, yshift=-1pt] at ({(\nlv+0.4)*\bdx},{\yaxi}) {$n$};
+  \foreach \j in {1,...,\nlv}{%
+    \pgfmathsetmacro{\xg}{(\j-0.5)*\bdx}%
+    \draw[eixo] ({\xg},{\yaxi-0.12}) -- ({\xg},{\yaxi+0.12});
+    \node[rot] at ({\xg},{\yaxi-0.42}) {$\j$};
+  }%
   \foreach \j in {1,...,\nlv}{%
     \polyaLista{\j}%
     \foreach \R/\B [count=\ii from 0] in \plist {%
@@ -787,7 +802,7 @@ Para fixar as ideias, após $n$ extrações seja $E_{n,k}$ o evento ``exatamente
 \end{tikzpicture}
 \caption{A árvore de possibilidades de configurações 
 de uma urna de P\'olya, iniciando com uma bola vermelha e
-uma bola azul. A cor da bola na aresta indica a cor da bola extraída na etapa indicada pela aresta}
+uma bola preta. A cor da bola na aresta indica a cor da bola extraída na etapa indicada pela reta vertical}
 \label{fig:polya-arvore}
 \end{figure}
 
@@ -798,7 +813,7 @@ O reforço torna as extrações dependentes: depois de observar uma bola vermelh
 A prova será organizada em duas etapas. Primeiro calcularemos a probabilidade de uma sequência específica de cores usando explicitamente a regra da multiplicação. Depois contaremos quantas sequências possuem exatamente $k$ bolas vermelhas.
 
 \smallskip
-\noindent\textbf{Etapa 1 -- Probabilidade de uma sequência fixa.}
+\noindent\textbf{Etapa 1 - Probabilidade de uma sequência fixada.}
 
 Consideremos o espaço amostral das sequências de cores observadas nas $n$ primeiras extrações,
 \[
@@ -828,40 +843,51 @@ uma sequência que contém exatamente $k$ ocorrências de $\mathsf{V}$ e $n-k$ o
 \]
 Assim, $C_j(\omega)$ é o evento ``as primeiras $j$ extrações coincidem com os primeiros $j$ símbolos da sequência $\omega$''. Em particular, $C_n(\omega)$ é o evento de observar a sequência completa $\omega$.
 
-Para calcular a probabilidade condicional da próxima cor, 
-suponha que o evento $C_{j-1}(\omega)$ tenha ocorrido. Defina
+Seja $2\leqslant j\leqslant n$.
+Para calcular a probabilidade condicional, da cor da bola retirada na $j$-ésima extração, 
+dado evento $C_{j-1}(\omega)$, consideramos as seguintes quantidades:
 \[
   \begin{aligned}
-    r_{j-1}(\omega)
+    v_{j-1}(\omega)
     &=\#\{\ell\in\{1,\ldots,j-1\}:\omega_\ell=\mathsf{V}\}, \\
     p_{j-1}(\omega)
     &=\#\{\ell\in\{1,\ldots,j-1\}:\omega_\ell=\mathsf{P}\}.
   \end{aligned}
 \]
-Assim, entre as primeiras $j-1$ extrações apareceram $r_{j-1}(\omega)$ bolas vermelhas e $p_{j-1}(\omega)$ bolas pretas. A urna contém, antes da $j$-ésima extração,
+Observe que os números $v_{j-1}(\omega)$ e $p_{j-1}(\omega)$,
+contam os números de bolas vermelhas e pretas, respectivamente, 
+que apareceram nos $j-1$ primeiros sorteios. 
+
+Observe que a urna contém, antes da $j$-ésima extração,
 \[
-  1+r_{j-1}(\omega) \quad \text{bolas vermelhas}
+  1+v_{j-1}(\omega) \quad \text{bolas vermelhas}
   \qquad\text{e}\qquad
   1+p_{j-1}(\omega) \quad \text{bolas pretas}.
 \]
-Como $r_{j-1}(\omega)+p_{j-1}(\omega)=j-1$, o total de bolas é $j+1$. Portanto,
+
+É claro realizados $j-1$ sorteios teremos $v_{j-1}(\omega)+p_{j-1}(\omega)=j-1$.
+Além do mais, após $j-1$ sorteios o total de bolas na urna antes da $j$-ésima extração é exatamente
+$j+1$. Portanto,
 \begin{equation}\label{eq:polya-condicionais}
   \mathbb{P}\big(V_j\mid C_{j-1}(\omega)\big)
-  =\frac{1+r_{j-1}(\omega)}{j+1},
+  =\frac{1+v_{j-1}(\omega)}{j+1},
   \qquad
   \mathbb{P}\big(P_j\mid C_{j-1}(\omega)\big)
   =\frac{1+p_{j-1}(\omega)}{j+1}.
 \end{equation}
 Como toda sequência de cores é possível, os eventos $C_{j-1}(\omega)$ possuem probabilidade positiva; portanto, as probabilidades condicionais acima estão bem definidas.
 
-Agora aplicamos a regra da multiplicação aos eventos que descrevem a sequência. Como
-$C_j(\omega)=C_{j-1}(\omega)\cap H_j(\omega)$, temos, para cada $j\geq 1$,
+Agora aplicamos a regra da multiplicação aos eventos que descrevem a sequência. 
+Convencionando que $C_{0}(\omega)\equiv \Omega_n$
+temos a seguinte identidade
+$C_j(\omega)=C_{j-1}(\omega)\cap H_j(\omega)$, para cada $1\leqslant j\leqslant n$
+e consequentemente 
 \[
   \mathbb{P}\big(C_j(\omega)\big)
   =\mathbb{P}\big(C_{j-1}(\omega)\big)
-   \mathbb{P}\big(H_j(\omega)\mid C_{j-1}(\omega)\big),
+   \mathbb{P}\big(H_j(\omega)\mid C_{j-1}(\omega)\big).
 \]
-com $C_0(\omega)=\Omega_n$. Iterando essa identidade, obtemos a regra da cadeia neste caso:
+Iterando essa identidade, ficamos com 
 \begin{equation}\label{eq:polya-regra-cadeia}
   \mathbb{P}\big(C_n(\omega)\big)
   =\mathbb{P}\big(H_1(\omega)\big)
@@ -870,46 +896,48 @@ com $C_0(\omega)=\Omega_n$. Iterando essa identidade, obtemos a regra da cadeia 
 \end{equation}
 Observe que os eventos condicionantes estão agora completamente especificados: antes de calcular a probabilidade da $j$-ésima cor, condicionamos no evento de que toda a história anterior da sequência $\omega$ ocorreu.
 
+
+\medskip 
 Chegamos ao ponto central da demonstração: mostrar que o produto em
-\eqref{eq:polya-regra-cadeia} depende apenas de $k$, e não da posição em que
-cada cor aparece. Para isso, analisamos os numeradores das frações em
-\eqref{eq:polya-condicionais}.
+\eqref{eq:polya-regra-cadeia} depende apenas do número de bolas vermelhas, 
+e não da ordem com que as cores foram sorteadas. Para isso, vamos analisar 
+os numeradores das frações que aparecem nas expressões \eqref{eq:polya-condicionais}.
 
-\smallskip
-\noindent\textbf{Observação-chave (os numeradores não dependem da ordem).}
-O numerador associado a uma extração vermelha depende apenas de \emph{qual}
-extração vermelha ela é (primeira, segunda, terceira, \ldots), e não de
-\emph{onde} ela ocorre na sequência. Mais precisamente: se a $m$-ésima bola
-vermelha é sorteada na etapa $j$, então o numerador correspondente é
-exatamente $m$.
+\bigskip
+\noindent\textbf{Ideia-chave: contar cada cor separadamente.}
+Para analisar os numeradores, não precisamos acompanhar a posição absoluta de
+cada extração. Basta numerar separadamente
+as extrações vermelhas e as pretas.\par\nopagebreak[4]
 
-De fato, a urna começa com uma única bola vermelha. Cada extração vermelha
-acrescenta exatamente uma bola vermelha à urna, ao passo que uma extração
-preta não altera o número de bolas vermelhas. Logo, imediatamente antes de
-qualquer extração, o número de bolas vermelhas na urna é $1$ mais o número de
-bolas vermelhas já sorteadas. Se estamos prestes a realizar a $m$-ésima
-extração vermelha, então exatamente $m-1$ bolas vermelhas já foram sorteadas
-antes dela, de modo que a urna contém, nesse instante,
+Considere uma posição $j$ tal que $\omega_j=\mathsf{V}$. Se a extração nessa
+posição é a $m$-ésima extração vermelha da sequência, então, antes dela, já
+ocorreram exatamente $m-1$ extrações vermelhas. Portanto,
 \[
-  1+(m-1)=m
+  v_{j-1}(\omega)=m-1
+  \qquad\text{e}\qquad
+  1+v_{j-1}(\omega)=m.
 \]
-bolas vermelhas. É esse valor $m$ que aparece no numerador da fração
-correspondente em \eqref{eq:polya-condicionais}. A estrutura oculta aqui
-é que o numerador é determinado pela \emph{ordem da extração
-entre as bolas vermelhas}, e não pela sua posição absoluta na sequência.
 
-Consequentemente, como $\omega$ contém $k$ bolas vermelhas, os numeradores
-associados às ocorrências de $\mathsf{V}$ são, na ordem em que essas
-ocorrências aparecem, exatamente
+Assim, a primeira extração vermelha contribui com o numerador $1$, a segunda
+com o numerador $2$, e assim por diante, qualquer que seja a posição que
+essas extrações ocupem na sequência. Isso acontece porque uma extração preta
+não altera o número de bolas vermelhas na urna.
+
+Por exemplo, em $\mathsf{VPPV}$ as bolas vermelhas aparecem nas posições $1$
+e $4$, mas seus numeradores são $1$ e $2$. Em $\mathsf{PVVP}$ elas aparecem
+nas posições $2$ e $3$, e seus numeradores continuam sendo $1$ e $2$.
+As extrações pretas obedecem exatamente à mesma regra, usando
+$p_{j-1}(\omega)$ no lugar de $v_{j-1}(\omega)$.
+
+Logo, se $\omega$ contém $k$ bolas vermelhas, os numeradores associados às
+ocorrências de $\mathsf{V}$ são, na ordem em que aparecem, exatamente
 \[
   1,\,2,\,\ldots,\,k,
 \]
-pois a primeira extração vermelha contribui com $1$, a segunda com $2$, e
-assim sucessivamente até a $k$-ésima, que contribui com $k$. O produto desses
-numeradores é $k!$, independentemente das posições ocupadas pelas bolas
-vermelhas na sequência. O mesmo raciocínio, aplicado às bolas pretas, mostra
-que os numeradores associados às ocorrências de $\mathsf{P}$ são
-$1,2,\ldots,n-k$, cujo produto é $(n-k)!$.
+e o produto deles é $k!$, independentemente das posições ocupadas pelas
+bolas vermelhas na sequência. Pelo mesmo raciocínio, os numeradores
+$1+p_{j-1}(\omega)$ associados às ocorrências de $\mathsf{P}$ são, na ordem
+em que aparecem, exatamente $1,2,\ldots,n-k$, cujo produto é $(n-k)!$.
 
 Quanto aos denominadores, antes da $j$-ésima extração a urna contém
 $2+(j-1)=j+1$ bolas (começamos com $2$ bolas e adicionamos uma a cada etapa),
@@ -1025,7 +1053,10 @@ ao passo que
     &=\frac{1}{2}\cdot\frac{2}{3}\cdot\frac{1}{4}=\frac{1}{12}.
   \end{aligned}
 \]
-As outras sequências homogêneas têm probabilidade $\frac{1}{4}$, e cada uma das seis sequências que contêm uma ou duas bolas vermelhas tem probabilidade $\frac{1}{12}$. Consequentemente,
+O mesmo cálculo, trocando as cores, mostra que a sequência homogênea
+$\mathsf{PPP}$ também tem probabilidade $\frac{1}{4}$. Restam seis sequências:
+três contêm exatamente uma bola vermelha e três contêm exatamente duas.
+Cada uma delas tem probabilidade $\frac{1}{12}$. Consequentemente,
 \[
   \mathbb{P}(E_{3,0})=\mathbb{P}(E_{3,1})
   =\mathbb{P}(E_{3,2})=\mathbb{P}(E_{3,3})=\frac{1}{4}.
