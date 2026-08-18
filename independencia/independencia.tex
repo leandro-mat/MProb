@@ -478,30 +478,96 @@ O raciocínio do carcereiro está correto?
 \end{example}
 
 \begin{solution}
-O ponto delicado é que \(A\) não observa diretamente a dupla de prisioneiros libertados; ele observa apenas o nome anunciado pelo carcereiro. Para interpretar a declaração ``\(B\) será libertado'', precisamos modelar tanto a dupla escolhida quanto a regra usada pelo carcereiro para produzir o anúncio. Se a dupla for \(\{A,B\}\), ele será obrigado a anunciar \(B\); se for \(\{A,C\}\), anunciará \(C\); mas, se for \(\{B,C\}\), poderá anunciar qualquer um dos dois. Portanto, a probabilidade de ouvirmos \(B\) depende da dupla libertada e da regra de escolha do carcereiro.
+Vamos mostrar que esta pergunta, na verdade, \textbf{não} admite uma resposta única.
+Entretanto, o raciocínio do carcereiro só está correto em um situação muito peculiar
+e que ficará clara ao longo da análise desenvolvida abaixo.
 
-Para tornar essa dependência explícita, seja
+\medskip 
+
+O ponto delicado é que \(A\) não observa diretamente a dupla de prisioneiros libertados. 
+O prisioneiro $A$ observa apenas o nome anunciado pelo carcereiro.
+E a forma com que este anúncio é feito é que origina a possibilidade de várias respostas
+para a pergunta.
+
+\medskip 
+ 
+Para interpretar a declaração ``\(B\) será libertado'', precisamos 
+modelar tanto a dupla escolhida quanto a regra usada pelo carcereiro para 
+produzir o anúncio. Se a dupla for \(\{A,B\}\), ele será obrigado 
+a anunciar \(B\); se for \(\{A,C\}\), anunciará \(C\); mas, se for \(\{B,C\}\), 
+poderá anunciar qualquer um dos dois. Portanto, a probabilidade de ouvirmos 
+\(B\) depende da dupla libertada e da regra de escolha do carcereiro, neste último caso.
+
+\medskip 
+
+Vamos dividir nossa análise em duas partes. 
+Na primeira parte, obteremos uma fórmula geral que mostra como a resposta depende da regra
+de anúncio do carcereiro. 
+Na segunda parte, fixaremos a regra de escolha do carcereiro e resolveremos o 
+problema, de forma completa, construindo um espaço amostral expandido.
+
+\smallskip
+\noindent\textbf{Parte 1.}
+Primeiro observamos que o enunciado não deixa claro como o anuncio do carcereiro
+é feito quando a dupla que será libertada é a dupla $\{B,C\}$. Suponha que o carcereiro
+faz este anúncio de forma aleatória e que
 \[
   p = \mathbb{P}(\text{o carcereiro anuncia } B \mid \text{a dupla libertada é } \{B,C\}).
 \]
-Denotemos por \(D_B\) o evento “o carcereiro anuncia \(B\)”. Como o anúncio é forçado nos casos \(\{A,B\}\) e \(\{A,C\}\), temos
+
+Seja \(D_B\) o evento ``o carcereiro anuncia \(B\)''. O anúncio \(B\) pode ocorrer em exatamente dois cenários mutuamente excludentes:
+\begin{itemize}
+  \item a dupla libertada é \(\{A,B\}\), pois neste caso em que o carcereiro 
+  é \emph{forçado} a anunciar \(B\) (pois \(A\) pediu para ouvir o nome de um colega); isso ocorre com probabilidade \(\tfrac{1}{3} \times 1 = \tfrac{1}{3}\);
+  \item a dupla libertada é \(\{B,C\}\), caso em que o carcereiro \emph{pode} anunciar \(B\), e o faz com probabilidade \(p\); isso ocorre com probabilidade \(\tfrac{1}{3} \times p = \tfrac{p}{3}\), pois
+  \[
+  \begin{array}{c}
+  \mathbb{P}(\{\text{o carcereiro anuncia } B\} \cap \{ \text{a dupla libertada é } \{B,C\} \})
+  \\
+  =
+  \\
+  \mathbb{P}(\text{a dupla libertada é } \{B,C\})\cdot
+  \mathbb{P}(\text{o carcereiro anuncia } B \mid \text{a dupla libertada é } \{B,C\}).  
+  \end{array}
+  \]
+\end{itemize}
+Observe que o cenário ``a dupla libertada é \(\{A,C\}\)'' não contribui, pois nele o carcereiro é forçado a anunciar \(C\), não \(B\). Portanto:
+\[
+  \mathbb{P}(D_B) = \frac{1}{3} + \frac{p}{3} = \frac{1+p}{3}.
+\]
+Dentre esses dois cenários, apenas o primeiro corresponde à libertação de \(A\). Logo:
 \[
   \mathbb{P}(A\text{ é libertado}\mid D_B)
-  = \frac{1/3}{1/3+p/3} = \frac{1}{1+p}.
+  = \frac{\mathbb{P}(\{A,B\} \text{ e carcereiro anuncia }B)}{\mathbb{P}(D_B)}
+  = \frac{1/3}{(1+p)/3} = \frac{1}{1+p}.
 \]
-Logo, sem especificar a regra de escolha do carcereiro, o enunciado não determina uma resposta única. Para obter um valor concreto, vamos assumir que, quando ambos \(B\) e \(C\) são libertados, o carcereiro escolhe entre eles jogando uma moeda honesta; isto é, \(p=\tfrac{1}{2}\).
+
+Esta fórmula revela que, sem especificar a regra de escolha do carcereiro, o enunciado não determina uma resposta única: o valor de \(\mathbb{P}(A\text{ é libertado}\mid D_B)\) varia de \(\tfrac{1}{2}\) (quando \(p=1\), ou seja, o carcereiro sempre anuncia \(B\)) a \(1\) (quando \(p=0\), ou seja, o carcereiro nunca anuncia \(B\)). Na hipótese intermediária e natural de uma moeda honesta (\(p=\tfrac{1}{2}\)), obtemos 
+\[ 
+\mathbb{P}(A\text{ é libertado}\mid D_B) = \frac{1}{1+\frac{1}{2}} = \frac{2}{3}.
+\]
+
+\smallskip
+\noindent\textbf{Parte 2.} Nesta parte vamos assumir que $p=1/2$  
+e construir um espaço amostral que registre não apenas 
+qual dupla foi libertada, mas também qual nome o carcereiro anunciou.
 
 O espaço amostral das duplas de prisioneiros libertados é
 \[
-  \Omega = \{\{A,B\}, \{A,C\}, \{B,C\}\},
+  \Omega = \{\{A,B\}, \{A,C\}, \{B,C\}\}
 \]
-onde cada dupla tem probabilidade \(\tfrac{1}{3}\). Esse espaço descreve apenas o estado do mundo, isto é, quem foi libertado; ele é suficiente para calcular probabilidades a priori, mas não registra qual informação foi transmitida pelo carcereiro. Definindo
+e cada dupla tem probabilidade $1/3$. Esse espaço descreve apenas qual dupla foi libertada; 
+ele é suficiente para calcular a probabilidade \emph{a priori} de libertação de \(A\). Definindo
 \[
   L_A = \{\{A,B\},\{A,C\}\},
+  \qquad \text{temos}\quad  \mathbb{P}(L_A) = \frac{1}{3} + \frac{1}{3} = \frac{2}{3}.
 \]
-temos \(\mathbb{P}(L_A) = \tfrac{1}{3} + \tfrac{1}{3} = \tfrac{2}{3}\).
+Esta é a probabilidade de \(A\) ser libertado \emph{antes} de ouvir qualquer anúncio do carcereiro, 
+o valor que o carcereiro toma como ponto de partida.
 
-Para calcular a probabilidade condicional depois de ouvirmos o anúncio \(B\), precisamos, portanto, de um espaço amostral expandido \(\Omega^*\) que incorpore o mecanismo de observação. Cada ponto amostral será um par ordenado formado pela dupla de prisioneiros libertados e pelo nome anunciado pelo carcereiro:
+Para calcular a probabilidade condicional \emph{depois} de ouvirmos o anúncio \(B\), precisamos de um espaço amostral expandido \(\Omega^*\) que incorpore a informação do anúncio. 
+Cada ponto neste novo espaço amostral, será um par ordenado formado pela 
+dupla de prisioneiros que será libertada e pelo nome anunciado pelo carcereiro:
 \[
   \begin{aligned}
     O_1 &= (\{A,B\}, \text{carcereiro anuncia } B), \\
@@ -517,16 +583,14 @@ Esses quatro resultados não são equiprováveis. Nos dois primeiros casos, o an
 \begin{itemize}
   \item Se a dupla libertada for \(\{A,B\}\), o carcereiro não pode mencionar \(A\) (pois o prisioneiro perguntou sobre os \emph{outros}); logo, é forçado a anunciar \(B\). Assim, \(\mathbb{P}(O_1) = \tfrac{1}{3}\).
   \item Analogamente, se a dupla for \(\{A,C\}\), o carcereiro é obrigado a anunciar \(C\), donde \(\mathbb{P}(O_2) = \tfrac{1}{3}\).
-  \item Se a dupla for \(\{B,C\}\), ambos os colegas serão libertados, e a probabilidade total desse estado é \(\mathbb{P}(O_3) + \mathbb{P}(O_4) = \tfrac{1}{3}\).
+  \item Se a dupla for \(\{B,C\}\), ambos os colegas serão libertados, e a probabilidade total desse estado é \(\mathbb{P}(O_3) + \mathbb{P}(O_4) = \tfrac{1}{3}\). Como a moeda é honesta (\(p = \tfrac{1}{2}\)):
 \end{itemize}
-
-Como a regra da moeda já foi fixada, podemos agora atribuir probabilidades aos resultados expandidos:
 \[
   \mathbb{P}(O_3) = \frac{1}{3} \times \frac{1}{2} = \frac{1}{6}
   \quad \text{e} \quad
-  \mathbb{P}(O_4) = \frac{1}{6}.
+  \mathbb{P}(O_4) = \frac{1}{3} \times \frac{1}{2} = \frac{1}{6}.
 \]
-O evento \(D_B = \{O_1,O_3\}\), isto é, “o carcereiro anuncia \(B\)”, tem probabilidade
+O evento \(D_B = \{O_1,O_3\}\), isto é, ``o carcereiro anuncia \(B\)'', tem probabilidade
 \[
   \mathbb{P}(D_B) = \mathbb{P}(O_1) + \mathbb{P}(O_3) = \frac{1}{3} + \frac{1}{6} = \frac{1}{2}.
 \]
@@ -534,14 +598,20 @@ No espaço expandido, o evento de que \(A\) é libertado é \(\{O_1,O_2\}\); por
 \[
   \mathbb{P}(A \text{ é libertado} \mid D_B) = \frac{\mathbb{P}(O_1)}{\mathbb{P}(D_B)} = \frac{1/3}{1/2} = \frac{2}{3}.
 \]
-Sob a hipótese da moeda honesta, a chance de libertação de \(A\) permanece rigorosamente igual a \(\tfrac{2}{3}\). Portanto, sob essa regra de escolha, o raciocínio do carcereiro está equivocado; sem especificar a regra, porém, o problema não tem resposta única.
+
+\smallskip
+\noindent\textbf{Conclusão.}
+Sob a hipótese da moeda honesta, ambas as abordagens confirmam que a chance de libertação de \(A\) permanece rigorosamente igual a \(\tfrac{2}{3}\). O carcereiro está equivocado: o anúncio não prejudica \(A\). 
+
+Sem especificar a regra do carcereiro, porém, o problema não tem resposta única: pela fórmula da 
+Parte 1, a probabilidade varia entre $1/2$ e $1$ conforme o parâmetro \(p\) varia.
 \end{solution}
 
 \begin{remark}[Conexão com o Problema de Monty Hall]
 Como demonstrado por Leonard Gillman (veja discussão em~\cite{Isaac1995}), este problema é matematicamente isomorfo ao célebre \emph{Problema das Portas (Monty Hall / Carro e Cabras)}. O ato de o apresentador abrir uma porta que contém uma cabra não altera a probabilidade de a escolha inicial conter o carro (\(\tfrac{1}{3}\)), concentrando a probabilidade residual de \(\tfrac{2}{3}\) sobre a porta não aberta restante.
 \end{remark}
 
-\section{Processos Sequenciais, Modelos de Urnas e Simetria Temporal}
+\section{Processos Sequenciais e Modelos de Urnas}
 \label{sec:urnas-simetria}
 
 Uma das fontes mais férteis para o desenvolvimento da intuição probabilística reside nos experimentos de extração de bolas em urnas. Em modelos de múltiplos estágios, as probabilidades condicionais surgem de maneira orgânica na própria descrição do protocolo físico.
@@ -582,20 +652,63 @@ Somando as probabilidades dos dois cenários disjuntos:
   \end{aligned}
 \end{equation}
 
-\subsection{O Insight da Simetria Temporal (Permutabilidade)}
+\subsection{A Simetria Temporal e Permutações}
 
-O fato de \(\mathbb{P}(A_2) = \mathbb{P}(A_1) = \tfrac{a}{a+b}\) à primeira vista parece surpreendente, pois a segunda extração ocorre após a alteração física do conteúdo da urna. A dependência temporal aparente esconde uma profunda simetria combinatória.
+O cálculo anterior mostrou que
+\begin{align*}
+  \mathbb{P}(A_2)=\mathbb{P}(A_1)=\frac{a}{a+b}.
+\end{align*}
+Isso não significa que as duas extrações sejam independentes: de fato,
+\[
+  \mathbb{P}(A_2\mid A_1)=\frac{a-1}{a+b-1},
+\]
+que, em geral, é diferente de \(\mathbb{P}(A_2)\). A igualdade das probabilidades 
+de $A_1$ e $A_2$ vem de uma simetria entre as posições ocupadas pelas bolas.
 
-Em vez de conceber o experimento como duas retiradas sucessivas no tempo, imagine que estendemos as duas mãos simultaneamente para o interior da urna e retiramos duas bolas de uma só vez: a bola na mão esquerda corresponde à primeira posição e a bola na mão direita à segunda. O espaço amostral é formado por todos os pares ordenados de bolas distintas, todos equiprováveis por simetria. Como a bijeção que troca a mão esquerda pela mão direita preserva a medida de probabilidade uniforme, o número de configurações favoráveis a ter uma bola vermelha na mão direita é exatamente idêntico ao de ter uma bola vermelha na mão esquerda!
+Para tornar essa simetria explícita, rotulemos temporariamente as \(N=a+b\) bolas. Em vez de acompanhar as retiradas como etapas sucessivas, representemos o resultado pelas duas primeiras posições da ordem aleatória em que as bolas aparecem. Assim, se \(\mathcal{B}\) denota o conjunto das bolas, o espaço amostral é
+\[
+  \Omega_2=\{(x_1,x_2)\in\mathcal{B}^2:x_1\neq x_2\},
+\]
+onde \(x_1\) representa a bola retirada primeiro e \(x_2\), a segunda. Cada par ordenado tem probabilidade
+\[
+  \mathbb{P}((x_1,x_2))
+  =\frac{1}{N}\cdot\frac{1}{N-1}
+  =\frac{1}{N(N-1)}.
+\]
 
-Por indução e argumento de permutabilidade (variáveis aleatórias trocáveis), para qualquer extração \(n \le a+b\), vale
+Seja \(R\) o conjunto das \(a\) bolas vermelhas. Considere os eventos
+\[
+  E_1=\{(x_1,x_2)\in\Omega_2:x_1\in R\},
+  \qquad
+  E_2=\{(x_1,x_2)\in\Omega_2:x_2\in R\}.
+\]
+A aplicação
+\[
+  \tau(x_1,x_2)=(x_2,x_1)
+\]
+troca as duas posições. Ela é uma bijeção que preserva as probabilidades e transforma \(E_1\) em \(E_2\). Portanto,
+\[
+  \mathbb{P}(A_1)=\mathbb{P}(E_1)
+  =\mathbb{P}(E_2)=\mathbb{P}(A_2).
+\]
+Com efeito, cada um desses eventos contém \(a(N-1)\) pares, entre os \(N(N-1)\) pares possíveis, e por isso ambos têm probabilidade
+\[
+  \frac{a(N-1)}{N(N-1)}
+  =\frac{a}{N}
+  =\frac{a}{a+b}.
+\]
+
+A imagem das duas mãos representa exatamente essa troca de posições: a mão esquerda e a mão direita são apenas nomes para a primeira e a segunda posições, não um novo protocolo de sorteio.
+
+O mesmo argumento vale para qualquer posição. Representando as \(n\) primeiras retiradas por uma \(n\)-upla ordenada de bolas distintas, a permutação que troca as posições \(1\) e \(n\) preserva as probabilidades e transforma o evento ``a primeira bola é vermelha'' no evento ``a \(n\)-ésima bola é vermelha''. Assim, para todo \(n\leq a+b\),
 \begin{equation}
   \mathbb{P}(\text{a } n\text{-ésima bola extraída é vermelha}) = \frac{a}{a+b}.
 \end{equation}
 
 \subsection{O Esquema de Urnas de Pólya}
 
-O modelo de amostragem sem reposição pode ser contrastado com modelos de realimentação positiva. No \emph{esquema de urnas de Pólya}, cada bola retirada é devolvida à urna juntamente com \(c \ge 1\) bolas adicionais da mesma cor que a sorteada.
+O modelo de amostragem sem reposição pode ser contrastado com modelos de realimentação positiva. No \emph{esquema de urnas de Pólya}, cada bola retirada é devolvida à urna juntamente com 
+uma bola adicional da mesma cor que a sorteada.
 
 Esse processo gera dependência estocástica cumulativa: cada bola vermelha sorteada aumenta a proporção de vermelhas e, portanto, eleva a probabilidade de que retiradas futuras também resultem em bolas vermelhas. Trata-se de um modelo clássico para fenômenos de contágio epidêmico, formação de consensos e dinâmica populacional (efeito de reforço preferencial).
 
@@ -608,7 +721,79 @@ Para fixar as ideias, após $n$ extrações seja $E_{n,k}$ o evento ``exatamente
   \qquad k=0,1,\ldots,n.
 \end{equation}
 
-Antes de demonstrar o resultado, é útil destacar por que ele não é imediato. O reforço torna as extrações dependentes: depois de observar uma bola vermelha, por exemplo, a urna passa a favorecer novas bolas vermelhas. Portanto, as sequências de cores não são todas equiprováveis. A sequência com muitas bolas da mesma cor tende a ser mais provável que uma sequência muito alternada. O que permanece verdadeiro, e será a chave da demonstração, é uma simetria mais sutil: duas sequências com a mesma quantidade de bolas vermelhas têm a mesma probabilidade.
+\begin{figure}[H]
+\centering
+\definecolor{PolyaAzul}{RGB}{41,111,200}
+\definecolor{PolyaVerm}{RGB}{216,50,45}
+\pgfmathtruncatemacro{\nlv}{3} % número de extrações (3 ou 4)
+\ifnum\nlv=3\relax\pgfmathsetmacro{\sep}{1.35}\else\pgfmathsetmacro{\sep}{1.00}\fi
+\pgfmathsetmacro{\bdx}{3.5}
+\pgfmathsetmacro{\bolaSep}{0.34}
+
+\tikzset{
+  bolaA/.style={circle, inner sep=0pt, minimum size=0.26cm, fill=PolyaAzul, draw=PolyaAzul!55!black, line width=0.3pt},
+  bolaV/.style={circle, inner sep=0pt, minimum size=0.26cm, fill=PolyaVerm, draw=PolyaVerm!55!black, line width=0.3pt},
+  rb/.style={-, draw=gray!50, line width=0.8pt},
+  rot/.style={font=\small, text=gray!70!black},
+}
+
+\newcommand{\polyaY}[2]{%
+  \pgfmathparse{-((#2-(pow(2,(#1-1))-0.5))*pow(2,(\nlv-#1))*\sep)}%
+}
+\newcommand{\polyaUrna}[4]{%
+  \pgfmathsetmacro{\tot}{int(#3+#4)}%
+  \pgfmathsetmacro{\meia}{(\tot*\bolaSep+0.10)/2}%
+  \draw[rounded corners=3pt, fill=white, draw=gray!60, line width=0.5pt]
+    (#1-\meia,#2-0.26) rectangle (#1+\meia,#2+0.26);
+  \foreach \i in {1,...,\tot}{%
+    \pgfmathsetmacro{\ox}{(\i-(\tot+1)/2)*\bolaSep}%
+    \ifnum\i>#3\relax \node[bolaA] at (#1+\ox,#2) {};%
+    \else \node[bolaV] at (#1+\ox,#2) {};%
+    \fi
+  }%
+}
+\newcommand{\polyaLista}[1]{%
+  \ifcase#1\def\plist{1/1}%
+  \or\def\plist{1/2,2/1}%
+  \or\def\plist{1/3,2/2,2/2,3/1}%
+  \or\def\plist{1/4,2/3,2/3,3/2,2/3,3/2,3/2,4/1}%
+  \or\def\plist{1/5,2/4,2/4,2/4,2/4,3/3,3/3,3/3,3/3,3/3,3/3,4/2,4/2,4/2,4/2,5/1}%
+  \fi
+}
+
+\begin{tikzpicture}
+  \foreach \j in {1,...,\nlv}{%
+    \polyaLista{\j}%
+    \foreach \R/\B [count=\ii from 0] in \plist {%
+      \pgfmathsetmacro{\jpa}{int(\j-1)}%
+      \polyaY{\jpa}{int(\ii/2)}\let\yyp\pgfmathresult
+      \polyaY{\j}{\ii}\let\yyc\pgfmathresult
+      \draw[rb] ({\jpa*\bdx},{\yyp}) -- ({\j*\bdx},{\yyc});
+      \pgfmathsetmacro{\xmeio}{(\jpa*\bdx+\j*\bdx)/2}%
+      \pgfmathsetmacro{\ymeio}{(\yyp+\yyc)/2}%
+      \pgfmathtruncatemacro{\paridade}{mod(\ii,2)}%
+      \ifnum\paridade=0\relax \node[bolaA] at (\xmeio,\ymeio) {};%
+      \else \node[bolaV] at (\xmeio,\ymeio) {};%
+      \fi
+    }%
+  }%
+  \foreach \j in {0,...,\nlv}{%
+    \polyaLista{\j}%
+    \foreach \R/\B [count=\ii from 0] in \plist {%
+      \polyaY{\j}{\ii}\let\yy\pgfmathresult
+      \polyaUrna{\j*\bdx}{\yy}{\R}{\B}%
+    }%
+  }%
+\end{tikzpicture}
+\caption{A árvore de possibilidades de configurações 
+de uma urna de P\'olya, iniciando com uma bola vermelha e
+uma bola azul. A cor da bola na aresta indica a cor da bola extraída na etapa indicada pela aresta}
+\label{fig:polya-arvore}
+\end{figure}
+
+Antes de demonstrar o resultado, \Cref{fig:polya-arvore} ilustra a din\^amica
+de refor\c{c}o da urna para $n=3$ extra\c{c}\~oes.  
+O reforço torna as extrações dependentes: depois de observar uma bola vermelha, por exemplo, a urna passa a favorecer novas bolas vermelhas. Portanto, as sequências de cores não são todas equiprováveis. A sequência com muitas bolas da mesma cor tende a ser mais provável que uma sequência muito alternada. O que permanece verdadeiro, e será a chave da demonstração, é uma simetria mais sutil: duas sequências com a mesma quantidade de bolas vermelhas têm a mesma probabilidade.
 
 A prova será organizada em duas etapas. Primeiro calcularemos a probabilidade de uma sequência específica de cores usando explicitamente a regra da multiplicação. Depois contaremos quantas sequências possuem exatamente $k$ bolas vermelhas.
 
@@ -643,7 +828,8 @@ uma sequência que contém exatamente $k$ ocorrências de $\mathsf{V}$ e $n-k$ o
 \]
 Assim, $C_j(\omega)$ é o evento ``as primeiras $j$ extrações coincidem com os primeiros $j$ símbolos da sequência $\omega$''. Em particular, $C_n(\omega)$ é o evento de observar a sequência completa $\omega$.
 
-Para calcular a probabilidade condicional da próxima cor, suponha que o evento $C_{j-1}(\omega)$ tenha ocorrido. Escrevamos formalmente
+Para calcular a probabilidade condicional da próxima cor, 
+suponha que o evento $C_{j-1}(\omega)$ tenha ocorrido. Defina
 \[
   \begin{aligned}
     r_{j-1}(\omega)
@@ -1052,7 +1238,7 @@ A igualdade tripla \eqref{eq:indep-3-abc} não decorre das igualdades aos pares 
 \begin{example}[Independência Dois a Dois Não Implica Independência Mútua]\label{ex:dado-quatro-faces}
 Considere o lançamento de um dado tetraédrico equilibrado (ou um dado honesto de 4 faces numeradas de 1 a 4). O espaço amostral é \(\Omega = \{1, 2, 3, 4\}\), com probabilidade uniforme \(\mathbb{P}(\{\omega\}) = \tfrac{1}{4}\) para cada \(\omega \in \Omega\).
 
-Definamos os eventos:
+Considere os eventos:
 \[
   A = \{1, 2\}, \qquad B = \{1, 3\}, \qquad C = \{1, 4\}.
 \]
