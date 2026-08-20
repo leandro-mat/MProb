@@ -388,11 +388,11 @@ sentido do seguinte teorema.
 
   A variável aleatória desejada é fornecida pela função
   \(X : \Omega \to \mathbb{R}\) dada por \(X(\omega) = \omega\)
-  para \(\omega \in \Omega\). De fato, para cada $s\in S$ temos
-  \begin{align*}
+  para \(\omega \in \Omega\). De fato, para cada $i \in I$ temos
+  \[
   p_{X}(s_i) = \mathbb{P}\{X=s_i\}
-  = \sum_{j:s_j=s_i} \pi_j = \pi_i.
-  \end{align*}
+  = \mathbb{P}(\{s_i\}) = \pi_i.
+  \]
 \end{proof}
 
 Esse teorema é muito útil, pois, em muitos contextos, permite deixar de lado
@@ -571,7 +571,7 @@ de Bernoulli com parâmetro \(p\) se \(X\) assume apenas os valores \(0\) e
 
 Uma variável aleatória \(X\) desse tipo é frequentemente chamada simplesmente
 de \emph{variável de Bernoulli}; ela pode modelar, por exemplo, um lançamento
-de moeda. Existe \(p \in [0, 1]\) tal que
+de moeda. Existe um número \(p \in [0, 1]\) tal que
 \begin{equation}\label{eq:bernoulli}
   \mathbb{P}(X = 0) = q, \quad \mathbb{P}(X = 1) = p,
 \end{equation}
@@ -603,7 +603,7 @@ não negativa e satisfaz
   \sum_{k=0}^{n} \binom{n}{k} p^k q^{n-k} = (p + q)^n = 1.
 \]
 
-Vamos usar a notação $X\sim \mathrm{Bin}(n,p)$, quando $X$ for uma variável aleatória (v.a.)
+Vamos usar a notação $X\sim \mathrm{Bin}(n,p)$, quando $X$ for uma variável aleatória
 com distribuição binomial de parâmetros $n$ e $p$.
 %%Gráficos da Binomais
 \begin{figure}[H]
@@ -1002,8 +1002,8 @@ Binomial negativa & $n\ge1$, $p\in(0,1)$ & $\{n,n+1,\dots\}$ & $\binom{k-1}{n-1}
     \notag \\[0.3cm]
     &\sim \frac{1}{k!} \lambda^k e^{-\lambda}. \label{eq:aproximacao-poisson}
   \end{align}
-  Essa aproximação pode ser útil na prática. Por exemplo, considere uma única
-  página do jornal Guardian contendo, digamos, \(10^6\) caracteres, e suponha
+  Essa aproximação pode ser útil na prática. Por exemplo, considere uma edição
+  do jornal Guardian contendo, digamos, \(10^6\) caracteres, e suponha
   que o tipógrafo lança uma moeda antes de compor cada caractere e então,
   deliberadamente, compõe incorretamente esse caractere sempre que a moeda
   cai em cara. Se a moeda cai em cara com probabilidade \(10^{-5}\) em cada
@@ -1346,8 +1346,9 @@ probabilidade determina todas as probabilidades associadas a uma variável aleat
 Seja $X$ uma variável aleatória discreta com função de probabilidade $p_X$. Então,
 para todo conjunto $A \subseteq \mathbb{R}$,
 \[
-  \mathbb{P}(X \in A) = \sum_{s \in A} p_X(s).
+  \mathbb{P}(X \in A) = \sum_{s \in A \cap \operatorname{Im} X} p_X(s),
 \]
+soma que é sempre tomada sobre um conjunto enumerável.
 \end{proposition}
 
 \begin{proof}
@@ -1364,12 +1365,10 @@ distintos ao mesmo tempo. Pela aditividade enumerável de $\mathbb{P}$,
   \mathbb{P}(X \in A) = \sum_{s \in A \cap \operatorname{Im} X} \mathbb{P}(X = s)
   = \sum_{s \in A \cap \operatorname{Im} X} p_X(s).
 \]
-Por fim, como $p_X(s) = 0$ para $s \notin \operatorname{Im} X$, acrescentar os termos
-com $s \in A \setminus \operatorname{Im} X$ não altera a soma, e obtemos
-\[
-  \sum_{s \in A \cap \operatorname{Im} X} p_X(s) = \sum_{s \in A} p_X(s),
-\]
-o que conclui a demonstração.
+Por fim, como $p_X(s) = 0$ para $s \notin \operatorname{Im} X$, é comum escrever
+simplesmente $\sum_{s \in A} p_X(s)$, entendendo que os termos com
+$s \in A \setminus \operatorname{Im} X$, quando presentes, são nulos. Isso conclui
+a demonstração.
 \end{proof}
 
 \begin{corollary}\label{cor:mesma-distribuicao-mesmas-probabilidades}
