@@ -1,0 +1,1403 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazil]{babel}        % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{fontawesome5}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores (do Teorema Ergódico)
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Variáveis Aleatórias Discretas},
+pdfauthor={L. Cioletti},
+pdfsubject={Variáveis aleatórias discretas e funções de massa},
+pdfkeywords={variáveis aleatórias, função de massa, distribuições discretas, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheorem{exercise}{Exercício}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\addto\captionsbrazil{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+\vspace{0.5cm}
+
+% --- TÍTULO, AUTOR E DATA ---
+\begin{center}
+{\LARGE\bf Variáveis Aleatórias Discretas}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Agosto de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Nestas notas introduzimos o conceito de variáveis aleatórias discreta e 
+de função de probabilidade. Como exemplos, apresentamos algumas das famílias mais clássicas de variáveis 
+aleatórias discretas: Bernoulli; binomial; Poisson; geométrica e binomial negativa. 
+Demostramos também um resultado conhecido como a Lei dos Eventos Raros que 
+consiste basicamente em obter uma aproximação da distribuição binomial pela de Poisson. 
+Ao longo do texto mostramos como calcular a função de probabilidade 
+de funções de variáveis aleatórias e discutimos, brevemente, a noção de igualdade em distribuição. 
+O texto segue de perto as Seções 2.1--2.3 do Capítulo 2 de Grimmett e
+Welsh \cite{GrimmettWelsh2014}.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+
+\section{Variáveis aleatórias discretas}
+\label{sec:vad}
+
+Estas notas dão continuidade ao desenvolvimento da teoria da probabilidade
+iniciado nas notas \emph{Espaços de Probabilidade}, onde o modelo
+probabilístico consistindo do espaço amostral, \(\sigma\)-álgebra de eventos e da medida de
+probabilidade foi introduzido. Aqui vamos apresentar o conceito de variável aleatória
+discreta e o que é a função de probabilidade associada à uma variável aleatória
+e algumas de suas propriedades mais básicas.
+
+\subsection{Funções de Probabilidade}
+\label{sec:funcoes-de-massa}
+
+Dado um espaço de probabilidade \((\Omega, \mathcal{F}, \mathbb{P})\),
+frequentemente estamos interessados em situações envolvendo alguma função
+com valores reais, por exemplo, $X:\Omega\to\mathbb{R}$. Mais precisamente,  
+seja \(\mathcal{E}\) o experimento de lançar um dado honesto uma vez e
+\(\Omega = \{1, 2, 3, 4, 5, 6\}\) o espaço amostral associado a este experimento
+aleatório. Vamos supor que 
+vamos fazer uma aposta baseada no resultado deste experimento
+\(\mathcal{E}\) de tal modo que de acordo com o resultado do experimento
+podemos ter lucro ou prejuízo ou nenhum ganho segundo a seguinte tabela 
+\begin{itemize}
+  \item \(-1\) se o resultado é 1, 2 ou 3,
+  \item \(0\) se o resultado é 4,
+  \item \(2\) se o resultado é 5 ou 6,
+\end{itemize}
+Podemos pensar em cada resultado do experimento $\mathcal{E}$ como sendo um
+ponto \(\omega\in \Omega\). Assim, se definimos uma função 
+\(X : \Omega \to \mathbb{R}\) dada por 
+\[
+  X(1) = X(2) = X(3) = -1, \quad X(4) = 0, \quad X(5) = X(6) = 2,
+\]
+então esta função pode ser usada para modelar qual foi o ganho ou 
+perda da realização deste jogo.
+A função \(X\), como veremos a seguir, 
+é um exemplo de uma \emph{variável aleatória discreta}.
+
+A primeira vista esta definição parece um pouco estranha, pois podemos
+pensar que uma função, a rigor, é um objeto matemático completamente determinístico.
+A ideia de que a função $X$ fornece uma noção de variável aleatória é baseada
+no fato que a associação $\omega\longmapsto X(\omega)$ possui algum grau
+de aleatoriedade devido ao fato da escolha do ponto $\omega$
+no domínio de $X$ ser aleatória. Mas há, na verdade, uma outra razão que será
+apresentada após introduzirmos a noção de função de probabilidade e de certas
+classes de equivalência.  
+
+
+\bigskip 
+
+Mais formalmente, uma variável aleatória discreta \(X\) no espaço de
+probabilidade \((\Omega, \mathcal{F}, \mathbb{P})\) é definida como uma
+função \(X : \Omega \to \mathbb{R}\) tal que a imagem \(X(\Omega)\) é um
+subconjunto enumerável de \(\mathbb{R}\)\footnote{Se
+\(X : \Omega \to \mathbb{R}\) e \(A \subseteq \Omega\), a imagem de \(A\) é
+o conjunto \(X(A) = \{X(\omega) : \omega \in A\}\) dos valores assumidos por
+\(X\) em \(A\).} e
+\begin{equation}\label{eq:va-preimage-evento}
+  \{\omega \in \Omega : X(\omega) = x\} \in \mathcal{F} \quad \text{para } x
+  \in \mathbb{R}.
+\end{equation}
+
+A palavra ``discreta'' aqui se refere à condição de que \(X\) assume apenas
+uma quantidade enumerável de valores em \(\mathbb{R}\).\footnote{Uma definição
+ligeiramente diferente, mas moralmente equivalente, de variável aleatória
+discreta é uma função \(X : \Omega \to \mathbb{R}\) tal que existe um
+subconjunto enumerável \(S \subseteq \mathbb{R}\) com
+\(\mathbb{P}(X \in S) = 1\).} A condição \eqref{eq:va-preimage-evento} é obscura à primeira
+vista, e o ponto aqui é o seguinte. Uma variável aleatória discreta \(X\)
+assume valores em \(\mathbb{R}\), mas não podemos prever com certeza o valor
+efetivo de \(X\), uma vez que o experimento subjacente \(\mathcal{E}\)
+envolve o acaso. Em vez disso, gostaríamos de medir a probabilidade de \(X\)
+assumir um dado valor, digamos \(x\). Para isso, observamos que \(X\) assume
+o valor \(x\) se, e somente se, o resultado do experimento \(\mathcal{E}\) pertence
+àquele subconjunto de \(\Omega\) que é mapeado em \(x\), ou seja, o
+subconjunto 
+\[ X^{-1}(x) = \{\omega \in \Omega : X(\omega) = x\}.\] 
+A condição \eqref{eq:va-preimage-evento} postula que todos esses subconjuntos são eventos, no
+sentido de que pertencem a \(\mathcal{F}\), e portanto podemos atribuir a cada
+um destes conjuntos uma probabilidade segundo a medida de probabilidade \(\mathbb{P}\).
+
+O que há de mais interessante em uma variável aleatória discreta são os
+valores que ela pode assumir e as probabilidades associadas a esses valores.
+Se \(X\) é uma variável aleatória discreta no espaço de probabilidade
+\((\Omega, \mathcal{F}, \mathbb{P})\), então sua \emph{imagem}
+\(\operatorname{Im} X\) é a imagem de \(\Omega\) por \(X\), isto é, o
+conjunto dos valores assumidos por \(X\).
+
+De agora em diante, abreviamos eventos da forma
+\(\{\omega \in \Omega : X(\omega) = x\}\) para a forma mais conveniente
+\(\{X = x\}\).
+
+\begin{definition}\label{def:funcao-de-massa}
+  A \emph{função de probabilidade} (ou também conhecida como função de massa de probabilidade) 
+  associada à uma variável aleatória discreta \(X\) é a função \(p_X : \mathbb{R} \to [0, 1]\)
+  definida por
+  \begin{equation}\label{eq:funcao-de-massa}
+    p_X(x) = \mathbb{P}(X = x).
+  \end{equation}
+\end{definition}
+
+Assim, \(p_X(x)\) é a probabilidade de a função \(X\) assumir o valor \(x\).
+Note que \(\operatorname{Im} X\) é enumerável para qualquer variável
+aleatória discreta \(X\), e para $x\notin \operatorname{Im} X$ temos que o
+evento $\{X=x\}=\emptyset$ e portanto
+\begin{equation}\label{eq:massa-nula-fora-da-imagem}
+  p_X(x) = \mathbb{P}(X=x)=\mathbb{P}(\emptyset)= 0 \quad \text{se } x \notin \operatorname{Im} X.
+\end{equation}
+
+Outra observação importante e que é consequência direta das propriedades elementares de
+imagem inversa de uma função é que se $x\neq x'$ então $\{X=x\}\cap \{X=x'\}=\emptyset$
+e 
+\[
+\bigcup_{x\in \operatorname{Im} X} \{X=x\} =\Omega
+\]
+e consequentemente, temos
+
+\begin{align}
+  \sum_{x \in \operatorname{Im} X} p_X(x)
+  = \mathbb{P}\left( \bigcup_{x \in \operatorname{Im} X}
+    \{\omega \in \Omega : X(\omega) = x\} \right) 
+  = \mathbb{P}(\Omega) = 1. \label{eq:massa-soma-um}
+\end{align}
+
+A equação \eqref{eq:massa-soma-um} é às vezes pode ser escrita como
+\[
+  \sum_{x \in \mathbb{R}} p_X(x) = 1,
+\]
+tendo em vista que somente uma quantidade enumerável de valores de \(x\) dá
+contribuição não nula para essa soma. A condição \eqref{eq:massa-soma-um} caracteriza
+essencialmente as funções de massa de variáveis aleatórias discretas, no
+sentido do seguinte teorema.
+
+\begin{theorem}\label{thm:caracterizacao-funcao-de-massa}
+  Seja \(S = \{s_i : i \in I\}\) um conjunto enumerável de números reais
+  distintos, e seja \(\{\pi_i : i \in I\}\) uma coleção de números reais
+  satisfazendo
+  \[
+    \pi_i \geq 0 \quad \text{para } i \in I, \text{ e } \sum_{i \in I}
+    \pi_i = 1.
+  \]
+  Então existe um espaço de probabilidade \((\Omega, \mathcal{F}, \mathbb{P})\) e
+  uma variável aleatória discreta \(X\) em \((\Omega, \mathcal{F},
+  \mathbb{P})\) tal que a função de massa de probabilidade de \(X\) é dada
+  por
+  \[
+    \begin{aligned}
+      p_X(s_i) &= \pi_i & \text{para } i \in I, \\
+      p_X(s) &= 0 & \text{se } s \notin S.
+    \end{aligned}
+  \]
+\end{theorem}
+
+\begin{proof}
+  Tome \(\Omega = S\), seja \(\mathcal{F}\) o conjunto das partes de
+  \(\Omega\), e
+  \[
+    \mathbb{P}(A) = \sum_{i : s_i \in A} \pi_i \quad \text{para } A \in
+    \mathcal{F}.,
+  \]
+  Com a convenção que a soma sobre o conjunto vazio é zero. 
+  É imediato verificar que os axiomas de Kolmogorov são satisfeitos e portanto que 
+  $(\Omega,\mathcal{F},\mathbb{P})$ como definidos acima é de fato 
+  um espaço de probabilidade. 
+  
+  A variável aleatória deseja é fornecida pela função 
+  \(X : \Omega \to \mathbb{R}\) dada por \(X(\omega) = \omega\)
+  para \(\omega \in \Omega\). De fato, para cada $s\in S$ temos
+  \begin{align*}
+  p_{X}(s_i)\equiv \mathbb{P}\{X=s_i\} = \sum_{j:s_j\in \{s_i\}} \pi_{s_j} = \pi_{s_i}. 
+  \end{align*}
+\end{proof}
+
+Esse teorema é extremamente muito útil, pois, para muitos fins, ele nos permite esquecer
+circunstancialmente os espaços amostrais, as \(\sigma\)-álgebras e as medidas de probabilidade.
+Desta forma podemos trabalhar em um ambiente mais abstrato 
+e simplesmente usar expressões como:
+\begin{quote}
+``seja \(X\) uma variável aleatória que assume o valor \(s_i\)
+com probabilidade \(\pi_i\), para cada \(i \in I\)''
+\end{quote} 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Stealth,
+  ponto/.style={circle, fill=black, inner sep=0pt, minimum size=1.2mm},
+]
+  \draw[->, line width=0.5pt] (-0.6,0) -- (10.4,0) node[right] {$\mathbb{R}$};
+  \foreach \x/\h/\idx in {0.6/1.2/0, 1.9/2.0/1, 3.5/2.6/2, 4.7/1.6/3, 6.3/0.9/4, 7.6/0.5/5} {
+    \draw[line width=0.7pt] (\x,0) -- (\x,\h);
+    \node[ponto] at (\x,\h) {};
+    \node[ponto] at (\x,0) {};
+    \node[below=1mm] at (\x,0) {$s_{\idx}$};
+    \node[above=1mm] at (\x,\h) {$\pi_{\idx}$};
+  }
+  \node[below=1mm] at (9.2,0) {$\cdots$};
+\end{tikzpicture}
+\caption{Gráfico da função probabilidade definida pela sequência $\pi_i = p_X(s_i)$, 
+com conjunto de índices $I = \{0, 1, 2, 3, \dots\}$.}
+\label{fig:hastes-massa}
+\end{figure}
+sabendo que tal variável aleatória existe, sem precisar construí-la explicitamente.
+Este ponto vista permite também identificar variáveis aleatórias 
+que tomam mesmos valores e possuem a mesma função de probabilidade. 
+Sugerindo que a maioria das propriedades intrinsecamente probabilísticas
+de uma variável aleatória estão completamente codificadas na função de probabilidade,
+fazendo que com menções a qual espaço de probabilidade esta variável está definida, 
+seja uma questão de menor importância na teoria. 
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Stealth,
+  blob/.style={use Hobby shortcut, closed, line width=0.6pt},
+]
+  % Espaço amostral Omega (feijão exterior, ampliado)
+  \draw[blob]
+    (-1.58,1.2) .. (-0.11,-1.25) .. (1.04,-0.62) .. (2.53,-1.42) .. (3.61,0.13)
+    .. (3.88,1.41) .. (3.2,2.12) .. (1.72,2.36) .. (0.23,2.55);
+  \node at (0.6,3.0) {$\Omega$};
+
+  % Evento E (feijão interior, preenchido em cinza)
+  \filldraw[gray!40, blob]
+    (0.96,-0.19) .. (1.32,0.51) .. (2.04,0.39) .. (2.64,0.75)
+    .. (2.58,1.47) .. (1.98,1.77) .. (1.2,1.7);
+  \node at (1.8,1.05) {$E$};
+
+  % Reta real (contradomínio), seta stealth apenas no topo
+  \draw[->, line width=0.5pt] (8.7,-2.0) -- (8.7,4) node[right=1.5mm] {$\mathbb{R}$};
+  \fill (8.7,0.5) circle (1.3pt);
+  \fill (8.7,1.9) circle (1.3pt);
+  \node[left=2mm] at (8.7,0.5) {$0$};
+  \node[left=2mm] at (8.7,1.9) {$1$};
+
+  % Seta curva (bending) representando a função
+  \draw[->, line width=0.5pt]
+    (2.6,1.6) to[out=30, in=160]
+    node[pos=0.5, above=1.5mm] {$\mathds{1}_{E}$} (7.8,2.1);
+\end{tikzpicture}
+\caption{Função indicadora $\mathds{1}_{E}:\Omega\to\mathbb{R}$ de um evento
+$E\subseteq\Omega$, que vale $1$ em $E$ e $0$ fora de $E$.}
+\label{fig:indicadora}
+\end{figure}
+
+No caso da variável aleatória dada pela função indicadora de um evento $E$ 
+em $(\Omega,\mathscr{F},\mathbb{P})$
+temos que sua função probabilidade é dada por 
+\begin{gather*}
+p_{\mathds{1}_{E}}(0) = \mathbb{P}(\{ \mathds{1}_{E}=0 \}) = \mathbb{P}(E^c),
+\qquad 
+p_{\mathds{1}_{E}}(1) = \mathbb{P}(\{ \mathds{1}_{E}=1 \}) = \mathbb{P}(E)
+\\
+\text{e} 
+\\
+p_{\mathds{1}_{E}}(x) = 0, \ \forall x\in\mathbb{R}\setminus\{0,1\}.
+\end{gather*}
+
+
+
+Na próxima seção, apresentamos uma lista de alguns dos tipos mais comuns de
+variáveis aleatórias discretas.
+
+\begin{exercise}\label{exercise:soma-e-produto-de-va}
+  Se \(X\) e \(Y\) são variáveis aleatórias discretas no espaço de
+  probabilidade \((\Omega, \mathcal{F}, \mathbb{P})\), mostre que \(U\) e
+  \(V\) dadas por
+  \[
+    U(\omega) = X(\omega) + Y(\omega), \quad V(\omega) = X(\omega)Y(\omega),
+    \quad \text{para } \omega \in \Omega.
+  \]
+  também são variáveis aleatórias discretas nesse espaço de probabilidade.
+\end{exercise}
+
+\begin{exercise}\label{exercise:power-set-todas-funcoes}
+  Mostre que, se \(\mathcal{F}\) é o conjunto das partes de \(\Omega\),
+  então todas as funções que mapeiam \(\Omega\) em um subconjunto enumerável
+  de \(\mathbb{R}\) são variáveis aleatórias discretas.
+\end{exercise}
+
+\begin{exercise}\label{exercise:indicadora-e-va}
+  Se \(E\) é um evento do espaço de probabilidade \((\Omega, \mathcal{F},
+  \mathbb{P})\), mostre que a função indicadora de \(E\), definida como a
+  função \(\mathds{1}_E\) em \(\Omega\) dada por
+  \[
+    \mathds{1}_E(\omega) = \begin{cases} 1 & \text{se } \omega \in E, \\ 0 &
+      \text{se } \omega \notin E, \end{cases}
+  \]
+  é uma variável aleatória discreta.
+\end{exercise}
+
+
+
+\begin{exercise}\label{exercise:va-como-soma-de-indicadoras}
+  Seja \(X\) uma variável aleatória discreta no espaço de probabilidade
+  \((\Omega, \mathcal{F}, \mathbb{P})\), cuja imagem é o conjunto enumerável
+  \(\operatorname{Im} X = \{s_i : i \in I\}\). Mostre que \(X\) pode ser escrita
+  como uma soma (possivelmente enumerável) de múltiplos reais de funções
+  indicadoras, mais precisamente,
+  \[
+    X = \sum_{i \in I} s_i \, \mathds{1}_{\{X = s_i\}},
+  \]
+  no sentido de que, para cada \(\omega \in \Omega\), a soma acima converge e é
+  igual a \(X(\omega)\). \emph{Dica:} fixe \(\omega \in \Omega\) e determine
+  quantos termos da soma são não nulos.
+\end{exercise}
+
+\begin{exercise}\label{exercise:va-em-dado-com-sigma-algebra}
+  Seja \((\Omega, \mathcal{F}, \mathbb{P})\) um espaço de probabilidade no
+  qual
+  \[
+    \Omega = \{1, 2, 3, 4, 5, 6\}, \quad \mathcal{F} = \{\varnothing, \{2,
+    4, 6\}, \{1, 3, 5\}, \Omega\},
+  \]
+  e sejam \(U, V, W\) funções em \(\Omega\) definidas por
+  \[
+    U(\omega) = \omega, \qquad V(\omega) = \begin{cases} 1 & \text{se }
+      \omega \text{ é par,} \\ 0 & \text{se } \omega \text{ é ímpar,}
+      \end{cases} 
+      \qquad \text{e}\qquad  W(\omega) = \omega^2,
+  \]
+  para todo \(\omega \in \Omega\). Determine quais das funções \(U\), \(V\) e \(W\) 
+  definem variáveis aleatórias discretas nesse espaço de probabilidade.
+\end{exercise}
+
+\begin{exercise}\label{exercise:valor-de-c-massa}
+  Para que valor de \(c\) a função \(p\), definida por
+  \[
+    p(k) = \begin{cases} \displaystyle\frac{c}{k(k+1)} & \text{se } k = 1, 2, \dots, \\[0.3cm]
+      0 & \text{caso contrário,} \end{cases}
+  \]
+  é uma função de probabilidade de alguma variável aleatória?
+\end{exercise}
+\subsection{Exemplos}
+\label{sec:exemplos-de-distribuicoes}
+
+Certos tipos de variáveis aleatórias discretas ocorrem com frequência, e
+listamos algumas delas a seguir. Observamos que ao longo desta seção, \(n\) denota um inteiro positivo,
+\(p\) é um número em \([0, 1]\) e \(q = 1 - p\). 
+Como observado acima será supérfluo por hora descrever o espaço de probabilidade subjacente.
+
+
+\bigskip 
+
+\noindent\textbf{Distribuição de Bernoulli.} Esta é a distribuição não trivial mais
+simples. Dizemos que a variável aleatória discreta \(X\) tem a distribuição
+de Bernoulli com parâmetro \(p\) se \(X\) assume apenas os valores \(0\) e
+\(1\).
+
+Uma variável aleatória \(X\) desse tipo é frequentemente chamada simplesmente
+de \emph{lançamento de moeda}. Existe \(p \in [0, 1]\) tal que
+\begin{equation}\label{eq:bernoulli}
+  \mathbb{P}(X = 0) = q, \quad \mathbb{P}(X = 1) = p,
+\end{equation}
+e a função de massa de probabilidade de \(X\) é dada por
+\[
+  p_X(0) = q, \quad p_X(1) = p, \quad p_X(x) = 0 \text{ se } x \neq 0, 1.
+\]
+Neste caso usamos a notação $X\sim \mathrm{Bernoulli}(p)$.
+
+Lançamentos de moeda são os blocos de construção da teoria da probabilidade.
+Há um sentido em que toda a teoria pode ser construída a partir de uma
+sequência infinita de lançamentos de moeda. Note que a função indicadora
+da \Cref{fig:indicadora} fornece uma variável aleatória do tipo Bernoulli.
+
+
+\bigskip 
+\noindent\textbf{Distribuição binomial.} Dizemos que \(X\) tem a distribuição binomial
+com parâmetros \(n\) e \(p\) se \(X\) assume valores em \(\{0, 1, \dots, n\}\)
+e
+\begin{equation}\label{eq:binomial}
+  \mathbb{P}(X = k) = \binom{n}{k} p^k q^{n-k} \quad \text{para }
+  k = 0, 1, 2, \dots, n.
+\end{equation}
+
+Note que \eqref{eq:binomial} dá origem a uma função de probabilidade já ela é não-negativa e satisfaz
+\eqref{eq:massa-soma-um}. De fato, pelo teorema binomial, temos
+\[
+  \sum_{k=0}^{n} \binom{n}{k} p^k q^{n-k} = (p + q)^n = 1.
+\]
+
+Vamos usar a notação $X\sim \mathrm{Bin}(n,p)$, quando $X$ for uma variável aleatória (v.a.) 
+com distribuição binomial de parâmetros $n$ e $p$. 
+%%Gráficos da Binomais
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\captionsetup{width=\linewidth}
+\begin{tikzpicture}
+\begin{axis}[
+  width=\linewidth, height=4.5cm,
+  axis x line=middle, axis y line=left,
+  xmin=-0.6, xmax=5.6,
+  ymin=0, ymax=0.45,
+  xtick={0,1,2,3,4,5},
+  ytick={0,0.1,...,0.4},
+  tick label style={font=\footnotesize},
+  xlabel={$k$}, ylabel={$\mathbb{P}(X=k)$},
+  xlabel style={at={(ticklabel* cs:1)}, anchor=north west},
+  every axis y label/.style={at={(ticklabel* cs:1)}, anchor=south west, rotate=0},
+  y tick label style={/pgf/number format/fixed, /pgf/number format/precision=2},
+]
+\addplot+[ycomb, black, line width=0.7pt, mark=*, mark size=1.2pt, mark options={fill=black}]
+table {
+0 0.32768
+1 0.4096
+2 0.2048
+3 0.0512
+4 0.0064
+5 0.00032
+};
+\end{axis}
+\end{tikzpicture}
+\captionof{figure}{Função de probabilidade da distribuição binomial com
+parâmetros $n=5$ e $p=0{,}2$.}
+\label{fig:binomial-n5-p02}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\captionsetup{width=\linewidth}
+\begin{tikzpicture}
+\begin{axis}[
+  width=\linewidth, height=4.5cm,
+  axis x line=middle, axis y line=left,
+  xmin=-0.8, xmax=8.8,
+  ymin=0, ymax=0.45,
+  xtick={0,1,2,3,4,5,6,7,8},
+  ytick={0,0.1,...,0.4},
+  tick label style={font=\footnotesize},
+  xlabel={$k$}, ylabel={$\mathbb{P}(X=k)$},
+  xlabel style={at={(ticklabel* cs:1)}, anchor=north west},
+  every axis y label/.style={at={(ticklabel* cs:1)}, anchor=south west, rotate=0},
+  y tick label style={/pgf/number format/fixed, /pgf/number format/precision=2},
+]
+\addplot+[ycomb, black, line width=0.7pt, mark=*, mark size=1.2pt, mark options={fill=black}]
+table {
+0 0.057648
+1 0.19765
+2 0.296475
+3 0.254122
+4 0.136137
+5 0.046675
+6 0.010002
+7 0.001225
+8 0.000066
+};
+\end{axis}
+\end{tikzpicture}
+\captionof{figure}{Função de probabilidade da distribuição binomial com
+parâmetros $n=8$ e $p=0{,}3$.}
+\label{fig:binomial-n8-p03}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\captionsetup{width=\linewidth}
+\begin{tikzpicture}
+\begin{axis}[
+  width=\linewidth, height=4.5cm,
+  axis x line=middle, axis y line=left,
+  xmin=-1, xmax=21,
+  ymin=0, ymax=0.25,
+  xtick={0,5,10,15,20},
+  ytick={0,0.05,...,0.25},
+  tick label style={font=\footnotesize},
+  xlabel={$k$}, ylabel={$\mathbb{P}(X=k)$},
+  xlabel style={at={(ticklabel* cs:1)}, anchor=north west},
+  every axis y label/.style={at={(ticklabel* cs:1)}, anchor=south west, rotate=0},
+  y tick label style={/pgf/number format/fixed, /pgf/number format/precision=2},
+]
+\addplot+[ycomb, black, line width=0.7pt, mark=*, mark size=1.2pt, mark options={fill=black}]
+table {
+0 0.00000001
+1 0.0000003
+2 0.000005
+3 0.000042
+4 0.00027
+5 0.001294
+6 0.004854
+7 0.014563
+8 0.035497
+9 0.070995
+10 0.117142
+11 0.159738
+12 0.179706
+13 0.165882
+14 0.124412
+15 0.074647
+16 0.034991
+17 0.01235
+18 0.003087
+19 0.000487
+20 0.000037
+};
+\end{axis}
+\end{tikzpicture}
+\captionof{figure}{Função de probabilidade da distribuição binomial com
+parâmetros $n=20$ e $p=0{,}6$.}
+\label{fig:binomial-n20-p06}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\captionsetup{width=\linewidth}
+\begin{tikzpicture}
+\begin{axis}[
+  width=\linewidth, height=4.5cm,
+  axis x line=middle, axis y line=left,
+  xmin=-1, xmax=16,
+  ymin=0, ymax=0.25,
+  xtick={0,5,10,15},
+  ytick={0,0.05,...,0.25},
+  tick label style={font=\footnotesize},
+  xlabel={$k$}, ylabel={$\mathbb{P}(X=k)$},
+  xlabel style={at={(ticklabel* cs:1)}, anchor=north west},
+  every axis y label/.style={at={(ticklabel* cs:1)}, anchor=south west, rotate=0},
+  y tick label style={/pgf/number format/fixed, /pgf/number format/precision=2},
+]
+\addplot+[ycomb, black, line width=0.7pt, mark=*, mark size=1.2pt, mark options={fill=black}]
+table {
+0 0.00000001
+1 0.000001
+2 0.000008
+3 0.000083
+4 0.000581
+5 0.00298
+6 0.01159
+7 0.03477
+8 0.08113
+9 0.147236
+10 0.20613
+11 0.218623
+12 0.17004
+13 0.09156
+14 0.03052
+15 0.004748
+};
+\end{axis}
+\end{tikzpicture}
+\captionof{figure}{Função de probabilidade da distribuição binomial com
+parâmetros $n=15$ e $p=0{,}7$.}
+\label{fig:binomial-n15-p07}
+\end{minipage}
+\end{figure}
+
+\bigskip 
+\noindent\textbf{Distribuição de Poisson.} Dizemos que \(X\) tem a distribuição de
+Poisson com parâmetro \(\lambda\), onde $\lambda>0$, se \(X\) assume valores em
+\(\{0, 1, 2, \dots\}\) e satisfaz
+\begin{equation}\label{eq:poisson}
+  \mathbb{P}(X = k) = \frac{1}{k!} \lambda^k e^{-\lambda} \quad \text{para }
+  k = 0, 1, 2, \dots.
+\end{equation}
+
+Novamente, isso dá origem a uma função de probabilidade, pois
+\[
+  \sum_{k=0}^{\infty} \frac{1}{k!} \lambda^k e^{-\lambda} = e^{-\lambda}
+  \sum_{k=0}^{\infty} \frac{1}{k!} \lambda^k = e^{-\lambda} e^{\lambda} = 1.
+\]
+Neste caso usamos a notação $X\sim \mathrm{Poisson}(\lambda)$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.8\textwidth, height=5cm,
+  axis x line=middle, axis y line=left,
+  xmin=-0.8, xmax=12.8,
+  ymin=0, ymax=0.22,
+  xtick={0,1,2,3,4,5,6,7,8,9,10,11,12},
+  ytick={0,0.05,...,0.2},
+  tick label style={font=\footnotesize},
+  xlabel={$k$}, ylabel={$\mathbb{P}(X=k)$},
+  xlabel style={at={(ticklabel* cs:1)}, anchor=north west},
+  every axis y label/.style={at={(ticklabel* cs:1)}, anchor=south west, rotate=0},
+  y tick label style={/pgf/number format/fixed, /pgf/number format/precision=2},
+]
+\addplot+[ycomb, black, line width=0.7pt, mark=*, mark size=1.2pt, mark options={fill=black}]
+table {
+0 0.018316
+1 0.073263
+2 0.146525
+3 0.195367
+4 0.195367
+5 0.156293
+6 0.104196
+7 0.05954
+8 0.02977
+9 0.013231
+10 0.005292
+11 0.001925
+12 0.000642
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Função de probabilidade de uma $\mathrm{Poisson}(4)$.}
+\label{fig:poisson-l4}
+\end{figure}
+
+\noindent\textbf{Distribuição geométrica.} Dizemos que \(X\) tem a distribuição
+geométrica com parâmetro \(p \in (0, 1)\) se \(X\) assume valores em
+\(\{1, 2, 3, \dots\}\) e
+\begin{equation}\label{eq:geometrica}
+  \mathbb{P}(X = k) = p q^{k-1} \quad \text{para } k = 1, 2, 3, \dots.
+\end{equation}
+
+Usando a fórmula da soma de uma progressão geométrica e que $p$ e $q$ somam um temos
+\[
+  \sum_{k=1}^{\infty} p q^{k-1} = \frac{p}{1-q}  = \frac{p}{p} = 1.
+\]
+Neste caso usamos a notação $X\sim \mathrm{Geom}(p)$.
+
+
+\bigskip 
+\noindent\textbf{Distribuição binomial negativa.} Dizemos que \(X\) tem a distribuição
+binomial negativa com parâmetros \(n\) e \(p \in (0, 1)\) se \(X\) assume
+valores em \(\{n, n+1, n+2, \dots\}\) e
+\begin{equation}\label{eq:binomial-negativa}
+  \mathbb{P}(X = k) = \binom{k-1}{n-1} p^n q^{k-n} \quad \text{para }
+  k = n, n+1, n+2, \dots.
+\end{equation}
+
+Como antes, note que
+\[
+  \begin{aligned}
+    \sum_{k=n}^{\infty} \binom{k-1}{n-1} p^n q^{k-n}
+      &= p^n \sum_{l=0}^{\infty} \binom{n+l-1}{l} q^l
+      \quad \text{com } l = k-n \\
+    &= p^n \sum_{l=0}^{\infty} \binom{-n}{l} (-q)^l \\
+    &= p^n (1-q)^{-n} = 1,
+  \end{aligned}
+\]
+usando a expansão binomial generalizada de \((1-q)^{-n}\). Neste caso usamos a
+notação $X\sim \mathrm{BinNeg}(n,p)$.
+
+Para referência futura, resumimos na \Cref{tab:resumo-distribuicoes} as
+distribuições discretas apresentadas nesta seção, juntamente com a notação
+usada para cada uma delas.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{12pt}
+\caption{Resumo das distribuições discretas desta seção. Em todos os casos,
+$q=1-p$ e a entrada da coluna ``Notação'' deve ser lida como $X\sim\,\cdots$}
+\label{tab:resumo-distribuicoes}
+\begin{tabular}{l l l l l}
+\toprule
+Distribuição & Parâmetros & Suporte & $p_X(k)$ & Notação \\
+\midrule
+Bernoulli & $p\in[0,1]$ & $\{0,1\}$ & $p^k q^{1-k}$ & $\mathrm{Bernoulli}(p)$ \\[0.3cm]
+Binomial & $n\ge1$, $p\in[0,1]$ & $\{0,1,\dots,n\}$ & $\binom{n}{k}p^k q^{n-k}$ & $\mathrm{Bin}(n,p)$ \\[0.3cm]
+Poisson & $\lambda>0$ & $\{0,1,2,\dots\}$ & $e^{-\lambda}\lambda^k/k!$ & $\mathrm{Poisson}(\lambda)$ \\[0.3cm]
+Geométrica & $p\in(0,1)$ & $\{1,2,3,\dots\}$ & $p q^{k-1}$ & $\mathrm{Geom}(p)$ \\[0.3cm]
+Bin.\ negativa & $n\ge1$, $p\in(0,1)$ & $\{n,n+1,\dots\}$ & $\binom{k-1}{n-1}p^n q^{k-n}$ & $\mathrm{BinNeg}(n,p)$ \\[0.3cm]
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{example}\label{ex:binomial-e-poisson-moedas}
+  Eis um exemplo de algumas das distribuições acima em ação. Suponha que uma
+  moeda seja lançada \(n\) vezes e que a probabilidade de sair cara em cada
+  lançamento seja \(p\). Representando cara por \(\mathrm{H}\) e coroa por
+  \(\mathrm{T}\), o espaço amostral é o conjunto \(\Omega\) de todas as
+  sequências ordenadas de comprimento \(n\) contendo as letras \(\mathrm{H}\)
+  e \(\mathrm{T}\), em que a \(k\)-ésima entrada de tal sequência representa
+  o resultado do \(k\)-ésimo lançamento. Isto é, 
+  \begin{align*}
+  \Omega \equiv \begin{tikzpicture}[baseline=(prod.base)]
+    \node (prod) {$\{H,T\}\times \{H,T\} \times \ldots\times \{H,T\}$};
+    \draw[line width=0.6pt, decorate, decoration={brace, mirror, amplitude=5pt}]
+      ([xshift=2.5mm]prod.south west) -- ([xshift=-2.5mm]prod.south east)
+      node[midway, below=8pt] {$n$ cópias};
+  \end{tikzpicture}
+  \end{align*}
+  
+  O conjunto \(\Omega\) é finito, e
+  tomamos \(\mathcal{F}\) como o conjunto das partes de \(\Omega\). Para cada
+  \(\omega \in \Omega\), definimos a probabilidade de
+  que \(\omega\) pela seguinte expressão
+  \[
+    \mathbb{P}(\omega) = p^{h(\omega)} q^{t(\omega)},
+  \]
+  onde \(h(\omega)\) é o número de caras em \(\omega\) e
+  \(t(\omega) = n - h(\omega)\) é o número de coroas. 
+  De maneira natural estendemos a definição de $\mathbb{P}$ para um evento
+  arbitrário \(A \in \mathcal{F}\) por 
+  \[
+    \mathbb{P}(A) = \sum_{\omega \in A} \mathbb{P}(\omega).
+  \]
+  Para \(i = 1, 2, \dots, n\), definimos a variável aleatória discreta
+  \(X_i\) por
+  \[
+    X_i(\omega) = \begin{cases}
+      1 & \text{se a } i\text{-ésima entrada de } \omega \text{ é }
+        \mathrm{H}, \\
+      0 & \text{se a } i\text{-ésima entrada de } \omega \text{ é }
+        \mathrm{T}.
+    \end{cases}
+  \]
+  Cada \(X_i\) assume valores em \(\{0, 1\}\) e tem função de probabilidade dada por
+  \[
+    \mathbb{P}(X_i = 0) = \mathbb{P}(\{\omega \in \Omega :
+    \omega_i = \mathrm{T}\}),
+  \]
+  onde \(\omega_i\) é a \(i\)-ésima entrada de \(\omega\). Assim,
+  \[
+    \begin{aligned}
+      \mathbb{P}(X_i = 0)
+      &= \sum_{ \substack{\omega\in \Omega \\[0.06cm] \omega_i = \mathrm{T}}}
+        p^{h(\omega)} q^{n-h(\omega)} 
+      \\[0.3cm]
+      &= \sum_{h=0}^{n-1}\ \sum_{\substack{\omega \in \Omega : \omega_i = \mathrm{T} \\[0.06cm] h(\omega) = h}} p^h q^{n-h}
+        \ = \ \sum_{h=0}^{n-1} \binom{n-1}{h} p^h q^{n-h}  q(p+q)^{n-1} \ = \ q
+    \end{aligned}
+  \]
+  e
+  \[
+    \mathbb{P}(X_i = 1) = 1 - \mathbb{P}(X_i = 0) = p.
+  \]
+  Portanto, cada \(X_i\) tem distribuição do tipo Bernoulli de parâmetro
+  \(p\). 
+  
+  Embora esta dedução seja um pouco trabalhosa, acreditamos que
+  esses detalhes são instrutivos e ilustra várias ideias importantes
+  quando estamos trabalhando em espaços que são do tipo produto cartesiano e
+  que terão um papel importante no estudo de variáveis aleatórias independente,
+  conceito este que será definido mais a frente.
+
+  Vamos prosseguir com mais uma observação importante sobre este exemplo. Considere a variável aleatória
+  \[
+    S_n = X_1 + X_2 + \dots + X_n,
+  \]
+  ou seja, \(S_n(\omega) = X_1(\omega) + X_2(\omega) + \dots + X_n(\omega)\).
+  Claramente, \(S_n\) é o número total de caras que ocorrem, e \(S_n\) assume
+  valores em \(\{0, 1, \dots, n\}\), pois cada \(X_i\) é igual a \(0\) ou
+  \(1\). Além disso, para cada \(k = 0, 1, \dots, n\), temos que
+  \begin{align}
+    \mathbb{P}(S_n = k) &= \mathbb{P}(\{\omega \in \Omega : h(\omega) = k\})
+      \notag 
+    \\[0.3cm]
+    &= \sum_{\omega\in \Omega : h(\omega) = k} \mathbb{P}(\omega) \notag 
+    \\[0.3cm]
+    &= \binom{n}{k} p^k q^{n-k}, \label{eq:sn-binomial}
+  \end{align}
+  e assim \(S_n\) tem a distribuição binomial de parâmetros \(n\) e \(p\).
+
+
+\bigskip 
+
+  Se \(n\) é muito grande e \(p\) é muito pequeno, mas \(np\) tem um
+  ``tamanho razoável'' (digamos, \(np = \lambda\)), então a distribuição de
+  \(S_n\) pode ser aproximada pela distribuição de Poisson com parâmetro
+  \(\lambda\), da seguinte forma. Para \(k \geq 0\) fixo, escrevemos
+  \(p = \lambda / n\) e, supondo que \(n\) seja grande, obtemos
+  \begin{align}
+    \mathbb{P}(S_n = k) 
+    &= \binom{n}{k} p^k (1-p)^{n-k} 
+    \notag \\[0.3cm]
+    &= \frac{n!}{(n-k)!\, k!}\ p^k (1-p)^{n-k}
+    \notag \\[0.3cm]
+    &= \frac{n(n-1)\cdots(n-k+1)}{k!} \left(\frac{\lambda}{n}\right)^k
+      \left(1 - \frac{\lambda}{n}\right)^{n-k}
+    \notag \\[0.3cm]
+    &= \frac{n^k}{k!} \left( \frac{n(n-1)\cdots(n-k+1)}{n^k}\right) \left(\frac{\lambda}{n}\right)^k
+      \left(1 - \frac{\lambda}{n}\right)^{n-k}
+    \notag \\[0.3cm] 
+    &\sim \frac{n^k}{k!} \left(\frac{\lambda}{n}\right)^k
+      \left(1 - \frac{\lambda}{n}\right)^n
+      \left(1 - \frac{\lambda}{n}\right)^{-k} 
+    \notag \\[0.3cm]
+    &\sim \frac{1}{k!} \lambda^k e^{-\lambda}. \label{eq:aproximacao-poisson}
+  \end{align}
+  Essa aproximação pode ser útil na prática. Por exemplo, considere uma única
+  página do jornal Guardian contendo, digamos, \(10^6\) caracteres, e suponha
+  que o tipógrafo lança uma moeda antes de compor cada caractere e então,
+  deliberadamente, compõe incorretamente esse caractere sempre que a moeda
+  cai em cara. Se a moeda cai em cara com probabilidade \(10^{-5}\) em cada
+  lançamento, então isso equivale a tomar \(n = 10^6\) e \(p = 10^{-5}\) no
+  exemplo acima, de modo que o número \(S_n\) de erros deliberados tem a
+  distribuição binomial com parâmetros \(10^6\) e \(10^{-5}\). Pode ser mais
+  fácil (e não muito impreciso) usar \eqref{eq:aproximacao-poisson} em vez de
+  \eqref{eq:sn-binomial} para calcular probabilidades. Nesse caso,
+  \(\lambda = np = 10\) e, por exemplo,
+  \[
+    \mathbb{P}(S_n = 10) \approx \frac{1}{10!}(10e^{-1})^{10} \approx
+    0{,}125.
+  \]
+\end{example}
+
+O cálculo heurístico que acabamos de fazer no \Cref{ex:binomial-e-poisson-moedas}
+pode ser transformado em um resultado preciso, conhecido como a \emph{lei dos
+eventos raros} (ou teorema do limite de Poisson).
+
+\begin{theorem}[Lei dos eventos raros]\label{thm:lei-eventos-raros}
+Seja $(p_n)_{n\ge 1}$ uma sequência de números em $[0,1]$ tal que
+$n p_n \to \lambda$ quando $n\to\infty$, para algum $\lambda>0$. Então, para cada
+$k\in\{0,1,2,\dots\}$ fixo,
+\[
+  \lim_{n\to\infty} \binom{n}{k} p_n^k (1-p_n)^{n-k}
+  = e^{-\lambda}\frac{\lambda^k}{k!}.
+\]
+\end{theorem}
+
+Em outras palavras, se $X_n\sim\mathrm{Bin}(n,p_n)$ com $np_n\to\lambda$ e
+$Y\sim\mathrm{Poisson}(\lambda)$, então $\mathbb{P}(X_n=k)\to\mathbb{P}(Y=k)$ para
+cada $k$ fixo. Assim, a distribuição binomial com $n$ grande e $p$ pequeno, de modo
+que $np$ tenha um tamanho moderado, é bem aproximada pela distribuição de Poisson de
+parâmetro $\lambda=np$.
+
+\begin{proof}
+Defina $\lambda_n = n p_n$, de modo que $p_n = \lambda_n/n$ e $\lambda_n\to\lambda$.
+Para $n\ge k$, escrevemos
+\[
+  \binom{n}{k}p_n^k(1-p_n)^{n-k}
+  = \frac{n(n-1)\cdots(n-k+1)}{k!}\left(\frac{\lambda_n}{n}\right)^k
+    \left(1-\frac{\lambda_n}{n}\right)^{n-k}.
+\]
+Separando o fator $\lambda_n^k/k!$, isso pode ser reescrito como
+\[
+  \binom{n}{k}p_n^k(1-p_n)^{n-k}
+  = \frac{\lambda_n^k}{k!}
+    \cdot \frac{n(n-1)\cdots(n-k+1)}{n^k}
+    \cdot \left(1-\frac{\lambda_n}{n}\right)^{n}
+    \cdot \left(1-\frac{\lambda_n}{n}\right)^{-k}.
+\]
+Vamos analisar o limite de cada um dos três últimos fatores quando $n\to\infty$,
+lembrando que $\lambda_n\to\lambda$ e que $k$ é fixo. Primeiro,
+\[
+  \frac{n(n-1)\cdots(n-k+1)}{n^k}
+  = \prod_{j=0}^{k-1}\left(1-\frac{j}{n}\right) \longrightarrow 1,
+\]
+pois trata-se de um produto finito de fatores, cada um dos quais tende a $1$.
+Segundo,
+\[
+  \left(1-\frac{\lambda_n}{n}\right)^{n} \longrightarrow e^{-\lambda},
+\]
+pelo limite fundamental $\left(1+\frac{a_n}{n}\right)^n\to e^{a}$, válido quando
+$a_n\to a$, aplicado aqui com $a_n=-\lambda_n\to-\lambda$. Terceiro,
+\[
+  \left(1-\frac{\lambda_n}{n}\right)^{-k} \longrightarrow 1,
+\]
+pois $\lambda_n/n\to 0$. Além disso, $\lambda_n^k\to\lambda^k$. Multiplicando todos
+os limites, obtemos
+\[
+  \lim_{n\to\infty}\binom{n}{k}p_n^k(1-p_n)^{n-k}
+  = \frac{\lambda^k}{k!}\cdot 1\cdot e^{-\lambda}\cdot 1
+  = e^{-\lambda}\frac{\lambda^k}{k!},
+\]
+como queríamos demonstrar.
+\end{proof}
+
+A \Cref{tab:poisson-aproximacao} ilustra numericamente a convergência obtida acima. Nela comparamos
+a probabilidade $\mathbb{P}(X=k)$ calculada pela distribuição $\mathrm{Bin}(100,\tfrac{5}{100})$
+com a probabilidade correspondente calculada pela distribuição $\mathrm{Poisson}(5)$.
+Note que $np = 100\cdot 0{,}05 = 5 = \lambda$.
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{10pt}
+\small
+\caption{Comparação entre as distribuições $\mathrm{Bin}(100,\tfrac{5}{100})$ e
+$\mathrm{Poisson}(5)$.}
+\label{tab:poisson-aproximacao}
+\begin{tabular}{c c c}
+\toprule
+$k$ & $\mathrm{Bin}(100,\tfrac{5}{100})$ & $\mathrm{Poisson}(5)$ \\
+\midrule
+$0$  & $0{,}0059$ & $0{,}0067$ \\
+$1$  & $0{,}0312$ & $0{,}0337$ \\
+$2$  & $0{,}0812$ & $0{,}0842$ \\
+$3$  & $0{,}1396$ & $0{,}1404$ \\
+$4$  & $0{,}1781$ & $0{,}1755$ \\
+$5$  & $0{,}1800$ & $0{,}1755$ \\
+$6$  & $0{,}1500$ & $0{,}1462$ \\
+$7$  & $0{,}1060$ & $0{,}1044$ \\
+$8$  & $0{,}0649$ & $0{,}0653$ \\
+$9$  & $0{,}0349$ & $0{,}0363$ \\
+$10$ & $0{,}0167$ & $0{,}0181$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Observe que as duas colunas são praticamente idênticas, mesmo com $n=100$ não sendo
+particularmente grande. Quanto maior for $n$ e menor for $p$, mantendo $np=\lambda$
+fixo, melhor é a aproximação. Este é o conteúdo preciso do cálculo heurístico
+realizado no \Cref{ex:binomial-e-poisson-moedas}.
+
+\begin{example}\label{ex:geometrica-primeira-cara}
+  Suponha que lançamos a moeda do \Cref{ex:binomial-e-poisson-moedas} até que a primeira cara
+  apareça, e então paramos. O espaço amostral agora é
+  \[
+    \Omega = \{\mathrm{H}, \mathrm{TH}, \mathrm{T}^2\mathrm{H}, \dots\}
+    \cup \{\mathrm{T}^\infty\},
+  \]
+  onde \(\mathrm{T}^k\mathrm{H}\) representa o resultado de \(k\) coroas
+  seguidas de uma cara, e \(\mathrm{T}^\infty\) representa uma sequência
+  infinita de coroas sem nenhuma cara. Como antes, \(\mathcal{F}\) é o
+   conjunto das partes de \(\Omega\), e \(\mathbb{P}\) é dada
+  pela expressão 
+  \[
+    \begin{aligned}
+      \mathbb{P}(\mathrm{T}^k\mathrm{H}) &= pq^k \quad \text{para }
+        k = 0, 1, 2, \dots, \\
+      \mathbb{P}(\mathrm{T}^\infty) &= \begin{cases}
+        1 & \text{se } p = 0, \\
+        0 & \text{se } p > 0.
+      \end{cases}
+    \end{aligned}
+  \]
+  Seja \(Y\) o número total de lançamentos neste experimento, de modo que
+  \(Y(\mathrm{T}^k\mathrm{H}) = k + 1\) para \(0 \leq k < \infty\) e
+  \(Y(\mathrm{T}^\infty) = \infty\). Se \(p > 0\), então
+  \[
+    \mathbb{P}(Y = k) = \mathbb{P}(\mathrm{T}^{k-1}\mathrm{H}) = pq^{k-1}
+    \quad \text{para } k = 1, 2, \dots,
+  \]
+   mostrando que, para \(p \in (0,1)\), \(Y\) tem a distribuição geométrica
+   com parâmetro \(p\).
+\end{example}
+
+\begin{example}\label{ex:binomial-negativa-n-esima-cara}
+  Se continuarmos a lançar a moeda do \Cref{ex:geometrica-primeira-cara} até que a \(n\)-ésima
+  cara tenha aparecido, então um argumento semelhante mostra que, se
+  \(p \in (0, 1)\), o número total de lançamentos necessário tem a
+  distribuição binomial negativa com parâmetros \(n\) e \(p\).
+\end{example}
+
+\begin{exercise}\label{exercise:poisson-par}
+  Se \(X\) é uma variável aleatória discreta com distribuição de Poisson de
+  parâmetro \(\lambda\), mostre que a probabilidade de que \(X\) seja par é
+  \(e^{-\lambda} \cosh \lambda\).
+\end{exercise}
+
+\begin{exercise}\label{exercise:geometrica-cauda}
+  Se \(X\) é uma variável aleatória discreta com distribuição geométrica de
+  parâmetro \(p\), mostre que a probabilidade de que \(X\) seja maior do que
+  \(k\) é \((1 - p)^k\).
+\end{exercise}
+\subsection{Funções de variáveis aleatórias discretas}
+\label{sec:funcoes-de-va}
+
+Seja \(X\) uma variável aleatória discreta no espaço de probabilidade
+\((\Omega, \mathcal{F}, \mathbb{P})\) e seja \(g : \mathbb{R} \to \mathbb{R}\).
+É fácil verificar que a composição de funções \(Y \equiv g\circ X\) também é uma variável aleatória discreta em
+\((\Omega, \mathcal{F}, \mathbb{P})\), definida por
+\[
+  Y(\omega) = g(X(\omega)) \quad \text{para } \omega \in \Omega.
+\]
+
+Exemplos simples são
+\[
+  \begin{aligned}
+    \text{se } g(x) &= ax + b \quad \text{então } g(X) = aX + b, \\
+    \text{se } g(x) &= cx^2 \quad \text{então } g(X) = cX^2.
+  \end{aligned}
+\]
+
+Se \(Y = g(X)\), a função de probabilidade de \(Y\) é dada por
+\begin{align}
+  p_Y(y) = \mathbb{P}(Y = y) 
+  		 &= \mathbb{P}(g(X) = y) 
+  		 \notag \\[0.3cm]
+         &= \mathbb{P}(X \in g^{-1}(y)) 
+         \notag \\[0.3cm]
+         &= \sum_{x \in g^{-1}(y)} \mathbb{P}(X = x), \label{eq:massa-de-funcao-de-va}
+\end{align}
+uma vez que essa soma possui apenas uma quantidade enumerável de contribuições
+não nulas. Assim, se \(Y = aX + b\) com \(a \neq 0\), então
+\[
+  \mathbb{P}(Y = y) = \mathbb{P}(aX + b = y)
+    = \mathbb{P}\big(X = a^{-1}(y - b)\big) \quad \text{para } y \in \mathbb{R},
+\]
+enquanto, se \(Y = X^2\), então
+\[
+  \mathbb{P}(Y = y) =
+  \begin{cases}
+    \mathbb{P}\big(X = \sqrt{y}\big) + \mathbb{P}\big(X = -\sqrt{y}\big),
+      & \text{se } y > 0; \\[0.4cm]
+    \mathbb{P}(X = 0), & \text{se } y = 0; \\[0.4cm]
+    0, & \text{se } y < 0.
+  \end{cases}
+\]
+
+\begin{exercise}\label{exercise:poisson-seno}
+  Seja \(X\) uma variável aleatória discreta com distribuição de Poisson de
+  parâmetro \(\lambda\), e seja \(Y = |\sin(\tfrac{1}{2}\pi X)|\). 
+  Determine a função de probabilidade de \(Y\).
+\end{exercise}
+
+
+\section{Equivalência entre Variáveis Aleatórias}
+
+
+Sejam $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade e $X:\Omega\to S$ uma variável aleatória com função de probabilidade $p_{X}$,
+onde \(S = \{s_i : i \in I\}\) é um conjunto enumerável de números reais distintos.
+Suponha que $(\widetilde{\Omega},\widetilde{\mathcal{F}},\widetilde{\mathbb{P}})$ 
+seja um outro espaço de probabilidade e $Y:\widetilde{\Omega}\to S$
+uma outra variável aleatória com função de probabilidade $p_{Y}$.
+
+Vamos dizer que $X$ e $Y$ possuem a mesma distribuição e escrever 
+$X \overset{d}{=} Y$ se a seguinte condição for satisfeita:
+$p_{X}(s)=p_{Y}(s)$ para todo $s\in S$. Neste caso, veremos que as propriedades
+intrínsecamente probabilísticas destas duas variáveis aleatórias são as mesmas,
+de modo que tanto faz usar uma ou outra para responder a certos tipos de perguntas.
+Esta observação motiva a identificar estas duas funções $X:\Omega\to S$ e
+$Y:\widetilde{\Omega}\to S$ e considerar a classe de equivalência de tais funções 
+também como uma variável aleatória com função de probabilidade dada, por exemplo, por $p_{X}$.
+Embora este conceito de variável aleatória seja muito mais abstrato, ele pode ser útil
+quando for conveniente mudar de espaço e de descrição de uma variável aleatória ao
+longo da solução de um problema. Em particular, escrevendo $\{X=x\}$ em vez
+da notação de funções e pré-imagens como $\{\omega\in \Omega: X(\omega)=x\}$, temos
+a vantagem de evitar falar do espaço onde a v.a. é construída e focar apenas nas propriedades
+resultantes de sua função de probabilidade.
+
+
+\bigskip 
+
+Para tornar essas ideias concretas, vejamos dois exemplos que mostram, com todos
+os detalhes, o que a igualdade em distribuição afirma e, talvez mais importante,
+o que ela \emph{não} afirma!
+
+\bigskip 
+
+\begin{example}\label{ex:dado-face-oposta}
+Considere o experimento de lançar um dado honesto uma vez. Temos
+$\Omega = \{1, 2, 3, 4, 5, 6\}$, $\mathcal{F}$ é o conjunto das partes de $\Omega$,
+e $\mathbb{P}(A) = |A|/6$ para $A \in \mathcal{F}$, onde $|A|$ denota o número de
+elementos de $A$. Definimos duas variáveis aleatórias discretas
+$X, Y : \Omega \to \mathbb{R}$ por
+\[
+  X(\omega) = \omega \quad \text{e} \quad Y(\omega) = 7 - \omega
+  \quad \text{para } \omega \in \Omega.
+\]
+Assim, $X$ registra o resultado do lançamento, enquanto $Y$ registra o número da
+face oposta à face sorteada (em um dado padrão, as faces opostas somam $7$).
+
+
+\bigskip 
+
+Vamos calcular as funções de probabilidade de $X$ e de $Y$. Para cada
+$k \in \{1, 2, 3, 4, 5, 6\}$,
+\[
+  p_X(k) = \mathbb{P}(X = k) = \mathbb{P}(\{\omega \in \Omega : \omega = k\})
+  = \mathbb{P}(\{k\}) = \frac{1}{6},
+\]
+e
+\[
+  p_Y(k) = \mathbb{P}(Y = k) = \mathbb{P}(\{\omega \in \Omega : 7 - \omega = k\})
+  = \mathbb{P}(\{7 - k\}) = \frac{1}{6}.
+\]
+Portanto, $p_X(k) = p_Y(k) = 1/6$ para todo $k \in \{1, \dots, 6\}$, e ambas são
+nulas fora desse conjunto. Logo, $X \overset{d}{=} Y$.
+
+Entretanto, $X$ e $Y$ são funções diferentes. De fato, para todo $\omega \in \Omega$,
+\[
+  X(\omega) = \omega \neq 7 - \omega = Y(\omega),
+\]
+pois a igualdade $\omega = 7 - \omega$ implicaria $2\omega = 7$, o que é impossível
+para $\omega$ inteiro. Assim, $X(\omega) \neq Y(\omega)$ para todo $\omega \in \Omega$.
+
+Concluímos que $X$ e $Y$ têm a mesma distribuição, mas são funções distintas. A
+igualdade em distribuição é, portanto, estritamente mais fraca que a igualdade de funções.
+\end{example}
+
+\begin{example}\label{ex:dado-espaco-diferente}
+A igualdade em distribuição não apenas é mais fraca que a igualdade de funções: ela
+faz sentido em uma situação em que a igualdade de funções sequer pode ser enunciada,
+a saber, quando as variáveis estão definidas em espaços amostrais diferentes.
+
+Considere, além do dado do \Cref{ex:dado-face-oposta}, um segundo experimento: lançar
+uma moeda honesta, que produz $0$ ou $1$, e em seguida sortear, com chances iguais,
+um dos números $0, 1, 2$. O espaço amostral deste segundo experimento é
+\[
+  \widetilde{\Omega} = \{0, 1\} \times \{0, 1, 2\},
+\]
+cujos seis elementos são os pares ordenados $(i, j)$ com $i \in \{0, 1\}$ e
+$j \in \{0, 1, 2\}$. Tomamos $\widetilde{\mathcal{F}}$ como o conjunto das partes de
+$\widetilde{\Omega}$ e definimos $\widetilde{\mathbb{P}}$ atribuindo a cada um dos seis
+resultados a probabilidade $1/6$.
+
+Definimos $Z : \widetilde{\Omega} \to \mathbb{R}$ associando a cada par um número
+distinto de $1$ a $6$, conforme a tabela
+\[
+  \begin{array}{c|cccccc}
+    \widetilde{\omega} & (0,0) & (1,0) & (0,1) & (1,1) & (0,2) & (1,2) \\
+    \hline
+    Z(\widetilde{\omega}) & 1 & 2 & 3 & 4 & 5 & 6
+  \end{array}
+\]
+Como cada ponto de $\widetilde{\Omega}$ tem probabilidade $1/6$ e $Z$ é uma bijeção de
+$\widetilde{\Omega}$ em $\{1, \dots, 6\}$, temos, para cada $k \in \{1, \dots, 6\}$,
+\[
+  p_Z(k) = \widetilde{\mathbb{P}}(Z = k) = \frac{1}{6}.
+\]
+Comparando com a variável $X$ do \Cref{ex:dado-face-oposta}, obtemos
+$p_Z(k) = p_X(k)$ para todo $k$, e portanto $Z \overset{d}{=} X$.
+
+Observe, contudo, que $X$ e $Z$ estão definidas em espaços amostrais diferentes:
+$X : \Omega \to \mathbb{R}$ e $Z : \widetilde{\Omega} \to \mathbb{R}$, com
+$\Omega \neq \widetilde{\Omega}$. Nesse caso, a expressão ``$X = Z$'' não tem sentido,
+pois não se podem comparar funções com domínios distintos. Ainda assim, a afirmação
+``$X \overset{d}{=} Z$'' é perfeitamente bem definida. Isso ilustra que a distribuição
+de uma variável aleatória é uma propriedade que independe do espaço amostral em que
+ela foi construída.
+\end{example}
+
+Os dois exemplos acima são manifestações de um princípio geral: a função de
+probabilidade determina todas as probabilidades associadas a uma variável aleatória.
+É o que tornamos preciso a seguir.
+
+\begin{proposition}\label{prop:massa-determina-probabilidades}
+Seja $X$ uma variável aleatória discreta com função de probabilidade $p_X$. Então,
+para todo conjunto $A \subseteq \mathbb{R}$,
+\[
+  \mathbb{P}(X \in A) = \sum_{s \in A} p_X(s).
+\]
+\end{proposition}
+
+\begin{proof}
+O evento $\{X \in A\}$ ocorre exatamente quando $X$ assume algum valor em $A$. Podemos,
+portanto, escrevê-lo como a união dos eventos $\{X = s\}$, para $s$ percorrendo os
+valores que $X$ efetivamente assume em $A$:
+\[
+  \{X \in A\} = \bigcup_{s \in A \cap \operatorname{Im} X} \{X = s\}.
+\]
+Como $\operatorname{Im} X$ é enumerável, esta é uma união enumerável. Além disso, os
+eventos $\{X = s\}$ são dois a dois disjuntos, pois $X$ não pode assumir dois valores
+distintos ao mesmo tempo. Pela aditividade enumerável de $\mathbb{P}$,
+\[
+  \mathbb{P}(X \in A) = \sum_{s \in A \cap \operatorname{Im} X} \mathbb{P}(X = s)
+  = \sum_{s \in A \cap \operatorname{Im} X} p_X(s).
+\]
+Por fim, como $p_X(s) = 0$ para $s \notin \operatorname{Im} X$, acrescentar os termos
+com $s \in A \setminus \operatorname{Im} X$ não altera a soma, e obtemos
+\[
+  \sum_{s \in A \cap \operatorname{Im} X} p_X(s) = \sum_{s \in A} p_X(s),
+\]
+o que conclui a demonstração.
+\end{proof}
+
+\begin{corollary}\label{cor:mesma-distribuicao-mesmas-probabilidades}
+Se $X \overset{d}{=} Y$, então $\mathbb{P}(X \in A) = \mathbb{P}(Y \in A)$ para todo
+$A \subseteq \mathbb{R}$.
+\end{corollary}
+
+\begin{proof}
+Pela \Cref{prop:massa-determina-probabilidades}, e usando que $p_X = p_Y$,
+\[
+  \mathbb{P}(X \in A) = \sum_{s \in A} p_X(s) = \sum_{s \in A} p_Y(s)
+  = \mathbb{P}(Y \in A).
+\]
+\end{proof}
+
+Em palavras, o \Cref{cor:mesma-distribuicao-mesmas-probabilidades} diz que duas
+variáveis com a mesma distribuição atribuem a mesma probabilidade a qualquer evento
+definido em termos de seus valores. Este é o sentido preciso em que $X$ e $Y$ possuem
+``as mesmas propriedades probabilísticas'', mencionado no início da seção.
+
+\begin{remark}\label{rem:relacao-de-equivalencia}
+A relação $\overset{d}{=}$ é uma relação de equivalência no conjunto de todas as
+variáveis aleatórias discretas: é reflexiva ($X \overset{d}{=} X$), simétrica
+(se $X \overset{d}{=} Y$, então $Y \overset{d}{=} X$) e transitiva
+(se $X \overset{d}{=} Y$ e $Y \overset{d}{=} Z$, então $X \overset{d}{=} Z$). Isso
+decorre imediatamente de a igualdade de funções ser, ela própria, uma relação de
+equivalência. Observe que isso permanece válido mesmo quando $X$, $Y$ e $Z$ estão
+definidas em espaços amostrais diferentes, pois as funções de probabilidade
+$p_X, p_Y$ e $p_Z$ são todas funções definidas em $\mathbb{R}$ e, portanto, sempre
+comparáveis.
+\end{remark}  
+ 
+
+
+%----------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}

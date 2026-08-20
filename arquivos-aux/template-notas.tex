@@ -17,7 +17,12 @@
 \usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
 \usepackage[all]{xy}              % Para diagramas comutativos
 \usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
-% \makeindex[name=remissivo, columns=2, title=Índice Remissivo, intoc=true]
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
 
 %----------------------------------------------------------------------
 % FORMATAÇÃO, LAYOUT E CORES
@@ -30,6 +35,7 @@
 \usepackage{appendix}
 \usepackage{enumitem}
 \usepackage{float}
+\usepackage{booktabs}
 \usepackage{fontawesome5}
 \usepackage{caption}
 \usepackage{stackengine}
@@ -60,8 +66,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
-\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark}
-
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta}
 
 %----------------------------------------------------------------------
 % REFERÊNCIAS, LINKS E METADADOS DO PDF
@@ -70,10 +75,10 @@
 citecolor={red}, urlcolor={blue!80!black}]{hyperref}
 
 \hypersetup{
-  pdftitle={Título das Notas de Aula},
-  pdfauthor={L. Cioletti},
-  pdfsubject={Teoria Ergódica},
-  pdfkeywords={Teoria Ergódica, Sistemas Dinâmicos, UnB}
+pdftitle={Título das Notas de Aula},
+pdfauthor={L. Cioletti},
+pdfsubject={Assunto das notas},
+pdfkeywords={Palavras-chave, das notas, MAT-UnB}
 }
 
 % --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
@@ -118,6 +123,17 @@ citecolor={red}, urlcolor={blue!80!black}]{hyperref}
 
 \newtheorem{exercise}{Exercício}
 
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
 % Nomes em português para os ambientes
 \addto\captionsbrazil{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
 \renewcommand{\qedsymbol}{$\blacksquare$}
@@ -141,6 +157,8 @@ citecolor={red}, urlcolor={blue!80!black}]{hyperref}
 \Crefname{exercise}{Exercício}{Exercícios}
 \crefname{remark}{observação}{observações}
 \Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
 
 %----------------------------------------------------------------------
 % MACROS ADICIONAIS
@@ -169,13 +187,12 @@ citecolor={red}, urlcolor={blue!80!black}]{hyperref}
 {\large \bf L. Cioletti}
 \vspace{0.3cm}
 
-{\footnotesize Mês de 202X}
+{\footnotesize Mês de 2026}
 \end{center}
-
 
 % --- RESUMO (ABSTRACT) ---
 \begin{abstract}
-Insira aqui o resumo das suas notas de aula. Este template consolida os recursos visuais e matemáticos dos textos de Teoria Ergódica, incluindo suporte a teoremas com referências cruzadas inteligentes e cards explicativos em TikZ.
+Insira aqui o resumo das notas de aula.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -193,28 +210,18 @@ Insira aqui o resumo das suas notas de aula. Este template consolida os recursos
 % CONTEÚDO
 %----------------------------------------------------------------------
 
+
 \section{Introdução}
+\label{sec:introducao}
 
-Inicie o texto aqui. Você pode usar os ambientes definidos:
+Inicie o texto aqui. Use os ambientes definidos (teoremas, definições,
+exemplos, proposições, etc.) com \verb|\label| e referencie-os com
+\verb|\Cref{...}|.
 
-\begin{theorem}
-Este é um teorema de exemplo.
-\end{theorem}
-
-\begin{definition}
-Esta é uma definição que compartilha o contador com o teorema.
-\end{definition}
-
-% Exemplo de Card (do Teorema Ergódico)
-\begin{center}
-\cardbox{1}{Título do Card}{Conteúdo explicativo dentro do card, útil para destacar passos da prova ou intuições geométricas.}{8.0}{4.0}
-\end{center}
-
-%\section*{Agradecimentos}
-%Agradecemos a todos que colaboraram.
-
-% --- BIBLIOGRAFIA ---
+%----------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------
 \bibliographystyle{plain}
-\bibliography{../arquivos-aux/referencias}  
+\bibliography{../arquivos-aux/referencias}
 
 \end{document}
