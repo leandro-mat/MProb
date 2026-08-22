@@ -32,3 +32,6 @@ texput.log
 
 # Guia local de notações e convenções (uso interno, não publicar)
 NOTACOES-E-CONVENCOES.md
+
+# PDF gerado do template (não versionar para evitar tráfego no GitHub)
+arquivos-aux/template-notas.pdf
