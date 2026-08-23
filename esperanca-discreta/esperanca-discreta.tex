@@ -135,7 +135,7 @@ pdfkeywords={esperança, valor esperado, média, variância, lei do estatístico
 \makeatother
 
 % Nomes em português para os ambientes
-\addto\captionsbrazil{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\AtBeginDocument{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
 \renewcommand{\qedsymbol}{$\blacksquare$}
 
 % Cleveref (deve vir depois de hyperref e amsthm)
@@ -184,31 +184,34 @@ pdfkeywords={esperança, valor esperado, média, variância, lei do estatístico
 
 % --- TÍTULO, AUTOR E DATA ---
 \begin{center}
-{\LARGE\bf Esperança de Variáveis Aleatórias Discretas}
+\begin{minipage}{1.1\textwidth}
+{\LARGE\bf A Esperança de Variáveis Aleatórias Discretas}
+\end{minipage}
+\\
 \vspace{1cm}
-
 {\large \bf L. Cioletti}
-\vspace{0.3cm}
 
+\vspace{0.3cm}
 {\footnotesize Agosto de 2026}
 \end{center}
 
 % --- RESUMO (ABSTRACT) ---
 \begin{abstract}
-Estas notas estudam dois temas centrais da teoria das variáveis aleatórias
+Nestas abordamos dois temas centrais da teoria das variáveis aleatórias
 discretas: as funções de variáveis aleatórias e a esperança. Mostramos como a
-função de probabilidade de \(Y = g(X)\) pode ser calculada a partir da função
-de probabilidade de \(X\), com exemplos concretos como o caso em que \(g\) é
-afim ou \(g(x) = x^2\). Em seguida, definimos a esperança de uma variável
+função de probabilidade de \(Y = g(X)\) pode ser determinada a partir da função
+de probabilidade de \(X\) e apresentamos também alguns exemplos concretos 
+de como este cálculo pode ser feito. Em seguida, definimos a esperança de uma variável
 aleatória discreta, discutimos sua interpretação como valor médio, média ponderada e como centro
-de gravidade, e demonstramos a Fórmula da Mudança de Variáveis, que permite
-calcular \(\mathbb{E}(g(X))\) diretamente, bem como as propriedades básicas da
-esperança. Introduzimos também a variância como medida de dispersão em torno da
-esperança e obtemos a fórmula \(\operatorname{Var}(X) =
-\mathbb{E}(X^2) - \mathbb{E}(X)^2\). O texto inclui exemplos envolvendo as
+de gravidade, e demonstramos o Teorema da Fórmula da Mudança de Variáveis, que permite
+calcular \(\mathbb{E}[g(X)]\) diretamente. 
+Introduzimos também a variância como medida de dispersão em torno do valor médio de $X$ 
+e mostramos a validade da seguinte identidade 
+\(\operatorname{Var}(X) = \mathbb{E}[X^2] - \mathbb{E}[X]^2\). 
+O texto inclui exemplos envolvendo as
 distribuições de Poisson e geométrica e exercícios que complementam a
-exposição. O texto segue de perto as Seções 2.3--2.4 do Capítulo 2 de Grimmett
-e Welsh \cite{GrimmettWelsh2014}.
+exposição. A exposição segue de perto as Seções 2.3 e 2.4 do Capítulo 2 
+da referência \cite{GrimmettWelsh2014}.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -225,21 +228,6 @@ e Welsh \cite{GrimmettWelsh2014}.
 %----------------------------------------------------------------------
 % CONTEÚDO
 %----------------------------------------------------------------------
-
-Estas notas dão continuidade ao desenvolvimento da teoria da probabilidade
-iniciado nas notas \emph{Espaços de Probabilidade} e \emph{Variáveis
-Aleatórias Discretas}. Nas primeiras foram introduzidos os ingredientes básicos
-do modelo probabilístico: o espaço amostral, a \(\sigma\)-álgebra de eventos e
-a medida de probabilidade; nas segundas, o conceito de variável aleatória
-discreta e o de função de probabilidade. Aqui estudamos, primeiro, como
-descrever variáveis aleatórias da forma \(Y = g(X)\), obtidas aplicando-se uma
-função a uma variável aleatória discreta \(X\), e, depois, a noção de
-\emph{esperança} de \(X\), que é, sem dúvida, um dos conceitos mais importantes
-de toda a teoria das probabilidades, junto com o de \emph{variância}, que mede
-o grau de dispersão de \(X\) em torno de sua esperança. Seguimos de perto a
-exposição de \cite{GrimmettWelsh2014}, que recomendamos como leitura
-complementar.
-
 
 \section{Funções de Variáveis Aleatórias Discretas}
 \label{sec:funcoes-de-variaveis}
@@ -321,7 +309,7 @@ Seja $X$ uma variável aleatória discreta sobre um espaço de probabilidade $(\
 \(Y = g(X)\), onde $g:\mathbb{R}\to\mathbb{R}$ é uma função arbitrária. Então 
 a função de probabilidade de \(Y\) é dada por
 \begin{equation}\label{eq:funcao-massa-g}
-p_Y(y) = \sum_{x \in \operatorname{Im} X \cap g^{-1}(y)} \mathbb{P}(X = x).
+p_Y(y) \equiv \mathbb{P}(Y=y) \quad =\  \sum_{x \in \operatorname{Im} X \cap g^{-1}(y)} \mathbb{P}(X = x).
 \end{equation}
 \end{proposition}
 
@@ -387,108 +375,393 @@ parâmetro \(\lambda\), e seja \(Y = \bigl|\sin\bigl(\tfrac{1}{2}\pi X\bigr)\big
 Determine a função de probabilidade de \(Y\).
 \end{exercise}
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Stealth,
+  ponto/.style={circle, fill=black, inner sep=0pt, minimum size=1.2mm}]
+  \pgfmathsetmacro\nivel{asin(0.7)/90}
+  \begin{scope}[x=1.35cm, y=3.3cm]
+    % eixos
+    \draw[->, line width=0.5pt] (-4.5,0) -- (4.55,0) node[below=1mm] {$x$};
+    \draw[->, line width=0.5pt] (0,-0.07) -- (0,1.5) node[left=1mm] {$g(x)$};
+    % marcas inteiras no eixo horizontal; marca 1 no vertical
+    \foreach \i in {-4,...,4}{
+      \draw[line width=0.5pt] (\i,0.04) -- (\i,-0.04)
+        node[below=0.5mm] {\scriptsize $\i$};
+    }
+    \draw[line width=0.5pt] (0.04,1) -- (-0.04,1)
+      node[left=0.5mm] {\scriptsize $1$};
+    % grafico de g
+    \draw[teal, line width=0.9pt]
+      plot[domain=-4:4, samples=401, smooth] (\x, {abs(sin(90*\x))});
+    % reta horizontal no nivel y
+    \draw[red, line width=0.7pt] (-4,0.7) -- (4.35,0.7);
+    % nivel y marcado no eixo vertical
+    \fill[red] (0,0.7) circle[radius=1.4pt];
+    \node[anchor=south west, red, inner sep=1pt] at (0.03,0.72) {$y$};
+    % pre-imagem: verticais pontilhadas, pontos no grafico e bolinhas no eixo
+    \foreach \b in {-4,-2,0,2}{
+      \pgfmathsetmacro\xc{\b+\nivel}
+      \pgfmathsetmacro\xd{\b+2-\nivel}
+      \draw[line width=0.6pt, densely dotted, red] (\xc,0.7) -- (\xc,0);
+      \draw[line width=0.6pt, densely dotted, red] (\xd,0.7) -- (\xd,0);
+      \fill[red] (\xc,0.7) circle[radius=1.4pt];
+      \fill[red] (\xd,0.7) circle[radius=1.4pt];
+      \node[ponto] at (\xc,0) {};
+      \node[ponto] at (\xd,0) {};
+    }
+  \end{scope}
+\end{tikzpicture}
+\caption{A pré-imagem $g^{-1}(y)$: abscissas dos pontos em que a reta
+horizontal na altura $y$ corta o gráfico de $g$.}
+\label{fig:preimagem-nivel}
+\end{figure}
+
+
+
 \bigskip
 
 
 
-\section{Esperança}
+\section{Esperança Matemática ou Valor Esperado}
 \label{sec:esperanca}
 
-Considere um dado honesto. Se ele for lançado um grande número de vezes, cada
-um dos resultados possíveis \(1, 2, \ldots, 6\) apareceria em cerca de um sexto
-dos lançamentos, e a média dos números observados seria aproximadamente
+Considere um dado honesto. Se ele for lançado um número muito grande de vezes é natural
+esperar que cada um dos resultados possíveis \(1, 2, \ldots, 6\) apareça em cerca de um sexto
+dos lançamentos. Além do mais a média aritmética dos números observados seria aproximadamente
 \[
 \frac{1}{6} \cdot 1 + \frac{1}{6} \cdot 2 + \cdots + \frac{1}{6} \cdot 6
-= \frac{7}{2},
+\ =\  \frac{7}{2}.
 \]
-que chamamos de \emph{valor médio}. Essa noção de valor médio estende-se
-facilmente a distribuições mais gerais da seguinte forma.
+Neste contexto o número $7/2$, calculado acima, é às vezes chamado de \emph{valor médio}.
+Essa noção de valor médio estende-se facilmente a distribuições mais gerais da seguinte forma.
 
 \begin{definition}[Esperança]\label{def:esperanca}
-Se \(X\) é uma variável aleatória discreta, a \emph{esperança} de \(X\) é
-denotada por \(\mathbb{E}(X)\) e definida por
+Se \(X\) é uma variável aleatória discreta,
+definida sobre um espaço de probabilidade $(\Omega,\mathcal{F},\mathbb{P})$ 
+a \emph{esperança} de \(X\) é denotada por \(\mathbb{E}[X]\) e definida por
 \begin{equation}\label{eq:esperanca}
-\mathbb{E}(X) = \sum_{x \in \operatorname{Im} X} x \, \mathbb{P}(X = x)
+\mathbb{E}[X] = \sum_{x \in \operatorname{Im} X} x \, \mathbb{P}(X = x)
 \end{equation}
 sempre que essa soma convergir absolutamente, isto é, sempre que
 \[
-\sum_{x \in \operatorname{Im} X} |x\, \mathbb{P}(X = x)| < \infty.
+\sum_{x \in \operatorname{Im} X} |x|\, \mathbb{P}(X = x) < \infty.
 \]
+Se a expressão que aparece em \eqref{eq:esperanca} não for absolutamente convergente
+dizemos que $X$ não possui esperança bem-definida.
 \end{definition}
 
-A equação \eqref{eq:esperanca} é frequentemente escrita como
+A equação \eqref{eq:esperanca} é frequentemente escrita de forma mais reduzida (omitindo que a soma é realizada sobre
+o conjunto enumerável $\operatorname{Im} X$)
 \[
-\mathbb{E}(X) = \sum_{x} x \, \mathbb{P}(X = x) = \sum_{x} x \, p_X(x),
+\mathbb{E}[X] = \sum_{x} x \, \mathbb{P}(X = x) = \sum_{x} x \, p_X(x),
 \]
-e a esperança de \(X\) é frequentemente chamada de \emph{valor esperado} ou
-\emph{média} de \(X\). A razão para exigir convergência absoluta em
+e a esperança de \(X\) é às vezes chamada de \emph{valor esperado} ou
+\emph{média} ou \emph{valor médio} de \(X\). A razão para exigir convergência absoluta em
 \eqref{eq:esperanca} é que a imagem \(\operatorname{Im} X\) pode ser um
 conjunto infinito, e precisamos que a soma em \eqref{eq:esperanca} assuma o
 mesmo valor independentemente da ordem em que somamos seus termos: sem a
 convergência absoluta, o rearranjo dos termos de uma série condicionalmente
 convergente poderia alterar o valor da soma.
 
-Uma analogia física para \emph{esperança} é a ideia de \emph{centro de
-gravidade}. Se massas com pesos \(\pi_1, \pi_2, \ldots\) são colocadas nos
+\begin{example}\label{exemplo-esp-indicadora}
+Sejam $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade e $E\in\mathcal{F}$ um evento arbitrário.
+Então a esperança da variável aleatória $X=\mathds{1}_{E}$ é dada por 
+\begin{align*}
+\mathbb{E}[X] 
+= 
+\mathbb{E}[\mathds{1}_{E}] 
+&= 
+\sum_{x\in \operatorname{Im}(\mathds{1}_{E})}\, x\, \mathbb{P}(\mathds{1}_{E}=x)
+\\[0.3cm]
+&=
+0\cdot \mathbb{P}(\mathds{1}_{E}=0) + 1\cdot \mathbb{P}(\mathds{1}_{E}=1)
+\\[0.3cm]
+&=
+\mathbb{P}(\mathds{1}_{E}=1)
+\\[0.3cm]
+&=
+\mathbb{P}(E).
+\end{align*}
+\end{example}
+
+Observe que a variável aleatória do \Cref{exemplo-esp-indicadora} é a indicadora do evento $E$.
+Esta variável aleatória é também uma variável aleatória
+de Bernoulli de parâmetro $p=\mathbb{P}(E)$, ou seja, 
+$\mathds{1}_{E}\sim \mathrm{Bernoulli}(p)$
+
+
+
+\begin{example}\label{ex-esperanca-zeta}
+Seja $X$ uma variável aleatória com distribuição zeta de parâmetro $s>1$,
+isto é, $\operatorname{Im} X = \{1, 2, 3, \ldots\}$ e
+\[
+\mathbb{P}(X = n) = \frac{1}{n^{s}\,\zeta(s)}, \qquad n = 1, 2, 3, \ldots,
+\]
+onde $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^{s}}$ é a função zeta de
+Riemann, cuja série é convergente precisamente quando $s > 1$. A esperança
+de $X$ é dada por
+\begin{align*}
+\mathbb{E}[X]
+&=
+\sum_{n=1}^{\infty} n\, \mathbb{P}(X = n)
+\\[0.3cm]
+&=
+\frac{1}{\zeta(s)} \sum_{n=1}^{\infty} \frac{n}{n^{s}}
+=
+\frac{1}{\zeta(s)} \sum_{n=1}^{\infty} \frac{1}{n^{s-1}}.
+\end{align*}
+A última série é uma $p$-série com $p=s-1$, de modo que
+esta série é absolutamente converge se, e somente se, o expoente $p=s-1 > 1$, ou seja, $s > 2$. Concluímos que
+$\mathbb{E}[X]$ existe e é finito precisamente quando $s > 2$, caso em que
+\[
+\mathbb{E}[X] = \frac{\zeta(s-1)}{\zeta(s)}.
+\]
+Para $1 < s \leq 2$ a última série diverge e, portanto, $X$ não possui
+esperança bem definida no sentido da \Cref{def:esperanca}. Observamos,
+ainda, que o parâmetro $s$ não poderia ser tomado menor ou igual a $1$:
+nesses casos a própria função $\zeta(s)$ diverge e portanto a expressão
+$$\mathbb{P}(X = n) = \frac{1}{n^{s}\,\zeta(s)}$$ 
+nem sequer define uma distribuição de probabilidade.
+\end{example}
+
+
+\bigskip
+
+Uma observação muito importante é que se $X$ e $Y$ são variáveis aleatórias
+arbitrárias (que podem ser completamente distintas e definidas em espaços de probabilidade distintos também),
+com a mesma função de probabilidade, então suas esperanças coincidem, desde que existam. De fato,
+a existência de uma delas implica a existência da outra, e nesse caso
+$\mathbb{E}[X]=\mathbb{E}[Y]$. Esta observação enfatiza que a função de probabilidade
+determina completamente o valor médio de uma variável aleatória, independentemente de quaisquer outras
+particularidades da variável aleatória em questão.
+
+\bigskip 
+
+Uma analogia física para \emph{esperança} de uma variável aleatória $X$ é a ideia de
+\emph{centro de gravidade}. Se massas com pesos \(\pi_1, \pi_2, \ldots\) são colocadas nos
 pontos \(x_1, x_2, \ldots\) de \(\mathbb{R}\), então a posição do centro de
-gravidade é \(\sum \pi_i x_i / \sum \pi_i\), ou \(\sum x_i p_i\), onde
-\(p_i = \pi_i / \sum_j \pi_j\) é a proporção do peso total alocada à posição
-\(x_i\).
+gravidade é
+\[
+\frac{\sum_i \pi_i x_i}{\sum_i \pi_i} = \sum_i x_i p_i,
+\qquad
+p_i = \frac{\pi_i}{\sum_j \pi_j},
+\]
+desde que \(0<\sum_i\pi_i<\infty\) e que a série do numerador
+convirja absolutamente. Aqui, \(p_i\) é a proporção do peso total alocada à
+posição \(x_i\).
 
 Se \(X\) é uma variável aleatória discreta (em algum espaço de probabilidade)
 e \(g : \mathbb{R} \to \mathbb{R}\), então \(Y = g(X)\) também é uma variável
-aleatória discreta. De acordo com a definição acima, precisamos conhecer a
-função de probabilidade de \(Y\) antes de calcular sua esperança. O seguinte
-teorema fornece uma maneira útil de evitar esse cálculo tedioso.
+aleatória discreta. De acordo com a definição acima, só precisamos conhecer a
+função de probabilidade de \(Y\) para calcular sua esperança. O próximo
+teorema fornece uma maneira útil de evitar esse cálculo tedioso e muitas vezes inviável.
+Este resultado mostra também que valores médios mesmo de expressões muito complicadas envolvendo uma variável aleatória
+$X$ dependem essencialmente da função de probabilidade de $X$.   
 
-\begin{theorem}[Lei do estatístico subconsciente]\label{thm:lotus}
+\begin{theorem}[Teorema da Mudança de Variáveis]\label{thm:lotus}
 Se \(X\) é uma variável aleatória discreta e \(g : \mathbb{R} \to \mathbb{R}\),
 então
-\[
-\mathbb{E}(g(X)) = \sum_{x \in \operatorname{Im} X} g(x) \, \mathbb{P}(X = x),
-\]
+\begin{align}\label{eq-teo-mud-var}
+\mathbb{E}[g(X)] = \sum_{x \in \operatorname{Im} X} g(x) \, \mathbb{P}(X = x),
+\end{align}
 sempre que essa soma convergir absolutamente.
 \end{theorem}
 
-Intuitivamente, esse resultado é bastante claro, pois \(g(X)\) assume o valor
-\(g(x)\) quando \(X\) assume o valor \(x\), um evento com probabilidade
-\(\mathbb{P}(X = x)\). Uma prova mais formal é a seguinte.
-
 \begin{proof}
-Escrevendo \(I\) para a imagem de \(X\), temos que \(Y = g(X)\) tem imagem
-\(g(I)\). Assim,
+Para obter a igualdade acima, escreva
 \[
-\begin{aligned}
-\mathbb{E}(Y) &= \sum_{y \in g(I)} y \, \mathbb{P}(Y = y) \\
-&= \sum_{y \in g(I)} y \sum_{\substack{x \in I \\ g(x) = y}} \mathbb{P}(X = x)
-   \quad \text{pela equação \eqref{eq:funcao-massa-g}} \\
-&= \sum_{x \in I} g(x) \, \mathbb{P}(X = x)
-\end{aligned}
+I=\operatorname{Im}X, \qquad J=g(I), \qquad Y=g(X).
 \]
-se a última soma convergir absolutamente.
+Para cada \(y\in J\), considere o seguinte conjunto
+\[
+I_y=I\cap g^{-1}(\{y\}).
+\]
+Pelas propriedades elementares da imagem inversa podemos verificar que a coleção 
+de todos os conjuntos definidos acima formam uma partição de \(I\), ou seja, 
+\begin{align}\label{eq-aux1-teo-mud-var}
+I = \bigcup_{y\in J} I_y
+\end{align}
+e a união é formada por conjuntos dois-a-dois disjuntos.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Stealth, ponto/.style={circle, fill=black, inner sep=0pt, minimum size=1.2mm}]
+  % retas verticais representando os conjuntos
+  \draw[->, line width=0.5pt] (1.5,-0.3) -- (1.5,7.95);
+  \draw[->, line width=0.5pt] (7.5,-0.3) -- (7.5,7.95);
+
+  % pontos de Im X na reta da esquerda
+  \node[ponto, fill=blue!70!black] (p1) at (1.5,0.6) {};
+  \node[left] at (p1) {$x_1$};
+  \node[ponto, fill=red!75!black] (p2) at (1.5,2.3) {};
+  \node[left] at (p2) {$x_2$};
+  \node[ponto, fill=blue!70!black] (p3) at (1.5,4.0) {};
+  \node[left] at (p3) {$x_3$};
+  \node[ponto, fill=red!75!black] (p4) at (1.5,5.7) {};
+  \node[left] at (p4) {$x_4$};
+  \node[ponto, fill=blue!70!black] (p5) at (1.5,7.4) {};
+  \node[left] at (p5) {$x_5$};
+
+  % valores y1 e y2 na reta da direita
+  \node[ponto, fill=blue!70!black] (q1) at (7.5,3.4) {};
+  \node[below right=1mm] at (q1) {$y_1$};
+  \node[ponto, fill=red!75!black] (q2) at (7.5,4.6) {};
+  \node[above right=1mm] at (q2) {$y_2$};
+
+  % arcos das fibras g^{-1}(y1) e g^{-1}(y2)
+  \draw[->, blue!70!black, line width=0.5pt] (q1) to[bend right=14] (p1);
+  \draw[->, blue!70!black, line width=0.5pt] (q1) to[bend right=10] (p3);
+  \draw[->, blue!70!black, line width=0.5pt] (q1) to[bend right=16] (p5);
+  \draw[->, red!75!black, line width=0.9pt] (q2) to[bend right=14] (p2);
+  \draw[->, red!75!black, line width=0.9pt] (q2) to[bend right=10] (p4);
+
+  % rotulo Im X e as cinco setas
+  \node[anchor=east] at (-0.95,4.0) {$\operatorname{Im} X$};
+  \draw[->, gray!60, opacity=0.5, line width=0.5pt] (-0.78,4.55) -- ($(p5)+(-4.5mm,-4mm)$);
+  \draw[->, gray!60, opacity=0.5, line width=0.5pt] (-0.78,4.28) -- ($(p4)+(-6.5mm,-2.5mm)$);
+  \draw[->, gray!60, opacity=0.5, line width=0.5pt] (-0.78,4.00) -- ($(p3)+(-8.5mm,-0.2mm)$);
+  \draw[->, gray!60, opacity=0.5, line width=0.5pt] (-0.78,3.72) -- ($(p2)+(-6.5mm,3mm)$);
+  \draw[->, gray!60, opacity=0.5, line width=0.5pt] (-0.78,3.45) -- ($(p1)+(-5.5mm,4mm)$);
+
+  % rotulo g(Im X) e as duas setas
+  \node[anchor=west] at (9.92,4.15) {$g(\operatorname{Im} X)$};
+  \draw[->, gray!60, opacity=0.5, line width=0.5pt] (9.85,4.25) -- ($(q2)+(6.5mm,-1mm)$);
+  \draw[->, gray!60, opacity=0.5, line width=0.5pt] (9.85,3.95) -- ($(q1)+(6.5mm,1.5mm)$);
+\end{tikzpicture}
+\caption{Exemplos dos conjuntos \(I_{y_1}=\{x_1,x_3,x_5\}\) e
+\(I_{y_2}=\{x_2,x_4\}\).}
+\end{figure}
+
+
+Pela hipótese do teorema,
+\begin{align}\label{eq-aux-1-teo-mud-var}
+\sum_{x\in I}|g(x)|\,\mathbb{P}(X=x)<\infty.
+\end{align}
+Note que segue de \eqref{eq:funcao-massa-g} e da definição de $I_{y}$ que 
+\begin{align*}
+\mathbb{P}(Y=y) = \sum_{x \in \operatorname{Im} X \cap g^{-1}(y)} \mathbb{P}(X = x) \ \ = \ \  \sum_{x\in I_y}\mathbb{P}(X=x).
+\end{align*}
+Usando a identidade acima, $|g(x)|=|y|$, para todo $x\in I_{y}$,
+$I=\cup_{y\in J} I_{y}$ e \eqref{eq-aux-1-teo-mud-var} concluímos que a seguinte série é convergente
+\begin{align*}
+\sum_{y\in J}|y|\,\mathbb{P}(Y=y)
+&=\sum_{y\in J}|y|\sum_{x\in I_y}\mathbb{P}(X=x)\\[0.3cm]
+&=\sum_{y\in J}\sum_{x\in I_y} |y|\mathbb{P}(X=x)\\[0.3cm]
+&=\sum_{y\in J}\sum_{x\in I_y}|g(x)|\,\mathbb{P}(X=x)\\[0.3cm]
+&=\sum_{x\in I}|g(x)|\,\mathbb{P}(X=x)<\infty.
+\end{align*}
+
+Logo, \(Y=g(X)\) possui esperança bem definida. A convergência absoluta 
+estabelecida acima, permite agora reagrupar os termos da série que define a
+esperança de $Y$ e argumentar de maneira análoga a feita acima que 
+\begin{align*}
+\mathbb{E}[g(X)] = \mathbb{E}[Y]
+&=\sum_{y\in J}y\,\mathbb{P}(Y=y)\\[0.3cm]
+&=\sum_{y\in J}y\sum_{x\in I_y}\mathbb{P}(X=x)\\[0.3cm]
+&=\sum_{y\in J}\sum_{x\in I_y}g(x)\,\mathbb{P}(X=x)\\[0.3cm]
+&=\sum_{x\in I}g(x)\,\mathbb{P}(X=x).
+\end{align*}
+O que encerra a demonstração do teorema.
 \end{proof}
 
 Duas propriedades simples, mas úteis, da esperança são as seguintes.
 
 \begin{theorem}\label{thm:propriedades-esperanca}
-Seja \(X\) uma variável aleatória discreta e sejam \(a, b \in \mathbb{R}\).
+Seja \(X\) uma variável aleatória discreta com esperança bem definida e sejam
+\(a, b \in \mathbb{R}\).
 \begin{enumerate}[label=(\alph*)]
-\item Se \(\mathbb{P}(X \geq 0) = 1\) e \(\mathbb{E}(X) = 0\), então
+\item Se \(\mathbb{P}(X \geq 0) = 1\) e \(\mathbb{E}[X] = 0\), então
 \(\mathbb{P}(X = 0) = 1\).
-\item Temos que \(\mathbb{E}(aX + b) = a\,\mathbb{E}(X) + b\).
+\item Temos que \(\mathbb{E}[aX + b] = a\,\mathbb{E}[X] + b\).
 \end{enumerate}
 \end{theorem}
 
 \begin{proof}
 \begin{enumerate}[label=(\alph*)]
-\item Suponha que as hipóteses sejam satisfeitas. Como
-\(\mathbb{P}(X \geq 0) = 1\), todos os termos
-\(x\,\mathbb{P}(X = x)\), com \(x \in \operatorname{Im} X\), são não
-negativos. Pela definição \eqref{eq:esperanca} de \(\mathbb{E}(X)\), a soma
-desses termos é nula; logo, cada termo deve ser nulo. Portanto,
-\(\mathbb{P}(X = x) = 0\) para \(x \neq 0\), e a afirmação segue.
-\item Esta é uma consequência simples do \Cref{thm:lotus} aplicado a
-\(g(x) = ax + b\).
+\item Por hipótese temos 
+\(\mathbb{P}(X \geq 0) = 1\). E já que os eventos $\{X\geqslant 0\}$ e $\{X<0\}$ são eventos
+disjuntos concluímos que $\mathbb{P}(X<0)=0$. Desta forma para todo $x<0$
+temos $\{X=x\}\subseteq \{X<0\}$ e portanto segue da propriedade de monotonicidade da probabilidade
+que $\mathbb{P}(X=x)=0$, para todo $x<0$.
+Como estamos assumindo que existe esperança de $X$ e que $\mathbb{E}[X]=0$, então podemos usar a convergência
+absoluta da série que define a esperança e reorganizar suas parcelas como segue
+\begin{align*}
+\mathbb{E}[X] = \sum_{x \in \operatorname{Im} X} x\, \mathbb{P}(X=x) 
+= 
+\sum_{ \substack{ x \in \operatorname{Im} X \\ x\geqslant 0 }  }  x\, \mathbb{P}(X=x)  +
+\sum_{ \substack{ x \in \operatorname{Im} X \\ x< 0 }  }  x\, \mathbb{P}(X=x)  
+\end{align*}
+Como visto acima $\mathbb{P}(X=x)=0$, para todo $x<0$. Logo segue da última igualdade que
+\begin{align*}
+\mathbb{E}[X] = \sum_{x \in \operatorname{Im} X} x\, \mathbb{P}(X=x) 
+&= 
+\sum_{ \substack{ x \in \operatorname{Im} X \\ x\geqslant 0 }  }  x\, \mathbb{P}(X=x)
+\\[0.4cm]
+&=
+0\cdot \mathbb{P}(X=0)+ \sum_{ \substack{ x \in \operatorname{Im} X \\ x> 0 }  }  x\, \mathbb{P}(X=x)
+\\[0.4cm]
+&=
+\sum_{ \substack{ x \in \operatorname{Im} X \\ x> 0 }  }  x\, \mathbb{P}(X=x).
+\end{align*}
+
+Como estamos assumindo que $\mathbb{E}[X]=0$, segue da igualdade acima que 
+\begin{align*}
+0= \mathbb{E}[X] = \sum_{ \substack{ x \in \operatorname{Im} X \\ x> 0 }  }  x\, \mathbb{P}(X=x).
+\end{align*}
+
+Como cada parcela da série acima é não-negativa e o somatório inteiro é zero, então
+concluímos que todas as parcelas
+devem ser nulas. Portanto $\mathbb{P}(X=x)=0$, para todo $x>0$. Usando este fato e lembrando que 
+$\mathbb{P}(X=x)=0$, para todo $x<0$ e que 
+\begin{align*}
+\Omega 
+= 
+\{X=0\} 
+\cup \left( \bigcup_{\substack{ x \in \operatorname{Im} X \\ x> 0 } } \{X=x\} \right)
+\cup \left( \bigcup_{\substack{ x \in \operatorname{Im} X \\ x< 0 } } \{X=x\} \right)
+\end{align*}
+Concluímos do fato dos conjuntos acima serem dois-a-dois disjuntos e da $\sigma$-aditividade 
+da medida $\mathbb{P}$ que  
+\begin{align*}
+1=\mathbb{P}(\Omega)
+&= 
+\mathbb{P}(X=0)+
+\mathbb{P} \left( \bigcup_{\substack{ x \in \operatorname{Im} X \\ x> 0 } } \{X=x\} \right)
++
+\mathbb{P}\left( \bigcup_{\substack{ x \in \operatorname{Im} X \\ x< 0 } } \{X=x\} \right)
+\\[0.6cm]
+&=
+\mathbb{P}(X=0)+
+\sum_{\substack{ x \in \operatorname{Im} X \\ x> 0 } } \mathbb{P}(X=x)
++
+\sum_{\substack{ x \in \operatorname{Im} X \\ x< 0 } } \mathbb{P}(X=x)
+\\[0.6cm]
+&=
+\mathbb{P}(X=0).
+\end{align*}
+O que prova a afirmação. 
+
+\item A prova é uma aplicação direta do \Cref{thm:lotus}. De fato, considere a função
+\(g(x) = ax + b\). Então a variável aleatória $g(X)=aX+b$ e pelo \Cref{thm:lotus} temos
+\begin{align*}
+\mathbb{E}[aX+b] = \mathbb{E}[g(X)] 
+&= \sum_{ x\in \operatorname{Im} X} g(x)\, \mathbb{P}(X=x)
+\\[0.3cm]
+&= 
+\sum_{ x\in \operatorname{Im} X} (ax+b)\, \mathbb{P}(X=x)
+\\[0.3cm]
+&= 
+\sum_{ x\in \operatorname{Im} X} ax\, \mathbb{P}(X=x)
++ \sum_{ x\in \operatorname{Im} X} b\, \mathbb{P}(X=x)
+\\[0.3cm]
+&=
+a\sum_{ x\in \operatorname{Im} X} x\, \mathbb{P}(X=x)
++b \sum_{ x\in \operatorname{Im} X} \mathbb{P}(X=x)
+\\[0.3cm]
+&=
+a\mathbb{E}[X]+ b.
+\end{align*}
 \end{enumerate}
 \end{proof}
 
@@ -496,127 +769,341 @@ Vejamos um exemplo de aplicação do \Cref{thm:lotus}.
 
 \begin{example}\label{ex:poisson-exponencial}
 Suponha que \(X\) seja uma variável aleatória com distribuição de Poisson de
-parâmetro \(\lambda\), e desejamos encontrar o valor esperado de
+parâmetro \(\lambda\geqslant 0\), e desejamos encontrar o valor esperado de
 \(Y = e^X\). Sem o \Cref{thm:lotus}, teríamos que encontrar a função de
 probabilidade de \(Y\). Na verdade, isso não é difícil, mas é ainda mais fácil
-aplicar o teorema para obter
+aplicar o teorema. Primeiro, verificamos que a série do lado direito do teorema
+converge:
 \[
 \begin{aligned}
-\mathbb{E}(Y) &= \mathbb{E}(e^X) \\
-&= \sum_{k=0}^{\infty} e^k \, \mathbb{P}(X = k)
-= \sum_{k=0}^{\infty} e^k \, \frac{1}{k!} \, \lambda^k \, e^{-\lambda} \\
+\sum_{k=0}^{\infty} e^k \, \mathbb{P}(X = k)
+&= \sum_{k=0}^{\infty} e^k \, \frac{1}{k!} \, \lambda^k \, e^{-\lambda} \\
 &= e^{-\lambda} \sum_{k=0}^{\infty} \frac{1}{k!} \, (\lambda e)^k
 = e^{\lambda(e - 1)}.
 \end{aligned}
 \]
+Portanto, pelo \Cref{thm:lotus},
+\[
+\mathbb{E}[Y] = \mathbb{E}[e^X] = e^{\lambda(e-1)}.
+\]
 % fim do exemplo
 \end{example}
 
+O próximo exemplo ilustra uma situação em que o Teorema da Mudança de
+Variáveis permite calcular uma esperança sem determinar previamente a
+função de probabilidade da variável transformada.
+
+\begin{example}
+\label{ex:poisson-seno-esperanca}
+Suponha que seja $X$ seja uma variável aleatória com distribuição de Poisson de parâmetro
+\(\lambda\geqslant 0\), e defina
+\[
+Y = \left|\sin\left(\frac{\pi}{2} X\right)\right|.
+\]
+Como \(X\) assume apenas valores inteiros, então $Y$ assume apenas valores da forma 
+\[
+\left|\sin\left(\tfrac{1}{2}\pi k\right)\right|
+=
+\begin{cases}
+1, & \text{se } k \text{ é ímpar},\\
+0, & \text{se } k \text{ é par}.
+\end{cases}
+\]
+Assim, \(Y=\mathds{1}_{\{X\text{ é ímpar}\}}\). Pelo
+\Cref{thm:lotus},
+\begin{align*}
+\mathbb{E}[Y]
+&= \sum_{k=0}^{\infty}
+\left|\sin\left(\tfrac{1}{2}\pi k\right)\right|
+\mathbb{P}(X=k)\\[0.2cm]
+&= \mathbb{P}(X\text{ é ímpar})\\[0.2cm]
+&= e^{-\lambda}\sum_{j=0}^{\infty}
+\frac{\lambda^{2j+1}}{(2j+1)!}\\[0.2cm]
+&= e^{-\lambda}\sinh(\lambda)
+= \frac{1-e^{-2\lambda}}{2}.
+\end{align*}
+Portanto,
+\[
+\mathbb{E}\!\left[\left|\sin\left(\tfrac{1}{2}\pi X\right)\right|\right]
+= \frac{1-e^{-2\lambda}}{2}.
+\]
+\end{example}
+
+
+\begin{proposition}
+Sejam $X$ e $Y$ variáveis aleatórias definidas sobre um espaço de probabilidade $(\Omega,\mathcal{F},\mathbb{P})$.
+Assuma que ambas possuem esperança finita.
+\begin{enumerate}[label=(\alph*)]
+\item se $\mathbb{P}(X\geqslant 0)=1$, então $\mathbb{E}[X]\geqslant 0$;
+\item se $\mathbb{P}(X\leqslant Y)=1$, então $\mathbb{E}[X]\leqslant \mathbb{E}[Y]$. 
+\end{enumerate}
+
+\end{proposition}
+
+\begin{proof}
+Suponhamos que as esperanças envolvidas estejam bem definidas.
+\begin{enumerate}[label=(\alph*)]
+\item Como estamos assumindo que $\mathbb{P}(X\geqslant 0)=1$ e 
+como os eventos $\{X\geqslant 0\}$ e $\{X<0\}$ são disjuntos,
+podemos concluir que $\mathbb{P}(X<0)=0$. Desta forma, para todo $x<0$, como $\{X=x\}\subseteq \{X<0\}$,
+segue da monotonicidade da probabilidade que $\mathbb{P}(X=x)=0$. Usando a convergência absoluta
+da série que define a esperança para separar suas parcelas conforme o sinal de $x$, obtemos
+\begin{align*}
+\mathbb{E}[X]
+=
+\sum_{x \in \operatorname{Im} X} x\,\mathbb{P}(X=x)
+&=
+\sum_{\substack{x \in \operatorname{Im} X \\ x< 0}} x\,\mathbb{P}(X=x)
++
+\sum_{\substack{x \in \operatorname{Im} X \\ x\geqslant 0}} x\,\mathbb{P}(X=x)
+\\[0.4cm]
+&=
+\sum_{\substack{x \in \operatorname{Im} X \\ x\geqslant 0}} x\,\mathbb{P}(X=x),
+\end{align*}
+onde a primeira soma do lado direito da primeira igualdade é nula, pois todas as suas probabilidades
+são nulas. Como cada parcela da última soma é não-negativa, concluímos que $\mathbb{E}[X]\geqslant 0$.
+
+\item Escrevemos $\mathbb{P}(X=x,\ Y=y)$ como abreviação para
+$\mathbb{P}\bigl(\{X=x\}\cap\{Y=y\}\bigl)$, onde $x \in \operatorname{Im} X$ e
+$y \in \operatorname{Im} Y$. Os eventos $\{X=x\}\cap\{Y=y\}$ formam uma família dois a dois
+disjunta, indexada pelo conjunto enumerável $\operatorname{Im} X \times \operatorname{Im} Y$,
+cuja união é $\Omega$. Logo, da $\sigma$-aditividade de $\mathbb{P}$,
+\begin{align*}
+\mathbb{P}(Y=y) = \sum_{x \in \operatorname{Im} X} \mathbb{P}(X=x,\ Y=y)
+\qquad\text{e}\qquad
+\mathbb{P}(X=x) = \sum_{y \in \operatorname{Im} Y} \mathbb{P}(X=x,\ Y=y).
+\end{align*}
+Além disso,
+\[
+\sum_{\substack{x \in \operatorname{Im} X\\ y \in \operatorname{Im} Y}}
+|y|\,\mathbb{P}(X=x,\ Y=y)
+=
+\sum_{y \in \operatorname{Im} Y} |y|\,\mathbb{P}(Y=y)
+<
+\infty,
+\]
+de modo que podemos usar a convergência absoluta para reagrupar as parcelas das séries que definem
+$\mathbb{E}[X]$ e $\mathbb{E}[Y]$, obtendo
+\begin{align*}
+\mathbb{E}[Y]
+=
+\sum_{y \in \operatorname{Im} Y} y\,\mathbb{P}(Y=y)
+=
+\sum_{\substack{x \in \operatorname{Im} X\\ y \in \operatorname{Im} Y}}
+y\,\mathbb{P}(X=x,\ Y=y)
+\end{align*}
+e, analogamente,
+\begin{align*}
+\mathbb{E}[X]
+=
+\sum_{x \in \operatorname{Im} X} x\,\mathbb{P}(X=x)
+=
+\sum_{\substack{x \in \operatorname{Im} X\\ y \in \operatorname{Im} Y}}
+x\,\mathbb{P}(X=x,\ Y=y).
+\end{align*}
+Por hipótese, $\mathbb{P}(X\leqslant Y)=1$. Como
+\[
+\{X>Y\}=\bigcup_{\substack{x \in \operatorname{Im} X\\ y \in \operatorname{Im} Y\\ x>y}}
+\{X=x\}\cap\{Y=y\}
+\]
+é uma união enumerável de eventos dois a dois disjuntos com probabilidade nula, concluímos que
+$\mathbb{P}(X=x,\ Y=y)=0$, sempre que $x>y$. Portanto, subtraindo as duas últimas igualdades e
+descartando as parcelas de probabilidade nula,
+\begin{align*}
+\mathbb{E}[Y]-\mathbb{E}[X]
+&=
+\sum_{\substack{x \in \operatorname{Im} X\\ y \in \operatorname{Im} Y}}
+(y-x)\,\mathbb{P}(X=x,\ Y=y)
+\\[0.4cm]
+&=
+\sum_{\substack{x \in \operatorname{Im} X\\ y \in \operatorname{Im} Y\\ x\leqslant y}}
+(y-x)\,\mathbb{P}(X=x,\ Y=y)
+\ \geqslant\ 0,
+\end{align*}
+pois cada parcela da última soma é produto de dois fatores não negativos. Logo,
+$\mathbb{E}[X]\leqslant\mathbb{E}[Y]$.
+\end{enumerate}
+\end{proof}
+
+\begin{lemma}\label{lem:momento-quadrado-implica-modulo}
+Seja $X$ uma variável aleatória discreta tal que $\mathbb{E}[X^{2}]<+\infty$.
+Então $|X|$ possui esperança bem definida e
+\[
+\mathbb{E}\bigl[|X|\bigr] \leqslant 1+\mathbb{E}\bigl[X^{2}\bigr].
+\]
+\end{lemma}
+
+\begin{proof}
+Inicialmente, observamos que vale a desigualdade pontual
+\[
+|x| \leqslant 1+x^{2}, \qquad x \in \mathbb{R}.
+\]
+De fato, se $|x|\leqslant 1$, então $|x|\leqslant 1\leqslant 1+x^{2}$; já se $|x|>1$,
+então $|x|<x^{2}\leqslant 1+x^{2}$. Em particular, para todo $x \in \operatorname{Im} X$, temos
+\[
+|x|\,\mathbb{P}(X=x) \leqslant \left(1+x^{2}\right)\mathbb{P}(X=x).
+\]
+Somando as desigualdades acima sobre $x \in \operatorname{Im} X$, usando que
+$\sum_{x \in \operatorname{Im} X}\mathbb{P}(X=x)=1$ e o Teorema da Mudança de Variáveis 
+concluímos que
+\begin{align*}
+\sum_{x \in \operatorname{Im} X}|x|\,\mathbb{P}(X=x)
+&\leqslant
+\sum_{x \in \operatorname{Im} X}\left(1+x^{2}\right)\mathbb{P}(X=x)
+\\[0.4cm]
+&=
+\sum_{x \in \operatorname{Im} X}\mathbb{P}(X=x)
++
+\sum_{x \in \operatorname{Im} X}x^{2}\,\mathbb{P}(X=x)
+\\[0.4cm]
+&=
+1+\mathbb{E}\bigl[X^{2}\bigr]
+<
++\infty.
+\end{align*}
+Como todas as parcelas $|x|\,\mathbb{P}(X=x)$ são não-negativas segue do teste de comparação
+de séries não-negativas que a série do lado esquerdo da desigualdade acima é absolutamente convergente. 
+Portanto a série que define
+a esperança de $|X|$ é absolutamente convergente, isto é, $|X|$ possui esperança bem definida e
+\[
+\mathbb{E}\bigl[|X|\bigr]\leqslant 1+\mathbb{E}\bigl[X^{2}\bigr],
+\]
+o que conclui a demonstração.
+\end{proof}
+
+\begin{remark}
+Uma observação sobre a demonstração acima é pertinente. À primeira vista, seria tentador
+obter a estimativa diretamente do item (b) da Proposição anterior, afinal
+$\mathbb{P}\bigl(|X|\leqslant 1+X^{2}\bigr)=1$. Ocorre, porém, que o item (b) compara apenas
+esperanças já bem definidas, enquanto a existência de $\mathbb{E}[|X|]$ é precisamente o que
+queremos estabelecer. A estimação termo a termo feita acima contorna esse problema: ela
+estabelece a existência da esperança de $|X|$ e a estimativa simultaneamente.
+\end{remark}
+
+
 \bigskip
 
-A esperança \(\mathbb{E}(X)\) de uma variável aleatória discreta \(X\) é uma
-indicação do ``centro'' da distribuição de \(X\). Outra quantidade importante
-associada a \(X\) é a \emph{variância} de \(X\), que é uma medida do grau de
-dispersão de \(X\) em torno de sua esperança \(\mathbb{E}(X)\).
+A esperança \(\mathbb{E}[X]\) de uma variável aleatória discreta \(X\) pode ser
+pensada como uma noção mais vaga de ``centro'' de como estão distribuídos os valores de \(X\). 
+Outra quantidade importante associada a \(X\) é a \emph{variância} de \(X\), 
+que é uma medida do grau de dispersão de \(X\) em torno de sua esperança \(\mathbb{E}[X]\).
 
 \begin{definition}[Variância]\label{def:variancia}
-A \emph{variância} \(\operatorname{var}(X)\) de uma variável aleatória discreta
-\(X\) é definida por
+A \emph{variância} \(\operatorname{Var}(X)\) de uma variável aleatória discreta
+\(X\) tal que \(\mathbb{E}[X^2]<\infty\) é definida por
 \begin{equation}\label{eq:variancia-def}
-\operatorname{var}(X) = \mathbb{E}\left(\left[ X - \mathbb{E}(X) \right]^2\right).
+\operatorname{Var}(X) = \mathbb{E}\left[\left( X - \mathbb{E}[X] \right)^2\right].
 \end{equation}
 \end{definition}
 
 Observamos que, pelo \Cref{thm:lotus},
 \begin{equation}\label{eq:variancia-soma}
-\operatorname{var}(X) = \sum_{x \in \operatorname{Im} X} (x - \mu)^2 \, \mathbb{P}(X = x),
+\operatorname{Var}(X) = \sum_{x \in \operatorname{Im} X} (x - \mu)^2 \, \mathbb{P}(X = x),
 \end{equation}
-onde \(\mu = \mathbb{E}(X)\). Uma motivação aproximada para essa definição é a
+onde \(\mu = \mathbb{E}[X]\). Uma motivação aproximada para essa definição é a
 seguinte. Se a dispersão de \(X\) em torno de sua esperança é muito pequena,
-então \(|X - \mu|\) tende a ser pequeno, fazendo com que
-\(\operatorname{var}(X) = \mathbb{E}(|X - \mu|^2)\) também seja pequena; por
+então \(|X - \mu|\) é tipicamente pequeno, fazendo com que
+\(\operatorname{Var}(X) = \mathbb{E}[|X - \mu|^2]\) também seja pequena; por
 outro lado, se há frequentemente uma diferença considerável entre \(X\) e sua
 média, então \(|X - \mu|\) pode ser grande, fazendo com que
-\(\operatorname{var}(X)\) também seja grande.
+\(\operatorname{Var}(X)\) também seja grande.
 
 A equação \eqref{eq:variancia-soma} não é sempre a maneira mais conveniente de
 calcular a variância de uma variável aleatória discreta. Podemos expandir o
 termo \((x - \mu)^2\) em \eqref{eq:variancia-soma} para obter
 \[
 \begin{aligned}
-\operatorname{var}(X) &= \sum_{x} \left(x^2 - 2\mu x + \mu^2\right) \mathbb{P}(X = x) \\
-&= \sum_{x} x^2 \, \mathbb{P}(X = x)
-- 2\mu \sum_{x} x \, \mathbb{P}(X = x)
-+ \mu^2 \sum_{x} \mathbb{P}(X = x) \\
-&= \mathbb{E}(X^2) - 2\mu^2 + \mu^2
+\operatorname{Var}(X) &= \sum_{x\in\operatorname{Im}X} \left(x^2 - 2\mu x + \mu^2\right) \mathbb{P}(X = x) \\
+&= \sum_{x\in\operatorname{Im}X} x^2 \, \mathbb{P}(X = x)
+- 2\mu \sum_{x\in\operatorname{Im}X} x \, \mathbb{P}(X = x)
++ \mu^2 \sum_{x\in\operatorname{Im}X} \mathbb{P}(X = x) \\
+&= \mathbb{E}[X^2] - 2\mu^2 + \mu^2
    \quad \text{pela definição \eqref{eq:esperanca} e pelo fato de que}
-   \quad \sum_{x} \mathbb{P}(X = x) = 1 \\
-&= \mathbb{E}(X^2) - \mu^2,
+   \quad \sum_{x\in\operatorname{Im}X} \mathbb{P}(X = x) = 1 \\
+&= \mathbb{E}[X^2] - \mu^2,
 \end{aligned}
 \]
-onde \(\mu = \mathbb{E}(X)\) como antes. Assim, obtemos a fórmula útil
+onde \(\mu = \mathbb{E}[X]\) como antes. Assim, obtemos a fórmula útil
 \begin{equation}\label{eq:variancia-formula}
-\operatorname{var}(X) = \mathbb{E}(X^2) - \mathbb{E}(X)^2.
+\operatorname{Var}(X) = \mathbb{E}[X^2] - \mathbb{E}[X]^2.
 \end{equation}
 
 \begin{example}\label{ex:geometrica}
-Se \(X\) tem distribuição geométrica com parâmetro \(p\) (\(= 1 - q\)), a média
-de \(X\) é
+Se \(X\) tem distribuição geométrica, com suporte \(\{1,2,\ldots\}\), e parâmetro
+\(0<p\leqslant 1\), escreva \(q=1-p\). No caso degenerado \(p=1\), temos
+\(\mathbb{P}(X=1)\)=1. Para \(0<p<1\), o valor médio de \(X\) é dada por
 \[
 \begin{aligned}
-\mathbb{E}(X) &= \sum_{k=1}^{\infty} k \, p \, q^{k-1} \\
-&= \frac{p}{(1 - q)^2} = \frac{1}{p},
+\mathbb{E}[X] 
+= 
+\sum_{k=1}^{\infty} k \, p \, q^{k-1} 
+=
+p \sum_{k=1}^{\infty} k \, q^{k-1} 
+=
+\frac{p}{(1 - q)^2} = \frac{1}{p},
 \end{aligned}
 \]
-e a variância de \(X\) é
-\[
-\operatorname{var}(X) = \sum_{k=1}^{\infty} k^2 \, p \, q^{k-1} - \frac{1}{p^2}
-\]
-pela fórmula \eqref{eq:variancia-formula}. Agora,
+A fórmula obtida abaixo também vale no caso \(p=1\), fornecendo
+\(\mathbb{E}[X]=1/p=1\) e \(\operatorname{Var}(X)=q/p^2=0\).
+A variância de \(X\), pela fórmula \eqref{eq:variancia-formula}, é dada por
+\begin{align}\label{eq-aux1-variancia-geometrica}
+\operatorname{Var}(X) = \sum_{k=1}^{\infty} k^2 \, p \, q^{k-1} - \frac{1}{p^2}.
+\end{align}
+Observando que $k^2 = k(k-1)+k$ e colocando um fator de $q$ em evidência no primeiro somatório e
+depois usando a derivada da série geométrica\footnote{Para somar uma série como \(\sum_{k=1}^{\infty} k x^{k-1}\), basta
+observar que, se \(|x| < 1\), então
+\(\sum_{k=1}^{\infty} k x^{k-1} = \tfrac{d}{dx} \sum_{k=0}^{\infty} x^k\) e, portanto,
+\(\sum_{k=1}^{\infty} k x^{k-1} = \tfrac{d}{dx} (1-x)^{-1} = (1-x)^{-2}\).
+A propriedade relevante das séries de potências é que elas podem ser
+diferenciadas termo a termo dentro de seu intervalo de convergência;
+diferenciações repetidas de \((1-x)^{-1}\) fornecem fórmulas para
+\(\sum_{k=2}^{\infty} k(k-1) x^{k-2}\) e expressões análogas.}
+concluímos que
 \[
 \begin{aligned}
 \sum_{k=1}^{\infty} k^2 \, q^{k-1}
-&= q \sum_{k=1}^{\infty} k(k-1) \, q^{k-2} + \sum_{k=1}^{\infty} k \, q^{k-1} \\
-&= \frac{2q}{(1 - q)^3} + \frac{1}{(1 - q)^2},
+&= q \sum_{k=2}^{\infty} k(k-1) \, q^{k-2} + \sum_{k=1}^{\infty} k \, q^{k-1} \\
+&= \frac{2q}{(1 - q)^3} + \frac{1}{(1 - q)^2}.
 \end{aligned}
 \]
-usando a técnica de diferenciação de séries de potências
-\footnote{Para somar uma série como \(\sum_{k=0}^{\infty} k x^{k-1}\), basta
-observar que, se \(|x| < 1\), então
-\(\sum_k k x^{k-1} = \tfrac{d}{dx} \sum_k x^k\) e, portanto,
-\(\sum_{k=0}^{\infty} k x^{k-1} = \tfrac{d}{dx} (1-x)^{-1} = (1-x)^{-2}\).
-A propriedade relevante das séries de potências é que elas podem ser
-diferenciadas termo a termo dentro de seu círculo de convergência;
-diferenciações repetidas de \((1-x)^{-1}\) fornecem fórmulas para
-\(\sum_k k(k-1) x^{k-2}\) e expressões análogas.}, o que dá
+Substituindo a igualdade acima em \eqref{eq-aux1-variancia-geometrica} concluímos finalmente que 
 \[
 \begin{aligned}
-\operatorname{var}(X) &= p \left(\frac{2q}{p^3} + \frac{1}{p^2}\right) - \frac{1}{p^2} \\
-&= q \, p^{-2}.
+\operatorname{Var}(X) \ = \ p \left(\frac{2q}{p^3} + \frac{1}{p^2}\right) - \frac{1}{p^2} \ = \ q \, p^{-2}.
 \end{aligned}
 \]
 % fim do exemplo
 \end{example}
 
 \begin{exercise}\label{exercise:binomial-variancia}
-Se \(X\) tem distribuição binomial com parâmetros \(n\) e \(p = 1 - q\), mostre
+Se \(X\) tem distribuição binomial com parâmetros \(n\in\mathbb{N}\) e
+\(0\leqslant p\leqslant 1\), escreva \(q=1-p\) e mostre
 que
 \[
-\mathbb{E}(X) = np, \qquad \mathbb{E}(X^2) = npq + n^2 p^2,
+\mathbb{E}[X] = np, \qquad \mathbb{E}[X^2] = npq + n^2 p^2,
 \]
 e deduza a variância de \(X\).
 \end{exercise}
 
 \begin{exercise}\label{exercise:var-afim}
-Mostre que \(\operatorname{var}(aX + b) = a^2 \operatorname{var}(X)\) para
+Supondo que \(X\) tenha variância finita, mostre que
+\(\operatorname{Var}(aX + b) = a^2 \operatorname{Var}(X)\) para
 \(a, b \in \mathbb{R}\).
 \end{exercise}
 
 \begin{exercise}\label{exercise:poisson-variancia}
-Encontre \(\mathbb{E}(X)\) e \(\mathbb{E}(X^2)\) quando \(X\) tem distribuição
-de Poisson com parâmetro \(\lambda\), e mostre que a distribuição de Poisson
+Encontre \(\mathbb{E}[X]\) e \(\mathbb{E}[X^2]\) quando \(X\) tem distribuição
+de Poisson com parâmetro \(\lambda\geqslant 0\), e mostre que a distribuição de Poisson
 tem variância igual à sua média.
 \end{exercise}
+
+
+\begin{exercise}\label{exercise:variancia-zero}
+Seja $X$ uma variável aleatória discreta cuja variância está bem-definida e igual a zero.
+Mostre que existe alguma constante $c\in\mathbb{R}$ tal que 
+$\mathbb{P}(X=c)=1$.
+\end{exercise}
+
 
 %----------------------------------------------------------------------
 % BIBLIOGRAFIA
