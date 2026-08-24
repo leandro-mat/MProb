@@ -197,20 +197,20 @@ pdfkeywords={esperança, valor esperado, média, variância, lei do estatístico
 
 % --- RESUMO (ABSTRACT) ---
 \begin{abstract}
-Nestas abordamos dois temas centrais da teoria das variáveis aleatórias
+Nestas notas abordamos dois temas centrais da teoria das variáveis aleatórias
 discretas: as funções de variáveis aleatórias e a esperança. Mostramos como a
 função de probabilidade de \(Y = g(X)\) pode ser determinada a partir da função
 de probabilidade de \(X\) e apresentamos também alguns exemplos concretos 
 de como este cálculo pode ser feito. Em seguida, definimos a esperança de uma variável
 aleatória discreta, discutimos sua interpretação como valor médio, média ponderada e como centro
-de gravidade, e demonstramos o Teorema da Fórmula da Mudança de Variáveis, que permite
+de gravidade, e demonstramos o Teorema da Mudança de Variáveis, que permite
 calcular \(\mathbb{E}[g(X)]\) diretamente. 
 Introduzimos também a variância como medida de dispersão em torno do valor médio de $X$ 
 e mostramos a validade da seguinte identidade 
 \(\operatorname{Var}(X) = \mathbb{E}[X^2] - \mathbb{E}[X]^2\). 
 O texto inclui exemplos envolvendo as
-distribuições de Poisson e geométrica e exercícios que complementam a
-exposição. A exposição segue de perto as Seções 2.3 e 2.4 do Capítulo 2 
+distribuições de Poisson e geométrica e vários exercícios que complementam a
+apresentação do material. A exposição segue de perto as Seções 2.3 e 2.4 do Capítulo 2
 da referência \cite{GrimmettWelsh2014}.
 \end{abstract}
 
@@ -333,7 +333,7 @@ de função de probabilidade de $Y$ e da $\sigma$-aditividade de $\mathbb{P}$ qu
 \begin{equation*}
 \begin{aligned}
 p_Y(y) = \mathbb{P}(Y = y) 
-&= \mathbb{P}(g(X) = y) \\[0.3cm]
+= \mathbb{P}(g(X) = y)
 &= \mathbb{P}(X \in g^{-1}(y)) \\[0.3cm]
 &= \sum_{x\in \operatorname{Im} X\cap g^{-1}(y)} \mathbb{P}(X = x).
 \end{aligned}
@@ -488,9 +488,7 @@ Então a esperança da variável aleatória $X=\mathds{1}_{E}$ é dada por
 Observe que a variável aleatória do \Cref{exemplo-esp-indicadora} é a indicadora do evento $E$.
 Esta variável aleatória é também uma variável aleatória
 de Bernoulli de parâmetro $p=\mathbb{P}(E)$, ou seja, 
-$\mathds{1}_{E}\sim \mathrm{Bernoulli}(p)$
-
-
+$\mathds{1}_{E}\sim \mathrm{Bernoulli}(p)$.
 
 \begin{example}\label{ex-esperanca-zeta}
 Seja $X$ uma variável aleatória com distribuição zeta de parâmetro $s>1$,
@@ -512,7 +510,7 @@ de $X$ é dada por
 \frac{1}{\zeta(s)} \sum_{n=1}^{\infty} \frac{1}{n^{s-1}}.
 \end{align*}
 A última série é uma $p$-série com $p=s-1$, de modo que
-esta série é absolutamente converge se, e somente se, o expoente $p=s-1 > 1$, ou seja, $s > 2$. Concluímos que
+esta série é absolutamente convergente se, e somente se, o expoente $p=s-1 > 1$, ou seja, $s > 2$. Concluímos que
 $\mathbb{E}[X]$ existe e é finito precisamente quando $s > 2$, caso em que
 \[
 \mathbb{E}[X] = \frac{\zeta(s-1)}{\zeta(s)}.
@@ -524,7 +522,6 @@ nesses casos a própria função $\zeta(s)$ diverge e portanto a expressão
 $$\mathbb{P}(X = n) = \frac{1}{n^{s}\,\zeta(s)}$$ 
 nem sequer define uma distribuição de probabilidade.
 \end{example}
-
 
 \bigskip
 
@@ -568,6 +565,9 @@ então
 sempre que essa soma convergir absolutamente.
 \end{theorem}
 
+Este resultado é também conhecido como \emph{lei do estatístico subconsciente}
+(do inglês \emph{law of the unconscious statistician}).
+
 \begin{proof}
 Para obter a igualdade acima, escreva
 \[
@@ -579,7 +579,7 @@ I_y=I\cap g^{-1}(\{y\}).
 \]
 Pelas propriedades elementares da imagem inversa podemos verificar que a coleção 
 de todos os conjuntos definidos acima formam uma partição de \(I\), ou seja, 
-\begin{align}\label{eq-aux1-teo-mud-var}
+\begin{align}\label{eq:particao-lotus}
 I = \bigcup_{y\in J} I_y
 \end{align}
 e a união é formada por conjuntos dois-a-dois disjuntos.
@@ -635,7 +635,7 @@ e a união é formada por conjuntos dois-a-dois disjuntos.
 
 
 Pela hipótese do teorema,
-\begin{align}\label{eq-aux-1-teo-mud-var}
+\begin{align}\label{eq:convergencia-absoluta-lotus}
 \sum_{x\in I}|g(x)|\,\mathbb{P}(X=x)<\infty.
 \end{align}
 Note que segue de \eqref{eq:funcao-massa-g} e da definição de $I_{y}$ que 
@@ -643,7 +643,7 @@ Note que segue de \eqref{eq:funcao-massa-g} e da definição de $I_{y}$ que
 \mathbb{P}(Y=y) = \sum_{x \in \operatorname{Im} X \cap g^{-1}(y)} \mathbb{P}(X = x) \ \ = \ \  \sum_{x\in I_y}\mathbb{P}(X=x).
 \end{align*}
 Usando a identidade acima, $|g(x)|=|y|$, para todo $x\in I_{y}$,
-$I=\cup_{y\in J} I_{y}$ e \eqref{eq-aux-1-teo-mud-var} concluímos que a seguinte série é convergente
+$I=\cup_{y\in J} I_{y}$ e \eqref{eq:convergencia-absoluta-lotus} concluímos que a seguinte série é convergente
 \begin{align*}
 \sum_{y\in J}|y|\,\mathbb{P}(Y=y)
 &=\sum_{y\in J}|y|\sum_{x\in I_y}\mathbb{P}(X=x)\\[0.3cm]
@@ -795,7 +795,7 @@ função de probabilidade da variável transformada.
 
 \begin{example}
 \label{ex:poisson-seno-esperanca}
-Suponha que seja $X$ seja uma variável aleatória com distribuição de Poisson de parâmetro
+Suponha que $X$ seja uma variável aleatória com distribuição de Poisson de parâmetro
 \(\lambda\geqslant 0\), e defina
 \[
 Y = \left|\sin\left(\frac{\pi}{2} X\right)\right|.
@@ -864,7 +864,7 @@ onde a primeira soma do lado direito da primeira igualdade é nula, pois todas a
 são nulas. Como cada parcela da última soma é não-negativa, concluímos que $\mathbb{E}[X]\geqslant 0$.
 
 \item Escrevemos $\mathbb{P}(X=x,\ Y=y)$ como abreviação para
-$\mathbb{P}\bigl(\{X=x\}\cap\{Y=y\}\bigl)$, onde $x \in \operatorname{Im} X$ e
+$\mathbb{P}\bigl(\{X=x\}\cap\{Y=y\}\bigr)$, onde $x \in \operatorname{Im} X$ e
 $y \in \operatorname{Im} Y$. Os eventos $\{X=x\}\cap\{Y=y\}$ formam uma família dois a dois
 disjunta, indexada pelo conjunto enumerável $\operatorname{Im} X \times \operatorname{Im} Y$,
 cuja união é $\Omega$. Logo, da $\sigma$-aditividade de $\mathbb{P}$,
@@ -1056,10 +1056,96 @@ onde \(\mu = \mathbb{E}[X]\) como antes. Assim, obtemos a fórmula útil
 \operatorname{Var}(X) = \mathbb{E}[X^2] - \mathbb{E}[X]^2.
 \end{equation}
 
+\begin{example}\label{ex:dado-variancia}
+Considere novamente o dado honesto da introdução e seja $X$ o número obtido
+em um lançamento. Como $X$ assume cada um dos valores $1, \ldots, 6$ com
+probabilidade $1/6$, temos
+\[
+\mathbb{E}[X^2] = \frac{1}{6}\bigl(1^2 + 2^2 + \cdots + 6^2\bigr) = \frac{91}{6},
+\]
+e segue da fórmula \eqref{eq:variancia-formula} que
+\[
+\operatorname{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2
+= \frac{91}{6} - \left(\frac{7}{2}\right)^2
+= \frac{182 - 147}{12}
+= \frac{35}{12}
+\approx 2{,}92.
+\]
+A raiz quadrada da variância é chamada de \emph{desvio padrão} de $X$ e
+denotada por $\sigma_X$. No caso de um dado honesto,
+\[
+\sigma_X = \sqrt{\frac{35}{12}} \approx 1{,}71,
+\]
+que se interpreta como a escala típica das flutuações de $X$ em torno de sua
+média $7/2$.
+\end{example}
+
+\begin{remark}
+A variância, e não o desvio padrão, constitui-se em uma medida de dispersão ``aditiva'',
+no seguinte sentido. Para variáveis aleatórias independentes com
+variâncias finitas, vamos mostrar que é válida a seguinte identidade
+\[
+\operatorname{Var}(X+Y) = \operatorname{Var}(X) + \operatorname{Var}(Y).
+\]
+A definição formal de variáveis aleatórias independentes será apresentada em
+aula posterior; aqui, basta a ideia intuitiva de que conhecer o valor de uma
+das variáveis não altera as probabilidades da outra. Por exemplo, se $X$ e $Y$
+são os resultados de dois lançamentos do dado honesto da introdução, o
+\Cref{ex:dado-variancia} dá
+\[
+\operatorname{Var}(X+Y) = \frac{35}{12} + \frac{35}{12} = \frac{35}{6}.
+\]
+Os desvios padrões, porém, \emph{não} se somam: na mesma situação,
+\[
+\sigma_{X+Y} = \sqrt{\frac{35}{6}} \approx 2{,}42
+\quad\text{enquanto}\quad
+\sigma_X + \sigma_Y = 2\sqrt{\frac{35}{12}} \approx 3{,}42,
+\]
+pois, para $a, b \geqslant 0$, $\sqrt{a^2+b^2} \leqslant a+b$, com igualdade
+apenas quando $a=0$ ou $b=0$. Este é um erro comum: para medir a dispersão de
+uma soma o correto é somar as \emph{variâncias}, e não desvios padrões. O desvio padrão
+permanece útil por sua interpretação, já que possui a mesma unidade de medida
+de $X$.
+\end{remark}
+
+\begin{example}\label{ex:zeta3-variancia-infinita}
+A hipótese $\mathbb{E}[X^2] < \infty$ da \Cref{def:variancia} não é
+automática: ela é estritamente mais forte do que a existência de
+$\mathbb{E}[X]$. De fato, retomando a distribuição zeta do
+\Cref{ex-esperanca-zeta}, se $X \sim \mathrm{Zeta}(3)$, então
+\[
+\mathbb{E}[X] = \frac{\zeta(2)}{\zeta(3)} < \infty.
+\]
+Porém
+\[
+\mathbb{E}[X^2]
+= \frac{1}{\zeta(3)} \sum_{n=1}^{\infty} \frac{n^2}{n^3}
+= \frac{1}{\zeta(3)} \sum_{n=1}^{\infty} \frac{1}{n}
+= +\infty,
+\]
+uma vez que a última série é a série harmônica. Logo,
+$\operatorname{Var}(X)$ não está definida para $X \sim \mathrm{Zeta}(3)$,
+apesar de $\mathbb{E}[X]$ existir e ser finito. Em particular, o
+\Cref{lem:momento-quadrado-implica-modulo} não pode ser revertido:
+$\mathbb{E}\bigl[|X|\bigr] < \infty$ não implica
+$\mathbb{E}\bigl[X^2\bigr] < \infty$.
+\end{example}
+
 \begin{example}\label{ex:geometrica}
 Se \(X\) tem distribuição geométrica, com suporte \(\{1,2,\ldots\}\), e parâmetro
 \(0<p\leqslant 1\), escreva \(q=1-p\). No caso degenerado \(p=1\), temos
-\(\mathbb{P}(X=1)\)=1. Para \(0<p<1\), o valor médio de \(X\) é dada por
+\(\mathbb{P}(X=1)=1\). Para calcular a esperança e a variância de $X$, precisaremos
+de duas identidades obtidas por derivação sucessiva da fórmula da soma de uma série geométrica
+\[
+\sum_{k=0}^{\infty} x^k = \frac{1}{1-x},\qquad \forall x\in (-1,1)
+\]
+Estas identidades são:
+\[
+\sum_{k=1}^{\infty} k x^{k-1} = \frac{1}{(1-x)^2},
+\qquad
+\sum_{k=2}^{\infty} k(k-1) x^{k-2} = \frac{2}{(1-x)^3}.
+\]
+Para \(0<p<1\), o valor médio de \(X\) é dado por
 \[
 \begin{aligned}
 \mathbb{E}[X] 
@@ -1078,14 +1164,7 @@ A variância de \(X\), pela fórmula \eqref{eq:variancia-formula}, é dada por
 \operatorname{Var}(X) = \sum_{k=1}^{\infty} k^2 \, p \, q^{k-1} - \frac{1}{p^2}.
 \end{align}
 Observando que $k^2 = k(k-1)+k$ e colocando um fator de $q$ em evidência no primeiro somatório e
-depois usando a derivada da série geométrica\footnote{Para somar uma série como \(\sum_{k=1}^{\infty} k x^{k-1}\), basta
-observar que, se \(|x| < 1\), então
-\(\sum_{k=1}^{\infty} k x^{k-1} = \tfrac{d}{dx} \sum_{k=0}^{\infty} x^k\) e, portanto,
-\(\sum_{k=1}^{\infty} k x^{k-1} = \tfrac{d}{dx} (1-x)^{-1} = (1-x)^{-2}\).
-A propriedade relevante das séries de potências é que elas podem ser
-diferenciadas termo a termo dentro de seu intervalo de convergência;
-diferenciações repetidas de \((1-x)^{-1}\) fornecem fórmulas para
-\(\sum_{k=2}^{\infty} k(k-1) x^{k-2}\) e expressões análogas.}
+depois usando as identidades acima,
 concluímos que
 \[
 \begin{aligned}
