@@ -873,15 +873,42 @@ cuja união é $\Omega$. Logo, da $\sigma$-aditividade de $\mathbb{P}$,
 \qquad\text{e}\qquad
 \mathbb{P}(X=x) = \sum_{y \in \operatorname{Im} Y} \mathbb{P}(X=x,\ Y=y).
 \end{align*}
+De fato, vamos provar a primeira das igualdades acima já que em ambos os casos
+os argumentos são completamente análogos
+\begin{align*}
+\sum_{x \in \operatorname{Im} X} \mathbb{P}(X=x,\ Y=y)
+&=
+\mathbb{P}\left( \bigcup_{x \in \operatorname{Im} X} \{X=x\}\cap \{Y=y\} \right)
+\\[0.3cm]
+&=
+\mathbb{P}\left( \Omega\cap \{Y=y\} \right)
+\\[0.3cm]
+&=
+\mathbb{P}(Y=y).
+\end{align*}
+
+
 Além disso,
-\[
+\begin{align*}
 \sum_{\substack{x \in \operatorname{Im} X\\ y \in \operatorname{Im} Y}}
 |y|\,\mathbb{P}(X=x,\ Y=y)
-=
+&=
+\sum_{y \in \operatorname{Im} Y}
+\sum_{x \in \operatorname{Im} X} |y|\,\mathbb{P}(X=x,\ Y=y)
+\\[0.3cm]
+&=
+\sum_{y \in \operatorname{Im} Y}|y|\,
+\sum_{x \in \operatorname{Im} X} \mathbb{P}(X=x,\ Y=y)
+\\[0.3cm]
+&=
+\sum_{y \in \operatorname{Im} Y}|y|\,
+\mathbb{P}\left( \bigcup_{x \in \operatorname{Im} X } \{X=x\}\cap \{Y=y\} \right)
+\\[0.3cm]
+&=
 \sum_{y \in \operatorname{Im} Y} |y|\,\mathbb{P}(Y=y)
 <
 \infty,
-\]
+\end{align*}
 de modo que podemos usar a convergência absoluta para reagrupar as parcelas das séries que definem
 $\mathbb{E}[X]$ e $\mathbb{E}[Y]$, obtendo
 \begin{align*}
@@ -922,6 +949,7 @@ descartando as parcelas de probabilidade nula,
 \end{align*}
 pois cada parcela da última soma é produto de dois fatores não negativos. Logo,
 $\mathbb{E}[X]\leqslant\mathbb{E}[Y]$.
+\qedhere
 \end{enumerate}
 \end{proof}
 
@@ -1069,7 +1097,8 @@ concluímos que
 Substituindo a igualdade acima em \eqref{eq-aux1-variancia-geometrica} concluímos finalmente que 
 \[
 \begin{aligned}
-\operatorname{Var}(X) \ = \ p \left(\frac{2q}{p^3} + \frac{1}{p^2}\right) - \frac{1}{p^2} \ = \ q \, p^{-2}.
+\operatorname{Var}(X) \ = \ p \left(\frac{2q}{p^3} + \frac{1}{p^2}\right) - \frac{1}{p^2} \ 
+= \ \frac{q}{p^{2}}.
 \end{aligned}
 \]
 % fim do exemplo
