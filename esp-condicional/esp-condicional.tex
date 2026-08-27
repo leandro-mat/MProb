@@ -622,22 +622,24 @@ eventos simplifica drasticamente um cálculo que, feito diretamente, seria
 bem mais trabalhoso.
 
 \begin{example}[Repetições Sucessivas]\label{ex:corrida-inicial}
-Uma moeda é lançada repetidamente. Suponha que em cada lançamento, a face cara aparece
-com probabilidade \(p\), onde \(0 < p < 1\). Determine o
-comprimento esperado do números de repetições sucessivas da mesma face, 
-isto é, se o resultado do primeiro lançamento é cara 
-contamos o número de caras que aparecem até que uma coroa é sorteada. 
-Similarmente, se o primeiro resultado é coroa contamos o número de coroas
-até que uma cara seja sorteada.
+Uma moeda é lançada repetidamente, com lançamentos independentes. Suponha
+que, em cada lançamento, a probabilidade de sair cara seja \(p\), e escreva
+\(q = 1-p\) para a probabilidade de sair coroa, com \(0 < p,q < 1\).
+Determine o número esperado de lançamentos consecutivos que apresentam a
+mesma face do primeiro lançamento, contando o próprio primeiro lançamento.
 
 \begin{solution}
-Seja \(H\) o evento de o primeiro lançamento resultar em cara e \(H^c\) o
-evento complementar. O par \(\{H, H^c\}\) forma uma partição do espaço
-amostral, e ambos os eventos têm probabilidade positiva. Seja \(X\) a
-variável aleatória que conta o número de repetições sucessivas de
-uma determinada face. Se \(H\) ocorre, então \(X = k\) se, e
-somente se, o primeiro lançamento é seguido de exatamente \(k - 1\) caras e
-depois de uma coroa, de modo que
+Seja \(H\) o evento em que o primeiro lançamento resulta em cara e \(H^c\)
+o evento em que resulta em coroa. O par \(\{H, H^c\}\) forma uma partição
+do espaço amostral, com \(\mathbb{P}(H)=p\) e
+\(\mathbb{P}(H^c)=q\). Seja \(X\) o número de lançamentos consecutivos
+que apresentam a mesma face do primeiro lançamento, contando o primeiro.
+Como \(0<p,q<1\), a probabilidade de a face oposta nunca aparecer é nula;
+portanto, \(X\) é finito quase certamente.
+
+Se \(H\) ocorre, então \(X = k\) se, e somente se, os \(k-1\) lançamentos
+seguintes resultam em cara e o lançamento seguinte resulta em coroa. Pela
+independência dos lançamentos,
 \begin{align}\label{eq-aux1-ex-corrida}
 \mathbb{P}(X = k \mid H) = p^{k-1} q \quad \text{para } k = 1, 2, \ldots
 \end{align}
@@ -646,38 +648,58 @@ e, por simetria,
 \mathbb{P}(X = k \mid H^c) = q^{k-1} p \quad \text{para } k = 1, 2, \ldots
 \end{align}
 
-Antes de prosseguir, observamos que calculando a derivada da fórmula da soma de uma progressão
-geométrica obtemos 
+Recordemos a identidade
 \[
-\frac{d}{d x} \left( \frac{1}{1-x} \right) = \frac{d}{d x} \left( \sum_{k=0}^{\infty} x^k \right)
-=
-\sum_{k=0}^{\infty} \frac{d}{d x} x^k 
-\qquad \Longrightarrow \qquad 
-\frac{1}{(1-x)^2} = \sum_{k=1}^{\infty} k x^{k-1} , \qquad |x| < 1,
+\sum_{k=1}^{\infty} k r^{k-1} = \frac{1}{(1-r)^2},
+\qquad \lvert r\rvert<1.
+\]
+obtida derivando a fórmula da soma de uma série geométrica. Como
+\(0<p,q<1\), ela pode ser aplicada tanto a \(r=p\) quanto a \(r=q\).
+
+Com a ajuda desta identidade e de \eqref{eq-aux1-ex-corrida}, calculamos
+\[
+\begin{aligned}
+\mathbb{E}[X\mid H]
+&= \sum_{k=1}^{\infty} k\,\mathbb{P}(X=k\mid H) \\
+&= \sum_{k=1}^{\infty} k\,p^{k-1}q
+ = q\sum_{k=1}^{\infty} k\,p^{k-1}
+ = \frac{q}{(1-p)^2}
+ = \frac{1}{q}.
+\end{aligned}
+\]
+De maneira análoga,
+\[
+\mathbb{E}[X\mid H^c] = \frac{1}{p}.
 \]
 
-Com ajuda desta última identidade e usando a igualdade \eqref{eq-aux1-ex-corrida} 
-podemos calcular explicitamente 
-a seguinte esperança condicional
+Antes de aplicar o Teorema da Partição, verificamos sua hipótese de
+integrabilidade. Como \(X\geqslant 0\), temos
 \[
-\mathbb{E}[X \mid H]
-\ = \
-\sum_{k=1}^{\infty} k\, \mathbb{P}(X=k|H)
-\ = \ \sum_{k=1}^{\infty} k \, p^{k-1} q
-\ = \ q \sum_{k=1}^{\infty} k \, p^{k-1}
-\ = \ \frac{q}{(1-p)^2}
-\ = \ \frac{1}{q}.
+\begin{aligned}
+\mathbb{P}(X=k)
+&= \mathbb{P}\bigl(\{X=k\}\cap H\bigr)
+ + \mathbb{P}\bigl(\{X=k\}\cap H^c\bigr) \\
+&= \mathbb{P}(X=k\mid H)\mathbb{P}(H)
+ + \mathbb{P}(X=k\mid H^c)\mathbb{P}(H^c) \\
+&= p^kq+q^kp
+ = pq\bigl(p^{k-1}+q^{k-1}\bigr).
+\end{aligned}
 \]
-De maneira análoga, concluímos que 
+Logo,
 \[
-\mathbb{E}[X \mid H^c] = \frac{1}{p}.
+\mathbb{E}[|X|]
+ = \sum_{k=1}^{\infty} k\,\mathbb{P}(X=k)
+ = pq\sum_{k=1}^{\infty} k\bigl(p^{k-1}+q^{k-1}\bigr)
+ <\infty,
 \]
-Pelo Teorema da Partição, \Cref{thm:particao-para-esperanca},
+pela identidade acima.
+
+Pelo Teorema da Partição (\Cref{thm:particao-para-esperanca}),
 \[
 \begin{aligned}
 \mathbb{E}[X]
-&= \mathbb{E}[X \mid H] \, \mathbb{P}(H)
- + \mathbb{E}[X \mid H^c] \, \mathbb{P}(H^c) \\
+&= \mathbb{E}[X\mid H] \, \mathbb{P}(H)
+ + \mathbb{E}[X\mid H^c] \, \mathbb{P}(H^c) \\
 &= \frac{1}{q} \, p + \frac{1}{p} \, q \\
 &= \frac{p^2 + q^2}{pq}
 = \frac{(p + q)^2 - 2pq}{pq}
@@ -688,11 +710,12 @@ Pelo Teorema da Partição, \Cref{thm:particao-para-esperanca},
 \end{example}
 
 \begin{remark}\label{rem:corrida-inicial-moeda-honesta}
-No caso particular de uma moeda honesta, \(p = q = 1/2\), a fórmula acima
+No caso particular de uma moeda honesta, \(p = q = \tfrac12\), a fórmula acima
 fornece \(\mathbb{E}[X] = 1/(1/4) - 2 = 2\). O valor de \(\mathbb{E}[X]\)
-é mínimo em \(p = 1/2\): quando a moeda é viciada, uma das faces é mais
-provável e o número de repetições sucessivas tendem a ser mais longos. Por exemplo, se
-\(p = q = 1/2\), obtemos 2, enquanto para \(p = 0{,}9\) obtemos
+é mínimo em \(p = \tfrac12\): quando a moeda é viciada, uma das faces é mais
+provável e as sequências iniciais de resultados iguais tendem a ser mais
+longas. Por exemplo, se \(p = q = \tfrac12\), obtemos 2, enquanto para
+\(p = 0{,}9\) obtemos
 \(\mathbb{E}[X] = 1/(0{,}09) - 2 \approx 9{,}11\).
 \end{remark}
 
