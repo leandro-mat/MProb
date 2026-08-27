@@ -1,0 +1,740 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazilian]{babel}     % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{fontawesome5}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores (do Teorema Ergódico)
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black},
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Esperança Condicional e o Teorema da Partição},
+pdfauthor={L. Cioletti},
+pdfsubject={Esperança condicional, teorema da partição, esperança total, corrida inicial},
+pdfkeywords={esperança condicional, teorema da partição, esperança total, corrida inicial, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheorem{exercise}{Exercício}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\AtBeginDocument{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+\vspace{0.5cm}
+
+% --- TÍTULO, AUTOR E DATA ---
+\begin{center}
+\begin{minipage}{1.1\textwidth}
+{\LARGE\bf A Esperança Condicional e o Teorema da Partição}
+\end{minipage}
+\\
+\vspace{1cm}
+{\large \bf L. Cioletti}
+
+\vspace{0.3cm}
+{\footnotesize Agosto de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Nestas notas estudamos a noção de esperança condicional de uma variável
+aleatória discreta dado um evento de probabilidade positiva. A observação da
+ocorrência de um evento condicionante altera a função de probabilidade da
+variável, e a esperança condicional é definida como o valor médio calculado
+com respeito a essa distribuição atualizada. Em seguida demonstramos o
+Teorema da Partição (também chamado de Lei da Esperança Total), que expressa
+a esperança de uma variável aleatória como uma combinação convexa de suas
+esperanças condicionais, ponderadas pelas probabilidades dos eventos de uma
+partição do espaço amostral. Ilustramos o teorema com um exemplo clássico de
+lançamentos repetidos de uma moeda, no qual calculamos o comprimento esperado
+da corrida inicial, e propomos exercícios que complementam a apresentação,
+incluindo uma nova demonstração da fórmula da esperança de uma função de uma
+variável aleatória. A exposição segue de perto a Seção 2.5 do Capítulo 2 da
+referência \cite{GrimmettWelsh2014}.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\space
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+\section{A Esperança Condicional}
+\label{sec:esperanca-condicional}
+
+Seja \(X\) uma variável aleatória discreta definida sobre um espaço de
+probabilidade \((\Omega, \mathcal{F}, \mathbb{P})\) e seja \(B \in \mathcal{F}\)
+um evento com \(\mathbb{P}(B) > 0\). Suponha que somos informados da ocorrência
+de um evento \(B\). Então podemos usar esta informação 
+para alterar a distribuição de probabilidade de uma variável aleatória
+\(X\) de interesse. 
+A ideia é similar a empregada no caso da probabilidade condicional. 
+A função de probabilidade \(\mathbb{P}(X = x)\) descreve a incerteza
+sobre o valor de $X$ antes de qualquer informação. 
+Dada a ocorrência de um evento $B$ de probabilidade positiva,
+podemos atribuir aos valores $X$ a seguinte nova função de probabilidade
+\[
+\mathbb{P}(X = x \mid B)
+= \frac{\mathbb{P}\bigl(\{X = x\} \cap B\bigr)}{\mathbb{P}(B)}.
+\]
+
+Para verificar que a função 
+\[
+x \longmapsto \mathbb{P}(X = x \mid B), \qquad x \in \operatorname{Im} X,
+\]
+é realmente uma função de probabilidade podemos argumentar da seguinte forma. 
+
+Primeiro observamos que para cada $x\in \operatorname{Im} X$, temos 
+que $0\leqslant \mathbb{P}(X=x|B)\leqslant 1$ já que 
+\begin{align*}
+\{X=x\}\cap B \subset B 
+\quad \Longrightarrow \quad 
+\mathbb{P}(\{X=x\}\cap B)\leqslant \mathbb{P}(B)
+\quad \Longrightarrow \quad 
+\frac{ \mathbb{P}(\{X=x\} \cap B) }{\mathbb{P}(B)} \leqslant 1
+\end{align*}
+Como a família 
+\[ 
+\bigl(\{X = x\}\bigr)_{x \in \operatorname{Im} X}
+\] 
+define uma partição enumerável do espaço amostral \(\Omega\), 
+segue da \(\sigma\)-aditividade da medida de probabilidade
+\(\mathbb{P}(\,\cdot\mid B)\) que
+\[
+\sum_{x \in \operatorname{Im} X} \mathbb{P}(X = x \mid B)
+= \mathbb{P}(\Omega \mid B) = 1.
+\]
+
+
+A função 
+\[
+x\longmapsto \mathbb{P}(X=x|B)
+\]
+é chamada de \emph{função de probabilidade condicional de \(X\) dado
+\(B\)}. Como esta função determina completamente a distribuição da variável
+aleatória sob a informação de que \(B\) ocorreu, o mesmo princípio que motiva a definição de
+esperança nos diz que o valor médio de \(X\) sob essa informação deve ser
+calculado somando os valores de \(X\) ponderados por essas probabilidades
+condicionais. Isso motiva a definição abaixo.
+
+\begin{definition}[Esperança Condicional]\label{def:esperanca-condicional}
+Se \(X\) é uma variável aleatória discreta e \(\mathbb{P}(B) > 0\), a
+\emph{esperança condicional de \(X\) dado \(B\)}, denotada por
+\(\mathbb{E}[X \mid B]\), é definida por
+\begin{equation}\label{eq:esperanca-condicional}
+\mathbb{E}[X \mid B]
+= \sum_{x \in \operatorname{Im} X} x \, \mathbb{P}(X = x \mid B),
+\end{equation}
+sempre que essa soma convergir absolutamente, isto é, sempre que
+\[
+\sum_{x \in \operatorname{Im} X} |x| \, \mathbb{P}(X = x \mid B) < \infty.
+\]
+\end{definition}
+
+\begin{remark}\label{rem:esperanca-condicional-existencia}
+A exigência de convergência absoluta em \eqref{eq:esperanca-condicional}
+é feita exatamente pelos mesmo motivos que precisamos desta condição 
+na definição da esperança de uma variável aleatória $X$ discreta. 
+Se $X$ pode assumir uma quantidade infinita de valores, cada um com probabilidade positiva,
+sem a exigência da convergência absoluta um simples reordenamento dos termos da série
+que define a esperança poderia alterar o valor para o qual a série converge. 
+
+É muito importante observar também que, por enquanto, só definimos
+\(\mathbb{E}[X \mid B]\) quando \(\mathbb{P}(B) > 0\), pois
+só conhecemos o conceito de probabilidade condicional \(\mathbb{P}(\,\cdot \mid B)\) 
+quando o evento $B$ no qual estamos condicionando tem probabilidade positiva.
+\end{remark}
+
+\begin{remark}\label{rem:esperanca-condicional-para-toda-massa}
+Assim como na definição de esperança de uma variável aleatória, 
+a soma que aparece em \eqref{eq:esperanca-condicional}
+pode estar bem-definida mesmo que existam pontos \(x \in \operatorname{Im} X\)
+satisfazendo  \(\mathbb{P}(X = x \mid B) = 0\). 
+Neste caso tais valores não contribuem para
+a soma e poderiam ser simplesmente omitidos. A formulação sobre toda a imagem,
+\(\operatorname{Im} X\), é feita apenas por questão de conveniência e de uniformidade da
+notação.
+\end{remark}
+
+\begin{example}\label{ex:esperanca-condicional-dado}
+Um dado honesto é lançado uma única vez e \(X\) denota o resultado do
+lançamento, de modo que \(X\) assume cada um dos valores
+\(1, 2, \ldots, 6\) com probabilidade \(1/6\). Considere o evento
+\(B = \{X \text{ é par}\}\), que tem probabilidade \(\mathbb{P}(B) = 1/2\).
+Sob a informação de que \(B\) ocorreu, a função de probabilidade condicional
+de \(X\) dado \(B\) atribui probabilidade \(1/3\) a cada um dos valores
+\(2, 4, 6\) e probabilidade nula aos demais. Portanto,
+\[
+\mathbb{E}[X \mid B]
+= 2 \cdot \frac{1}{3} + 4 \cdot \frac{1}{3} + 6 \cdot \frac{1}{3}
+= 4,
+\]
+enquanto a esperança incondicional é \(\mathbb{E}[X] = 7/2\). A informação
+de que o resultado é par eleva o valor médio de \(3{,}5\) para \(4\), um
+exemplo concreto de como o condicionamento altera a distribuição e, com ela,
+o valor esperado.
+\end{example}
+
+\begin{proposition}[Existência da Esperança Condicional]\label{prop:existencia-esperanca-condicional}
+Se \(X\) é uma variável aleatória discreta com esperança bem definida, isto
+é, \(\mathbb{E}\bigl[|X|\bigr] < \infty\), então para todo \(B \in \mathcal{F}\)
+com \(\mathbb{P}(B) > 0\) temos que a série que define \(\mathbb{E}[X \mid B]\)
+em \eqref{eq:esperanca-condicional} converge absolutamente, ou seja,
+\[
+\mathbb{E}\bigl[|X| \bigm| B\bigr]
+= \sum_{x \in \operatorname{Im} X} |x| \, \mathbb{P}(X = x \mid B)
+\leqslant \frac{\mathbb{E}\bigl[|X|\bigr]}{\mathbb{P}(B)} < \infty,
+\]
+e, portanto, a esperança condicional \(\mathbb{E}[X \mid B]\) está bem
+definida.
+\end{proposition}
+
+\begin{proof}
+Seja \(B \in \mathcal{F}\) um evento arbitrário com \(\mathbb{P}(B) > 0\).
+Para cada \(x \in \operatorname{Im} X\), temos que
+\(\{X = x\} \cap B \subset \{X = x\}\) e, consequentemente, pela
+monotonicidade da medida de probabilidade \(\mathbb{P}\),
+\[
+|x| \, \mathbb{P}\bigl(\{X = x\} \cap B\bigr) \leqslant |x| \, \mathbb{P}(X = x).
+\]
+Como todas as quantidades envolvidas são não negativas, podemos somar essa
+desigualdade sobre todos os \(x \in \operatorname{Im} X\). Usando a definição
+da função de probabilidade condicional, obtemos
+\[
+\begin{aligned}
+\sum_{x \in \operatorname{Im} X} |x| \, \mathbb{P}(X = x \mid B)
+&=
+\sum_{x \in \operatorname{Im} X}
+|x| \, \frac{\mathbb{P}\bigl(\{X = x\} \cap B\bigr)}{\mathbb{P}(B)}
+\\[0.3cm]
+&=
+\frac{1}{\mathbb{P}(B)}
+\sum_{x \in \operatorname{Im} X}
+|x| \, \mathbb{P}\bigl(\{X = x\} \cap B\bigr)
+\\[0.3cm]
+&\leqslant
+\frac{1}{\mathbb{P}(B)}
+\sum_{x \in \operatorname{Im} X}
+|x| \, \mathbb{P}(X = x)
+\\[0.3cm]
+&=
+\frac{\mathbb{E}\bigl[|X|\bigr]}{\mathbb{P}(B)}
+< \infty,
+\end{aligned}
+\]
+onde na última igualdade utilizamos a hipótese de que
+\(\mathbb{E}\bigl[|X|\bigr] < \infty\).
+Isso mostra que a série
+\(\sum_{x \in \operatorname{Im} X} x \, \mathbb{P}(X = x \mid B)\)
+converge absolutamente e, pela \Cref{def:esperanca-condicional}, que
+\(\mathbb{E}[X \mid B]\) está bem definida para todo evento \(B\) de
+probabilidade positiva.
+\end{proof}
+
+
+\section{O Teorema da Partição}
+\label{sec:teorema-da-particao}
+
+Assim como o Teorema da Partição (ou da Probabilidade Total), apresentado
+anteriormente, expressa probabilidades em termos de probabilidades condicionais, as esperanças podem
+ser expressas em termos de esperanças condicionais. Esse é o conteúdo do
+resultado abaixo, conhecido também como \emph{Lei da Esperança Total}.
+
+\begin{theorem}[Teorema da Partição]\label{thm:particao-para-esperanca}
+Se \(X\) é uma variável aleatória discreta com esperança bem definida, isto
+é, \(\mathbb{E}\bigl[|X|\bigr] < \infty\), e \(\{B_1, B_2, \ldots\}\) é uma
+partição do espaço amostral \(\Omega\) tal que \(\mathbb{P}(B_i) > 0\) para
+todo \(i\in \mathbb{N}\), então
+\begin{equation}\label{eq:particao}
+\mathbb{E}[X]
+= \sum_{i\in \mathbb{N}} \mathbb{E}[X \mid B_i] \, \mathbb{P}(B_i),
+\end{equation}
+onde a série do lado direito converge absolutamente.
+\end{theorem}
+
+\begin{proof}
+Pela \Cref{prop:existencia-esperanca-condicional}, para cada $i\in\mathbb{N}$ fixado, 
+ambas esperanças condicionais 
+\[ \mathbb{E}\bigl[X \mid B_i\bigr] \qquad \text{e}\qquad \mathbb{E}\bigl[|X| \bigm| B_i\bigr] \]
+estão bem-definidas, 
+pois \(\mathbb{E}\bigl[|X|\bigr] < \infty\)
+e \(\mathbb{P}(B_i) > 0\).
+
+
+Desta forma para cada \(i\in\mathbb{N}\) fixado, 
+temos da definição de esperança condicional
+\eqref{eq:esperanca-condicional} que
+valem as seguintes igualdades
+\begin{align}\label{eq-aux1-teo-part-esp}
+\mathbb{E}\bigl[|X| \bigm| B_i\bigr] \, \mathbb{P}(B_i)
+&= 
+\left( \sum_{x \in \operatorname{Im} X}
+|x| \, \mathbb{P}(X = x \mid B_i) 
+\right)
+\mathbb{P}(B_i)
+\nonumber\\[0.3cm]
+&=
+\left( \sum_{x \in \operatorname{Im} X}
+|x| \, \frac{\mathbb{P}(\{X = x\}\cap B_i)}{\mathbb{P}(B_i)}
+\right)
+\mathbb{P}(B_i)
+\nonumber\\[0.3cm]
+&=
+\sum_{x \in \operatorname{Im} X}
+|x| \, \mathbb{P}(\{X = x\}\cap B_i).
+\end{align}
+
+Pela desigualdade triangular 
+\[ \left| \sum_{n=1}^{\infty} a_n \right| \leqslant \sum_{n=1}^{\infty}|a_n| \]
+e 
+pelo Teorema da Mudança de Variáveis temos  
+\begin{align*}
+\bigl|\mathbb{E}[X \mid B_i]\bigr| 
+=
+\left| \sum_{x\in \operatorname{Im} X} x\, \mathbb{P}(X=x|B_i) \right|
+\leqslant
+\sum_{x\in \operatorname{Im} X} |x|\, \mathbb{P}(X=x|B_i)
+= \mathbb{E}\bigl[|X| \bigm| B_i\bigr],
+\end{align*}
+
+Multiplicando ambos lados da desigualdade acima por \(\mathbb{P}(B_i)\) e somando sobre todos os
+índices \(i\in\mathbb{N}\), obtemos
+\begin{align}\label{eq-aux2-teo-part-esp}
+\sum_{i\in\mathbb{N}} \bigl|\mathbb{E}[X \mid B_i]\bigr| \, \mathbb{P}(B_i)
+\leqslant
+\sum_{i\in\mathbb{N}} \mathbb{E}\bigl[|X| \bigm| B_i\bigr] \, \mathbb{P}(B_i).
+\end{align}
+
+Somando sobre todos os índices $i\in\mathbb{N}$ a identidade \eqref{eq-aux1-teo-part-esp} 
+na expressão que aparece no lado direito da desigualdade acima
+ficamos com 
+\begin{align}\label{eq-aux3-teo-part-esp}
+\sum_{i\in\mathbb{N}} \mathbb{E}\bigl[|X| \bigm| B_i\bigr] \, \mathbb{P}(B_i)
+= \sum_{i\in\mathbb{N}} \sum_{x \in \operatorname{Im} X}
+|x| \, \mathbb{P}\bigl(\{X = x\} \cap B_i\bigr).
+\end{align}
+
+Note que para cada \(x\) fixado, os eventos
+\(\bigl(\{X = x\} \cap B_i\bigr)_{i \geqslant 1}\) são dois a dois disjuntos
+e, como \(\{B_1, B_2, \ldots\}\) é uma partição de \(\Omega\) 
+temos: 
+\begin{align*}
+\bigcup_{i\in\mathbb{N}} \bigl(\{X = x\} \cap B_i\bigr)  = \{X = x\} \cap \bigcup_{i\in\mathbb{N}} B_i
+=
+\{X = x\} \cap \Omega
+=
+\{X=x\}.
+\end{align*}
+Pela identidade acima, \(\sigma\)-aditividade de \(\mathbb{P}\)
+e pelo fato de podermos reordenar de qualquer maneira séries de termos não-negativos, obtemos
+\begin{align} \label{eq-aux4-teo-part-esp}
+\sum_{i\in\mathbb{N}} \sum_{x \in \operatorname{Im} X}
+|x| \, \mathbb{P}\bigl(\{X = x\} \cap B_i\bigr)
+&=
+\sum_{x \in \operatorname{Im} X} \sum_{i\in\mathbb{N}} 
+|x| \, \mathbb{P}\bigl(\{X = x\} \cap B_i\bigr)
+\nonumber\\[0.3cm]
+&=
+\sum_{x \in \operatorname{Im} X} |x| \, \mathbb{P}\left( 
+\bigcup_{i\in\mathbb{N}} \bigl(\{X = x\} \cap B_i\bigr) \right) 
+\nonumber\\[0.3cm]
+&= \sum_{x \in \operatorname{Im} X} |x| \, \mathbb{P}(X = x)
+\nonumber\\[0.3cm]
+&= \mathbb{E}\bigl[|X|\bigr] < \infty
+\end{align}
+
+Usando agora a desigualdade \eqref{eq-aux2-teo-part-esp} e as igualdades 
+\eqref{eq-aux3-teo-part-esp} e \eqref{eq-aux4-teo-part-esp}
+concluímos que  
+\begin{align*}
+\sum_{i\in\mathbb{N}} \bigl|\mathbb{E}[X \mid B_i]\bigr| \, \mathbb{P}(B_i)
+\leqslant 
+\sum_{i\in\mathbb{N}} \sum_{x \in \operatorname{Im} X}
+|x| \, \mathbb{P}\bigl(\{X = x\} \cap B_i\bigr)
+\leqslant 
+\mathbb{E}\bigl[|X|\bigr] < \infty.
+\end{align*}
+Em particular, podemos afimar que a série que aparece 
+no lado esquerdo da desigualdade acima converge
+absolutamente.  Deste fato podemos concluir que a troca de ordem
+das duas somas que aparecem abaixo é legítima
+\[
+\begin{aligned}
+\sum_{i\in\mathbb{N}} \mathbb{E}[X \mid B_i] \, \mathbb{P}(B_i)
+&= \sum_{i\in\mathbb{N}} \sum_{x \in \operatorname{Im} X}
+x \, \mathbb{P}\bigl(\{X = x\} \cap B_i\bigr) \\
+&= \sum_{x \in \operatorname{Im} X} x
+\sum_{i\in\mathbb{N}} \mathbb{P}\bigl(\{X = x\} \cap B_i\bigr) \\
+&= \sum_{x \in \operatorname{Im} X} x \, \mathbb{P}(X = x) \\
+&= \mathbb{E}[X],
+\end{aligned}
+\]
+onde a penúltima igualdade segue novamente da \(\sigma\)-aditividade de
+\(\mathbb{P}\) e a última é a definição de esperança de $X$. 
+Isso encerra a prova do teorema.
+\end{proof}
+
+\begin{remark}\label{rem:particao-hipotese}
+A hipótese \(\mathbb{E}\bigl[|X|\bigr] < \infty\) é precisamente a condição
+para que a esperança de \(X\) esteja bem definida, como exigido nas notas
+sobre a esperança de variáveis aleatórias discretas. Ela também garante que
+cada \(\mathbb{E}[X \mid B_i]\) está bem definido, pois
+\[
+\mathbb{E}\bigl[|X| \bigm| B_i\bigr]
+= \frac{1}{\mathbb{P}(B_i)}
+\sum_{x \in \operatorname{Im} X} |x|
+\, \mathbb{P}\bigl(\{X = x\} \cap B_i\bigr)
+\leqslant \frac{\mathbb{E}\bigl[|X|\bigr]}{\mathbb{P}(B_i)} < \infty,
+\]
+e que a série do lado direito de \eqref{eq:particao} converge
+absolutamente, como mostramos na prova. Essa hipótese não pode ser
+dispensada: se \(\mathbb{E}\bigl[|X|\bigr] = \infty\), a série do lado
+direito de \eqref{eq:particao} pode convergir absolutamente mesmo quando
+\(\mathbb{E}[X]\) não está definida.
+\end{remark}
+
+\begin{remark}\label{rem:particao-interpretacao}
+O Teorema da Partição afirma que a esperança de \(X\) pode ser decomposta
+como uma \emph{combinação convexa} das esperanças condicionais
+\(\mathbb{E}[X \mid B_i]\), com pesos \(\mathbb{P}(B_i)\), que somam \(1\).
+Em particular, o valor de \(\mathbb{E}[X]\) está sempre entre o menor e o
+maior dos \(\mathbb{E}[X \mid B_i]\). Essa é a contraparte, para esperanças,
+do princípio de que a probabilidade de um evento é a média ponderada das
+probabilidades condicionais, e ela justifica o nome alternativo de \emph{Lei
+da Esperança Total}.
+\end{remark}
+
+\begin{remark}\label{rem:particao-esperanca-degenerada}
+Um caso particular importante é a partição de \(\Omega\) pelos eventos
+\(\{X = x\}\), com \(x \in \operatorname{Im} X\) e \(\mathbb{P}(X = x) > 0\).
+Estritamente, essa família cobre \(\Omega\) a menos do evento
+\(\bigcup_{x: \mathbb{P}(X = x) = 0} \{X = x\}\), que tem probabilidade nula
+por ser uma união enumerável de eventos de probabilidade nula; podemos,
+portanto, aplicar o Teorema da Partição, \Cref{thm:particao-para-esperanca},
+sem nenhuma consequência prática. Dado que \(X = x\), a variável \(X\) é
+\emph{determinística} no valor \(x\), de modo que
+\(\mathbb{E}[X \mid X = x] = x\) (veremos uma versão geral desse fato no
+\Cref{exercise:funcao-dada-condicao}). Substituindo no Teorema da Partição,
+recuperamos a própria definição de esperança:
+\[
+\mathbb{E}[X] = \sum_{x} x \, \mathbb{P}(X = x),
+\]
+pois \(\mathbb{P}(X = x) = 0\) para os termos omitidos. O teorema contém,
+portanto, a definição de esperança como um caso particular.
+\end{remark}
+
+\section{Exemplo: o comprimento esperado da corrida inicial}
+\label{sec:corrida-inicial}
+
+Encerramos esta parte do material com um exemplo clássico de aplicação do
+Teorema da Partição, no qual o condicionamento em uma partição de dois
+eventos simplifica drasticamente um cálculo que, feito diretamente, seria
+bem mais trabalhoso.
+
+\begin{example}[Corrida Inicial]\label{ex:corrida-inicial}
+Uma moeda é lançada repetidamente e, em cada lançamento, a face cara aparece
+com probabilidade \(p\), onde \(0 < p = 1 - q < 1\). Determine o
+comprimento esperado da \emph{corrida inicial}, isto é, da sequência de
+resultados idênticos que abre a sequência infinita de lançamentos: uma
+corrida de caras se o primeiro lançamento der cara, e uma corrida de coroas
+caso contrário.
+
+\begin{solution}
+Seja \(H\) o evento de o primeiro lançamento resultar em cara e \(H^c\) o
+evento complementar. O par \(\{H, H^c\}\) forma uma partição do espaço
+amostral, e ambos os eventos têm probabilidade positiva. Seja \(X\) o
+comprimento da corrida inicial. Se \(H\) ocorre, então \(X = k\) se, e
+somente se, o primeiro lançamento é seguido de exatamente \(k - 1\) caras e
+depois de uma coroa, de modo que
+\[
+\mathbb{P}(X = k \mid H) = p^{k-1} q \quad \text{para } k = 1, 2, \ldots
+\]
+e, por simetria,
+\[
+\mathbb{P}(X = k \mid H^c) = q^{k-1} p \quad \text{para } k = 1, 2, \ldots
+\]
+Usando a identidade
+\[
+\sum_{k=1}^{\infty} k x^{k-1} = \frac{1}{(1-x)^2}, \qquad |x| < 1,
+\]
+temos
+\[
+\mathbb{E}[X \mid H]
+= \sum_{k=1}^{\infty} k \, p^{k-1} q
+= q \sum_{k=1}^{\infty} k \, p^{k-1}
+= \frac{q}{(1-p)^2}
+= \frac{1}{q},
+\]
+e, analogamente,
+\[
+\mathbb{E}[X \mid H^c] = \frac{1}{p}.
+\]
+Pelo Teorema da Partição, \Cref{thm:particao-para-esperanca},
+\[
+\begin{aligned}
+\mathbb{E}[X]
+&= \mathbb{E}[X \mid H] \, \mathbb{P}(H)
+ + \mathbb{E}[X \mid H^c] \, \mathbb{P}(H^c) \\
+&= \frac{1}{q} \, p + \frac{1}{p} \, q \\
+&= \frac{p^2 + q^2}{pq}
+= \frac{(p + q)^2 - 2pq}{pq}
+= \frac{1}{pq} - 2.
+\end{aligned}
+\]
+\end{solution}
+\end{example}
+
+\begin{remark}\label{rem:corrida-inicial-moeda-honesta}
+No caso particular de uma moeda honesta, \(p = q = 1/2\), a fórmula acima
+fornece \(\mathbb{E}[X] = 1/(1/4) - 2 = 2\). O valor de \(\mathbb{E}[X]\)
+é mínimo em \(p = 1/2\): quando a moeda é viciada, uma das faces é mais
+provável e as corridas tendem a ser mais longas. Por exemplo, se
+\(p = q = 1/2\), obtemos 2, enquanto para \(p = 0{,}9\) obtemos
+\(\mathbb{E}[X] = 1/(0{,}09) - 2 \approx 9{,}11\).
+\end{remark}
+
+\section{Exercícios}
+\label{sec:exercicios}
+
+\begin{exercise}\label{exercise:funcao-dada-condicao}
+Seja \(X\) uma variável aleatória discreta e seja \(g : \mathbb{R} \to
+\mathbb{R}\) uma função arbitrária. Se \(x\) é um número real tal que
+\(\mathbb{P}(X = x) > 0\), mostre formalmente que
+\[
+\mathbb{E}[g(X) \mid X = x] = g(x),
+\]
+e deduza do Teorema da Partição, \Cref{thm:particao-para-esperanca}, que
+\[
+\mathbb{E}[g(X)] = \sum_x g(x) \, \mathbb{P}(X = x).
+\]
+\begin{solution}
+O evento condicionante \(\{X = x\}\) tem probabilidade positiva por
+hipótese, e a função de probabilidade condicional de \(X\) dado
+\(\{X = x\}\) é degenerada: \(\mathbb{P}(X = y \mid X = x) = 1\) se
+\(y = x\), e \(0\) caso contrário. Portanto,
+\[
+\mathbb{E}[g(X) \mid X = x]
+= \sum_{y \in \operatorname{Im} X} g(y) \, \mathbb{P}(X = y \mid X = x)
+= g(x).
+\]
+Aplicando o Teorema da Partição, \Cref{thm:particao-para-esperanca}, à
+família dos eventos \(\{X = x\}\) com \(\mathbb{P}(X = x) > 0\) (que cobre
+\(\Omega\) a menos de um evento de probabilidade nula), obtemos
+\[
+\mathbb{E}[g(X)]
+= \sum_x \mathbb{E}[g(X) \mid X = x] \, \mathbb{P}(X = x)
+= \sum_x g(x) \, \mathbb{P}(X = x),
+\]
+o que encerra a demonstração. Essa é uma demonstração alternativa do
+Teorema da Mudança de Variáveis, apresentado nas notas sobre a esperança de
+variáveis aleatórias discretas.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{exercise:primeira-cara}
+Seja \(N\) o número de lançamentos de uma moeda honesta até o aparecimento
+da primeira cara, incluindo o lançamento em que ela aparece. Condicionando
+no resultado do primeiro lançamento, mostre que \(\mathbb{E}[N] = 2\).
+\end{exercise}
+
+\begin{exercise}\label{exercise:dado-particao}
+Retome o \Cref{ex:esperanca-condicional-dado}, com \(X\) o resultado do
+lançamento de um dado honesto. Considere a partição de \(\Omega\) pelos
+eventos \(B_1 = \{X \text{ é par}\}\) e \(B_2 = \{X \text{ é ímpar}\}\).
+Calcule \(\mathbb{E}[X \mid B_2]\) e verifique diretamente que
+\[
+\mathbb{E}[X] = \mathbb{E}[X \mid B_1] \, \mathbb{P}(B_1)
++ \mathbb{E}[X \mid B_2] \, \mathbb{P}(B_2),
+\]
+como garante o Teorema da Partição.
+\end{exercise}
+
+\begin{exercise}\label{exercise:soma-de-probabilidades}
+Seja \(X\) uma variável aleatória discreta com \(\mathbb{P}(X = x) > 0\)
+para todo \(x \in \operatorname{Im} X\), e sejam \(g : \mathbb{R} \to
+\mathbb{R}\) e \(h : \mathbb{R} \to \mathbb{R}\) funções arbitrárias.
+Usando apenas a definição de esperança condicional, mostre que, para todo
+evento \(B\) com \(\mathbb{P}(B) > 0\),
+\[
+\mathbb{E}[g(X) + h(X) \mid B]
+= \mathbb{E}[g(X) \mid B] + \mathbb{E}[h(X) \mid B],
+\]
+sempre que as três esperanças condicionais estiverem bem-definidas.
+\end{exercise}
+
+%----------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}
