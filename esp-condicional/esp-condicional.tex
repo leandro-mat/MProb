@@ -207,8 +207,8 @@ Teorema da Partição (também chamado de Lei da Esperança Total), que expressa
 a esperança de uma variável aleatória como uma combinação convexa de suas
 esperanças condicionais, ponderadas pelas probabilidades dos eventos de uma
 partição do espaço amostral. Ilustramos o teorema com um exemplo clássico de
-lançamentos repetidos de uma moeda, no qual calculamos o comprimento esperado
-do número de repetições sucessivas do mesmo resultado, 
+lançamentos repetidos de uma moeda, no qual calculamos o valor esperado
+do número de repetições sucessivas do mesmo resultado,
 e propomos exercícios que complementam a apresentação,
 incluindo uma nova demonstração da fórmula da esperança de uma função de uma
 variável aleatória. A exposição segue de perto a Seção 2.5 do Capítulo 2 da
@@ -239,11 +239,11 @@ um evento com \(\mathbb{P}(B) > 0\). Suponha que somos informados da ocorrência
 de um evento \(B\). Então podemos usar esta informação 
 para alterar a distribuição de probabilidade de uma variável aleatória
 \(X\) de interesse. 
-A ideia é similar a empregada no caso da probabilidade condicional. 
+A ideia é similar à empregada no caso da probabilidade condicional. 
 A função de probabilidade \(\mathbb{P}(X = x)\) descreve a incerteza
 sobre o valor de $X$ antes de qualquer informação. 
 Dada a ocorrência de um evento $B$ de probabilidade positiva,
-podemos atribuir aos valores $X$ a seguinte nova função de probabilidade
+podemos atribuir aos valores de $X$ a seguinte nova função de probabilidade
 \[
 \mathbb{P}(X = x \mid B)
 = \frac{\mathbb{P}\bigl(\{X = x\} \cap B\bigr)}{\mathbb{P}(B)}.
@@ -262,7 +262,7 @@ que $0\leqslant \mathbb{P}(X=x|B)\leqslant 1$ já que
 \quad \Longrightarrow \quad 
 \mathbb{P}(\{X=x\}\cap B)\leqslant \mathbb{P}(B)
 \quad \Longrightarrow \quad 
-\frac{ \mathbb{P}(\{X=x\} \cap B) }{\mathbb{P}(B)} \leqslant 1
+\frac{ \mathbb{P}(\{X=x\} \cap B) }{\mathbb{P}(B)} \leqslant 1.
 \end{align*}
 Como a família 
 \[ 
@@ -304,7 +304,7 @@ sempre que essa soma convergir absolutamente, isto é, sempre que
 
 \begin{remark}\label{rem:esperanca-condicional-existencia}
 A exigência de convergência absoluta em \eqref{eq:esperanca-condicional}
-é feita exatamente pelos mesmo motivos que precisamos desta condição 
+é feita exatamente pelos mesmos motivos que precisamos desta condição 
 na definição da esperança de uma variável aleatória $X$ discreta. 
 Se $X$ pode assumir uma quantidade infinita de valores, cada um com probabilidade positiva,
 sem a exigência da convergência absoluta um simples reordenamento dos termos da série
@@ -320,7 +320,7 @@ quando o evento $B$ no qual estamos condicionando tem probabilidade positiva.
 Assim como na definição de esperança de uma variável aleatória, 
 a soma que aparece em \eqref{eq:esperanca-condicional}
 pode estar bem-definida mesmo que existam pontos \(x \in \operatorname{Im} X\)
-satisfazendo  \(\mathbb{P}(X = x \mid B) = 0\). 
+satisfazendo \(\mathbb{P}(X = x \mid B) = 0\). 
 Neste caso tais valores não contribuem para
 a soma e poderiam ser simplesmente omitidos. A formulação sobre toda a imagem,
 \(\operatorname{Im} X\), é feita apenas por questão de conveniência e de uniformidade da
@@ -505,8 +505,8 @@ Aplicando a desigualdade triangular temos
 \mathbb{E}\bigl[|X|\bigm|B_i\bigr].
 \end{align*}
 Na última igualdade usamos novamente o Teorema da Mudança de Variáveis
-sob a probabilidade condicional. Multiplicando por \(\mathbb{P}(B_i)\),
-ambos os lados da desigualdade acima e 
+sob a probabilidade condicional. Multiplicando ambos os lados da 
+desigualdade acima por \(\mathbb{P}(B_i)\),
 somando em \(i\) e usando a identidade \eqref{eq-aux1-teo-part-esp}, 
 concluímos que 
 \begin{align*}
@@ -707,7 +707,7 @@ bem mais trabalhoso.
 Uma moeda é lançada repetidamente, de modo que os lançamentos sejam independentes. 
 Suponha que, em cada lançamento, a probabilidade de sair cara seja \(p\), e escreva
 \(q = 1-p\) para a probabilidade de sair coroa. Vamos assumir que \(0 < p,q < 1\).
-Determine o valor esperado dos número de lançamentos consecutivos que apresentam a
+Determine o valor esperado do número de lançamentos consecutivos que apresentam a
 mesma face do primeiro lançamento, contando o próprio primeiro lançamento.
 
 \begin{solution}
@@ -807,51 +807,71 @@ longas. Por exemplo, se \(p = q = \tfrac12\), obtemos 2, enquanto para
 \begin{remark}\label{rem:condicionamento-primeiro-passo}
 Nos exercícios desta nota
 (\Cref{exercise:primeira-cara,exercise:duas-caras-consecutivas,exercise:duas-faces,exercise:prisioneiro-tres-portas})
-utilizaremos um mesmo método para calcular a esperança do número de
-tentativas até a ocorrência de um certo padrão, conhecido na literatura como
-\emph{condicionamento no primeiro passo}. Vale a pena descrever o método em
-termos gerais e destacar as hipóteses que ele emprega, já que os enunciados
-dos exercícios costumam pedir para admitir uma delas.
+utilizaremos uma mesma ideia para calcular a esperança do tempo, ou do custo,
+até a ocorrência de um evento de parada. Essa ideia é conhecida na literatura
+como \emph{análise do primeiro passo} ou \emph{condicionamento no primeiro
+passo}. Vale a pena descrevê-la em termos gerais e destacar as hipóteses que
+ela emprega, já que alguns dos enunciados pedem que a finitude da esperança
+seja admitida.
 
-Considere um experimento que consiste em repetir, de maneira independente,
-uma mesma tentativa, como um lançamento de moeda ou a escolha de uma porta,
-e seja \(T\) o número de tentativas até a ocorrência de um certo padrão. O
-primeiro passo do método consiste em particionar o espaço amostral de acordo
-com o resultado da primeira tentativa, ou das primeiras tentativas, quando o
-padrão não é determinado pela primeira delas, e aplicar o Teorema da
-Partição (\Cref{thm:particao-para-esperanca}), obtendo
+Considere uma sequência de tentativas independentes e identicamente
+distribuídas e seja \(T\) o tempo ou custo total até a ocorrência de um certo
+padrão ou evento de parada. Suponha, neste parágrafo, que
+\(\mathbb{E}[|T|]<\infty\). Escolha uma partição finita ou enumerável
+\((B_i)_{i\in I}\) de acordo com o resultado da primeira tentativa, ou das
+primeiras tentativas quando necessário, e suponha que \(\mathbb{P}(B_i)>0\)
+para todo \(i\). O primeiro passo consiste em aplicar o Teorema da Partição
+(\Cref{thm:particao-para-esperanca}), obtendo
 \[
 \mathbb{E}[T] = \sum_{i \in I} \mathbb{E}[T \mid B_i]\,\mathbb{P}(B_i).
 \]
-Vamos descrever agora como calcular cada esperança condicional
-\(\mathbb{E}[T \mid B_i]\). Dado o evento \(B_i\), escreva \(c_i\) para o
-número de tentativas já realizadas e note que o valor de \(T\) é igual a
-\(c_i\) mais o número de tentativas adicionais ainda necessárias. Quando as
-tentativas já realizadas completam o padrão, o valor de \(T\) dado \(B_i\) é
-exatamente \(c_i\). Quando, descartadas as tentativas já realizadas, a
-situação restante é idêntica à situação inicial, a independência das
-tentativas garante que o número de tentativas adicionais tem a mesma
-distribuição de \(T\) e, como a esperança só depende da distribuição,
-\(\mathbb{E}[T \mid B_i] = c_i + \mathbb{E}[T]\). Quando a situação restante
-coincide com a situação inicial correspondente a outro evento \(B_j\) da
-partição, o mesmo argumento fornece
-\(\mathbb{E}[T \mid B_i] = c_i + \mathbb{E}[T \mid B_j]\). Em qualquer dos
-casos, o Teorema da Partição produz um sistema de equações lineares para as
-incógnitas \(\mathbb{E}[T]\) e \(\mathbb{E}[T \mid B_i]\), cuja solução é o
-valor procurado.
+Vamos descrever agora como calcular cada esperança condicional. Dado o evento
+\(B_i\), seja \(c_i\) o tempo ou custo determinístico já acumulado e seja
+\(R_i\) o tempo ou custo residual. Assim, no ramo \(B_i\),
+\[
+T=c_i+R_i,
+\qquad
+\mathbb{E}[T\mid B_i]=c_i+\mathbb{E}[R_i\mid B_i].
+\]
+A segunda igualdade segue diretamente da definição, sem exigir ainda um
+teorema geral de linearidade: se \(r\) percorre os valores possíveis do tempo
+residual, a soma que define o lado esquerdo é
+\[
+\sum_r(c_i+r)\,\mathbb{P}(R_i=r\mid B_i)
+=c_i\sum_r\mathbb{P}(R_i=r\mid B_i)
+ +\sum_r r\,\mathbb{P}(R_i=r\mid B_i),
+\]
+e a primeira soma no lado direito é igual a \(1\).
+Se as tentativas já realizadas completam o padrão, então \(R_i=0\). Se,
+depois de descartadas as tentativas já realizadas, a situação restante é
+idêntica à situação inicial, o futuro tem a mesma distribuição que uma nova
+execução do experimento: isso utiliza tanto a independência quanto o fato de
+as tentativas terem a mesma distribuição. Nesse caso,
+\[
+\mathbb{E}[T\mid B_i]=c_i+\mathbb{E}[T].
+\]
+Mais geralmente, se a situação restante no ramo \(B_i\) é a mesma situação
+restante no ramo \(B_j\), então os tempos residuais têm a mesma distribuição e
+\[
+\mathbb{E}[T\mid B_i]
+=c_i+\mathbb{E}[R_j\mid B_j]
+=c_i+\mathbb{E}[T\mid B_j]-c_j.
+\]
+Nos exemplos desta nota, essas relações, juntamente com o Teorema da
+Partição, produzem um sistema de equações lineares que determina o valor
+procurado.
 
-O método requer dois cuidados. O primeiro deles é que a identificação do
-número de tentativas adicionais com uma cópia do experimento original é uma
-etapa do argumento e não uma obviedade: ela utiliza a independência das
-tentativas e o fato de que, descartadas as tentativas já realizadas, a
-configuração do experimento é exatamente a configuração inicial (ou a
-configuração correspondente a outro ramo da partição). O segundo deles é que
-a resolução do sistema de equações acima só é legítima quando as esperanças
-envolvidas estão bem definidas: se a esperança de \(T\) não está bem
-definida, as equações acima não podem sequer ser escritas e a manipulação
-formal do sistema perde o sentido. É por esta razão que os enunciados dos
-exercícios pedem para admitir que a esperança de \(T\) está bem definida. No
-\Cref{exercise:duas-caras-bem-definida} verificaremos esta hipótese, no
+O método requer dois cuidados. O primeiro é que a identificação do futuro
+com uma nova execução do experimento é uma etapa do argumento, e não uma
+obviedade: ela utiliza a independência e a repetição da mesma distribuição,
+além de exigir que a configuração restante seja realmente a configuração
+inicial (ou outra configuração já analisada). O segundo é que a resolução do
+sistema só é legítima quando as esperanças envolvidas estão bem definidas.
+Se \(\mathbb{E}[T]\) não está bem definida, as equações acima não podem ser
+usadas como igualdades entre números reais; uma manipulação formal do sistema
+perde o sentido. É por esta razão que alguns enunciados pedem que a esperança
+de \(T\) seja admitida. No
+\Cref{exercise:duas-caras-bem-definida} verificaremos essa hipótese, no
 contexto do \Cref{exercise:duas-caras-consecutivas}, com as ferramentas já
 disponíveis.
 \end{remark}
@@ -880,7 +900,7 @@ primeiro lançamento é dado por
 onde $p=\mathbb{P}(H)$ e $q=\mathbb{P}(H^c)$ e $H$ é o evento em que o primeiro lançamento 
 resulta em cara. Usando a relação entre $p$ e $q$ escreva o lado direito
 do resultado acima como uma função de uma única variável
-$f:(0,1)\to\mathbb{R}$ (definida no intervalo aberto $(0,1)\subseteq \mathbb{R})$). 
+$f:(0,1)\to\mathbb{R}$ (definida no intervalo aberto $(0,1)\subseteq \mathbb{R}$). 
 Em seguida, faça o esboço do gráfico de $f$, determinando
 seus pontos críticos, concavidade e assíntotas verticais se existirem. Encontre
 o ponto de mínimo e o valor de mínimo desta função. Interprete as informações
@@ -1045,30 +1065,30 @@ $$
 Uma moeda honesta é lançada repetidamente, de modo que os lançamentos sejam
 independentes; como nas notas sobre variáveis aleatórias discretas,
 escrevemos \(\mathrm{H}\) e \(\mathrm{T}\) para os resultados cara e coroa
-de cada lançamento, respectivamente. Seja \(T\) o número de lançamentos até
+de cada lançamento, respectivamente. Seja \(W\) o número de lançamentos até
 que caras apareçam em dois lançamentos consecutivos pela primeira vez. Por
 exemplo, se a sequência de resultados começa com
-\(\mathrm{H}, \mathrm{H}, \ldots\), então \(T = 2\), enquanto a sequência
+\(\mathrm{H}, \mathrm{H}, \ldots\), então \(W = 2\), enquanto a sequência
 \(\mathrm{H}, \mathrm{T}, \mathrm{T}, \mathrm{H}, \mathrm{H}, \ldots\)
-corresponde a \(T = 5\). Admita que a esperança de \(T\) está bem definida
+corresponde a \(W = 5\). Admita que a esperança de \(W\) está bem definida
 e seja \(H\) o evento em que o primeiro lançamento resulta em cara.
 \begin{enumerate}[label=(\alph*)]
   \item Condicionando no resultado do primeiro lançamento, mostre que
         \[
-        \mathbb{E}[T]
-        = \tfrac{1}{2}\bigl(1 + \mathbb{E}[T]\bigr)
-        + \tfrac{1}{2}\,\mathbb{E}[T \mid H].
+        \mathbb{E}[W]
+        = \tfrac{1}{2}\bigl(1 + \mathbb{E}[W]\bigr)
+        + \tfrac{1}{2}\,\mathbb{E}[W \mid H].
         \]
   \item Observe que, se o primeiro lançamento resulta em cara e o segundo em
-        coroa, então a situação a partir do segundo lançamento é idêntica à
+        coroa, então a situação após o segundo lançamento é idêntica à
         situação inicial. Condicionando no resultado do segundo lançamento,
         mostre que
         \[
-        \mathbb{E}[T \mid H]
-        = \tfrac{1}{2} \cdot 2 + \tfrac{1}{2}\bigl(2 + \mathbb{E}[T]\bigr).
+        \mathbb{E}[W \mid H]
+        = \tfrac{1}{2} \cdot 2 + \tfrac{1}{2}\bigl(2 + \mathbb{E}[W]\bigr).
         \]
   \item Resolva o sistema (como em Álgebra Linear) formado pelas equações dos itens anteriores e
-        conclua que \(\mathbb{E}[T] = 6\). Comparando com o
+        conclua que \(\mathbb{E}[W] = 6\). Comparando com o
         \Cref{exercise:primeira-cara}, comente por que a espera média por
         duas caras consecutivas é mais do que o dobro da espera média pela
         primeira cara.
@@ -1078,39 +1098,44 @@ e seja \(H\) o evento em que o primeiro lançamento resulta em cara.
 
 \begin{exercise}\label{exercise:duas-caras-bem-definida}
 Este exercício justifica a hipótese admitida no
-\Cref{exercise:duas-caras-consecutivas} de que a esperança de \(T\) está bem
+\Cref{exercise:duas-caras-consecutivas} de que a esperança de \(W\) está bem
 definida. Mantenha as notações de lá: uma moeda honesta é lançada
-repetidamente, de modo que os lançamentos sejam independentes, e \(T\) é o
+repetidamente, de modo que os lançamentos sejam independentes, e \(W\) é o
 número de lançamentos até que caras apareçam em dois lançamentos consecutivos
-pela primeira vez. Fixe \(m \in \mathbb{N}\), considere os \(m\) pares de
+pela primeira vez, permitindo \(W=\infty\) se isso nunca ocorrer. Fixe
+\(m \in \mathbb{Z}_{\geqslant 0}\), considere os \(m\) pares de
 lançamentos disjuntos \((1,2), (3,4), \ldots, (2m-1, 2m)\) e denote por
-\(C_m\) o evento em que nenhum destes pares consiste em duas caras.
+\(C_m\) o evento em que nenhum destes pares consiste em duas caras, com
+\(C_0=\Omega\).
 \begin{enumerate}[label=(\alph*)]
-  \item Mostre que \(\{T > 2m\} \subseteq C_m\) e que
+  \item Mostre que \(\{W > 2m\} \subseteq C_m\) e que
         \(\mathbb{P}(C_m) = (3/4)^m\).
+        Além disso, conclua que \(\mathbb{P}(W=\infty)=0\).
         \emph{Sugestão:} pela independência dos lançamentos, cada sequência de
         resultados dos \(2m\) primeiros lançamentos tem probabilidade
         \(4^{-m}\), e existem exatamente \(3^m\) sequências nas quais cada um
         dos \(m\) pares fixados acima é um dos resultados
-        \(\mathrm{HT}\), \(\mathrm{TH}\), \(\mathrm{TT}\).
+        \(\mathrm{HT}\), \(\mathrm{TH}\), \(\mathrm{TT}\). Para a conclusão
+        adicional, use \(\{W=\infty\}\subseteq\{W>2m\}\) e faça
+        \(m\to\infty\).
   \item Conclua do item anterior que
-        \(\mathbb{P}(T = k) \leqslant (3/4)^{\lfloor (k-1)/2 \rfloor}\)
+        \(\mathbb{P}(W = k) \leqslant (3/4)^{\lfloor (k-1)/2 \rfloor}\)
         para todo \(k \in \mathbb{N}\).
-        \emph{Sugestão:} \(\{T = k\} \subseteq \{T > k-1\}\) e
-        \(\{T > k-1\} \subseteq \{T > 2m\}\) para
+        \emph{Sugestão:} \(\{W = k\} \subseteq \{W > k-1\}\) e
+        \(\{W > k-1\} \subseteq \{W > 2m\}\) para
         \(m = \lfloor (k-1)/2 \rfloor\).
-  \item Como \(T\) assume apenas valores em \(\mathbb{N}\), a exigência de
+  \item Como \(W\) assume apenas valores em \(\mathbb{N}\), a exigência de
         convergência absoluta da definição da esperança é, neste caso, a
-        exigência de que \(\sum_{k=1}^{\infty} k\,\mathbb{P}(T = k) < \infty\).
+        exigência de que \(\sum_{k=1}^{\infty} k\,\mathbb{P}(W = k) < \infty\).
         Usando os itens anteriores e a identidade
         \eqref{eq-aux3-ex-corrida}, mostre que
         \[
-        \mathbb{E}[T] \leqslant \sum_{j=0}^{\infty} (4j+3)\left(\frac{3}{4}\right)^{j}
+        \mathbb{E}[W] \leqslant \sum_{j=0}^{\infty} (4j+3)\left(\frac{3}{4}\right)^{j}
         = 60,
         \]
-        de modo que a esperança de \(T\) está bem definida e a resolução do
+        de modo que a esperança de \(W\) está bem definida e a resolução do
         sistema de equações do \Cref{exercise:duas-caras-consecutivas} é
-        legítima. Comente a diferença entre o valor exato \(\mathbb{E}[T] = 6\)
+        legítima. Comente a diferença entre o valor exato \(\mathbb{E}[W] = 6\)
         obtido naquele exercício e o majorante grosseiro \(60\) obtido aqui.
 \end{enumerate}
 \end{exercise}
