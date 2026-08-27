@@ -170,6 +170,9 @@ pdfkeywords={esperança condicional, teorema da partição, esperança total, co
 % Seno na convenção em português
 \renewcommand{\sin}{\operatorname{sen}}
 
+% Máximo divisor comum na convenção em português
+\newcommand{\mdc}{\operatorname{mdc}}
+
 %----------------------------------------------------------------------
 % DOCUMENTO PRINCIPAL
 %----------------------------------------------------------------------
@@ -622,10 +625,10 @@ eventos simplifica drasticamente um cálculo que, feito diretamente, seria
 bem mais trabalhoso.
 
 \begin{example}[Repetições Sucessivas]\label{ex:corrida-inicial}
-Uma moeda é lançada repetidamente, com lançamentos independentes. Suponha
-que, em cada lançamento, a probabilidade de sair cara seja \(p\), e escreva
-\(q = 1-p\) para a probabilidade de sair coroa, com \(0 < p,q < 1\).
-Determine o número esperado de lançamentos consecutivos que apresentam a
+Uma moeda é lançada repetidamente, de modo que os lançamentos sejam independentes. 
+Suponha que, em cada lançamento, a probabilidade de sair cara seja \(p\), e escreva
+\(q = 1-p\) para a probabilidade de sair coroa. Vamos assumir que \(0 < p,q < 1\).
+Determine o valor esperado dos número de lançamentos consecutivos que apresentam a
 mesma face do primeiro lançamento, contando o próprio primeiro lançamento.
 
 \begin{solution}
@@ -634,8 +637,8 @@ o evento em que resulta em coroa. O par \(\{H, H^c\}\) forma uma partição
 do espaço amostral, com \(\mathbb{P}(H)=p\) e
 \(\mathbb{P}(H^c)=q\). Seja \(X\) o número de lançamentos consecutivos
 que apresentam a mesma face do primeiro lançamento, contando o primeiro.
-Como \(0<p,q<1\), a probabilidade de a face oposta nunca aparecer é nula;
-portanto, \(X\) é finito quase certamente.
+Como \(0<p,q<1\), a probabilidade da face oposta nunca aparecer é nula.
+Portanto, $\mathbb{P}(X<\infty)=1$.
 
 Se \(H\) ocorre, então \(X = k\) se, e somente se, os \(k-1\) lançamentos
 seguintes resultam em cara e o lançamento seguinte resulta em coroa. Pela
@@ -649,31 +652,29 @@ e, por simetria,
 \end{align}
 
 Recordemos a identidade
-\[
+\begin{align}\label{eq-aux3-ex-corrida}
 \sum_{k=1}^{\infty} k r^{k-1} = \frac{1}{(1-r)^2},
 \qquad \lvert r\rvert<1.
-\]
+\end{align}
 obtida derivando a fórmula da soma de uma série geométrica. Como
-\(0<p,q<1\), ela pode ser aplicada tanto a \(r=p\) quanto a \(r=q\).
+\(0<p,q<1\), a identidade acima pode ser aplicada tanto a \(r=p\) quanto a \(r=q\).
 
 Com a ajuda desta identidade e de \eqref{eq-aux1-ex-corrida}, calculamos
-\[
-\begin{aligned}
+\begin{align*}
 \mathbb{E}[X\mid H]
 &= \sum_{k=1}^{\infty} k\,\mathbb{P}(X=k\mid H) \\
 &= \sum_{k=1}^{\infty} k\,p^{k-1}q
  = q\sum_{k=1}^{\infty} k\,p^{k-1}
  = \frac{q}{(1-p)^2}
  = \frac{1}{q}.
-\end{aligned}
-\]
+\end{align*}
 De maneira análoga,
 \[
 \mathbb{E}[X\mid H^c] = \frac{1}{p}.
 \]
 
-Antes de aplicar o Teorema da Partição, verificamos sua hipótese de
-integrabilidade. Como \(X\geqslant 0\), temos
+Antes de aplicar o Teorema da Partição, vamos verificar a hipótese
+de somabilidade absoluta. Como \(X\geqslant 0\), temos do Teorema da Probabilidade Total que
 \[
 \begin{aligned}
 \mathbb{P}(X=k)
@@ -692,15 +693,20 @@ Logo,
  = pq\sum_{k=1}^{\infty} k\bigl(p^{k-1}+q^{k-1}\bigr)
  <\infty,
 \]
-pela identidade acima.
+onde a última desigualdade segue diretamente da identidade \eqref{eq-aux3-ex-corrida},
+tomando $r=p$ e $r=q$. 
 
-Pelo Teorema da Partição (\Cref{thm:particao-para-esperanca}),
+\medskip
+
+Já que todas as hipóteses do Teorema da Partição (\Cref{thm:particao-para-esperanca}) 
+são satisfeitas podemos afirmar que
 \[
 \begin{aligned}
 \mathbb{E}[X]
-&= \mathbb{E}[X\mid H] \, \mathbb{P}(H)
- + \mathbb{E}[X\mid H^c] \, \mathbb{P}(H^c) \\
-&= \frac{1}{q} \, p + \frac{1}{p} \, q \\
+&= \mathbb{E}[X|H] \, \mathbb{P}(H) + \mathbb{E}[X|H^c] \, \mathbb{P}(H^c) 
+\\[0.3cm]
+&= \frac{1}{q} \, p + \frac{1}{p} \, q 
+\\[0.3cm]
 &= \frac{p^2 + q^2}{pq}
 = \frac{(p + q)^2 - 2pq}{pq}
 = \frac{1}{pq} - 2.
@@ -721,6 +727,48 @@ longas. Por exemplo, se \(p = q = \tfrac12\), obtemos 2, enquanto para
 
 \section{Exercícios}
 \label{sec:exercicios}
+
+
+\begin{exercise}
+Seja $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade. Suponha que $A$ seja um evento
+neste espaço e considere a variável aleatória dada pela função indicadora de $A$, isto é,
+$\mathds{1}_{A}$. Seja $B$ um evento de probabilidade positiva. Calcule, usando a definição 
+\begin{align*}
+\mathbb{E}\bigl[ \mathds{1}_{A} \bigm| B\bigr].
+\end{align*}
+\end{exercise}
+
+
+\begin{exercise}
+No \Cref{ex:corrida-inicial} mostramos que o valor esperado do número de lançamentos
+consecutivos em que apresentam a mesma face do primeiro lançamento, contando o próprio
+primeiro lançamento é dado por 
+\begin{align*}
+\mathbb{E}[X] = \frac{1}{pq}-2,
+\end{align*} 
+onde $p=\mathbb{P}(H)$ e $q=\mathbb{P}(H^c)$ e $H$ é o evento em que o primeiro lançamento 
+resulta em cara. Usando a relação entre $p$ e $q$ escreva o lado direito
+do resultado acima como uma função de uma única variável
+$f:(0,1)\to\mathbb{R}$ (definida no intervalo aberto $(0,1)\subseteq \mathbb{R})$). 
+Em seguida, faça o esboço do gráfico de $f$, determinando
+seus pontos críticos, concavidade e assíntotas verticais se existirem. Encontre
+o ponto de mínimo e o valor de mínimo desta função. Interprete as informações
+do gráfico no contexto do \Cref{ex:corrida-inicial}.
+\end{exercise}
+
+
+\begin{exercise}
+Suponha que três moedas com valores de $\mathrm{R}\$1$, $\mathrm{R}\$2$ e $\mathrm{R}\$5$ 
+são lançadas de maneira independente. Seja $X$ a variável aleatória que fornece a soma
+dos valores da moedas cujos lançamentos resultaram em cara. Por exemplo, se 
+o resultado do lançamento da moeda de $\mathrm{R}\$1$ é cara, 
+o da moeda de $\mathrm{R}\$2$ é coroa e o da moeda de $\mathrm{R}\$5$ é cara, então
+neste caso $X$ é igual $1+5=6$.
+
+Seja $B$ o evento em que o resultado de duas das três moedas lançadas é cara. 
+Calcule o valor esperado de $X$ dado $B$.
+\end{exercise}
+
 
 \begin{exercise}\label{exercise:funcao-dada-condicao}
 Seja \(X\) uma variável aleatória discreta e seja \(g : \mathbb{R} \to
@@ -790,6 +838,462 @@ evento \(B\) com \(\mathbb{P}(B) > 0\),
 = \mathbb{E}[g(X) \mid B] + \mathbb{E}[h(X) \mid B],
 \]
 sempre que as três esperanças condicionais estiverem bem-definidas.
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:soma-lancamentos-aleatoria}
+Um dado honesto é lançado uma única vez e \(N\) denota o resultado obtido.
+Em seguida, o dado é lançado \(N\) vezes, de maneira independente do primeiro
+lançamento e entre si, e \(X\) denota a soma dos resultados destes \(N\)
+lançamentos.
+\begin{enumerate}[label=(\alph*)]
+  \item Verifique que a família de eventos
+        $\bigl\{ \{N = 1\}, \{N = 2\},\ldots,\{N = 6\} \bigr\}$ forma uma partição do espaço
+        amostral por eventos de probabilidade positiva e que
+        \(\mathbb{E}\bigl[|X|\bigr] < \infty\), de modo que o Teorema da
+        Partição (\Cref{thm:particao-para-esperanca}) pode ser aplicado à
+        variável \(X\) com esta partição.
+  \item Calcule \(\mathbb{E}[X \mid N = n]\) para cada
+        \(n \in \{1, \ldots, 6\}\). \emph{Sugestão:} dado o evento
+        \(\{N = n\}\), a variável \(X\) tem a mesma distribuição da soma de
+        \(n\) lançamentos independentes de um dado honesto; use a
+        linearidade da esperança, apresentada nas notas sobre a esperança
+        de variáveis aleatórias discretas.
+  \item Use o Teorema da Partição para mostrar que
+        \(\mathbb{E}[X] = \frac{49}{4}\).
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:teste-sangue-grupo}
+Uma doença afeta cada indivíduo de uma população com probabilidade
+\(p \in (0,1)\), independentemente dos demais indivíduos. Para identificar os
+portadores, cada indivíduo deve realizar um exame de sangue cujo resultado é
+positivo se, e somente se, o indivíduo é portador da doença. Seja
+\(n \geqslant 2\) um número fixo de indivíduos. Em vez de realizar os \(n\)
+exames separadamente, as amostras de sangue dos \(n\) indivíduos são
+misturadas e a mistura é testada uma única vez; a mistura dá resultado
+positivo se, e somente se, pelo menos uma das amostras nela contidas seria
+positiva. Se o resultado da mistura é negativo, conclui-se que os \(n\)
+indivíduos estão saudáveis e nenhum exame adicional é realizado; se o
+resultado é positivo, cada uma das \(n\) amostras é testada
+individualmente. Seja \(N\) o número total de exames realizados com estas
+amostras.
+\begin{enumerate}[label=(\alph*)]
+  \item Calcule \(\mathbb{P}(D_1)\) e \(\mathbb{P}(D_2)\), onde
+        \[D_1 = \{\text{a mistura dá resultado negativo}\}\quad \text{e} \quad 
+        D_2 = \{\text{a mistura dá resultado positivo}\}.\] 
+        Verifique que
+        ambas são positivas e use o Teorema da Partição
+        (\Cref{thm:particao-para-esperanca}) com a partição \(\{D_1, D_2\}\)
+        para calcular \(\mathbb{E}[N]\).
+  \item Mostre que o número esperado de exames por indivíduo é dado por
+        \[
+        \frac{\mathbb{E}[N]}{n} = 1 + \frac{1}{n} - (1-p)^n.
+        \]
+  \item Conclua que o exame em grupo é vantajoso, isto é, o número esperado
+        de exames por indivíduo é estritamente menor do que \(1\), o número
+        de exames do teste individual, se, e somente se,
+        \((1-p)^n > 1/n\). Verifique que, para \(p = 0{,}1\) e \(n = 4\),
+        o número esperado de exames por indivíduo é menor do que \(0{,}6\).
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}
+Sejam $A$ e $B$ subconjuntos de $S\equiv \{1,2,...,n\}$, escolhidos de maneira:
+aleatória, independente e uniformemente entre todos os $2^n$ subconjuntos de 
+$S$ (incluindo o vazio e o próprio $S$). Mostre que 
+$$ 
+\mathbb{P}\bigl({A\subseteq B}\bigr) = \left(\frac{3}{4}\right)^n
+$$
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:duas-caras-consecutivas}
+Uma moeda honesta é lançada repetidamente, de modo que os lançamentos sejam
+independentes; como nas notas sobre variáveis aleatórias discretas,
+escrevemos \(\mathrm{H}\) e \(\mathrm{T}\) para os resultados cara e coroa
+de cada lançamento, respectivamente. Seja \(T\) o número de lançamentos até
+que caras apareçam em dois lançamentos consecutivos pela primeira vez. Por
+exemplo, se a sequência de resultados começa com
+\(\mathrm{H}, \mathrm{H}, \ldots\), então \(T = 2\), enquanto a sequência
+\(\mathrm{H}, \mathrm{T}, \mathrm{T}, \mathrm{H}, \mathrm{H}, \ldots\)
+corresponde a \(T = 5\). Admita que a esperança de \(T\) está bem definida
+e seja \(H\) o evento em que o primeiro lançamento resulta em cara.
+\begin{enumerate}[label=(\alph*)]
+  \item Condicionando no resultado do primeiro lançamento, mostre que
+        \[
+        \mathbb{E}[T]
+        = \tfrac{1}{2}\bigl(1 + \mathbb{E}[T]\bigr)
+        + \tfrac{1}{2}\,\mathbb{E}[T \mid H].
+        \]
+  \item Observe que, se o primeiro lançamento resulta em cara e o segundo em
+        coroa, então a situação a partir do segundo lançamento é idêntica à
+        situação inicial. Condicionando no resultado do segundo lançamento,
+        mostre que
+        \[
+        \mathbb{E}[T \mid H]
+        = \tfrac{1}{2} \cdot 2 + \tfrac{1}{2}\bigl(2 + \mathbb{E}[T]\bigr).
+        \]
+  \item Resolva o sistema (como em Álgebra Linear) formado pelas equações dos itens anteriores e
+        conclua que \(\mathbb{E}[T] = 6\). Comparando com o
+        \Cref{exercise:primeira-cara}, comente por que a espera média por
+        duas caras consecutivas é mais do que o dobro da espera média pela
+        primeira cara.
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:zeta-esperanca-condicional}
+Este exercício conecta a distribuição zeta, apresentada nas notas sobre o
+modelo probabilístico e revisitada nas notas sobre a esperança de variáveis
+aleatórias discretas, com o Teorema da Partição. Fixe \(s > 2\) e seja \(X\)
+uma variável aleatória com distribuição zeta de parâmetro \(s\), isto é,
+\(\operatorname{Im} X = \{1, 2, 3, \ldots\}\) e
+\[
+\mathbb{P}(X = n) = \frac{1}{n^{s}\,\zeta(s)}, \qquad n = 1, 2, 3, \ldots,
+\]
+onde \(\zeta(s) = \sum_{n=1}^{\infty} n^{-s}\) é a função zeta de Riemann.
+Recorde das notas anteriores que \(\mathbb{E}[X] = \zeta(s-1)/\zeta(s)\) e
+que, para cada inteiro \(m \geqslant 1\), o evento
+\(A_m = \{m, 2m, 3m, \ldots\}\), em que o valor sorteado é divisível por
+\(m\), tem probabilidade \(\mathbb{P}(A_m) = m^{-s}\). Note que \(s > 2\)
+garante \(\mathbb{E}\bigl[|X|\bigr] < \infty\) e, portanto, pela
+\Cref{prop:existencia-esperanca-condicional}, todas as esperanças
+condicionais que aparecem abaixo estão bem definidas.
+\begin{enumerate}[label=(\alph*)]
+  \item Mostre que, dado o evento \(A_m\), a variável \(X/m\) assume cada
+        valor \(k \in \{1, 2, 3, \ldots\}\) com probabilidade
+        \[
+        \mathbb{P}(X = mk \mid A_m) = \frac{1}{k^{s}\,\zeta(s)},
+        \]
+        ou seja, condicionando no evento de que \(X\) é divisível por
+        \(m\), a variável \(X/m\) tem novamente distribuição zeta de
+        parâmetro \(s\).
+  \item Deduza do item anterior que
+        \(\mathbb{E}[X \mid A_m] = m\,\mathbb{E}[X]\), ou seja, condicionar
+        na ocorrência de ``\(X\) é divisível por \(m\)'' multiplica a média
+        de \(X\) por \(m\).
+  \item Calcule explicitamente \(\mathbb{E}[X \mid A_2^c]\), mostrando que
+        \[
+        \mathbb{E}[X \mid A_2^c]
+        = \frac{\bigl(1 - 2^{1-s}\bigr)\,\zeta(s-1)}
+               {\bigl(1 - 2^{-s}\bigr)\,\zeta(s)}.
+        \]
+        \emph{Sugestão:} para \(r > 1\), a soma da série
+        \(\sum_{n} n^{-r}\) restrita aos inteiros ímpares é obtida
+        subtraindo da soma total a contribuição dos termos pares:
+        \(\sum_{n \text{ ímpar}} n^{-r} = \bigl(1 - 2^{-r}\bigr)\,\zeta(r)\).
+  \item Verifique diretamente que
+        \[
+        \mathbb{E}[X]
+        = \mathbb{E}[X \mid A_2]\,\mathbb{P}(A_2)
+        + \mathbb{E}[X \mid A_2^c]\,\mathbb{P}(A_2^c),
+        \]
+        e que
+        \(\mathbb{E}[X \mid A_2^c] < \mathbb{E}[X] < \mathbb{E}[X \mid A_2]\),
+        em consonância com a \Cref{rem:particao-interpretacao}.
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}[Primos entre si]\label{exercise:zeta-primos-entre-si}
+Este exercício, que complementa o \Cref{exercise:zeta-esperanca-condicional},
+deduz, com as ferramentas desenvolvidas nas notas, uma fórmula célebre de
+Euler sobre a função zeta. Para todo \(t>1\), escreva
+\[
+\zeta(t)=\sum_{n=1}^{\infty}\frac{1}{n^t},
+\]
+e fixe \(s>1\).
+Considere o espaço de probabilidade cujo espaço amostral é o produto
+cartesiano
+\[
+\Omega\equiv\{1,2,3,\ldots\}\times\{1,2,3,\ldots\},
+\]
+com \(\mathcal{F}=\mathscr{P}(\Omega)\) e
+\[
+\mathbb{P}\bigl(\{(n, m)\}\bigr)
+= \frac{1}{n^{s}\,m^{s}\,\zeta(s)^{2}}, \qquad (n, m) \in \Omega.
+\]
+Quando for necessário destacar a dependência do parâmetro, escreveremos
+\(\mathbb{P}_s\) para esta probabilidade.
+Como \(\Omega\) é enumerável, a probabilidade de um evento qualquer
+\(C\subseteq\Omega\) será calculada diretamente pela soma das probabilidades dos
+seus pontos:
+\[
+\mathbb{P}(C)=\sum_{(n,m)\in C}
+\frac{1}{n^{s}m^{s}\zeta(s)^2}.
+\]
+Também usaremos a fatoração de séries de termos não negativos
+\[
+\sum_{n,m\geqslant1}a_n b_m
+=\left(\sum_{n\geqslant1}a_n\right)
+ \left(\sum_{m\geqslant1}b_m\right),
+\qquad a_n,b_m\geqslant0,
+\]
+obtida aplicando a identidade para somas finitas e depois tomando limites
+crescentes. Em particular,
+\[
+\sum_{(n,m)\in\Omega}\mathbb{P}\bigl(\{(n,m)\}\bigr)
+=\frac{1}{\zeta(s)^2}
+  \left(\sum_{n\geqslant1}\frac{1}{n^s}\right)
+  \left(\sum_{m\geqslant1}\frac{1}{m^s}\right)=1;
+\]
+logo, elas de fato definem uma probabilidade.
+
+Sejam \(X\) e \(Y\) as projeções nas duas coordenadas, isto é,
+\(X(n,m)=n\) e \(Y(n,m)=m\), e seja \(G=\mdc(X,Y)\) o máximo divisor
+comum do par sorteado. Pela regra de soma acima,
+\[
+\mathbb{P}(X=n)=\frac{1}{n^s\zeta(s)},
+\qquad
+\mathbb{P}(Y=m)=\frac{1}{m^s\zeta(s)}.
+\]
+Assim, cada uma das variáveis tem distribuição zeta de parâmetro \(s\).
+Além disso, para quaisquer \(A,B\subseteq\{1,2,3,\ldots\}\), temos
+\[
+\{X\in A\}=A\times\{1,2,3,\ldots\},\qquad
+\{Y\in B\}=\{1,2,3,\ldots\}\times B,
+\]
+e, portanto, \(\{X\in A\}\cap\{Y\in B\}=A\times B\).
+Não será necessário usar nenhum resultado geral sobre distribuição conjunta:
+todas as probabilidades envolvendo \(X\) e \(Y\) devem ser calculadas a
+partir das massas dos pontos, pela regra acima. Neste exercício, diremos que
+\(X\) e \(Y\) são independentes quando, para quaisquer subconjuntos
+\(A,B\subseteq\{1,2,3,\ldots\}\), valer
+\[
+\mathbb{P}(\{X\in A\}\cap\{Y\in B\})
+=\mathbb{P}(\{X\in A\})\mathbb{P}(\{Y\in B\}).
+\]
+Recorde das notas de aula anteriores que, para um inteiro fixado
+\(m\geqslant1\),
+\[
+\mathbb{P}_s(\{m\text{ divide }X\})=m^{-s},
+\]
+e, por simetria, o mesmo vale para \(Y\). Recorde também que vale a Fórmula de Produto
+de Euler
+\[
+\frac{1}{\zeta(s)} = \prod_{p} \left(1 - \frac{1}{p^{s}}\right),
+\qquad s > 1,
+\]
+em que o produto varia sobre todos os números primos \(p\).
+\begin{enumerate}[label=(\alph*)]
+  \item Mostre que, para quaisquer subconjuntos \(A\) e \(B\) de
+        \(\{1, 2, 3, \ldots\}\), os eventos \(\{X \in A\}\) e
+        \(\{Y \in B\}\) são independentes, isto é,
+        \[
+        \mathbb{P}\bigl(\{X \in A\} \cap \{Y \in B\}\bigr)
+        = \mathbb{P}(\{X \in A\})\,\mathbb{P}(\{Y \in B\}).
+        \]
+        \emph{Sugestão:} escreva as três probabilidades envolvidas como
+        somas e use a fatoração de séries não negativas apresentada acima.
+        Em particular, os eventos
+        \(\{d \text{ divide } X\}\) e \(\{d \text{ divide } Y\}\) são
+        independentes e têm probabilidade \(d^{-s}\). Conclua que, para
+        \[
+        D_d=\{d\text{ divide }X\text{ e }d\text{ divide }Y\},
+        \]
+        vale \(\mathbb{P}(D_d)=d^{-2s}\) para todo \(d\geqslant1\).
+  \item Seja \(c_s = \mathbb{P}_s(G = 1)\) e observe que
+        \(c_s \geqslant \mathbb{P}_s(\{(1, 1)\}) = 1/\zeta(s)^2 > 0\). Usando
+        que \(\mdc(X, Y) = d\) se, e somente se, \(d\) divide \(X\) e
+        \(Y\) e \(\mdc(X/d, Y/d) = 1\), mostre que
+        \[
+        \mathbb{P}(G = d) = c_s\,d^{-2s}
+        \qquad \text{para todo } d \geqslant 1.
+        \]
+        \emph{Sugestão:} escreva a probabilidade do evento \(\{G = d\}\)
+        como uma soma sobre os pares \((n, m)\) com
+        \(\mdc(n, m) = d\) e reindexe-a por \(n = dk\), \(m = d\ell\), com
+        \(\mdc(k, \ell) = 1\).
+  \item Verifique que a família \(\bigl(\{G = d\}\bigr)_{d \geqslant 1}\)
+        forma uma partição de \(\Omega\) por eventos de probabilidade
+        positiva e use o Teorema da Partição
+        (\Cref{thm:particao-para-esperanca}) aplicado à variável aleatória
+        constante \(Z\equiv1\). Pela definição,
+        \(\mathbb{E}[Z]=1\) e \(\mathbb{E}[Z\mid G=d]=1\); portanto,
+        \[
+        1 = \sum_{d \geqslant 1} \mathbb{P}(G=d).
+        \]
+        Deduza a identidade
+        \[
+        c_s=\mathbb{P}_s(G = 1) = \frac{1}{\zeta(2s)}.
+        \]
+  \item Faça variar o parâmetro \(s\) no modelo acima. Justifique que
+        \(\zeta(2s)\to\zeta(2)\) quando \(s\to1^+\);
+        \emph{sugestão:} quando \(s\) decresce para \(1\), os termos
+        \(n^{-2s}\) crescem monotonicamente para \(n^{-2}\), e a
+        convergência monótona é válida para séries de termos não
+        negativos. Conclua que \(c_s\to1/\zeta(2)\) quando \(s\to1^+\) e,
+        admitindo o célebre valor de Basileia \(\zeta(2) = \pi^2/6\),
+        obtenha
+        \[
+        \lim_{s\to1^+}\mathbb{P}_s(\mdc(X,Y)=1)
+        =\frac{6}{\pi^2}
+        \qquad (\text{aproximadamente }0{,}608).
+        \]
+        Como não existe uma distribuição uniforme em
+        \(\{1,2,3,\ldots\}\), esta é a interpretação rigorosa, neste
+        exercício, da frase informal ``dois inteiros positivos escolhidos ao
+        acaso são primos entre si'': trata-se do limite dos modelos zeta
+        quando \(s\to1^+\).
+        Aplique, por fim, o produto de Euler com \(t = 2\) para obter
+        \[
+        \prod_{p} \left(1 - \frac{1}{p^2}\right) = \frac{6}{\pi^2}.
+        \]
+  \item Obtenha explicitamente
+        \(\mathbb{P}(G = d) = 1/\bigl(d^{2s}\,\zeta(2s)\bigr)\) e, usando
+        apenas a definição da esperança de uma variável aleatória discreta,
+        mostre
+        que
+        \[
+        \mathbb{E}[G] = \frac{\zeta(2s-1)}{\zeta(2s)},
+        \]
+        observando que a série correspondente converge precisamente porque
+        \(s > 1\). Compare com a fórmula
+        \(\mathbb{E}[X] = \zeta(s-1)/\zeta(s)\), válida para \(s > 2\),
+        do caso unidimensional.
+\end{enumerate}
+\end{exercise}
+
+
+\bigskip 
+\noindent Os exercícios a seguir são adaptações de alguns problemas do livro
+\cite{Ross2010}.
+\bigskip 
+
+\begin{exercise}\label{exercise:poisson-truncada}
+O número de ovos postos por um inseto de certa espécie sobre uma folha é
+uma variável aleatória \(X\) com distribuição de Poisson de parâmetro
+\(\lambda > 0\). Contudo, uma folha só é examinada quando pelo menos um
+ovo é posto, pois, se \(X = 0\), não há como saber que o inseto esteve na
+folha. Se \(Y\) denota o número de ovos observados, então
+\(\mathbb{P}(Y = i) = \mathbb{P}(X = i \mid X > 0)\). Calcule
+\(\mathbb{E}[Y]\) e verifique que \(\mathbb{E}[Y] > \mathbb{E}[X]\),
+interpretando esta desigualdade.
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:geometrica-perda-memoria}
+Seja \(X\) uma variável aleatória com distribuição geométrica de
+parâmetro \(0 < p < 1\), isto é, \(\mathbb{P}(X = k) = q^{k-1}p\), onde
+\(q = 1 - p\) e \(k = 1, 2, \ldots\). Mostre analiticamente que, para
+todos \(n, k \in \mathbb{N}\),
+\[
+\mathbb{P}\bigl(X = n + k \bigm| X > n\bigr) = \mathbb{P}(X = k),
+\]
+e dê um argumento verbal para esta igualdade usando a interpretação de
+\(X\) como o número de lançamentos de uma moeda até a primeira cara.
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:geometrica-paridade}
+Seja \(X\) uma variável aleatória com distribuição geométrica de
+parâmetro \(0 < p < 1\) e seja \(\alpha = \mathbb{P}(\{X \text{ é par}\})\).
+\begin{enumerate}[label=(\alph*)]
+  \item Calcule \(\alpha\) diretamente, a partir da identidade
+        \(\alpha = \displaystyle\sum_{i=1}^{\infty} \mathbb{P}(X = 2i)\);
+  \item recupere o mesmo valor condicionando nos eventos \(\{X = 1\}\) e
+        \(\{X > 1\}\), usando que, dado o evento \(\{X > 1\}\), a variável
+        \(X - 1\) tem novamente distribuição geométrica de parâmetro
+        \(p\), como no \Cref{exercise:geometrica-perda-memoria}.
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:binomial-condicionada}
+Uma moeda viciada, que dá cara com probabilidade \(p \in (0,1)\), é
+lançada 10 vezes de maneira independente. Dado que o número total de
+caras obtidas é exatamente 6, calcule a probabilidade condicional de que
+os 3 primeiros resultados sejam
+\begin{enumerate}[label=(\alph*)]
+  \item cara, coroa, coroa;
+  \item coroa, cara, coroa.
+\end{enumerate}
+Verifique que os valores obtidos não dependem de \(p\) e interprete este
+fato.
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:jogos-ate-perder}
+Cada partida que você joga é vencida com probabilidade \(p \in (0,1)\),
+independentemente das demais. Você planeja jogar 5 partidas, mas, se
+vencer a quinta, continua jogando até perder pela primeira vez. Sejam
+\(N\) o número total de partidas jogadas e \(M\) o número de partidas
+perdidas.
+\begin{enumerate}[label=(\alph*)]
+  \item Usando o Teorema da Partição
+        (\Cref{thm:particao-para-esperanca}) com a partição formada pelos
+        eventos ``a quinta partida é vencida'' e ``a quinta partida é
+        perdida'', calcule \(\mathbb{E}[N]\);
+  \item calcule \(\mathbb{E}[M]\).
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:duas-faces}
+Uma moeda, que dá cara com probabilidade \(p \in (0,1)\), é lançada
+repetidamente, de modo que os lançamentos sejam independentes, até que
+ambas as faces tenham aparecido ao menos uma vez. Seja \(N\) o número
+total de lançamentos e admita que a esperança de \(N\) está bem definida.
+\begin{enumerate}[label=(\alph*)]
+  \item Condicionando no resultado do primeiro lançamento, mostre que
+        \[
+        \mathbb{E}[N] = 1 + \frac{p}{1-p} + \frac{1-p}{p};
+        \]
+  \item calcule a probabilidade de que o último lançamento resulte em
+        cara.
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:prisioneiro-tres-portas}
+Um prisioneiro está preso numa cela com três portas. A primeira porta dá
+acesso a um túnel que o traz de volta à cela após 2 dias de caminhada; a
+segunda, a um túnel que o traz de volta após 4 dias; a terceira conduz à
+liberdade após 1 dia de caminhada. A cada tentativa, o prisioneiro
+escolhe uma das três portas com probabilidades \(0{,}5\), \(0{,}3\) e
+\(0{,}2\), respectivamente, e as escolhas feitas em instantes distintos
+são independentes. Seja \(T\) o número de dias decorridos até que o
+prisioneiro alcance a liberdade e admita que a esperança de \(T\) está
+bem definida. Usando o Teorema da Partição com a partição formada pelos
+eventos ``a primeira porta é escolhida'', ``a segunda porta é escolhida''
+e ``a terceira porta é escolhida'', mostre que
+\[
+\mathbb{E}[T] = 12.
+\]
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:colecionador-dado}
+Um dado honesto é lançado repetidamente, de modo que os lançamentos sejam
+independentes, até que todas as seis faces tenham aparecido ao menos uma
+vez. Seja \(N\) o número total de lançamentos e escreva
+\(N = N_0 + N_1 + \cdots + N_5\), onde \(N_i\) denota o número de
+lançamentos necessários para obter uma face nova depois que \(i\) faces
+distintas já apareceram. Justifique que cada \(N_i\) tem distribuição
+geométrica, calcule \(\mathbb{E}[N_i]\) e conclua, pela linearidade da
+esperança, que
+\[
+\mathbb{E}[N]
+= 6\left(1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \frac{1}{5} + \frac{1}{6}\right)
+= \frac{147}{10}.
+\]
+\end{exercise}
+
+
+
+\begin{exercise}\label{exercise:sao-petersburgo}
+Uma moeda honesta é lançada repetidamente, de modo que os lançamentos
+sejam independentes, até que apareça coroa pela primeira vez. Se a coroa
+aparece no \(n\)-ésimo lançamento, o jogador ganha \(2^n\) reais. Seja
+\(X\) o ganho do jogador. Mostre que a série que define
+\(\mathbb{E}[X]\) diverge, isto é, \(\mathbb{E}[X] = +\infty\), de modo
+que o ganho esperado deste jogo não é um número real finito. Você pagaria
+\(\mathrm{R}\$1\) milhão para jogar este jogo uma única vez? Discuta,
+tendo em mente a exigência de convergência absoluta que acompanha a
+definição de esperança.
 \end{exercise}
 
 %----------------------------------------------------------------------
