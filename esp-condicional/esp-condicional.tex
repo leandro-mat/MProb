@@ -577,9 +577,34 @@ como uma \emph{combinação convexa} das esperanças condicionais
 \(\mathbb{E}[X| B_i]\), com pesos \(\mathbb{P}(B_i)\), que somam \(1\).
 Em particular, o valor de \(\mathbb{E}[X]\) está sempre entre o ínfimo e o
 supremo do conjunto de números reais \(\mathbb{E}[X \mid B_i]\). Essa é a contraparte, para esperanças,
-do princípio de que a probabilidade de um evento é a média ponderada das
-probabilidades condicionais, e ela justifica o nome alternativo de \emph{Lei
-da Esperança Total}.
+  do princípio de que a probabilidade de um evento é a média ponderada das
+  probabilidades condicionais, e ela justifica o nome alternativo de \emph{Lei
+  da Esperança Total}.
+\end{remark}
+
+\begin{remark}\label{rem:particao-recupera-probabilidade-total}
+A contraparte probabilística mencionada na \Cref{rem:particao-interpretacao}
+não é apenas um paralelo informal: trata-se de um caso particular do
+\Cref{thm:particao-para-esperanca}. Com efeito, fixe um evento
+\(A \in \mathcal{F}\) e considere a variável aleatória indicadora
+\(\mathds{1}_A\), cuja esperança é dada por
+\(\mathbb{E}[\mathds{1}_A] = \mathbb{P}(A)\). Como
+\(|\mathds{1}_A| \leqslant 1\), temos
+\(\mathbb{E}\bigl[|\mathds{1}_A|\bigr] \leqslant 1 < \infty\), de modo que o
+Teorema da Partição pode ser aplicado a \(\mathds{1}_A\) com qualquer partição
+\((B_i)_{i \in I}\) do espaço amostral por eventos de probabilidade positiva.
+Usando ainda que, pelo \Cref{exercise:indicadora},
+\(\mathbb{E}[\mathds{1}_A \mid B] = \mathbb{P}(A \mid B)\) para todo evento
+\(B\) de probabilidade positiva, obtemos
+\[
+\mathbb{P}(A)
+= \sum_{i \in I} \mathbb{E}[\mathds{1}_A \mid B_i]\,\mathbb{P}(B_i)
+= \sum_{i \in I} \mathbb{P}(A \mid B_i)\,\mathbb{P}(B_i),
+\]
+que é precisamente o Teorema da Probabilidade Total. Assim, toda aplicação do
+Teorema da Probabilidade Total é uma aplicação particular da identidade
+\eqref{eq:particao} para variáveis indicadoras, o que completa o paralelo
+entre probabilidades e esperanças anunciado no início desta seção.
 \end{remark}
 
 \begin{remark}\label{rem:particao-esperanca-degenerada}
@@ -615,6 +640,60 @@ recuperamos a própria definição de esperança:
 pois \(\mathbb{P}(X = x) = 0\) para os termos omitidos. O teorema contém,
 portanto, a definição de esperança como um caso particular.
 \end{remark}
+
+\begin{example}[A Esperança da Distribuição Binomial]\label{ex:binomial-particao}
+Uma moeda, que dá cara com probabilidade \(p \in (0,1)\), é lançada \(n\)
+vezes de maneira independente. Seja \(S_n\) a variável aleatória
+que conta o número total de caras obtidas nestes $n$ lançamentos. 
+Como visto nas notas de aula anteriores a variável aleatória \(S_n\)
+tem distribuição binomial com parâmetros \(n\) e \(p\), isto é,
+$S_n\sim \mathrm{Bin}(n,p)$. Também mostramos que
+\(\mathbb{E}[S_n] = np\). O objetivo deste exemplo é mostrar que o Teorema da
+Partição pode ser usado para reproduzir este resultado sem nenhuma 
+série infinita e sem identidades combinatórias.
+
+Como \(0 \leqslant S_n \leqslant n\), verificamos imediatamente que \(\mathbb{E}[S_n]\) está bem
+definida. Sejam \(H\) o evento em que o primeiro lançamento resulta em cara,
+\(H^c\) o evento em que o primeiro lançamento resulta em coroa e como de costume
+considere \(q = 1 - p\). Já que 
+\(0 < p, q < 1\), o par \(\{H, H^c\}\) forma uma partição do espaço amostral
+por eventos de probabilidade positiva. Para cada \(k \geqslant 0\), denote por
+\(\mu_k\) o valor esperado do número de caras obtidas em \(k\) lançamentos
+independentes desta mesma moeda. O que procuramos é uma expressão explícita 
+para \(\mu_n\).
+
+\medskip 
+
+Vamos começar calculando algumas esperanças condicionais. Se \(H\) ocorre, então
+\(S_n = 1 + R\), onde \(R\) é o número de caras nos \(n-1\) lançamentos
+seguintes. Para cada \(k \in \{0, 1, \ldots, n-1\}\), o evento \(\{R = k\}\)
+depende apenas dos lançamentos seguintes ao primeiro e é, portanto,
+independente de \(H\), de modo que
+\[
+\mathbb{P}(R = k \mid H)
+= \mathbb{P}(R = k)
+= \binom{n-1}{k}\,p^{k}q^{n-1-k},
+\]
+isto é, dado \(H\), a variável aleatória \(R\) tem a mesma distribuição do número de
+caras em \(n-1\) lançamentos. Em particular,
+\(\mathbb{E}[S_n \mid H] = 1 + \mu_{n-1}\). O mesmo argumento, agora sem a
+parcela \(1\), fornece \(\mathbb{E}[S_n \mid H^c] = \mu_{n-1}\). Aplicando o
+Teorema da Partição (\Cref{thm:particao-para-esperanca}) com a partição
+\(\{H, H^c\}\), concluímos que, para todo \(n \geqslant 1\),
+\[
+\mu_n
+= \mathbb{E}[S_n]
+= p\,\bigl(1 + \mu_{n-1}\bigr) + q\,\mu_{n-1}
+= \mu_{n-1} + p.
+\]
+Como \(\mu_0 = 0\) (nenhum lançamento produz nenhuma cara), a
+recorrência acima fornece imediatamente \(\mu_n = np\) para todo
+\(n \geqslant 0\).
+
+Observe a aplicação do Teorema da Partição permitiu substituir o cálculo direto da soma
+finita \(\sum_{k=0}^{n} k\binom{n}{k}p^{k}q^{n-k}\) por uma
+recorrência de uma linha, cujo valor inicial é trivial.
+\end{example}
 
 \section{Exemplo: repetições sucessivas}
 \label{sec:corrida-inicial}
@@ -725,11 +804,63 @@ longas. Por exemplo, se \(p = q = \tfrac12\), obtemos 2, enquanto para
 \(\mathbb{E}[X] = 1/(0{,}09) - 2 \approx 9{,}11\).
 \end{remark}
 
+\begin{remark}\label{rem:condicionamento-primeiro-passo}
+Nos exercícios desta nota
+(\Cref{exercise:primeira-cara,exercise:duas-caras-consecutivas,exercise:duas-faces,exercise:prisioneiro-tres-portas})
+utilizaremos um mesmo método para calcular a esperança do número de
+tentativas até a ocorrência de um certo padrão, conhecido na literatura como
+\emph{condicionamento no primeiro passo}. Vale a pena descrever o método em
+termos gerais e destacar as hipóteses que ele emprega, já que os enunciados
+dos exercícios costumam pedir para admitir uma delas.
+
+Considere um experimento que consiste em repetir, de maneira independente,
+uma mesma tentativa, como um lançamento de moeda ou a escolha de uma porta,
+e seja \(T\) o número de tentativas até a ocorrência de um certo padrão. O
+primeiro passo do método consiste em particionar o espaço amostral de acordo
+com o resultado da primeira tentativa, ou das primeiras tentativas, quando o
+padrão não é determinado pela primeira delas, e aplicar o Teorema da
+Partição (\Cref{thm:particao-para-esperanca}), obtendo
+\[
+\mathbb{E}[T] = \sum_{i \in I} \mathbb{E}[T \mid B_i]\,\mathbb{P}(B_i).
+\]
+Vamos descrever agora como calcular cada esperança condicional
+\(\mathbb{E}[T \mid B_i]\). Dado o evento \(B_i\), escreva \(c_i\) para o
+número de tentativas já realizadas e note que o valor de \(T\) é igual a
+\(c_i\) mais o número de tentativas adicionais ainda necessárias. Quando as
+tentativas já realizadas completam o padrão, o valor de \(T\) dado \(B_i\) é
+exatamente \(c_i\). Quando, descartadas as tentativas já realizadas, a
+situação restante é idêntica à situação inicial, a independência das
+tentativas garante que o número de tentativas adicionais tem a mesma
+distribuição de \(T\) e, como a esperança só depende da distribuição,
+\(\mathbb{E}[T \mid B_i] = c_i + \mathbb{E}[T]\). Quando a situação restante
+coincide com a situação inicial correspondente a outro evento \(B_j\) da
+partição, o mesmo argumento fornece
+\(\mathbb{E}[T \mid B_i] = c_i + \mathbb{E}[T \mid B_j]\). Em qualquer dos
+casos, o Teorema da Partição produz um sistema de equações lineares para as
+incógnitas \(\mathbb{E}[T]\) e \(\mathbb{E}[T \mid B_i]\), cuja solução é o
+valor procurado.
+
+O método requer dois cuidados. O primeiro deles é que a identificação do
+número de tentativas adicionais com uma cópia do experimento original é uma
+etapa do argumento e não uma obviedade: ela utiliza a independência das
+tentativas e o fato de que, descartadas as tentativas já realizadas, a
+configuração do experimento é exatamente a configuração inicial (ou a
+configuração correspondente a outro ramo da partição). O segundo deles é que
+a resolução do sistema de equações acima só é legítima quando as esperanças
+envolvidas estão bem definidas: se a esperança de \(T\) não está bem
+definida, as equações acima não podem sequer ser escritas e a manipulação
+formal do sistema perde o sentido. É por esta razão que os enunciados dos
+exercícios pedem para admitir que a esperança de \(T\) está bem definida. No
+\Cref{exercise:duas-caras-bem-definida} verificaremos esta hipótese, no
+contexto do \Cref{exercise:duas-caras-consecutivas}, com as ferramentas já
+disponíveis.
+\end{remark}
+
 \section{Exercícios}
 \label{sec:exercicios}
 
 
-\begin{exercise}
+\begin{exercise}\label{exercise:indicadora}
 Seja $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade. Suponha que $A$ seja um evento
 neste espaço e considere a variável aleatória dada pela função indicadora de $A$, isto é,
 $\mathds{1}_{A}$. Seja $B$ um evento de probabilidade positiva. Calcule, usando a definição 
@@ -941,6 +1072,46 @@ e seja \(H\) o evento em que o primeiro lançamento resulta em cara.
         \Cref{exercise:primeira-cara}, comente por que a espera média por
         duas caras consecutivas é mais do que o dobro da espera média pela
         primeira cara.
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}\label{exercise:duas-caras-bem-definida}
+Este exercício justifica a hipótese admitida no
+\Cref{exercise:duas-caras-consecutivas} de que a esperança de \(T\) está bem
+definida. Mantenha as notações de lá: uma moeda honesta é lançada
+repetidamente, de modo que os lançamentos sejam independentes, e \(T\) é o
+número de lançamentos até que caras apareçam em dois lançamentos consecutivos
+pela primeira vez. Fixe \(m \in \mathbb{N}\), considere os \(m\) pares de
+lançamentos disjuntos \((1,2), (3,4), \ldots, (2m-1, 2m)\) e denote por
+\(C_m\) o evento em que nenhum destes pares consiste em duas caras.
+\begin{enumerate}[label=(\alph*)]
+  \item Mostre que \(\{T > 2m\} \subseteq C_m\) e que
+        \(\mathbb{P}(C_m) = (3/4)^m\).
+        \emph{Sugestão:} pela independência dos lançamentos, cada sequência de
+        resultados dos \(2m\) primeiros lançamentos tem probabilidade
+        \(4^{-m}\), e existem exatamente \(3^m\) sequências nas quais cada um
+        dos \(m\) pares fixados acima é um dos resultados
+        \(\mathrm{HT}\), \(\mathrm{TH}\), \(\mathrm{TT}\).
+  \item Conclua do item anterior que
+        \(\mathbb{P}(T = k) \leqslant (3/4)^{\lfloor (k-1)/2 \rfloor}\)
+        para todo \(k \in \mathbb{N}\).
+        \emph{Sugestão:} \(\{T = k\} \subseteq \{T > k-1\}\) e
+        \(\{T > k-1\} \subseteq \{T > 2m\}\) para
+        \(m = \lfloor (k-1)/2 \rfloor\).
+  \item Como \(T\) assume apenas valores em \(\mathbb{N}\), a exigência de
+        convergência absoluta da definição da esperança é, neste caso, a
+        exigência de que \(\sum_{k=1}^{\infty} k\,\mathbb{P}(T = k) < \infty\).
+        Usando os itens anteriores e a identidade
+        \eqref{eq-aux3-ex-corrida}, mostre que
+        \[
+        \mathbb{E}[T] \leqslant \sum_{j=0}^{\infty} (4j+3)\left(\frac{3}{4}\right)^{j}
+        = 60,
+        \]
+        de modo que a esperança de \(T\) está bem definida e a resolução do
+        sistema de equações do \Cref{exercise:duas-caras-consecutivas} é
+        legítima. Comente a diferença entre o valor exato \(\mathbb{E}[T] = 6\)
+        obtido naquele exercício e o majorante grosseiro \(60\) obtido aqui.
 \end{enumerate}
 \end{exercise}
 
