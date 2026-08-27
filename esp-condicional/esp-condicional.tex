@@ -184,9 +184,7 @@ pdfkeywords={esperança condicional, teorema da partição, esperança total, co
 
 % --- TÍTULO, AUTOR E DATA ---
 \begin{center}
-\begin{minipage}{1.1\textwidth}
-{\LARGE\bf A Esperança Condicional e o Teorema da Partição}
-\end{minipage}
+{\LARGE\bf A Esperança Condicional e o\\[0.3cm] Teorema da Partição}
 \\
 \vspace{1cm}
 {\large \bf L. Cioletti}
@@ -207,7 +205,8 @@ a esperança de uma variável aleatória como uma combinação convexa de suas
 esperanças condicionais, ponderadas pelas probabilidades dos eventos de uma
 partição do espaço amostral. Ilustramos o teorema com um exemplo clássico de
 lançamentos repetidos de uma moeda, no qual calculamos o comprimento esperado
-da corrida inicial, e propomos exercícios que complementam a apresentação,
+do número de repetições sucessivas do mesmo resultado, 
+e propomos exercícios que complementam a apresentação,
 incluindo uma nova demonstração da fórmula da esperança de uma função de uma
 variável aleatória. A exposição segue de perto a Seção 2.5 do Capítulo 2 da
 referência \cite{GrimmettWelsh2014}.
@@ -437,9 +436,9 @@ as esperanças condicionais
 estão bem definidas, pois \(\mathbb{E}\bigl[|X|\bigr] < \infty\) e
 \(\mathbb{P}(B_i)>0\).
 
-Para simplificar a notação, escrevamos
+Para simplificar a notação, vamos definir os seguintes eventos
 \[
-A_{i,x}=\{X=x\}\cap B_i,
+A_{i,x}\equiv \{X=x\}\cap B_i,
 \qquad i\in I,\quad x\in\operatorname{Im}X.
 \]
 Fixado \(x\), os eventos \(A_{i,x}\) são dois a dois disjuntos e, como os
@@ -458,59 +457,95 @@ medida de probabilidade condicional
 \begin{aligned}
 \mathbb{E}\bigl[|X| \bigm| B_i\bigr]\,\mathbb{P}(B_i)
 &=\left(\sum_{x\in\operatorname{Im}X}|x|\,
-\mathbb{P}(X=x\mid B_i)\right)\mathbb{P}(B_i) \\
+\mathbb{P}(X=x\mid B_i)\right)\mathbb{P}(B_i) 
+\\[0.3cm]
+&=\left(\sum_{x\in\operatorname{Im}X}|x|\,
+\frac{\mathbb{P}(\{X=x\}\cap B_i)}{\mathbb{P}(B_i)} \right)\mathbb{P}(B_i) 
+\\[0.3cm]
 &=\sum_{x\in\operatorname{Im}X}|x|\,\mathbb{P}(A_{i,x}).
 \end{aligned}
 \]
-Como todos os termos são não negativos, podemos reordenar a série dupla e,
-pela \(\sigma\)-aditividade de \(\mathbb{P}\), obtemos
-\begin{align*}
+
+Próximo passo é somar sobre $I$ os termos que aparecem na igualdade acima.
+Realizando esta soma, vamos obter uma série dupla como mostrado abaixo.
+Como todos os termos da série que aparece abaixo são não-negativos, 
+podemos reordená-la e usar 
+a \(\sigma\)-aditividade de \(\mathbb{P}\) para verificar que 
+\begin{align}\label{eq-aux1-teo-part-esp}
 \sum_{i\in I}\mathbb{E}\bigl[|X| \bigm| B_i\bigr]\,\mathbb{P}(B_i)
-&=\sum_{i\in I}\sum_{x\in\operatorname{Im}X}
-|x|\,\mathbb{P}(A_{i,x}) \\
+=\sum_{i\in I}\sum_{x\in\operatorname{Im}X}
+|x|\,\mathbb{P}(A_{i,x}) 
 &=\sum_{x\in\operatorname{Im}X}\sum_{i\in I}
-|x|\,\mathbb{P}(A_{i,x}) \\
-&=\sum_{x\in\operatorname{Im}X}|x|\,\mathbb{P}\left(\bigcup_{i\in I}A_{i,x}\right) \\
+|x|\,\mathbb{P}(A_{i,x}) 
+\nonumber\\[0.3cm]
+&=\sum_{x\in\operatorname{Im}X}|x|\,\mathbb{P}\left(\bigcup_{i\in I}A_{i,x}\right) 
+\nonumber\\[0.3cm]
 &=\sum_{x\in\operatorname{Im}X}|x|\,\mathbb{P}(X=x)
 =\mathbb{E}\bigl[|X|\bigr]<\infty.
-\end{align*}
+\end{align}
 
-Agora a desigualdade triangular, aplicada à definição de cada esperança
-condicional, fornece
+Antes de prosseguir lembramos a desigualdade triangular. Se $(b_i)_{i\in I}$ é 
+uma sequência de números reais, então
 \begin{align*}
-\bigl|\mathbb{E}[X\mid B_i]\bigr|
-\leqslant \sum_{x\in\operatorname{Im}X}|x|\,
+\left| \sum_{i\in I} b_i \right| \leqslant \sum_{i\in I} |b_i|.
+\end{align*}
+Aplicando a desigualdade triangular temos 
+\begin{align*}
+\bigl|\mathbb{E}[X\mid B_i]\bigr| 
+&=
+\left| \sum_{x\in\operatorname{Im}X} x\, \mathbb{P}(X=x\mid B_i) \right|
+\\[0.3cm]
+&\leqslant 
+\sum_{x\in\operatorname{Im}X}|x|\,
 \mathbb{P}(X=x\mid B_i)
-=\mathbb{E}\bigl[|X|\bigm|B_i\bigr].
+=
+\mathbb{E}\bigl[|X|\bigm|B_i\bigr].
 \end{align*}
 Na última igualdade usamos novamente o Teorema da Mudança de Variáveis
 sob a probabilidade condicional. Multiplicando por \(\mathbb{P}(B_i)\),
-somando em \(i\) e usando o cálculo anterior, segue que
+ambos os lados da desigualdade acima e 
+somando em \(i\) e usando a identidade \eqref{eq-aux1-teo-part-esp}, 
+concluímos que 
 \begin{align*}
 \sum_{i\in I}\bigl|\mathbb{E}[X\mid B_i]\bigr|\,\mathbb{P}(B_i)
-&\leqslant \sum_{i\in I}\mathbb{E}\bigl[|X|\bigm|B_i\bigr]\,\mathbb{P}(B_i) \\
-&=\mathbb{E}\bigl[|X|\bigr]<\infty.
+\leqslant \sum_{i\in I}\mathbb{E}\bigl[|X|\bigm|B_i\bigr]\,\mathbb{P}(B_i)
+\ = \ \mathbb{E}\bigl[|X|\bigr]<\infty.
 \end{align*}
 Isso prova a convergência absoluta da série do lado direito de
 \eqref{eq:particao}.
 
+\bigskip 
+
 Resta identificar o valor dessa série. O cálculo anterior também mostra
 que a série dupla
 \(\sum_{i\in I}\sum_{x\in\operatorname{Im}X}|x|\,\mathbb{P}(A_{i,x})\)
-é absolutamente convergente; portanto, podemos reordenar a série assinada
+é absolutamente convergente. Portanto, podemos reordenar a série sem valor absoluto
 que aparece abaixo.
 Usando a definição de esperança condicional e, novamente, a
 \(\sigma\)-aditividade de \(\mathbb{P}\), obtemos
-\[
-\begin{aligned}
+\begin{align*}
 \sum_{i\in I}\mathbb{E}[X\mid B_i]\,\mathbb{P}(B_i)
-&=\sum_{i\in I}\sum_{x\in\operatorname{Im}X}x\,\mathbb{P}(A_{i,x}) \\
-&=\sum_{x\in\operatorname{Im}X}\sum_{i\in I}x\,\mathbb{P}(A_{i,x}) \\
-&=\sum_{x\in\operatorname{Im}X}x\,\mathbb{P}\left(\bigcup_{i\in I}A_{i,x}\right) \\
+&=
+\sum_{i\in I} \left[ \sum_{x\in\operatorname{Im}X} x\,\mathbb{P}(X=x|B_i) \right] \mathbb{P}(B_i) 
+\\[0.3cm]
+&=
+\sum_{i\in I} \left[ 
+\sum_{x\in\operatorname{Im}X} x\, \frac{\mathbb{P}(\{X=x\}\cap B_i)}{\mathbb{P}(B_i)} 
+\right] \mathbb{P}(B_i) 
+\\[0.3cm]
+&=
+\sum_{i\in I} 
+\sum_{x\in\operatorname{Im}X} x\, \mathbb{P}(\{X=x\}\cap B_i)
+\\[0.3cm]
+&=\sum_{i\in I}\sum_{x\in\operatorname{Im}X}x\,\mathbb{P}(A_{i,x}) 
+\\[0.3cm]
+&=\sum_{x\in\operatorname{Im}X}\sum_{i\in I}x\,\mathbb{P}(A_{i,x}) 
+\\[0.3cm]
+&=\sum_{x\in\operatorname{Im}X}x\,\mathbb{P}\left(\bigcup_{i\in I}A_{i,x}\right) 
+\\[0.3cm]
 &=\sum_{x\in\operatorname{Im}X}x\,\mathbb{P}(X=x)
 =\mathbb{E}[X].
-\end{aligned}
-\]
+\end{align*}
 Isso encerra a prova do teorema.
 \end{proof}
 
@@ -536,9 +571,9 @@ direito de \eqref{eq:particao} pode convergir absolutamente mesmo quando
 \begin{remark}\label{rem:particao-interpretacao}
 O Teorema da Partição afirma que a esperança de \(X\) pode ser decomposta
 como uma \emph{combinação convexa} das esperanças condicionais
-\(\mathbb{E}[X \mid B_i]\), com pesos \(\mathbb{P}(B_i)\), que somam \(1\).
+\(\mathbb{E}[X| B_i]\), com pesos \(\mathbb{P}(B_i)\), que somam \(1\).
 Em particular, o valor de \(\mathbb{E}[X]\) está sempre entre o ínfimo e o
-supremo dos \(\mathbb{E}[X \mid B_i]\). Essa é a contraparte, para esperanças,
+supremo do conjunto de números reais \(\mathbb{E}[X \mid B_i]\). Essa é a contraparte, para esperanças,
 do princípio de que a probabilidade de um evento é a média ponderada das
 probabilidades condicionais, e ela justifica o nome alternativo de \emph{Lei
 da Esperança Total}.
@@ -548,14 +583,28 @@ da Esperança Total}.
 Um caso particular importante é a família de eventos
 \(\{X = x\}\), com \(x \in \operatorname{Im} X\) e \(\mathbb{P}(X = x) > 0\).
 Estritamente, essa família cobre \(\Omega\) a menos do evento
-\(\bigcup_{x: \mathbb{P}(X = x) = 0} \{X = x\}\), que tem probabilidade nula
-por ser uma união enumerável de eventos de probabilidade nula. Como o evento
-omitido tem probabilidade nula, a mesma prova vale; podemos usar a fórmula
-do Teorema da Partição, \Cref{thm:particao-para-esperanca}. Dado que
-\(X = x\), a variável \(X\) é
-\emph{determinística} no valor \(x\), de modo que
-\(\mathbb{E}[X \mid X = x] = x\) (veremos isso no
-\Cref{exercise:funcao-dada-condicao}). Substituindo no Teorema da Partição,
+\begin{align*}
+\bigcup_{ \substack {x \in \operatorname{Im} X \\[0.1cm] \mathbb{P}(X = x) = 0 }} \{X = x\}
+\end{align*}
+que tem probabilidade nula por ser uma união enumerável de eventos de probabilidade nula. 
+
+Como o evento omitido tem probabilidade nula, podemos verificar
+que a prova dada no \Cref{thm:particao-para-esperanca} também continua válida substituindo
+a coleção $\{B_i: i\in I\}$ pela coleção mencionada acima. 
+ 
+Note que dado o evento
+\(\{X = x\}\), a função de probabilidade condicional da variável aleatória \(X\) 
+é tal que 
+\begin{align*}
+\mathbb{P}\bigl(\{X=y\} \bigm| \{X=x\}\bigr) = 0\quad \text{se}\  y\neq x \qquad \text{e}\qquad \mathbb{P}\bigl(\{X=x\} \bigm| \{X=x\}\bigr) = 1.
+\end{align*}
+Portanto segue da definição de esperança condicional que 
+apenas uma parcela da soma abaixo é não-nula e vale a seguinte igualdade
+\begin{align*}
+\mathbb{E}[X \mid X = x] = \sum_{y \in\operatorname{Im} X } y \, \mathbb{P}\bigl(\{X=y\} \bigm| \{X=x\}\bigr) = x.
+\end{align*}
+(veremos uma importante generalização deste fato no \Cref{exercise:funcao-dada-condicao}). 
+Substituindo no Teorema da Partição,
 recuperamos a própria definição de esperança:
 \[
 \mathbb{E}[X] = \sum_{x} x \, \mathbb{P}(X = x),
@@ -564,7 +613,7 @@ pois \(\mathbb{P}(X = x) = 0\) para os termos omitidos. O teorema contém,
 portanto, a definição de esperança como um caso particular.
 \end{remark}
 
-\section{Exemplo: o comprimento esperado da corrida inicial}
+\section{Exemplo: repetições sucessivas}
 \label{sec:corrida-inicial}
 
 Encerramos esta parte do material com um exemplo clássico de aplicação do
@@ -572,41 +621,54 @@ Teorema da Partição, no qual o condicionamento em uma partição de dois
 eventos simplifica drasticamente um cálculo que, feito diretamente, seria
 bem mais trabalhoso.
 
-\begin{example}[Corrida Inicial]\label{ex:corrida-inicial}
-Uma moeda é lançada repetidamente e, em cada lançamento, a face cara aparece
-com probabilidade \(p\), onde \(0 < p = 1 - q < 1\). Determine o
-comprimento esperado da \emph{corrida inicial}, isto é, da sequência de
-resultados idênticos que abre a sequência infinita de lançamentos: uma
-corrida de caras se o primeiro lançamento der cara, e uma corrida de coroas
-caso contrário.
+\begin{example}[Repetições Sucessivas]\label{ex:corrida-inicial}
+Uma moeda é lançada repetidamente. Suponha que em cada lançamento, a face cara aparece
+com probabilidade \(p\), onde \(0 < p < 1\). Determine o
+comprimento esperado do números de repetições sucessivas da mesma face, 
+isto é, se o resultado do primeiro lançamento é cara 
+contamos o número de caras que aparecem até que uma coroa é sorteada. 
+Similarmente, se o primeiro resultado é coroa contamos o número de coroas
+até que uma cara seja sorteada.
 
 \begin{solution}
 Seja \(H\) o evento de o primeiro lançamento resultar em cara e \(H^c\) o
 evento complementar. O par \(\{H, H^c\}\) forma uma partição do espaço
-amostral, e ambos os eventos têm probabilidade positiva. Seja \(X\) o
-comprimento da corrida inicial. Se \(H\) ocorre, então \(X = k\) se, e
+amostral, e ambos os eventos têm probabilidade positiva. Seja \(X\) a
+variável aleatória que conta o número de repetições sucessivas de
+uma determinada face. Se \(H\) ocorre, então \(X = k\) se, e
 somente se, o primeiro lançamento é seguido de exatamente \(k - 1\) caras e
 depois de uma coroa, de modo que
-\[
+\begin{align}\label{eq-aux1-ex-corrida}
 \mathbb{P}(X = k \mid H) = p^{k-1} q \quad \text{para } k = 1, 2, \ldots
-\]
+\end{align}
 e, por simetria,
-\[
+\begin{align}\label{eq-aux2-ex-corrida}
 \mathbb{P}(X = k \mid H^c) = q^{k-1} p \quad \text{para } k = 1, 2, \ldots
-\]
-Usando a identidade
+\end{align}
+
+Antes de prosseguir, observamos que calculando a derivada da fórmula da soma de uma progressão
+geométrica obtemos 
 \[
-\sum_{k=1}^{\infty} k x^{k-1} = \frac{1}{(1-x)^2}, \qquad |x| < 1,
+\frac{d}{d x} \left( \frac{1}{1-x} \right) = \frac{d}{d x} \left( \sum_{k=0}^{\infty} x^k \right)
+=
+\sum_{k=0}^{\infty} \frac{d}{d x} x^k 
+\qquad \Longrightarrow \qquad 
+\frac{1}{(1-x)^2} = \sum_{k=1}^{\infty} k x^{k-1} , \qquad |x| < 1,
 \]
-temos
+
+Com ajuda desta última identidade e usando a igualdade \eqref{eq-aux1-ex-corrida} 
+podemos calcular explicitamente 
+a seguinte esperança condicional
 \[
 \mathbb{E}[X \mid H]
-= \sum_{k=1}^{\infty} k \, p^{k-1} q
-= q \sum_{k=1}^{\infty} k \, p^{k-1}
-= \frac{q}{(1-p)^2}
-= \frac{1}{q},
+\ = \
+\sum_{k=1}^{\infty} k\, \mathbb{P}(X=k|H)
+\ = \ \sum_{k=1}^{\infty} k \, p^{k-1} q
+\ = \ q \sum_{k=1}^{\infty} k \, p^{k-1}
+\ = \ \frac{q}{(1-p)^2}
+\ = \ \frac{1}{q}.
 \]
-e, analogamente,
+De maneira análoga, concluímos que 
 \[
 \mathbb{E}[X \mid H^c] = \frac{1}{p}.
 \]
@@ -629,7 +691,7 @@ Pelo Teorema da Partição, \Cref{thm:particao-para-esperanca},
 No caso particular de uma moeda honesta, \(p = q = 1/2\), a fórmula acima
 fornece \(\mathbb{E}[X] = 1/(1/4) - 2 = 2\). O valor de \(\mathbb{E}[X]\)
 é mínimo em \(p = 1/2\): quando a moeda é viciada, uma das faces é mais
-provável e as corridas tendem a ser mais longas. Por exemplo, se
+provável e o número de repetições sucessivas tendem a ser mais longos. Por exemplo, se
 \(p = q = 1/2\), obtemos 2, enquanto para \(p = 0{,}9\) obtemos
 \(\mathbb{E}[X] = 1/(0{,}09) - 2 \approx 9{,}11\).
 \end{remark}
@@ -650,25 +712,26 @@ e, supondo \(\mathbb{E}[|g(X)|] < \infty\), deduza do Teorema da Partição,
 \mathbb{E}[g(X)] = \sum_x g(x) \, \mathbb{P}(X = x).
 \]
 \begin{solution}
-O evento condicionante \(\{X = x\}\) tem probabilidade positiva por
+Note que o evento \(\{X = x\}\) tem probabilidade positiva por
 hipótese, e a função de probabilidade condicional de \(X\) dado
-\(\{X = x\}\) é degenerada: \(\mathbb{P}(X = y \mid X = x) = 1\) se
+\(\{X = x\}\) é degenerada, isto é, \(\mathbb{P}(X = y \mid X = x) = 1\) se
 \(y = x\), e \(0\) caso contrário. Portanto,
 \[
 \mathbb{E}[g(X) \mid X = x]
 = \sum_{y \in \operatorname{Im} X} g(y) \, \mathbb{P}(X = y \mid X = x)
 = g(x).
 \]
-Usando a observação anterior, aplicamos a fórmula do Teorema da Partição,
-\Cref{thm:particao-para-esperanca}, à família dos eventos \(\{X = x\}\) com
-\(\mathbb{P}(X = x) > 0\), que cobre \(\Omega\) a menos de um evento de
-probabilidade nula. Obtemos
+Usando o fato mencionado na \Cref{rem:particao-esperanca-degenerada} e o Teorema da Partição,
+escolhendo a família $(B_i)_{i\in I}$ como sendo a 
+família de eventos \(\{X = x\}_{x\in \operatorname{Im} X}\), obtemos
 \[
 \mathbb{E}[g(X)]
 = \sum_x \mathbb{E}[g(X) \mid X = x] \, \mathbb{P}(X = x)
 = \sum_x g(x) \, \mathbb{P}(X = x),
 \]
-o que encerra a demonstração. Essa é uma demonstração alternativa do
+o que encerra a demonstração. 
+
+Note que esta é uma demonstração alternativa do
 Teorema da Mudança de Variáveis, apresentado nas notas sobre a esperança de
 variáveis aleatórias discretas.
 \end{solution}
@@ -681,8 +744,9 @@ no resultado do primeiro lançamento, mostre que \(\mathbb{E}[N] = 2\).
 \end{exercise}
 
 \begin{exercise}\label{exercise:dado-particao}
-Retome o \Cref{ex:esperanca-condicional-dado}, com \(X\) o resultado do
-lançamento de um dado honesto. Considere a partição de \(\Omega\) pelos
+Considere o mesmo contexto do \Cref{ex:esperanca-condicional-dado}, onde \(X\) é a variável
+aleatória que representa o resultado do lançamento de um dado honesto. 
+Considere a partição de \(\Omega\) pelos
 eventos \(B_1 = \{X \text{ é par}\}\) e \(B_2 = \{X \text{ é ímpar}\}\).
 Calcule \(\mathbb{E}[X \mid B_2]\) e verifique diretamente que
 \[
