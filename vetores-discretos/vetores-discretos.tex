@@ -414,7 +414,7 @@ Analogamente, somando a segunda linha,
 \end{example}
 
 A discussão acima e o exemplo mostram claramente como é possível 
-à partir da função de probabilidade conjunta de $(X,Y)$ obter as 
+a partir da função de probabilidade conjunta de $(X,Y)$ obter 
 as funções de probabilidade de $X$ e $Y$, por meio das marginais
 
 \begin{figure}[H]
@@ -448,7 +448,8 @@ de probabilidade conjunta, somando sobre a coordenada complementar.}
 dado um vetor aleatório discreto $(X,Y)$ nem sempre é possível
 reconstruir a função de probabilidade conjunta $p_{(X,Y)}$, 
 utilizando apenas as funções de probabilidade $p_{X}$ e $p_{Y}$.
-Vamos voltar neste problema em uma outra oportunidade. 
+Vamos voltar a este problema em uma outra oportunidade: veremos que 
+é a independência das variáveis $X$ e $Y$ que torna essa reconstrução possível. 
 
 
 \bigskip 
@@ -645,7 +646,7 @@ saltaria para $|V|^4 = 6{,}25\times 10^{18}$ entradas, um número astronômico.
 Essa explosão combinatória colossal tornou tabelas explícitas de contagem
 inviáveis para sequências longas e forçou a inteligência artificial a migrar
 para redes neurais (como os \emph{Transformers}). Neles, a tabela é substituída
-por uma função parametrizada no continuo, mas moralmente o objeto probabilístico fundamental
+por uma função parametrizada no continuo, mas em essência o objeto probabilístico fundamental
 continua sendo uma função de probabilidade conjunta sobre sequências de tokens;
 veja \cite{JurafskyMartin}. Mais a frente quando estivermos tratando
 com a esperança condicional de uma variável aleatória com respeito a outra 
@@ -715,9 +716,12 @@ supervisionado (\emph{unsupervised learning}).
 \section{Esperança de Funções de Vetores Aleatórios}
 \label{sec:esperanca-multivariada}
 
-A descrição conjunta torna possível calcular não apenas as probabilidades de
-eventos como $\{X=x\}$ e $\{Y=y\}$, mas também a esperança de expressões que
-dependem simultaneamente das variáveis aleatórias $X$ e $Y$.
+A discussão da seção anterior mostrou como a função de probabilidade conjunta
+organiza toda a informação sobre um par de variáveis aleatórias, inclusive em
+modelos com variáveis latentes, nos quais só observamos a marginal. A mesma
+descrição conjunta torna possível agora ir além das probabilidades de
+eventos como $\{X=x\}$ e $\{Y=y\}$: podemos também calcular a esperança de
+expressões que dependem simultaneamente das variáveis aleatórias $X$ e $Y$.
 
 Antes de calcular a esperança de $g(X,Y)$, precisamos verificar que essa
 expressão define, de fato, uma variável aleatória. Há duas propriedades a
@@ -769,7 +773,7 @@ o produto cartesiano
 também é enumerável. Com efeito, se escrevermos
 $\operatorname{Im}X=\{x_1,x_2,\ldots\}$ e
 $\operatorname{Im}Y=\{y_1,y_2,\ldots\}$, seus pares ordenados 
-podem organizados em uma lista 
+podem ser organizados em uma lista 
 \[
   (x_1,y_1),\ (x_1,y_2),\ (x_2,y_1),\ (x_1,y_3),\ (x_2,y_2),\ (x_3,y_1),\ldots.
 \]
@@ -955,13 +959,38 @@ o que mostra que $\omega\in\{Z=z\}$. Isso prova \eqref{eq:fibra-g-xy}.
 
 Já que cada conjunto que aparece na união do lado direito de
 \eqref{eq:fibra-g-xy} pertence a $\mathcal{F}$ e $I_z$ é enumerável 
-e $\mathcal{F}$ é uma $\sigma$-álgebra, então podemos finalmente concluir que 
+e $\mathcal{F}$ é uma $\sigma$-álgebra, então podemos concluir que 
 \[
   \{Z=z\}\in\mathcal{F}
   \qquad\text{para todo }z\in\mathbb{R}.
 \]
 Se $I_z$ for vazio, a união em \eqref{eq:fibra-g-xy} é o conjunto vazio,
-que também pertence a $\mathcal{F}$. O que encerra a prova da proposição.
+que também pertence a $\mathcal{F}$.
+
+\medskip
+\noindent\textbf{Parte 3: $Z$ é mensurável.}
+
+Para que $Z$ seja uma variável aleatória, precisamos verificar que o conjunto
+\[
+  \{Z\in B\}\equiv\{\omega\in\Omega:Z(\omega)\in B\}
+\]
+é mensurável para todo conjunto de Borel $B\subseteq\mathbb{R}$. Pela Parte 1,
+o conjunto $\operatorname{Im}Z$ é enumerável. Logo, $B\cap\operatorname{Im}Z$,
+sendo um subconjunto de um conjunto enumerável, também é enumerável, e vale a
+decomposição
+\begin{equation}\label{eq:mensurabilidade-z}
+  \{Z\in B\}
+  =\bigcup_{z\in B\cap\operatorname{Im}Z}\{Z=z\}.
+\end{equation}
+Com efeito, $\omega\in\{Z\in B\}$ se, e somente se, $Z(\omega)\in B$; como
+$Z(\omega)\in\operatorname{Im}Z$, isso equivale a
+$Z(\omega)\in B\cap\operatorname{Im}Z$, ou seja, $\omega$ pertence a
+$\{Z=z\}$ para algum $z\in B\cap\operatorname{Im}Z$. Pela Parte 2, cada
+conjunto $\{Z=z\}$ pertence a $\mathcal{F}$, e a união em
+\eqref{eq:mensurabilidade-z} é enumerável. Como $\mathcal{F}$ é fechada por
+uniões enumeráveis, segue que $\{Z\in B\}\in\mathcal{F}$ para todo conjunto
+de Borel $B$, o que mostra que $Z$ é mensurável e, portanto, uma variável
+aleatória. Isso encerra a prova da proposição.
 \end{proof}
 
 
@@ -1036,6 +1065,15 @@ Pode não existir nenhum $\omega\in\Omega$ que realize esses dois valores
 que é o mesmo que $\mathbb{P}(X=x,Y=y)=0$. Nesse caso, o valor $g(x,y)$
 pode não ser assumido por $Z$, ainda que o par $(x,y)$ participe da soma
 do enunciado com peso nulo. 
+
+Um exemplo concreto esclarece a distinção. Seja $X$ o resultado de um
+lançamento de uma moeda justa, com valores em $\{0,1\}$, e tome $Y=X$. Então
+$D=\{0,1\}\times\{0,1\}$, mas os pares $(0,1)$ e $(1,0)$ têm probabilidade
+zero, pois $Y$ coincide com $X$. Para $g(x,y)=x+y$, temos
+$J=g(D)=\{0,1,2\}$, enquanto $Z=g(X,Y)=2X$ só assume os valores
+$\operatorname{Im}Z=\{0,2\}$. Assim, $1\in J\setminus\operatorname{Im}Z$: o
+valor $1$ só seria atingido pelos pares $(0,1)$ e $(1,0)$, que nunca ocorrem
+simultaneamente, e por isso não contribui para a esperança. 
 
 \bigskip 
 
@@ -1486,7 +1524,7 @@ Já temos quase todo terreno preparado para mostrar a
 validade da propriedade de linearidade da esperança. 
 O único preparativo que falta é o seguinte.
 Embora o \Cref{cor:combinacao-linear-va} garanta que 
-$aX+BY$ seja uma variável aleatória é necessário mostrar 
+$aX+bY$ seja uma variável aleatória é necessário mostrar 
 que a série associada a sua esperança é uma série absolutamente convergente. 
 Feito isto, podemos, em seguida, aplicar o \Cref{thm:esperanca-g-xy}.
 
@@ -2045,7 +2083,7 @@ menos $7/2=3{,}5$ arestas, e a partição ilustrada atinge $5$ arestas cortadas.
 \end{example}
 
 \begin{remark}\label{rem:corte-linearidade}
-Três observações sobre o \Cref{ex:corte-aleatorio-grafo} merecem registro.
+Quatro observações sobre o \Cref{ex:corte-aleatorio-grafo} merecem registro.
 
 Primeira: em nenhum momento usamos independência. A probabilidade $1/2$ de
 cada aresta ser cortada veio de uma contagem direta no espaço finito
@@ -2081,14 +2119,11 @@ binárias aleatórias.
 
 \subsection{Permutações}\label{subsec:permutacoes}
 
-Uma permutação de $\{1,2,\ldots,n\}$ é simplesmente uma função bijetiva
-$\sigma:\{1,2,\ldots,n\}\to\{1,2,\ldots,n\}$. O conjunto de todas as
-permutações será denotado por $S_n$:
-\[
-S_n\equiv \bigl\{\sigma:\{1,2,\ldots,n\}\to\{1,2,\ldots,n\}:
-\sigma\ \text{é uma bijeção}\bigr\}.
-\]
-
+Assim como no corte aleatório, o próximo objeto aleatório é escolhido em um
+espaço finito e a linearidade da esperança continua sendo a ferramenta
+principal; a diferença é que agora os pontos do espaço são ordenações e não
+vetores binários. Uma permutação de $\{1,2,\ldots,n\}$ é simplesmente uma função bijetiva
+$\sigma:\{1,2,\ldots,n\}\to\{1,2,\ldots,n\}$. 
 Há várias maneiras de se representar uma permutação. Por exemplo, uma
 permutação do conjunto $\{1,2,3,4\}$ pode ser dada pela função $\sigma$
 definida por $\sigma(1)=2$, $\sigma(2)=4$, $\sigma(3)=3$ e $\sigma(4)=1$.
@@ -2177,7 +2212,18 @@ por isso, não os ligamos por segmentos.}
 \label{fig:grafico-permutacao-2-4-3-1}
 \end{figure}
 
-\subsection{O problema dos chapéus}\label{subsec:problema-chapeus}
+A coleção de todas as
+permutações do conjunto $\{1,2,\ldots,n\}$ será denotado por $S_n$, isto é,
+\[
+S_n\equiv \bigl\{\sigma:\{1,2,\ldots,n\}\to\{1,2,\ldots,n\}:
+\sigma\ \text{é uma bijeção}\bigr\}.
+\]
+Além do mais, o número de elementos desta coleção satisfaz
+\begin{align*}
+\# S_n \, =\, n! 
+\end{align*}
+
+\subsection{O Problema dos Chapéus}\label{subsec:problema-chapeus}
 
 O problema dos chapéus é um clássico da modelagem probabilística, no qual a
 linearidade produz uma resposta notavelmente estável: o valor esperado não
@@ -2692,26 +2738,22 @@ função $x\mapsto 1/x$ é decrescente, para cada $k\geqslant 1$ vale
 \[
 \frac{1}{k+1}\leqslant\int_k^{k+1}\frac{dx}{x}\leqslant\frac{1}{k}.
 \]
-A figura abaixo ilustra essa comparação: em cada faixa $[k,k+1]$, a área sob
-a curva fica entre o retângulo sombreado de altura $1/(k+1)$ e o retângulo
-listrado de altura $1/k$. Para tornar a ideia concreta, destacamos no desenho
-a primeira faixa, $[1,2]$, como representante da faixa genérica $[k,k+1]$.
+A figura abaixo destaca apenas a cota inferior, que será usada para comparar a
+soma com a integral: em cada intervalo $[k,k+1]$, o retângulo sombreado de altura
+$1/(k+1)$ fica inteiramente sob o gráfico da curva. A cota superior é análoga e, para
+não sobrecarregar o desenho, não a repetimos. Para tornar a ideia concreta,
+destacamos o que acontece no intervalo $[1,2]$, como representante de um intervalo
+genérico da forma $[k,k+1]$.
 \begin{center}
 \begin{tikzpicture}[
-  x=1.55cm,
-  y=2.25cm,
+  x=1.45cm,
+  y=3.1cm,
   >=Stealth,
   eixo/.style={->, line width=0.6pt},
   inferior/.style={
-    draw=muted!70,
-    line width=0.55pt,
-    fill=teal!14,
-  },
-  superior/.style={
-    draw=muted!70,
-    line width=0.55pt,
-    pattern=north east lines,
-    pattern color=teal!45,
+    draw=teal!60!black,
+    line width=0.6pt,
+    fill=teal!18,
   },
   chip/.style={
     fill=card,
@@ -2726,7 +2768,7 @@ a primeira faixa, $[1,2]$, como representante da faixa genérica $[k,k+1]$.
 ]
   % Eixos coordenados.
   \draw[eixo] (-0.22,0) -- (5.7,0) node[right=1.5mm] {$x$};
-  \draw[eixo] (0,-0.10) -- (0,1.42) node[above=1.5mm] {$y$};
+  \draw[eixo] (0,-0.10) -- (0,1.40) node[above=1.5mm] {$y$};
   \node[below left=1.5mm, font=\small] at (0,0) {$0$};
   \foreach \k in {1,...,5}
     \node[below=2mm, font=\small] at (\k,0) {$\k$};
@@ -2735,23 +2777,24 @@ a primeira faixa, $[1,2]$, como representante da faixa genérica $[k,k+1]$.
   \fill[teal!7, domain=1:5, samples=80]
     plot (\x,{1/\x}) -- (5,0) -- (1,0) -- cycle;
 
-  % Retângulos inferiores (alturas 1/(k+1)) e superiores (alturas 1/k).
+  % Retângulos inferiores, de altura 1/(k+1).
   \foreach \k in {1,...,4} {
     \fill[inferior] (\k,0) rectangle (\k+1,{1/(\k+1)});
-    \fill[superior] (\k,0) rectangle (\k+1,{1/\k});
   }
 
   % Curva y=1/x.
-  \draw[teal!80!black, line width=0.9pt, domain=0.82:5.5, samples=120]
+  \draw[teal!80!black, line width=1.1pt, domain=0.82:5.5, samples=150]
     plot (\x,{1/\x});
 
   % Faixa [1,2] destacada.
-  \draw[densely dashed, line width=0.6pt, muted!80] (1,0) -- (1,1.10);
-  \draw[densely dashed, line width=0.6pt, muted!80] (2,0) -- (2,1.10);
+  \draw[densely dashed, line width=0.6pt, muted!80] (1,0) -- (1,1.22);
+  \draw[densely dashed, line width=0.6pt, muted!80] (2,0) -- (2,1.22);
+  \draw[teal!90!black, line width=1pt, rounded corners=0.5pt]
+    (1,0) rectangle (2,0.5);
 
-  % Alturas dos retângulos na faixa destacada.
-  \node[chip] at (1.5,1.16) {$\dfrac{1}{k}$};
-  \node[chip] at (1.5,0.25) {$\dfrac{1}{k+1}$};
+  % Altura do retângulo na faixa destacada.
+  \node[chip, text=teal!90!black] at (1.5,0.25)
+    {$\dfrac{1}{2}$};
 
   % Rótulo da curva.
   \node[chip curva, anchor=west] at (3.45,0.52) {$y=\dfrac{1}{x}$};
@@ -2759,9 +2802,9 @@ a primeira faixa, $[1,2]$, como representante da faixa genérica $[k,k+1]$.
   % Área sob a curva na faixa destacada.
   \draw[decorate, decoration={brace, mirror, amplitude=4pt},
         line width=0.6pt, muted]
-    (1,-0.20) -- (2,-0.20);
-  \node[font=\small, text=muted, below=2.5mm] at (1.5,-0.20)
-    {$\displaystyle\int_k^{k+1}\dfrac{dx}{x}$};
+    (1,-0.30) -- (2,-0.30);
+  \node[font=\small, text=muted, below=2.5mm] at (1.5,-0.32)
+    {$\displaystyle \frac{1}{2}\leqslant \int_1^{2}\dfrac{dx}{x}$};
 \end{tikzpicture}
 \end{center}
 Somando a desigualdade à direita em $k=1,\ldots,n$ e a desigualdade à
@@ -2893,6 +2936,8 @@ $\sigma(i)\equiv i+1\pmod{n}$, isto é, o número de convidados que recebem o
 chapéu do próximo convidado na ordem cíclica. Calcule $\mathbb{E}[T]$.
 \end{exercise}
 
+\bigskip 
+
 \begin{exercise}\label{exercise:inversoes}
 Seja $\sigma$ escolhida uniformemente em $S_n$. Dizemos que um par $(i,j)$,
 com $1\leqslant i<j\leqslant n$, é uma \emph{inversão} de $\sigma$ quando
@@ -2906,6 +2951,9 @@ $\sigma(i)$ e $\sigma(j)$ é uma bijeção de $S_n$ em $S_n$ que leva o conjunto
 $\{\sigma:\sigma(i)>\sigma(j)\}$ no conjunto
 $\{\sigma:\sigma(i)<\sigma(j)\}$.
 \end{exercise}
+
+
+\bigskip 
 
 \begin{exercise}\label{exercise:tres-partes}
 Seja $G$ um grafo com $n$ vértices e $m$ arestas. Atribua a cada vértice um
