@@ -646,9 +646,9 @@ saltaria para $|V|^4 = 6{,}25\times 10^{18}$ entradas, um número astronômico.
 Essa explosão combinatória colossal tornou tabelas explícitas de contagem
 inviáveis para sequências longas e forçou a inteligência artificial a migrar
 para redes neurais (como os \emph{Transformers}). Neles, a tabela é substituída
-por uma função parametrizada no continuo, mas em essência o objeto probabilístico fundamental
+por uma função parametrizada no contínuo, mas em essência o objeto probabilístico fundamental
 continua sendo uma função de probabilidade conjunta sobre sequências de tokens;
-veja \cite{JurafskyMartin}. Mais a frente quando estivermos tratando
+veja \cite{JurafskyMartin}. Mais à frente, quando estivermos tratando
 com a esperança condicional de uma variável aleatória com respeito a outra 
 variável aleatória, 
 veremos como usar essa conjunta para calcular a probabilidade da próxima palavra
@@ -876,7 +876,7 @@ obtida da forma mostrada na figura abaixo
 
 É claro que se $\operatorname{Im} X$ é um conjunto finito, por exemplo,
 então a tabela acima possui um número finito de linhas. Observação completamente
-análoga aplica-se ao número de colunas, caso o conjunto $\operatorname{Im} X$
+análoga aplica-se ao número de colunas, caso o conjunto $\operatorname{Im} Y$
 seja finito. 
 
 \medskip
@@ -1707,7 +1707,7 @@ bipartição.
 Vale destacar que a restrição da definição incide exclusivamente sobre as
 \textbf{arestas} existentes, e não sobre os vértices: não é necessário que saia
 ao menos uma aresta de cada vértice. Em particular, vértices \emph{isolados}
-(isto é, sem nenhuma aresta conectada a eles) são perfeitamente permitidos, pois
+(isto é, sem qualquer aresta incidente) são perfeitamente permitidos, pois
 não geram qualquer conflito com a condição de bipartição.
 
 Podemos visualizar essa propriedade colorindo os vértices com duas cores,
@@ -2119,10 +2119,12 @@ binárias aleatórias.
 
 \subsection{Permutações}\label{subsec:permutacoes}
 
-Assim como no corte aleatório, o próximo objeto aleatório é escolhido em um
-espaço finito e a linearidade da esperança continua sendo a ferramenta
-principal; a diferença é que agora os pontos do espaço são ordenações e não
-vetores binários. Uma permutação de $\{1,2,\ldots,n\}$ é simplesmente uma função bijetiva
+Assim como no corte aleatório, as duas próximas aplicações da linearidade
+usam um espaço amostral finito e a decomposição em indicadoras; a diferença é
+que agora o objeto sorteado não é um vetor binário, mas uma ordenação dos
+elementos de um conjunto. Convém, portanto, recordar a noção de permutação.
+
+Uma permutação de $\{1,2,\ldots,n\}$ é uma função bijetiva
 $\sigma:\{1,2,\ldots,n\}\to\{1,2,\ldots,n\}$. 
 Há várias maneiras de se representar uma permutação. Por exemplo, uma
 permutação do conjunto $\{1,2,3,4\}$ pode ser dada pela função $\sigma$
@@ -2213,7 +2215,7 @@ por isso, não os ligamos por segmentos.}
 \end{figure}
 
 A coleção de todas as
-permutações do conjunto $\{1,2,\ldots,n\}$ será denotado por $S_n$, isto é,
+permutações do conjunto $\{1,2,\ldots,n\}$ será denotada por $S_n$, isto é,
 \[
 S_n\equiv \bigl\{\sigma:\{1,2,\ldots,n\}\to\{1,2,\ldots,n\}:
 \sigma\ \text{é uma bijeção}\bigr\}.
