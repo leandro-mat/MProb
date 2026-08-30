@@ -2252,6 +2252,109 @@ $i$ é ou não um recorde envolve apenas comparações entre os valores
 observados, somente a ordem relativa deles importa. Codificamos essa ordem
 por uma permutação $\sigma\in S_n$: o número $\sigma(i)$ é o posto do valor
 observado no instante $i$, com postos maiores indicando observações maiores.
+
+O roteiro será curto: primeiro visualizamos uma permutação, depois calculamos
+a chance de recorde em um instante fixo e, por fim, somamos essas chances para
+obter o número esperado de recordes.
+
+Para começar com um caso concreto, suponha que $n=5$ e que
+\[
+  \sigma=(2,5,1,4,3).
+\]
+Isto significa que a segunda observação foi a maior das cinco, a primeira foi
+a segunda menor, e assim por diante. A permutação pode ser lida também
+geometricamente: o ponto $(i,\sigma(i))$ é o valor da função discreta
+$i\mapsto\sigma(i)$ no instante $i$. A \Cref{fig:permutacoes-s5} mostra três
+possibilidades. Em cada gráfico, os pontos destacados são exatamente aqueles
+que estão acima de todos os pontos à sua esquerda.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  ponto/.style={
+    circle,
+    fill=black,
+    inner sep=0pt,
+    minimum size=1.7mm,
+  },
+  ponto recorde/.style={
+    circle,
+    fill=teal!80!black,
+    draw=teal!80!black,
+    inner sep=0pt,
+    minimum size=2.5mm,
+  },
+]
+  % Primeiro gráfico.
+  \begin{scope}[x=0.63cm,y=0.63cm]
+    \node[font=\scriptsize] at (2.5,6.25)
+      {$\sigma^{(1)}=(2,5,1,4,3)$};
+    \draw[->, line width=0.45pt] (0,0) -- (5.55,0)
+      node[right=1mm] {$i$};
+    \draw[->, line width=0.45pt] (0,0) -- (0,5.55)
+      node[above left=1mm] {$\sigma(i)$};
+    \foreach \k in {1,...,5} {
+      \draw[border!70] (\k,0) -- (\k,5);
+      \draw[border!70] (0,\k) -- (5,\k);
+      \node[font=\scriptsize, text=muted, below=1pt] at (\k,0) {$\k$};
+      \node[font=\scriptsize, text=muted, left=1pt] at (0,\k) {$\k$};
+    }
+    \node[ponto recorde] at (1,2) {};
+    \node[ponto recorde] at (2,5) {};
+    \node[ponto] at (3,1) {};
+    \node[ponto] at (4,4) {};
+    \node[ponto] at (5,3) {};
+  \end{scope}
+
+  % Segundo gráfico.
+  \begin{scope}[xshift=5.45cm,x=0.63cm,y=0.63cm]
+    \node[font=\scriptsize] at (2.5,6.25)
+      {$\sigma^{(2)}=(4,1,3,2,5)$};
+    \draw[->, line width=0.45pt] (0,0) -- (5.55,0)
+      node[right=1mm] {$i$};
+    \draw[->, line width=0.45pt] (0,0) -- (0,5.55)
+      node[above left=1mm] {$\sigma(i)$};
+    \foreach \k in {1,...,5} {
+      \draw[border!70] (\k,0) -- (\k,5);
+      \draw[border!70] (0,\k) -- (5,\k);
+      \node[font=\scriptsize, text=muted, below=1pt] at (\k,0) {$\k$};
+      \node[font=\scriptsize, text=muted, left=1pt] at (0,\k) {$\k$};
+    }
+    \node[ponto recorde] at (1,4) {};
+    \node[ponto] at (2,1) {};
+    \node[ponto] at (3,3) {};
+    \node[ponto] at (4,2) {};
+    \node[ponto recorde] at (5,5) {};
+  \end{scope}
+
+  % Terceiro gráfico.
+  \begin{scope}[xshift=10.9cm,x=0.63cm,y=0.63cm]
+    \node[font=\scriptsize] at (2.5,6.25)
+      {$\sigma^{(3)}=(5,2,1,4,3)$};
+    \draw[->, line width=0.45pt] (0,0) -- (5.55,0)
+      node[right=1mm] {$i$};
+    \draw[->, line width=0.45pt] (0,0) -- (0,5.55)
+      node[above left=1mm] {$\sigma(i)$};
+    \foreach \k in {1,...,5} {
+      \draw[border!70] (\k,0) -- (\k,5);
+      \draw[border!70] (0,\k) -- (5,\k);
+      \node[font=\scriptsize, text=muted, below=1pt] at (\k,0) {$\k$};
+      \node[font=\scriptsize, text=muted, left=1pt] at (0,\k) {$\k$};
+    }
+    \node[ponto recorde] at (1,5) {};
+    \node[ponto] at (2,2) {};
+    \node[ponto] at (3,1) {};
+    \node[ponto] at (4,4) {};
+    \node[ponto] at (5,3) {};
+  \end{scope}
+\end{tikzpicture}
+\caption{Três gráficos de funções discretas $i\mapsto\sigma(i)$ para
+permutações de $\{1,2,3,4,5\}$. Cada linha e cada coluna contém exatamente
+um ponto. Os pontos em destaque são recordes; portanto, da esquerda para a
+direita, os números de recordes são $2$, $2$ e $1$.}
+\label{fig:permutacoes-s5}
+\end{figure}
+
 A hipótese de ordem aleatória corresponde ao espaço de probabilidade
 \[
 \Omega=S_n,
@@ -2261,48 +2364,193 @@ A hipótese de ordem aleatória corresponde ao espaço de probabilidade
 \mathbb{P}(\{\sigma\})=\frac{1}{n!}\ \text{para todo }\sigma\in S_n.
 \]
 
-O instante $i$ é um \emph{recorde} quando $\sigma(i)>\sigma(j)$ para todo
-$j<i$. Denote por
+Depois de observar os primeiros $i$ valores, dizemos que o instante $i$ é um
+\emph{recorde} quando o valor atual é o maior observado até aquele momento.
+Como os valores são distintos, isto equivale a
+$\sigma(i)>\sigma(j)$ para todo $j<i$. Denote por $E_i$ o evento correspondente:
 \[
-E_i=\bigl\{\sigma\in S_n:\sigma(i)>\sigma(j)\text{ para todo }j<i\bigr\}
+E_i=\bigl\{\sigma\in S_n:
+  \sigma(i)=\max\{\sigma(1),\ldots,\sigma(i)\}\bigr\}
 \]
-o evento correspondente e escreva $R_i=\mathds{1}_{E_i}$, de modo que o
-número total de recordes é
+Sua indicadora
+$R_i=\mathds{1}_{E_i}$ vale $1$ quando há recorde no instante $i$ e vale $0$
+caso contrário. Assim, o número total de recordes é
 \[
 R=\sum_{i=1}^n R_i.
 \]
 Note que $E_1=S_n$: a primeira observação não tem antecessoras a superar e é
-sempre um recorde, isto é, $R_1\equiv 1$. A \Cref{fig:recordes-agulhas}
-exibe uma permutação de $S_{10}$ com seus recordes destacados.
+sempre um recorde, isto é, $R_1\equiv 1$. A \Cref{fig:leitura-recordes}
+acompanha todas essas definições em um único exemplo.
 
-O núcleo do exemplo é o cálculo de $\mathbb{P}(R_i=1)$. A intuição é que
-superar $i-1$ valores anteriores é cada vez mais difícil à medida que $i$
-cresce; a contagem a seguir torna essa intuição precisa. O que decide se $i$
-é recorde é a posição ocupada pelo maior valor entre
-$\sigma(1),\ldots,\sigma(i)$, o que sugere particionar $S_n$ segundo o
-conjunto de valores que ocupam as primeiras $i$ posições. Para cada
-$A\subseteq\{1,\ldots,n\}$ com $\#A=i$, defina
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  caixa/.style={
+    draw=border,
+    fill=card,
+    rounded corners=1.5pt,
+    minimum width=1.05cm,
+    minimum height=0.58cm,
+    inner sep=2pt,
+    font=\small,
+  },
+  caixa destaque/.style={
+    caixa,
+    draw=teal!80!black,
+    fill=teal!8,
+    text=teal!90!black,
+    line width=0.9pt,
+  },
+  rotulo/.style={
+    font=\scriptsize\bfseries,
+    text=muted,
+    anchor=east,
+  },
+]
+  \node[font=\small] at (3.75,2.55)
+    {A permutação $\sigma=(2,5,1,4,3)$};
+
+  \foreach \i/\x in {1/1.25,2/2.5,3/3.75,4/5,5/6.25} {
+    \node[font=\scriptsize, text=muted] at (\x,1.97) {$i=\i$};
+  }
+
+  \node[rotulo] at (0.1,1.25) {posto $\sigma(i)$};
+  \node[caixa destaque] at (1.25,1.25) {$2$};
+  \node[caixa destaque] at (2.5,1.25) {$5$};
+  \node[caixa] at (3.75,1.25) {$1$};
+  \node[caixa] at (5,1.25) {$4$};
+  \node[caixa] at (6.25,1.25) {$3$};
+
+  \node[rotulo] at (0.1,0) {máximo até $i$};
+  \node[caixa destaque] at (1.25,0) {$2$};
+  \node[caixa destaque] at (2.5,0) {$5$};
+  \node[caixa] at (3.75,0) {$5$};
+  \node[caixa] at (5,0) {$5$};
+  \node[caixa] at (6.25,0) {$5$};
+
+  \node[rotulo] at (0.1,-1.25) {$R_i$};
+  \node[caixa destaque] at (1.25,-1.25) {$1$};
+  \node[caixa destaque] at (2.5,-1.25) {$1$};
+  \node[caixa] at (3.75,-1.25) {$0$};
+  \node[caixa] at (5,-1.25) {$0$};
+  \node[caixa] at (6.25,-1.25) {$0$};
+
+  \node[
+    font=\scriptsize,
+    text=teal!80!black,
+    align=left,
+    anchor=west,
+  ] at (7.2,0)
+    {recorde quando\\o valor atual\\é o máximo\\até aqui};
+\end{tikzpicture}
+\caption{Leitura da permutação $\sigma=(2,5,1,4,3)$. A linha central guarda
+o máximo acumulado; por isso, os dois primeiros instantes são recordes e
+$R(\sigma)=1+1+0+0+0=2$.}
+\label{fig:leitura-recordes}
+\end{figure}
+
+O núcleo do exemplo é calcular $\mathbb{P}(E_i)$ para cada instante $i$. Uma
+tentativa direta teria de acompanhar simultaneamente as $i-1$ comparações
+$\sigma(i)>\sigma(j)$. Para tornar a contagem manejável, usamos a seguinte
+ideia: como o recorde depende apenas dos primeiros $i$ valores, primeiro
+fixamos quais são esses valores e só depois contamos suas possíveis ordens.
+Para cada $A\subseteq\{1,\ldots,n\}$ com $\#A=i$, defina
 \[
 B_A=\bigl\{\sigma\in S_n:\{\sigma(1),\ldots,\sigma(i)\}=A\bigr\}.
 \]
-Os blocos $B_A$, com $A$ variando dentre os subconjuntos de cardinalidade
-$i$, são dois a dois disjuntos e cobrem $S_n$: cada $\sigma$ pertence
-exatamente ao bloco indexado por $A=\{\sigma(1),\ldots,\sigma(i)\}$. Cada
-bloco tem $i!\,(n-i)!$ elementos, pois há $i!$ ordenações dos valores de $A$
-nas primeiras $i$ posições e $(n-i)!$ ordenações do complemento nas demais.
 
-Dentro de um bloco fixado, identificamos as permutações com recorde no
-instante $i$. Como os valores das primeiras $i$ posições são exatamente os
-elementos de $A$, a condição que define $E_i$ equivale a dizer que
-$\sigma(i)$ é o máximo de $A$; em outros termos, o recorde ocorre
-exatamente quando o máximo de $A$ ocupa a posição $i$. Fixado esse máximo na
-posição $i$, restam $(i-1)!$ ordenações dos demais valores de $A$ nas
-posições $1,\ldots,i-1$ e $(n-i)!$ completamentos, de modo que
+Os conjuntos $B_A$ são blocos disjuntos que cobrem $S_n$: cada permutação
+pertence exatamente ao bloco determinado pelo conjunto de valores que ocupam
+suas primeiras $i$ posições. A \Cref{fig:bloco-recorde} mostra o que acontece
+em um bloco pequeno.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  valor/.style={
+    draw=border,
+    fill=card,
+    rounded corners=1pt,
+    minimum width=0.75cm,
+    minimum height=0.5cm,
+    inner sep=1pt,
+    font=\small,
+  },
+  valor destaque/.style={
+    valor,
+    draw=teal!80!black,
+    fill=teal!8,
+    text=teal!90!black,
+    line width=0.9pt,
+  },
+]
+  \node[font=\small] at (1.7,4.65)
+    {Fixe $i=3$ e $A=\{1,3,5\}$};
+  \node[font=\scriptsize, text=muted] at (1.7,4.15)
+    {as três primeiras posições recebem os valores de $A$};
+  \node[font=\scriptsize, text=muted] at (1.7,-0.18)
+    {as duas posições restantes têm $2!$ completamentos em cada linha};
+
+  \node[font=\scriptsize\bfseries, text=muted] at (0.4,3.85) {$1$};
+  \node[font=\scriptsize\bfseries, text=muted] at (1.6,3.85) {$2$};
+  \node[font=\scriptsize\bfseries, text=muted] at (2.8,3.85) {$3$};
+
+  \node[valor] at (0.4,3.25) {$1$};
+  \node[valor] at (1.6,3.25) {$3$};
+  \node[valor destaque] at (2.8,3.25) {$5$};
+
+  \node[valor] at (0.4,2.65) {$1$};
+  \node[valor] at (1.6,2.65) {$5$};
+  \node[valor] at (2.8,2.65) {$3$};
+
+  \node[valor] at (0.4,2.05) {$3$};
+  \node[valor] at (1.6,2.05) {$1$};
+  \node[valor destaque] at (2.8,2.05) {$5$};
+
+  \node[valor] at (0.4,1.45) {$3$};
+  \node[valor] at (1.6,1.45) {$5$};
+  \node[valor] at (2.8,1.45) {$1$};
+
+  \node[valor] at (0.4,0.85) {$5$};
+  \node[valor] at (1.6,0.85) {$1$};
+  \node[valor] at (2.8,0.85) {$3$};
+
+  \node[valor] at (0.4,0.25) {$5$};
+  \node[valor] at (1.6,0.25) {$3$};
+  \node[valor] at (2.8,0.25) {$1$};
+
+  \node[
+    draw=teal!80!black,
+    fill=teal!8,
+    rounded corners=2pt,
+    align=left,
+    font=\scriptsize,
+    text width=3.2cm,
+    inner sep=5pt,
+  ] at (6.05,1.95)
+    {$\#B_A=3!=6$\\[1mm]
+     $\#(B_A\cap E_3)=2!=2$\\[1mm]
+     $\displaystyle\frac{2}{6}=\frac{1}{3}$};
+\end{tikzpicture}
+\caption{Dentro do bloco correspondente a $A=\{1,3,5\}$, há $3!$ ordens
+possíveis para as primeiras três posições. O recorde em $i=3$ ocorre
+exatamente nas duas linhas em que o maior valor, $5$, aparece na posição $3$.}
+\label{fig:bloco-recorde}
+\end{figure}
+
+Em geral, cada bloco tem $i!\,(n-i)!$ elementos: há $i!$ ordenações dos
+valores de $A$ nas primeiras $i$ posições e $(n-i)!$ ordenações do
+complemento nas demais. Dentro de um bloco fixado, a condição $E_i$ equivale
+a dizer que $\sigma(i)$ é o máximo de $A$. Fixando esse máximo na posição
+$i$, restam $(i-1)!$ ordenações dos outros valores de $A$ e $(n-i)!$
+completamentos. Logo,
 \[
 \#\bigl(B_A\cap E_i\bigr)=(i-1)!\,(n-i)!.
 \]
-Somando sobre os $\binom{n}{i}$ blocos e usando a identidade
-$\binom{n}{i}=n!/\bigl(i!\,(n-i)!\bigr)$, obtemos
+Esse é o ponto em que a simetria fica visível: entre as $i$ posições do
+prefixo, o máximo pode ocupar qualquer uma delas e cada posição recebe a
+mesma quantidade de completamentos. A contagem formaliza essa intuição:
+como existem $\binom{n}{i}$ escolhas para $A$, obtemos
 \begin{align*}
 \#E_i
 &=\binom{n}{i}\,(i-1)!\,(n-i)!
@@ -2311,18 +2559,19 @@ $\binom{n}{i}=n!/\bigl(i!\,(n-i)!\bigr)$, obtemos
 \\[0.2cm]
 &=\frac{n!}{i}.
 \end{align*}
-Como $\mathbb{P}$ atribui massa $1/n!$ a cada permutação,
+Como todas as permutações têm probabilidade $1/n!$,
 \[
-\mathbb{P}(R_i=1)=\mathbb{P}(E_i)=\frac{\#E_i}{n!}=\frac{1}{i}.
+\mathbb{P}(R_i=1)=\mathbb{P}(E_i)
+=\frac{\#E_i}{n!}
+=\frac{1}{i}.
 \]
-Para $i=1$ a fórmula devolve $\mathbb{P}(R_1=1)=1$, em acordo com
+Para $i=1$, a fórmula devolve $\mathbb{P}(R_1=1)=1$, em acordo com
 $R_1\equiv 1$.
 
-O resto é tarefa para a linearidade. Como cada $R_i$ só assume os valores
-$0$ e $1$, a série que define $\mathbb{E}[R_i]$ tem uma única parcela não
-nula e converge absolutamente. Pela identidade
+Agora o papel das indicadoras fica completo: cada $R_i$ responde a uma única
+pergunta local, e $R$ soma essas respostas. Pela identidade
 $\mathbb{E}[\mathds{1}_E]=\mathbb{P}(E)$ e pela
-\Cref{thm:linearidade-esperanca}, estendida a somas finitas,
+\Cref{thm:linearidade-esperanca}, aplicada a uma soma finita,
 \begin{align*}
 \mathbb{E}[R]
 &=\sum_{i=1}^n\mathbb{E}[R_i]
@@ -2334,9 +2583,10 @@ $\mathbb{E}[\mathds{1}_E]=\mathbb{P}(E)$ e pela
 \end{align*}
 o $n$-ésimo \emph{número harmônico}.
 
-Resta entender o quão rápido $H_n$ cresce, e para isso comparamos a soma que
-o define com o logaritmo. Como a função $x\mapsto 1/x$ é decrescente, para
-cada $k\geqslant 1$ vale
+Essa é a resposta exata. Para interpretar seu tamanho, resta entender quão
+rápido $H_n$ cresce. A soma é formada pelos valores de $1/x$ nos inteiros;
+por isso, comparamos seus termos com a área sob a curva $y=1/x$. Como a
+função $x\mapsto 1/x$ é decrescente, para cada $k\geqslant 1$ vale
 \[
 \frac{1}{k+1}\leqslant\int_k^{k+1}\frac{dx}{x}\leqslant\frac{1}{k}.
 \]
@@ -2362,7 +2612,9 @@ $H_{10}\approx 2{,}93$, $H_{100}\approx 5{,}19$ e, com um milhão de
 observações, esperamos cerca de $14$ recordes. Multiplicar por dez o número
 de observações eleva o valor esperado de aproximadamente $3$ para
 aproximadamente $5$ recordes; a cada instante $i$ a chance de recorde é
-$1/i$, e os recordes tornam-se progressivamente raros.
+$1/i$, e os recordes tornam-se progressivamente raros. Uma realização
+concreta com $n=10$, na qual se pode comparar o número efetivo de recordes com
+o valor médio $H_{10}$, aparece na \Cref{fig:recordes-agulhas}.
 \end{example}
 
 \begin{figure}[H]
