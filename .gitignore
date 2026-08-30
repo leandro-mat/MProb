@@ -33,6 +33,9 @@ texput.log
 # Guia local de notações e convenções (uso interno, não publicar)
 NOTACOES-E-CONVENCOES.md
 
+# Instruções para LLM atualizar a homepage (uso interno, não publicar)
+INSTRUCOES-ATUALIZACAO.md
+
 # PDF gerado do template (não versionar para evitar tráfego no GitHub)
 arquivos-aux/template-notas.pdf
 
