@@ -1605,7 +1605,7 @@ espaço amostral e deixamos que a linearidade some os resultados. O ponto
 central do roteiro é que ele não exige qualquer noção de independência entre
 as parcelas.
 
-Os três exemplos a seguir ilustram esse roteiro em cenários clássicos: cortes
+As três aplicações a seguir ilustram esse roteiro em cenários clássicos: cortes
 aleatórios em grafos, o problema dos chapéus e recordes em permutações
 aleatórias. No primeiro deles, a esperança de uma variável aleatória
 convenientemente construída prova um resultado de existência puramente
@@ -1615,9 +1615,10 @@ exposição sistemática é o objeto do livro de Alon e Spencer
 
 \bigskip
 
-Antes de apresentar nossa primeira aplicação, convém introduzir brevemente a
-noção de \emph{grafo}, que é a estrutura matemática padrão para representar
-redes e conexões entre objetos.
+\subsection{Cortes aleatórios em grafos}\label{subsec:cortes-aleatorios}
+
+Convém introduzir brevemente a noção de \emph{grafo}, que é a estrutura
+matemática padrão para representar redes e conexões entre objetos.
 
 Intuitivamente, um grafo é formado por dois blocos fundamentais:
 \begin{itemize}
@@ -1864,7 +1865,7 @@ internas a $V_0$ (tracejadas em cinza) foram descartadas.}
 \label{fig:corte-grafo}
 \end{figure}
 
-\begin{example}[Cortes aleatórios em grafos]\label{ex:corte-aleatorio-grafo}
+\begin{example}\label{ex:corte-aleatorio-grafo}
 Vamos provar que todo grafo finito com $m$ arestas contém um subgrafo
 bipartido com pelo menos $\displaystyle\frac{m}{2}$ arestas.
 
@@ -2078,23 +2079,120 @@ modeling}), a máscara aplicada é igualmente um vetor binário. O corte aleató
 binárias aleatórias.
 \end{remark}
 
-\bigskip
+\subsection{Permutações}\label{subsec:permutacoes}
 
-O próximo exemplo é um clássico da modelagem probabilística, no qual a
+Uma permutação de $\{1,2,\ldots,n\}$ é simplesmente uma função bijetiva
+$\sigma:\{1,2,\ldots,n\}\to\{1,2,\ldots,n\}$. O conjunto de todas as
+permutações será denotado por $S_n$:
+\[
+S_n\equiv \bigl\{\sigma:\{1,2,\ldots,n\}\to\{1,2,\ldots,n\}:
+\sigma\ \text{é uma bijeção}\bigr\}.
+\]
+
+Há várias maneiras de se representar uma permutação. Por exemplo, uma
+permutação do conjunto $\{1,2,3,4\}$ pode ser dada pela função $\sigma$
+definida por $\sigma(1)=2$, $\sigma(2)=4$, $\sigma(3)=3$ e $\sigma(4)=1$.
+Esta permutação também pode ser representada pela notação em uma linha
+$(2,4,3,1)$, que nada mais é do que a lista das imagens
+$\sigma(1)\,\sigma(2)\,\sigma(3)\,\sigma(4)$, como mostra a figura abaixo:
+\begin{center}
+\begin{tikzpicture}[
+  >=Stealth,
+  valor/.style={
+    circle,
+    draw=teal!80!black,
+    line width=0.8pt,
+    fill=card,
+    text=text,
+    minimum size=6mm,
+    inner sep=0pt,
+    font=\large,
+  },
+  seta/.style={
+    -{Latex[length=2.2mm,width=1.6mm]},
+    line width=0.9pt,
+    draw=teal!55,
+  },
+]
+  % Linha superior: as imagens \sigma(i).
+  \node[valor] (s1) at (0,2.2) {$2$};
+  \node[valor] (s2) at (1.5,2.2) {$4$};
+  \node[valor] (s3) at (3.0,2.2) {$3$};
+  \node[valor] (s4) at (4.5,2.2) {$1$};
+
+  % Linha inferior: o domínio \{1,2,3,4\}.
+  \node[valor] (d1) at (0,0) {$1$};
+  \node[valor] (d2) at (1.5,0) {$2$};
+  \node[valor] (d3) at (3.0,0) {$3$};
+  \node[valor] (d4) at (4.5,0) {$4$};
+
+  % Cada posição i aponta para a imagem sigma(i) que está acima dela.
+  \draw[seta] (d1.north) -- (s1.south); % 1 -> sigma(1)=2
+  \draw[seta] (d2.north) -- (s2.south); % 2 -> sigma(2)=4
+  \draw[seta] (d3.north) -- (s3.south); % 3 -> sigma(3)=3
+  \draw[seta] (d4.north) -- (s4.south); % 4 -> sigma(4)=1
+
+  % Rótulos das linhas.
+  \node[font=\small, anchor=east] at (-0.55,0) {posição $i$:};
+  \node[font=\small, anchor=east] at (-0.55,2.2) {$\sigma(i)$:};
+\end{tikzpicture}
+\end{center}
+Por exemplo, a primeira seta lê-se $1\mapsto\sigma(1)=2$; a segunda,
+$2\mapsto\sigma(2)=4$, e assim por diante.
+
+Uma maneira familiar de visualizar uma função é desenhar seu gráfico no
+plano cartesiano. Colocamos a entrada $x$ no eixo horizontal e a saída
+$y=\sigma(x)$ no eixo vertical. Para a permutação acima, obtemos os pontos
+$(1,2)$, $(2,4)$, $(3,3)$ e $(4,1)$:
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  ponto funcao/.style={
+    circle,
+    fill=teal!80!black,
+    inner sep=0pt,
+    minimum size=2.5mm,
+  },
+]
+  \begin{scope}[x=0.9cm,y=0.9cm]
+    \draw[-stealth, line width=0.5pt] (0,0) -- (4.65,0)
+      node[right=1mm] {$x$};
+    \draw[-stealth, line width=0.5pt] (0,0) -- (0,4.65)
+      node[above left=1mm] {$y$};
+    \foreach \k in {1,...,4} {
+      \draw[border!70] (\k,0) -- (\k,4);
+      \draw[border!70] (0,\k) -- (4,\k);
+      \node[font=\small, text=muted, below=1pt] at (\k,0) {$\k$};
+      \node[font=\small, text=muted, left=1pt] at (0,\k) {$\k$};
+    }
+    \foreach \x/\y in {1/2,2/4,3/3,4/1} {
+      \node[ponto funcao] at (\x,\y) {};
+    }
+  \end{scope}
+\end{tikzpicture}
+\caption{Gráfico da função discreta $y=\sigma(x)$ associada à permutação
+$(2,4,3,1)$. Como o domínio é discreto, o gráfico é formado por pontos isolados;
+por isso, não os ligamos por segmentos.}
+\label{fig:grafico-permutacao-2-4-3-1}
+\end{figure}
+
+\subsection{O problema dos chapéus}\label{subsec:problema-chapeus}
+
+O problema dos chapéus é um clássico da modelagem probabilística, no qual a
 linearidade produz uma resposta notavelmente estável: o valor esperado não
 depende do tamanho do problema.
 
-\begin{example}[O problema dos chapéus]\label{ex:chapeus-pontos-fixos}
+\begin{example}\label{ex:chapeus-pontos-fixos}
 Um grupo de $n$ convidados deixa seus chapéus no guarda-volumes de um
 restaurante e, na saída, os chapéus são devolvidos em uma ordem aleatória.
 Quantos convidados recebem o próprio chapéu, em média? Vamos mostrar que a
 resposta é exatamente $1$, qualquer que seja $n$.
 
-O primeiro passo é especificar o modelo. Denote por $S_n$ o conjunto das
-permutações de $\{1,\ldots,n\}$ e vamos interpretar o valor $\sigma(i)$ como sendo
-o número do convidado que recebeu o chapéu do convidado $i$. 
-A hipótese de devolução aleatória será modelada pela distribuição uniforme. Assim nosso 
-problema pode ser tratado no seguinte espaço de probabilidade
+O primeiro passo é especificar o modelo. Para $\sigma\in S_n$, interpretamos
+o valor $\sigma(i)$ como sendo o número do convidado que recebeu o chapéu do
+convidado $i$. A hipótese de devolução aleatória será modelada pela distribuição
+uniforme. Assim, nosso problema pode ser tratado no seguinte espaço de probabilidade:
 \[
 \Omega=S_n,
 \qquad
@@ -2102,9 +2200,8 @@ problema pode ser tratado no seguinte espaço de probabilidade
 \qquad
 \mathbb{P}(\{\sigma\})=\frac{1}{n!}\ \text{para todo }\sigma\in S_n,
 \]
-A escolha da medida de probabilidade 
-é feita de modo que qualquer uma das maneiras de realizar a devolução  
-dos chapéus é igualmente provável.
+Essa escolha da medida de probabilidade é feita de modo que qualquer uma das
+maneiras de realizar a devolução dos chapéus é igualmente provável.
 
 A variável aleatória de interesse é
 \[
@@ -2239,19 +2336,20 @@ introduzimos nestas notas. Registramos o fato como motivação para
 retornarmos a este problema mais adiante no curso.
 \end{remark}
 
-\bigskip
+\subsection{Recordes em uma permutação aleatória}\label{subsec:recordes}
 
-Encerramos com um exemplo sobre a frequência com que recordes aparecem em uma
-sequência de observações. A resposta, o número harmônico $H_n$, quantifica
+Estudaremos agora a frequência com que recordes aparecem em uma sequência de
+observações. A resposta, o número harmônico $H_n$, quantifica
 uma intuição familiar: recordes se tornam cada vez mais raros.
 
-\begin{example}[Recordes em uma permutação aleatória]\label{ex:recordes-permutacao}
+\begin{example}\label{ex:recordes-permutacao}
 Considere $n$ observações com valores dois a dois distintos, como as marcas
 sucessivas registradas em uma competição. Como a decisão de que o instante
 $i$ é ou não um recorde envolve apenas comparações entre os valores
 observados, somente a ordem relativa deles importa. Codificamos essa ordem
-por uma permutação $\sigma\in S_n$: o número $\sigma(i)$ é o posto do valor
-observado no instante $i$, com postos maiores indicando observações maiores.
+por uma permutação $\sigma\in S_n$: o número $\sigma(i)$ indica a posição
+relativa do valor observado no instante $i$. Assim, $\sigma(i)=1$ corresponde
+ao menor valor e $\sigma(i)=n$ ao maior.
 
 O roteiro será curto: primeiro visualizamos uma permutação, depois calculamos
 a chance de recorde em um instante fixo e, por fim, somamos essas chances para
@@ -2265,15 +2363,15 @@ Isto significa que a segunda observação foi a maior das cinco, a primeira foi
 a segunda menor, e assim por diante. A permutação pode ser lida também
 geometricamente: o ponto $(i,\sigma(i))$ é o valor da função discreta
 $i\mapsto\sigma(i)$ no instante $i$. A \Cref{fig:permutacoes-s5} mostra três
-possibilidades. Em cada gráfico, os pontos destacados são exatamente aqueles
-que estão acima de todos os pontos à sua esquerda.
+possibilidades. Em cada gráfico, os pontos em teal são os recordes, enquanto
+os pontos vermelhos não são recordes.
 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
   ponto/.style={
     circle,
-    fill=black,
+    fill=red!75!black,
     inner sep=0pt,
     minimum size=1.7mm,
   },
@@ -2289,9 +2387,9 @@ que estão acima de todos os pontos à sua esquerda.
   \begin{scope}[x=0.63cm,y=0.63cm]
     \node[font=\scriptsize] at (2.5,6.25)
       {$\sigma^{(1)}=(2,5,1,4,3)$};
-    \draw[->, line width=0.45pt] (0,0) -- (5.55,0)
+    \draw[-stealth, line width=0.45pt] (0,0) -- (5.55,0)
       node[right=1mm] {$i$};
-    \draw[->, line width=0.45pt] (0,0) -- (0,5.55)
+    \draw[-stealth, line width=0.45pt] (0,0) -- (0,5.55)
       node[above left=1mm] {$\sigma(i)$};
     \foreach \k in {1,...,5} {
       \draw[border!70] (\k,0) -- (\k,5);
@@ -2310,9 +2408,9 @@ que estão acima de todos os pontos à sua esquerda.
   \begin{scope}[xshift=5.45cm,x=0.63cm,y=0.63cm]
     \node[font=\scriptsize] at (2.5,6.25)
       {$\sigma^{(2)}=(4,1,3,2,5)$};
-    \draw[->, line width=0.45pt] (0,0) -- (5.55,0)
+    \draw[-stealth, line width=0.45pt] (0,0) -- (5.55,0)
       node[right=1mm] {$i$};
-    \draw[->, line width=0.45pt] (0,0) -- (0,5.55)
+    \draw[-stealth, line width=0.45pt] (0,0) -- (0,5.55)
       node[above left=1mm] {$\sigma(i)$};
     \foreach \k in {1,...,5} {
       \draw[border!70] (\k,0) -- (\k,5);
@@ -2331,9 +2429,9 @@ que estão acima de todos os pontos à sua esquerda.
   \begin{scope}[xshift=10.9cm,x=0.63cm,y=0.63cm]
     \node[font=\scriptsize] at (2.5,6.25)
       {$\sigma^{(3)}=(5,2,1,4,3)$};
-    \draw[->, line width=0.45pt] (0,0) -- (5.55,0)
+    \draw[-stealth, line width=0.45pt] (0,0) -- (5.55,0)
       node[right=1mm] {$i$};
-    \draw[->, line width=0.45pt] (0,0) -- (0,5.55)
+    \draw[-stealth, line width=0.45pt] (0,0) -- (0,5.55)
       node[above left=1mm] {$\sigma(i)$};
     \foreach \k in {1,...,5} {
       \draw[border!70] (\k,0) -- (\k,5);
@@ -2350,8 +2448,9 @@ que estão acima de todos os pontos à sua esquerda.
 \end{tikzpicture}
 \caption{Três gráficos de funções discretas $i\mapsto\sigma(i)$ para
 permutações de $\{1,2,3,4,5\}$. Cada linha e cada coluna contém exatamente
-um ponto. Os pontos em destaque são recordes; portanto, da esquerda para a
-direita, os números de recordes são $2$, $2$ e $1$.}
+um ponto. Os pontos em teal são recordes e os pontos vermelhos não são recordes;
+portanto, da esquerda para a direita, os números de recordes são $2$, $2$ e
+$1$.}
 \label{fig:permutacoes-s5}
 \end{figure}
 
@@ -2378,8 +2477,10 @@ caso contrário. Assim, o número total de recordes é
 \[
 R=\sum_{i=1}^n R_i.
 \]
-Note que $E_1=S_n$: a primeira observação não tem antecessoras a superar e é
-sempre um recorde, isto é, $R_1\equiv 1$. A \Cref{fig:leitura-recordes}
+Note que o evento $E_1$ é igual a todo o espaço amostral $S_n$,
+porque a primeira observação, de qualquer permutação,
+não tem antecessoras a superar e será sempre um recorde.
+Portanto $R_1\equiv 1$. A \Cref{fig:leitura-recordes}
 acompanha todas essas definições em um único exemplo.
 
 \begin{figure}[H]
@@ -2414,7 +2515,7 @@ acompanha todas essas definições em um único exemplo.
     \node[font=\scriptsize, text=muted] at (\x,1.97) {$i=\i$};
   }
 
-  \node[rotulo] at (0.1,1.25) {posto $\sigma(i)$};
+  \node[rotulo] at (0.1,1.25) {valor de $\sigma(i)$};
   \node[caixa destaque] at (1.25,1.25) {$2$};
   \node[caixa destaque] at (2.5,1.25) {$5$};
   \node[caixa] at (3.75,1.25) {$1$};
@@ -2443,9 +2544,10 @@ acompanha todas essas definições em um único exemplo.
   ] at (7.2,0)
     {recorde quando\\o valor atual\\é o máximo\\até aqui};
 \end{tikzpicture}
-\caption{Leitura da permutação $\sigma=(2,5,1,4,3)$. A linha central guarda
-o máximo acumulado; por isso, os dois primeiros instantes são recordes e
-$R(\sigma)=1+1+0+0+0=2$.}
+\caption{Leitura da permutação $\sigma=(2,5,1,4,3)$. A primeira linha mostra
+a posição relativa de cada observação na ordem crescente ($1$ = menor e
+$5$ = maior). A linha central guarda o máximo acumulado; por isso, os dois
+primeiros instantes são recordes e $R(\sigma)=1+1+0+0+0=2$.}
 \label{fig:leitura-recordes}
 \end{figure}
 
@@ -2579,7 +2681,7 @@ $\mathbb{E}[\mathds{1}_E]=\mathbb{P}(E)$ e pela
 &=\sum_{i=1}^n\mathbb{P}(R_i=1)
 \\[0.3cm]
 &=\sum_{i=1}^n\frac{1}{i}
-=:H_n,
+\equiv H_n,
 \end{align*}
 o $n$-ésimo \emph{número harmônico}.
 
@@ -2590,6 +2692,78 @@ função $x\mapsto 1/x$ é decrescente, para cada $k\geqslant 1$ vale
 \[
 \frac{1}{k+1}\leqslant\int_k^{k+1}\frac{dx}{x}\leqslant\frac{1}{k}.
 \]
+A figura abaixo ilustra essa comparação: em cada faixa $[k,k+1]$, a área sob
+a curva fica entre o retângulo sombreado de altura $1/(k+1)$ e o retângulo
+listrado de altura $1/k$. Para tornar a ideia concreta, destacamos no desenho
+a primeira faixa, $[1,2]$, como representante da faixa genérica $[k,k+1]$.
+\begin{center}
+\begin{tikzpicture}[
+  x=1.55cm,
+  y=2.25cm,
+  >=Stealth,
+  eixo/.style={->, line width=0.6pt},
+  inferior/.style={
+    draw=muted!70,
+    line width=0.55pt,
+    fill=teal!14,
+  },
+  superior/.style={
+    draw=muted!70,
+    line width=0.55pt,
+    pattern=north east lines,
+    pattern color=teal!45,
+  },
+  chip/.style={
+    fill=card,
+    inner sep=2pt,
+    rounded corners=1pt,
+    font=\small,
+  },
+  chip curva/.style={
+    chip,
+    text=teal!80!black,
+  },
+]
+  % Eixos coordenados.
+  \draw[eixo] (-0.22,0) -- (5.7,0) node[right=1.5mm] {$x$};
+  \draw[eixo] (0,-0.10) -- (0,1.42) node[above=1.5mm] {$y$};
+  \node[below left=1.5mm, font=\small] at (0,0) {$0$};
+  \foreach \k in {1,...,5}
+    \node[below=2mm, font=\small] at (\k,0) {$\k$};
+
+  % Área sob a curva y=1/x, no intervalo [1,5].
+  \fill[teal!7, domain=1:5, samples=80]
+    plot (\x,{1/\x}) -- (5,0) -- (1,0) -- cycle;
+
+  % Retângulos inferiores (alturas 1/(k+1)) e superiores (alturas 1/k).
+  \foreach \k in {1,...,4} {
+    \fill[inferior] (\k,0) rectangle (\k+1,{1/(\k+1)});
+    \fill[superior] (\k,0) rectangle (\k+1,{1/\k});
+  }
+
+  % Curva y=1/x.
+  \draw[teal!80!black, line width=0.9pt, domain=0.82:5.5, samples=120]
+    plot (\x,{1/\x});
+
+  % Faixa [1,2] destacada.
+  \draw[densely dashed, line width=0.6pt, muted!80] (1,0) -- (1,1.10);
+  \draw[densely dashed, line width=0.6pt, muted!80] (2,0) -- (2,1.10);
+
+  % Alturas dos retângulos na faixa destacada.
+  \node[chip] at (1.5,1.16) {$\dfrac{1}{k}$};
+  \node[chip] at (1.5,0.25) {$\dfrac{1}{k+1}$};
+
+  % Rótulo da curva.
+  \node[chip curva, anchor=west] at (3.45,0.52) {$y=\dfrac{1}{x}$};
+
+  % Área sob a curva na faixa destacada.
+  \draw[decorate, decoration={brace, mirror, amplitude=4pt},
+        line width=0.6pt, muted]
+    (1,-0.20) -- (2,-0.20);
+  \node[font=\small, text=muted, below=2.5mm] at (1.5,-0.20)
+    {$\displaystyle\int_k^{k+1}\dfrac{dx}{x}$};
+\end{tikzpicture}
+\end{center}
 Somando a desigualdade à direita em $k=1,\ldots,n$ e a desigualdade à
 esquerda em $k=1,\ldots,n-1$, obtemos
 \[
