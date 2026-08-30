@@ -35,3 +35,6 @@ NOTACOES-E-CONVENCOES.md
 
 # PDF gerado do template (não versionar para evitar tráfego no GitHub)
 arquivos-aux/template-notas.pdf
+
+# Saídas de subagentes (arquivos de comunicação, nunca versionar)
+agent-output/

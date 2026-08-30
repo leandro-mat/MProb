@@ -1,0 +1,2539 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazil]{babel}        % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Vetores Aleatórios Discretos},
+pdfauthor={L. Cioletti},
+pdfsubject={Vetores aleatórios discretos, distribuição conjunta, marginais e esperança multivariada},
+pdfkeywords={vetor aleatório discreto, função de probabilidade conjunta, distribuição marginal, esperança, linearidade, modelo de linguagem, bigramas, atenção, variáveis latentes, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheorem{exercise}{Exercício}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\addto\captionsbrazil{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+\vspace{0.5cm}
+
+% --- TÍTULO, AUTOR E DATA ---
+\begin{center}
+{\LARGE\bf Vetores Aleatórios Discretos}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Agosto de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Nestas notas apresentamos a definição de vetores
+aleatórios discretos e algumas de suas propriedades elementares. 
+Introduzimos a função de probabilidade conjunta de um par
+$(X,Y)$ de variáveis aleatórias discretas, bem como suas funções de
+probabilidade marginais obtidas por soma sobre a variável complementar.
+Apresentamos o cálculo da esperança de funções $g(X,Y)$ a partir da
+distribuição conjunta e deduzimos, como caso particular, a linearidade do
+operador esperança. Concluímos com três aplicações desta propriedade que não
+exigem independência: cortes aleatórios em grafos, o problema dos chapéus e
+recordes em permutações aleatórias. Ao longo do texto, as ferramentas são
+ilustradas em contextos contemporâneos de inteligência artificial: modelos de
+linguagem de bigramas e variáveis latentes como funções de probabilidade
+conjunta, e os mecanismos de agrupamento (\emph{pooling}) e de atenção como
+casos particulares da esperança. O texto segue de perto as Seções 3.1 e 3.2 do
+Capítulo 3 de Grimmett e Welsh \cite{GrimmettWelsh2014}, com uma aplicação
+extraída do livro de Alon e Spencer \cite{AlonSpencer2016}.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+\section{Probabilidade Conjunta e Vetores Aleatórios}
+\label{sec:bivariadas}
+
+Considere, por exemplo, o lançamento de dois dados. O resultado pode ser
+representado por um par $(i,j)$, em que $i$ é o resultado do primeiro dado e
+$j$ é o resultado do segundo. Podemos visualizar esse par como um ponto do
+plano: a primeira coordenada indica a posição sobre um eixo e a segunda
+coordenada indica a posição sobre o outro eixo.
+
+Essa ideia pode ser formalizada por meio do conceito de vetor aleatório. 
+Se $X$ e $Y$ são
+variáveis aleatórias discretas definidas sobre um espaço de probabilidade
+$(\Omega,\mathcal{F},\mathbb{P})$, o par ordenado $(X,Y)$ registra simultaneamente os
+dois valores observados e pode ser visto como um vetor aleatório com valores
+em $\mathbb{R}^2$. 
+
+Por questão de conveniência, dados um par de números reais $x,y$, vamos usar a notação 
+$\mathbb{P}(X=x,Y=y)$ para denotar a probabilidade de ocorrência
+do evento $\{X=x\} \cap \{Y=y\}$, isto é,
+\begin{align*}
+\mathbb{P}(X=x,Y=y) \equiv \mathbb{P}(\{X=x\}\cap \{Y=y\}).
+\end{align*}
+
+\begin{definition}[Função de probabilidade conjunta]\label{def:funcao-probabilidade-conjunta}
+Se $X$ e $Y$ são variáveis aleatórias discretas em
+$(\Omega,\mathcal{F},\mathbb{P})$, a \emph{função de probabilidade conjunta}
+$p_{X,Y}$ de $X$ e $Y$ é a função $p_{X,Y} : \mathbb{R}^2 \to [0,1]$ definida por
+\begin{equation}\label{eq:conjunta-definicao}
+  p_{X,Y}(x, y) 
+  = 
+  \mathbb{P}\bigl(\{\omega \in \Omega : X(\omega) = x \text{ e } Y(\omega) = y\}\bigr),
+\end{equation}
+usualmente abreviada como $p_{X,Y}(x, y) = \mathbb{P}(X = x, Y = y)$.
+\end{definition}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Stealth,
+  blob/.style={use Hobby shortcut, closed, line width=0.6pt},
+  ponto/.style={circle, fill=black, inner sep=0pt, minimum size=1.4mm},
+]
+  % Espaço amostral Omega (feijão exterior)
+  \draw[blob]
+    (-1.58,1.2) .. (-0.11,-1.25) .. (1.04,-0.62) .. (2.53,-1.42) .. (3.61,0.13)
+    .. (3.88,1.41) .. (3.2,2.12) .. (1.72,2.36) .. (0.23,2.55);
+  \node at (0.6,3.0) {$\Omega$};
+
+  % Dois resultados possíveis e suas imagens
+  \coordinate (omegaone) at (0.15,0.25);
+  \coordinate (omegatwo) at (2.15,1.55);
+  \coordinate (imageone) at (8.15,0.25);
+  \coordinate (imagetwo) at (9.25,1.95);
+
+  % Plano euclidiano (contradomínio)
+  \draw[->, line width=0.5pt] (5.3,-1.05) -- (10.65,-1.05)
+    node[right=1.5mm] {$x$};
+  \draw[->, line width=0.5pt] (6.3,-2.05) -- (6.3,3.3)
+    node[above=1mm] {$y$};
+  \node[below left=1mm] at (6.3,-1.05) {$0$};
+  \node at (9.7,3.0) {$\mathbb{R}^2$};
+
+  % Setas representando o vetor aleatório
+  \draw[->, line width=0.5pt, shorten >=2.5mm]
+    (omegaone) to[out=8, in=192]
+    node[pos=0.52, above=1.5mm] {} (imageone);
+  \draw[->, line width=0.5pt, , shorten >=2.5mm]
+    (omegatwo) to[out=-4, in=172] (imagetwo);
+
+  % Pontos e respectivas identificações
+  \node at (4.5,2.6) {$\mathbf{X}\equiv (X,Y)$};
+  \node[ponto] at (omegaone) {};
+  \node[ponto] at (omegatwo) {};
+  \node[ponto] at (imageone) {};
+  \node[ponto] at (imagetwo) {};
+  \node[below left=1mm] at (omegaone) {$\omega_1$};
+  \node[above=1mm] at (omegatwo) {$\omega_2$};
+  \node[right=1.5mm, align=center] at (imageone)
+    {\scriptsize $(X(\omega_1),Y(\omega_1))$};
+  \node[right=1.5mm, align=center] at (imagetwo)
+    {\scriptsize $(X(\omega_2),Y(\omega_2))$};
+\end{tikzpicture}
+\caption{Representação do vetor aleatório $\mathbf{X}\equiv (X,Y):\Omega\to\mathbb{R}^2$,
+com dois pontos distintos do espaço amostral e suas imagens no plano euclidiano.}
+\label{fig:vetor-aleatorio}
+\end{figure}
+
+É claro que
+\begin{equation}\label{eq:conjunta-suporte}
+  p_{X,Y}(x, y) = 0 \quad \text{a menos que } x \in \operatorname{Im} X \text{ e } y \in \operatorname{Im} Y.
+\end{equation}
+Além disso, os eventos $\{X=x\}\cap\{Y=y\}$, com
+$x\in\operatorname{Im}X$ e $y\in\operatorname{Im}Y$, são dois a dois disjuntos
+e sua união é $\Omega$. Logo, pela $\sigma$-aditividade de $\mathbb{P}$, temos
+a seguinte identidade 
+\begin{align}\label{eq:conjunta-soma-um}
+\sum_{x \in \operatorname{Im} X}\ \sum_{y \in \operatorname{Im} Y} p_{X,Y}(x, y) 
+&=
+\sum_{x \in \operatorname{Im} X}\ \sum_{y \in \operatorname{Im} Y} \mathbb{P}(X=x,Y=y)
+\nonumber\\[0.3cm]
+&=
+\sum_{x \in \operatorname{Im} X} \mathbb{P}\left( \{X=x\} \cap \bigcup_{y \in \operatorname{Im} Y} \{Y=y\}\right)
+\nonumber\\[0.3cm]
+&=
+\sum_{x \in \operatorname{Im} X} \mathbb{P}\left( \{X=x\} \cap \Omega \right)
+\nonumber\\[0.3cm]
+&=
+\sum_{x \in \operatorname{Im} X} \mathbb{P}\left( \{X=x\} \right)
+\nonumber\\[0.3cm]
+&= 1.
+\end{align}
+
+As chamadas funções de probabilidade marginais de $X$ e $Y$ podem ser obtidas a partir
+da função de probabilidade conjunta somando sobre a coordenada complementar.
+Por exemplo, para cada $x\in\operatorname{Im}X$,
+\begin{align}\label{eq:marginal-X}
+p_X(x) = \mathbb{P}(X = x) 
+&=
+\mathbb{P}(\{X = x\}\cap \Omega) 
+\nonumber\\[0.3cm]
+&=
+\mathbb{P}\left( \{X = x\} \cap \bigcup_{y \in \operatorname{Im} Y} \{Y=y\} \right) 
+\nonumber\\[0.3cm]
+&=
+\mathbb{P}\left(\bigcup_{y \in \operatorname{Im} Y} \{X = x\} \cap  \{Y=y\} \right) 
+\nonumber\\[0.3cm]
+&=
+\sum_{y \in \operatorname{Im} Y} \mathbb{P}(X = x, Y = y)
+= \sum_{y \in \operatorname{Im} Y} p_{X,Y}(x, y).
+\end{align}
+De maneira análoga, para cada $y\in\operatorname{Im}Y$, temos 
+\begin{equation}\label{eq:marginal-Y}
+  p_Y(y) = \mathbb{P}(Y = y) = \sum_{x \in \operatorname{Im} X} p_{X,Y}(x, y).
+\end{equation}
+
+\bigskip 
+Se pensarmos em $(X,Y)$ como um ponto escolhido aleatoriamente no plano,
+então as coordenadas aleatórias $X$ e $Y$ são as projeções desse ponto sobre os eixos coordenados. É
+nesse sentido que as funções $p_X$ e $p_Y$ são chamadas de funções de
+probabilidade \emph{marginais}.
+
+
+\bigskip 
+
+Os cálculos acima ficam particularmente transparentes em um exemplo finito.
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.7}
+\setlength{\tabcolsep}{18pt}
+\begin{tabular}{cccc}
+\toprule
+$p_{X,Y}(x,y)$ & $x=1$ & $x=2$ & $x=3$ \\
+\midrule
+$y=1$ & $\dfrac{1}{12}$ & $\dfrac{3}{18}$ & $\dfrac{1}{6}$ \\[5pt]
+$y=2$ & $\dfrac{1}{18}$ & $0$             & $\dfrac{5}{18}$ \\[5pt]
+$y=3$ & $0$             & $\dfrac{3}{18}$ & $\dfrac{1}{12}$ \\[2pt]
+\bottomrule
+\end{tabular}
+\vspace{0.25cm}
+\caption{A função de probabilidade conjunta do par $(X,Y)$.}
+\label{tab:conjunta-3-1}
+\end{table}
+
+\begin{example}\label{ex:conjunta-tabela-3-1}
+Suponha que $X$ e $Y$ sejam variáveis aleatórias assumindo, cada uma, os
+valores $1$, $2$ ou $3$, e que a probabilidade de o par $(X, Y)$ ser igual a
+$(x, y)$ seja dada pelos entradas da \Cref{tab:conjunta-3-1}, 
+se $x,y\in \{1,2,3\}$ e zero caso contrário.
+
+Então, por exemplo, somando a terceira coluna, concluímos que
+\[
+\begin{aligned}
+  \mathbb{P}(X = 3) &= \mathbb{P}(X = 3, Y = 1) + \mathbb{P}(X = 3, Y = 2) + \mathbb{P}(X = 3, Y = 3) \\[0.3cm]
+                    &= \frac{1}{6} + \frac{5}{18} + \frac{1}{12} = \frac{19}{36}.
+\end{aligned}
+\]
+Analogamente, somando a segunda linha,
+\[
+  \mathbb{P}(Y = 2) = \frac{1}{18} + 0 + \frac{5}{18} = \frac{1}{3}.
+\]
+\end{example}
+
+A discussão acima e o exemplo mostram claramente como é possível 
+à partir da função de probabilidade conjunta de $(X,Y)$ obter as 
+as funções de probabilidade de $X$ e $Y$, por meio das marginais
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Stealth,
+  no/.style={
+    draw,
+    rounded corners=1pt,
+    minimum width=2.2cm,
+    minimum height=0.85cm
+  }
+]
+  \node[no] (conjunta) {$p_{(X,Y)}$};
+  \node[no, right=3cm of conjunta, yshift=1.15cm] (marginalx) {$p_X$};
+  \node[no, right=3cm of conjunta, yshift=-1.15cm] (marginaly) {$p_Y$};
+
+  \draw[->, line width=0.5pt, shorten <=2.5mm,  shorten >=2.5mm]
+    (conjunta.east) to[out=25, in=180]
+    node[pos=0.5, above=1mm] {$\sum_y$} (marginalx.west);
+  \draw[->, line width=0.5pt,  shorten <=2.5mm,  shorten >=2.5mm]
+    (conjunta.east) to[out=-25, in=180]
+    node[pos=0.5, below=1mm] {$\sum_x$} (marginaly.west);
+\end{tikzpicture}
+\caption{Obtenção das funções de probabilidade marginais a partir da função
+de probabilidade conjunta, somando sobre a coordenada complementar.}
+\label{fig:conjunta-marginais}
+\end{figure}
+
+É importante observar entretanto que, em geral, 
+dado um vetor aleatório discreto $(X,Y)$ nem sempre é possível
+reconstruir a função de probabilidade conjunta $p_{(X,Y)}$, 
+utilizando apenas as funções de probabilidade $p_{X}$ e $p_{Y}$.
+Vamos voltar neste problema em uma outra oportunidade. 
+
+
+\bigskip 
+
+Ideias semelhantes aplicam-se a famílias
+$\mathbf{X} = (X_1, X_2, \dots, X_n)$ de variáveis aleatórias discretas em um
+espaço de probabilidade, isto é, a um vetor aleatório $\mathbf{X}$
+tomando valores em $\mathbb{R}^n$. 
+Por exemplo, a \emph{função de probabilidade conjunta} de $\mathbf{X}$ é a função
+$p_{\mathbf{X}}:\mathbb{R}^n\to [0,1]$ definida por
+\begin{equation}\label{eq:conjunta-vetor-n}
+  p_{\mathbf{X}}(\mathbf{x}) = \mathbb{P}(X_1 = x_1, X_2 = x_2, \dots, X_n = x_n)
+\end{equation}
+para $\mathbf{x} = (x_1, x_2, \dots, x_n) \in \mathbb{R}^n$.
+Neste caso, para cada $i=1,2,\ldots ,n$, podemos verificar que a 
+função de probabilidade marginal $p_{X_i}$
+é obtida somando $p_{\mathbf{X}}$ sobre todas as demais coordenadas, e vale
+$\sum_{\mathbf{x}} p_{\mathbf{X}}(\mathbf{x}) = 1$, com a soma estendida aos
+$\mathbf{x}$ tais que $x_i\in\operatorname{Im}X_i$ para todo $i$.
+
+\begin{exercise}\label{exercise:conjunta-ases-e-reis}
+Duas cartas são retiradas ao acaso de um baralho de $52$ cartas. Se $X$
+denota o número de ases retirados e $Y$ denota o número de reis, exiba a
+função de probabilidade conjunta de $X$ e $Y$ na forma tabular da
+\Cref{tab:conjunta-3-1}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:conjunta-theta-0-1-2}
+O par de variáveis aleatórias discretas $(X, Y)$ tem função de probabilidade
+conjunta
+\[
+  \mathbb{P}(X = i, Y = j) =
+  \begin{cases}
+    \theta^{i+j+1} & \text{se } i, j = 0, 1, 2, \\
+    0 & \text{caso contrário},
+  \end{cases}
+\]
+para algum valor de $\theta$. Mostre que $\theta$ satisfaz a equação
+\[
+  \theta + 2\theta^2 + 3\theta^3 + 2\theta^4 + \theta^5 = 1,
+\]
+e encontre a função de probabilidade marginal de $X$ em termos de $\theta$.
+\end{exercise}
+
+\bigskip
+
+Encerramos esta seção com uma aplicação direta do maquinário de funções de
+probabilidade conjuntas e marginais ao processamento de linguagem natural e à
+inteligência artificial. Um \emph{modelo de linguagem} (\emph{language model})
+é, em sua formulação matemática elementar, uma distribuição de probabilidade
+sobre sequências de palavras ou símbolos de texto, chamados \emph{tokens}. Para
+pares de palavras consecutivas, essa distribuição é precisamente a função de
+probabilidade conjunta de um par de variáveis aleatórias discretas $(X_1, X_2)$,
+estimada por contagem a partir de uma coleção de textos (\emph{corpus}). O
+exemplo a seguir torna essa identificação transparente.
+
+\begin{example}[Um modelo de linguagem de bigramas]\label{ex:modelo-bigrama}
+Considere o seguinte texto de treinamento (o \emph{corpus}):
+\begin{center}
+\texttt{o gato caça o rato e o gato dorme}
+\end{center}
+Esse texto é formado por uma sequência de $N=9$ tokens:
+\begin{align*}
+w_1&=\texttt{o}, & w_2&=\texttt{gato}, & w_3&=\texttt{caça}, & w_4&=\texttt{o}, & w_5&=\texttt{rato}, \\
+w_6&=\texttt{e}, & w_7&=\texttt{o}, & w_8&=\texttt{gato}, & w_9&=\texttt{dorme},
+\end{align*}
+e o vocabulário $V$ é o conjunto constituído pelas $|V|=6$ palavras distintas:
+\[
+V=\{\texttt{o},\; \texttt{gato},\; \texttt{caça},\; \texttt{rato},\; \texttt{e},\; \texttt{dorme}\}.
+\]
+Um \emph{bigrama} (\emph{bigram}) é qualquer par de tokens consecutivos
+$(w_t, w_{t+1})$. Deslizando uma janela de tamanho $2$ ao longo do texto, da
+posição $t=1$ até $t=8$, encontramos $N-1=8$ bigramas:
+\begin{align*}
+t=1:\;&(\texttt{o}, \texttt{gato}) &
+t=2:\;&(\texttt{gato}, \texttt{caça}) &
+t=3:\;&(\texttt{caça}, \texttt{o}) &
+t=4:\;&(\texttt{o}, \texttt{rato}) \\
+t=5:\;&(\texttt{rato}, \texttt{e}) &
+t=6:\;&(\texttt{e}, \texttt{o}) &
+t=7:\;&(\texttt{o}, \texttt{gato}) &
+t=8:\;&(\texttt{gato}, \texttt{dorme}).
+\end{align*}
+
+\textbf{O experimento aleatório.} Imagine que sorteamos uniformemente ao acaso
+uma das $8$ posições de bigrama, isto é, tomamos o espaço amostral
+$\Omega=\{1,2,\ldots,8\}$ com probabilidade uniforme $\mathbb{P}(\{t\})=1/8$
+para cada posição $t$.
+
+A rigor, uma variável aleatória toma valores reais em $\mathbb{R}$. Para
+representar palavras matematicamente, associamos cada token do vocabulário $V$
+a um identificador numérico em $\{1,\ldots,6\}$ (exatamente como fazem os
+\emph{tokenizadores} na prática de inteligência artificial ao atribuir um
+\emph{token ID} a cada palavra):
+\[
+\texttt{o}\leftrightarrow 1,\quad
+\texttt{gato}\leftrightarrow 2,\quad
+\texttt{caça}\leftrightarrow 3,\quad
+\texttt{rato}\leftrightarrow 4,\quad
+\texttt{e}\leftrightarrow 5,\quad
+\texttt{dorme}\leftrightarrow 6.
+\]
+Definimos então duas variáveis aleatórias discretas $X_1,X_2:\Omega\to\mathbb{R}$:
+\begin{itemize}
+\item $X_1$: o identificador numérico do \textbf{primeiro token} do bigrama sorteado ($w_t$);
+\item $X_2$: o identificador numérico do \textbf{segundo token} do bigrama sorteado ($w_{t+1}$).
+\end{itemize}
+Por comodidade de notação e clareza de leitura, continuaremos nos referindo aos
+valores assumidos por $X_1$ e $X_2$ diretamente pelos seus rótulos textuais (isto
+é, escrevemos $X_1=\texttt{gato}$ como abreviação de $X_1=2$). A função de
+probabilidade conjunta
+\[
+p_{X_1,X_2}(x_1,x_2)=\mathbb{P}(X_1=x_1, X_2=x_2)
+\]
+é simplesmente a frequência relativa com que o par $(x_1,x_2)$ ocorre no corpus.
+Por exemplo:
+\begin{itemize}
+\item $\mathbb{P}(X_1=\texttt{o}, X_2=\texttt{gato}) = \dfrac{2}{8} = \dfrac{1}{4}$, pois o par $(\texttt{o},\texttt{gato})$ aparece duas vezes (nas posições $t=1$ e $t=7$);
+\item $\mathbb{P}(X_1=\texttt{gato}, X_2=\texttt{caça}) = \dfrac{1}{8}$, pois ocorre uma única vez ($t=2$);
+\item $\mathbb{P}(X_1=\texttt{gato}, X_2=\texttt{rato}) = 0$, pois a palavra \texttt{gato} nunca é imediatamente seguida por \texttt{rato} no texto.
+\end{itemize}
+
+A \Cref{tab:bigramas} apresenta a tabela de probabilidade conjunta completa do
+par $(X_1,X_2)$, acompanhada das somas marginais.
+
+\begin{table}[H]
+\centering
+%\renewcommand{\arraystretch}{1.75}
+\setlength{\tabcolsep}{5.1pt}
+
+\begin{tabular}{ccccccc|c}
+\toprule
+$p_{X_1,X_2}(x_1,x_2)$ & $x_2=\texttt{o}$ & $x_2=\texttt{gato}$ & $x_2=\texttt{caça}$ & $x_2=\texttt{rato}$ & $x_2=\texttt{e}$ & $x_2=\texttt{dorme}$ & $p_{X_1}(x_1)$ 
+\\[0.2cm]
+\midrule
+$x_1=\texttt{o}$     & $0$           & $\tfrac{2}{8}$ & $0$           & $\tfrac{1}{8}$ & $0$           & $0$           & $\tfrac{3}{8}$ 
+\\[0.5cm]
+$x_1=\texttt{gato}$  & $0$           & $0$           & $\tfrac{1}{8}$ & $0$           & $0$           & $\tfrac{1}{8}$ & $\tfrac{2}{8}$ 
+\\[0.5cm]
+$x_1=\texttt{caça}$  & $\tfrac{1}{8}$ & $0$           & $0$           & $0$           & $0$           & $0$           & $\tfrac{1}{8}$ 
+\\[0.5cm]
+$x_1=\texttt{rato}$  & $0$           & $0$           & $0$           & $0$           & $\tfrac{1}{8}$ & $0$           & $\tfrac{1}{8}$ 
+\\[0.5cm]
+$x_1=\texttt{e}$     & $\tfrac{1}{8}$ & $0$           & $0$           & $0$           & $0$           & $0$           & $\tfrac{1}{8}$ 
+\\[0.5cm]
+$x_1=\texttt{dorme}$ & $0$           & $0$           & $0$           & $0$           & $0$           & $0$           & $0$            
+\\[0.5cm]
+\midrule
+$p_{X_2}(x_2)$       & $\tfrac{2}{8}$ & $\tfrac{2}{8}$ & $\tfrac{1}{8}$ & $\tfrac{1}{8}$ & $\tfrac{1}{8}$ & $\tfrac{1}{8}$ & $\mathbf{1}$   
+\\[0.2cm]
+\bottomrule
+\end{tabular}
+\vspace{0.25cm}
+\caption{Função de probabilidade conjunta dos bigramas $(X_1,X_2)$ e suas respectivas distribuições marginais $p_{X_1}$ (soma das linhas) e $p_{X_2}$ (soma das colunas).}
+\label{tab:bigramas}
+\end{table}
+
+A soma de todas as entradas da tabela é $1$, como exige a equação
+\eqref{eq:conjunta-soma-um}. Somando as linhas, recuperamos a distribuição
+marginal de $X_1$; somando as colunas, a marginal de $X_2$. Note que
+$p_{X_1}(\texttt{dorme})=0$, pois a palavra \texttt{dorme} é o último token do
+corpus e, portanto, nunca inicia um bigrama.
+
+As marginais descrevem a distribuição de palavras individuais (\emph{unigramas}
+ou \emph{unigrams}), sem guardar qualquer informação sobre quais palavras
+aparecem juntas. A representação clássica em \emph{sacola de palavras}
+(\emph{bag-of-words}) armazena apenas essas frequências marginais. Mas, como
+vimos, as marginais não determinam a conjunta. De fato, as frases
+\[
+\texttt{o gato caçou o rato}\qquad\text{e}\qquad\texttt{o rato caçou o gato}
+\]
+possuem as mesmíssimas contagens marginais (duas ocorrências de \texttt{o} e uma
+ocorrência de cada uma das palavras \texttt{gato}, \texttt{caçou} e
+\texttt{rato}), mas têm sentidos completamente distintos: na primeira ocorre o
+bigrama $(\texttt{gato}, \texttt{caçou})$, enquanto na segunda ocorre o bigrama
+$(\texttt{rato}, \texttt{caçou})$. É a função de probabilidade conjunta que
+preserva a estrutura sequencial e a semântica do texto.
+
+O modelo de \emph{n-gramas} (\emph{n-grams}) generaliza essa construção para
+vetores aleatórios $\mathbf{X}=(X_1,\ldots,X_n)$ de comprimento $n$. Para um
+vocabulário padrão em inteligência artificial de $|V|=50000$ tokens
+($5\times 10^4$) e sequências curtas de apenas três palavras consecutivas
+(\emph{trigramas}, com $n=3$), o número de entradas necessárias em uma tabela
+conjunta tridimensional é
+\[
+|V|^{n} = (5\times 10^4)^{3} = 5^3 \times 10^{12} = 125\times 10^{12} = 1{,}25\times 10^{14}.
+\]
+Por extenso, são $125.000.000.000.000$ ($125$ trilhões) de probabilidades.
+Armazenar essa tabela em memória, mesmo em precisão simples de $4$ bytes por
+número, exigiria cerca de $500\text{ terabytes}$ de memória RAM. Se
+avançássemos para sequências de apenas quatro palavras ($n=4$), o tamanho
+saltaria para $|V|^4 = 6{,}25\times 10^{18}$ entradas, um número astronômico.
+
+Essa explosão combinatória colossal tornou tabelas explícitas de contagem
+inviáveis para sequências longas e forçou a inteligência artificial a migrar
+para redes neurais (como os \emph{Transformers}). Neles, a tabela é substituída
+por uma função parametrizada no continuo, mas moralmente o objeto probabilístico fundamental
+continua sendo uma função de probabilidade conjunta sobre sequências de tokens;
+veja \cite{JurafskyMartin}. Mais a frente quando estivermos tratando
+com a esperança condicional de uma variável aleatória com respeito a outra 
+variável aleatória, 
+veremos como usar essa conjunta para calcular a probabilidade da próxima palavra
+dada a sequência anterior ($\mathbb{P}(X_{t+1}\mid X_1,\ldots,X_t)$),
+precisamente o mecanismo autorregressivo que permite aos modelos de linguagem
+gerar texto de forma coerente.
+\end{example}
+
+\begin{remark}[Variáveis latentes e identificabilidade]\label{rem:variavel-latente}
+Em muitas aplicações, os dados observados são governados por uma variável que
+não observamos diretamente, chamada \emph{variável latente} (ou oculta). O
+princípio matemático subjacente é a identidade
+\[
+p_{X}(x)
+=
+\sum_{z\in\operatorname{Im}Z} p_{Z,X}(z,x),
+\]
+isto é, a igualdade \eqref{eq:marginal-Y} aplicada ao par $(Z,X)$. 
+Somando sobre todos os valores possíveis da variável latente $Z$, marginalizamos a
+conjunta e obtemos a distribuição dos dados observados. A variável latente $Z$
+pode ser o estilo do texto, o tópico do documento ou o especialista sorteado,
+e cada valor de $Z$ induz uma distribuição diferente sobre o token observado
+$X$. A \Cref{tab:variavel-latente} ilustra o caso em que $X$ assume valores em
+$\{a,b,c\}$ (identificados com $\{1,2,3\}\subset\mathbb{R}$) e a latente $Z$ em
+$\{1,2\}$.
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.7}
+\setlength{\tabcolsep}{18pt}
+\begin{tabular}{cccc}
+\toprule
+$p_{Z,X}(z,x)$ & $x=a$ & $x=b$ & $x=c$ \\
+\midrule
+$z=1$ & $\dfrac{1}{6}$ & $\dfrac{1}{12}$ & $\dfrac{1}{12}$ \\[5pt]
+$z=2$ & $\dfrac{1}{6}$ & $\dfrac{1}{2}$ & $0$ \\[5pt]
+\midrule
+$p_X(x)$ & $\dfrac{1}{3}$ & $\dfrac{7}{12}$ & $\dfrac{1}{12}$ \\[2pt]
+\bottomrule
+\end{tabular}
+\vspace{0.25cm}
+\caption{A distribuição observada é a marginal $p_X$, soma por coluna da conjunta $p_{Z,X}$.}
+\label{tab:variavel-latente}
+\end{table}
+
+Essa construção é a essência dos modelos de \emph{mistura de especialistas}
+(\emph{mixture of experts}, ou MoE): um mecanismo roteador (\emph{router})
+seleciona o especialista $Z$ e, em seguida, o token $X$ é produzido conforme a
+distribuição daquele especialista. O que observamos é apenas a mistura,
+exatamente a marginal $p_X$ obtida somando-se sobre os especialistas; veja
+\cite{Shazeer2017}.
+
+Vale registrar, contudo, que a marginal não preserva a estrutura latente. O
+modelo alternativo em que o especialista $1$ emite apenas o token $a$ (com
+massa total $1/3$) e o especialista $2$ emite apenas os tokens $b$ e $c$ (com
+massas $7/12$ e $1/12$) tem exatamente a mesma marginal $p_X$, embora a
+estrutura latente seja completamente diferente. Como as marginais não
+determinam a conjunta, em geral há infinitas estruturas latentes compatíveis
+com os mesmos dados observados, e recuperar a estrutura latente exige hipóteses
+estruturais adicionais. Este é o problema da \emph{identificabilidade} de
+modelos com variáveis latentes, tema central em aprendizado não
+supervisionado (\emph{unsupervised learning}).
+\end{remark}
+
+\section{Esperança de Funções de Vetores Aleatórios}
+\label{sec:esperanca-multivariada}
+
+A descrição conjunta torna possível calcular não apenas as probabilidades de
+eventos como $\{X=x\}$ e $\{Y=y\}$, mas também a esperança de expressões que
+dependem simultaneamente das variáveis aleatórias $X$ e $Y$.
+
+Antes de calcular a esperança de $g(X,Y)$, precisamos verificar que essa
+expressão define, de fato, uma variável aleatória. Há duas propriedades a
+serem verificadas: primeiro, que a imagem de $g(X,Y)$ é enumerável; segundo,
+que a função $g(X,Y)$ é mensurável. A segunda verificação é especialmente
+importante porque não estamos supondo que $g$ seja contínua ou mensurável.
+
+\begin{exercise}\label{exercise:produto-va}
+Sejam $X$ e $Y$ variáveis aleatórias discretas no espaço de probabilidade
+$(\Omega,\mathcal{F},\mathbb{P})$. Defina $Z:\Omega\to\mathbb{R}$ por
+\[
+  Z(\omega) = X(\omega)Y(\omega), \qquad \omega\in\Omega.
+\]
+Mostre que o produto $X\cdot Y$, isto é, a função $Z$, é uma variável aleatória
+discreta. Para isso, verifique que $\operatorname{Im}Z$ é enumerável e que,
+para cada $z\in\mathbb{R}$, o conjunto $\{Z=z\}$ pertence a $\mathcal{F}$.
+\end{exercise}
+
+\begin{proposition}[Mensurabilidade de uma função de duas variáveis discretas]
+\label{prop:mensurabilidade-g-xy}
+Se $X$ e $Y$ são variáveis aleatórias discretas em
+$(\Omega,\mathcal{F},\mathbb{P})$ e $g : \mathbb{R}^2 \to \mathbb{R}$ é uma
+função arbitrária, então a função $Z : \Omega \to \mathbb{R}$ dada por
+\begin{equation*}
+  Z(\omega) = g\bigl(X(\omega),Y(\omega)\bigr),
+  \qquad \omega\in\Omega
+\end{equation*}
+é uma função mensurável e consequentemente $Z$ é uma variável aleatória. 
+Além disso, sua imagem é enumerável e, portanto,
+$Z$ é uma variável aleatória discreta.
+\end{proposition}
+
+\begin{proof}
+Vamos dividir a demonstração em três etapas. Na primeira, verificaremos que
+$Z$ assume apenas uma quantidade enumerável de valores. Na segunda,
+mostraremos que cada conjunto da forma $\{Z=z\}$ é um evento mensurável.
+Por fim, usaremos esses conjuntos para verificar diretamente a
+mensurabilidade de $Z$.
+
+\medskip
+\noindent\textbf{Parte 1: A imagem de $Z$ é enumerável.}
+
+Como $X$ e $Y$ são variáveis aleatórias discretas, os conjuntos
+$\operatorname{Im}X$ e $\operatorname{Im}Y$ são enumeráveis. Consequentemente,
+o produto cartesiano
+\[
+  \operatorname{Im}X\times\operatorname{Im}Y
+\]
+também é enumerável. Com efeito, se escrevermos
+$\operatorname{Im}X=\{x_1,x_2,\ldots\}$ e
+$\operatorname{Im}Y=\{y_1,y_2,\ldots\}$, seus pares ordenados 
+podem organizados em uma lista 
+\[
+  (x_1,y_1),\ (x_1,y_2),\ (x_2,y_1),\ (x_1,y_3),\ (x_2,y_2),\ (x_3,y_1),\ldots.
+\]
+obtida da forma mostrada na figura abaixo
+\begin{center}
+\begin{tikzpicture}[
+  celula/.style={
+    draw=border,
+    rounded corners=1pt,
+    minimum width=1.45cm,
+    minimum height=0.58cm,
+    inner sep=1pt,
+    font=\scriptsize,
+    fill=card,
+  },
+  seta/.style={
+    -{Latex[length=2.4mm,width=1.7mm]},
+    line width=1.2pt,
+    draw=teal!30!white,
+    fill=teal!30!white,
+    line cap=round,
+    line join=round,
+    shorten <=0.04cm,
+    shorten >=0.04cm,
+  },
+  ordem/.style={
+    font=\scriptsize\bfseries,
+    text=teal!80!black,
+  }
+]
+  % Centros das células da tabela.
+  \coordinate (c11) at (0,0);
+  \coordinate (c12) at (1.90,0);
+  \coordinate (c13) at (3.80,0);
+  \coordinate (c14) at (5.70,0);
+  \coordinate (c21) at (0,-1.10);
+  \coordinate (c22) at (1.90,-1.10);
+  \coordinate (c23) at (3.80,-1.10);
+  \coordinate (c24) at (5.70,-1.10);
+  \coordinate (c31) at (0,-2.20);
+  \coordinate (c32) at (1.90,-2.20);
+  \coordinate (c33) at (3.80,-2.20);
+  \coordinate (c34) at (5.70,-2.20);
+  \coordinate (c41) at (0,-3.30);
+  \coordinate (c42) at (1.90,-3.30);
+  \coordinate (c43) at (3.80,-3.30);
+  \coordinate (c44) at (5.70,-3.30);
+
+  % Células da tabela.
+  \node[celula] (p11) at (c11) {$ (x_1,y_1)$};
+  \node[celula] (p12) at (c12) {$ (x_1,y_2)$};
+  \node[celula] (p13) at (c13) {$ (x_1,y_3)$};
+  \node[celula] (p14) at (c14) {$ (x_1,y_4)$};
+  \node[celula] (p21) at (c21) {$ (x_2,y_1)$};
+  \node[celula] (p22) at (c22) {$ (x_2,y_2)$};
+  \node[celula] (p23) at (c23) {$ (x_2,y_3)$};
+  \node[celula] (p24) at (c24) {$ (x_2,y_4)$};
+  \node[celula] (p31) at (c31) {$ (x_3,y_1)$};
+  \node[celula] (p32) at (c32) {$ (x_3,y_2)$};
+  \node[celula] (p33) at (c33) {$ (x_3,y_3)$};
+  \node[celula] (p34) at (c34) {$ (x_3,y_4)$};
+  \node[celula] (p41) at (c41) {$ (x_4,y_1)$};
+  \node[celula] (p42) at (c42) {$ (x_4,y_2)$};
+  \node[celula] (p43) at (c43) {$ (x_4,y_3)$};
+  \node[celula] (p44) at (c44) {$ (x_4,y_4)$};
+
+  % Setas separadas, desenhadas depois das células para permanecerem visíveis.
+  \draw[seta] (p12.south west) -- (p21.north east);
+  \draw[seta] (p13.south west) -- (p22.north east);
+  \draw[seta] (p22.south west) -- (p31.north east);
+  \draw[seta] (p14.south west) -- (p23.north east);
+  \draw[seta] (p23.south west) -- (p32.north east);
+  \draw[seta] (p32.south west) -- (p41.north east);
+
+  % Índices das linhas e das colunas.
+  \node[font=\small,anchor=east] at (-0.82,0) {$x_1$};
+  \node[font=\small,anchor=east] at (-0.82,-1.10) {$x_2$};
+  \node[font=\small,anchor=east] at (-0.82,-2.20) {$x_3$};
+  \node[font=\small,anchor=east] at (-0.82,-3.30) {$x_4$};
+  \node[font=\small,anchor=south] at (0,0.42) {$y_1$};
+  \node[font=\small,anchor=south] at (1.90,0.42) {$y_2$};
+  \node[font=\small,anchor=south] at (3.80,0.42) {$y_3$};
+  \node[font=\small,anchor=south] at (5.70,0.42) {$y_4$};
+  \node[font=\small] at (7.00,0) {$\cdots$};
+  \node[font=\small] at (0,-3.85) {$\vdots$};
+
+  % Ordem dos primeiros pares.
+  \node[ordem] at ([xshift=0.55cm,yshift=0.22cm]c11) {1};
+  \node[ordem] at ([xshift=0.55cm,yshift=0.22cm]c12) {2};
+  \node[ordem] at ([xshift=0.55cm,yshift=0.22cm]c21) {3};
+  \node[ordem] at ([xshift=0.55cm,yshift=0.22cm]c13) {4};
+  \node[ordem] at ([xshift=0.55cm,yshift=0.22cm]c22) {5};
+  \node[ordem] at ([xshift=0.55cm,yshift=0.22cm]c31) {6};
+  \node[ordem] at ([xshift=0.55cm,yshift=0.22cm]c14) {7};
+  \node[ordem] at ([xshift=0.55cm,yshift=0.22cm]c23) {8};
+  \node[ordem] at ([xshift=0.55cm,yshift=0.22cm]c32) {9};
+  \node[ordem] at ([xshift=0.55cm,yshift=0.22cm]c41) {10};
+\end{tikzpicture}
+\end{center}
+
+É claro que se $\operatorname{Im} X$ é um conjunto finito, por exemplo,
+então a tabela acima possui um número finito de linhas. Observação completamente
+análoga aplica-se ao número de colunas, caso o conjunto $\operatorname{Im} X$
+seja finito. 
+
+\medskip
+
+Observe que para cada $\omega\in\Omega$, temos
+$X(\omega)\in\operatorname{Im}X$ e
+$Y(\omega)\in\operatorname{Im}Y$. Logo,
+\begin{align*}
+  \operatorname{Im}Z
+  &= \{Z(\omega):\omega\in\Omega\} \\
+  &= \bigl\{g\bigl(X(\omega),Y(\omega)\bigr):\omega\in\Omega\bigr\} \\
+  &\subseteq \bigl\{g(x,y):x\in\operatorname{Im}X,
+                         y\in\operatorname{Im}Y\bigr\}.
+\end{align*}
+Já que a imagem do conjunto enumerável $\operatorname{Im} X\times\operatorname{Im} Y$
+pela função $g$ é um conjunto enumerável, então
+o subconjunto que aparece mais a direita na expressão acima é um conjunto enumerável.
+Portanto, concluímos que $\operatorname{Im}Z$ é enumerável.
+
+\medskip
+\noindent\textbf{Parte 2: Os conjuntos $\{Z=z\}$ são mensuráveis.}
+
+Fixe $z\in\mathbb{R}$. Vamos identificar exatamente quais pontos
+$\omega\in\Omega$ pertencem ao conjunto
+\[
+  \{Z=z\}\equiv \{\omega\in\Omega:Z(\omega)=z\}.
+\]
+Para organizar a união que aparecerá, considere o conjunto de pares
+\[
+  I_z=\bigl\{(x,y)\in\operatorname{Im}X\times\operatorname{Im}Y:
+                    g(x,y)=z\bigr\}.
+\]
+Como $I_z$ é um subconjunto de um conjunto enumerável
+$\operatorname{Im}X\times\operatorname{Im}Y$, então 
+ele também é um conjunto enumerável.
+
+Observe que para cada $(x,y)\in \mathbb{R}^2$, temos
+\begin{align*} 
+\{X=x,Y=y\}
+  &=\{\omega\in\Omega:X(\omega)=x\text{ e }Y(\omega)=y\} \\
+  &=\{\omega\in\Omega:X(\omega)=x\}
+    \cap\{\omega\in\Omega:Y(\omega)=y\} \\
+  &=\{X=x\}\cap \{Y=y\} \in\mathcal{F}.
+\end{align*}
+Em particular, para cada $(x,y)\in I_{z}$ temos que
+$\{X=x,Y=y\}\in\mathcal{F}$. 
+
+Próximo passo é mostrar que vale a seguinte igualdade  
+\begin{equation}\label{eq:fibra-g-xy}
+  \{Z=z\}
+  =\bigcup_{(x,y)\in I_z}\{X=x,Y=y\}.
+\end{equation}
+De fato, se $\omega\in\{Z=z\}$, então segue da definição de $Z$ que 
+\[
+  g\bigl(X(\omega),Y(\omega)\bigr)=Z(\omega)=z.
+\]
+Já que $X(\omega)\in\operatorname{Im}X$ e
+$Y(\omega)\in\operatorname{Im}Y$ e portanto pela definição de $I_z$ temos
+\[
+  \bigl(X(\omega),Y(\omega)\bigr)\in I_z.
+\]
+Naturalmente, $X(\omega)=X(\omega)$ e $Y(\omega)=Y(\omega)$, de modo que
+$\omega\in\{X=X(\omega),Y=Y(\omega)\}$. Logo, $\omega$ pertence à união
+no lado direito de \eqref{eq:fibra-g-xy}.
+
+Agora, para provar a inclusão contrária, tome
+\begin{align*}
+\omega\in\bigcup_{(x,y)\in I_z}\{X=x,Y=y\}. 
+\end{align*}
+Então existe algum par $(x,y)\in I_z$ tal que $X(\omega)=x$ e $Y(\omega)=y$. Como
+$(x,y)\in I_z$, temos da definição de $I_z$ que $g(x,y)=z$. Consequentemente,
+\[
+  Z(\omega)
+  =g\bigl(X(\omega),Y(\omega)\bigr)
+  =g(x,y)
+  =z
+\]
+o que mostra que $\omega\in\{Z=z\}$. Isso prova \eqref{eq:fibra-g-xy}.
+
+
+Já que cada conjunto que aparece na união do lado direito de
+\eqref{eq:fibra-g-xy} pertence a $\mathcal{F}$ e $I_z$ é enumerável 
+e $\mathcal{F}$ é uma $\sigma$-álgebra, então podemos finalmente concluir que 
+\[
+  \{Z=z\}\in\mathcal{F}
+  \qquad\text{para todo }z\in\mathbb{R}.
+\]
+Se $I_z$ for vazio, a união em \eqref{eq:fibra-g-xy} é o conjunto vazio,
+que também pertence a $\mathcal{F}$. O que encerra a prova da proposição.
+\end{proof}
+
+
+
+Observe que em nenhum momento usamos uma propriedade especial de $g$, como
+continuidade ou mensurabilidade. O ponto decisivo é que $X$ e $Y$ assumem
+valores em conjuntos enumeráveis; por isso, só precisamos considerar os
+valores de $g$ no conjunto enumerável
+$\operatorname{Im}X\times\operatorname{Im}Y$.
+
+\begin{exercise}\label{exercise:cos-exp-va}
+Sejam $X$ e $Y$ variáveis aleatórias discretas definidas sobre o espaço de probabilidade
+$(\Omega,\mathcal{F},\mathbb{P})$. 
+Usando a \Cref{prop:mensurabilidade-g-xy}, mostre que
+\[
+Z\equiv \frac{\cos(X)}{1+e^Y}
+\]
+também define uma variável aleatória discreta sobre $(\Omega,\mathcal{F},\mathbb{P})$.
+\end{exercise}
+
+Pela \Cref{prop:mensurabilidade-g-xy}, $Z\equiv g(X,Y)$ é uma variável aleatória discreta.
+Como veremos abaixo, sua esperança pode ser calculada diretamente a partir da
+função de probabilidade conjunta $p_{X,Y}(x, y) = \mathbb{P}(X = x, Y = y)$,
+como é mostrado no \Cref{thm:esperanca-g-xy}. A demonstração é análoga à do
+teorema correspondente para funções de uma única variável aleatória discreta;
+vamos reproduzi-la aqui, por questão de completude, repetindo com calma cada
+uma de suas etapas.
+
+\begin{theorem}[Teorema da Mudança de Variáveis]\label{thm:esperanca-g-xy}
+Sejam $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade, $X$ e $Y$ variáveis aleatórias
+discretas sobre este espaço. Para qualquer função $g:\mathbb{R}\times\mathbb{R}\to\mathbb{R}$ temos
+\begin{equation}\label{eq:esperanca-g-xy}
+  \mathbb{E}\bigl[g(X, Y)\bigr] = \sum_{x \in \operatorname{Im} X} \sum_{y \in \operatorname{Im} Y} g(x, y)\, \mathbb{P}(X = x, Y = y),
+\end{equation}
+sempre que a soma do lado direito da igualdade acima convergir absolutamente, isto é,
+\begin{align*}
+\sum_{x \in \operatorname{Im} X} \sum_{y \in \operatorname{Im} Y}  |g(x,y)|\,\mathbb{P}(X=x,Y=y)<\infty.
+\end{align*}
+\end{theorem}
+
+\begin{proof}
+Vamos seguir o mesmo roteiro usado na demonstração do Teorema da Mudança de
+Variáveis para funções de uma única variável aleatória. Primeiro agruparemos
+os pares $(x,y)$ de acordo com o valor que $g$ assume neles. Esse agrupamento
+permitirá verificar que $Z=g(X,Y)$ possui esperança bem definida e, depois,
+calcular essa esperança diretamente pela sua definição.
+
+\medskip
+\noindent\textbf{Parte 1: Uma partição do conjunto $D$.}
+
+Para facilitar a exposição vamos introduzir as seguintes notações:
+\[
+  D=\operatorname{Im}X\times\operatorname{Im}Y,
+  \qquad
+  J=g(D),
+  \qquad
+  Z=g(X,Y).
+\]
+Como $D$ é enumerável, pela primeira parte da demonstração da
+\Cref{prop:mensurabilidade-g-xy}, o conjunto $J$ também é enumerável.
+
+\bigskip 
+
+Antes de prosseguir registramos uma informação importante. 
+Usamos $J=g(D)$, e não apenas $\operatorname{Im}Z$, porque queremos agrupar
+todos os pares que aparecem na soma do enunciado. De fato, pode ocorrer que
+$\operatorname{Im}Z$ seja um subconjunto próprio de $J$. A razão é a
+seguinte: um par $(x,y)\in D$ significa apenas que $x$ é um valor possível
+de $X$ e que $y$ é um valor possível de $Y$, considerados separadamente.
+Pode não existir nenhum $\omega\in\Omega$ que realize esses dois valores
+\emph{simultaneamente}, isto é, podemos ter $\{X=x,Y=y\}=\varnothing$, o
+que é o mesmo que $\mathbb{P}(X=x,Y=y)=0$. Nesse caso, o valor $g(x,y)$
+pode não ser assumido por $Z$, ainda que o par $(x,y)$ participe da soma
+do enunciado com peso nulo. 
+
+\bigskip 
+
+Para cada $z\in J$, considere ``a fibra'' (veja \Cref{fig:fibras-g-particao-D})
+\[
+  D_z
+  =D\cap g^{-1}(\{z\})
+  =\bigl\{(x,y)\in D:g(x,y)=z\bigr\},
+\]
+formada por todos os pares $(x,y)\in D$ que a função $g$ envia no valor
+$z$. Esses conjuntos formam uma partição de $D$, isto é,
+\begin{equation}\label{eq:particao-g-xy}
+  D=\bigcup_{z\in J}D_z,
+\end{equation}
+e são dois a dois disjuntos. De fato, cada par $(x,y)\in D$ pertence
+exatamente à fibra correspondente ao valor $z=g(x,y)$. A
+\Cref{fig:fibras-g-particao-D} representa esse agrupamento, com uma das
+fibras destacada.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Stealth,
+  ponto/.style={circle, fill=text, inner sep=0pt, minimum size=1.4mm},
+  fibra/.style={
+    use Hobby shortcut,
+    closed,
+    line width=0.6pt,
+    draw=muted!65,
+    fill=muted!5,
+  },
+  fibra destaque/.style={
+    use Hobby shortcut,
+    closed,
+    line width=0.8pt,
+    draw=teal!80!black,
+    fill=teal!8,
+  },
+  seta/.style={
+    -{Latex[length=2.2mm,width=1.5mm]},
+    line width=0.5pt,
+    draw=muted!65,
+    shorten <=1.2mm,
+    shorten >=1.2mm,
+  },
+  seta destaque/.style={
+    -{Latex[length=2.4mm,width=1.7mm]},
+    line width=0.8pt,
+    draw=teal!80!black,
+    shorten <=1.2mm,
+    shorten >=1.2mm,
+  },
+]
+  % Conjunto enumerável D e suas três fibras, afastadas verticalmente.
+  \draw[use Hobby shortcut, closed, line width=0.6pt]
+    (-0.65,2.80) .. (0.00,4.00) .. (2.70,4.25) .. (5.10,3.55)
+    .. (5.35,0.00) .. (5.00,-3.55) .. (2.30,-4.10) .. (-0.10,-3.65)
+    .. (-0.75,-0.20);
+  \node[font=\small] at (-0.7,4) {$D$};
+
+  \draw[fibra]
+    (0.00,1.55) .. (0.55,3.05) .. (2.55,3.35) .. (4.75,2.75)
+    .. (4.50,1.45) .. (2.30,1.30) .. (0.35,1.45);
+  \draw[fibra destaque]
+    (0.00,-0.20) .. (0.60,0.75) .. (2.65,0.95) .. (4.85,0.35)
+    .. (4.55,-0.85) .. (2.25,-1.05) .. (0.35,-0.85);
+  \draw[fibra]
+    (0.05,-1.80) .. (0.75,-1.55) .. (2.65,-1.70) .. (4.75,-2.05)
+    .. (4.45,-3.30) .. (2.15,-3.55) .. (0.45,-3.25);
+
+  \node[font=\small, text=muted] at (2.20,2.90) {$D_{z_1}$};
+  \node[font=\small, text=teal!80!black] at (1.25,0.00) {$D_z$};
+  \node[font=\small, text=muted] at (1,-2.72) {$D_{z_3}$};
+
+  % Imagens dos pontos de cada fibra.
+  \draw[seta] (0.75,2.20) to[out=2,in=178] (8.35,2.40);
+  \draw[seta] (3.70,2.85) to[out=-4,in=186] (8.35,2.40);
+
+  \draw[seta destaque] (0.70,0.60) to[out=-2,in=178] (8.35,0);
+  \draw[seta destaque] (2.35,0.00) to[out=2,in=182] (8.35,0);
+  \draw[seta destaque] (3.75,-0.60) to[out=5,in=186] (8.35,0);
+
+  \draw[seta] (0.70,-1.80) to[out=-2,in=174] (8.35,-2.40);
+  \draw[seta] (1.80,-2.35) to[out=-5,in=178] (8.35,-2.40);
+  \draw[seta] (2.90,-3.10) to[out=2,in=182] (8.35,-2.40);
+  \draw[seta] (4.00,-2.65) to[out=5,in=186] (8.35,-2.40);
+
+  % Pontos de D, desenhados sobre as setas.
+  \node[ponto] at (0.75,2.20) {};
+  \node[ponto] at (3.70,2.85) {};
+  \node[ponto] at (0.70,0.60) {};
+  \node[ponto] at (2.35,0.00) {};
+  \node[ponto] at (3.75,-0.60) {};
+  \node[ponto] at (0.70,-1.80) {};
+  \node[ponto] at (1.80,-2.35) {};
+  \node[ponto] at (2.90,-3.10) {};
+  \node[ponto] at (4.00,-2.65) {};
+
+  % Conjunto J=g(D) e valores que indexam as fibras.
+  \draw[->, line width=0.5pt] (8.50,-3.75) -- (8.50,4.00)
+    node[right=1.5mm] {$J=g(D)$};
+  \node[ponto] at (8.50,2.40) {};
+  \node[right=2mm] at (8.50,2.40) {$z_1$};
+  \node[ponto, fill=teal!80!black] at (8.50,0) {};
+  \node[right=2mm, text=teal!80!black] at (8.50,0) {$z$};
+  \node[ponto] at (8.50,-2.40) {};
+  \node[right=2mm] at (8.50,-2.40) {$z_3$};
+  \node[font=\small] at (6.30,0.35) {$g$};
+\end{tikzpicture}
+\caption{As fibras de $g$ formam uma partição de $D$. Todos os pares que
+pertencem à fibra destacada $D_z$ são enviados por $g$ no mesmo valor
+$z\in J$. Neste esquema, as fibras exibidas têm, respectivamente, dois,
+três e quatro pontos, pois a quantidade de pontos de uma fibra não precisa
+coincidir com a das demais.}
+\label{fig:fibras-g-particao-D}
+\end{figure}
+
+Pela hipótese do teorema, a soma no lado direito de
+\eqref{eq:esperanca-g-xy} converge absolutamente, isto é,
+\begin{equation}\label{eq:conv-abs-g-xy}
+  \sum_{x\in\operatorname{Im}X}
+  \sum_{y\in\operatorname{Im}Y}
+  |g(x,y)|\,\mathbb{P}(X=x,Y=y)
+  <\infty.
+\end{equation}
+
+\medskip
+\noindent\textbf{Parte 2: A função de probabilidade de $Z$.}
+
+O próximo passo é expressar a função de probabilidade de $Z$ em termos da
+função de probabilidade conjunta de $(X,Y)$. Para cada $z\in J$, temos
+\begin{equation}\label{eq:funcao-probabilidade-Z}
+  \mathbb{P}(Z=z)
+  =\sum_{(x,y)\in D_z}\mathbb{P}(X=x,Y=y).
+\end{equation}
+De fato, a identidade \eqref{eq:fibra-g-xy}, demonstrada na
+\Cref{prop:mensurabilidade-g-xy}, fornece
+\[
+  \{Z=z\}=\bigcup_{(x,y)\in D_z}\{X=x,Y=y\}.
+\]
+Os eventos dessa união são dois a dois disjuntos. Logo,
+\eqref{eq:funcao-probabilidade-Z} segue da $\sigma$-aditividade de
+$\mathbb{P}$.
+
+\medskip
+\noindent\textbf{Parte 3: Existência da esperança de $Z$.}
+
+Para verificar que $Z$ possui esperança bem definida, precisamos controlar a
+série dos valores absolutos que aparece na definição de esperança. Como suas
+parcelas são não negativas, podemos agrupá-las segundo a partição
+\eqref{eq:particao-g-xy} e reindexá-las sem alterar o valor da soma. Essa é a
+mesma propriedade das séries de termos não-negativos usada na demonstração do
+Teorema da Mudança de Variáveis. Usando também
+\eqref{eq:funcao-probabilidade-Z} e o fato de que $|g(x,y)|=|z|$ para todo
+$(x,y)\in D_z$, obtemos
+\begin{align*}
+\sum_{z\in J}|z|\,\mathbb{P}(Z=z)
+&=
+\sum_{z\in J}|z|
+\sum_{(x,y)\in D_z}\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+\sum_{z\in J}\sum_{(x,y)\in D_z}
+|z|\,\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+\sum_{z\in J}\sum_{(x,y)\in D_z}
+|g(x,y)|\,\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+\sum_{(x,y)\in D}
+|g(x,y)|\,\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+\sum_{x\in\operatorname{Im}X}
+\sum_{y\in\operatorname{Im}Y}
+|g(x,y)|\,\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&<
+\infty
+\end{align*}
+onde na desigualdade acima usamos exatamente a hipótese
+\eqref{eq:conv-abs-g-xy}. Como $\operatorname{Im}Z\subseteq J$, a soma dos
+mesmos termos sobre $\operatorname{Im}Z$ também é finita. Portanto,
+$Z=g(X,Y)$ possui esperança bem definida.
+
+\medskip
+\noindent\textbf{Parte 4: Cálculo de $\mathbb{E}\bigl[g(X,Y)\bigr]$.}
+
+A etapa anterior fornece precisamente o controle necessário para reagrupar a
+série que define a esperança de $Z$. Além disso, se
+$z\in J\setminus\operatorname{Im}Z$, então $\{Z=z\}=\varnothing$ e, portanto,
+$\mathbb{P}(Z=z)=0$. Podemos, assim, estender a soma da definição de
+$\mathbb{E}[Z]$ de $\operatorname{Im}Z$ a $J$. Usando novamente
+\eqref{eq:funcao-probabilidade-Z} e a partição
+\eqref{eq:particao-g-xy}, concluímos que
+\begin{align*}
+\mathbb{E}\bigl[g(X,Y)\bigr]
+&=
+\mathbb{E}[Z]
+\\[0.3cm]
+&=
+\sum_{z\in J}z\,\mathbb{P}(Z=z)
+\\[0.3cm]
+&=
+\sum_{z\in J}z
+\sum_{(x,y)\in D_z}\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+\sum_{z\in J}\sum_{(x,y)\in D_z}
+g(x,y)\,\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+\sum_{(x,y)\in D}
+g(x,y)\,\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+\sum_{x\in\operatorname{Im}X}
+\sum_{y\in\operatorname{Im}Y}
+g(x,y)\,\mathbb{P}(X=x,Y=y),
+\end{align*}
+que é exatamente a identidade \eqref{eq:esperanca-g-xy}.
+\end{proof}
+
+O exemplo a seguir mostra o \Cref{thm:esperanca-g-xy} em ação em uma das
+operações mais onipresentes das arquiteturas contemporâneas de redes neurais.
+
+\begin{example}[Agrupamento (\emph{pooling}) e Atenção como Esperanças]\label{ex:atencao-esperanca}
+
+\begin{enumerate}
+\item \textbf{Motivação.} Ao analisar um texto composto por uma sequência de $n$
+\emph{tokens} (como as $n$ palavras de uma sentença), modelos de inteligência
+artificial representam cada palavra por um vetor numérico $v_i\in\mathbb{R}^d$,
+chamado \emph{embedding} (vetor de representação), onde $d$ é a dimensão do
+espaço vetorial (como $d=768$). Em diversas tarefas, como na classificação de um
+texto ou na geração de um resumo da sentença, é necessário condensar a
+sequência de $n$ vetores $(v_1,\ldots,v_n)$ em um único vetor em $\mathbb{R}^d$.
+A forma mais direta de realizar essa síntese é calcular a média aritmética
+\[
+\frac{1}{n}\sum_{i=1}^{n}v_i,
+\]
+operação conhecida como \emph{agrupamento por média} (\emph{average pooling}).
+
+\item \textbf{Reformulação probabilística.} Podemos formular essa operação
+diretamente na linguagem de probabilidade. Considere o espaço amostral de
+posições $\Omega=\{1,\ldots,n\}$ munido de uma probabilidade $\mathbb{P}$, e
+defina duas variáveis aleatórias:
+\begin{itemize}
+\item $X:\Omega\to\{1,\ldots,n\}$ dada por $X(\omega)=\omega$, que registra a
+\textbf{posição sorteada} na sequência;
+\item $Y:\Omega\to\mathbb{R}^d$ dada por $Y(\omega)=v_\omega$, que registra o
+\textbf{vetor de embedding} correspondente à posição sorteada.
+\end{itemize}
+Como o vetor $Y$ é determinado unicamente pela posição $X$, a função de
+probabilidade conjunta do par $(X,Y)$ assume valores não nulos exclusivamente
+nos $n$ pares da forma $(i,v_i)$, isto é,
+\[
+p_{X,Y}(i,v) = 
+\begin{cases}
+\mathbb{P}(X=i), & \text{se } v=v_i, \\
+0, & \text{caso contrário.}
+\end{cases}
+\]
+Quando a posição é sorteada uniformemente ao acaso na sequência, temos
+$\mathbb{P}(X=i)=1/n$ para cada $i\in\{1,\ldots,n\}$.
+
+\item \textbf{Agrupamento como esperança.} Como $Y=(Y_1,\ldots,Y_d)$ assume
+valores em $\mathbb{R}^d$, definimos seu vetor de esperanças coordenada a
+coordenada por $\mathbb{E}[Y]\equiv \sum_{j=1}^d \mathbb{E}[Y_j] e_j$, onde
+$\{e_1,\ldots,e_d\}$ denota a base canônica de $\mathbb{R}^d$. Para cada
+componente $j\in\{1,\ldots,d\}$, a função projeção $g_j(x,v)=\langle e_j,v\rangle$
+assume valores reais, e o \Cref{thm:esperanca-g-xy} fornece
+\begin{align*}
+\mathbb{E}[Y]
+&= 
+\sum_{j=1}^d \mathbb{E}[Y_j] e_j
+\\[0.3cm]
+&=
+\sum_{j=1}^d e_j \sum_{i=1}^{n}\sum_{v} \langle e_j,v\rangle  \,p_{X,Y}(i,v)
+\\[0.3cm]
+&=
+\sum_{i=1}^{n} \left( \sum_{j=1}^d \langle e_j,v_i\rangle e_j \right) \mathbb{P}(X=i)
+\\[0.3cm]
+&=
+\sum_{i=1}^{n} v_i\,\mathbb{P}(X=i)
+\\[0.3cm]
+&=
+\frac{1}{n}\sum_{i=1}^{n}v_i.
+\end{align*}
+Portanto, o agrupamento por média (\emph{average pooling}) é rigorosamente a
+esperança do vetor aleatório $Y$ sob a distribuição uniforme de posições.
+
+\item \textbf{Mecanismo de Atenção e Medidas de Gibbs.} O mecanismo de
+\emph{atenção} (\emph{attention mechanism}), introduzido em \cite{Vaswani2017}
+e central na arquitetura dos modelos baseados em \emph{Transformers}, opera sob
+este mesmo princípio, substituindo a distribuição uniforme sobre as posições
+por uma \emph{medida de Gibbs}, exatamente como apresentada nas notas
+anteriores sobre propriedades da probabilidade.
+
+Em vez de resumir os tokens por uma média uniforme, a atenção realiza uma busca
+orientada: fixado um vetor de consulta $q\in\mathbb{R}^d$ (\emph{query}, que
+representa a informação procurada), cada token $i\in\{1,\ldots,n\}$ da sequência
+possui um \textbf{vetor de chave} $k_i\in\mathbb{R}^d$ (\emph{key}, que atua
+como rótulo identificador do conteúdo do token) e um \textbf{vetor de valor}
+$v_i\in\mathbb{R}^d$ (\emph{value}, que contém a representação semântica a ser
+transmitida). Os produtos escalares
+\[
+s_i=q\cdot k_i
+\]
+medem a afinidade entre a consulta $q$ e a chave do $i$-ésimo token. Definindo a
+função de energia (o \emph{Hamiltoniano}) sobre o espaço de posições $\Omega=\{1,\ldots,n\}$ por
+\[
+H(i) = -s_i = -q\cdot k_i,
+\]
+onde posições com chaves de maior similaridade correspondem a menor energia, a função
+\emph{softmax} define a medida de Gibbs $\mathbb{P}_\beta$ com parâmetro
+inverso de temperatura $\beta=1$:
+\[
+\alpha_i
+=
+\mathbb{P}_{\beta=1}(X=i)
+=
+\frac{e^{-H(i)}}{Z(1)}
+=
+\frac{e^{s_i}}{\sum_{j=1}^{n}e^{s_j}},
+\]
+onde $Z(1)=\sum_{j=1}^n e^{s_j}$ é a \emph{função de partição}. A saída da
+camada de atenção é, então, nada mais do que a esperança do vetor $Y$ sob essa
+medida de Gibbs:
+\[
+\sum_{i=1}^{n}\alpha_i v_i = \mathbb{E}_{\beta=1}[Y].
+\]
+Em vez de atribuir o mesmo peso $1/n$ a todas as posições, a atenção concentra
+a probabilidade nas posições de menor energia (maior afinidade entre a consulta
+$q$ e a chave $k_i$).
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Stealth,
+  token/.style={
+    draw=border,
+    fill=card,
+    rounded corners=1pt,
+    minimum width=0.85cm,
+    minimum height=0.65cm,
+    font=\small,
+  },
+  peso/.style={
+    font=\small,
+    text=teal!80!black,
+  },
+  saida/.style={
+    draw=teal!80!black,
+    fill=teal!8,
+    rounded corners=2pt,
+    minimum width=4.2cm,
+    minimum height=0.75cm,
+    font=\small,
+  },
+  seta/.style={
+    -{Latex[length=2.2mm,width=1.5mm]},
+    line width=0.5pt,
+    draw=muted!60,
+  },
+]
+  \node[token] (v1) at (0,0) {$v_1$};
+  \node[token] (v2) at (1.6,0) {$v_2$};
+  \node[token] at (3.2,0) {$\cdots$};
+  \node[token] (vn) at (4.8,0) {$v_n$};
+
+  \node[peso] at (0,0.72) {$\alpha_1$};
+  \node[peso] at (1.6,0.72) {$\alpha_2$};
+  \node[peso] at (3.2,0.72) {$\cdots$};
+  \node[peso] at (4.8,0.72) {$\alpha_n$};
+
+  \node[saida] (saida) at (2.4,-1.9)
+    {$\sum_i \alpha_i v_i=\mathbb{E}[Y]$};
+
+  \draw[seta] (v1.south) to[out=-90, in=70] (1,-1.4);
+  \draw[seta] (v2.south) to[out=-100, in=70] (2.5,-1.4);
+  \draw[seta] (vn.south) to[out=-100, in=100] (4,-1.4);
+\end{tikzpicture}
+\caption{A atenção associa uma medida de Gibbs $\alpha$ às posições $\{1,\ldots,n\}$ e
+devolve a esperança de $Y$ sob essa distribuição; no regime de altas temperaturas,
+recupera-se o agrupamento por média (\emph{average pooling}).}
+\label{fig:atencao-esperanca}
+\end{figure}
+
+\begin{enumerate}[resume]
+\item \textbf{Temperatura e limites termodinâmicos.} A introdução do parâmetro
+de \emph{temperatura} $T=1/\beta>0$ (\emph{temperature}) nos pesos de atenção,
+\[
+\alpha_i(T)
+=
+\mathbb{P}_\beta(X=i)
+=
+\frac{e^{-\beta H(i)}}{Z(\beta)}
+=
+\frac{e^{s_i/T}}{\sum_{j=1}^{n}e^{s_j/T}},
+\]
+reproduz exatamente os comportamentos assintóticos das medidas de Gibbs:
+\begin{itemize}
+\item \textbf{Limite de altas temperaturas ($T\to\infty$, ou $\beta\downarrow 0$):}
+como visto no exercício correspondente das notas anteriores, a medida de Gibbs
+converge para a distribuição uniforme ($\alpha_i(T)\to 1/n$). Assim, a atenção se
+reduz ao agrupamento por média (\emph{average pooling});
+\item \textbf{Limite de baixas temperaturas ($T\to 0$, ou $\beta\to\infty$):}
+como também demonstrado nas notas anteriores, a medida concentra toda a sua massa
+nos estados de energia mínima (isto é, na posição de maior escore
+$s_{i^*}=\max_j s_j$), e a esperança $\mathbb{E}[Y]$ converge para o vetor
+$v_{i^*}$, recuperando o agrupamento por máximo (\emph{max pooling}).
+\end{itemize}
+A esperança $\mathbb{E}[Y]$ sob a família de medidas de Gibbs unifica, portanto,
+toda a escala contínua entre a média aritmética e o máximo.
+\end{enumerate}
+
+\end{example}
+
+O leitor mais atento deve ter notado que a demonstração do \Cref{thm:esperanca-g-xy} 
+usou apenas a definição de esperança, a $\sigma$-aditividade
+de $\mathbb{P}$ e os fatos sobre reindexação de séries de termos não negativos
+ou absolutamente convergentes já empregados no Teorema da Mudança de
+Variáveis. Em particular, ela não depende da linearidade da esperança, que
+será deduzida a seguir como consequência do teorema.
+
+Antes de enunciar a linearidade, precisamos registrar que a combinação linear
+de duas variáveis aleatórias discretas é novamente uma variável aleatória
+discreta. Essa verificação é necessária, pois ainda não havíamos estabelecido
+que operações entre variáveis aleatórias preservam essa propriedade.
+
+\begin{corollary}[Combinação linear de variáveis aleatórias discretas]
+\label{cor:combinacao-linear-va}
+Se $X$ e $Y$ são variáveis aleatórias discretas em
+$(\Omega,\mathcal{F},\mathbb{P})$ e $a,b\in\mathbb{R}$, então
+$aX+bY$ é uma variável aleatória discreta.
+\end{corollary}
+
+\begin{proof}
+Considere a função $g:\mathbb{R}^2\to\mathbb{R}$ dada por
+$g(x,y)=ax+by$. A \Cref{prop:mensurabilidade-g-xy} vale para qualquer
+função $g$ e, portanto, garante que $g(X,Y)$ é uma variável aleatória
+discreta. Como $g(X,Y)=aX+bY$, concluímos o resultado.
+\end{proof}
+
+Já temos quase todo terreno preparado para mostrar a 
+validade da propriedade de linearidade da esperança. 
+O único preparativo que falta é o seguinte.
+Embora o \Cref{cor:combinacao-linear-va} garanta que 
+$aX+BY$ seja uma variável aleatória é necessário mostrar 
+que a série associada a sua esperança é uma série absolutamente convergente. 
+Feito isto, podemos, em seguida, aplicar o \Cref{thm:esperanca-g-xy}.
+
+\begin{theorem}[Linearidade da esperança]\label{thm:linearidade-esperanca}
+Se $X$ e $Y$ são variáveis aleatórias discretas sobre um espaço de probabilidade 
+$(\Omega,\mathcal{F},\mathbb{P})$ e $a,b\in\mathbb{R}$, então
+\begin{equation}\label{eq:linearidade-esperanca}
+  \mathbb{E}[aX+bY] = a\,\mathbb{E}[X] + b\,\mathbb{E}[Y],
+\end{equation}
+sempre que $\mathbb{E}[X]$ e $\mathbb{E}[Y]$ existirem, isto é, sempre que as
+séries que definem essas esperanças convergirem absolutamente.
+\end{theorem}
+
+\begin{proof}
+Pelo \Cref{cor:combinacao-linear-va}, $aX+bY$ é uma variável aleatória
+discreta. Para aplicar o \Cref{thm:esperanca-g-xy} com $g(x,y)=ax+by$,
+precisamos verificar a convergência absoluta da soma correspondente. Para
+isso, aplicamos a desigualdade triangular termo a termo:
+\[
+  |ax+by|\leqslant |a|\,|x|+|b|\,|y|.
+\]
+Como as parcelas do lado direito são não negativas, podemos distribuir e
+trocar a ordem das somas, obtendo
+\begin{align*}
+\sum_{x\in\operatorname{Im}X}
+\sum_{y\in\operatorname{Im}Y}
+&|ax+by|\,\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&\leqslant
+\sum_{x\in\operatorname{Im}X}
+\sum_{y\in\operatorname{Im}Y}
+\bigl(|a|\,|x|+|b|\,|y|\bigr)\,
+\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+|a|\sum_{x\in\operatorname{Im}X}|x|
+\sum_{y\in\operatorname{Im}Y}\mathbb{P}(X=x,Y=y)
++
+|b|\sum_{y\in\operatorname{Im}Y}|y|
+\sum_{x\in\operatorname{Im}X}\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+|a|\sum_{x\in\operatorname{Im}X}|x|\,\mathbb{P}(X=x)
++
+|b|\sum_{y\in\operatorname{Im}Y}|y|\,\mathbb{P}(Y=y)
+<\infty,
+\end{align*}
+onde usamos \eqref{eq:marginal-X} e \eqref{eq:marginal-Y} nas duas últimas
+igualdades. Note que a finitude das últimas somas no lado direito acima 
+é precisamente a hipótese de que
+$\mathbb{E}[X]$ e $\mathbb{E}[Y]$ existem. Assim, o
+\Cref{thm:esperanca-g-xy} e a convergência absoluta das séries fornecem
+
+
+\begin{align*}
+\mathbb{E}[aX+bY]
+&=
+\sum_{x\in\operatorname{Im}X}
+\sum_{y\in\operatorname{Im}Y}
+(ax+by)\,\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+a\sum_{x\in\operatorname{Im}X}x
+\sum_{y\in\operatorname{Im}Y}\mathbb{P}(X=x,Y=y)
++
+b\sum_{y\in\operatorname{Im}Y}y
+\sum_{x\in\operatorname{Im}X}\mathbb{P}(X=x,Y=y)
+\\[0.3cm]
+&=
+a\sum_{x\in\operatorname{Im}X}x\,\mathbb{P}(X=x)
++b\sum_{y\in\operatorname{Im}Y}y\,\mathbb{P}(Y=y)
+\\[0.3cm]
+&=
+a\,\mathbb{E}[X]+b\,\mathbb{E}[Y],
+\end{align*}
+onde usamos novamente as identidades marginais. Distribuir as constantes nos
+somatórios e reagrupar as parcelas são operações com séries numéricas,
+justificadas pela convergência absoluta já verificada, e não propriedades
+anteriores da esperança.
+\end{proof}
+
+\begin{exercise}\label{exercise:esperanca-theta-0-1-2}
+Suponha que $(X, Y)$ tenha função de probabilidade conjunta
+\[
+  \mathbb{P}(X = i, Y = j) = \theta^{i+j+1} \quad \text{para } i, j = 0, 1, 2,
+\]
+com $\theta$ como no \Cref{exercise:conjunta-theta-0-1-2}.
+Mostre que
+\[
+  \mathbb{E}[XY] = \theta^3 + 4\theta^4 + 4\theta^5
+\]
+e que
+\[
+  \mathbb{E}[X] = \theta^2 + 3\theta^3 + 3\theta^4 + 2\theta^5.
+\]
+\end{exercise}
+
+\begin{remark}\label{rem:esperanca-linearidade-extensao}
+A linearidade \eqref{eq:linearidade-esperanca} estende-se de imediato, por
+indução, a qualquer combinação linear finita: se
+$X_1,\dots,X_n$ são variáveis aleatórias discretas com esperança finita e
+$a_1,\dots,a_n\in\mathbb{R}$, então
+$$\mathbb{E}\left[\sum_{i=1}^n a_i X_i\right]=\sum_{i=1}^n a_i\, \mathbb{E}[X_i].$$
+Este fato será usado repetidamente em aplicações posteriores.
+\end{remark}
+
+\section{Aplicações da Linearidade da Esperança}
+\label{sec:aplicacoes-linearidade}
+
+A linearidade é a propriedade mais versátil dentre as que demonstramos até
+aqui, e nesta seção vamos explorar um roteiro de uso que se repete em inúmeras
+aplicações: quando uma variável aleatória $Y$ conta quantos objetos satisfazem
+uma determinada condição, escrevemos $Y$ como soma de indicadoras, uma para
+cada objeto, calculamos a esperança de cada indicadora por contagem direta no
+espaço amostral e deixamos que a linearidade some os resultados. O ponto
+central do roteiro é que ele não exige qualquer noção de independência entre
+as parcelas.
+
+Os três exemplos a seguir ilustram esse roteiro em cenários clássicos: cortes
+aleatórios em grafos, o problema dos chapéus e recordes em permutações
+aleatórias. No primeiro deles, a esperança de uma variável aleatória
+convenientemente construída prova um resultado de existência puramente
+determinístico, uma primeira amostra do chamado método probabilístico, cuja
+exposição sistemática é o objeto do livro de Alon e Spencer
+\cite{AlonSpencer2016}.
+
+\bigskip
+
+Antes de apresentar nossa primeira aplicação, convém introduzir brevemente a
+noção de \emph{grafo}, que é a estrutura matemática padrão para representar
+redes e conexões entre objetos.
+
+Intuitivamente, um grafo é formado por dois blocos fundamentais:
+\begin{itemize}
+  \item um conjunto de pontos, chamados de \textbf{vértices} (ou nós), que
+  representam os objetos de interesse;
+  \item um conjunto de linhas conectando pares de vértices, chamadas de
+  \textbf{arestas} (ou ligações), que indicam uma relação direta entre eles.
+\end{itemize}
+Essa representação surge de modo ubíquo: em redes sociais, os vértices
+representam pessoas e as arestas representam amizades; na malha aérea, os
+vértices são aeroportos e as arestas são voos diretos; na internet, os vértices
+são roteadores e as arestas são cabos de fibra óptica.
+
+Formalmente, um \emph{grafo simples não-direcionado} é um par $G=(V,E)$, em que
+$V$ é um conjunto não-vazio de vértices e $E$ é um conjunto de arestas,
+onde cada aresta $e\in E$ é um par não-ordenado $\{u,v\}$ de vértices distintos
+($u,v\in V$ com $u\neq v$). Os vértices $u$ e $v$ são denominados
+\emph{extremos} (ou extremidades) da aresta $e$.
+
+Em muitas situações práticas, contudo, os elementos do sistema não pertencem
+todos a uma mesma categoria homogênea, mas dividem-se naturalmente em duas
+classes distintas, e as conexões só fazem sentido entre elementos de classes
+opostas, nunca entre elementos da mesma classe. Por exemplo:
+\begin{itemize}
+  \item em plataformas de comércio ou \emph{streaming}, as arestas ligam
+  \emph{usuários} aos \emph{produtos} ou filmes que eles avaliaram (não há
+  conexões diretas de usuário a usuário ou de produto a produto nesse nível de
+  interação);
+  \item na alocação de recursos, associamos \emph{estudantes} a
+  \emph{disciplinas}, ou \emph{candidatos} a \emph{vagas de emprego};
+  \item em redes acadêmicas, conectamos \emph{pesquisadores} aos \emph{artigos
+  científicos} que eles publicaram.
+\end{itemize}
+Em todos esses cenários, os vértices do grafo estão divididos em dois grupos
+disjuntos e cada aresta existente conecta obrigatoriamente um vértice do
+primeiro grupo a um do segundo grupo. Essa propriedade estrutural motiva a
+seguinte definição:
+
+\begin{definition}[Grafo bipartido]\label{def:grafo-bipartido}
+Dizemos que um grafo $G=(V,E)$ é \emph{bipartido} se o seu conjunto de vértices
+$V$ puder ser particionado em dois subconjuntos disjuntos $V_0$ e $V_1$ (isto é,
+$V=V_0\cup V_1$ com $V_0\cap V_1=\emptyset$) de tal modo que toda aresta
+$\{u,v\}\in E$ possua uma extremidade em $V_0$ e a outra em $V_1$. Os
+subconjuntos $V_0$ e $V_1$ são chamados de as \emph{partes} (ou classes) da
+bipartição.
+\end{definition}
+
+Vale destacar que a restrição da definição incide exclusivamente sobre as
+\textbf{arestas} existentes, e não sobre os vértices: não é necessário que saia
+ao menos uma aresta de cada vértice. Em particular, vértices \emph{isolados}
+(isto é, sem nenhuma aresta conectada a eles) são perfeitamente permitidos, pois
+não geram qualquer conflito com a condição de bipartição.
+
+Podemos visualizar essa propriedade colorindo os vértices com duas cores,
+digamos preto para os elementos de $V_0$ e vermelho para os de $V_1$. Em um
+grafo bipartido, toda aresta conecta necessariamente um vértice preto a um
+vermelho, inexistindo arestas entre vértices de mesma cor. A
+\Cref{fig:grafos-bipartidos} ilustra três exemplos clássicos: o grafo bipartido
+completo $K_{2,2}$, o caminho $P_4$ e a estrela $K_{1,3}$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  vertice-bipartido/.style={
+    circle,
+    draw=black,
+    inner sep=0pt,
+    minimum size=2.5mm,
+  },
+  partezero/.style={fill=black, draw=black},
+  parteum/.style={fill=red, draw=red!85!black},
+  aresta/.style={draw=black, line width=0.5pt},
+]
+  % Primeiro painel: K_{2,2}.
+  \begin{scope}
+    \node[font=\small] at (1.25,2.55) {$K_{2,2}$};
+    \coordinate (a1) at (0.35,0.55);
+    \coordinate (a2) at (0.35,1.75);
+    \coordinate (b1) at (2.15,0.55);
+    \coordinate (b2) at (2.15,1.75);
+
+    \foreach \u in {a1,a2}
+      \foreach \v in {b1,b2}
+        \draw[aresta] (\u) -- (\v);
+
+    \node[vertice-bipartido, partezero] at (a1) {};
+    \node[vertice-bipartido, partezero] at (a2) {};
+    \node[vertice-bipartido, parteum] at (b1) {};
+    \node[vertice-bipartido, parteum] at (b2) {};
+  \end{scope}
+
+  % Segundo painel: o caminho P_4.
+  \begin{scope}[xshift=3.65cm]
+    \node[font=\small] at (1.35,2.55) {$P_4$};
+    \coordinate (p1) at (0.05,1.15);
+    \coordinate (p2) at (0.95,1.15);
+    \coordinate (p3) at (1.85,1.15);
+    \coordinate (p4) at (2.75,1.15);
+
+    \draw[aresta] (p1) -- (p2) -- (p3) -- (p4);
+
+    \node[vertice-bipartido, partezero] at (p1) {};
+    \node[vertice-bipartido, parteum] at (p2) {};
+    \node[vertice-bipartido, partezero] at (p3) {};
+    \node[vertice-bipartido, parteum] at (p4) {};
+  \end{scope}
+
+  % Terceiro painel: a estrela K_{1,3}.
+  \begin{scope}[xshift=7.3cm]
+    \node[font=\small] at (1.3,2.55) {$K_{1,3}$};
+    \coordinate (centro) at (1.3,0.75);
+    \coordinate (folha1) at (0.1,1.95);
+    \coordinate (folha2) at (1.3,1.95);
+    \coordinate (folha3) at (2.5,1.95);
+
+    \draw[aresta] (centro) -- (folha1);
+    \draw[aresta] (centro) -- (folha2);
+    \draw[aresta] (centro) -- (folha3);
+
+    \node[vertice-bipartido, partezero] at (centro) {};
+    \node[vertice-bipartido, parteum] at (folha1) {};
+    \node[vertice-bipartido, parteum] at (folha2) {};
+    \node[vertice-bipartido, parteum] at (folha3) {};
+  \end{scope}
+\end{tikzpicture}
+\caption{Três exemplos de grafos bipartidos.}
+\label{fig:grafos-bipartidos}
+\end{figure}
+
+Em contrapartida, em redes gerais complexas (como redes de relacionamentos ou
+grafos densos), a estrutura global raramente é bipartida, pois a presença de
+triângulos e outros ciclos de comprimento ímpar inviabiliza uma bipartição
+perfeita de todos os vértices.
+
+Surge então uma pergunta natural: \emph{mesmo que um grafo $G=(V,E)$ arbitrário
+não seja bipartido, será que podemos extrair dele um subgrafo bipartido que
+conserve uma fração substancial de suas arestas?}
+
+Para responder a essa pergunta, podemos impor uma divisão aos vértices de $G$.
+Uma forma sistemática de descrever essa divisão é atribuir a cada vértice $v\in
+V$ um \textbf{rótulo} (ou etiqueta ou cor) binário, $0$ ou $1$, o que particiona $V$
+nos grupos $V_0=\{v\in V : \text{rótulo}(v)=0\}$ e $V_1=\{v\in V :
+\text{rótulo}(v)=1\}$. Uma vez fixada essa atribuição de rótulos:
+\begin{itemize}
+  \item as arestas cujos extremos possuem o \textbf{mesmo rótulo} (ambos $0$ ou
+  ambos $1$) são descartadas;
+  \item as arestas cujos extremos possuem \textbf{rótulos distintos} (um em $V_0$
+  e outro em $V_1$) são preservadas.
+\end{itemize}
+O conjunto dessas arestas preservadas, isto é, daquelas cujos extremos pertencem
+a grupos distintos, é chamado de um \emph{corte} (ou \emph{cut}) no grafo $G$, e
+cada uma delas é dita uma \emph{aresta cortada}. Ao mantermos todos os vértices
+de $G$ e apenas as arestas do corte, obtemos um subgrafo gerador $H\subseteq G$
+(ou seja, um subgrafo com o mesmo conjunto de vértices de $G$) que é, por
+construção, bipartido. A \Cref{fig:corte-grafo} ilustra essa ideia.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  vertice/.style={circle, fill=black, draw=black, inner sep=0pt, minimum size=2.5mm},
+  vertice-um/.style={circle, fill=red, draw=red!85!black, inner sep=0pt, minimum size=2.5mm},
+  aresta-original/.style={draw=black, line width=0.5pt},
+  aresta-cortada/.style={draw=green!70!black, line width=1.1pt},
+  aresta-descartada/.style={draw=black!25, line width=0.4pt, dashed},
+  linha-corte/.style={draw=black!60, dashed, line width=0.6pt},
+]
+  % Painel esquerdo: o grafo original G (n=5, m=7).
+  \begin{scope}
+    \coordinate (v1) at (0,0);
+    \coordinate (v2) at (1.8,0.5);
+    \coordinate (v3) at (0.9,1.9);
+    \coordinate (v4) at (3.0,1.7);
+    \coordinate (v5) at (4.0,0.3);
+
+    \draw[aresta-original] (v1) -- (v2);
+    \draw[aresta-original] (v2) -- (v3);
+    \draw[aresta-original] (v1) -- (v3);
+    \draw[aresta-original] (v2) -- (v4);
+    \draw[aresta-original] (v3) -- (v4);
+    \draw[aresta-original] (v2) -- (v5);
+    \draw[aresta-original] (v4) -- (v5);
+
+    \node[vertice] at (v1) {};
+    \node[vertice] at (v2) {};
+    \node[vertice] at (v3) {};
+    \node[vertice] at (v4) {};
+    \node[vertice] at (v5) {};
+    \node[below left=0.5mm] at (v1) {$v_1$};
+    \node[below=1mm] at (v2) {$v_2$};
+    \node[above=1mm] at (v3) {$v_3$};
+    \node[right=1mm] at (v4) {$v_4$};
+    \node[below right=0.5mm] at (v5) {$v_5$};
+    \node[font=\small] at (2.0,2.55) {$G$};
+  \end{scope}
+
+  % Seta de transicao
+  \draw[-{Stealth}, draw=black, line width=0.6pt]
+    (4.8,1.1) -- (6.0,1.1);
+
+  % Painel direito: o corte com particao dos vertices e a linha divisoria.
+  \begin{scope}[xshift=6.7cm]
+    \draw[linha-corte] (1.7,-0.6) -- (1.7,2.8);
+    \node[font=\scriptsize, text=black!70] at (1.7,3.05) {corte};
+    \node[font=\small, text=red!85!black] at (0.3,1.4) {$V_1$};
+    \node[font=\small, text=black] at (4.5,1) {$V_0$};
+
+    \coordinate (u1) at (0.3,0.5);
+    \coordinate (u4) at (0.8,1.9);
+    \coordinate (u2) at (3.1,0.9);
+    \coordinate (u3) at (2.6,2.1);
+    \coordinate (u5) at (3.7,0.0);
+
+    % Arestas internas descartadas
+    \draw[aresta-descartada] (u2) -- (u3);
+    \draw[aresta-descartada] (u2) -- (u5);
+
+    % Arestas do corte (que cruzam a linha)
+    \draw[aresta-cortada] (u1) -- (u2);
+    \draw[aresta-cortada] (u1) -- (u3);
+    \draw[aresta-cortada] (u4) -- (u2);
+    \draw[aresta-cortada] (u4) -- (u3);
+    \draw[aresta-cortada] (u4) -- (u5);
+
+    \node[vertice-um] at (u1) {};
+    \node[vertice] at (u2) {};
+    \node[vertice] at (u3) {};
+    \node[vertice-um] at (u4) {};
+    \node[vertice] at (u5) {};
+
+    \node[below left=0.5mm] at (u1) {$v_1$};
+    \node[right=1mm] at (u2) {$v_2$};
+    \node[above=1mm] at (u3) {$v_3$};
+    \node[above left=0.5mm] at (u4) {$v_4$};
+    \node[below right=0.5mm] at (u5) {$v_5$};
+    \node[font=\small] at (1.7,-0.95) {$H\subseteq G$};
+  \end{scope}
+\end{tikzpicture}
+\caption{Motivação geométrica para a noção de corte: à esquerda, um grafo $G$
+com $n=5$ vértices e $m=7$ arestas. À direita, a linha tracejada vertical divide
+os vértices em duas partes, $V_1=\{v_1,v_4\}$ e $V_0=\{v_2,v_3,v_5\}$. As $5$
+arestas em destaque verde atravessam a linha divisória e formam o corte,
+constituindo o subgrafo gerador bipartido $H\subseteq G$. As $2$ arestas
+internas a $V_0$ (tracejadas em cinza) foram descartadas.}
+\label{fig:corte-grafo}
+\end{figure}
+
+\begin{example}[Cortes aleatórios em grafos]\label{ex:corte-aleatorio-grafo}
+Vamos provar que todo grafo finito com $m$ arestas contém um subgrafo
+bipartido com pelo menos $\displaystyle\frac{m}{2}$ arestas.
+
+
+\bigskip 
+Note que a afirmação sobre a existência desse subgrafo é puramente
+determinística: nada nela envolve aleatoriedade. Contudo, encontrar
+explicitamente uma partição dos vértices que maximize o número de arestas
+cortadas (o célebre problema do \emph{corte máximo} ou \emph{Max-Cut}) é
+um problema computacionalmente difícil (NP-difícil).
+
+Surpreendentemente, a probabilidade e a linearidade da esperança fornecem uma
+demonstração de existência simples e elegante: em vez de procurar deterministicamente
+a melhor partição, sorteamos a atribuição de rótulos aos vértices jogando uma moeda
+justa para cada vértice, de maneira independente. Mostraremos que, em média,
+esse sorteio corta metade das arestas ($m/2$); como a média é $m/2$, deve existir
+ao menos um corte específico que atinja ou supere esse valor.
+
+\medskip 
+Sejam $v_1,\ldots,v_n$ os vértices de um grafo $G$ com $m$ arestas.
+%
+%\begin{figure}[H]
+%\centering
+%\begin{tikzpicture}[
+%  vertice/.style={circle, fill=text, inner sep=0pt, minimum size=1.8mm},
+%]
+%  \coordinate (vone) at (0,0);
+%  \coordinate (vtwo) at (1.45,-0.2);
+%  \coordinate (vthree) at (3.0,0.45);
+%  \coordinate (vfour) at (0.25,1.9);
+%  \coordinate (vfive) at (1.7,3);
+%  \coordinate (vsix) at (3.2,1.75);
+%
+%  \draw[line width=0.5pt] (vone) -- (vtwo);
+%  \draw[line width=0.5pt] (vone) -- (vfour);
+%  \draw[line width=0.5pt] (vtwo) -- (vthree);
+%  \draw[line width=0.5pt] (vtwo) -- (vfive);
+%  \draw[line width=0.5pt] (vthree) -- (vsix);
+%  \draw[line width=0.5pt] (vfour) -- (vfive);
+%  \draw[line width=0.5pt] (vfive) -- (vsix);
+%  \draw[line width=0.5pt] (vfour) -- (vsix);
+%
+%  \node[vertice] at (vone) {};
+%  \node[vertice] at (vtwo) {};
+%  \node[vertice] at (vthree) {};
+%  \node[vertice] at (vfour) {};
+%  \node[vertice] at (vfive) {};
+%  \node[vertice] at (vsix) {};
+%  \node[below left=0.5mm] at (vone) {$v_1$};
+%  \node[below=1mm] at (vtwo) {$v_2$};
+%  \node[below right=0.5mm] at (vthree) {$v_3$};
+%  \node[above left=0.5mm] at (vfour) {$v_4$};
+%  \node[above=1mm] at (vfive) {$v_5$};
+%  \node[above right=0.5mm] at (vsix) {$v_6$};
+%  \node[font=\small] at (-1.6,2.75) {$G$};
+%\end{tikzpicture}
+%\caption{Um exemplo de grafo $G$ com $n=6$ vértices e $m=8$ arestas. Em
+%seguida, cada vértice receberá um rótulo, e o argumento será válido para
+%quaisquer valores de $n$ e $m$.}
+%\label{fig:grafo-rotulos}
+%\end{figure}
+%
+Suponha
+$n\geqslant 2$, pois com um único vértice não há arestas e a afirmação é
+trivial. O experimento aleatório consiste em sortear, para cada vértice, um
+dos dois rótulos, $0$ ou $1$. Assim, os vértices com rótulo $0$ e os vértices
+com rótulo $1$ formarão os dois conjuntos da bipartição do grafo $G$. 
+Podemos associar o seguinte espaço de probabilidade a este experimento aleatório
+\[
+\Omega=\{0,1\}^n,
+\qquad
+\mathcal{F}=\mathscr{P}(\Omega),
+\qquad
+\mathbb{P}(\{\omega\})=\frac{1}{2^{n}},\qquad \forall \omega\in\Omega.
+\]
+
+Observe que a aplicação $X_i(\omega)=\omega_i$, a $i$-ésima coordenada de $\omega$,
+define uma variável aleatória discreta sobre $(\Omega,\mathcal{F},\mathbb{P})$. 
+O vetor $\mathbf{X}=(X_1,\ldots,X_n)$ é um vetor aleatório discreto com função
+de probabilidade conjunta dada por
+\[
+p_{\mathbf{X}}(x)\equiv \mathbb{P}(\mathbf{X}=x)=\frac{1}{2^{n}}
+\qquad\text{para todo } x\in\{0,1\}^n,
+\]
+e $p_{\mathbf{X}}(x)=0$ para os demais vetores $x\in\mathbb{R}^n$. 
+Neste caso todos os vetores de rótulos são
+igualmente prováveis, e $X_i$ é o rótulo atribuído ao vértice $v_i$.
+
+Dizemos que uma aresta $e=\{v_a,v_b\}$ é \emph{cortada} pelo vetor de rótulos
+quando seus extremos recebem rótulos distintos, isto é, quando $X_a\neq X_b$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  vertice/.style={circle, fill=black, inner sep=0pt, minimum size=2mm},
+]
+  \coordinate (va) at (0,0);
+  \coordinate (vb) at (5.0,0);
+
+  \draw[red!85!black, line width=1pt]
+    (va) -- node[above=1mm, font=\small, text=red!85!black] {cortada} (vb);
+  \node[vertice] at (va) {};
+  \node[vertice] at (vb) {};
+  \node[below=1mm] at (va) {$v_a$};
+  \node[below=1mm] at (vb) {$v_b$};
+  \node[above=4mm] at (va) {$X_a=0$};
+  \node[above=4mm] at (vb) {$X_b=1$};
+\end{tikzpicture}
+\caption{Uma aresta é cortada quando os rótulos de seus extremos são
+distintos. Aqui, $X_a=0$ e $X_b=1$, portanto $X_a\neq X_b$.}
+\label{fig:aresta-cortada}
+\end{figure}
+
+Considere uma enumeração arbitrária do conjunto das
+arestas de $G$, digamos, $e_1,\ldots,e_m$, onde cada aresta
+$e_j=\{v_{a_j},v_{b_j}\}$. Para cada $j=1,\ldots, m$,  considere o evento
+\[
+E_j=\{\omega\in\Omega:\omega_{a_j}\neq\omega_{b_j}\}
+\]
+que corresponde ao evento a aresta $e_j$ é cortada. O número de arestas cortadas pode ser 
+representado pela seguinte variável aleatória 
+\[
+Y\equiv \sum_{j=1}^m\mathds{1}_{E_j}.
+\]
+A vantagem dessa escrita é decompor um objeto difícil de analisar em bloco, o
+número total de arestas cortadas, em parcelas tratáveis individualmente, já que cada
+indicadora dirige a atenção para uma única aresta.
+
+A probabilidade de cada $E_j$ vem de uma contagem direta. Dos $2^n$ vetores de
+rótulos, aqueles em que $\omega_{a_j}\neq\omega_{b_j}$ podem ser contados da
+seguinte forma: as demais $n-2$ coordenadas são livres e admitem $2^{n-2}$
+escolhas e, para cada uma dessas escolhas, o par
+$(\omega_{a_j},\omega_{b_j})\in\{0,1\}^2$ admite $4$ valores, dos quais
+exatamente $2$ têm entradas distintas. Logo
+\[
+\mathbb{P}(E_j)
+=\frac{2\cdot 2^{n-2}}{2^n}
+=\frac{1}{2}.
+\]
+
+Chega o momento de somar. Como cada $\mathds{1}_{E_j}$ só assume os valores
+$0$ e $1$, sua esperança existe e vale
+$\mathbb{E}\bigl[\mathds{1}_{E_j}\bigr]=\mathbb{P}(E_j)$. Pela propriedade de linearidade
+da esperança, concluímos que 
+\begin{align*}
+\mathbb{E}[Y]
+=\sum_{j=1}^m\mathbb{E}\bigl[\mathds{1}_{E_j}\bigr]
+=\sum_{j=1}^m\mathbb{P}(E_j)
+=m\cdot\frac{1}{2}
+=\frac{m}{2}.
+\end{align*}
+
+Resta converter o valor esperado em existência, e aqui usamos que $\Omega$ é
+finito. A esperança $\mathbb{E}[Y]$ é a média dos valores $Y(\omega)$ com
+pesos uniformes $2^{-n}$. Suponhamos, por contradição, que todo corte tenha
+menos de $m/2$ arestas, isto é, que $Y(\omega)<m/2$ para todo
+$\omega\in\Omega$. Como $\Omega$ é finito, o máximo
+$M=\max_{\omega\in\Omega}Y(\omega)$ é assumido por algum ponto do espaço e
+satisfaz $M<m/2$; consequentemente,
+\[
+\mathbb{E}[Y]\leqslant M<\frac{m}{2},
+\]
+em contradição com $\mathbb{E}[Y]=m/2$. Portanto existe $\omega^*\in\Omega$
+com $Y(\omega^*)\geqslant m/2$. A finitude é essencial neste passo: em um
+conjunto infinito de valores todos estritamente menores que $m/2$, o supremo
+poderia ser o próprio $m/2$, e a desigualdade estrita não se manteria sem um
+argumento adicional.
+
+Para concluir, observamos que as arestas cortadas por $\omega^*$ formam um
+subgrafo bipartido de $G$. Com efeito, se $B$ é o conjunto dos vértices com
+rótulo $1$ em $\omega^*$, então toda aresta cortada tem um extremo em $B$ e o
+outro no complementar. Como há pelo menos $m/2$ arestas cortadas, o grafo
+formado por elas é um subgrafo bipartido de $G$ com pelo menos $m/2$ arestas,
+e a afirmação está provada. No caso do grafo com $n=5$ vértices e $m=7$ arestas
+da \Cref{fig:corte-grafo}, a esperança garante a existência de um corte com pelo
+menos $7/2=3{,}5$ arestas, e a partição ilustrada atinge $5$ arestas cortadas.
+\end{example}
+
+\begin{remark}\label{rem:corte-linearidade}
+Três observações sobre o \Cref{ex:corte-aleatorio-grafo} merecem registro.
+
+Primeira: em nenhum momento usamos independência. A probabilidade $1/2$ de
+cada aresta ser cortada veio de uma contagem direta no espaço finito
+$\{0,1\}^n$, e a linearidade da esperança não exige qualquer hipótese sobre a
+interação entre as parcelas da soma.
+
+Segunda: a esperança não precisa ser um valor assumido. No triângulo, isto é,
+no grafo completo com três vértices e $m=3$ arestas, o número de arestas
+cortadas só pode ser $0$ ou $2$: com apenas dois rótulos, dois vértices
+necessariamente compartilham o rótulo, e exatamente as duas arestas que saem
+do terceiro vértice cruzam o corte; se os três rótulos coincidem, nenhuma
+aresta é cortada. Assim $Y$ nunca assume o valor $\mathbb{E}[Y]=3/2$: a
+esperança é uma média dos valores possíveis, e não um valor típico que a
+variável precise realizar.
+
+Terceira: as indicadoras estão longe de se comportar de maneira isolada.
+Ainda no triângulo, os eventos $E_1$, $E_2$ e $E_3$ não podem ocorrer
+simultaneamente, pois três vértices não podem receber rótulos dois a dois
+distintos usando apenas dois rótulos; em particular,
+$E_1\cap E_2\cap E_3=\varnothing$, embora cada $E_j$ tenha probabilidade
+$1/2$. A linearidade da esperança permanece válida sem qualquer restrição.
+
+Quarta: o espaço $\{0,1\}^n$ do corte aleatório reaparece em mecanismos
+onipresentes nas arquiteturas de redes neurais modernas. Na regularização por
+desativação aleatória (\emph{dropout}), cada neurônio ou unidade de uma camada
+é mantido ativo ou desligado a cada passo de treinamento, e o conjunto dessas
+decisões é um vetor em $\{0,1\}^n$; nos modelos de linguagem com mascaramento
+aleatório de tokens durante o pré-treinamento (\emph{masked language
+modeling}), a máscara aplicada é igualmente um vetor binário. O corte aleatório
+é, nesse sentido, uma primeira introdução aos modelos baseados em máscaras
+binárias aleatórias.
+\end{remark}
+
+\bigskip
+
+O próximo exemplo é um clássico da modelagem probabilística, no qual a
+linearidade produz uma resposta notavelmente estável: o valor esperado não
+depende do tamanho do problema.
+
+\begin{example}[O problema dos chapéus]\label{ex:chapeus-pontos-fixos}
+Um grupo de $n$ convidados deixa seus chapéus no guarda-volumes de um
+restaurante e, na saída, os chapéus são devolvidos em uma ordem aleatória.
+Quantos convidados recebem o próprio chapéu, em média? Vamos mostrar que a
+resposta é exatamente $1$, qualquer que seja $n$.
+
+O primeiro passo é especificar o modelo. Denote por $S_n$ o conjunto das
+permutações de $\{1,\ldots,n\}$ e vamos interpretar o valor $\sigma(i)$ como sendo
+o número do convidado que recebeu o chapéu do convidado $i$. 
+A hipótese de devolução aleatória será modelada pela distribuição uniforme. Assim nosso 
+problema pode ser tratado no seguinte espaço de probabilidade
+\[
+\Omega=S_n,
+\qquad
+\mathcal{F}=\mathscr{P}(\Omega),
+\qquad
+\mathbb{P}(\{\sigma\})=\frac{1}{n!}\ \text{para todo }\sigma\in S_n,
+\]
+A escolha da medida de probabilidade 
+é feita de modo que qualquer uma das maneiras de realizar a devolução  
+dos chapéus é igualmente provável.
+
+A variável aleatória de interesse é
+\[
+X(\sigma)=\#\{i:\sigma(i)=i\},
+\]
+o número de convidados que recebem o próprio chapéu, isto é, o número de
+pontos fixos da permutação $\sigma$. Contar de uma só vez quantos acertos
+ocorrem parece exigir o estudo de toda a permutação. Entretanto, contar 
+de quantas maneiras um convidado específico recebe de volta seu próprio 
+chapéu é imediato. Isso sugere decompor
+\[
+X=\sum_{i=1}^n X_i,
+\qquad
+X_i=\mathds{1}_{D_i},
+\qquad
+D_i=\{\sigma\in S_n:\sigma(i)=i\}.
+\]
+
+As permutações que fixam $i$ são obtidas permutando livremente os demais
+$n-1$ elementos, de modo que $\#D_i=(n-1)!$ e
+\[
+\mathbb{P}(X_i=1)=\mathbb{P}(D_i)=\frac{(n-1)!}{n!}=\frac{1}{n}.
+\]
+Pela linearidade da esperança concluímos que 
+\begin{align*}
+\mathbb{E}[X]
+=\sum_{i=1}^n\mathbb{E}[X_i]
+=\sum_{i=1}^n\mathbb{P}(D_i)
+=n\cdot\frac{1}{n}
+=1,
+\end{align*}
+para todo $n\geqslant 1$. Em média, exatamente um convidado é beneficiado,
+haja $10$ convidados ou um milhão: o número esperado de acertos não cresce
+com $n$. A \Cref{fig:chapeus-permutacao} exibe uma devolução possível.
+\end{example}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Stealth,
+  chapeu/.style={
+    rounded corners=3.5pt,
+    draw=border,
+    fill=card,
+    inner sep=4pt,
+    minimum width=1.25cm,
+    minimum height=0.75cm,
+    font=\small,
+    line width=0.6pt,
+  },
+  convidado/.style={
+    rounded corners=3.5pt,
+    draw=border,
+    fill=card,
+    inner sep=4pt,
+    minimum width=1.25cm,
+    minimum height=0.75cm,
+    font=\small,
+    line width=0.6pt,
+  },
+  destaque/.style={
+    draw=teal!80!black,
+    fill=teal!8,
+    text=teal!90!black,
+    line width=1.1pt,
+  },
+  seta/.style={
+    -{Latex[length=2.2mm,width=1.5mm]},
+    line width=0.55pt,
+    draw=muted!50,
+  },
+  seta destaque/.style={
+    -{Latex[length=2.8mm,width=2.0mm]},
+    line width=1.4pt,
+    draw=teal!80!black,
+  },
+]
+  % Fileira superior: Chapeus
+  \foreach \i in {1,2,4,5} {
+    \node[chapeu] (c\i) at ({(\i-1)*1.9}, 2.6) {\faHatCowboy\hspace{0.35em}\textbf{\i}};
+    \node[convidado] (b\i) at ({(\i-1)*1.9}, 0.0) {\faUser\hspace{0.35em}\textbf{\i}};
+  }
+  % Destaque para o par correspondente (posicao 3)
+  \node[chapeu, destaque] (c3) at ({2*1.9}, 2.6) {\faHatCowboy\hspace{0.35em}\textbf{3}};
+  \node[convidado, destaque] (b3) at ({2*1.9}, 0.0) {\faUser\hspace{0.35em}\textbf{3}};
+
+  % Rotulos das fileiras
+%  \node[font=\footnotesize\bfseries, text=muted, left=0.4cm of c1] {Chapéus};
+%  \node[font=\footnotesize\bfseries, text=muted, left=0.4cm of b1] {Convidados};
+
+  % Setas da permutacao sigma = (2,5,3,1,4)
+  % c1 -> b2
+  \draw[seta] (c1.south) to[out=-75, in=105] (b2.north);
+  
+  % c2 -> b5
+  \draw[seta] (c2.south) to[out=-35, in=125] (b5.north);
+  
+  % c4 -> b1
+  \draw[seta] (c4.south) to[out=-145, in=55] (b1.north);
+  
+  % c5 -> b4
+  \draw[seta] (c5.south) to[out=-105, in=75] (b4.north);
+
+  % c3 -> b3 (acerto / ponto fixo)
+  \draw[seta destaque] (c3.south) -- (b3.north)
+    node[pos=0.6, right=3pt, font=\scriptsize\bfseries, text=teal!90!black] {$X_3=1$};
+
+\end{tikzpicture}
+\caption{A devolução de chapéus correspondente à permutação
+$\sigma=(2,5,3,1,4)$: apenas o convidado $3$ recebe o próprio chapéu, de modo
+que $X(\sigma)=1$, exatamente o valor esperado.}
+\label{fig:chapeus-permutacao}
+\end{figure}
+
+\begin{remark}\label{rem:chapeus-dependencia}
+O caso $n=2$ expõe com nitidez o quanto a linearidade é robusta. Nesse caso,
+$S_2=\{\mathrm{id},(1\ 2)\}$ e $D_1=D_2=\{\mathrm{id}\}$, de modo que $X_1$ e
+$X_2$ são literalmente a mesma variável aleatória. Ainda assim,
+\[
+\mathbb{E}[X_1+X_2]=\mathbb{E}[X]=1=\frac{1}{2}+\frac{1}{2},
+\]
+pois a linearidade lida sem qualquer restrição com parcelas repetidas. Este é
+o exemplo mais simples de que a igualdade
+\eqref{eq:linearidade-esperanca} nada exige sobre a interação entre as
+parcelas da soma.
+
+O evento $\{X=0\}$, em que nenhum convidado recebe o próprio chapéu,
+corresponde às permutações sem pontos fixos, os chamados \emph{desarranjos}.
+Pode-se mostrar que $\mathbb{P}(X=0)$ tende a $1/e\approx 0{,}37$ quando $n$
+cresce, mas a demonstração usa inclusão-exclusão, ferramenta que ainda não
+introduzimos nestas notas. Registramos o fato como motivação para
+retornarmos a este problema mais adiante no curso.
+\end{remark}
+
+\bigskip
+
+Encerramos com um exemplo sobre a frequência com que recordes aparecem em uma
+sequência de observações. A resposta, o número harmônico $H_n$, quantifica
+uma intuição familiar: recordes se tornam cada vez mais raros.
+
+\begin{example}[Recordes em uma permutação aleatória]\label{ex:recordes-permutacao}
+Considere $n$ observações com valores dois a dois distintos, como as marcas
+sucessivas registradas em uma competição. Como a decisão de que o instante
+$i$ é ou não um recorde envolve apenas comparações entre os valores
+observados, somente a ordem relativa deles importa. Codificamos essa ordem
+por uma permutação $\sigma\in S_n$: o número $\sigma(i)$ é o posto do valor
+observado no instante $i$, com postos maiores indicando observações maiores.
+A hipótese de ordem aleatória corresponde ao espaço de probabilidade
+\[
+\Omega=S_n,
+\qquad
+\mathcal{F}=\mathscr{P}(\Omega),
+\qquad
+\mathbb{P}(\{\sigma\})=\frac{1}{n!}\ \text{para todo }\sigma\in S_n.
+\]
+
+O instante $i$ é um \emph{recorde} quando $\sigma(i)>\sigma(j)$ para todo
+$j<i$. Denote por
+\[
+E_i=\bigl\{\sigma\in S_n:\sigma(i)>\sigma(j)\text{ para todo }j<i\bigr\}
+\]
+o evento correspondente e escreva $R_i=\mathds{1}_{E_i}$, de modo que o
+número total de recordes é
+\[
+R=\sum_{i=1}^n R_i.
+\]
+Note que $E_1=S_n$: a primeira observação não tem antecessoras a superar e é
+sempre um recorde, isto é, $R_1\equiv 1$. A \Cref{fig:recordes-agulhas}
+exibe uma permutação de $S_{10}$ com seus recordes destacados.
+
+O núcleo do exemplo é o cálculo de $\mathbb{P}(R_i=1)$. A intuição é que
+superar $i-1$ valores anteriores é cada vez mais difícil à medida que $i$
+cresce; a contagem a seguir torna essa intuição precisa. O que decide se $i$
+é recorde é a posição ocupada pelo maior valor entre
+$\sigma(1),\ldots,\sigma(i)$, o que sugere particionar $S_n$ segundo o
+conjunto de valores que ocupam as primeiras $i$ posições. Para cada
+$A\subseteq\{1,\ldots,n\}$ com $\#A=i$, defina
+\[
+B_A=\bigl\{\sigma\in S_n:\{\sigma(1),\ldots,\sigma(i)\}=A\bigr\}.
+\]
+Os blocos $B_A$, com $A$ variando dentre os subconjuntos de cardinalidade
+$i$, são dois a dois disjuntos e cobrem $S_n$: cada $\sigma$ pertence
+exatamente ao bloco indexado por $A=\{\sigma(1),\ldots,\sigma(i)\}$. Cada
+bloco tem $i!\,(n-i)!$ elementos, pois há $i!$ ordenações dos valores de $A$
+nas primeiras $i$ posições e $(n-i)!$ ordenações do complemento nas demais.
+
+Dentro de um bloco fixado, identificamos as permutações com recorde no
+instante $i$. Como os valores das primeiras $i$ posições são exatamente os
+elementos de $A$, a condição que define $E_i$ equivale a dizer que
+$\sigma(i)$ é o máximo de $A$; em outros termos, o recorde ocorre
+exatamente quando o máximo de $A$ ocupa a posição $i$. Fixado esse máximo na
+posição $i$, restam $(i-1)!$ ordenações dos demais valores de $A$ nas
+posições $1,\ldots,i-1$ e $(n-i)!$ completamentos, de modo que
+\[
+\#\bigl(B_A\cap E_i\bigr)=(i-1)!\,(n-i)!.
+\]
+Somando sobre os $\binom{n}{i}$ blocos e usando a identidade
+$\binom{n}{i}=n!/\bigl(i!\,(n-i)!\bigr)$, obtemos
+\begin{align*}
+\#E_i
+&=\binom{n}{i}\,(i-1)!\,(n-i)!
+\\[0.2cm]
+&=\frac{n!}{i!\,(n-i)!}\,(i-1)!\,(n-i)!
+\\[0.2cm]
+&=\frac{n!}{i}.
+\end{align*}
+Como $\mathbb{P}$ atribui massa $1/n!$ a cada permutação,
+\[
+\mathbb{P}(R_i=1)=\mathbb{P}(E_i)=\frac{\#E_i}{n!}=\frac{1}{i}.
+\]
+Para $i=1$ a fórmula devolve $\mathbb{P}(R_1=1)=1$, em acordo com
+$R_1\equiv 1$.
+
+O resto é tarefa para a linearidade. Como cada $R_i$ só assume os valores
+$0$ e $1$, a série que define $\mathbb{E}[R_i]$ tem uma única parcela não
+nula e converge absolutamente. Pela identidade
+$\mathbb{E}[\mathds{1}_E]=\mathbb{P}(E)$ e pela
+\Cref{thm:linearidade-esperanca}, estendida a somas finitas,
+\begin{align*}
+\mathbb{E}[R]
+&=\sum_{i=1}^n\mathbb{E}[R_i]
+\\[0.3cm]
+&=\sum_{i=1}^n\mathbb{P}(R_i=1)
+\\[0.3cm]
+&=\sum_{i=1}^n\frac{1}{i}
+=:H_n,
+\end{align*}
+o $n$-ésimo \emph{número harmônico}.
+
+Resta entender o quão rápido $H_n$ cresce, e para isso comparamos a soma que
+o define com o logaritmo. Como a função $x\mapsto 1/x$ é decrescente, para
+cada $k\geqslant 1$ vale
+\[
+\frac{1}{k+1}\leqslant\int_k^{k+1}\frac{dx}{x}\leqslant\frac{1}{k}.
+\]
+Somando a desigualdade à direita em $k=1,\ldots,n$ e a desigualdade à
+esquerda em $k=1,\ldots,n-1$, obtemos
+\[
+\ln(n+1)
+=\int_1^{n+1}\frac{dx}{x}
+\leqslant\sum_{k=1}^{n}\frac{1}{k}
+=H_n,
+\qquad
+H_n-1
+=\sum_{k=1}^{n-1}\frac{1}{k+1}
+\leqslant\int_1^{n}\frac{dx}{x}
+=\ln n,
+\]
+donde
+\[
+\ln(n+1)\leqslant H_n\leqslant 1+\ln n.
+\]
+Portanto $\mathbb{E}[R]$ cresce como o logaritmo de $n$. Em números:
+$H_{10}\approx 2{,}93$, $H_{100}\approx 5{,}19$ e, com um milhão de
+observações, esperamos cerca de $14$ recordes. Multiplicar por dez o número
+de observações eleva o valor esperado de aproximadamente $3$ para
+aproximadamente $5$ recordes; a cada instante $i$ a chance de recorde é
+$1/i$, e os recordes tornam-se progressivamente raros.
+\end{example}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Stealth,
+  comum/.style={circle, fill=black, inner sep=0pt, minimum size=1.2mm},
+  recorde/.style={circle, fill=teal!80!black, inner sep=0pt, minimum size=1.8mm},
+]
+  \draw[->, line width=0.5pt] (0,0) -- (10.9,0)
+    node[right=1mm] {$i$};
+  \draw[->, line width=0.5pt] (0,0) -- (0,10.9)
+    node[above=1mm] {$\sigma(i)$};
+
+  % Agulhas da permutacao sigma = (3,1,2,7,4,9,6,5,10,8).
+  \foreach \i/\h in {1/3, 2/1, 3/2, 4/7, 5/4, 6/9, 7/6, 8/5, 9/10, 10/8}
+  {
+    \draw[muted!60, line width=0.6pt] (\i,0) -- (\i,\h);
+  }
+  \foreach \i/\h in {2/1, 3/2, 5/4, 7/6, 8/5, 10/8}
+  {
+    \node[comum] at (\i,\h) {};
+  }
+  \foreach \i/\h in {1/3, 4/7, 6/9, 9/10}
+  {
+    \node[recorde] at (\i,\h) {};
+  }
+  \foreach \i in {1,...,10}
+  {
+    \node[font=\small, text=muted, below=1mm] at (\i,0) {$\i$};
+  }
+\end{tikzpicture}
+\caption{A permutação $\sigma=(3,1,2,7,4,9,6,5,10,8)$ vista como uma
+sequência de observações: os instantes $1$, $4$, $6$ e $9$, destacados, são
+recordes. Aqui $R(\sigma)=4$, um pouco acima do valor esperado
+$H_{10}\approx 2{,}93$.}
+\label{fig:recordes-agulhas}
+\end{figure}
+
+\begin{remark}\label{rem:recordes-crescimento}
+A identidade $\mathbb{P}(R_i=1)=1/i$ quantifica a raridade crescente dos
+recordes: no instante $i$, a nova observação precisa superar $i-1$
+antecessoras, e a chance de que isso ocorra é a chance de o máximo parcial
+cair justamente na posição $i$, uma entre $i$ posições igualmente prováveis.
+Note que essa probabilidade não depende de $n$: o destino do instante $i$ é
+decidido apenas pelos instantes que o precedem.
+
+Vale registrar, por fim, o que o cálculo de $\mathbb{E}[R]$ não precisou
+saber: em nenhum momento calculamos probabilidades conjuntas como
+$\mathbb{P}(R_i=1,R_j=1)$. Bastaram as probabilidades individuais das
+parcelas, ainda que seu comportamento conjunto seja não trivial; $R_1$, por
+exemplo, é constante igual a $1$. Curiosamente, pode-se provar que os eventos
+$E_1,\ldots,E_n$ são de fato independentes, no sentido que introduziremos em
+nota futura, mas esse fato não tornaria o cálculo de $\mathbb{E}[R]$ mais
+curto: a linearidade já dá tudo o que precisamos. Registramos ainda, sem
+demonstração, que a sequência $H_n-\ln n$ converge para a constante de
+Euler, $\gamma\approx 0{,}5772$.
+\end{remark}
+
+\bigskip
+
+\begin{remark}[Recordes e pontos de salvamento de treinamento]\label{rem:recordes-checkpoints}
+O \Cref{ex:recordes-permutacao} tem interpretação direta no treinamento de
+modelos em aprendizado de máquina. Ao treinar uma rede neural por $n$ épocas
+(\emph{epochs}), registramos a perda de validação $L_i$ ao fim de cada época e
+salvamos um novo ponto de salvamento (\emph{checkpoint}) exatamente quando $L_i$
+é estritamente menor que todas as perdas anteriores, isto é, quando o instante
+$i$ estabelece um novo recorde (de mínimo) da sequência $L_1,\ldots,L_n$.
+
+Sob a hipótese simplificada de que a ordem das perdas de validação seja uma
+permutação aleatória uniforme, o número esperado de atualizações do melhor
+modelo ao longo de $n$ épocas é $H_n\approx\ln n$, e a probabilidade de a época
+$i$ registrar o melhor resultado até então é $1/i$. A grande maioria dos
+recordes ocorre no início do treinamento, tornando novos avanços
+progressivamente raros à medida que as épocas avançam. Esse fato fundamenta a
+intuição teórica para a técnica de \emph{parada antecipada} (\emph{early
+stopping}), na qual o treinamento é interrompido quando a perda de validação
+passa muitas épocas sem estabelecer novos recordes.
+
+Essa modelagem teórica requer uma ressalva importante: durante um treinamento
+real guiado por otimização via gradiente descendente, a função de perda possui
+uma tendência decrescente sistemática e as observações não são identicamente
+distribuídas ou estritamente intercambiáveis, de modo que a permutação uniforme
+atua como uma aproximação de referência.
+\end{remark}
+
+\bigskip
+
+Os três exemplos desta seção seguiram o mesmo roteiro: definir um experimento
+aleatório uniforme, decompor a grandeza de interesse em soma de indicadoras,
+calcular cada probabilidade por contagem direta e somar os resultados pela
+linearidade. Quando a média obtida garante a existência de uma configuração
+com as propriedades desejadas, como no \Cref{ex:corte-aleatorio-grafo}, temos
+o método probabilístico em sua forma mais simples. A hipótese de
+independência, que não foi necessária em nenhum dos três casos, será
+introduzida em nota futura e permitirá estimativas mais refinadas.
+
+\begin{exercise}\label{exercise:chapeus-troca-ciclica}
+No contexto do \Cref{ex:chapeus-pontos-fixos}, denote por $T(\sigma)$ o
+número de índices $i\in\{1,\ldots,n\}$ tais que
+$\sigma(i)\equiv i+1\pmod{n}$, isto é, o número de convidados que recebem o
+chapéu do próximo convidado na ordem cíclica. Calcule $\mathbb{E}[T]$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:inversoes}
+Seja $\sigma$ escolhida uniformemente em $S_n$. Dizemos que um par $(i,j)$,
+com $1\leqslant i<j\leqslant n$, é uma \emph{inversão} de $\sigma$ quando
+$\sigma(i)>\sigma(j)$. Denotando por $I(\sigma)$ o número de inversões de
+$\sigma$, mostre que
+\[
+\mathbb{E}[I]=\frac{n(n-1)}{4}.
+\]
+Sugestão: para cada par $(i,j)$, a operação que troca os valores de
+$\sigma(i)$ e $\sigma(j)$ é uma bijeção de $S_n$ em $S_n$ que leva o conjunto
+$\{\sigma:\sigma(i)>\sigma(j)\}$ no conjunto
+$\{\sigma:\sigma(i)<\sigma(j)\}$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:tres-partes}
+Seja $G$ um grafo com $n$ vértices e $m$ arestas. Atribua a cada vértice um
+rótulo sorteando-se um vetor uniformemente em $\{0,1,2\}^n$, e diga que uma
+aresta é \emph{separada} quando seus extremos recebem rótulos distintos.
+Mostre que o número esperado de arestas separadas é $2m/3$ e conclua que os
+vértices de $G$ podem ser divididos em três grupos de modo que pelo menos
+$2m/3$ das arestas conectam vértices de grupos distintos.
+\end{exercise}
+
+\begin{exercise}[Comitês de preditores (\emph{ensembles})]\label{exercise:ensemble-preditores}
+Sejam $X_1,\ldots,X_n$ as predições de $n$ modelos distintos para uma mesma
+grandeza numérica. Suponha que existam constantes $\mu\in\mathbb{R}$,
+$\sigma^2>0$ e $\rho\in[-1,1]$ tais que, para todo $i$ e todo $j\neq i$,
+\[
+\mathbb{E}[X_i]=\mu,
+\qquad
+\mathbb{E}[X_i^2]=\mu^2+\sigma^2,
+\qquad
+\mathbb{E}[X_iX_j]=\mu^2+\rho\sigma^2.
+\]
+A última condição diz que cada par de preditores tem o mesmo grau de correlação,
+medido por $\rho$. Considere a predição combinada do comitê (\emph{ensemble}),
+dada pela média
+\[
+\overline{X}=\frac{1}{n}\sum_{i=1}^n X_i.
+\]
+\begin{enumerate}[label=(\alph*)]
+\item Mostre que $\mathbb{E}[\overline{X}]=\mu$.
+
+\item Mostre que
+\[
+\mathbb{E}\bigl[(\overline{X}-\mu)^2\bigr]
+=\frac{\sigma^2}{n}+\left(1-\frac{1}{n}\right)\rho\sigma^2.
+\]
+
+Sugestão: expanda o quadrado, use a linearidade da esperança
+(\Cref{thm:linearidade-esperanca}) e calcule $\mathbb{E}[X_iX_j]$, para $i\neq
+j$, aplicando o \Cref{thm:esperanca-g-xy} com $g(x,y)=xy$ à função de
+probabilidade conjunta do par $(X_i,X_j)$.
+
+\item Interprete: o que acontece com o erro quadrático médio do comitê quando
+$\rho=0$ e $n$ cresce? E quando $\rho=1$? À luz da fórmula obtida, por que é
+vantajoso combinar modelos cujos erros sejam descorrelacionados?
+\end{enumerate}
+Este é o princípio estatístico por trás de métodos de combinação de modelos
+como agregação por \emph{bootstrap} (\emph{bagging}) e florestas aleatórias
+(\emph{random forests}).
+\end{exercise}
+
+%----------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}
