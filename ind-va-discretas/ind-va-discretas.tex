@@ -303,31 +303,39 @@ probabilidade.
 
 \smallskip
 \noindent($\Longleftarrow$) Suponha que existam funções $f$ e $g$ tais
-que $p_{X,Y}(x,y) = f(x)g(y)$ para todos $x, y \in \mathbb{R}$. Em particular,
-temos $f(x)g(y)=p_{X,Y}(x,y)$ sobre $\operatorname{Im}X \times \operatorname{Im}Y$ e
-portanto este produto é não-negativo ao longo de $\operatorname{Im}X \times \operatorname{Im}Y$. 
-Além disso, como a soma de todas as probabilidades conjuntas
-é igual $1$, existe pelo menos um par $x_0 \in \operatorname{Im}X$ e $y_0 \in \operatorname{Im}Y$
-com $p_{X,Y}(x_0,y_0) > 0$, donde $f(x_0) \neq 0$ e $g(y_0) \neq 0$. Segue da
-não negatividade das parcelas que $f(x)g(y_0) \geqslant 0$ para todo
-$x \in \operatorname{Im}X$ e $f(x_0)g(y) \geqslant 0$ para todo
-$y \in \operatorname{Im}Y$, de modo que $f$ tem sinal constante em
-$\operatorname{Im}X$ e $g$ tem sinal constante em $\operatorname{Im}Y$.
+que $p_{X,Y}(x,y) = f(x)g(y)$ para todos $x, y \in \mathbb{R}$. Como a soma de
+todas as probabilidades conjuntas é igual a $1$, existe pelo menos um par
+$x_0 \in \operatorname{Im}X$ e $y_0 \in \operatorname{Im}Y$ com
+$p_{X,Y}(x_0,y_0) > 0$, donde $f(x_0) \neq 0$ e $g(y_0) \neq 0$.
+
+Antes de somar a conjunta sobre as coordenadas complementares, verifiquemos
+que as séries de $f$ e $g$ convergem absolutamente. Como a hipótese vale para
+todos os pontos de $\operatorname{Im}X \times \operatorname{Im}Y$, temos
+$f(x_0)\,g(y) = p_{X,Y}(x_0,y)$ para todo $y \in \operatorname{Im}Y$; dividindo
+por $f(x_0) \neq 0$ e somando sobre $y$, obtemos
+\[
+\sum_{y\in\operatorname{Im}Y} |g(y)|
+= \frac{1}{|f(x_0)|} \sum_{y\in\operatorname{Im}Y} p_{X,Y}(x_0,y)
+= \frac{p_X(x_0)}{|f(x_0)|} < \infty.
+\]
+De modo análogo, de $f(x)\,g(y_0) = p_{X,Y}(x,y_0)$ segue que
+\[
+\sum_{x\in\operatorname{Im}X} |f(x)|
+= \frac{1}{|g(y_0)|} \sum_{x\in\operatorname{Im}X} p_{X,Y}(x,y_0)
+= \frac{p_Y(y_0)}{|g(y_0)|} < \infty.
+\]
+Em particular, as duas séries convergem absolutamente.
 
 Como vimos nas notas sobre vetores aleatórios discretos, as marginais são
-obtidas somando a conjunta sobre a coordenada complementar. Realizando esta
-soma e usando a hipótese obtemos, para cada $x\in\mathbb{R}$, a seguinte igualdade
+obtidas somando a conjunta sobre a coordenada complementar. Realizando estas
+somas e usando a hipótese obtemos, para cada $x\in\mathbb{R}$,
 \[
 p_X(x) = \sum_{y\in\operatorname{Im}Y} p_{X,Y}(x,y) = f(x)\sum_{y\in\operatorname{Im}Y} g(y),
 \]
-e, de modo análogo, para todo $y\in\mathbb{R}$, temos
+e, de modo análogo, para todo $y\in\mathbb{R}$,
 \[
 p_Y(y) = \sum_{x\in\operatorname{Im}X} p_{X,Y}(x,y) = g(y)\sum_{x\in\operatorname{Im}X} f(x).
 \]
-Em particular, a série de $f$ sobre $\operatorname{Im}X$ e a série de $g$ sobre
-$\operatorname{Im}Y$ convergem, pois, para $x = x_0$ e $y = y_0$, as expressões
-acima dão $p_X(x_0) = f(x_0)\sum_y g(y)$ e
-$p_Y(y_0) = g(y_0)\sum_x f(x)$ e ambos $f(x_0), g(y_0) \neq 0$.
 
 Além disso, a soma de todas as probabilidades conjuntas é $1$, e portanto
 \begin{align*}
@@ -337,8 +345,7 @@ Além disso, a soma de todas as probabilidades conjuntas é $1$, e portanto
 = \left(\sum_{x\in\operatorname{Im}X} f(x)\right)\left(\sum_{y\in\operatorname{Im}Y} g(y)\right),
 \end{align*}
 onde a separação da soma dupla em um produto é autorizada pela convergência
-absoluta das duas séries, consequência do sinal constante de $f$ e $g$ e da
-convergência já verificada.
+absoluta das duas séries, verificada acima.
 Logo, inserindo o valor $1$ na forma do produto acima,
 \begin{align*}
 p_{X,Y}(x, y) &= f(x)\,g(y)
@@ -550,20 +557,52 @@ Um par de variáveis aleatórias discretas $X$ e $Y$ em $(\Omega,\mathcal{F},\ma
 \mathbb{E}[g(X)\,h(Y)] = \mathbb{E}[g(X)]\,\mathbb{E}[h(Y)]
 \end{equation}
 para toda escolha de funções $g, h : \mathbb{R} \to \mathbb{R}$ tais que
-$g(X)$ e $h(Y)$ são integráveis. Note que, neste caso, segue da hipótese de independência que o produto
-$g(X)h(Y)$ também é integrável.
+$g(X)$ e $h(Y)$ são integráveis.
 \end{theorem}
 
 \begin{proof}
 ($\Longrightarrow$) 
-Suponha inicialmente que $X$ e $Y$ são variáveis aleatórias independentes e que existem as esperanças
-$\mathbb{E}[g(X)]$ e $\mathbb{E}[h(Y)]$. Então, procedendo exatamente como na
-demonstração do \Cref{thm:produto-esperanca}, concluímos pela hipótese
-de independência que a função de probabilidade conjunta do vetor $(X,Y)$ se
-fatora e que a esperança de $g(X)h(Y)$ é a soma dupla do produto
-$g(x)h(y)\,\mathbb{P}(X = x)\,\mathbb{P}(Y = y)$. Este produto por sua vez 
-se separa no produto das esperanças, já que a existência das esperanças
-envolvidas garante a convergência absoluta. 
+Suponha que $X$ e $Y$ são independentes e que $g(X)$ e $h(Y)$ são
+integráveis. Vamos verificar inicialmente que $g(X)h(Y)$ também é integrável.
+Pela independência e pela definição de esperança,
+\begin{align*}
+\sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y}
+|g(x)h(y)|\,\mathbb{P}(X = x, Y = y)
+&=
+\sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y}
+|g(x)|\,|h(y)|\,\mathbb{P}(X = x)\,\mathbb{P}(Y = y)
+\\[0.3cm]
+&=
+\sum_{x\in\operatorname{Im}X} |g(x)|\,\mathbb{P}(X = x)
+\sum_{y\in\operatorname{Im}Y} |h(y)|\,\mathbb{P}(Y = y)
+\\[0.3cm]
+&=
+\mathbb{E}[|g(X)|]\,\mathbb{E}[|h(Y)|] < \infty,
+\end{align*}
+onde a separação da soma dupla em um produto é válida para séries de termos
+não-negativos. Em particular, $g(X)h(Y)$ é integrável e o teorema da mudança
+de variáveis nos permite escrever
+\[
+\mathbb{E}[g(X)h(Y)]
+=
+\sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y}
+g(x)h(y)\,\mathbb{P}(X = x, Y = y).
+\]
+Usando novamente a independência e, em seguida, a convergência absoluta
+verificada acima para separar a soma dupla, obtemos
+\begin{align*}
+\mathbb{E}[g(X)h(Y)]
+&=
+\sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y}
+g(x)h(y)\,\mathbb{P}(X = x)\,\mathbb{P}(Y = y)
+\\[0.3cm]
+&=
+\sum_{x\in\operatorname{Im}X} g(x)\,\mathbb{P}(X = x)
+\sum_{y\in\operatorname{Im}Y} h(y)\,\mathbb{P}(Y = y)
+\\[0.3cm]
+&=
+\mathbb{E}[g(X)]\,\mathbb{E}[h(Y)].
+\end{align*}
 
 \medskip 
 \noindent($\Longleftarrow$) Sejam $a, b \in \mathbb{R}$ e considere as funções $g:\mathbb{R}\to\mathbb{R}$ 
