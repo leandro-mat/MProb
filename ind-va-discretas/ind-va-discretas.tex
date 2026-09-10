@@ -191,7 +191,7 @@ pdfkeywords={independência, variáveis aleatórias discretas, soma, convoluçã
 {\large \bf L. Cioletti}
 \vspace{0.3cm}
 
-{\footnotesize Agosto de 2026}
+{\footnotesize Setembro de 2026}
 \end{center}
 
 % --- RESUMO (ABSTRACT) ---
@@ -252,7 +252,7 @@ $B$ em um espaço de probabilidade $(\Omega,\mathscr{F},\mathbb{P})$
 são ditos independentes se $\mathbb{P}(A\cap B) = \mathbb{P}(A)\,\mathbb{P}(B)$.
 Para definir a noção de independência de duas variáveis aleatórias discretas $X$ e $Y$, olhamos
 para toda a coleção de eventos que estas variáveis aleatórias definem, isto é, 
-para todos os eventos da forma $\{X=x\}$ e $\{Y=y\}$, onde $x$ e $y\in\mathbb{R}$. 
+para todos os eventos da forma $\{X=x\}$ e $\{Y=y\}$, onde $x, y \in \mathbb{R}$. 
 Vamos dizer que duas variáveis aleatórias discretas $X$ e $Y$ são independentes
 se os eventos determinados por estas variáveis aleatórias são independentes. 
 
@@ -504,11 +504,10 @@ absoluta verificada acima autoriza agrupar as parcelas, de modo que
 
 A recíproca do \Cref{thm:produto-esperanca} é falsa: a identidade
 $\mathbb{E}[XY] = \mathbb{E}[X]\,\mathbb{E}[Y]$ não implica que $X$ e $Y$ sejam
-independentes; um contraexemplo é apresentado no \Cref{ex:correlacao-nao-independencia},
-ao final desta seção. A recíproca correta é dada a seguir.
-
-Aqui está um exemplo de duas variáveis aleatórias discretas que não são
-independentes, mas satisfazem $\mathbb{E}[XY] = \mathbb{E}[X]\,\mathbb{E}[Y]$.
+independentes. O exemplo a seguir exibe duas variáveis aleatórias discretas
+dependentes que satisfazem essa identidade; a recíproca correta, que exige a
+identidade para uma classe maior de funções, é dada no
+\Cref{thm:esperanca-produto-funcoes}.
 
 \begin{example}[Um contraexemplo da recíproca]\label{ex:correlacao-nao-independencia}
 Suponha que $X$ tenha distribuição dada por
@@ -654,29 +653,38 @@ $X$ e $Y$ são independentes.
 
 
 Até aqui consideramos apenas pares de variáveis aleatórias, mas as mesmas ideias
-se aplicam a famílias $\mathbf{X} = (X_1, X_2, \ldots, X_n)$ com $n > 2$. A
-família $\mathbf{X}$ é chamada \emph{independente} se
+se aplicam a famílias $\mathbf{X} = (X_1, X_2, \ldots, X_n)$ com $n > 2$.
+
+\begin{definition}[Famílias independentes]\label{def:independencia-familias}
+Uma família de variáveis aleatórias 
+$\{ X_1, X_2, \ldots, X_n\}$ é chamada de uma família de variáveis aleatórias
+\emph{independentes} se
 \[
 \mathbb{P}(X_1 = x_1, \ldots, X_n = x_n)
-= \mathbb{P}(X_1 = x_1)\cdots\mathbb{P}(X_n = x_n),
+= \mathbb{P}(X_1 = x_1)\cdots\mathbb{P}(X_n = x_n)
+\quad \text{para todos } x_1, \ldots, x_n \in \mathbb{R},
 \]
-ou, equivalentemente, se a função de probabilidade conjunta de $\mathbf{X}$ é o
-produto das funções de probabilidade das coordenadas,
+ou, equivalentemente, se a função de probabilidade conjunta do 
+vetor $\mathbf{X}\equiv (X_1, \ldots, X_n)$ é o
+produto das funções de probabilidade de suas coordenadas,
 \[
 p_{\mathbf{X}}(\mathbf{x}) = \prod_{i=1}^{n} p_{X_i}(x_i)
 \quad \text{para } \mathbf{x} = (x_1, \ldots, x_n) \in \mathbb{R}^n.
 \]
+A família é dita dois a dois independente, se $X_i$ e $X_j$ são
+independentes sempre que $i \neq j$.
+\end{definition}
+
 Além disso, se as variáveis $X_1, \ldots, X_n$ são independentes e as esperanças
 $\mathbb{E}[X_i]$ existem como valores finitos, então
 \[
 \mathbb{E}[X_1 X_2 \cdots X_n]
 = \mathbb{E}[X_1]\,\mathbb{E}[X_2]\cdots\mathbb{E}[X_n],
 \]
-exatamente como no \Cref{thm:produto-esperanca}. Finalmente, a família é chamada
-\emph{independente dois a dois} se $X_i$ e $X_j$ são independentes sempre que
-$i \neq j$. A independência da família é uma condição mais forte do que a
-independência dois a dois: existem triplas de variáveis independentes dois a dois
-que não são independentes, como mostra um exercício do livro.
+exatamente como no \Cref{thm:produto-esperanca}. A independência da família é
+uma condição mais forte do que a independência dois a dois: existem triplas de
+variáveis aleatórias que são dois a dois independentes mas que não são independentes, 
+como mostra o Problema 3.6.2 de Grimmett e Welsh \cite[p.~48]{GrimmettWelsh2014}.
 
 \begin{exercise}\label{exercise:probabilidade-tails}
 Sejam $X$ e $Y$ variáveis aleatórias discretas independentes. Mostre que
@@ -685,16 +693,6 @@ Sejam $X$ e $Y$ variáveis aleatórias discretas independentes. Mostre que
 = \mathbb{P}(X \geqslant x)\,\mathbb{P}(Y \geqslant y)
 \quad \text{para todos } x, y \in \mathbb{R}.
 \]
-\end{exercise}
-
-\begin{exercise}\label{exercise:indicadoras-eventos}
-A \emph{função indicadora} de um evento $A$ é a função $\mathds{1}_A$ definida
-por
-\[
-\mathds{1}_A(\omega) = \begin{cases} 1 & \text{se } \omega \in A, \\ 0 & \text{se } \omega \notin A. \end{cases}
-\]
-Mostre que dois eventos $A$ e $B$ são independentes se, e somente se, suas
-funções indicadoras são variáveis aleatórias independentes.
 \end{exercise}
 
 \begin{exercise}\label{exercise:funcoes-independentes}
@@ -841,6 +839,11 @@ cada uma facilmente verificada avaliando-se ambos os lados
 das igualdades acima para cada $\omega \in \Omega$ fixado.
 \end{definition}
 
+\begin{exercise}\label{exercise:indicadoras-eventos}
+Mostre que dois eventos $A$ e $B$ são independentes se, e somente se, suas
+funções indicadoras são variáveis aleatórias independentes.
+\end{exercise}
+
 As funções indicadoras são uma ferramenta útil para o cálculo de
 probabilidades e esperanças. Aqui está um exemplo elementar. 
 Pelas identidades 
@@ -863,7 +866,7 @@ obtemos a igualdade bem conhecida
 
 \begin{example}[Fórmula de inclusão-exclusão]\label{ex:inclusao-exclusao}
 Sejam $A_1, A_2, \ldots, A_n$ eventos e seja $\mathds{1}_{A_i}$ a função
-indicadora de $A_i$. Como no \eqref{eq:indicadora-uniao}, a união
+indicadora de $A_i$. Como em \eqref{eq:indicadora-uniao}, a união
 $A = A_1 \cup A_2 \cup \cdots \cup A_n$ tem função indicadora
 \[
 \mathds{1}_A = 1 - \prod_{i=1}^{n} (1 - \mathds{1}_{A_i}),
@@ -876,8 +879,9 @@ agrupando os termos, obtemos
 \begin{aligned}
 \mathds{1}_A
 &= \sum_{i=1}^{n} \mathds{1}_{A_i} - \sum_{1\leqslant i<j\leqslant n} \mathds{1}_{A_i} \mathds{1}_{A_j}
-+ \sum_{1\leqslant i<j<k\leqslant n} \mathds{1}_{A_i} \mathds{1}_{A_j} \mathds{1}_{A_k} - \cdots \\
-&+ (-1)^{n+1} \mathds{1}_{A_1} \mathds{1}_{A_2} \cdots \mathds{1}_{A_n}.
++ \sum_{1\leqslant i<j<k\leqslant n} \mathds{1}_{A_i} \mathds{1}_{A_j} \mathds{1}_{A_k} - \cdots 
+\\[0.2cm]
+&\qquad + (-1)^{n+1} \mathds{1}_{A_1} \mathds{1}_{A_2} \cdots \mathds{1}_{A_n}.
 \end{aligned}
 \]
 Tirando esperanças, obtemos a \emph{fórmula de inclusão-exclusão}
@@ -1021,14 +1025,14 @@ para cada vetor $v=(v_1,\ldots,v_d)$ a norma
 $\|v\|= \sqrt{v_1^2+\cdots+v_d^2}$.
 
 Para provar a desigualdade \eqref{eq-aux-1-vet-balanceados}, vamos usar um método probabilístico.
-Primeiro passo. Considere $X_1,\ldots,X_n$ variáveis aleatórias independentes satisfazendo 
+Considere $X_1,\ldots,X_n$ variáveis aleatórias independentes satisfazendo 
 \begin{align*}
 \mathbb{P}(X_j=-1)= \frac{1}{2}= \mathbb{P}(X_j=1),
 \qquad \forall j=1,2,\ldots,n. 
 \end{align*}
 
 Neste caso, segue diretamente da definição de esperança que vale a seguinte
-igualdade $\mathbb{E}[X_1]=\mathbb{E}[X_j]=0$, para todo $j=1,2,\ldots, n$.
+igualdade $\mathbb{E}[X_j]=0$, para todo $j=1,2,\ldots, n$.
 Além do mais, $\mathbb{E}[X_j^2]=1$.
 Agora, considere a seguinte variável aleatória 
 \begin{align*}
@@ -1042,9 +1046,8 @@ Z
 Então temos que 
 \begin{align*}
 \mathbb{E}[Z] 
-&= 
+= 
 \mathbb{E}\left[ \left\langle \sum_{i=1}^n X_i\, v_i\ , \ \sum_{j=1}^n X_j\, v_j \right\rangle  \right]
-\\[0.3cm]
 &= 
 \sum_{i=1}^n \sum_{j=1}^n  \mathbb{E}[X_i\, X_j] \left\langle  v_i , v_j \right\rangle
 \\[0.3cm]
