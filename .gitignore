@@ -30,6 +30,9 @@ texput.log
 # Estado local da ferramenta opencode (nunca versionar)
 .opencode/
 
+# Cópia local da skill de orquestração (a original vive em ~/.config/opencode/skills/traducao-livro/)
+skills/traducao-livro/
+
 # Guia local de notações e convenções (uso interno, não publicar)
 NOTACOES-E-CONVENCOES.md
 

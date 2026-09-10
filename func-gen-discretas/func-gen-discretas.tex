@@ -1,0 +1,799 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazil]{babel}        % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Funções Geradoras Discretas},
+pdfauthor={L. Cioletti},
+pdfsubject={Funções geradoras, sequência de Fibonacci, fórmula de Binet, dados de Sicherman, funções geradoras de probabilidade},
+pdfkeywords={funções geradoras, sequência de Fibonacci, fórmula de Binet, dados de Sicherman, soma de variáveis independentes, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheorem{exercise}{Exercício}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\addto\captionsbrazil{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+\vspace{0.5cm}
+
+% --- TÍTULO, AUTOR E DATA ---
+\begin{center}
+{\LARGE\bf Funções Geradoras Discretas}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Setembro de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Estas notas dão início ao estudo das funções geradoras no contexto do nosso
+curso de métodos probabilísticos. O objetivo desta primeira parte é motivar,
+por meio de dois exemplos longos e autocontidos, a ideia central do método:
+codificar uma sequência de números reais --- ou uma distribuição de
+probabilidade --- como os coeficientes de uma série de potências e, em
+seguida, traduzir perguntas sobre a sequência em perguntas de álgebra, onde
+fatoração, frações parciais e produtos de polinômios funcionam como uma
+máquina. O primeiro exemplo é clássico e determinístico: a sequência de
+Fibonacci é codificada na função racional $x/(1-x-x^2)$, de onde extraímos a
+fórmula de Binet e mostramos que cada termo é o inteiro mais próximo de
+$\varphi^n/\sqrt{5}$. O segundo exemplo é probabilístico: estudamos a
+distribuição da soma dos pontos de dois dados honestos por meio do produto de
+polinômios e mostramos que existem dois dados não usuais, os dados de
+Sicherman, com a mesma distribuição de soma. Esse exemplo revela, de forma
+surpreendente, que a função geradora da soma não determina os dados e antecipa
+o papel central do produto $G_{X+Y}(s) = G_X(s)\,G_Y(s)$ na teoria das funções
+geradoras de probabilidade, que desenvolveremos na sequência seguindo o
+Capítulo 4 de Grimmett e Welsh \cite{GrimmettWelsh2014}.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+
+\section{Por que funções geradoras?}
+\label{sec:motivacao-geral}
+
+Uma função geradora é, antes de tudo, uma mudança de ponto de vista.
+Em vez de estudar uma sequência de números
+$(a_0, a_1, a_2, \ldots)$ termo a termo, nós a \emph{empacotamos}
+como os coeficientes de uma série de potências
+\[
+G(x) = a_0 + a_1 x + a_2 x^2 + \cdots = \sum_{n=0}^{\infty} a_n x^n,
+\]
+e passamos a estudar a função $G$. A palavra ``geradora'' vem do fato de que
+toda a informação da sequência continua lá, guardada nos coeficientes: quem
+conhece $G$ (como série, ou como expressão fechada) conhece cada $a_n$.
+
+Por que essa mudança de ponto de vista valeria a pena? Porque perguntas sobre
+sequências frequentemente viram perguntas de \emph{álgebra} quando traduzidas
+para funções, e álgebra é uma máquina que funciona sozinha. Três exemplos de
+tradução, que vão aparecer o tempo todo:
+\begin{itemize}
+  \item \emph{Somar} duas sequências corresponde a somar as funções;
+  \item \emph{Deslocar} os índices de uma sequência (trocar $a_n$ por
+  $a_{n-1}$) corresponde a multiplicar a função por $x$, pois
+  $xG(x) = a_0x + a_1x^2 + a_2x^3 + \cdots$;
+  \item \emph{Convoluir} duas sequências
+  ($c_n = \sum_{k=0}^{n} a_k b_{n-k}$) corresponde a \emph{multiplicar} as
+  funções, pois o coeficiente de $x^n$ no produto
+  $G_a(x)G_b(x)$ é exatamente $c_n$.
+\end{itemize}
+
+Depois de codificar, a álgebra trabalha: fatorar, dividir, expandir em
+frações parciais, derivar, multiplicar. No final, \emph{extraímos} a resposta
+lendo o coeficiente certo. O objetivo destas notas é fazer você sentir, com
+dois exemplos longos e completamente verificáveis, que essa receita de três
+passos --- \emph{codificar, deixar a álgebra trabalhar, extrair} --- é
+incrivelmente poderosa. O primeiro exemplo é determinístico e clássico: a
+sequência de Fibonacci. O segundo é probabilístico: a soma dos pontos de dois
+dados honestos. Os dois exemplos preparam o terreno para a teoria das funções
+geradoras de probabilidade, que desenvolveremos na \Cref{sec:para-onde},
+seguindo o Capítulo 4 de Grimmett e Welsh \cite{GrimmettWelsh2014}.
+
+\bigskip
+
+\section{Primeira história: a sequência de Fibonacci}
+\label{sec:fibonacci}
+
+\subsection{Uma pergunta que pede uma ideia nova}
+
+A sequência de Fibonacci é definida pela recorrência
+$F_0 = 0$, $F_1 = 1$ e
+\begin{equation}\label{eq:rec-fibonacci}
+F_n = F_{n-1} + F_{n-2}, \qquad n \geqslant 2,
+\end{equation}
+e seus primeiros termos são
+\[
+0,\ 1,\ 1,\ 2,\ 3,\ 5,\ 8,\ 13,\ 21,\ 34,\ 55,\ \ldots
+\]
+Ela foi introduzida por Leonardo de Pisa (Fibonacci) em 1202, no \emph{Liber
+Abaci}, ao modelar o crescimento de uma população de coelhos.\footnote{Partindo
+de um casal, cada casal se torna fértil após um mês e, a partir daí, gera um
+novo casal por mês; o número de casais no mês $n$ é $F_{n+2}$.}
+Os termos crescem tão rápido que
+$F_{100}$ já tem 21 algarismos. A pergunta que abre nossa história é:
+
+\begin{quote}
+\emph{Como calcular $F_n$ sem somar os $n-1$ termos anteriores?}
+\end{quote}
+
+A recorrência \eqref{eq:rec-fibonacci} pede, para conhecer $F_n$, que
+calculemos tudo que veio antes: ela é \emph{sequencial} por natureza. Seria
+muito mais satisfatório uma ``fórmula'' que entregasse $F_n$ diretamente em
+função de $n$. O que a função geradora faz é transformar a recorrência --- uma
+informação que relaciona termos vizinhos --- numa equação \emph{algébrica}
+sobre a função inteira, que sabemos resolver. Vejamos como.
+
+\subsection{Codificando a sequência: a função geradora}
+
+\begin{definition}[Função geradora de uma sequência]
+\label{def:func-geradora-seq}
+Dada uma sequência de números reais $(a_n)_{n\geqslant 0}$, a sua
+\emph{função geradora} (ordinária) é a série de potências
+\begin{equation}\label{eq:def-fg}
+G_a(x) = \sum_{n=0}^{\infty} a_n x^n,
+\end{equation}
+definida ao menos para os valores de $x$ em que a série converge.
+\end{definition}
+
+A ideia é que o monômio $x^n$ funciona como uma \emph{etiqueta} do índice $n$:
+a série inteira é a sequência inteira, só que escrita de um outro jeito.
+Vamos aplicar isso a $a_n = F_n$ e escrever
+\[
+G(x) = \sum_{n=0}^{\infty} F_n x^n
+= 0 + 1\cdot x + 1\cdot x^2 + 2x^3 + 3x^4 + 5x^5 + \cdots
+\]
+
+Para ter certeza de que $G$ está bem definida numa vizinhança de $0$,
+observamos que $F_n \leqslant 2^n$ para todo $n \geqslant 1$ (verifique por
+indução usando \eqref{eq:rec-fibonacci}); logo a série converge
+absolutamente para $|x| < 1/2$. Nesse intervalo todas as manipulações a seguir
+são lícitas, pois envolvem apenas somar e multiplicar séries absolutamente
+convergentes.\footnote{Alternativamente, podemos tratar as séries abaixo como
+séries formais, sem nenhuma preocupação com convergência.}
+
+O passo decisivo é este: a recorrência \eqref{eq:rec-fibonacci} diz que, para
+$n \geqslant 2$, o coeficiente de $x^n$ em $G$ é a soma dos coeficientes de
+$x^{n-1}$ e de $x^{n-2}$ --- que, pela leitura de etiquetas, são os
+coeficientes de $x^n$ em $xG(x)$ e em $x^2G(x)$. É por isso que multiplicar
+por $x$ é a operação certa: ela \emph{desloca} as etiquetas, colocando o
+termo $F_{n-1}x^{n-1}$ na posição $F_{n-1}x^{n}$, onde a recorrência precisa
+dele. Formalmente,
+\begin{align*}
+G(x) &= F_0 + F_1 x + \sum_{n=2}^{\infty} F_n x^n
+= x + \sum_{n=2}^{\infty} (F_{n-1} + F_{n-2}) x^n
+\\[0.3cm]
+&= x + \sum_{n=2}^{\infty} F_{n-1} x^n + \sum_{n=2}^{\infty} F_{n-2} x^n.
+\end{align*}
+Para não nos perdermos nos índices, notamos simplesmente que
+$\sum_{n=2}^{\infty} F_{n-1}x^n = xG(x)$ (pois $F_0 = 0$) e que
+$\sum_{n=2}^{\infty} F_{n-2}x^n = x^2 G(x)$. Assim,
+\[
+G(x) = x + xG(x) + x^2G(x)
+\qquad\Longrightarrow\qquad
+G(x)(1 - x - x^2) = x,
+\]
+e portanto
+\begin{equation}\label{eq:forma-fechada-fib}
+G(x) = \frac{x}{1 - x - x^2}.
+\end{equation}
+Esse é o primeiro momento de surpresa: uma sequência infinita, definida por
+uma recorrência que parece exigir cálculo termo a termo, foi comprimida numa
+\emph{fração de uma linha}. Toda a informação da sequência de Fibonacci mora
+dentro da função racional \eqref{eq:forma-fechada-fib}.
+
+\begin{theorem}[Forma fechada da função geradora de Fibonacci]
+\label{thm:forma-fechada-fib}
+A função geradora da sequência de Fibonacci é
+\[
+G(x) = \sum_{n=0}^{\infty} F_n x^n = \frac{x}{1 - x - x^2},
+\]
+para $|x| < 1/2$ (e, como veremos, a identidade vale na verdade para
+$|x| < 1/\varphi$, onde $\varphi = (1+\sqrt{5})/2$).
+\end{theorem}
+
+\subsection{Extraindo os coeficientes: a fórmula de Binet}
+
+Uma função geradora fechada só é útil se soubermos \emph{extrair} dela os
+coeficientes. Há uma estratégia geral para funções racionais, e ela se apoia
+em dois fatos simples:
+\begin{itemize}
+  \item a série geométrica $\dfrac{1}{1 - r x} = \sum_{n=0}^{\infty} r^n x^n$
+  tem coeficientes explícitos ($r^n$);
+  \item toda função racional pode ser decomposta em \emph{frações parciais},
+  isto é, escrita como combinação linear de termos do tipo
+  $\dfrac{1}{1 - r x}$.
+\end{itemize}
+Se conseguirmos escrever $G$ como combinação de séries geométricas, os
+coeficientes saem de graça. Para isso, fatoramos o denominador. As raízes de
+$1 - x - x^2 = 0$ são
+\[
+\frac{-1 \pm \sqrt{5}}{2},
+\]
+e é conveniente denotá-las por
+\[
+\varphi = \frac{1 + \sqrt{5}}{2} \quad \text{e} \quad
+\psi = \frac{1 - \sqrt{5}}{2}.
+\]
+Repare que $\varphi + \psi = 1$ e $\varphi\psi = -1$, de modo que
+\begin{equation}\label{eq:fator-denominador}
+1 - x - x^2 = (1 - \varphi x)(1 - \psi x).
+\end{equation}
+
+Agora procuramos constantes $A$ e $B$ tais que
+\[
+\frac{x}{(1-\varphi x)(1-\psi x)} = \frac{A}{1-\varphi x} + \frac{B}{1-\psi x}.
+\]
+Multiplicando os dois lados pelo denominador,
+\[
+x = A(1 - \psi x) + B(1 - \varphi x) = (A + B) - (A\psi + B\varphi)\,x.
+\]
+Comparando os coeficientes, obtemos o sistema $A + B = 0$ e
+$A\psi + B\varphi = -1$. Da primeira equação, $B = -A$; substituindo na
+segunda, $A(\psi - \varphi) = -1$, donde, como $\varphi - \psi = \sqrt{5}$,
+\[
+A = \frac{1}{\sqrt{5}}, \qquad B = -\frac{1}{\sqrt{5}}.
+\]
+Portanto
+\[
+G(x) = \frac{1}{\sqrt{5}}\left(\frac{1}{1 - \varphi x} - \frac{1}{1 - \psi x}\right).
+\]
+Expandindo cada termo como série geométrica,
+\begin{align*}
+G(x)
+&= \frac{1}{\sqrt{5}}\left(\sum_{n=0}^{\infty}\varphi^n x^n - \sum_{n=0}^{\infty}\psi^n x^n\right)
+= \sum_{n=0}^{\infty}\left(\frac{\varphi^n - \psi^n}{\sqrt{5}}\right) x^n.
+\end{align*}
+Lendo o coeficiente de $x^n$, obtemos a famosa fórmula de Binet.
+
+\begin{theorem}[Fórmula de Binet]\label{thm:binet}
+Para todo $n \geqslant 0$,
+\begin{equation}\label{eq:binet}
+F_n = \frac{\varphi^n - \psi^n}{\sqrt{5}},
+\qquad\text{onde}\qquad
+\varphi = \frac{1+\sqrt{5}}{2},\quad \psi = \frac{1-\sqrt{5}}{2}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Como $G$ e a função racional $\frac{1}{\sqrt{5}}(1/(1-\varphi x) - 1/(1-\psi x))$
+coincidem numa vizinhança de $0$ (a saber, para $|x| < 1/2$), suas séries de
+potências em torno de $0$ têm os mesmos coeficientes. A série do lado direito
+foi calculada acima, e seu coeficiente de $x^n$ é exatamente o lado direito de
+\eqref{eq:binet}. Por outro lado, o coeficiente de $x^n$ em $G$ é, por
+definição, $F_n$.
+\end{proof}
+
+É instrutivo conferir a fórmula nos primeiros termos. Para $n = 0$, temos
+$(\varphi^0 - \psi^0)/\sqrt{5} = 0 = F_0$; para $n = 1$, usando
+$\varphi - \psi = \sqrt{5}$, obtemos $\sqrt{5}/\sqrt{5} = 1 = F_1$; e assim
+por diante, como a tabela abaixo sugere:
+\[
+\begin{array}{c|ccccc}
+n & 4 & 5 & 6 & 7 & 8 \\ \hline
+(\varphi^n - \psi^n)/\sqrt{5} & 3 & 5 & 8 & 13 & 21
+\end{array}
+\]
+
+\subsection{Inteiros ``vestidos'' de irracionais}
+
+A fórmula de Binet parece paradoxal: $F_n$ é um inteiro, mas a fórmula o
+escreve usando $\sqrt{5}$. A resolução do paradoxo é que as duas parcelas
+irracionais se cancelam exatamente. Mais ainda: como $|\psi| = (\sqrt{5}-1)/2
+\approx 0{,}618 < 1$, o termo $\psi^n$ é desprezível para $n$ grande, e a
+fórmula admite uma leitura ainda mais espantosa.
+
+\begin{corollary}[Aproximação pelo número de ouro]\label{cor:aprox-fib}
+Para todo $n \geqslant 0$, $F_n$ é o inteiro mais próximo de
+$\varphi^n/\sqrt{5}$. Em símbolos,
+\[
+F_n = \left\lfloor \frac{\varphi^n}{\sqrt{5}} + \frac{1}{2} \right\rfloor,
+\qquad n \geqslant 0.
+\]
+\end{corollary}
+
+\begin{proof}
+Pela \eqref{eq:binet}, escrevemos
+\[
+F_n = \frac{\varphi^n}{\sqrt{5}} + \varepsilon_n,
+\qquad\text{onde}\qquad
+\varepsilon_n = -\frac{\psi^n}{\sqrt{5}}.
+\]
+Como $|\psi| < 1$, temos $|\psi|^n \leqslant 1$ e portanto
+$|\varepsilon_n| \leqslant 1/\sqrt{5} < 1/2$. Logo $F_n$ dista menos de $1/2$
+de $\varphi^n/\sqrt{5}$, o que significa exatamente que $F_n$ é o inteiro mais
+próximo desse número.
+\end{proof}
+
+A tabela a seguir torna visível o fenômeno:
+\[
+\begin{array}{c|ccccc}
+n & 4 & 5 & 6 & 7 & 8 \\ \hline
+\varphi^n/\sqrt{5} \approx & 3{,}065 & 4{,}960 & 8{,}025 & 12{,}985 & 21{,}010 \\
+F_n & 3 & 5 & 8 & 13 & 21
+\end{array}
+\]
+O número irracional $\varphi^n/\sqrt{5}$ passa o tempo todo \emph{espreitando}
+o inteiro $F_n$, chegando cada vez mais perto (o erro $|\varepsilon_n|$ decai
+como $|\psi|^n$, ou seja, exponencialmente).
+
+\begin{remark}
+\label{rem:principio-geral}
+Nada nessa história é específico de Fibonacci. Toda sequência definida por uma
+recorrência linear com coeficientes constantes tem função geradora racional, e
+o mesmo método --- codificar, resolver a equação algébrica, decompor em
+frações parciais, ler coeficientes --- produz uma fórmula fechada. A função
+geradora transforma um problema de \emph{recorrência} (difícil, sequencial)
+num problema de \emph{álgebra} (mecânico). A fórmula de Binet é apenas a
+primeira manifestação desse princípio.
+\end{remark}
+
+\begin{exercise}\label{ex:rec-linear-2}
+Considere a sequência definida por $a_0 = 0$ e $a_n = 2a_{n-1} + 1$ para
+$n \geqslant 1$. Mostre que a sua função geradora é
+$\dfrac{x}{(1-x)(1-2x)}$ e conclua que $a_n = 2^n - 1$.
+\end{exercise}
+
+\begin{exercise}\label{ex:soma-fib-3}
+Usando a \eqref{eq:forma-fechada-fib}, mostre que
+$\displaystyle\sum_{n=1}^{\infty}\frac{F_n}{3^{n+1}} = \frac{1}{5}$.
+(Observe que $1/3 < 1/\varphi$, de modo que a série converge e a função
+geradora pode ser avaliada em $x = 1/3$.)
+\end{exercise}
+
+\begin{exercise}\label{ex:raio-convergencia}
+Usando a fórmula de Binet \eqref{eq:binet}, mostre que o raio de convergência
+da série $\sum F_n x^n$ é exatamente $1/\varphi$.
+\end{exercise}
+
+\bigskip
+
+\section{Segunda história: dois dados que não parecem dois dados}
+\label{sec:sicherman}
+
+Nossa segunda história é probabilística. Vamos lançar dois dados honestos e
+estudar a soma dos pontos. A distribuição dessa soma já foi estudada nas notas
+anteriores por meio da fórmula da convolução. Aqui veremos como a mesma
+resposta sai de uma conta de \emph{multiplicação de polinômios} --- e como
+essa conta esconde uma surpresa que ninguém espera.
+
+\subsection{A soma de dois dados como um produto de polinômios}
+
+Um dado honesto tem seis faces equiprováveis. Em vez de listar as
+probabilidades, codificamos a face $k$ como o monômio $s^k$: a cada face
+corresponde um monômio, e o polinômio do dado é a soma desses monômios. Para o
+dado usual,
+\begin{equation}\label{eq:pol-dado}
+P(s) = s + s^2 + s^3 + s^4 + s^5 + s^6.
+\end{equation}
+O coeficiente de $s^k$ em $P$ conta quantas faces têm o rótulo $k$ (aqui, uma
+para cada $k = 1,\ldots,6$); dividido por $6$, é a probabilidade de sair $k$.
+
+Agora vem o pulo do gato. Se $X$ e $Y$ são os pontos de dois dados lançados de
+forma independente, então a função geradora de $X + Y$ é o \emph{produto} das
+funções geradoras de $X$ e de $Y$: multiplicar polinômios soma os expoentes, e
+o coeficiente de $s^k$ no produto conta exatamente de quantas maneiras dois
+rótulos somam $k$. Esse é o mesmo princípio do produto que já apareceu nas
+notas sobre independência, só que visto pela ótica das funções geradoras.
+
+\begin{theorem}[Produto de funções geradoras]\label{thm:produto-funcoes}
+Sejam $X$ e $Y$ variáveis aleatórias discretas independentes tomando valores
+em $\{0,1,2,\ldots\}$ e seja $G_X(s) = \mathbb{E}[s^X]$ a sua função geradora
+(para $|s| < 1$). Então
+\begin{equation}\label{eq:produto-soma}
+G_{X+Y}(s) = G_X(s)\,G_Y(s).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Usando a fatoração da função de probabilidade conjunta de variáveis
+independentes,
+\begin{align*}
+G_{X+Y}(s)
+&= \mathbb{E}[s^{X+Y}]
+= \sum_{j=0}^{\infty}\ \sum_{k=0}^{\infty} s^{j+k}\, \mathbb{P}(X=j, Y=k)
+\\[0.3cm]
+&= \sum_{j=0}^{\infty}\ \sum_{k=0}^{\infty} s^j s^k\,\mathbb{P}(X=j)\,\mathbb{P}(Y=k)
+\\[0.3cm]
+&= \left(\sum_{j=0}^{\infty} s^j\,\mathbb{P}(X=j)\right)
+\left(\sum_{k=0}^{\infty} s^k\,\mathbb{P}(Y=k)\right)
+= G_X(s)\,G_Y(s),
+\end{align*}
+onde a separação da soma dupla em produto é lícita por causa da convergência
+absoluta para $|s| < 1$.
+\end{proof}
+
+No caso de dois dados usuais, $G_X(s) = G_Y(s) = P(s)/6$ e, portanto, a
+função geradora da soma $Z = X + Y$ é $P(s)^2/36$. Expandindo,
+\begin{equation}\label{eq:produto-quadrado}
+P(s)^2 = s^2 + 2s^3 + 3s^4 + 4s^5 + 5s^6 + 6s^7 + 5s^8 + 4s^9 + 3s^{10} + 2s^{11} + s^{12}.
+\end{equation}
+Lemos os coeficientes: há $1$ maneira de obter soma $2$, $2$ maneiras de obter
+$3$, e assim por diante até o máximo de $6$ maneiras de obter $7$, o que
+explica por que $7$ é a soma mais provável. Dividindo por $36$ (o número total
+de pares ordenados de faces), recuperamos as probabilidades.
+
+\subsection{A pergunta inversa e a surpresa de Sicherman}
+
+A pergunta que move esta seção é a \emph{inversa} da que acabamos de fazer:
+
+\begin{quote}
+\emph{A distribuição da soma determina os dados? Isto é: dado o polinômio
+$P(s)^2$ da \eqref{eq:produto-quadrado}, é verdade que os únicos dois dados
+(com seis faces, rótulos inteiros positivos) cujo produto de polinômios é
+$P(s)^2$ são os dados usuais?}
+\end{quote}
+
+A intuição grita que sim. Afinal, a soma $2$ só pode sair como $1+1$, o que
+força cada dado a ter exatamente uma face $1$; e um argumento semelhante parece
+fixar todas as outras faces. A resposta, porém, é \emph{não}: existem dois
+dados, totalmente diferentes dos usuais, cuja soma tem exatamente a mesma
+distribuição. Eles foram descobertos em 1978 por George Sicherman e
+popularizados por Martin Gardner em sua coluna na \emph{Scientific American}.
+A classificação completa dos pares possíveis foi provada por Gallian e Rusin
+\cite{GallianRusin1979}.
+
+\begin{theorem}[Dados de Sicherman]\label{thm:sicherman}
+Considere os dois dados honestos de seis faces cujos rótulos são
+\begin{equation}\label{eq:faces-sicherman}
+D_1 = \{1,2,2,3,3,4\}, \qquad
+D_2 = \{1,3,4,5,6,8\}.
+\end{equation}
+A distribuição da soma dos pontos de $D_1$ e $D_2$ lançados de forma
+independente é idêntica à distribuição da soma de dois dados usuais.
+\end{theorem}
+
+\begin{proof}
+Codificamos cada dado pelo polinômio cujo coeficiente de $s^k$ é o número de
+faces com rótulo $k$. Para $D_1$ e $D_2$:
+\begin{equation}\label{eq:pol-sicherman}
+A(s) = s + 2s^2 + 2s^3 + s^4, \qquad
+B(s) = s + s^3 + s^4 + s^5 + s^6 + s^8.
+\end{equation}
+Pelo \Cref{thm:produto-funcoes}, basta provar que
+$A(s)B(s) = P(s)^2$.
+
+O ingrediente-chave é notar que o bloco $1 + s + \cdots + s^5$ admite duas
+fatorações:
+\begin{equation}\label{eq:identidade-chave}
+(1 + s)(1 + s^2 + s^4) = 1 + s + s^2 + s^3 + s^4 + s^5 = (1 + s + s^2)(1 + s^3),
+\end{equation}
+ambas verificadas expandindo os produtos. Agora escrevemos $P$, $A$ e $B$ em
+termos desses blocos. Como $P(s) = s(1 + s + \cdots + s^5)$,
+\[
+P(s) = s(1 + s + s^2)(1 + s^3).
+\]
+Por outro lado, fatorando os coeficientes de $A$ e $B$,
+\[
+A(s) = s(1 + s)(1 + s + s^2),
+\qquad
+B(s) = s(1 + s^3)(1 + s^2 + s^4),
+\]
+onde a fatoração de $B$ usa que
+$(1+s^3)(1+s^2+s^4) = 1 + s^2 + s^3 + s^4 + s^5 + s^7$,
+que é exatamente $B(s)/s$. Multiplicando,
+\begin{align*}
+A(s)B(s)
+&= s^2(1+s)(1+s+s^2)(1+s^3)(1+s^2+s^4)
+\\[0.3cm]
+&= s^2\,(1+s)(1+s^2+s^4)\,(1+s+s^2)(1+s^3)
+\\[0.3cm]
+&= s^2\,(1+s+s^2)(1+s^3)\,(1+s+s^2)(1+s^3)
+\qquad\text{por \eqref{eq:identidade-chave}}
+\\[0.3cm]
+&= \bigl(s(1+s+s^2)(1+s^3)\bigr)^2
+= P(s)^2.
+\end{align*}
+Logo os polinômios coincidem, e portanto os coeficientes --- isto é, as
+contagens de maneiras de obter cada soma --- coincidem. Dividindo por $36$, as
+distribuições são iguais.
+\end{proof}
+
+Para o leitor que prefere ver números a ver álgebra, a tabela a seguir resume a
+situação: as contagens de maneiras de obter cada soma $k \in \{2,\ldots,12\}$
+são idênticas para o par usual e para o par de Sicherman:
+\[
+\begin{array}{c|ccccccccccc}
+k & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\ \hline
+\#\{(a,b) : a+b = k\} & 1 & 2 & 3 & 4 & 5 & 6 & 5 & 4 & 3 & 2 & 1
+\end{array}
+\]
+
+\begin{remark}[Onde mora a surpresa]
+\label{rem:onde-mora-surpresa}
+A surpresa não é um truque de contagem: é uma consequência da \emph{álgebra}.
+A distribuição da soma só ``enxerga'' o produto $A(s)B(s)$; ela não enxerga os
+fatores $A$ e $B$ isoladamente. Como o polinômio $P(s)^2$ admite fatorações
+diferentes da óbvia $P(s)\cdot P(s)$, existem dados diferentes com a mesma
+soma. Em particular, repare no absurdo aparente dos dados de Sicherman: o dado
+$D_1$ nem sequer tem as faces $5$ e $6$ (sua maior face é $4$), o dado $D_2$ é
+``esticado'' até o $8$, e mesmo assim todas as somas de $2$ a $12$ continuam
+saindo com as mesmas frequências --- a soma $12$, por exemplo, agora só sai
+como $4 + 8$.
+\end{remark}
+
+\begin{remark}[Unicidade e variações]
+\label{rem:unicidade-sicherman}
+Gallian e Rusin \cite{GallianRusin1979} provaram que, se exigimos rótulos
+inteiros positivos e seis faces, os \emph{únicos} pares de dados cuja soma tem
+a distribuição usual são o par usual e o par de Sicherman \eqref{eq:faces-sicherman}
+(a menos da ordem dos dados). A prova usa a fatoração em polinômios
+ciclotômicos e mostra por que a álgebra, mais uma vez, é o instrumento certo
+para responder perguntas de unicidade.
+
+Duas observações mostram como o enunciado é sensível às hipóteses:
+\begin{itemize}
+  \item se permitirmos faces \emph{nulas}, há exatamente dois pares adicionais,
+  obtidos subtraindo $1$ de cada face de um dos dados e somando $1$ às faces do
+  outro (por exemplo, $\{0,1,2,3,4,5\}$ com $\{2,3,4,5,6,7\}$);
+  \item se permitirmos faces negativas, há infinitos pares, pois o mesmo truque
+  de deslocar as faces de um dado e deslocar no sentido oposto as do outro pode
+  ser repetido indefinidamente.
+\end{itemize}
+\end{remark}
+
+\begin{remark}[A distribuição conjunta muda]
+\label{rem:conjunta-muda}
+A distribuição da \emph{soma} é a mesma, mas a distribuição \emph{conjunta}
+dos dois dados não é. Um exemplo imediato: a probabilidade de sair um
+``duplo'' (os dois dados mostrando o mesmo rótulo) é $6/36 = 1/6$ para os
+dados usuais, mas apenas $4/36 = 1/9$ para os dados de Sicherman. A função
+geradora da soma é um objeto que esquece informação --- e é justamente esse
+``esquecimento'' que torna a surpresa possível.
+\end{remark}
+
+\begin{exercise}\label{ex:sicherman-duplos}
+Verifique a afirmação do \Cref{rem:conjunta-muda}: liste os pares ordenados de
+faces dos dados de Sicherman que formam um duplo e conclua que são $4$ de um
+total de $36$.
+\end{exercise}
+
+\begin{exercise}\label{ex:sicherman-verificacao}
+Expandindo diretamente $A(s)B(s)$ com $A$ e $B$ como em
+\eqref{eq:pol-sicherman}, confirme que os coeficientes são os da tabela acima,
+sem usar a fatoração \eqref{eq:identidade-chave}.
+\end{exercise}
+
+\begin{exercise}\label{ex:sicherman-deslocamento}
+Seja $(D, D')$ um par de dados com a mesma distribuição de soma que dois dados
+usuais. Fixado $c \in \mathbb{Z}$, forme os dados cujas faces são
+$\{a + c : a \in D\}$ e $\{b - c : b \in D'\}$. Mostre que a distribuição da
+soma não muda (de fato, o multiconjunto das somas é o mesmo, par a par). Use
+isso para obter, a partir do par de Sicherman, um par com faces nulas.
+\end{exercise}
+
+\begin{exercise}\label{ex:sicherman-soma7}
+Usando apenas a \eqref{eq:produto-quadrado}, mostre que a probabilidade de a
+soma dos dados de Sicherman ser $7$ é $6/36 = 1/6$, a mesma de dois dados
+usuais, e liste os pares de faces de $D_1 \times D_2$ que somam $7$.
+\end{exercise}
+
+\bigskip
+
+\section{Para onde vamos: a função geradora de probabilidade}
+\label{sec:para-onde}
+
+As duas histórias contam, no fundo, a mesma receita --- codificar, deixar a
+álgebra trabalhar, extrair --- aplicada a dois tipos de sequência. Na
+\Cref{sec:fibonacci} a sequência era determinística (a recorrência de
+Fibonacci) e a recompensa foi uma fórmula fechada. Na \Cref{sec:sicherman} a
+sequência era uma distribuição de probabilidade (os coeficientes contavam
+maneiras, e divididos por $36$ viravam probabilidades), e a recompensa foi
+entender uma surpresa: \emph{somar variáveis independentes é multiplicar
+funções geradoras}, como no \Cref{thm:produto-funcoes}.
+
+Quando os coeficientes da função geradora são as probabilidades de uma
+variável aleatória $X$ tomando valores em $\{0,1,2,\ldots\}$, a função
+\begin{equation}\label{eq:def-pgf}
+G_X(s) = \mathbb{E}[s^X] = \sum_{k=0}^{\infty} \mathbb{P}(X = k)\, s^k
+\end{equation}
+recebe um nome especial: \emph{função geradora de probabilidade} de $X$. A
+teoria que desenvolveremos a partir daqui, seguindo o Capítulo 4 de Grimmett e
+Welsh \cite{GrimmettWelsh2014}, explora sistematicamente essa máquina:
+\begin{itemize}
+  \item derivadas de $G_X$ em $s = 1$ produzem os momentos de $X$, e derivadas
+  em $s = 0$ produzem as probabilidades $\mathbb{P}(X = k)$;
+  \item o \Cref{thm:produto-funcoes} transforma somas de variáveis
+  independentes (convolução) em produtos, com aplicações a somas de muitas
+  variáveis, somas com número aleatório de parcelas e passeios aleatórios;
+  \item composição de funções geradoras aparece naturalmente em processos de
+  ramificação, onde a pergunta ``qual a probabilidade de a população se
+  extinguir?'' tem resposta em termos de um ponto fixo de $G_X$.
+\end{itemize}
+Os dados de Sicherman já nos deram um gostinho do poder dessa linguagem: o que
+parecia um quebra-cabeça de contagem virou uma afirmação sobre fatoração de
+polinômios, e o que parecia óbvio (que a distribuição da soma determina os
+dados) revelou-se falso. É essa capacidade de transformar intuição em álgebra
+--- e de surpreender a intuição quando a álgebra diz que ela está errada ---
+que faz das funções geradoras uma das ferramentas mais fantásticas da
+probabilidade.
+
+%----------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}

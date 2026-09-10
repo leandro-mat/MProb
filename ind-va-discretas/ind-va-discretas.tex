@@ -1,0 +1,1060 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazil]{babel}        % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Independência de Variáveis Aleatórias Discretas},
+pdfauthor={L. Cioletti},
+pdfsubject={Independência de variáveis aleatórias discretas, somas, convolução e funções indicadoras},
+pdfkeywords={independência, variáveis aleatórias discretas, soma, convolução, função indicadora, inclusão-exclusão, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheorem{exercise}{Exercício}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\addto\captionsbrazil{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+\vspace{0.5cm}
+
+% --- TÍTULO, AUTOR E DATA ---
+\begin{center}
+{\LARGE\bf Independência de Variáveis Aleatórias Discretas}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Agosto de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Nestas notas introduzimos o conceito de independência de variáveis aleatórias
+discretas e apresentamos suas consequências mais imediatas.
+Definimos a independência de duas variáveis em termos das funções de
+probabilidade marginais e conjunta, e mostramos que ela equivale a uma fatoração 
+da função de probabilidade. Demonstramos que sob hipóteses adequadas 
+a esperança de um produto de variáveis aleatórias independentes coincide 
+com o produto das esperanças e que a independência pode ser caracterizada pela
+identidade $\mathbb{E}[g(X)h(Y)] = \mathbb{E}[g(X)]\mathbb{E}[h(Y)]$, onde
+$g$ e $h$ são funções para as quais as esperanças envolvidas existem. Estendemos esta noção a famílias finitas
+de variáveis aleatórias.
+Em seguida, estudamos a função de probabilidade da soma $X + Y$ de variáveis
+aleatórias independentes, obtendo a fórmula de convolução discreta. 
+Por fim, apresentamos algumas propriedades algébricas das funções indicadoras 
+e mostramos como elas podem ser empregadas para provar a fórmula de inclusão-exclusão, 
+e para calcular esperanças e variâncias de determinados problemas de contagens, 
+como no problema dos casais em uma mesa circular.
+O texto segue de perto as Seções 3.3, 3.4 e 3.5 do Capítulo 3 de Grimmett e
+Welsh \cite{GrimmettWelsh2014}.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+
+\section{Independência de Variáveis Aleatórias Discretas}
+\label{sec:independencia}
+
+Nas notas sobre vetores aleatórios discretos, introduzimos a função de
+probabilidade conjunta de um par $(X,Y)$ de variáveis aleatórias e vimos que as funções de
+probabilidade marginais são obtidas somando a conjunta sobre a coordenada
+complementar. Vimos também que, em geral, as marginais não determinam a
+conjunta, e deixamos registrada a seguinte pergunta: quando é possível
+reconstruir a distribuição conjunta a partir das distribuições marginais?
+Nesta seção introduzimos o conceito que responde a essa pergunta, a
+independência de variáveis aleatórias.
+
+
+O conceito de independência de variáveis aleatórias é formulado simplesmente
+com ajuda da noção de eventos independentes. 
+Recorde que dois eventos $A$ e
+$B$ em um espaço de probabilidade $(\Omega,\mathscr{F},\mathbb{P})$
+são ditos independentes se $\mathbb{P}(A\cap B) = \mathbb{P}(A)\,\mathbb{P}(B)$.
+Para definir a noção de independência de duas variáveis aleatórias discretas $X$ e $Y$, olhamos
+para toda a coleção de eventos que estas variáveis aleatórias definem, isto é, 
+para todos os eventos da forma $\{X=x\}$ e $\{Y=y\}$, onde $x$ e $y\in\mathbb{R}$. 
+Vamos dizer que duas variáveis aleatórias discretas $X$ e $Y$ são independentes
+se os eventos determinados por estas variáveis aleatórias são independentes. 
+
+\begin{definition}[Variáveis aleatórias independentes]\label{def:independencia-variaveis}
+Duas variáveis aleatórias discretas $X$ e $Y$ são \emph{independentes} se o par de
+eventos $\{X = x\}$ e $\{Y = y\}$ é independente para todos $x, y \in \mathbb{R}$,
+condição normalmente escrita como
+\begin{equation}\label{eq:independencia-condicao}
+\mathbb{P}(X = x, Y = y) = \mathbb{P}(X = x)\,\mathbb{P}(Y = y)
+\quad \text{para } x, y \in \mathbb{R}.
+\end{equation}
+Variáveis aleatórias que não são independentes são chamadas \emph{dependentes}.
+\end{definition}
+
+A condição \eqref{eq:independencia-condicao} pode ser reescrita em termos da
+função de probabilidade conjunta. Com efeito, como visto anteriormente, as marginais são dadas por
+$p_X(x) = \sum_{y\in\operatorname{Im}Y} p_{X,Y}(x,y)$ e
+$p_Y(y) = \sum_{x\in\operatorname{Im}X} p_{X,Y}(x,y)$, de modo que
+\eqref{eq:independencia-condicao} equivale a
+\[
+p_{X,Y}(x,y) = \left(\sum_{y'\in\operatorname{Im}Y} p_{X,Y}(x,y')\right)
+\left(\sum_{x'\in\operatorname{Im}X} p_{X,Y}(x',y)\right)
+\quad \text{para } x, y \in \mathbb{R}.
+\]
+Essa última condição admite uma forma simplificada, como indica o teorema a
+seguir.
+
+\begin{theorem}\label{thm:fatoracao-conjunta}
+Um par de variáveis aleatórias discretas $X$ e $Y$ é independente se, e somente se, existem
+funções $f, g : \mathbb{R} \to \mathbb{R}$ tais que a função de probabilidade
+conjunta de $X$ e $Y$ satisfaz
+\begin{equation}\label{eq:fatoracao-conjunta}
+p_{X,Y}(x, y) = f(x)\,g(y) \quad \text{para } x, y \in \mathbb{R}.
+\end{equation}
+\end{theorem}
+
+Naturalmente, basta verificar \eqref{eq:fatoracao-conjunta} para
+$x \in \operatorname{Im}X$ e $y \in \operatorname{Im}Y$, já que $p_{X,Y}$ se anula
+fora de $\operatorname{Im}X \times \operatorname{Im}Y$ e os valores de $f$ e $g$
+fora das imagens podem sempre ser tomados nulos.
+
+\begin{proof}
+\smallskip
+\noindent($\Longrightarrow$) Se $X$ e $Y$ são independentes, basta tomar
+$f = p_X$ e $g = p_Y$, e a condição \eqref{eq:fatoracao-conjunta} passa a ser
+exatamente \eqref{eq:independencia-condicao} escrita em termos das funções de
+probabilidade.
+
+\smallskip
+\noindent($\Longleftarrow$) Suponha que existam funções $f$ e $g$ tais
+que $p_{X,Y}(x,y) = f(x)g(y)$ para todos $x, y \in \mathbb{R}$. Em particular,
+temos $f(x)g(y)=p_{X,Y}(x,y)$ sobre $\operatorname{Im}X \times \operatorname{Im}Y$ e
+portanto este produto é não-negativo ao longo de $\operatorname{Im}X \times \operatorname{Im}Y$. 
+Além disso, como a soma de todas as probabilidades conjuntas
+é igual $1$, existe pelo menos um par $x_0 \in \operatorname{Im}X$ e $y_0 \in \operatorname{Im}Y$
+com $p_{X,Y}(x_0,y_0) > 0$, donde $f(x_0) \neq 0$ e $g(y_0) \neq 0$. Segue da
+não negatividade das parcelas que $f(x)g(y_0) \geqslant 0$ para todo
+$x \in \operatorname{Im}X$ e $f(x_0)g(y) \geqslant 0$ para todo
+$y \in \operatorname{Im}Y$, de modo que $f$ tem sinal constante em
+$\operatorname{Im}X$ e $g$ tem sinal constante em $\operatorname{Im}Y$.
+
+Como vimos nas notas sobre vetores aleatórios discretos, as marginais são
+obtidas somando a conjunta sobre a coordenada complementar. Realizando esta
+soma e usando a hipótese obtemos, para cada $x\in\mathbb{R}$, a seguinte igualdade
+\[
+p_X(x) = \sum_{y\in\operatorname{Im}Y} p_{X,Y}(x,y) = f(x)\sum_{y\in\operatorname{Im}Y} g(y),
+\]
+e, de modo análogo, para todo $y\in\mathbb{R}$, temos
+\[
+p_Y(y) = \sum_{x\in\operatorname{Im}X} p_{X,Y}(x,y) = g(y)\sum_{x\in\operatorname{Im}X} f(x).
+\]
+Em particular, a série de $f$ sobre $\operatorname{Im}X$ e a série de $g$ sobre
+$\operatorname{Im}Y$ convergem, pois, para $x = x_0$ e $y = y_0$, as expressões
+acima dão $p_X(x_0) = f(x_0)\sum_y g(y)$ e
+$p_Y(y_0) = g(y_0)\sum_x f(x)$ e ambos $f(x_0), g(y_0) \neq 0$.
+
+Além disso, a soma de todas as probabilidades conjuntas é $1$, e portanto
+\begin{align*}
+1 &= \sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y} p_{X,Y}(x,y)
+\\[0.3cm]
+&= \sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y} f(x)\,g(y)
+= \left(\sum_{x\in\operatorname{Im}X} f(x)\right)\left(\sum_{y\in\operatorname{Im}Y} g(y)\right),
+\end{align*}
+onde a separação da soma dupla em um produto é autorizada pela convergência
+absoluta das duas séries, consequência do sinal constante de $f$ e $g$ e da
+convergência já verificada.
+Logo, inserindo o valor $1$ na forma do produto acima,
+\begin{align*}
+p_{X,Y}(x, y) &= f(x)\,g(y)
+= f(x)\,g(y)\left(\sum_{x'\in\operatorname{Im}X} f(x')\right)
+\left(\sum_{y'\in\operatorname{Im}Y} g(y')\right)
+\\[0.3cm]
+&= \left(f(x)\sum_{y'\in\operatorname{Im}Y} g(y')\right)
+\left(g(y)\sum_{x'\in\operatorname{Im}X} f(x')\right)
+= p_X(x)\,p_Y(y),
+\end{align*}
+o que é a condição \eqref{eq:independencia-condicao}. Portanto $X$ e $Y$ são
+independentes.
+\end{proof}
+
+
+\begin{example}[Projeções canônicas em $\{0,1\}^n$]\label{ex:projecoes-canonicas}
+Consideremos o espaço de probabilidade $(\Omega,\mathscr{F},\mathbb{P})$ em que
+$\Omega = \{0,1\}^n$ é o conjunto das $n$-uplas de zeros e uns,
+$\mathscr{F}$ é o conjunto das partes de $\Omega$ e $\mathbb{P}$ é a medida
+uniforme, isto é, 
+\[
+\mathbb{P}(\{\omega\}) = \frac{1}{2^{n}}, \qquad \forall \omega \in \Omega,
+\]
+
+Para cada $i \in \{1, \ldots, n\}$ fixado, considere a
+\emph{projeção canônica} $X_i : \Omega \to \mathbb{R}$ definida por
+$X_i(\omega) = \omega_i$, onde $\omega = (\omega_1, \ldots, \omega_n)$.
+Assim, $X_i$ é a coordenada de índice $i$ do ponto $\omega$, e pode ser
+interpretada como o resultado do $i$-ésimo lançamento de uma moeda honesta.
+Observe que $X_i$ define uma variável aleatória já que a $\sigma$-álgebra
+em que estamos trabalhando é a $\sigma$-álgebra das partes. 
+
+O objetivo deste exemplo é mostrar que $X_i$ e $X_j$ são variáveis aleatórias 
+independentes sobre $(\Omega,\mathscr{F},\mathbb{P})$, para $i \neq j$. Para cada
+$a \in \{0,1\}$, o evento $\{X_i = a\}$ é formado por todos os elementos de
+$\Omega$ cuja $i$-ésima coordenada é igual a $a$; são exatamente $2^{n-1}$
+pontos, de modo que
+\[
+\mathbb{P}(X_i = a) = \frac{2^{n-1}}{2^n} = \frac{1}{2},
+\]
+isto é, $X_i \sim \mathrm{Bernoulli}(1/2)$. Analogamente,
+$\mathbb{P}(X_j = b) = 1/2$ para $b \in \{0,1\}$.
+
+Por outro lado, como $i \neq j$, o evento $\{X_i = a, X_j = b\}$ é formado
+pelos elementos de $\Omega$ cujas coordenadas $i$ e $j$ são fixadas em $a$ e
+$b$, respectivamente, enquanto as demais $n-2$ coordenadas são livres; há
+exatamente $2^{n-2}$ tais pontos. Logo,
+\[
+\mathbb{P}(X_i = a, X_j = b)
+= \frac{2^{n-2}}{2^n}
+= \frac{1}{4}
+= \mathbb{P}(X_i = a)\,\mathbb{P}(X_j = b),
+\]
+para todos $a, b \in \{0,1\}$. Para valores fora de $\{0,1\}$, os dois lados
+da identidade se anulam, pois $X_i$ e $X_j$ não assumem tais valores.
+Portanto, pela \Cref{def:independencia-variaveis}, $X_i$ e $X_j$ são
+independentes sempre que $i \neq j$.
+\end{example}
+
+
+\begin{example}[Independência de variáveis de Poisson]\label{ex:independencia-poisson}
+Suponha que $X$ e $Y$ sejam variáveis aleatórias tomando valores nos inteiros
+não negativos, com função de probabilidade conjunta
+\[
+p_{X,Y}(i, j) = \mathbb{P}(X = i, Y = j)
+= \frac{1}{i!\,j!}\,\lambda^i\,\mu^j\,e^{-(\lambda+\mu)}
+\quad \text{para } i, j = 0, 1, 2, \ldots,
+\]
+onde $\lambda, \mu > 0$.
+
+Pelo \Cref{thm:fatoracao-conjunta}, segue imediatamente que $X$ e $Y$ são
+independentes, pois a conjunta se fatoriza na forma
+\[
+p_{X,Y}(i, j)
+= \left( \frac{1}{i!}\,\lambda^i \right)
+\left( \frac{1}{j!}\,\mu^j\,e^{-(\lambda+\mu)} \right),
+\]
+um produto de uma função de $i$ por uma função de $j$. Tal fatorização não é
+única, e é mais natural escrevê-la como
+\[
+p_{X,Y}(i, j)
+= \left( \frac{1}{i!}\,\lambda^i\,e^{-\lambda} \right)
+\left( \frac{1}{j!}\,\mu^j\,e^{-\mu} \right),
+\]
+o produto das funções de probabilidade marginais. De fato, somando a conjunta
+sobre $j$ e usando a série da exponencial, $\sum_{j=0}^{\infty}\mu^j/j! = e^\mu$,
+obtemos $p_X(i) = e^{-\lambda}\lambda^i/i!$, a função de probabilidade de uma
+$\mathrm{Poisson}(\lambda)$; o cálculo para $p_Y$ é análogo. Portanto $X$ e $Y$
+são variáveis aleatórias independentes, cada uma com distribuição de Poisson,
+com parâmetros $\lambda$ e $\mu$, respectivamente.
+\end{example}
+
+Vamos ver agora o efeito da independência sobre a esperança do produto $XY$.
+
+\begin{theorem}[Esperança do produto]\label{thm:produto-esperanca}
+Se $X$ e $Y$ são variáveis aleatórias discretas independentes tais que
+as esperanças $\mathbb{E}[X]$ e $\mathbb{E}[Y]$ existem e são finitas,
+então existe $\mathbb{E}[XY]$ e vale a seguinte igualdade
+\[
+\mathbb{E}[XY] = \mathbb{E}[X]\,\mathbb{E}[Y].
+\]
+\end{theorem}
+
+\begin{proof}
+Nas notas sobre vetores aleatórios discretos, demonstramos que
+\[
+\mathbb{E}[g(X,Y)] = \sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y}
+g(x,y)\,\mathbb{P}(X = x, Y = y)
+\]
+sempre que a soma do lado direito convergir absolutamente. 
+
+Vamos verificar a convergência absoluta da série acima para a função 
+$g(x,y) = xy$, sob a hipótese de existência de $\mathbb{E}[X]$ e $\mathbb{E}[Y]$. 
+Para isto vamos usar as propriedades elementares de séries não-negativas e 
+a hipótese de independência entre $X$ e $Y$ para separar a soma dupla abaixo 
+em um produto como segue
+\begin{align*}
+\sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y}
+|xy|\,\mathbb{P}(X = x, Y = y)
+&=
+\sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y}
+|x|\, |y|\,\mathbb{P}(X = x)\,\mathbb{P}(Y = y)
+\\[0.3cm] 
+&=
+\sum_{x\in\operatorname{Im}X}\, |x|\,\mathbb{P}(X = x) 
+\sum_{y\in\operatorname{Im}Y}\, |y|\,\mathbb{P}(Y = y)
+\\[0.3cm] 
+&=
+\mathbb{E}[|X|]\,\mathbb{E}[|Y|] < \infty,
+\end{align*}
+onde a finitude do produto das esperanças acima segue da 
+existência de $\mathbb{E}[X]$ e $\mathbb{E}[Y]$.
+
+
+\medskip 
+
+Portanto, podemos agora aplicar o teorema da mudança de variáveis à função $g(x,y) = xy$ e
+afirmar que valem as seguintes igualdades
+\begin{align*}
+\mathbb{E}[XY]
+&= \sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y}
+xy\,\mathbb{P}(X = x, Y = y)
+\\[0.3cm]
+&= \sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y}
+xy\,\mathbb{P}(X = x)\,\mathbb{P}(Y = y),
+\end{align*}
+onde usamos a independência. Resta separar a soma dupla. A convergência
+absoluta verificada acima autoriza agrupar as parcelas, de modo que
+\begin{align*}
+\mathbb{E}[XY]
+&= \left(\sum_{x\in\operatorname{Im}X} x\,\mathbb{P}(X = x)\right)
+\left(\sum_{y\in\operatorname{Im}Y} y\,\mathbb{P}(Y = y)\right)
+= \mathbb{E}[X]\,\mathbb{E}[Y].
+\end{align*}
+\end{proof}
+
+A recíproca do \Cref{thm:produto-esperanca} é falsa: a identidade
+$\mathbb{E}[XY] = \mathbb{E}[X]\,\mathbb{E}[Y]$ não implica que $X$ e $Y$ sejam
+independentes; um contraexemplo é apresentado no \Cref{ex:correlacao-nao-independencia},
+ao final desta seção. A recíproca correta é dada a seguir.
+
+Aqui está um exemplo de duas variáveis aleatórias discretas que não são
+independentes, mas satisfazem $\mathbb{E}[XY] = \mathbb{E}[X]\,\mathbb{E}[Y]$.
+
+\begin{example}[Um contraexemplo da recíproca]\label{ex:correlacao-nao-independencia}
+Suponha que $X$ tenha distribuição dada por
+\[
+\mathbb{P}(X = -1) = \mathbb{P}(X = 0) = \mathbb{P}(X = 1) = \frac{1}{3}
+\]
+e que $Y$ é dada por
+\[
+Y = \begin{cases} 0 & \text{se } X = 0, \\ 1 & \text{se } X \neq 0. \end{cases}
+\]
+É fácil construir um espaço de probabilidade $(\Omega,\mathcal{F},\mathbb{P})$
+com duas variáveis aleatórias com essas distribuições. Por exemplo, tome
+$\Omega = \{-1, 0, 1\}$, $\mathcal{F}$ o conjunto das partes de $\Omega$,
+$\mathbb{P}$ dada por $\mathbb{P}(-1) = \mathbb{P}(0) = \mathbb{P}(1) = 1/3$, e
+defina $X(\omega) = \omega$ e $Y(\omega) = |\omega|$. Então $X$ e $Y$ são
+dependentes, pois
+\[
+\mathbb{P}(X = 0, Y = 1) = 0,
+\]
+mas
+\[
+\mathbb{P}(X = 0)\,\mathbb{P}(Y = 1) = \frac{1}{3}\cdot\frac{2}{3} = \frac{2}{9}.
+\]
+Por outro lado,
+\begin{align*}
+\mathbb{E}[XY]
+&= \sum_{x\in\operatorname{Im}X}\ \sum_{y\in\operatorname{Im}Y}
+xy\,\mathbb{P}(X = x, Y = y)
+\\[0.3cm]
+&= (-1)\cdot\frac{1}{3} + 0\cdot\frac{1}{3} + 1\cdot\frac{1}{3} = 0,
+\end{align*}
+e
+\[
+\mathbb{E}[X]\,\mathbb{E}[Y] = 0\cdot\frac{2}{3} = 0.
+\]
+Logo a identidade $\mathbb{E}[XY] = \mathbb{E}[X]\,\mathbb{E}[Y]$ não garante a
+independência, mesmo quando ambas as variáveis são discretas e tomam poucos
+valores.
+\end{example}
+
+
+\begin{theorem}[Caracterização por meio de esperanças]\label{thm:esperanca-produto-funcoes}
+Um par de variáveis aleatórias discretas $X$ e $Y$ em $(\Omega,\mathcal{F},\mathbb{P})$
+é independente se, e somente se,
+\begin{equation}\label{eq:produto-funcoes}
+\mathbb{E}[g(X)\,h(Y)] = \mathbb{E}[g(X)]\,\mathbb{E}[h(Y)]
+\end{equation}
+para toda escolha de funções $g, h : \mathbb{R} \to \mathbb{R}$ tais que
+$g(X)$ e $h(Y)$ são integráveis. Note que, neste caso, segue da hipótese de independência que o produto
+$g(X)h(Y)$ também é integrável.
+\end{theorem}
+
+\begin{proof}
+($\Longrightarrow$) 
+Suponha inicialmente que $X$ e $Y$ são variáveis aleatórias independentes e que existem as esperanças
+$\mathbb{E}[g(X)]$ e $\mathbb{E}[h(Y)]$. Então, procedendo exatamente como na
+demonstração do \Cref{thm:produto-esperanca}, concluímos pela hipótese
+de independência que a função de probabilidade conjunta do vetor $(X,Y)$ se
+fatora e que a esperança de $g(X)h(Y)$ é a soma dupla do produto
+$g(x)h(y)\,\mathbb{P}(X = x)\,\mathbb{P}(Y = y)$. Este produto por sua vez 
+se separa no produto das esperanças, já que a existência das esperanças
+envolvidas garante a convergência absoluta. 
+
+\medskip 
+\noindent($\Longleftarrow$) Sejam $a, b \in \mathbb{R}$ e considere as funções $g:\mathbb{R}\to\mathbb{R}$ 
+e $h:\mathbb{R}\to\mathbb{R}$ dadas por
+\[
+g(x) \equiv \mathds{1}_{\{a\}}(x)\equiv \begin{cases} 1 & \text{se } x = a, \\ 0 & \text{se } x \neq a, \end{cases}
+\qquad
+h(y) \equiv \mathds{1}_{\{b\}}(y) \equiv \begin{cases} 1 & \text{se } y = b, \\ 0 & \text{se } y \neq b. \end{cases}
+\]
+
+Note que a variável aleatória $\omega\longmapsto g(X(\omega))$ satisfaz
+\[
+g(X(\omega))\equiv \mathds{1}_{\{a\}}(X(\omega)) = \mathds{1}_{\{X=a\}}(\omega).
+\]
+Analogamente, temos $h(Y(\omega))\equiv \mathds{1}_{\{b\}}(Y(\omega)) = \mathds{1}_{\{Y=b\}}(\omega)$.
+Usando a definição de função indicadora, podemos verificar diretamente,
+avaliando as funções que aparecem abaixo ponto a ponto, que vale a seguinte
+igualdade:
+\begin{align*}
+g(X)h(Y) \equiv \mathds{1}_{\{X=a\}}\mathds{1}_{\{Y=b\}} = \mathds{1}_{\{X=a\}\cap \{Y=b\}}.
+\end{align*}
+
+Tomando a esperança em ambos os lados da igualdade acima, ficamos com
+\begin{align*}
+\mathbb{E}[g(X)\,h(Y)] 
+= 
+\mathbb{E}\bigl[ \mathds{1}_{\{X=a\}}\mathds{1}_{\{Y=b\}} \bigr]
+=
+\mathbb{E}\bigl[ \mathds{1}_{\{X=a\}\cap \{Y=b\}}\bigr]
+=
+\mathbb{P}(X = a, Y = b).
+\end{align*}
+Por outro lado, segue da hipótese que 
+\[
+\mathbb{P}(X = a)\,\mathbb{P}(Y = b)
+=
+\mathbb{E}[g(X)]\,\mathbb{E}[h(Y)] 
+=
+\mathbb{E}[g(X)\, h(Y)].
+\]
+
+Juntando as igualdades estabelecidas acima concluímos que
+$$p_{X,Y}(a,b) = p_X(a)\,p_Y(b).$$ 
+Como $a$ e $b$ são arbitrários, a condição
+\eqref{eq:independencia-condicao} vale para todos os $x, y \in \mathbb{R}$, e
+portanto segue da definição que 
+$X$ e $Y$ são independentes.
+\end{proof}
+
+
+Até aqui consideramos apenas pares de variáveis aleatórias, mas as mesmas ideias
+se aplicam a famílias $\mathbf{X} = (X_1, X_2, \ldots, X_n)$ com $n > 2$. A
+família $\mathbf{X}$ é chamada \emph{independente} se
+\[
+\mathbb{P}(X_1 = x_1, \ldots, X_n = x_n)
+= \mathbb{P}(X_1 = x_1)\cdots\mathbb{P}(X_n = x_n),
+\]
+ou, equivalentemente, se a função de probabilidade conjunta de $\mathbf{X}$ é o
+produto das funções de probabilidade das coordenadas,
+\[
+p_{\mathbf{X}}(\mathbf{x}) = \prod_{i=1}^{n} p_{X_i}(x_i)
+\quad \text{para } \mathbf{x} = (x_1, \ldots, x_n) \in \mathbb{R}^n.
+\]
+Além disso, se as variáveis $X_1, \ldots, X_n$ são independentes e as esperanças
+$\mathbb{E}[X_i]$ existem como valores finitos, então
+\[
+\mathbb{E}[X_1 X_2 \cdots X_n]
+= \mathbb{E}[X_1]\,\mathbb{E}[X_2]\cdots\mathbb{E}[X_n],
+\]
+exatamente como no \Cref{thm:produto-esperanca}. Finalmente, a família é chamada
+\emph{independente dois a dois} se $X_i$ e $X_j$ são independentes sempre que
+$i \neq j$. A independência da família é uma condição mais forte do que a
+independência dois a dois: existem triplas de variáveis independentes dois a dois
+que não são independentes, como mostra um exercício do livro.
+
+\begin{exercise}\label{exercise:probabilidade-tails}
+Sejam $X$ e $Y$ variáveis aleatórias discretas independentes. Mostre que
+\[
+\mathbb{P}(X \geqslant x \text{ e } Y \geqslant y)
+= \mathbb{P}(X \geqslant x)\,\mathbb{P}(Y \geqslant y)
+\quad \text{para todos } x, y \in \mathbb{R}.
+\]
+\end{exercise}
+
+\begin{exercise}\label{exercise:indicadoras-eventos}
+A \emph{função indicadora} de um evento $A$ é a função $\mathds{1}_A$ definida
+por
+\[
+\mathds{1}_A(\omega) = \begin{cases} 1 & \text{se } \omega \in A, \\ 0 & \text{se } \omega \notin A. \end{cases}
+\]
+Mostre que dois eventos $A$ e $B$ são independentes se, e somente se, suas
+funções indicadoras são variáveis aleatórias independentes.
+\end{exercise}
+
+\begin{exercise}\label{exercise:funcoes-independentes}
+Se $X$ e $Y$ são variáveis aleatórias discretas independentes, mostre que as
+variáveis aleatórias $g(X)$ e $h(Y)$ também são independentes, para quaisquer
+funções $g$ e $h$ de $\mathbb{R}$ em $\mathbb{R}$.
+\end{exercise}
+
+
+% Seções 3.4 e 3.5 do Capítulo 3 de Grimmett e Welsh, "Probability: An
+% Introduction" (2a edição, 2014), traduzidas para as notas "Independência
+% de Variáveis Aleatórias Discretas".
+% Referências a exercícios, problemas e páginas do livro que apontam para
+% material fora dessas seções foram adaptadas para referências textuais.
+
+\section{Somas de Variáveis Aleatórias}
+\label{sec:somas}
+
+Grande parte da teoria da probabilidade está voltada para somas de
+variáveis aleatórias. Depois de caracterizar a independência, estudaremos
+agora a distribuição de uma soma, uma das primeiras aplicações da
+fatoração da distribuição conjunta. Quantidades de interesse, como o
+número total de sucessos em tentativas repetidas ou a soma dos pontos no
+lançamento de dois dados, são somas de contribuições aleatórias. Precisamos, portanto,
+de uma resposta à seguinte pergunta: se $X$ e $Y$ são variáveis aleatórias
+discretas com uma certa função de probabilidade conjunta, qual é a função
+de probabilidade de $Z = X + Y$?
+
+É claro que $Z$ assume o valor $z$ se, e somente se, $X = x$ e
+$Y = z - x$ para algum valor de $x$. Logo,
+\[
+\{Z = z\} = \bigcup_{x \in \operatorname{Im} X}
+\bigl( \{X = x\} \cap \{Y = z - x\} \bigr).
+\]
+Além do mais, se $x \notin \operatorname{Im} X$ então o evento $\{X=x\}=\emptyset$. 
+Outro fato importante é que os eventos que aparecem na união acima são
+dois a dois disjuntos, pois, para $x \neq x'$, a interseção
+$\{X = x\} \cap \{X = x'\}$ é vazia. Como a família é, no máximo,
+enumerável, a $\sigma$-aditividade de $\mathbb{P}$ permite afirmar que 
+\begin{align}\label{eq-aux1-form-conv}
+\mathbb{P}(Z = z)
+&= \mathbb{P}\left( \bigcup_{x \in \operatorname{Im} X}
+\bigl( \{X = x\} \cap \{Y = z - x\} \bigr) \right) 
+\nonumber\\[0.3cm]
+&= \sum_{x \in \operatorname{Im} X} \mathbb{P}(X = x, Y = z - x)
+\quad \text{para } z \in \mathbb{R}.
+\end{align}
+
+Por outro lado, se $X$ e $Y$ são variáveis aleatórias independentes, 
+então o \Cref{thm:fatoracao-conjunta} garante que a função de probabilidade conjunta
+se fatora e portanto  
+$$
+\mathbb{P}(X = x, Y = z - x) = \mathbb{P}(X = x)\, \mathbb{P}(Y = z-x).
+$$
+
+Desta forma segue da igualdade acima e de \eqref{eq-aux1-form-conv}
+que
+\begin{align*}
+\mathbb{P}(Z = z)
+=
+\sum_{x \in \operatorname{Im} X} \mathbb{P}(X = x)\, \mathbb{P}(Y = z-x)
+\end{align*}
+mostrando a validade da versão discreta da chamada fórmula da convolução,
+cujo enunciado preciso é apresentado logo abaixo. 
+
+
+\begin{theorem}[Fórmula de convolução]\label{thm:convolucao}
+Se $X$ e $Y$ são variáveis aleatórias discretas independentes em
+$(\Omega, \mathcal{F}, \mathbb{P})$, então $Z = X + Y$ tem função de
+probabilidade dada por 
+\begin{equation}\label{eq:convolucao}
+\mathbb{P}(Z = z)
+= \sum_{x \in \operatorname{Im} X} \mathbb{P}(X = x)\,
+\mathbb{P}(Y = z - x), \qquad  \forall z \in \mathbb{R}.
+\end{equation}
+\end{theorem}
+
+Na linguagem da análise, a equação \eqref{eq:convolucao} diz que a função
+de probabilidade de $X + Y$ é a \emph{convolução} das funções de
+probabilidade de $X$ e $Y$. A fórmula acima, embora seja
+válida em grande generalidade, pode, na prática, ser um pouco
+difícil de ser usada. Entretanto, ela se constitui em um instrumento valioso
+na construção da teoria. Veremos em outras notas 
+como substituí-la por algumas ferramentas
+mais eficientes para tratar somas de variáveis aleatórias
+independentes.
+
+\begin{exercise}\label{exercise:soma-poisson}
+Se $X$ e $Y$ são variáveis aleatórias discretas independentes, $X$ com
+distribuição de Poisson de parâmetro $\lambda$ e $Y$ com distribuição de
+Poisson de parâmetro $\mu$, mostre que $X + Y$ tem distribuição de Poisson
+de parâmetro $\lambda + \mu$. Dê um exemplo mostrando que a conclusão não
+é verdadeira em geral quando $X$ e $Y$ são dependentes.
+\end{exercise}
+
+\begin{exercise}\label{exercise:soma-binomial}
+Se $X$ tem distribuição binomial de parâmetros $m$ e $p$, $Y$ tem
+distribuição binomial de parâmetros $n$ e $p$, e $X$ e $Y$ são
+independentes, mostre que $X + Y$ tem distribuição binomial de parâmetros
+$m + n$ e $p$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:soma-bernoulli}
+Mostre, por indução, que a soma de $n$ variáveis aleatórias independentes,
+cada uma com distribuição de Bernoulli de parâmetro $p$, tem distribuição
+binomial de parâmetros $n$ e $p$.
+\end{exercise}
+
+\section{Funções Indicadoras}
+\label{sec:funcoes-indicadoras}
+
+Nesta seção vamos apresentar algumas propriedades interessantes de
+funções indicadoras e deduzir de maneira bem simples o princípio
+de inclusão-exclusão para a probabilidade da união finita de eventos arbitrários.
+ 
+\begin{definition}[Função indicadora]\label{def:funcao-indicadora}
+A \emph{função indicadora} de um evento $A$ é a variável aleatória
+denotada $\mathds{1}_A$ e dada por
+\[
+\mathds{1}_A(\omega) = \begin{cases} 1 & \text{se } \omega \in A, \\
+0 & \text{se } \omega \notin A. \end{cases}
+\]
+A função $\mathds{1}_A$ \emph{indica} se $A$ ocorre ou
+não.\footnote{Na teoria da probabilidade, os eventos são estudados
+costumeiramente antes das variáveis aleatórias. Representando eventos por
+suas funções indicadoras, é possível refazer toda a teoria com as variáveis
+aleatórias no papel principal e a esperança no lugar da probabilidade. Ver
+\cite{MR1762736}.} Ela pode ser vista também como uma variável
+aleatória com distribuição de Bernoulli, de parâmetro $p=\mathbb{P}(A)$ 
+e que tem, portanto, esperança dada por
+\[
+\mathbb{E}[\mathds{1}_A] = \mathbb{P}(A),
+\]
+pois $\mathds{1}_A$ assume o valor $1$ exatamente nos pontos de $A$ e o
+valor $0$ fora de $A$. As funções indicadoras têm duas propriedades
+básicas, a saber,
+\begin{equation}\label{eq:indicadora-interseccao}
+\mathds{1}_{A \cap B} = \mathds{1}_A \mathds{1}_B,
+\end{equation}
+\begin{equation}\label{eq:indicadora-complementar}
+\mathds{1}_A + \mathds{1}_{A^c} = 1,
+\end{equation}
+cada uma facilmente verificada avaliando-se ambos os lados
+das igualdades acima para cada $\omega \in \Omega$ fixado.
+\end{definition}
+
+As funções indicadoras são uma ferramenta útil para o cálculo de
+probabilidades e esperanças. Aqui está um exemplo elementar. 
+Pelas identidades 
+\eqref{eq:indicadora-interseccao} e \eqref{eq:indicadora-complementar}, e
+usando as leis de De Morgan, temos imediatamente que
+\begin{align}
+\mathds{1}_{A \cup B}
+&= 1 - \mathds{1}_{A^c \cap B^c} \notag \\
+&= 1 - \mathds{1}_{A^c} \mathds{1}_{B^c}
+= 1 - (1 - \mathds{1}_A)(1 - \mathds{1}_B) \notag \\
+&= \mathds{1}_A + \mathds{1}_B - \mathds{1}_{A \cap B}
+\label{eq:indicadora-uniao}.
+\end{align}
+Observe que, tomando esperanças dos dois lados da última identidade,
+obtemos a igualdade bem conhecida 
+\[
+\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) -
+\mathbb{P}(A \cap B).
+\]
+
+\begin{example}[Fórmula de inclusão-exclusão]\label{ex:inclusao-exclusao}
+Sejam $A_1, A_2, \ldots, A_n$ eventos e seja $\mathds{1}_{A_i}$ a função
+indicadora de $A_i$. Como no \eqref{eq:indicadora-uniao}, a união
+$A = A_1 \cup A_2 \cup \cdots \cup A_n$ tem função indicadora
+\[
+\mathds{1}_A = 1 - \prod_{i=1}^{n} (1 - \mathds{1}_{A_i}),
+\]
+pois $A^c = \bigcap_{i=1}^{n} A_i^c$ e a
+\eqref{eq:indicadora-interseccao} escreve a função indicadora de uma
+interseção como o produto das funções indicadoras. Expandindo o produto e
+agrupando os termos, obtemos
+\[
+\begin{aligned}
+\mathds{1}_A
+&= \sum_{i=1}^{n} \mathds{1}_{A_i} - \sum_{1\leqslant i<j\leqslant n} \mathds{1}_{A_i} \mathds{1}_{A_j}
++ \sum_{1\leqslant i<j<k\leqslant n} \mathds{1}_{A_i} \mathds{1}_{A_j} \mathds{1}_{A_k} - \cdots \\
+&+ (-1)^{n+1} \mathds{1}_{A_1} \mathds{1}_{A_2} \cdots \mathds{1}_{A_n}.
+\end{aligned}
+\]
+Tirando esperanças, obtemos a \emph{fórmula de inclusão-exclusão}
+\[
+\begin{aligned}
+\mathbb{P}\left( \bigcup_{i=1}^{n} A_i \right)
+&= \sum_{i=1}^{n} \mathbb{P}(A_i) - \sum_{1\leqslant i<j\leqslant n} \mathbb{P}(A_i \cap A_j)
++ \sum_{1\leqslant i<j<k\leqslant n} \mathbb{P}(A_i \cap A_j \cap A_k) - \cdots \\
+&\qquad + (-1)^{n+1} \mathbb{P}\left( \bigcap_{i=1}^{n} A_i \right).
+\end{aligned}
+\]
+% No livro, a fórmula é atribuída ao Problema 1.11.14; no caso $n = 3$,
+% trata-se da identidade obtida em um exercício da nota sobre espaços de
+% probabilidade.
+No caso $n = 3$, trata-se da identidade obtida em um exercício da nota
+sobre espaços de probabilidade.
+\end{example}
+
+\begin{example}[Casais em uma mesa circular]\label{ex:mesa-circular}
+As $2n$ cadeiras de uma mesa circular, para $n\geqslant 2$, são numeradas no sentido horário.
+Os convidados do jantar formam $n$ pares de rei e rainha. As rainhas
+sentam-se aleatoriamente nas cadeiras de número ímpar, e os reis
+sentam-se aleatoriamente entre elas, nas cadeiras de número par. Seja
+$N$ o número de rainhas que ficam sentadas ao lado do próprio rei.
+Determine a esperança e a variância de $N$.
+
+\begin{solution}
+Seja $A_i$ o evento em que o par de rei e rainha de índice $i$ ocupa duas
+cadeiras adjacentes. Então o número de rainhas que ficam sentadas ao lado do próprio rei é dado
+pela variável aleatória
+\begin{equation}\label{eq:mesa-n-indicadoras}
+N = \sum_{i=1}^{n} \mathds{1}_{A_i}.
+\end{equation}
+
+Pela simetria do problema, podemos afirmar que
+as variáveis aleatórias $X_i\equiv \mathds{1}_{A_i}$ são 
+variáveis aleatórias com distribuição de Bernoulli de parâmetro $p=\mathbb{P}(A_1)$,
+para todo $i=1,2,\ldots , n$.
+Portanto, segue da linearidade da esperança que temos a seguinte identidade
+\[
+\mathbb{E}[N] = \sum_{i=1}^{n} \mathbb{E}[\mathds{1}_{A_i}]
+= \sum_{i=1}^{n} \mathbb{P}(A_i) = n \, \mathbb{P}(A_1),
+\]
+
+Agora, precisamos calcular $\mathbb{P}(A_1)$. Para isto, note que, fixada a
+cadeira da rainha $1$, as duas cadeiras adjacentes são pares, e o
+rei $1$ é colocado uniformemente em uma das $n$ cadeiras pares.
+Concluímos que $\mathbb{P}(A_1) = 2/n$. Logo
+$\mathbb{E}[N] = n(2/n) = 2$, independentemente do valor de $n$.
+
+Para obter a variância, calculamos $\mathbb{E}[N^2]$. Pela
+\eqref{eq:mesa-n-indicadoras},
+\[
+\mathbb{E}[N^2]
+= \mathbb{E}\left[ \left( \sum_i \mathds{1}_{A_i} \right)^2 \right]
+= \mathbb{E}\left[ \sum_i \mathds{1}_{A_i}^2
++ 2 \sum_{i<j} \mathds{1}_{A_i} \mathds{1}_{A_j} \right].
+\]
+Como $\mathds{1}_{A_i}^2 = \mathds{1}_{A_i}$, pois uma função indicadora
+assume apenas os valores $0$ e $1$, e também
+$\mathds{1}_{A_i} \mathds{1}_{A_j} = \mathds{1}_{A_i \cap A_j}$, temos,
+por simetria,
+\[
+\mathbb{E}[N^2]
+= \mathbb{E}\left[ \sum_i \mathds{1}_{A_i}
++ 2 \sum_{i<j} \mathds{1}_{A_i \cap A_j} \right]
+= n \mathbb{P}(A_1) + n(n-1) \mathbb{P}(A_1 \cap A_2).
+\]
+Para prosseguir, podemos usar a definição de probabilidade condicional para afirmar que
+\begin{align}
+\mathbb{P}(A_1 \cap A_2)
+&= \mathbb{P}(A_1) \, \mathbb{P}(A_2 \mid A_1) \notag 
+\\[0.3cm]
+&= \frac{2}{n} \left( \frac{1}{n-1} \cdot \frac{1}{n-1}
++ \frac{n-2}{n-1} \cdot \frac{2}{n-1} \right) 
+\notag \\[0.3cm]
+&= \frac{2(2n-3)}{n(n-1)^2} \label{eq:mesa-p-interseccao}.
+\end{align}
+Os dois termos do parêntese correspondem, respectivamente, aos casos em
+que, condicionando em $A_1$, a rainha $2$ ocupa a única cadeira ímpar restante
+que fica ao lado do rei $1$, ou uma das demais cadeiras ímpares. De fato,
+condicionando a $A_1$, a rainha $2$ ocupa uniformemente uma das $n-1$
+cadeiras ímpares restantes. Em exatamente uma dessas cadeiras ela fica
+ao lado do rei $1$, e nesse caso o rei $2$ tem uma única cadeira
+favorável entre as $n-1$ livres; nas demais $n-2$ cadeiras, as duas
+cadeiras pares vizinhas à rainha $2$ estão livres, e o rei $2$ tem duas
+cadeiras favoráveis.
+
+Substituindo $\mathbb{P}(A_1) = 2/n$ e a probabilidade calculada no
+\eqref{eq:mesa-p-interseccao},
+\[
+\mathbb{E}[N^2] = 2 + n(n-1) \cdot \frac{2(2n-3)}{n(n-1)^2},
+\]
+e portanto
+\[
+\operatorname{Var}(N) = \mathbb{E}[N^2] - \mathbb{E}[N]^2
+= \frac{2(n-2)}{n-1}.
+\]
+\end{solution}
+\end{example}
+
+\begin{exercise}\label{exercise:numero-eventos}
+Seja $N$ o número de eventos, entre $A_1, A_2, \ldots, A_n$, que ocorrem.
+Mostre que
+\[
+\mathbb{E}[N] = \sum_{i=1}^{n} \mathbb{P}(A_i).
+\]
+\end{exercise}
+
+% No livro, a nota sobre o caso infinito é uma nota de rodapé que remete a
+% outra nota de rodapé (p. 40), sem equivalente nestas notas; adaptamos a
+% observação para prosa.
+O mesmo fato vale para uma sequência infinita de eventos $A_1, A_2,
+\ldots$. O lado esquerdo da identidade
+\[
+\mathbb{E}\left[\sum_{i=1}^{\infty}\mathds{1}_{A_i}\right]
+= \sum_{i=1}^{\infty}\mathbb{P}(A_i)\in[0,+\infty]
+\]
+é a esperança estendida do número de eventos que ocorrem. 
+A identidade é consequência de um importante resultado
+conhecido como Teorema da Convergência Monótona. A prova deste resultado é bastante delicada
+e será adiada.
+
+
+\bigskip 
+
+O exemplo a seguir mostra outra aplicação do Método Probabilístico para um problema
+determinístico. Ele ilustra também algumas das proposições provadas nestas notas de aula.
+
+
+\begin{example}
+Sejam $n\in\mathbb{N}$ e $v_1,\ldots,v_n\in\mathbb{R}^d$ tais que $\|v_j\|=1$, 
+para todo $j=1,2,\ldots,n$. Vamos mostrar que existem escalares 
+$\alpha_1,\ldots,\alpha_n$ com $\alpha_j\in \{-1,1\}$, para todo $j=1,2,\ldots,n$
+tais que 
+\begin{align}\label{eq-aux-1-vet-balanceados}
+\left\| \sum_{j=1}^n \alpha_j\, v_j\right\| \leqslant \sqrt{n},
+\end{align}
+onde $\|v\|$ denota a norma Euclidiana usual em $\mathbb{R}^d$, isto é, 
+para cada vetor $v=(v_1,\ldots,v_d)$ a norma
+$\|v\|= \sqrt{v_1^2+\cdots+v_d^2}$.
+
+Para provar a desigualdade \eqref{eq-aux-1-vet-balanceados}, vamos usar um método probabilístico.
+Primeiro passo. Considere $X_1,\ldots,X_n$ variáveis aleatórias independentes satisfazendo 
+\begin{align*}
+\mathbb{P}(X_j=-1)= \frac{1}{2}= \mathbb{P}(X_j=1),
+\qquad \forall j=1,2,\ldots,n. 
+\end{align*}
+
+Neste caso, segue diretamente da definição de esperança que vale a seguinte
+igualdade $\mathbb{E}[X_1]=\mathbb{E}[X_j]=0$, para todo $j=1,2,\ldots, n$.
+Além do mais, $\mathbb{E}[X_j^2]=1$.
+Agora, considere a seguinte variável aleatória 
+\begin{align*}
+Z
+\equiv 
+\left\| \sum_{j=1}^n X_j\, v_j\right\|^2 
+= 
+\left\langle \sum_{i=1}^n X_i\, v_i ,  \sum_{j=1}^n X_j\, v_j \right\rangle.
+\end{align*}
+
+Então temos que 
+\begin{align*}
+\mathbb{E}[Z] 
+&= 
+\mathbb{E}\left[ \left\langle \sum_{i=1}^n X_i\, v_i\ , \ \sum_{j=1}^n X_j\, v_j \right\rangle  \right]
+\\[0.3cm]
+&= 
+\sum_{i=1}^n \sum_{j=1}^n  \mathbb{E}[X_i\, X_j] \left\langle  v_i , v_j \right\rangle
+\\[0.3cm]
+&= 
+\sum_{i=1}^n \mathbb{E}[X_i^2] \left\langle  v_i , v_i \right\rangle
++
+\sum_{ \substack{i,j\in \{1,\ldots, n\} \\ i\neq j } } \mathbb{E}[X_i\, X_j] \left\langle  v_i , v_j \right\rangle
+\\[0.3cm]
+&= 
+\sum_{i=1}^n 1\cdot \|v_i\|^2
++
+\sum_{ \substack{i,j\in \{1,\ldots, n\} \\ i\neq j } } \mathbb{E}[X_i] \cdot \mathbb{E}[X_j] \left\langle  v_i , v_j \right\rangle
+\\[0.3cm]
+&= 
+n
++
+\sum_{ \substack{i,j\in \{1,\ldots, n\} \\ i\neq j } } \mathbb{E}[X_i] \cdot \mathbb{E}[X_j] \left\langle  v_i , v_j \right\rangle
+\\[0.3cm]
+&= 
+n.
+\end{align*}
+
+Como o valor médio da variável aleatória $Z$ é igual a $n$, então existe algum ponto
+$\omega\in\Omega$ tal que $Z(\omega)\leqslant n$. Caso contrário, teríamos
+$Z(\omega)>n$ para todo $\omega\in\Omega$ e, portanto, $\mathbb{E}[Z]>n$,
+o que é uma contradição.
+
+Tome $\alpha_i\equiv X_i(\omega)$. Então, segue da desigualdade estabelecida acima que
+\begin{align*}
+\left\| \sum_{j=1}^n \alpha_j\, v_j \right\|^2
+=
+\left\| \sum_{j=1}^n X_j(\omega)\, v_j \right\|^2
+=
+\left\langle \sum_{j=1}^n X_j(\omega)\, v_j\ , \ \sum_{j=1}^n X_j(\omega)\, v_j \right\rangle
+=
+Z(\omega)
+\leqslant
+n
+\end{align*}
+o que implica
+\begin{align*}
+\left\| \sum_{j=1}^n \alpha_j\, v_j \right\|  \leqslant \sqrt{n}.
+\end{align*}
+\end{example}
+
+%----------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}
