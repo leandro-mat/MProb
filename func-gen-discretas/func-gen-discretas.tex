@@ -39,6 +39,7 @@
 \usepackage{array}
 \usepackage{colortbl}
 \usepackage{fontawesome5}
+\usepackage{lucide-icons}
 \usepackage{caption}
 \usepackage{stackengine}
 \captionsetup{width=0.8\textwidth}
@@ -79,8 +80,8 @@ citecolor={red}, urlcolor={blue!80!black}]{hyperref}
 \hypersetup{
 pdftitle={Funções Geradoras Discretas},
 pdfauthor={L. Cioletti},
-pdfsubject={Funções geradoras, sequência de Fibonacci, fórmula de Binet, dados de Sicherman, funções geradoras de probabilidade},
-pdfkeywords={funções geradoras, sequência de Fibonacci, fórmula de Binet, dados de Sicherman, soma de variáveis independentes, MAT-UnB}
+pdfsubject={Funções geradoras, sequência de Fibonacci, fórmula de Binet, dados de Sicherman, funções geradoras de probabilidade, momentos, somas aleatórias},
+pdfkeywords={funções geradoras, sequência de Fibonacci, fórmula de Binet, dados de Sicherman, função geradora de probabilidade, momentos, soma aleatória, MAT-UnB}
 }
 
 % --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
@@ -123,7 +124,20 @@ pdfkeywords={funções geradoras, sequência de Fibonacci, fórmula de Binet, da
 \newtheorem{remark}[remark]{Observação}
 \aliascntresetthe{remark}
 
+\newtheoremstyle{plainexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{plainexercise}
 \newtheorem{exercise}{Exercício}
+
+% Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
+% como nas notas anteriores.
+\newtheoremstyle{starredexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{starredexercise}
+\newtheorem{starredexercise}[exercise]{Exercício}
+\theoremstyle{definition}
 
 % Ambientes não numerados usados no texto
 \newtheorem*{property}{Propriedade}
@@ -181,11 +195,11 @@ pdfkeywords={funções geradoras, sequência de Fibonacci, fórmula de Binet, da
 \includegraphics{logo-mat-unb.pdf}
 \end{figure}
 
-\vspace{0.5cm}
+\vspace{0.1cm}
 
 % --- TÍTULO, AUTOR E DATA ---
 \begin{center}
-{\LARGE\bf Funções Geradoras Discretas}
+{\LARGE\bf Funções Geradoras de Probabilidade}
 \vspace{1cm}
 
 {\large \bf L. Cioletti}
@@ -196,24 +210,26 @@ pdfkeywords={funções geradoras, sequência de Fibonacci, fórmula de Binet, da
 
 % --- RESUMO (ABSTRACT) ---
 \begin{abstract}
-Estas notas dão início ao estudo das funções geradoras no contexto do nosso
-curso de métodos probabilísticos. O objetivo desta primeira parte é motivar,
-por meio de dois exemplos longos e autocontidos, a ideia central do método:
-codificar uma sequência de números reais --- ou uma distribuição de
-probabilidade --- como os coeficientes de uma série de potências e, em
-seguida, traduzir perguntas sobre a sequência em perguntas de álgebra, onde
-fatoração, frações parciais e produtos de polinômios funcionam como uma
-máquina. O primeiro exemplo é clássico e determinístico: a sequência de
-Fibonacci é codificada na função racional $x/(1-x-x^2)$, de onde extraímos a
-fórmula de Binet e mostramos que cada termo é o inteiro mais próximo de
-$\varphi^n/\sqrt{5}$. O segundo exemplo é probabilístico: estudamos a
-distribuição da soma dos pontos de dois dados honestos por meio do produto de
-polinômios e mostramos que existem dois dados não usuais, os dados de
-Sicherman, com a mesma distribuição de soma. Esse exemplo revela, de forma
-surpreendente, que a função geradora da soma não determina os dados e antecipa
-o papel central do produto $G_{X+Y}(s) = G_X(s)\,G_Y(s)$ na teoria das funções
-geradoras de probabilidade, que desenvolveremos na sequência seguindo o
-Capítulo 4 de Grimmett e Welsh \cite{GrimmettWelsh2014}.
+Estas notas desenvolvem a teoria das funções geradoras no contexto do nosso
+curso de Métodos Probabilísticos. A exposição começa pela teoria geral das
+funções geradoras, onde apresentamos algumas das propriedades
+da sequência de Fibonacci usando estas técnicas e em particular 
+como obter a Fórmula de Binet. 
+
+Em seguida, consideramos o caso especial em que
+os coeficientes da função geradora são determinados pela função de probabilidade 
+de uma variável aleatória. Este tipo de função geradora é conhecida
+como função geradora de probabilidade (FGP). Mostramos
+que esta função determina completamente a função de probabilidade e vice-versa. 
+Apresentamos também o cálculo explícito de FGP para diversos tipos
+de variáveis aleatórias. Vamos mostrar como obter a função geradora de probabilidade
+de uma soma de variáveis aleatórias independentes e aplicar este resultado para
+estudar somas aleatórias.  Além do mais, 
+mostramos como os momentos de uma variável aleatória podem
+ser obtidos por meio de tais funções e suas derivadas sucessivas. 
+O texto apresenta diversos exemplos, segue de
+perto o Capítulo 4 de Grimmett e Welsh \cite{GrimmettWelsh2014} e conta com
+uma lista exercícios e problemas ao final.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -232,567 +248,2364 @@ Capítulo 4 de Grimmett e Welsh \cite{GrimmettWelsh2014}.
 %----------------------------------------------------------------------
 
 
-\section{Por que funções geradoras?}
-\label{sec:motivacao-geral}
-
-Uma função geradora é, antes de tudo, uma mudança de ponto de vista.
-Em vez de estudar uma sequência de números
-$(a_0, a_1, a_2, \ldots)$ termo a termo, nós a \emph{empacotamos}
-como os coeficientes de uma série de potências
-\[
-G(x) = a_0 + a_1 x + a_2 x^2 + \cdots = \sum_{n=0}^{\infty} a_n x^n,
-\]
-e passamos a estudar a função $G$. A palavra ``geradora'' vem do fato de que
-toda a informação da sequência continua lá, guardada nos coeficientes: quem
-conhece $G$ (como série, ou como expressão fechada) conhece cada $a_n$.
-
-Por que essa mudança de ponto de vista valeria a pena? Porque perguntas sobre
-sequências frequentemente viram perguntas de \emph{álgebra} quando traduzidas
-para funções, e álgebra é uma máquina que funciona sozinha. Três exemplos de
-tradução, que vão aparecer o tempo todo:
-\begin{itemize}
-  \item \emph{Somar} duas sequências corresponde a somar as funções;
-  \item \emph{Deslocar} os índices de uma sequência (trocar $a_n$ por
-  $a_{n-1}$) corresponde a multiplicar a função por $x$, pois
-  $xG(x) = a_0x + a_1x^2 + a_2x^3 + \cdots$;
-  \item \emph{Convoluir} duas sequências
-  ($c_n = \sum_{k=0}^{n} a_k b_{n-k}$) corresponde a \emph{multiplicar} as
-  funções, pois o coeficiente de $x^n$ no produto
-  $G_a(x)G_b(x)$ é exatamente $c_n$.
-\end{itemize}
-
-Depois de codificar, a álgebra trabalha: fatorar, dividir, expandir em
-frações parciais, derivar, multiplicar. No final, \emph{extraímos} a resposta
-lendo o coeficiente certo. O objetivo destas notas é fazer você sentir, com
-dois exemplos longos e completamente verificáveis, que essa receita de três
-passos --- \emph{codificar, deixar a álgebra trabalhar, extrair} --- é
-incrivelmente poderosa. O primeiro exemplo é determinístico e clássico: a
-sequência de Fibonacci. O segundo é probabilístico: a soma dos pontos de dois
-dados honestos. Os dois exemplos preparam o terreno para a teoria das funções
-geradoras de probabilidade, que desenvolveremos na \Cref{sec:para-onde},
-seguindo o Capítulo 4 de Grimmett e Welsh \cite{GrimmettWelsh2014}.
-
-\bigskip
-
-\section{Primeira história: a sequência de Fibonacci}
+\section{Funções Geradoras e a Sequência de Fibonacci}
 \label{sec:fibonacci}
 
-\subsection{Uma pergunta que pede uma ideia nova}
-
-A sequência de Fibonacci é definida pela recorrência
-$F_0 = 0$, $F_1 = 1$ e
+A sequência de Fibonacci $\{F_n: n\geqslant 0\}$ é definida da seguinte
+maneira: seus dois primeiros termos são $F_0=0$ e $F_1=1$; a partir daí,
+cada termo é a soma dos dois anteriores:
 \begin{equation}\label{eq:rec-fibonacci}
-F_n = F_{n-1} + F_{n-2}, \qquad n \geqslant 2,
+F_n=F_{n-1}+F_{n-2},
+\qquad n\geqslant 2.
 \end{equation}
-e seus primeiros termos são
+Os primeiros termos da sequência são
 \[
-0,\ 1,\ 1,\ 2,\ 3,\ 5,\ 8,\ 13,\ 21,\ 34,\ 55,\ \ldots
+0,\ 1,\ 1,\ 2,\ 3,\ 5,\ 8,\ 13,\ 21,\ 34,\ 55,\ldots
 \]
-Ela foi introduzida por Leonardo de Pisa (Fibonacci) em 1202, no \emph{Liber
-Abaci}, ao modelar o crescimento de uma população de coelhos.\footnote{Partindo
-de um casal, cada casal se torna fértil após um mês e, a partir daí, gera um
-novo casal por mês; o número de casais no mês $n$ é $F_{n+2}$.}
-Os termos crescem tão rápido que
-$F_{100}$ já tem 21 algarismos. A pergunta que abre nossa história é:
+Ela aparece no problema de reprodução de coelhos apresentado por Leonardo de
+Pisa, conhecido como Fibonacci, no \emph{Liber Abaci}. O modelo de reprodução
+por trás desse problema não é realista: é uma caricatura, proposta apenas
+para entender qualitativamente o crescimento de uma população de coelhos.
+Embora o modelo se apoie em hipóteses muito fortes, que certamente não se
+verificam na natureza, suas previsões fornecem uma descrição razoável na fase inicial do
+crescimento, quando a população ainda é pequena e os recursos não são
+limitantes.
 
-\begin{quote}
-\emph{Como calcular $F_n$ sem somar os $n-1$ termos anteriores?}
-\end{quote}
+Este modelo é definido da seguinte maneira: começamos com um único casal
+recém-nascido; um casal leva um mês para amadurecer e, a partir do mês
+seguinte, gera um novo casal todo mês. Assumimos também que 
+nenhum casal morre. Assim, no mês $1$
+há um casal; no mês $2$, ele já está maduro, mas ainda sozinho; no mês $3$,
+nasce o primeiro casal; no mês $4$, o casal original gera mais um casal, e o
+primeiro casal nascido amadurece; e assim por diante. A \Cref{fig:coelhos}
+registra os seis primeiros meses.
 
-A recorrência \eqref{eq:rec-fibonacci} pede, para conhecer $F_n$, que
-calculemos tudo que veio antes: ela é \emph{sequencial} por natureza. Seria
-muito mais satisfatório uma ``fórmula'' que entregasse $F_n$ diretamente em
-função de $n$. O que a função geradora faz é transformar a recorrência --- uma
-informação que relaciona termos vizinhos --- numa equação \emph{algébrica}
-sobre a função inteira, que sabemos resolver. Vejamos como.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  x=2.8cm, y=1cm,
+  discoA/.style={circle, fill=teal!30, inner sep=1pt},
+  discoB/.style={circle, fill=orange!30, inner sep=1pt},
+  casal/.pic={
+    \node[discoA] at (-0.21cm,0) {\lucideicon[height=0.85em]{rabbit}};
+    \node[discoB] at (0.21cm,0) {\lucideicon[height=0.85em]{rabbit}};
+  },
+  vida/.style={draw=border, line width=1pt},
+  nascimento/.style={-{Stealth[length=2.1mm,width=1.5mm]}, draw=orange!80!black,
+                  line width=0.9pt},
+  nascimentoA/.style={nascimento, shorten <=3.3mm, shorten >=5.4mm},
+  nascimentoB/.style={nascimento, shorten <=2.25mm, shorten >=4.6mm},
+  nascimentoC/.style={nascimento, shorten <=1.65mm, shorten >=4.2mm},
+  nascimentoD/.style={nascimento, shorten <=1.1mm, shorten >=3.8mm}
+]
+% vidas (sobrevivência de um mês para o outro)
+\draw[vida] (1,0) -- (6,0);               % A
+\draw[vida] (3,-1.72) -- (6,-1.72);       % B
+\draw[vida] (4,-3.44) -- (6,-3.44);       % C
+\draw[vida] (5,-5.16) -- (6,-5.16);       % D
+\draw[vida] (5,-6.88) -- (6,-6.88);       % E
+% F, G e H nascem no mês 6: não têm linha
 
-\subsection{Codificando a sequência: a função geradora}
+% nascimentos: de um casal maduro para um novo casal no mês seguinte
+\draw[nascimentoA] (2,0) -- (3,-1.72);        % A -> B
+\draw[nascimentoB] (3,0) -- (4,-3.44);        % A -> C
+\draw[nascimentoC] (4,0) -- (5,-5.16);        % A -> D
+\draw[nascimentoC] (4,-1.72) -- (5,-6.88);    % B -> E
+\draw[nascimentoD] (5,0) -- (6,-8.60);        % A -> F
+\draw[nascimentoD] (5,-1.72) -- (6,-10.32);   % B -> G
+\draw[nascimentoD] (5,-3.44) -- (6,-12.04);   % C -> H
 
-\begin{definition}[Função geradora de uma sequência]
-\label{def:func-geradora-seq}
-Dada uma sequência de números reais $(a_n)_{n\geqslant 0}$, a sua
-\emph{função geradora} (ordinária) é a série de potências
-\begin{equation}\label{eq:def-fg}
-G_a(x) = \sum_{n=0}^{\infty} a_n x^n,
-\end{equation}
-definida ao menos para os valores de $x$ em que a série converge.
+% casais
+\foreach \x/\y in {%
+  1/0, 2/0, 3/0, 4/0, 5/0, 6/0,
+  3/-1.72, 4/-1.72, 5/-1.72, 6/-1.72,
+  4/-3.44, 5/-3.44, 6/-3.44,
+  5/-5.16, 6/-5.16,
+  5/-6.88, 6/-6.88,
+  6/-8.60, 6/-10.32, 6/-12.04}
+  \pic at (\x,\y) {casal};
+
+% rótulos
+\foreach \m/\c/\txt in {1/1/casal, 2/1/casal, 3/2/casais, 4/3/casais, 5/5/casais, 6/8/casais}
+  {
+  \node[font=\footnotesize] at (\m,1.7) {Mês $\m$};
+  \node[font=\footnotesize, text=teal] at (\m,0.9) {$\c$ \txt};
+  }
+\end{tikzpicture}
+\caption{Os seis primeiros meses do problema dos coelhos.}
+\label{fig:coelhos}
+\end{figure}
+
+Como todos os casais sobrevivem, os $P_{n-1}$ casais do mês $n-1$ continuam
+no mês $n$. Além disso, cada um dos $P_{n-2}$ casais vivos no mês $n-2$ gera
+exatamente um novo casal no mês $n$. Logo,
+\[
+P_n=P_{n-1}+P_{n-2},
+\]
+e, como $P_1=P_2=1$, o número de casais no mês $n$ é $P_n=F_n$, para todo
+$n\geqslant 1$.
+
+Como calcular $F_n$ sem somar todos os termos anteriores? A recorrência
+\eqref{eq:rec-fibonacci} fornece um procedimento para chegar a $F_n$, mas não
+uma expressão que dependa diretamente de $n$. Para obtê-la, trocaremos o
+objeto estudado: vamos arranjar os termos como coeficientes de uma série de
+potências.
+
+O método terá três passos. Primeiro, vamos codificar a sequência em uma série.
+Depois, deixaremos a álgebra trabalhar sobre essa série. Finalmente,
+extrairemos o coeficiente que contém a resposta procurada. O exemplo de
+Fibonacci permitirá acompanhar os três passos e, ao final, organizar as
+operações usadas em um pequeno dicionário.
+
+\subsection{A Série de Potências e Seu Raio de Convergência}
+\label{sec:fibonacci-recorrencia}
+
+Queremos uma expressão para $F_n$ que não dependa dos termos anteriores. A chave é
+trocar o objeto: em vez de seguir a sequência termo a termo, empacotamos todos os
+seus valores numa única série de potências
+\[
+\sum_{n=0}^{\infty} F_n \, x^n,
+\]
+na qual o coeficiente de $x^n$ já é $F_n$. A vantagem deste procedimento é revelada pelos
+fatos estabelecidos nas duas etapas
+seguintes: a relação de recorrência vira uma equação algébrica para essa série e
+as operações de séries de potências permitem resolvê-la e obter de volta uma fórmula
+explícita para o coeficiente geral.
+
+\begin{definition}[Função geradora de uma sequência]\label{def:func-geradora-seq}
+Dada uma sequência de números reais $(a_n)_{n\geqslant 0}$, sua
+\emph{função geradora} é a série de potências
+\[
+G_a(x)=\sum_{n=0}^{\infty}a_nx^n,
+\]
+definida para os valores de $x$ nos quais a série converge.
 \end{definition}
 
-A ideia é que o monômio $x^n$ funciona como uma \emph{etiqueta} do índice $n$:
-a série inteira é a sequência inteira, só que escrita de um outro jeito.
-Vamos aplicar isso a $a_n = F_n$ e escrever
+Antes de manipular a série de Fibonacci, precisamos garantir que ela representa
+uma função em alguma vizinhança de $x=0$. Para isto é suficiente usar a simples estimativa
 \[
-G(x) = \sum_{n=0}^{\infty} F_n x^n
-= 0 + 1\cdot x + 1\cdot x^2 + 2x^3 + 3x^4 + 5x^5 + \cdots
+F_n\leqslant 2^n,
+\qquad n\geqslant 1,
 \]
+que pode ser obtida por indução em $n$. De fato, a desigualdade é válida para
+$n=1$ e $n=2$. Suponha que ela valha para $n-1$ e $n-2$. Então
+\[
+F_n=F_{n-1}+F_{n-2}
+\leqslant 2^{n-1}+2^{n-2}
+\leqslant 2^n.
+\]
+Assim, para $|x|<1/2$,
+\[
+\sum_{n=0}^{\infty}|F_nx^n|
+\leqslant \sum_{n=1}^{\infty}(2|x|)^n<\infty.
+\]
+Nesse intervalo, a série converge absolutamente, e as operações usadas a
+seguir são legítimas. Em particular, o raio de convergência é pelo menos $1/2$;
+essa cota inferior é tudo o que precisamos nesta seção. Também poderíamos usar
+o anel das séries formais, com igualdades interpretadas coeficiente a
+coeficiente, sem discutir convergência. Mas optamos por não utilizar 
+esta técnica, neste momento, para evitar que a discussão fique desnecessariamente 
+abstrata.
 
-Para ter certeza de que $G$ está bem definida numa vizinhança de $0$,
-observamos que $F_n \leqslant 2^n$ para todo $n \geqslant 1$ (verifique por
-indução usando \eqref{eq:rec-fibonacci}); logo a série converge
-absolutamente para $|x| < 1/2$. Nesse intervalo todas as manipulações a seguir
-são lícitas, pois envolvem apenas somar e multiplicar séries absolutamente
-convergentes.\footnote{Alternativamente, podemos tratar as séries abaixo como
-séries formais, sem nenhuma preocupação com convergência.}
+\subsection{O Deslocamento dos Índices e a Relação de Recorrência}
+\label{sec:fibonacci-equacao-geradora}
 
-O passo decisivo é este: a recorrência \eqref{eq:rec-fibonacci} diz que, para
-$n \geqslant 2$, o coeficiente de $x^n$ em $G$ é a soma dos coeficientes de
-$x^{n-1}$ e de $x^{n-2}$ --- que, pela leitura de etiquetas, são os
-coeficientes de $x^n$ em $xG(x)$ e em $x^2G(x)$. É por isso que multiplicar
-por $x$ é a operação certa: ela \emph{desloca} as etiquetas, colocando o
-termo $F_{n-1}x^{n-1}$ na posição $F_{n-1}x^{n}$, onde a recorrência precisa
-dele. Formalmente,
+Considere a série de potências
+\[
+G(x)=\sum_{n=0}^{\infty}F_nx^n.
+\]
+Queremos entender como a relação de recorrência
+que define a sequência $F_n$ se manifesta nas propriedades da série de potências $G$. 
+A ideia consiste em reunir no coeficiente de $x^n$, 
+as relações entre $F_n$, $F_{n-1}$ e $F_{n-2}$. A dificuldade é que estes números aparecem
+originalmente como coeficientes de $x^n$, $x^{n-1}$ e $x^{n-2}$, 
+respectivamente.
+
+Vamos separar duas ideias. Primeiro, deslocamos os coeficientes para que
+as três parcelas da recorrência ocupem a mesma posição. Só depois usamos a
+recorrência e fatoramos a série $G(x)$.
+
+A multiplicação de uma série de potências por $x$ não muda os
+coeficientes: ela apenas desloca cada ``etiqueta'' uma posição para a
+direita. Multiplicar por $x^2$ desloca duas posições. Para enxergar esse
+alinhamento em um caso concreto, destacamos abaixo os três termos que ocupam
+a posição $x^3$:
+\newcommand{\termoemfoco}[1]{%
+  \tikz[baseline=(termo.base)]{%
+    \node[
+      fill=gray!20,
+      fill opacity=0.65,
+      text opacity=1,
+      draw=gray!35,
+      line width=0.25pt,
+      rounded corners=1pt,
+      inner xsep=2pt,
+      inner ysep=1pt
+    ] (termo) {$#1$};%
+  }%
+}
+\[
+\begin{aligned}
+G(x)&=F_0+F_1x+F_2x^2+\termoemfoco{F_3x^3}+\cdots,\\[0.2cm]
+xG(x)&=F_0x+F_1x^2+\termoemfoco{F_2x^3}+F_3x^4+\cdots,\\[0.2cm]
+x^2G(x)&=F_0x^2+\termoemfoco{F_1x^3}+F_2x^4+F_3x^5+\cdots.
+\end{aligned}
+\]
+Portanto, para $n\geqslant2$, os coeficientes de $x^n$ nessas três
+séries são, respectivamente,
+\[
+F_n,\qquad F_{n-1},\qquad F_{n-2}.
+\]
+Agora podemos aplicar a relação de recorrência
+\eqref{eq:rec-fibonacci} diretamente aos coeficientes que estão na mesma
+posição para verificar a validade da seguinte identidade
 \begin{align*}
-G(x) &= F_0 + F_1 x + \sum_{n=2}^{\infty} F_n x^n
-= x + \sum_{n=2}^{\infty} (F_{n-1} + F_{n-2}) x^n
-\\[0.3cm]
-&= x + \sum_{n=2}^{\infty} F_{n-1} x^n + \sum_{n=2}^{\infty} F_{n-2} x^n.
+G(x)-xG(x)-x^2G(x)
+&=F_0+(F_1-F_0)x +\sum_{n=2}^{\infty}
+\bigl(F_n-F_{n-1}-F_{n-2}\bigr)x^n\\[0.3cm]
+&=0+x+0
+\\[0.2cm]
+&=x.
 \end{align*}
-Para não nos perdermos nos índices, notamos simplesmente que
-$\sum_{n=2}^{\infty} F_{n-1}x^n = xG(x)$ (pois $F_0 = 0$) e que
-$\sum_{n=2}^{\infty} F_{n-2}x^n = x^2 G(x)$. Assim,
+De fato, o termo constante é $F_0=0$, o coeficiente de $x$ é
+$F_1-F_0=1$, e todos os coeficientes a partir de $x^2$ são nulos pela
+recorrência. Os dois termos iniciais são justamente os termos de borda que
+ficam fora da recorrência.
+
+Neste ponto, o deslocamento dos coeficientes já foi concluído. Resta apenas
+reunir os termos que contêm a mesma série $G(x)$:
 \[
-G(x) = x + xG(x) + x^2G(x)
-\qquad\Longrightarrow\qquad
-G(x)(1 - x - x^2) = x,
+G(x)-xG(x)-x^2G(x)=(1-x-x^2)G(x).
 \]
-e portanto
+Combinando as duas igualdades, obtemos a equação algébrica
+\[
+(1-x-x^2)G(x)=x.
+\]
+O próximo passo será isolar $G(x)$.
+
+\begin{theorem}[Forma fechada da função geradora de Fibonacci]\label{thm:forma-fechada-fib}
+Para $|x|<1/2$, a função geradora da sequência de Fibonacci satisfaz
 \begin{equation}\label{eq:forma-fechada-fib}
-G(x) = \frac{x}{1 - x - x^2}.
-\end{equation}
-Esse é o primeiro momento de surpresa: uma sequência infinita, definida por
-uma recorrência que parece exigir cálculo termo a termo, foi comprimida numa
-\emph{fração de uma linha}. Toda a informação da sequência de Fibonacci mora
-dentro da função racional \eqref{eq:forma-fechada-fib}.
-
-\begin{theorem}[Forma fechada da função geradora de Fibonacci]
-\label{thm:forma-fechada-fib}
-A função geradora da sequência de Fibonacci é
-\[
-G(x) = \sum_{n=0}^{\infty} F_n x^n = \frac{x}{1 - x - x^2},
-\]
-para $|x| < 1/2$ (e, como veremos, a identidade vale na verdade para
-$|x| < 1/\varphi$, onde $\varphi = (1+\sqrt{5})/2$).
-\end{theorem}
-
-\subsection{Extraindo os coeficientes: a fórmula de Binet}
-
-Uma função geradora fechada só é útil se soubermos \emph{extrair} dela os
-coeficientes. Há uma estratégia geral para funções racionais, e ela se apoia
-em dois fatos simples:
-\begin{itemize}
-  \item a série geométrica $\dfrac{1}{1 - r x} = \sum_{n=0}^{\infty} r^n x^n$
-  tem coeficientes explícitos ($r^n$);
-  \item toda função racional pode ser decomposta em \emph{frações parciais},
-  isto é, escrita como combinação linear de termos do tipo
-  $\dfrac{1}{1 - r x}$.
-\end{itemize}
-Se conseguirmos escrever $G$ como combinação de séries geométricas, os
-coeficientes saem de graça. Para isso, fatoramos o denominador. As raízes de
-$1 - x - x^2 = 0$ são
-\[
-\frac{-1 \pm \sqrt{5}}{2},
-\]
-e é conveniente denotá-las por
-\[
-\varphi = \frac{1 + \sqrt{5}}{2} \quad \text{e} \quad
-\psi = \frac{1 - \sqrt{5}}{2}.
-\]
-Repare que $\varphi + \psi = 1$ e $\varphi\psi = -1$, de modo que
-\begin{equation}\label{eq:fator-denominador}
-1 - x - x^2 = (1 - \varphi x)(1 - \psi x).
-\end{equation}
-
-Agora procuramos constantes $A$ e $B$ tais que
-\[
-\frac{x}{(1-\varphi x)(1-\psi x)} = \frac{A}{1-\varphi x} + \frac{B}{1-\psi x}.
-\]
-Multiplicando os dois lados pelo denominador,
-\[
-x = A(1 - \psi x) + B(1 - \varphi x) = (A + B) - (A\psi + B\varphi)\,x.
-\]
-Comparando os coeficientes, obtemos o sistema $A + B = 0$ e
-$A\psi + B\varphi = -1$. Da primeira equação, $B = -A$; substituindo na
-segunda, $A(\psi - \varphi) = -1$, donde, como $\varphi - \psi = \sqrt{5}$,
-\[
-A = \frac{1}{\sqrt{5}}, \qquad B = -\frac{1}{\sqrt{5}}.
-\]
-Portanto
-\[
-G(x) = \frac{1}{\sqrt{5}}\left(\frac{1}{1 - \varphi x} - \frac{1}{1 - \psi x}\right).
-\]
-Expandindo cada termo como série geométrica,
-\begin{align*}
-G(x)
-&= \frac{1}{\sqrt{5}}\left(\sum_{n=0}^{\infty}\varphi^n x^n - \sum_{n=0}^{\infty}\psi^n x^n\right)
-= \sum_{n=0}^{\infty}\left(\frac{\varphi^n - \psi^n}{\sqrt{5}}\right) x^n.
-\end{align*}
-Lendo o coeficiente de $x^n$, obtemos a famosa fórmula de Binet.
-
-\begin{theorem}[Fórmula de Binet]\label{thm:binet}
-Para todo $n \geqslant 0$,
-\begin{equation}\label{eq:binet}
-F_n = \frac{\varphi^n - \psi^n}{\sqrt{5}},
-\qquad\text{onde}\qquad
-\varphi = \frac{1+\sqrt{5}}{2},\quad \psi = \frac{1-\sqrt{5}}{2}.
+G(x)=\sum_{n=0}^{\infty}F_nx^n
+=\frac{x}{1-x-x^2}.
 \end{equation}
 \end{theorem}
 
 \begin{proof}
-Como $G$ e a função racional $\frac{1}{\sqrt{5}}(1/(1-\varphi x) - 1/(1-\psi x))$
-coincidem numa vizinhança de $0$ (a saber, para $|x| < 1/2$), suas séries de
-potências em torno de $0$ têm os mesmos coeficientes. A série do lado direito
-foi calculada acima, e seu coeficiente de $x^n$ é exatamente o lado direito de
-\eqref{eq:binet}. Por outro lado, o coeficiente de $x^n$ em $G$ é, por
-definição, $F_n$.
+O cálculo anterior fornece
+\[
+G(x)(1-x-x^2)=x.
+\]
+Como $|x|<1/2$, vale
+\[
+|x+x^2|\leqslant |x|+|x|^2<\frac12+\frac14=\frac34<1,
+\]
+logo $x+x^2\neq 1$, isto é, $1-x-x^2\neq0$. Podemos, portanto, dividir ambos
+os lados da igualdade por esse fator e obter \eqref{eq:forma-fechada-fib}, o que
+encerra a demonstração.
 \end{proof}
 
-É instrutivo conferir a fórmula nos primeiros termos. Para $n = 0$, temos
-$(\varphi^0 - \psi^0)/\sqrt{5} = 0 = F_0$; para $n = 1$, usando
-$\varphi - \psi = \sqrt{5}$, obtemos $\sqrt{5}/\sqrt{5} = 1 = F_1$; e assim
-por diante, como a tabela abaixo sugere:
+A descrição recursiva foi convertida em uma função racional. Resta recuperar
+de modo explícito o coeficiente de $x^n$.
+
+\subsection{Extrair Coeficientes: Frações Parciais e Binet}
+\label{sec:extracao-coeficientes-fibonacci}
+
+Para extrair coeficientes de \eqref{eq:forma-fechada-fib}, procuramos blocos
+cujas séries já conhecemos. O bloco disponível é a série geométrica:
 \[
-\begin{array}{c|ccccc}
-n & 4 & 5 & 6 & 7 & 8 \\ \hline
-(\varphi^n - \psi^n)/\sqrt{5} & 3 & 5 & 8 & 13 & 21
-\end{array}
+\frac{1}{1-rx}=\sum_{n=0}^{\infty}r^nx^n,
+\qquad |rx|<1.
 \]
+Isso explica por que tentaremos frações parciais. Se a função racional puder
+ser escrita como combinação de termos dessa forma, o coeficiente de $x^n$ será
+lido diretamente.
 
-\subsection{Inteiros ``vestidos'' de irracionais}
+Defina
+\[
+\varphi=\frac{1+\sqrt{5}}{2}
+\qquad\text{e}\qquad
+\psi=\frac{1-\sqrt{5}}{2}.
+\]
+Como $\varphi+\psi=1$ e $\varphi\psi=-1$, temos a fatoração
+\[
+1-x-x^2=(1-\varphi x)(1-\psi x).
+\]
+Procuramos agora constantes $A$ e $B$ tais que
+\[
+\frac{x}{(1-\varphi x)(1-\psi x)}
+=\frac{A}{1-\varphi x}+\frac{B}{1-\psi x}.
+\]
+Comparar os numeradores fornece $A+B=0$ e
+$A\psi+B\varphi=-1$. Como $\varphi-\psi=\sqrt{5}$, segue que
+\[
+A=\frac{1}{\sqrt{5}}
+\qquad\text{e}\qquad B=-\frac{1}{\sqrt{5}}.
+\]
+Portanto,
+\[
+G(x)=\frac{1}{\sqrt{5}}
+\left(
+\frac{1}{1-\varphi x}-\frac{1}{1-\psi x}
+\right).
+\]
+Chegamos justamente à combinação de séries geométricas que procurávamos.
 
-A fórmula de Binet parece paradoxal: $F_n$ é um inteiro, mas a fórmula o
-escreve usando $\sqrt{5}$. A resolução do paradoxo é que as duas parcelas
-irracionais se cancelam exatamente. Mais ainda: como $|\psi| = (\sqrt{5}-1)/2
-\approx 0{,}618 < 1$, o termo $\psi^n$ é desprezível para $n$ grande, e a
-fórmula admite uma leitura ainda mais espantosa.
+\begin{theorem}[Fórmula de Binet]\label{thm:binet}
+Para todo $n\geqslant 0$,
+\begin{equation}\label{eq:binet}
+F_n=\frac{\varphi^n-\psi^n}{\sqrt{5}},
+\qquad
+\varphi=\frac{1+\sqrt{5}}{2},
+\quad
+\psi=\frac{1-\sqrt{5}}{2}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Para $|x|<1/2$, temos $|\varphi x|<1$ e $|\psi x|<1$. Podemos, portanto,
+expandir as duas frações em séries geométricas:
+\begin{align*}
+G(x)
+&=\frac{1}{\sqrt{5}}
+\left(
+\sum_{n=0}^{\infty}\varphi^nx^n
+-\sum_{n=0}^{\infty}\psi^nx^n
+\right)
+\\[0.3cm]
+&=\sum_{n=0}^{\infty}
+\frac{\varphi^n-\psi^n}{\sqrt{5}}x^n.
+\end{align*}
+Por definição, o coeficiente de $x^n$ em $G$ é $F_n$. A unicidade dos
+coeficientes de uma série de potências dá \eqref{eq:binet}, como desejado.
+\end{proof}
+
+\medskip
+\noindent\textbf{Inteiros vestidos de irracionais.}
+A fórmula de Binet escreve o inteiro $F_n$ em termos de $\sqrt{5}$, mas não há
+paradoxo. As duas potências contêm partes irracionais conjugadas, e sua
+diferença produz o cancelamento necessário. Esse cancelamento também pode ser
+visto diretamente: a expressão em \eqref{eq:binet} tem valores iniciais $0$ e
+$1$ e satisfaz a mesma recorrência de Fibonacci.
+
+Há ainda uma informação quantitativa. Como
+$|\psi|=(\sqrt{5}-1)/2<1$, a parcela $\psi^n$ decai geometricamente. Assim,
+$F_n$ fica cada vez mais próximo de $\varphi^n/\sqrt{5}$, embora seja sempre
+um inteiro.
 
 \begin{corollary}[Aproximação pelo número de ouro]\label{cor:aprox-fib}
-Para todo $n \geqslant 0$, $F_n$ é o inteiro mais próximo de
-$\varphi^n/\sqrt{5}$. Em símbolos,
+Para todo $n\geqslant 0$, $F_n$ é o inteiro mais próximo de
+$\varphi^n/\sqrt{5}$. Em particular,
 \[
-F_n = \left\lfloor \frac{\varphi^n}{\sqrt{5}} + \frac{1}{2} \right\rfloor,
-\qquad n \geqslant 0.
+F_n=\left\lfloor\frac{\varphi^n}{\sqrt{5}}+\frac{1}{2}\right\rfloor.
 \]
 \end{corollary}
 
 \begin{proof}
-Pela \eqref{eq:binet}, escrevemos
+Pela fórmula de Binet,
 \[
-F_n = \frac{\varphi^n}{\sqrt{5}} + \varepsilon_n,
-\qquad\text{onde}\qquad
-\varepsilon_n = -\frac{\psi^n}{\sqrt{5}}.
+F_n-\frac{\varphi^n}{\sqrt{5}}
+=-\frac{\psi^n}{\sqrt{5}}.
 \]
-Como $|\psi| < 1$, temos $|\psi|^n \leqslant 1$ e portanto
-$|\varepsilon_n| \leqslant 1/\sqrt{5} < 1/2$. Logo $F_n$ dista menos de $1/2$
-de $\varphi^n/\sqrt{5}$, o que significa exatamente que $F_n$ é o inteiro mais
-próximo desse número.
+Como $|\psi|<1$, o valor absoluto do lado direito é no máximo
+$1/\sqrt{5}<1/2$. Logo, $F_n$ é o único inteiro a uma distância menor que
+$1/2$ de $\varphi^n/\sqrt{5}$, o que prova a afirmação.
 \end{proof}
 
-A tabela a seguir torna visível o fenômeno:
-\[
-\begin{array}{c|ccccc}
-n & 4 & 5 & 6 & 7 & 8 \\ \hline
-\varphi^n/\sqrt{5} \approx & 3{,}065 & 4{,}960 & 8{,}025 & 12{,}985 & 21{,}010 \\
-F_n & 3 & 5 & 8 & 13 & 21
-\end{array}
-\]
-O número irracional $\varphi^n/\sqrt{5}$ passa o tempo todo \emph{espreitando}
-o inteiro $F_n$, chegando cada vez mais perto (o erro $|\varepsilon_n|$ decai
-como $|\psi|^n$, ou seja, exponencialmente).
+\subsection{O que o Exemplo Ensinou}
+\label{sec:calculo-funcoes-geradoras}
 
-\begin{remark}
-\label{rem:principio-geral}
-Nada nessa história é específico de Fibonacci. Toda sequência definida por uma
-recorrência linear com coeficientes constantes tem função geradora racional, e
-o mesmo método --- codificar, resolver a equação algébrica, decompor em
-frações parciais, ler coeficientes --- produz uma fórmula fechada. A função
-geradora transforma um problema de \emph{recorrência} (difícil, sequencial)
-num problema de \emph{álgebra} (mecânico). A fórmula de Binet é apenas a
-primeira manifestação desse princípio.
+O cálculo com Fibonacci usou duas operações sobre séries: deslocamos
+coeficientes ao multiplicar por $x$ e somamos séries termo a termo. Reuniremos
+agora essas operações com outras duas que serão úteis como consulta. Se
+\[
+A(x)=\sum_{n=0}^{\infty}a_nx^n
+\qquad\text{e}\qquad B(x)=\sum_{n=0}^{\infty}b_nx^n,
+\]
+as identidades abaixo valem onde as séries envolvidas convergem absolutamente.
+Elas também valem coeficiente a coeficiente quando as séries são tratadas
+formalmente.
+
+\medskip
+\noindent\textbf{Linearidade.}
+Para constantes $\alpha$ e $\beta$, a sequência
+$(\alpha a_n+\beta b_n)_{n\geqslant 0}$ tem função geradora
+\[
+\alpha A(x)+\beta B(x).
+\]
+Essa regra decorre diretamente da soma termo a termo.
+
+\medskip
+\noindent\textbf{Deslocamento de índices.}
+Multiplicar por $x^k$ desloca as etiquetas $k$ posições para a direita:
+\[
+x^kA(x)=\sum_{n=k}^{\infty}a_{n-k}x^n.
+\]
+No sentido inverso, se queremos gerar $(a_{n+k})_{n\geqslant 0}$, precisamos
+primeiro retirar os $k$ termos iniciais e depois dividir por $x^k$:
+\[
+\sum_{n=0}^{\infty}a_{n+k}x^n
+=\frac{A(x)-a_0-a_1x-\cdots-a_{k-1}x^{k-1}}{x^k}.
+\]
+Os termos de correção na recorrência de Fibonacci vieram precisamente desse
+comportamento nas primeiras posições.
+
+\medskip
+\noindent\textbf{Multiplicação do coeficiente por $n$.}
+Dentro do raio de convergência, podemos derivar a série termo a termo:
+\[
+A'(x)=\sum_{n=1}^{\infty}na_nx^{n-1}.
+\]
+Multiplicar por $x$ recoloca cada coeficiente junto de sua etiqueta original.
+Logo, a função geradora de $(na_n)_{n\geqslant 0}$ é
+\[
+xA'(x)=\sum_{n=0}^{\infty}na_nx^n.
+\]
+
+Essas regras recuperam rapidamente duas séries de consulta. A sequência
+$1,2,4,8,\ldots$, cujo termo de índice $n$ é $2^n$, tem função geradora
+\[
+\sum_{n=0}^{\infty}2^nx^n=\frac{1}{1-2x},
+\qquad |x|<\frac12.
+\]
+Por sua vez, derivando $1/(1-x)=\sum_{n=0}^{\infty}x^n$, obtemos
+\[
+\sum_{n=0}^{\infty}(n+1)x^n=\frac{1}{(1-x)^2},
+\qquad |x|<1.
+\]
+Portanto, $(1-x)^{-2}$ gera a sequência $1,2,3,\ldots$.
+
+\begin{example}[Coeficientes binomiais]\label{ex:gw-4-3}
+Fixe um inteiro $N\geqslant 0$ e defina
+\[
+a_n=
+\begin{cases}
+\binom{N}{n},&0\leqslant n\leqslant N,\\
+0,&n>N.
+\end{cases}
+\]
+Pelo teorema binomial, sua função geradora é
+\[
+A(x)=\sum_{n=0}^{N}\binom{N}{n}x^n=(1+x)^N.
+\]
+Nesse caso a função geradora é um polinômio, portanto converge para todo
+$x\in\mathbb{R}$.
+\end{example}
+
+\medskip
+\noindent\textbf{Produto de séries e convolução.}
+Ao multiplicar $A(x)$ e $B(x)$, o termo $a_kx^k$ pode contribuir para a
+etiqueta $x^n$ apenas quando encontra um termo $b_jx^j$ com $k+j=n$.
+Portanto, para uma etiqueta fixa, devemos somar sobre todos os pares
+$(k,n-k)$. Essa é exatamente a convolução de sequências conhecida das notas
+sobre somas de variáveis aleatórias discretas.
+
+\begin{proposition}[Produto e convolução]\label{prop:convolucao-sequencias}
+Suponha que $A(x)=\sum_{n=0}^{\infty}a_nx^n$ e
+$B(x)=\sum_{n=0}^{\infty}b_nx^n$ convirjam absolutamente em $x$. Então
+\begin{equation}\label{eq:convolucao-sequencias}
+A(x)B(x)=\sum_{n=0}^{\infty}c_nx^n,
+\qquad
+c_n=\sum_{k=0}^{n}a_kb_{n-k}.
+\end{equation}
+Em outras palavras, o produto das funções geradoras gera a convolução das
+sequências.
+\end{proposition}
+
+\begin{proof}
+A convergência absoluta permite multiplicar as séries e reagrupar os termos de
+acordo com a potência total de $x$. Assim,
+\begin{align*}
+A(x)B(x)
+&=\sum_{k=0}^{\infty}\sum_{j=0}^{\infty}
+a_kb_jx^{k+j}
+\\[0.3cm]
+&=\sum_{n=0}^{\infty}
+\left(\sum_{k=0}^{n}a_kb_{n-k}\right)x^n,
+\end{align*}
+o que prova \eqref{eq:convolucao-sequencias}.
+\end{proof}
+
+\begin{remark}\label{rem:funcao-geradora-exponencial}
+Outra codificação é a função geradora exponencial $\sum_{n=0}^{\infty}a_nx^n/n!$, fora do escopo destas notas.
 \end{remark}
 
+\begin{remark}\label{rem:principio-geral}
+O exemplo de Fibonacci deixa um método de trabalho. Codificamos os termos,
+escolhemos operações que reproduzem as relações entre índices, resolvemos a
+equação resultante e procuramos uma expansão explícita. Para recorrências
+lineares com coeficientes constantes, esse procedimento frequentemente produz
+uma função geradora racional. A extração
+final depende da forma do denominador e pode exigir frações parciais.
+\end{remark}
+
+\section{Da Função de Probabilidade à FGP}
+\label{sec:funcao-geradora-probabilidade}
+
+Na seção anterior, usamos uma função geradora para empacotar uma sequência
+em uma série de potências. A sequência que nos interessa agora tem uma
+estrutura adicional. Se $X$ assume valores em
+$\{0,1,2,\ldots\}$ e escrevemos
+\[
+p_k=\mathbb{P}(X=k),\qquad k=0,1,2,\ldots,
+\]
+então
+\[
+p_k\geqslant 0
+\quad\text{e}\quad
+\sum_{k=0}^{\infty}p_k=1.
+\]
+Portanto, a função de probabilidade de $X$ pode ser vista como uma sequência,
+mas não como uma sequência qualquer: seus termos são não negativos e sua
+soma é igual a $1$.
+
+Essas duas restrições dão à função geradora propriedades que não estão
+disponíveis para uma série de potências arbitrária. A normalização garante
+convergência em todo o intervalo $[-1,1]$, os valores em $0$ e em $1$ têm
+interpretações probabilísticas imediatas e os coeficientes podem ser
+recuperados por derivação. Assim, a mesma receita usada para sequências,
+empacotar, operar e extrair, passa a carregar informação sobre a distribuição
+de uma variável aleatória.
+
+\subsection{Definição, Domínio e Leitura dos Coeficientes}
+\label{sec:fgp-definicao}
+
+Queremos reunir todas as probabilidades $p_0,p_1,p_2,\ldots$ em um único objeto.
+Para isso, usamos cada probabilidade como coeficiente da potência
+correspondente de uma variável auxiliar $s$.
+
+\begin{definition}\label{def:funcao-geradora-probabilidade}
+Seja $X$ uma variável aleatória com valores em $\{0,1,2,\ldots\}$.
+A \emph{função geradora de probabilidade}, abreviadamente \emph{FGP}, de $X$
+é a função definida por
+\begin{equation}
+\label{eq:def-fgp}
+G_X(s)
+=\sum_{k=0}^{\infty}p_k s^k
+=\sum_{k=0}^{\infty}s^k\,\mathbb{P}(X=k)
+=\mathbb{E}[s^X],
+\end{equation}
+para os valores de $s$ nos quais a série converge absolutamente.
+Em $s=0$, adotamos a convenção $0^0=1$, como corresponde ao termo constante
+da série.
+\end{definition}
+
+A última igualdade em \eqref{eq:def-fgp} é o resultado, visto nas notas sobre
+esperança discreta, que permite calcular a esperança de uma função de uma
+variável aleatória. Aqui aplicamos esse resultado à função $x\mapsto s^x$.
+
+Antes de usar a FGP, precisamos saber que ela de fato existe em um domínio
+comum a todas as variáveis consideradas. A normalização da função de
+probabilidade resolve essa questão imediatamente. Se $|s|\leqslant 1$, então
+\[
+\sum_{k=0}^{\infty}|p_k s^k|
+=\sum_{k=0}^{\infty}p_k|s|^k
+\leqslant
+\sum_{k=0}^{\infty}p_k
+=1.
+\]
+Logo, toda FGP converge absolutamente para $|s|\leqslant 1$. Vista como série
+de potências, ela tem raio de convergência pelo menos igual a $1$.
+
+Dois valores de $s$ já revelam informação probabilística. Em $s=0$, somente
+o coeficiente constante permanece. Em $s=1$, somamos todas as probabilidades.
+
+\begin{proposition}\label{prop:propriedades-basicas-fgp}
+Se $X$ tem função de probabilidade $(p_k)_{k\geqslant 0}$ e FGP $G_X$, então
+\[
+G_X(0)=p_0=\mathbb{P}(X=0)
+\quad\text{e}\quad
+G_X(1)=1.
+\]
+\end{proposition}
+
+\begin{proof}
+As duas identidades seguem diretamente de \eqref{eq:def-fgp}: para $s=0$,
+os termos com $k\geqslant 1$ se anulam; para $s=1$, obtemos
+$\sum_{k=0}^{\infty}p_k=1$.
+\end{proof}
+
+O valor em $0$ extrai apenas $p_0$. Como podemos extrair $p_1,p_2,\ldots$?
+A forma da série sugere o procedimento. Uma derivação elimina o termo
+constante e transforma o coeficiente de $s^k$ em $k p_k$. Repetindo a
+operação $k$ vezes, o termo $p_k s^k$ torna-se $k!p_k$, enquanto os termos de
+grau maior ainda contêm uma potência positiva de $s$. Avaliar em $s=0$
+elimina esses termos restantes.
+
+Como séries de potências podem ser derivadas termo a termo no interior de seu
+raio de convergência, para todo $k\geqslant 0$ obtemos
+\begin{equation}
+\label{eq:fgp-recuperacao}
+\mathbb{P}(X=k)=p_k=\frac{G_X^{(k)}(0)}{k!}.
+\end{equation}
+Adotamos aqui $G_X^{(0)}=G_X$. A fórmula \eqref{eq:fgp-recuperacao}
+concretiza a etapa de extração: depois de empacotar a função de probabilidade,
+podemos recuperar separadamente qualquer uma de suas entradas.
+
+\subsection{A FGP Determina a Distribuição}
+\label{sec:fgp-unicidade}
+
+Ao empacotar as probabilidades em uma função, perdemos informação? A fórmula
+\eqref{eq:fgp-recuperacao} já indica que não. O próximo teorema registra essa
+conclusão e sua recíproca. Ele é o que legitima identificar uma distribuição
+pela sua FGP: se reconhecermos a função obtida em um cálculo, teremos
+reconhecido todas as probabilidades da variável aleatória.
+
+\begin{theorem}[Unicidade da função geradora de probabilidade]\label{thm:unicidade-fgp}
+Sejam $X$ e $Y$ variáveis aleatórias com valores em
+$\{0,1,2,\ldots\}$. Então as afirmações seguintes são equivalentes:
+\begin{enumerate}[label=(\roman*)]
+\item $G_X(s)=G_Y(s)$ para todo $s$ em uma vizinhança de $0$;
+\item $\mathbb{P}(X=k)=\mathbb{P}(Y=k)$ para todo
+$k=0,1,2,\ldots$.
+\end{enumerate}
+Em particular, em (i) podemos exigir a igualdade para todo $|s|\leqslant 1$,
+que é um domínio comum a todas as FGPs.
+\end{theorem}
+
+\begin{proof}
+Suponha primeiro que $G_X(s)=G_Y(s)$ em uma vizinhança de $0$. A igualdade
+entre as funções implica a igualdade entre suas derivadas sucessivas em $0$.
+Aplicando \eqref{eq:fgp-recuperacao}, para cada $k\geqslant 0$ temos
+\[
+\mathbb{P}(X=k)
+=\frac{G_X^{(k)}(0)}{k!}
+=\frac{G_Y^{(k)}(0)}{k!}
+=\mathbb{P}(Y=k).
+\]
+Isso prova (ii).
+
+Reciprocamente, suponha que as funções de probabilidade de $X$ e $Y$ sejam
+iguais. Substituindo os coeficientes em \eqref{eq:def-fgp}, obtemos
+\[
+G_X(s)
+=\sum_{k=0}^{\infty}\mathbb{P}(X=k)s^k
+=\sum_{k=0}^{\infty}\mathbb{P}(Y=k)s^k
+=G_Y(s)
+\]
+em todo ponto no qual essas séries convergem. Em particular, a igualdade vale
+para $|s|\leqslant 1$. Isso conclui a prova.
+\end{proof}
+
+O teorema permite trabalhar nos dois sentidos. Podemos partir de uma
+distribuição e calcular sua FGP, ou partir de uma FGP conhecida e concluir
+qual é a distribuição que ela representa.
+
+\subsection{Biblioteca de Distribuições Usuais}
+\label{sec:fgp-distribuicoes-usuais}
+
+Reunimos agora as FGPs de algumas distribuições introduzidas nas notas
+anteriores sobre variáveis aleatórias discretas. Além de formar uma pequena
+biblioteca para cálculos posteriores, os exemplos mostram como fórmulas
+familiares de séries e polinômios reaparecem naturalmente. Nas distribuições
+que envolvem $p$, escrevemos $q=1-p$.
+
+\medskip
+\noindent\textbf{Distribuição de Bernoulli.}
+Se $X\sim\mathrm{Bernoulli}(p)$, os únicos valores possíveis são $0$ e $1$.
+Portanto,
+\[
+G_X(s)=q+ps.
+\]
+
+\medskip
+\noindent\textbf{Distribuição binomial.}
+Se $X\sim\mathrm{Bin}(n,p)$, sua função de probabilidade e o teorema binomial
+fornecem
+\[
+G_X(s)
+=\sum_{k=0}^{n}\binom{n}{k}p^kq^{n-k}s^k
+=(q+ps)^n.
+\]
+
+\begin{example}[FGP da geométrica]\label{ex:fgp-geometrica}
+Seja $X\sim\mathrm{Geom}(p)$, com suporte $\{1,2,3,\ldots\}$. Recorde que
+essa variável conta o número de tentativas até o primeiro sucesso, incluindo
+a tentativa bem-sucedida, e que
+\[
+\mathbb{P}(X=k)=p q^{k-1},
+\qquad k=1,2,3,\ldots.
+\]
+Assim, para $|qs|<1$, reconhecemos uma série geométrica e obtemos
+\[
+\begin{aligned}
+G_X(s)
+&=\sum_{k=1}^{\infty}p q^{k-1}s^k
+\\[0.3cm]
+&=ps\sum_{j=0}^{\infty}(qs)^j
+=\frac{ps}{1-qs}.
+\end{aligned}
+\]
+Como $0<p\leqslant 1$, essa expressão vale, em particular, para
+$|s|\leqslant 1$. Pelo \Cref{thm:unicidade-fgp}, a recíproca também vale:
+uma variável aleatória com FGP $ps/(1-qs)$ tem distribuição
+$\mathrm{Geom}(p)$.
+\end{example}
+
+\medskip
+\noindent\textbf{Distribuição de Poisson.}
+Se $X\sim\mathrm{Poisson}(\lambda)$, com $\lambda>0$, usamos a série
+exponencial para escrever
+\[
+G_X(s)
+=\sum_{k=0}^{\infty}e^{-\lambda}\frac{\lambda^k}{k!}s^k
+=e^{-\lambda}e^{\lambda s}
+=e^{\lambda(s-1)}.
+\]
+
+\medskip
+\noindent\textbf{Distribuição binomial negativa.}
+Seja $n\geqslant1$ inteiro e $0<p\leqslant1$, e escreva $q=1-p$. Se
+$X\sim\mathrm{BinNeg}(n,p)$, então $X$ conta o número de tentativas até o
+$n$-ésimo sucesso e assume valores em $\{n,n+1,n+2,\ldots\}$. A identidade
+necessária para somar sua FGP é
+\[
+\sum_{j=0}^{\infty}\binom{n+j-1}{n-1}x^j
+=\frac{1}{(1-x)^n},
+\qquad |x|<1.
+\]
+Tomando $j=k-n$ e $x=qs$, segue que
+\[
+G_X(s)
+=\sum_{k=n}^{\infty}\binom{k-1}{n-1}p^nq^{k-n}s^k
+=\left(\frac{ps}{1-qs}\right)^n,
+\qquad |qs|<1.
+\]
+
+Essas fórmulas substituem sequências inteiras de probabilidades por expressões
+compactas. Nas próximas seções, veremos que essa mudança é especialmente útil
+quando passamos de variáveis aleatórias individuais para somas independentes.
+
+\section{Produtos, Somas Independentes e os Dados de Sicherman}\label{sec:somas-independentes-fgp}
+
+Nas notas sobre independência de variáveis aleatórias discretas,
+calculamos a função de probabilidade de uma soma de variáveis aleatórias
+independentes por meio da convolução.
+Se $X$ e $Y$ são independentes e assumem valores inteiros não negativos,
+essa fórmula diz que
+\[
+\mathbb{P}(X+Y=k)
+=
+\sum_{j=0}^{k}
+\mathbb{P}(X=j)\,\mathbb{P}(Y=k-j).
+\]
+Não repetiremos aqui a prova dessa identidade.
+Nosso objetivo será reconhecer a mesma soma dentro de uma multiplicação
+de funções geradoras.
+
+Essa mudança de linguagem tem uma vantagem prática.
+Para encontrar a função de probabilidade da soma de $n$ variáveis
+independentes pelo método anterior,
+em geral precisamos realizar $n-1$ convoluções sucessivas.
+Com funções geradoras, essas convoluções serão substituídas por um único
+produto.
+
+\subsection{Da Convolução ao Produto}\label{sec:fgp-produto}
+
+Por que a multiplicação deve aparecer?
+Considere primeiro dois termos genéricos das funções geradoras,
+\[
+\mathbb{P}(X=j)s^j
+\qquad\text{e}\qquad
+\mathbb{P}(Y=\ell)s^\ell.
+\]
+Ao multiplicá-los, os expoentes se somam:
+\[
+\mathbb{P}(X=j)\mathbb{P}(Y=\ell)s^{j+\ell}.
+\]
+Portanto, o coeficiente de $s^k$ no produto reúne precisamente os pares
+$(j,\ell)$ para os quais $j+\ell=k$.
+Além disso, a independência transforma o produto das probabilidades na
+probabilidade conjunta do par.
+Assim, o coeficiente obtido é a convolução que calcula
+$\mathbb{P}(X+Y=k)$.
+
+Essa leitura dos coeficientes explica de onde vem o resultado a seguir.
+A prova formal pode ser ainda mais curta,
+pois a própria definição da FGP já incorpora todas as convoluções.
+
+\begin{theorem}[Produto de funções geradoras]\label{thm:produto-funcoes}
+Sejam $X$ e $Y$ variáveis aleatórias discretas independentes,
+ambas com valores em $\{0,1,2,\ldots\}$.
+Então, para todo $s$ com $|s|<1$,
+\[
+G_{X+Y}(s)=G_X(s)G_Y(s).
+\]
+\end{theorem}
+
+\begin{proof}
+Como $X$ e $Y$ são independentes,
+as variáveis $s^X$ e $s^Y$ também são independentes.
+Para $|s|<1$, ambas são limitadas e, portanto, integráveis.
+Logo,
+\begin{align*}
+G_{X+Y}(s)
+&=\mathbb{E}[s^{X+Y}]
+=\mathbb{E}[s^Xs^Y]
+\\[0.2cm]
+&=\mathbb{E}[s^X]\mathbb{E}[s^Y]
+=G_X(s)G_Y(s),
+\end{align*}
+o que encerra a demonstração.
+\end{proof}
+
+O teorema pode ser aplicado repetidamente.
+É exatamente nessa repetição que a vantagem sobre a convolução se torna
+visível.
+
+\begin{corollary}[FGP de uma soma finita]\label{cor:fgp-soma-finita}
+Sejam $X_1,\ldots,X_n$ variáveis aleatórias discretas independentes,
+com valores em $\{0,1,2,\ldots\}$, e defina
+$S_n=X_1+\cdots+X_n$.
+Então
+\[
+G_{S_n}(s)
+=
+\prod_{i=1}^{n}G_{X_i}(s),
+\qquad |s|<1.
+\]
+Em particular, se $X_1,\ldots,X_n$ são identicamente distribuídas,
+com a mesma distribuição de uma variável $X$, então
+\[
+G_{S_n}(s)=\bigl(G_X(s)\bigr)^n,
+\qquad |s|<1.
+\]
+\end{corollary}
+
+\begin{proof}
+A independência da família garante que
+$S_{n-1}$ e $X_n$ são independentes.
+Aplicando a \Cref{thm:produto-funcoes} sucessivamente, obtemos
+\[
+G_{S_n}(s)
+=G_{S_{n-1}}(s)G_{X_n}(s)
+=\cdots
+=\prod_{i=1}^{n}G_{X_i}(s).
+\]
+No caso identicamente distribuído,
+todos os fatores desse produto são iguais a $G_X(s)$.
+\end{proof}
+
+\begin{example}[A binomial como soma de Bernoullis]\label{ex:binomial-soma-bernoullis}
+Este resultado explica uma representação fundamental da distribuição binomial.
+Sejam $B_1,\ldots,B_n$ variáveis aleatórias independentes, todas com
+distribuição $\mathrm{Bernoulli}(p)$, e defina
+\[
+S_n=B_1+\cdots+B_n.
+\]
+Como cada $B_i$ vale $1$ quando ocorre um sucesso e vale $0$ quando ocorre um
+fracasso, $S_n$ conta o número total de sucessos nos $n$ ensaios.
+
+Pelo corolário anterior e pela fórmula da FGP de uma variável de Bernoulli,
+\[
+G_{S_n}(s)
+=\prod_{i=1}^{n}G_{B_i}(s)
+=\prod_{i=1}^{n}(q+ps)
+=(q+ps)^n,
+\qquad q=1-p.
+\]
+Mas $(q+ps)^n$ é precisamente a FGP de uma variável com distribuição
+$\mathrm{Bin}(n,p)$. Pelo teorema da unicidade das FGPs, se
+$X\sim\mathrm{Bin}(n,p)$, então
+\[
+B_1+\cdots+B_n=S_n\overset{d}{=}X.
+\]
+Em palavras: uma variável binomial pode ser representada, em distribuição,
+como a soma de $n$ variáveis de Bernoulli independentes com o mesmo parâmetro
+$p$. O símbolo $\overset{d}{=}$ é importante: ele não afirma que as duas
+variáveis são necessariamente iguais em cada resultado, mas que possuem a
+mesma distribuição.
+
+Uma das vantagens deste tipo de decomposição é a facilidade que ela proporciona
+para alguns cálculo, como por exemplo do valor médio, já que ele depende essencialmente
+da função da função de probabilidade
+\begin{align*}
+\mathbb{E}[X] = \mathbb{E}[B_1+\ldots+B_n] = \mathbb{E}[B_1]+\ldots+\mathbb{E}[B_n] = np.
+\end{align*}  
+\end{example}
+
+Observe que a independência não é um detalhe dispensável.
+Sem ela, ainda vale a igualdade
+$G_{X+Y}(s)=\mathbb{E}[s^Xs^Y]$,
+mas não podemos separar essa esperança em um produto.
+
+\subsection{Dois Dados e os Coeficientes da FGP}\label{sec:produto-dados}
+
+Vamos aplicar o \Cref{cor:fgp-soma-finita} ao lançamento de dois dados honestos.
+Antes de normalizar probabilidades,
+é útil construir um polinômio que registre apenas a contagem das faces.
+Associamos à face rotulada por $k$ o monômio $s^k$ e somamos os seis
+monômios.
+Para um dado usual, obtemos o \emph{polinômio de contagem}
+\[
+P(s)=s+s^2+s^3+s^4+s^5+s^6.
+\]
+
+O coeficiente de $s^k$ em $P(s)$ é o número de faces com rótulo $k$.
+Como as seis faces são equiprováveis,
+a FGP dos pontos $X$ de um dado não é $P(s)$,
+mas sim
+\[
+G_X(s)=\frac{P(s)}{6}.
+\]
+Essa distinção será importante:
+$P$ guarda contagens inteiras,
+enquanto $P/6$ guarda probabilidades.
+
+Se $X$ e $Y$ são os resultados de dois lançamentos independentes,
+a \Cref{thm:produto-funcoes} fornece
+\[
+G_{X+Y}(s)=\frac{P(s)^2}{36}.
+\]
+Também podemos chegar a essa expressão diretamente pela leitura dos
+coeficientes.
+Ao escolher um termo de cada cópia de $P$,
+escolhemos uma face de cada dado;
+o produto $s^js^\ell=s^{j+\ell}$ registra a soma das faces.
+Consequentemente, o coeficiente de $s^k$ em $P(s)^2$ conta quantos pares
+ordenados produzem a soma $k$.
+
+Expandindo o produto, encontramos
+\begin{equation}\label{eq:produto-quadrado}
+\begin{aligned}
+P(s)^2={}&s^2+2s^3+3s^4+4s^5+5s^6+6s^7
++5s^8+4s^9+3s^{10}+2s^{11}+s^{12}.
+\end{aligned}
+\end{equation}
+Há, por exemplo, seis pares ordenados cuja soma é $7$.
+Dividindo todos os coeficientes por $36$,
+recuperamos a função de probabilidade da soma.
+
+Até aqui, usamos os fatores para descobrir o produto.
+Passemos agora à pergunta inversa:
+será que o produto permite recuperar os fatores?
+
+\subsection{A Pergunta Inversa e os Dados de Sicherman}\label{sec:sicherman}
+
+Suponha que conheçamos apenas a distribuição usual da soma de dois dados.
+É natural pensar que os rótulos das faces ficam determinados.
+De fato, a soma $2$ força a presença de faces rotuladas por $1$,
+e os coeficientes seguintes parecem impor, um após outro,
+os demais rótulos.
+Essa tentativa, porém, procura reconstruir separadamente duas informações
+a partir de um objeto que registra apenas seu produto.
+
+A linguagem dos polinômios sugere uma busca mais adequada.
+Como
+\[
+P(s)=s(1+s+s^2+s^3+s^4+s^5),
+\]
+podemos procurar fatorações alternativas do bloco geométrico
+$1+s+\cdots+s^5$.
+Há duas maneiras naturais de agrupar seus expoentes.
+Separando-os em pares consecutivos, obtemos
+\[
+(1+s)(1+s^2+s^4).
+\]
+Agrupando primeiro os expoentes $0,1,2$ e depois deslocando esse bloco
+por três unidades, obtemos
+\[
+(1+s+s^2)(1+s^3).
+\]
+Portanto,
+\begin{equation}\label{eq:identidade-chave}
+(1+s)(1+s^2+s^4)
+=1+s+s^2+s^3+s^4+s^5
+=(1+s+s^2)(1+s^3).
+\end{equation}
+
+Essa identidade indica como construir novos fatores.
+Em vez de dar a cada dado uma cópia inteira de $P$,
+redistribuímos entre eles os fatores das duas cópias do bloco geométrico.
+Os polinômios resultantes ainda têm coeficientes inteiros não negativos
+e a soma dos coeficientes de cada um é seis,
+como se exige de polinômios de contagem de dados honestos.
+
+\begin{theorem}[Dados de Sicherman]\label{thm:sicherman}
+Considere dois dados honestos de seis faces com os seguintes multiconjuntos
+de rótulos:
+\[
+D_1=\{1,2,2,3,3,4\},
+\qquad
+D_2=\{1,3,4,5,6,8\}.
+\]
+Se os dados são lançados de forma independente,
+a distribuição da soma de seus pontos é igual à distribuição da soma de
+dois dados usuais.
+\end{theorem}
+
+\begin{proof}
+Os polinômios de contagem de $D_1$ e $D_2$ são, respectivamente,
+\begin{equation}\label{eq:pol-sicherman}
+A(s)=s+2s^2+2s^3+s^4,
+\qquad
+B(s)=s+s^3+s^4+s^5+s^6+s^8.
+\end{equation}
+As fatorações que motivaram a escolha desses dados são
+\[
+A(s)=s(1+s)(1+s+s^2)
+\]
+e
+\[
+B(s)=s(1+s^3)(1+s^2+s^4).
+\]
+Assim,
+\begin{align*}
+A(s)B(s)
+&=s^2(1+s)(1+s+s^2)(1+s^3)(1+s^2+s^4)
+\\[0.3cm]
+&=s^2\bigl((1+s)(1+s^2+s^4)\bigr)
+\bigl((1+s+s^2)(1+s^3)\bigr)
+\\[0.3cm]
+&=s^2(1+s+s^2+s^3+s^4+s^5)^2
+\\[0.3cm]
+&=P(s)^2,
+\end{align*}
+onde usamos \eqref{eq:identidade-chave} na terceira igualdade.
+
+Cada dado tem seis faces equiprováveis.
+Logo, suas FGPs são $A(s)/6$ e $B(s)/6$,
+e a FGP da soma é $A(s)B(s)/36=P(s)^2/36$.
+Esta é a FGP da soma de dois dados usuais.
+Pela unicidade da FGP,
+as duas somas têm a mesma distribuição.
+\end{proof}
+
+\begin{remark}[Onde mora a surpresa]\label{rem:onde-mora-surpresa}
+A distribuição da soma só enxerga o produto dos polinômios de contagem.
+Ela não enxerga cada fator separadamente.
+Por isso, a surpresa não está na expansão de um produto,
+mas na possibilidade de redistribuir seus fatores sem criar coeficientes
+negativos ou fracionários.
+O primeiro dado de Sicherman não tem faces $5$ ou $6$,
+e o segundo chega até a face $8$.
+Mesmo assim, todas as frequências das somas permanecem iguais às usuais.
+Por exemplo, a soma $12$, que antes era obtida como $6+6$,
+agora é obtida como $4+8$.
+\end{remark}
+
+\begin{remark}[Unicidade entre dados com rótulos positivos]\label{rem:unicidade-sicherman}
+Se exigimos dois dados de seis faces com rótulos inteiros positivos,
+o par usual e o par de Sicherman são os únicos que produzem a distribuição
+usual da soma, a menos da ordem dos dados \cite{GallianRusin1979}.
+Essa afirmação é mais forte que o teorema acima:
+nossa fatoração exibe uma solução diferente,
+mas não classifica todas as soluções possíveis.
+A classificação completa requer controlar as fatorações do polinômio
+$P(s)^2$ que ainda podem representar dados,
+isto é, aquelas com coeficientes inteiros não negativos e soma dos
+coeficientes igual a seis.
+\end{remark}
+
+\begin{remark}[A distribuição conjunta muda]\label{rem:conjunta-muda}
+A igualdade das distribuições das somas não implica igualdade das
+distribuições conjuntas dos pares de resultados.
+Nos dados usuais, existem seis pares de faces com rótulos iguais,
+de modo que a probabilidade de um resultado duplo é $6/36=1/6$.
+Nos dados de Sicherman, os rótulos comuns são $1$, $3$ e $4$.
+Levando em conta que o primeiro dado possui duas faces rotuladas por $3$,
+há quatro pares de faces com rótulos iguais.
+Assim, a probabilidade de um resultado duplo é $4/36=1/9$.
+\end{remark}
+
+Chegamos, portanto, a duas conclusões que devem ser mantidas separadas.
+Pela unicidade da FGP,
+o produto determina completamente a distribuição da soma.
+No entanto, ao passar do par de variáveis para a soma,
+perdemos a identificação dos fatores e parte da informação sobre a
+distribuição conjunta.
+Os dados de Sicherman mostram concretamente o alcance e o limite da função
+geradora: ela preserva todas as probabilidades da soma,
+mas esquece como essa soma foi formada.
+
+\section{Derivadas da FGP e Momentos}\label{sec:momentos-fgp}
+
+Até aqui, usamos a FGP para recuperar probabilidades e estudar somas de
+variáveis aleatórias. Há outra informação codificada em $G_X$: as médias das
+potências de $X$. Para encontrá-la, precisamos olhar para as derivadas da FGP.
+O valor limite quando $s\uparrow1$ será usado, pois nesse limite os fatores
+$s^k$ deixam de atribuir pesos diferentes aos possíveis valores de $X$.
+
+\subsection{Derivadas Laterais em 1 e Momentos Fatoriais}
+\label{sec:momentos-fatoriais}
+
+Começamos recordando brevemente a noção que desejamos calcular.
+
+\begin{definition}\label{def:momento}
+Seja $k\geqslant 1$. O \emph{$k$-ésimo momento} de uma variável aleatória
+$X$ é $\mathbb{E}[X^k]$, sempre que essa esperança estiver bem definida.
+\end{definition}
+
+Uma primeira tentativa seria esperar que a $r$-ésima derivada de $s^k$
+produzisse $k^r$. Isso não ocorre. Cada derivação reduz o expoente em uma
+unidade e, por isso, os fatores que aparecem são sucessivamente
+$k,k-1,\ldots,k-r+1$. Essa observação sugere a definição apropriada.
+
+\begin{definition}\label{def:momento-fatorial}
+Seja $r\geqslant 1$. Definimos a \emph{potência fatorial decrescente} de ordem
+$r$ por
+\[
+(X)_r=X(X-1)\cdots(X-r+1).
+\]
+Quando $X$ assume valores inteiros não negativos, a quantidade
+\[
+\mathbb{E}[(X)_r]
+=\sum_{k=r}^{\infty}(k)_r\,\mathbb{P}(X=k)
+\]
+é chamada de \emph{$r$-ésimo momento fatorial} de $X$. Permitimos que seu
+valor seja $+\infty$.
+\end{definition}
+
+Derivar uma soma infinita termo a termo exige justificativa. Além disso, mesmo
+depois de obter uma fórmula para $|s|<1$, ainda precisamos alcançar o ponto de
+fronteira $s=1$. O próximo resultado separa essas duas passagens.
+
+\begin{theorem}\label{thm:derivadas-fgp-momentos-fatoriais}
+Seja $X$ uma variável aleatória com valores inteiros não negativos e seja
+$G_X$ sua FGP. Para todo inteiro $r\geqslant 1$ e todo $|s|<1$,
+\begin{equation}\label{eq:derivada-fgp}
+G_X^{(r)}(s)
+=\sum_{k=r}^{\infty}(k)_r s^{k-r}\,\mathbb{P}(X=k).
+\end{equation}
+Além disso,
+\[
+G_X^{(r)}(1)
+\equiv\lim_{s\uparrow 1}G_X^{(r)}(s)
+=\mathbb{E}[(X)_r],
+\]
+onde $G_X^{(r)}(1)$ denota a derivada lateral em $1$, com a possibilidade de
+ambos os lados serem iguais a $+\infty$.
+\end{theorem}
+
+\begin{proof}
+A prova tem duas etapas. Primeiro justificamos a derivação no interior do
+intervalo de convergência. Depois passamos de $s<1$ para $s=1$.
+
+Como
+\[
+G_X(s)=\sum_{k=0}^{\infty}\mathbb{P}(X=k)s^k
+\]
+converge em $s=1$, seu raio de convergência é pelo menos $1$. Pelo teorema de
+derivação termo a termo de séries de potências, no interior do raio de
+convergência podemos derivar termo a termo, e a série derivada tem o mesmo
+raio. Como $|s|<1$ está no interior desse raio, podemos repetir esse
+procedimento $r$ vezes. Como a $r$-ésima
+derivada de $s^k$ é nula para $k<r$ e é $(k)_r s^{k-r}$ para $k\geqslant r$,
+obtemos precisamente \eqref{eq:derivada-fgp}.
+
+Resta atingir $s=1$. Não podemos simplesmente substituir $s=1$ em uma
+identidade demonstrada apenas para $|s|<1$. Os coeficientes da série em
+\eqref{eq:derivada-fgp} são não negativos. Pelo lema de Abel para coeficientes
+não negativos, se $a_k\geqslant0$, então
+$\lim_{s\uparrow1}\sum_k a_ks^k=\sum_k a_k$ em $[0,+\infty]$. Portanto,
+\begin{align*}
+\lim_{s\uparrow 1}G_X^{(r)}(s)
+&=\sum_{k=r}^{\infty}(k)_r\,\mathbb{P}(X=k)
+\\[0.3cm]
+&=\mathbb{E}[(X)_r].
+\end{align*}
+O lema admite o valor $+\infty$. Assim, a conclusão continua válida mesmo
+quando o momento fatorial não é finito, o que encerra a demonstração.
+\end{proof}
+
+\subsection{Média, Segundo Momento e Variância}
+\label{sec:media-variancia-fgp}
+
+O caso $r=1$ já fornece a média, pois $(X)_1=X$:
+\begin{equation}\label{eq:media-por-fgp}
+\mathbb{E}[X]=G'_X(1).
+\end{equation}
+Aqui e nas fórmulas seguintes, as derivadas em $1$ denotam os valores limites
+das derivadas quando $s\uparrow1$, isto é, as derivadas laterais em $1$.
+A derivada segunda fornece $\mathbb{E}[X(X-1)]$, e não diretamente
+$\mathbb{E}[X^2]$. A identidade $X^2=X(X-1)+X$ faz a conversão entre essas
+duas formas e resulta em
+\[
+\mathbb{E}[X^2]=G''_X(1)+G'_X(1).
+\]
+Nas notas sobre esperança, já obtivemos a expressão da variância em termos do
+primeiro e do segundo momentos. Substituindo nela as duas fórmulas anteriores,
+chegamos a
+\begin{equation}\label{eq:variancia-por-fgp}
+\operatorname{Var}(X)
+=G''_X(1)+G'_X(1)-[G'_X(1)]^2.
+\end{equation}
+Essas identidades são entendidas como fórmulas para momentos finitos. Quando a
+derivada lateral em $1$ tem valor $+\infty$, a afirmação correspondente sobre a
+esperança permanece válida no sentido estendido, mas não devemos formar
+diferenças indeterminadas para calcular a variância.
+
+\subsection{Exemplos: Geométrica, Binomial e Poisson}
+\label{sec:exemplos-momentos-fgp}
+
+Vamos aplicar o mesmo roteiro a três distribuições usuais. Em cada caso,
+derivamos a FGP e somente então tomamos os valores limites das derivadas quando
+$s\uparrow1$.
+
+\begin{example}[Distribuição geométrica]\label{ex:momentos-geometrica-fgp}
+Seja $X\sim\mathrm{Geom}(p)$, com $p\in(0,1)$, e escreva $q=1-p$. Como esta
+distribuição conta a tentativa do primeiro sucesso, sua FGP é
+\[
+G_X(s)= \frac{ps}{1-qs}.
+\] 
+Derivando, obtemos
+\[
+G'_X(s)=\frac{p}{(1-qs)^2},
+\qquad
+G''_X(s)=\frac{2pq}{(1-qs)^3}.
+\]
+Como $1-q=p$, \eqref{eq:media-por-fgp} e \eqref{eq:variancia-por-fgp} dão
+\[
+\mathbb{E}[X]=\frac{1}{p},
+\qquad
+\operatorname{Var}(X)=\frac{2q}{p^2}+\frac{1}{p}-\frac{1}{p^2}
+=\frac{q}{p^2}.
+\]
+Recuperamos os valores calculados diretamente nas notas sobre esperança.
+\end{example}
+
+\begin{example}[Distribuição binomial]\label{ex:momentos-binomial-fgp}
+Seja $X\sim\mathrm{Bin}(n,p)$, com $q=1-p$. Sua FGP é
+$G_X(s)=(q+ps)^n$. Portanto,
+\[
+G'_X(s)=np(q+ps)^{n-1},
+\qquad
+G''_X(s)=n(n-1)p^2(q+ps)^{n-2}.
+\]
+Como $q+p=1$, segue que $G'_X(1)=np$ e
+$G''_X(1)=n(n-1)p^2$. Consequentemente, $\mathbb{E}[X]=np$ e
+\begin{align*}
+\operatorname{Var}(X)
+&=n(n-1)p^2+np-n^2p^2
+\\[0.2cm]
+&=np(1-p)=npq.
+\end{align*}
+O termo $n(n-1)p^2$ é o segundo momento fatorial da contagem de sucessos.
+\end{example}
+
+\begin{example}[Distribuição de Poisson]\label{ex:momentos-poisson-fgp}
+Seja $X\sim\mathrm{Poisson}(\lambda)$, com $\lambda>0$. Nesse caso,
+$G_X(s)=\exp\{\lambda(s-1)\}$. As duas primeiras derivadas são
+\[
+G'_X(s)=\lambda\exp\{\lambda(s-1)\},
+\qquad
+G''_X(s)=\lambda^2\exp\{\lambda(s-1)\}.
+\]
+Ao avaliar em $s=1$, encontramos $G'_X(1)=\lambda$ e
+$G''_X(1)=\lambda^2$. Logo, $\mathbb{E}[X]=\lambda$ e
+\begin{align*}
+\operatorname{Var}(X)
+&=\lambda^2+\lambda-\lambda^2
+\\[0.2cm]
+&=\lambda.
+\end{align*}
+Assim, a igualdade entre média e variância da distribuição de Poisson aparece
+imediatamente na forma exponencial de sua FGP.
+\end{example}
+
+Nos três exemplos, a diferenciação transformou a FGP em momentos fatoriais,
+e identidades algébricas simples os converteram nos momentos ordinários de que
+precisávamos.
+
+\subsection{Os Pontos Fixos de uma Permutação}
+\label{sec:pontos-fixos-fgp}
+
+Esta subseção está colocada aqui de propósito. Acabamos de ver que as
+derivadas da FGP em $s=1$ fornecem os momentos fatoriais e acabamos de
+reconhecer a FGP da distribuição de Poisson. Agora vamos juntar essas duas
+ideias em um problema clássico de contagem.
+
+Nas notas sobre vetores aleatórios discretos, na subseção
+\emph{O Problema dos Chapéus}, usamos funções indicadoras para mostrar que uma
+permutação aleatória tem, em média, um ponto fixo. Aqui vamos estudar a
+distribuição inteira do número de pontos fixos. O resultado será surpreendente:
+para $n$ grande, esse número se comporta como uma variável de Poisson de
+parâmetro $1$.
+
+\begin{example}[Pontos fixos de uma permutação]\label{ex:pontos-fixos-permutacao}
+Fixe $n\geqslant1$. Uma permutação de
+$\{1,\ldots,n\}$ é uma maneira de reorganizar esses números; escrevemos
+$S_n$ para o conjunto de todas as permutações. Há $n!$ delas. Vamos escolher
+uma delas uniformemente, isto é,
+\[
+\mathbb{P}(\{\sigma\})=\frac{1}{n!},
+\qquad \sigma\in S_n.
+\]
+
+Um índice $i$ é chamado de \emph{ponto fixo} de $\sigma$ quando
+$\sigma(i)=i$: o número que estava na posição $i$ continua na posição $i$.
+Definimos
+\[
+X(\sigma)=\#\{i\in\{1,\ldots,n\}:\sigma(i)=i\},
+\]
+o número de pontos fixos de $\sigma$. O primeiro diagrama mostra o que essa
+definição significa em um caso concreto:
+\begin{center}
+\begin{tikzpicture}[
+  ponto/.style={
+    circle,
+    fill=muted!25,
+    draw=muted!65,
+    inner sep=0pt,
+    minimum size=2.2mm,
+  },
+  fixo/.style={
+    circle,
+    fill=teal!12,
+    draw=teal!80!black,
+    text=teal!90!black,
+    line width=0.8pt,
+    minimum size=6mm,
+    inner sep=0pt,
+    font=\small,
+  },
+]
+  \begin{scope}[x=0.85cm,y=0.85cm]
+    \node[font=\small] at (2,5.15)
+      {$\sigma=(2,4,3,1)$};
+    \draw[-stealth, line width=0.5pt] (0,0) -- (4.7,0)
+      node[right=1mm] {$i$};
+    \draw[-stealth, line width=0.5pt] (0,0) -- (0,4.7)
+      node[above left=1mm] {$\sigma(i)$};
+    \foreach \k in {1,...,4} {
+      \draw[border!70] (\k,0) -- (\k,4);
+      \draw[border!70] (0,\k) -- (4,\k);
+      \node[font=\scriptsize, text=muted, below=1pt] at (\k,0) {$\k$};
+      \node[font=\scriptsize, text=muted, left=1pt] at (0,\k) {$\k$};
+    }
+    \draw[dashed, draw=teal!65, line width=0.6pt]
+      (0,0) -- (4.35,4.35) node[pos=0.83, above left=1pt] {$y=x$};
+    \node[ponto] at (1,2) {};
+    \node[ponto] at (2,4) {};
+    \node[fixo] at (3,3) {$3$};
+    \node[ponto] at (4,1) {};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+\noindent
+O ponto $(3,3)$ está sobre a diagonal $y=x$; ele representa a igualdade
+$\sigma(3)=3$. Portanto, nesta permutação temos $X=1$. Em geral, os pontos
+fixos são exatamente os pontos do gráfico de $i\mapsto\sigma(i)$ que ficam
+sobre a diagonal.
+
+Nosso objetivo é calcular a função geradora de probabilidade
+\[
+G_X(s)=\mathbb{E}[s^X]
+      =\sum_{r=0}^{n}\mathbb{P}(X=r)s^r
+\]
+e estudar o que acontece quando $n\to\infty$. O argumento tem quatro etapas:
+\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0pt, topsep=0pt,
+parsep=0pt]
+\item interpretar um momento fatorial como uma contagem de $k$-úplas de
+pontos fixos;
+\item calcular a probabilidade de uma $k$-úpla prescrita ser formada por
+pontos fixos;
+\item transformar os momentos fatoriais em derivadas da FGP;
+\item reconstruir a FGP e compará-la com a FGP de uma variável
+$\mathrm{Poisson}(1)$.
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Etapa 1: o que o momento fatorial conta.}
+
+Vamos começar pela notação. Para um número inteiro $x$ e um inteiro
+$k\geqslant1$, definimos a \emph{potência fatorial decrescente} por
+\[
+(x)_k:=x(x-1)\cdots(x-k+1),
+\]
+e adotamos a convenção
+\[
+(x)_0:=1.
+\]
+Quando $x$ é a variável aleatória $X$, escrevemos simplesmente
+\[
+(X)_k:=X(X-1)\cdots(X-k+1),
+\qquad (X)_0:=1.
+\]
+Isto é uma abreviação para um produto; em particular, $(X)_k$ não significa
+$X^k$. Além disso, a igualdade é entendida ponto a ponto:
+\[
+(X)_k(\sigma)=(X(\sigma))_k.
+\]
+
+Agora fixe uma realização $\sigma\in S_n$ e defina o conjunto de seus pontos
+fixos por
+\[
+\operatorname{Fix}(\sigma)=\{i\in\{1,\ldots,n\}:\sigma(i)=i\}.
+\]
+Suponha que $X(\sigma)=r$, isto é, que esse conjunto tenha $r$ elementos.
+É importante separar os papéis dos dois números: $r$ é a quantidade de
+pontos fixos disponíveis, enquanto $k$ é a quantidade de posições que
+queremos preencher. Uma $k$-úpla ordenada pode ser vista como um vetor com
+$k$ coordenadas,
+\[
+(i_1,\ldots,i_k).
+\]
+Em outras palavras, temos $r$ candidatos e queremos escolher $k$ deles,
+sem repetição e levando em conta a ordem:
+\[
+\underbrace{\operatorname{Fix}(\sigma)}_{r\text{ pontos disponíveis}}
+\quad\longrightarrow\quad
+\underbrace{(i_1,\ldots,i_k)}_{k\text{ posições, sem repetição}}.
+\]
+Para começar pelo caso em que há pontos fixos suficientes, suponhamos que
+$0\leqslant k\leqslant r$. Assim, a pergunta precisa é: quantas $k$-úplas
+ordenadas de coordenadas distintas, formadas com os pontos fixos de
+$\sigma$, podemos construir?
+
+Para a primeira posição da $k$-úpla, temos $r$ escolhas. Depois de escolher uma
+delas, sobram $r-1$ escolhas para a segunda posição. Depois sobram $r-2$ para
+a terceira, e assim por diante. Portanto, o número de $k$-úplas é
+\[
+r(r-1)\cdots(r-k+1)=(r)_k.
+\]
+Se $k>r$, um dos fatores é zero e, corretamente, não existe nenhuma
+$k$-úpla com $k$ pontos fixos distintos.
+
+Vejamos esse mecanismo em um exemplo. Considere a permutação
+$\sigma=(1,4,3,2,5)\in S_5$. O gráfico abaixo representa a função
+$i\mapsto\sigma(i)$: cada ponto tem coordenadas $(i,\sigma(i))$.
+Os pontos fixos aparecem sobre a diagonal $y=x$ e estão destacados.
+\begin{center}
+\begin{tikzpicture}[
+  ponto-perm/.style={
+    circle,
+    fill=muted!25,
+    draw=muted!65,
+    inner sep=0pt,
+    minimum size=2.2mm,
+  },
+  fixo-perm/.style={
+    circle,
+    fill=teal!12,
+    draw=teal!80!black,
+    text=teal!90!black,
+    line width=0.8pt,
+    minimum size=6mm,
+    inner sep=0pt,
+    font=\small,
+  },
+]
+  \begin{scope}[x=0.68cm,y=0.68cm]
+    \node[font=\small] at (2.5,6.15)
+      {$\sigma=(1,4,3,2,5)$};
+    \draw[-stealth, line width=0.5pt] (0,0) -- (5.65,0)
+      node[right=1mm] {$i$};
+    \draw[-stealth, line width=0.5pt] (0,0) -- (0,5.65)
+      node[above left=1mm] {$\sigma(i)$};
+    \foreach \j in {1,...,5} {
+      \draw[border!70] (\j,0) -- (\j,5);
+      \draw[border!70] (0,\j) -- (5,\j);
+      \node[font=\scriptsize, text=muted, below=1pt] at (\j,0) {$\j$};
+      \node[font=\scriptsize, text=muted, left=1pt] at (0,\j) {$\j$};
+    }
+    \draw[dashed, draw=teal!65, line width=0.6pt]
+      (0,0) -- (5.35,5.35)
+      node[pos=0.88, above left=1pt] {$y=x$};
+    \node[fixo-perm] at (1,1) {$1$};
+    \node[ponto-perm] at (2,4) {};
+    \node[fixo-perm] at (3,3) {$3$};
+    \node[ponto-perm] at (4,2) {};
+    \node[fixo-perm] at (5,5) {$5$};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+\noindent
+Como há três pontos fixos, podemos formar diversas duplas, escolhendo primeiro 
+qualquer um dos pontos fixos e em seguida, qualquer um entre as duas alternativas restantes.
+\begin{center}
+\begin{tikzpicture}[
+  escolha/.style={
+    circle,
+    draw=teal!80!black,
+    fill=teal!8,
+    text=teal!90!black,
+    line width=0.8pt,
+    minimum size=6.5mm,
+    inner sep=0pt,
+    font=\small,
+  },
+  lista/.style={
+    rounded corners=2pt,
+    draw=border,
+    fill=card,
+    minimum width=1.05cm,
+    minimum height=6mm,
+    inner sep=1pt,
+    font=\small,
+  },
+  seta/.style={
+    -{Latex[length=1.8mm,width=1.3mm]},
+    draw=muted!65,
+    line width=0.55pt,
+  },
+]
+  \node[font=\small] at (0,2.05)
+    {pontos fixos: $\mathrm{Fix}(\sigma)=\{1,3,5\}$};
+  \node[font=\scriptsize, text=muted] at (0,1.62)
+    {primeira escolha};
+  \node[escolha] (f1) at (-2.5,1.05) {$1$};
+  \node[escolha] (f3) at (0,1.05) {$3$};
+  \node[escolha] (f5) at (2.5,1.05) {$5$};
+
+  \node[lista] (p13) at (-3.05,-0.15) {$(1,3)$};
+  \node[lista] (p15) at (-1.95,-0.15) {$(1,5)$};
+  \node[lista] (p31) at (-0.55,-0.15) {$(3,1)$};
+  \node[lista] (p35) at (0.55,-0.15) {$(3,5)$};
+  \node[lista] (p51) at (1.95,-0.15) {$(5,1)$};
+  \node[lista] (p53) at (3.05,-0.15) {$(5,3)$};
+
+  \draw[seta] (f1) -- (p13);
+  \draw[seta] (f1) -- (p15);
+  \draw[seta] (f3) -- (p31);
+  \draw[seta] (f3) -- (p35);
+  \draw[seta] (f5) -- (p51);
+  \draw[seta] (f5) -- (p53);
+
+  \node[font=\scriptsize, text=muted] at (0,-0.75)
+    {segunda escolha: duas possibilidades em cada ramo};
+  \node[font=\small] at (0,-1.28)
+    {$3\ \text{escolhas}\ \times\ 2\ \text{escolhas}=6=(3)_2$};
+\end{tikzpicture}
+\end{center}
+\noindent
+
+O exemplo mostrado acima descreve 
+precisamente o mecanismo por trás do produto $(X)_k$.
+
+
+\bigskip 
+
+
+Fixe agora $k$ satisfazendo $0\leqslant k\leqslant n$. 
+Para reescrever a contagem feita acima em termos de funções indicadoras. 
+Para isto considere o conjunto 
+\[
+\mathcal{L}_k=\{(i_1,\ldots,i_k):i_1,\ldots,i_k
+\text{ são distintos em }\{1,\ldots,n\}\},
+\]
+o conjunto das $k$-úplas ordenadas de índices distintos. 
+Note que cada $k$-úpla
+\[
+\ell=(i_1,\ldots,i_k)\in\mathcal{L}_k
+\]
+determina um evento da forma
+\[
+A_{\ell}
+=\{\sigma\in S_n:
+\sigma(i_1)=i_1,\ldots,\sigma(i_k)=i_k\},
+\]
+isto é, $A_{\ell}$ é o evento em que todos os índices da $k$-úpla são pontos
+fixos. É importante observar que $\sigma\in A_{\ell}$ não significa que
+esses sejam os únicos pontos fixos de $\sigma$. Pela definição de $A_{\ell}$,
+temos apenas
+\[
+\{i_1,\ldots,i_k\}\subseteq \operatorname{Fix}(\sigma).
+\]
+Assim, além dos pontos prescritos $i_1,\ldots,i_k$, uma permutação
+$\sigma\in A_{\ell}$ pode ter outros pontos fixos.
+
+Um exemplo especialmente simples é a permutação identidade,
+$\operatorname{id}(i)=i$ para todo $i\in\{1,\ldots,n\}$. Ela pertence a
+todo evento $A_{\ell}$, qualquer que seja $\ell\in\mathcal{L}_k$, pois fixa
+todos os índices. Portanto, os eventos $A_{\ell}$ não são disjuntos: uma
+mesma permutação pode pertencer a vários deles. 
+
+Vamos mostrar a seguir a validade da seguinte igualdade
+\begin{align}\label{eq-aux1-Xk-sum}
+(X)_k
+=\sum_{(i_1,\ldots,i_k)\in\mathcal{L}_k}
+\mathds{1}_{A_{(i_1,\ldots,i_k)}}.
+\end{align}
+
+Como cada função indicadora
+depende de $\sigma$, a igualdade deve ser entendida ponto a ponto: fixemos
+uma permutação $\sigma\in S_n$. Para cada $k$-úpla
+$\ell=(i_1,\ldots,i_k)\in\mathcal{L}_k$, temos
+\[
+\mathds{1}_{A_{\ell}}(\sigma)
+=
+\begin{cases}
+1,&\text{se }i_1,\ldots,i_k\text{ são pontos fixos de }\sigma,\\
+0,&\text{caso contrário}.
+\end{cases}
+\]
+Assim, ao somarmos os valores dessas funções indicadoras ficamos com 
+\[
+\sum_{\ell\in\mathcal{L}_k}\mathds{1}_{A_{\ell}}(\sigma)
+=\#\bigl\{\ell\in\mathcal{L}_k:\sigma\in A_{\ell}\bigr\}.
+\]
+
+Por outro lado, se $X(\sigma)=r$, então o lado direito de \eqref{eq-aux1-Xk-sum},
+como mencionado antes, conta precisamente o número de $k$-úplas ordenadas
+de pontos fixos distintos de $\sigma$, que para $0\leqslant k\leqslant r$ é dado por
+\[
+r(r-1)\cdots(r-k+1)=(r)_k=(X(\sigma))_k.
+\]
+Se $k>r$, não há nenhuma $k$-úpla formada por pontos fixos, e os dois lados
+são zero. Consequentemente, para toda permutação $\sigma$,
+\[
+\sum_{\ell\in\mathcal{L}_k}\mathds{1}_{A_{\ell}}(\sigma)
+=(X)_k(\sigma).
+\]
+Como essa igualdade vale para cada $\sigma\in S_n$, obtemos a igualdade
+entre as variáveis aleatórias em \eqref{eq-aux1-Xk-sum}
+
+
+
+\medskip
+\noindent\textbf{Etapa 2: contar uma $k$-úpla prescrita.}
+
+Agora fixemos uma $k$-úpla específica $(i_1,\ldots,i_k)\in\mathcal{L}_k$.
+Queremos calcular
+\[
+\mathbb{P}\bigl(\sigma(i_1)=i_1,\ldots,\sigma(i_k)=i_k\bigr).
+\]
+Antes do caso geral, vejamos a ideia em uma situação pequena. Se $n=4$ e
+prescrevemos que $1$ e $3$ sejam pontos fixos, então as imagens de $1$ e $3$
+já estão determinadas. Os números $2$ e $4$ podem ser enviados para os dois
+lugares restantes de $2!=2$ maneiras:
+\begin{center}
+\begin{tikzpicture}[
+  caixa/.style={
+    rounded corners=2pt,
+    draw=border,
+    fill=card,
+    minimum width=7mm,
+    minimum height=6mm,
+    inner sep=1pt,
+    font=\small,
+  },
+  fixa/.style={
+    caixa,
+    draw=teal!80!black,
+    fill=teal!8,
+    text=teal!90!black,
+    line width=0.8pt,
+  },
+]
+  \node[font=\small] at (2.25,2.35)
+    {$n=4,\ k=2,\quad \sigma(1)=1,\ \sigma(3)=3$};
+  \node[font=\scriptsize, text=muted, anchor=east] at (-0.35,1.15)
+    {entrada $i$};
+  \node[font=\scriptsize, text=muted, anchor=east] at (-0.35,0)
+    {imagem $\sigma(i)$};
+  \foreach \x/\i in {0/1,1.5/2,3/3,4.5/4} {
+    \node[caixa] at (\x,1.15) {$\i$};
+  }
+  \node[fixa] at (0,0) {$1$};
+  \node[caixa] at (1.5,0) {?};
+  \node[fixa] at (3,0) {$3$};
+  \node[caixa] at (4.5,0) {?};
+  \node[font=\scriptsize, text=muted] at (2.25,-0.62)
+    {os dois lugares restantes podem ser preenchidos de $2!=(4-2)!$ maneiras};
+  \node[caixa, minimum width=3.0cm] at (1.15,-1.35)
+    {$\sigma=(1,2,3,4)$};
+  \node[caixa, minimum width=3.0cm] at (4.15,-1.35)
+    {$\sigma=(1,4,3,2)$};
+\end{tikzpicture}
+\end{center}
+\noindent
+No caso geral, fixar $k$ pontos deixa $n-k$ pontos de entrada e exatamente
+$n-k$ imagens ainda disponíveis. Essas imagens podem ser distribuídas
+livremente entre os pontos restantes, produzindo
+\[
+(n-k)!
+\]
+permutações favoráveis. Como existem $n!$ permutações igualmente prováveis,
+\[
+\mathbb{P}\bigl(\sigma(i_1)=i_1,\ldots,\sigma(i_k)=i_k\bigr)
+=\frac{(n-k)!}{n!}.
+\]
+Observe que não estamos supondo independência entre os eventos
+$\{\sigma(i_j)=i_j\}$. Estamos contando diretamente a probabilidade de que
+todos ocorram ao mesmo tempo.
+
+O número de $k$-úplas em $\mathcal{L}_k$ é
+\[
+\#\mathcal{L}_k=n(n-1)\cdots(n-k+1)
+=\frac{n!}{(n-k)!}.
+\]
+Tomando esperanças na identidade da Etapa 1 e usando a linearidade,
+\[
+\mathbb{E}[(X)_k]
+=\sum_{(i_1,\ldots,i_k)\in\mathcal{L}_k}
+\mathbb{P}\bigl(\sigma(i_1)=i_1,\ldots,\sigma(i_k)=i_k\bigr).
+\]
+Substituindo as duas contagens anteriores,
+\begin{equation}\label{eq:momento-fatorial-pontos-fixos}
+\mathbb{E}[(X)_k]
+=n(n-1)\cdots(n-k+1)\cdot\frac{(n-k)!}{n!}
+=1.
+\end{equation}
+(O caso $k=0$ é imediato, pois $(X)_0=1$.)
+
+\medskip
+\noindent\textbf{Etapa 3: transformar contagens em derivadas.}
+
+Pela \Cref{thm:derivadas-fgp-momentos-fatoriais}, esses momentos fatoriais são
+as derivadas laterais da FGP em $s=1$. Portanto,
+\[
+G_X^{(k)}(1)=\mathbb{E}[(X)_k]=1,
+\qquad k=0,1,\ldots,n.
+\]
+Para $k=0$, a igualdade significa simplesmente $G_X(1)=1$, que vale para toda
+FGP. Para $k\geqslant1$, ela é exatamente a identidade obtida com os
+momentos fatoriais.
+
+\medskip
+\noindent\textbf{Etapa 4: reconstruir a FGP.}
+
+Como $X$ assume valores em $\{0,1,\ldots,n\}$, sua FGP é um polinômio de
+grau no máximo $n$. Por isso, a fórmula de Taylor em torno de $s=1$ não é uma
+aproximação: ela é exata e termina no grau $n$:
+\begin{equation}\label{eq:fgp-pontos-fixos}
+G_X(s)
+=\sum_{k=0}^{n}\frac{G_X^{(k)}(1)}{k!}(s-1)^k
+=\sum_{k=0}^{n}\frac{(s-1)^k}{k!}.
+\end{equation}
+O lado direito é o polinômio de Taylor de grau $n$ da exponencial
+$e^{s-1}$. Recordemos sua expansão:
+\[
+e^{s-1}=\sum_{k=0}^{\infty}\frac{(s-1)^k}{k!}.
+\]
+Mas $e^{s-1}$ é a FGP de uma variável de $\mathrm{Poisson}(1)$. Assim, para
+cada $n$, a FGP dos pontos fixos é o truncamento de ordem $n$ da FGP de
+$\mathrm{Poisson}(1)$ quando escrito em torno de $s=1$. Não são a mesma
+distribuição para $n$ finito; o que coincide exatamente são os momentos
+fatoriais de ordens $0,1,\ldots,n$.
+
+Se quisermos as probabilidades pontuais, precisamos extrair os coeficientes
+da FGP. De fato, pela definição,
+\[
+G_X(s)=\sum_{k=0}^{n}\mathbb{P}(X=k)s^k;
+\]
+portanto, $\mathbb{P}(X=k)$ é o coeficiente de $s^k$ em
+\eqref{eq:fgp-pontos-fixos}.
+
+Para fazer essa extração, vamos olhar primeiro para uma parcela da soma. No
+termo de índice $m$, usamos o binômio de Newton:
+\[
+(s-1)^m
+=\sum_{\ell=0}^{m}\binom{m}{\ell}s^\ell(-1)^{m-\ell}.
+\]
+Aqui, $m$ indica qual parcela estamos examinando e $k$ indica o coeficiente
+que queremos encontrar. Por exemplo,
+\[
+(s-1)^3=s^3-3s^2+3s-1;
+\]
+o coeficiente de $s^1$ nessa parcela é $3$, que também pode ser escrito como
+\[
+\binom{3}{1}(-1)^{3-1}=3.
+\]
+No caso geral, o coeficiente de $s^k$ em $(s-1)^m$ é
+\[
+\binom{m}{k}(-1)^{m-k},
+\]
+desde que $m\geqslant k$. Se $m<k$, o polinômio $(s-1)^m$ tem grau menor
+que $k$ e, portanto, não contém nenhum termo em $s^k$.
+
+Assim, para obter o coeficiente de $s^k$ na soma inteira, devemos somar as
+contribuições dos termos com $m=k,k+1,\ldots,n$:
+\begin{equation}\label{eq:dist-pontos-fixos}
+\mathbb{P}(X=k)
+=\sum_{m=k}^{n}\frac{1}{m!}
+  \binom{m}{k}(-1)^{m-k},
+\qquad k=0,1,\ldots,n.
+\end{equation}
+
+Podemos simplificar essa expressão. Façamos a mudança de índice
+$j=m-k$. Quando $m=k$, temos $j=0$; quando $m=n$, temos $j=n-k$.
+Além disso,
+\[
+\frac{1}{m!}\binom{m}{k}
+=\frac{1}{m!}\frac{m!}{k!(m-k)!}
+=\frac{1}{k!j!}.
+\]
+Logo,
+\begin{equation}
+\mathbb{P}(X=k)
+=\frac{1}{k!}\sum_{j=0}^{n-k}\frac{(-1)^j}{j!}.
+\end{equation}
+
+Essa mesma probabilidade também possui uma interpretação combinatória. Para
+que uma permutação tenha exatamente $k$ pontos fixos, primeiro escolhemos
+quais $k$ elementos serão fixos, em $\binom{n}{k}$ maneiras. Depois, os
+$n-k$ elementos restantes precisam formar uma permutação sem pontos fixos,
+isto é, um desarranjo. Se $D_m$ denota o número de desarranjos de $m$
+elementos, então
+\[
+\mathbb{P}(X=k)=\binom{n}{k}\frac{D_{n-k}}{n!},
+\]
+pois há $n!$ permutações igualmente prováveis. A fórmula clássica para os
+desarranjos é
+\[
+D_m=m!\sum_{j=0}^{m}\frac{(-1)^j}{j!},
+\]
+Para lembrar de onde vem essa fórmula, fixemos $m$ e trabalhemos em $S_m$.
+Para cada $i\in\{1,\ldots,m\}$, seja
+\[
+E_i=\{\sigma\in S_m:\sigma(i)=i\},
+\]
+o evento em que $i$ é um ponto fixo. Um desarranjo é uma permutação que não
+pertence a nenhum desses eventos; portanto,
+\[
+D_m=\#\left(S_m\setminus\bigcup_{i=1}^{m}E_i\right).
+\]
+
+Agora usamos inclusão-exclusão. O termo correspondente a $j=0$ conta todas
+as $m!$ permutações. Para $j\geqslant1$, escolhemos $j$ índices que serão
+fixos e subtraímos ou adicionamos, alternadamente, as permutações que fixam
+esses índices. Uma vez escolhidos esses $j$ índices, os $m-j$ elementos
+restantes podem ser permutados livremente, produzindo $(m-j)!$ permutações.
+Como há $\binom{m}{j}$ maneiras de escolher os $j$ índices, obtemos
+\[
+D_m=\sum_{j=0}^{m}(-1)^j\binom{m}{j}(m-j)!.
+\]
+Por fim,
+\[
+\binom{m}{j}(m-j)!=\frac{m!}{j!},
+\]
+e, portanto,
+\[
+D_m=m!\sum_{j=0}^{m}\frac{(-1)^j}{j!},
+\]
+como afirmado. Ao substituir essa fórmula na expressão da probabilidade,
+recuperamos exatamente a fórmula obtida pela extração de coeficientes.
+
+Agora fixemos $k\geqslant0$ e deixemos $n$ crescer. Como $k$ é fixo,
+$n-k\to\infty$; portanto, a soma parcial converge para a série exponencial:
+\[
+\mathbb{P}(X=k)\longrightarrow
+\frac{1}{k!}\sum_{j=0}^{\infty}\frac{(-1)^j}{j!}
+=\frac{e^{-1}}{k!}.
+\]
+Na última igualdade, usamos a expansão
+$e^t=\sum_{j=0}^{\infty}t^j/j!$ com $t=-1$. Como, para
+$Y\sim\mathrm{Poisson}(1)$,
+\[
+\mathbb{P}(Y=k)=e^{-1}\frac{1^k}{k!}=\frac{e^{-1}}{k!},
+\]
+concluímos que, para cada $k$ fixo, a probabilidade de uma permutação
+uniforme ter exatamente $k$ pontos fixos converge para a probabilidade
+correspondente da variável $\mathrm{Poisson}(1)$.
+
+\medskip
+\noindent\textbf{Por que Poisson?}
+Há $n$ pontos, e cada um é fixo com probabilidade $1/n$. Além disso, a
+probabilidade de que $k$ pontos prescritos sejam simultaneamente fixos é
+\[
+\frac{(n-k)!}{n!}
+=\frac{1}{n(n-1)\cdots(n-k+1)},
+\]
+que se comporta como $n^{-k}$ quando $k$ é fixo e $n$ cresce. Esse é o
+mecanismo dos eventos raros discutido nas notas sobre variáveis aleatórias
+discretas, agora recuperado por um caminho algébrico.
+
+O ponto central é que não precisamos supor que os pontos fixos sejam
+independentes. A contagem exata das coincidências entre eles produz
+\eqref{eq:momento-fatorial-pontos-fixos}; as derivadas da FGP transformam essa
+contagem na expansão \eqref{eq:fgp-pontos-fixos}; e essa expansão explica por
+que a distribuição limite é Poisson$(1)$.
+\end{example}
+
+\section{Composição e Somas Aleatórias}
+\label{sec:somas-aleatorias-fgp}
+
+O produto de funções geradoras descreve uma soma com número fixo de
+parcelas. Mas como proceder quando o próprio número de parcelas é aleatório?
+Nesse caso, primeiro fixamos esse número, usamos o produto e depois reunimos
+os casos possíveis. Esse procedimento transforma o produto em uma composição
+de funções geradoras.
+
+\subsection{A Fórmula da Soma Aleatória}
+\label{sec:formula-soma-aleatoria}
+
+Se o número de parcelas for $n$, já sabemos que a FGP da soma de $n$
+parcelas independentes e identicamente distribuídas é $G_X(s)^n$.
+Quando esse número é uma variável aleatória $N$, cada valor $n$ ocorre com
+probabilidade $\mathbb{P}(N=n)$. Assim, é natural condicionar em
+$\{N=n\}$ e depois somar em $n$. Como veremos, a própria definição de
+$G_N$ fará a composição aparecer.
+
+Precisamos também decidir o que significa a soma quando $N=0$. Adotaremos a
+convenção da soma vazia:
+\[
+X_1+\cdots+X_N=0
+\qquad\text{em }\{N=0\}.
+\]
+Consequentemente, a contribuição desse caso para a FGP é $s^0=1$, inclusive
+quando $s=0$, conforme a convenção usual $0^0=1$ para funções geradoras.
+
+\begin{theorem}[Fórmula da soma aleatória]\label{thm:formula-soma-aleatoria}
+Sejam $N,X_1,X_2,\ldots$ variáveis aleatórias com valores em
+$\{0,1,2,\ldots\}$. Suponha que as variáveis $X_1,X_2,\ldots$ sejam
+independentes e tenham a mesma distribuição de uma variável aleatória $X$,
+cuja FGP denotamos por $G_X$.
+Suponha ainda que $N$ seja independente da sequência
+$X_1,X_2,\ldots$. Defina
+\[
+S=X_1+\cdots+X_N,
+\]
+com a convenção de que $S=0$ quando $N=0$. Então, para $0\leqslant s\leqslant1$,
+\begin{equation}\label{eq:soma-aleatoria}
+G_S(s)=G_N\bigl(G_X(s)\bigr).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+A variável $N$ escolhe quantas parcelas entram em $S$. Por isso, a partição
+adequada do espaço amostral é formada pelos eventos $\{N=n\}$, com
+$n=0,1,2,\ldots$. Vamos usar o Teorema da Partição, apresentado nas notas
+sobre esperança condicional, para calcular a esperança que define $G_S$.
+
+Primeiro fixamos $n$. No evento $\{N=n\}$, a soma aleatória se reduz à soma
+fixa $X_1+\cdots+X_n$. Além disso, a independência entre $N$ e a sequência
+das parcelas garante que condicionar em $\{N=n\}$ não altera a distribuição
+conjunta de $X_1,\ldots,X_n$. Portanto, para todo $n$ tal que
+$\mathbb{P}(N=n)>0$ e todos $x_1,\ldots,x_n\in\{0,1,2,\ldots\}$,
+\[
+\mathbb{P}(X_1=x_1,\ldots,X_n=x_n\mid N=n)
+=\mathbb{P}(X_1=x_1,\ldots,X_n=x_n).
+\]
+Consequentemente,
+\[
+\mathbb{E}\bigl[s^S\mid N=n\bigr]
+=\mathbb{E}\bigl[s^{X_1+\cdots+X_n}\bigr].
+\]
+Para $n=0$, ambos os lados valem $1$ pela convenção da soma vazia.
+
+Em seguida, usamos a independência das parcelas para transformar a FGP da
+soma fixa em um produto. Como elas têm a mesma distribuição, todos os fatores
+são iguais:
+\[
+\mathbb{E}\bigl[s^{X_1+\cdots+X_n}\bigr]
+=\prod_{i=1}^{n}\mathbb{E}\bigl[s^{X_i}\bigr]
+=G_X(s)^n.
+\]
+Aqui aparecem os papéis distintos das hipóteses: a independência produz o
+produto, enquanto a distribuição comum o transforma na potência de uma única
+função.
+
+Resta reunir os valores possíveis de $N$. Pelo Teorema da Partição,
+\begin{align*}
+G_S(s)
+&=\mathbb{E}\bigl[s^S\bigr]
+\\[0.2cm]
+&=\sum_{n=0}^{\infty}
+\mathbb{E}\bigl[s^S\mid N=n\bigr]\mathbb{P}(N=n)
+\\[0.2cm]
+&=\sum_{n=0}^{\infty} \bigl(G_X(s)\bigr)^n\mathbb{P}(N=n)
+\\[0.2cm]
+&=G_N\bigl(G_X(s)\bigr).
+\end{align*}
+A última igualdade é exatamente a definição de $G_N$, avaliada no ponto
+$G_X(s)$. Assim, condicionar em $N$, aplicar o produto em cada caso e somar
+esses casos faz a composição surgir, o que encerra a demonstração.
+\end{proof}
+
+\subsection{A Média de uma Soma Aleatória}
+\label{sec:media-soma-aleatoria}
+
+A composição também permite calcular a média de $S$ sem determinar sua
+distribuição termo a termo. O resultado a seguir é a versão, para um número
+aleatório de parcelas, da linearidade da esperança.
+
+\begin{corollary}[Média de uma soma aleatória]
+\label{cor:media-soma-aleatoria}
+Suponha que são válidas as hipóteses do \Cref{thm:formula-soma-aleatoria} e também que
+$\mathbb{E}[N]<\infty$ e $\mathbb{E}[X]<\infty$. Então
+$\mathbb{E}[S]<\infty$ e além do mais
+\begin{equation}
+\label{eq:media-soma-aleatoria}
+\mathbb{E}[S]=\mathbb{E}[N] \, \mathbb{E}[X].
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Para cada $0<s<1$ fixado, deduzimos a validade da identidade \eqref{eq:soma-aleatoria}. 
+Usando a regra da cadeia temos
+\begin{align}\label{eq-aux1-SN}
+G'_S(s)=G'_N\bigl(G_X(s)\bigr)G'_X(s).
+\end{align}
+Agora fazemos $s$ tender a $1$ pela esquerda. Como toda FGP vale $1$ em
+$s=1$, temos $G_X(1)=1$. Além disso, as hipóteses de finitude asseguram que
+as derivadas à esquerda em $1$ são finitas e satisfazem
+\[
+G'_N(1)=\mathbb{E}[N]
+\qquad\text{e}\qquad
+G'_X(1)=\mathbb{E}[X].
+\]
+Pela convergência monótona aplicada às séries das derivadas, temos também
+$G'_S(s)\uparrow\mathbb{E}[S]$, permitindo inclusive o valor infinito antes
+de concluirmos a finitude. Portanto, tomando o limite quando $s\uparrow 1$ 
+em \eqref{eq-aux1-SN} concluímos que
+\begin{align*}
+\mathbb{E}[S]
+&=G'_S(1)
+\\[0.2cm]
+&=G'_N\bigl(G_X(1)\bigr)G'_X(1)
+\\[0.2cm]
+&=G'_N(1)G'_X(1)
+\\[0.2cm]
+&=\mathbb{E}[N] \, \mathbb{E}[X],
+\end{align*}
+o que prova \eqref{eq:media-soma-aleatoria} e também a finitude de
+$\mathbb{E}[S]$.
+\end{proof}
+
+\subsection{Nova Aplicação de Somas Aleatórias}
+\label{sec:coelhas}
+
+\begin{example}[As coelhas e suas ninhadas]
+\label{ex:coelhas-soma-aleatoria}
+Em certa noite, há $20$ coelhas prenhas em um cercado. Cada coelha escapa,
+independentemente das demais, com probabilidade $1/2$. Na manhã seguinte,
+cada coelha que permaneceu dá à luz uma ninhada. O tamanho de cada ninhada
+tem distribuição de Poisson de parâmetro $3$, os tamanhos das ninhadas são
+independentes entre si e são independentes das fugas. Determine a FGP e a
+média do número total de filhotes.
+
+Antes de ler a solução, identifique os três componentes do modelo: qual
+variável deve representar o número $N$ de parcelas, quais são as parcelas
+$X_i$ e quais independências permitem aplicar a
+\Cref{thm:formula-soma-aleatoria}.
+
+\begin{solution}
+Seja $N$ o número de coelhas que permanecem no cercado. Como cada uma das
+$20$ coelhas permanece com probabilidade $1/2$, independentemente das demais,
+\[
+N\sim\mathrm{Bin}\left(20,\frac12\right),
+\qquad\text{e}\qquad
+G_N(s)=\left(\frac12+\frac12s\right)^{20}.
+\]
+
+Para $i\geqslant1$, seja $X_i$ o tamanho da $i$-ésima ninhada entre as
+ninhadas das coelhas que permaneceram. Pela descrição do modelo, as variáveis
+$X_i$ são independentes, têm distribuição comum
+$\mathrm{Poisson}(3)$ e são independentes de $N$. Logo,
+\[
+G_X(s)=e^{3(s-1)}.
+\]
+
+O número total de filhotes é
+\[
+S=X_1+\cdots+X_N,
+\]
+com $S=0$ se todas as coelhas escaparem. Aplicando
+\eqref{eq:soma-aleatoria}, obtemos
+\[
+G_S(s)
+=G_N\bigl(G_X(s)\bigr)
+=\left(\frac12+\frac12e^{3(s-1)}\right)^{20}.
+\]
+
+Finalmente, $\mathbb{E}[N]=20\cdot\tfrac12=10$ e
+$\mathbb{E}[X_1]=3$. Pelo \Cref{cor:media-soma-aleatoria},
+\[
+\mathbb{E}[S]
+=20\cdot\frac12\cdot3
+=30.
+\]
+Em média, portanto, as coelhas que permanecem produzem $30$ filhotes.
+\end{solution}
+\end{example}
+
+\section{Síntese: o dicionário das operações}
+\label{sec:sintese-funcoes-geradoras}
+
+As funções geradoras são úteis porque traduzem operações com sequências e
+variáveis aleatórias em operações algébricas. A tabela abaixo reúne as
+traduções usadas nesta nota. Nela, $U(s)=\sum_{n\geqslant 0}u_ns^n$ denota
+uma função geradora de sequência e $G_X$ denota a FGP de $X$.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{@{}p{0.48\textwidth}p{0.48\textwidth}@{}}
+\toprule
+Operação sobre os coeficientes ou variáveis & Operação sobre a função geradora \\
+\midrule
+Deslocamento de uma sequência & Multiplicação por $s$, com o ajuste dos termos iniciais \\
+Convolução de sequências ou soma de variáveis independentes & Produto das funções geradoras \\
+Momento fatorial $\mathbb{E}[X(X-1)\cdots(X-r+1)]$ & Derivada lateral $G_X^{(r)}(1)$ \\
+Probabilidade pontual $\mathbb{P}(X=k)$ & Derivada $G_X^{(k)}(0)/k!$ \\
+Soma de um número aleatório de parcelas independentes e identicamente distribuídas & Composição $G_N(G_X(s))$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Esse dicionário também indica como escolher o método. Se o problema contém
+uma recorrência, procuramos uma equação algébrica para a função geradora. Se
+contém uma soma de variáveis independentes, procuramos um produto. Se pede
+momentos ou probabilidades pontuais, avaliamos derivadas nos pontos adequados.
+Quando o número de parcelas é aleatório, a composição registra as duas fontes
+de aleatoriedade em uma única expressão.
+
+
+\section{Exercícios propostos}
+\label{sec:exercicios-funcoes-geradoras}
+
+Os exercícios a seguir retomam as operações do dicionário e combinam os
+métodos desenvolvidos ao longo da nota. Salvo indicação em contrário, todas
+as variáveis aleatórias envolvidas assumem valores inteiros não-negativos.
+
+\medskip
+\noindent\textbf{Funções Geradoras de Sequências}
+
 \begin{exercise}\label{ex:rec-linear-2}
-Considere a sequência definida por $a_0 = 0$ e $a_n = 2a_{n-1} + 1$ para
-$n \geqslant 1$. Mostre que a sua função geradora é
-$\dfrac{x}{(1-x)(1-2x)}$ e conclua que $a_n = 2^n - 1$.
+Considere a sequência definida por $a_0=0$ e
+$a_n=2a_{n-1}+1$ para $n\geqslant 1$. Determine sua função geradora e use-a
+para mostrar que $a_n=2^n-1$.
 \end{exercise}
 
 \begin{exercise}\label{ex:soma-fib-3}
-Usando a \eqref{eq:forma-fechada-fib}, mostre que
-$\displaystyle\sum_{n=1}^{\infty}\frac{F_n}{3^{n+1}} = \frac{1}{5}$.
-(Observe que $1/3 < 1/\varphi$, de modo que a série converge e a função
-geradora pode ser avaliada em $x = 1/3$.)
+Use \eqref{eq:forma-fechada-fib} para calcular
+$\sum_{n=1}^{\infty}F_n/3^{n+1}$.
+
+\emph{Sugestão:} verifique que $1/3<1/\varphi$ antes de avaliar a função
+geradora.
 \end{exercise}
 
 \begin{exercise}\label{ex:raio-convergencia}
-Usando a fórmula de Binet \eqref{eq:binet}, mostre que o raio de convergência
-da série $\sum F_n x^n$ é exatamente $1/\varphi$.
+Use a fórmula de Binet em \eqref{eq:binet} para mostrar que o raio de
+convergência de $\sum_{n=0}^{\infty}F_ns^n$ é exatamente $1/\varphi$.
 \end{exercise}
 
-\bigskip
+\begin{exercise}\label{exercise:gw-4-4}
+Sejam $U$ e $V$ as funções geradoras das sequências $(u_n)_{n\geqslant0}$ e
+$(v_n)_{n\geqslant0}$, respectivamente. Expresse $V(s)$ em termos de $U(s)$
+em cada caso:
+\begin{enumerate}[label=(\alph*)]
+\item $v_n=2u_n$;
+\item $v_n=u_n+1$;
+\item $v_n=nu_n$.
+\end{enumerate}
+\end{exercise}
 
-\section{Segunda história: dois dados que não parecem dois dados}
-\label{sec:sicherman}
+\begin{exercise}\label{exercise:gw-4-5}
+Seja $0<p=1-q<1$. Determine a sequência gerada por
+$U(s)=\sqrt{1-4pqs^2}$.
 
-Nossa segunda história é probabilística. Vamos lançar dois dados honestos e
-estudar a soma dos pontos. A distribuição dessa soma já foi estudada nas notas
-anteriores por meio da fórmula da convolução. Aqui veremos como a mesma
-resposta sai de uma conta de \emph{multiplicação de polinômios} --- e como
-essa conta esconde uma surpresa que ninguém espera.
+\emph{Nota:} este exercício é avançado. Justifique a expansão usada e seu
+intervalo de convergência.
+\end{exercise}
 
-\subsection{A soma de dois dados como um produto de polinômios}
+\medskip
+\noindent\textbf{FGPs e Identificação}
 
-Um dado honesto tem seis faces equiprováveis. Em vez de listar as
-probabilidades, codificamos a face $k$ como o monômio $s^k$: a cada face
-corresponde um monômio, e o polinômio do dado é a soma desses monômios. Para o
-dado usual,
-\begin{equation}\label{eq:pol-dado}
-P(s) = s + s^2 + s^3 + s^4 + s^5 + s^6.
-\end{equation}
-O coeficiente de $s^k$ em $P$ conta quantas faces têm o rótulo $k$ (aqui, uma
-para cada $k = 1,\ldots,6$); dividido por $6$, é a probabilidade de sair $k$.
+\begin{exercise}\label{exercise:gw-4-18}
+Seja $X$ uma variável aleatória com FGP $G_X$ e fixe um inteiro positivo $k$.
+Determine as FGPs de $kX$ e de $X+k$ em termos de $G_X$.
+\end{exercise}
 
-Agora vem o pulo do gato. Se $X$ e $Y$ são os pontos de dois dados lançados de
-forma independente, então a função geradora de $X + Y$ é o \emph{produto} das
-funções geradoras de $X$ e de $Y$: multiplicar polinômios soma os expoentes, e
-o coeficiente de $s^k$ no produto conta exatamente de quantas maneiras dois
-rótulos somam $k$. Esse é o mesmo princípio do produto que já apareceu nas
-notas sobre independência, só que visto pela ótica das funções geradoras.
-
-\begin{theorem}[Produto de funções geradoras]\label{thm:produto-funcoes}
-Sejam $X$ e $Y$ variáveis aleatórias discretas independentes tomando valores
-em $\{0,1,2,\ldots\}$ e seja $G_X(s) = \mathbb{E}[s^X]$ a sua função geradora
-(para $|s| < 1$). Então
-\begin{equation}\label{eq:produto-soma}
-G_{X+Y}(s) = G_X(s)\,G_Y(s).
-\end{equation}
-\end{theorem}
-
-\begin{proof}
-Usando a fatoração da função de probabilidade conjunta de variáveis
-independentes,
-\begin{align*}
-G_{X+Y}(s)
-&= \mathbb{E}[s^{X+Y}]
-= \sum_{j=0}^{\infty}\ \sum_{k=0}^{\infty} s^{j+k}\, \mathbb{P}(X=j, Y=k)
-\\[0.3cm]
-&= \sum_{j=0}^{\infty}\ \sum_{k=0}^{\infty} s^j s^k\,\mathbb{P}(X=j)\,\mathbb{P}(Y=k)
-\\[0.3cm]
-&= \left(\sum_{j=0}^{\infty} s^j\,\mathbb{P}(X=j)\right)
-\left(\sum_{k=0}^{\infty} s^k\,\mathbb{P}(Y=k)\right)
-= G_X(s)\,G_Y(s),
-\end{align*}
-onde a separação da soma dupla em produto é lícita por causa da convergência
-absoluta para $|s| < 1$.
-\end{proof}
-
-No caso de dois dados usuais, $G_X(s) = G_Y(s) = P(s)/6$ e, portanto, a
-função geradora da soma $Z = X + Y$ é $P(s)^2/36$. Expandindo,
-\begin{equation}\label{eq:produto-quadrado}
-P(s)^2 = s^2 + 2s^3 + 3s^4 + 4s^5 + 5s^6 + 6s^7 + 5s^8 + 4s^9 + 3s^{10} + 2s^{11} + s^{12}.
-\end{equation}
-Lemos os coeficientes: há $1$ maneira de obter soma $2$, $2$ maneiras de obter
-$3$, e assim por diante até o máximo de $6$ maneiras de obter $7$, o que
-explica por que $7$ é a soma mais provável. Dividindo por $36$ (o número total
-de pares ordenados de faces), recuperamos as probabilidades.
-
-\subsection{A pergunta inversa e a surpresa de Sicherman}
-
-A pergunta que move esta seção é a \emph{inversa} da que acabamos de fazer:
-
-\begin{quote}
-\emph{A distribuição da soma determina os dados? Isto é: dado o polinômio
-$P(s)^2$ da \eqref{eq:produto-quadrado}, é verdade que os únicos dois dados
-(com seis faces, rótulos inteiros positivos) cujo produto de polinômios é
-$P(s)^2$ são os dados usuais?}
-\end{quote}
-
-A intuição grita que sim. Afinal, a soma $2$ só pode sair como $1+1$, o que
-força cada dado a ter exatamente uma face $1$; e um argumento semelhante parece
-fixar todas as outras faces. A resposta, porém, é \emph{não}: existem dois
-dados, totalmente diferentes dos usuais, cuja soma tem exatamente a mesma
-distribuição. Eles foram descobertos em 1978 por George Sicherman e
-popularizados por Martin Gardner em sua coluna na \emph{Scientific American}.
-A classificação completa dos pares possíveis foi provada por Gallian e Rusin
-\cite{GallianRusin1979}.
-
-\begin{theorem}[Dados de Sicherman]\label{thm:sicherman}
-Considere os dois dados honestos de seis faces cujos rótulos são
-\begin{equation}\label{eq:faces-sicherman}
-D_1 = \{1,2,2,3,3,4\}, \qquad
-D_2 = \{1,3,4,5,6,8\}.
-\end{equation}
-A distribuição da soma dos pontos de $D_1$ e $D_2$ lançados de forma
-independente é idêntica à distribuição da soma de dois dados usuais.
-\end{theorem}
-
-\begin{proof}
-Codificamos cada dado pelo polinômio cujo coeficiente de $s^k$ é o número de
-faces com rótulo $k$. Para $D_1$ e $D_2$:
-\begin{equation}\label{eq:pol-sicherman}
-A(s) = s + 2s^2 + 2s^3 + s^4, \qquad
-B(s) = s + s^3 + s^4 + s^5 + s^6 + s^8.
-\end{equation}
-Pelo \Cref{thm:produto-funcoes}, basta provar que
-$A(s)B(s) = P(s)^2$.
-
-O ingrediente-chave é notar que o bloco $1 + s + \cdots + s^5$ admite duas
-fatorações:
-\begin{equation}\label{eq:identidade-chave}
-(1 + s)(1 + s^2 + s^4) = 1 + s + s^2 + s^3 + s^4 + s^5 = (1 + s + s^2)(1 + s^3),
-\end{equation}
-ambas verificadas expandindo os produtos. Agora escrevemos $P$, $A$ e $B$ em
-termos desses blocos. Como $P(s) = s(1 + s + \cdots + s^5)$,
-\[
-P(s) = s(1 + s + s^2)(1 + s^3).
-\]
-Por outro lado, fatorando os coeficientes de $A$ e $B$,
-\[
-A(s) = s(1 + s)(1 + s + s^2),
-\qquad
-B(s) = s(1 + s^3)(1 + s^2 + s^4),
-\]
-onde a fatoração de $B$ usa que
-$(1+s^3)(1+s^2+s^4) = 1 + s^2 + s^3 + s^4 + s^5 + s^7$,
-que é exatamente $B(s)/s$. Multiplicando,
-\begin{align*}
-A(s)B(s)
-&= s^2(1+s)(1+s+s^2)(1+s^3)(1+s^2+s^4)
-\\[0.3cm]
-&= s^2\,(1+s)(1+s^2+s^4)\,(1+s+s^2)(1+s^3)
-\\[0.3cm]
-&= s^2\,(1+s+s^2)(1+s^3)\,(1+s+s^2)(1+s^3)
-\qquad\text{por \eqref{eq:identidade-chave}}
-\\[0.3cm]
-&= \bigl(s(1+s+s^2)(1+s^3)\bigr)^2
-= P(s)^2.
-\end{align*}
-Logo os polinômios coincidem, e portanto os coeficientes --- isto é, as
-contagens de maneiras de obter cada soma --- coincidem. Dividindo por $36$, as
-distribuições são iguais.
-\end{proof}
-
-Para o leitor que prefere ver números a ver álgebra, a tabela a seguir resume a
-situação: as contagens de maneiras de obter cada soma $k \in \{2,\ldots,12\}$
-são idênticas para o par usual e para o par de Sicherman:
-\[
-\begin{array}{c|ccccccccccc}
-k & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\ \hline
-\#\{(a,b) : a+b = k\} & 1 & 2 & 3 & 4 & 5 & 6 & 5 & 4 & 3 & 2 & 1
-\end{array}
-\]
-
-\begin{remark}[Onde mora a surpresa]
-\label{rem:onde-mora-surpresa}
-A surpresa não é um truque de contagem: é uma consequência da \emph{álgebra}.
-A distribuição da soma só ``enxerga'' o produto $A(s)B(s)$; ela não enxerga os
-fatores $A$ e $B$ isoladamente. Como o polinômio $P(s)^2$ admite fatorações
-diferentes da óbvia $P(s)\cdot P(s)$, existem dados diferentes com a mesma
-soma. Em particular, repare no absurdo aparente dos dados de Sicherman: o dado
-$D_1$ nem sequer tem as faces $5$ e $6$ (sua maior face é $4$), o dado $D_2$ é
-``esticado'' até o $8$, e mesmo assim todas as somas de $2$ a $12$ continuam
-saindo com as mesmas frequências --- a soma $12$, por exemplo, agora só sai
-como $4 + 8$.
-\end{remark}
-
-\begin{remark}[Unicidade e variações]
-\label{rem:unicidade-sicherman}
-Gallian e Rusin \cite{GallianRusin1979} provaram que, se exigimos rótulos
-inteiros positivos e seis faces, os \emph{únicos} pares de dados cuja soma tem
-a distribuição usual são o par usual e o par de Sicherman \eqref{eq:faces-sicherman}
-(a menos da ordem dos dados). A prova usa a fatoração em polinômios
-ciclotômicos e mostra por que a álgebra, mais uma vez, é o instrumento certo
-para responder perguntas de unicidade.
-
-Duas observações mostram como o enunciado é sensível às hipóteses:
-\begin{itemize}
-  \item se permitirmos faces \emph{nulas}, há exatamente dois pares adicionais,
-  obtidos subtraindo $1$ de cada face de um dos dados e somando $1$ às faces do
-  outro (por exemplo, $\{0,1,2,3,4,5\}$ com $\{2,3,4,5,6,7\}$);
-  \item se permitirmos faces negativas, há infinitos pares, pois o mesmo truque
-  de deslocar as faces de um dado e deslocar no sentido oposto as do outro pode
-  ser repetido indefinidamente.
-\end{itemize}
-\end{remark}
-
-\begin{remark}[A distribuição conjunta muda]
-\label{rem:conjunta-muda}
-A distribuição da \emph{soma} é a mesma, mas a distribuição \emph{conjunta}
-dos dois dados não é. Um exemplo imediato: a probabilidade de sair um
-``duplo'' (os dois dados mostrando o mesmo rótulo) é $6/36 = 1/6$ para os
-dados usuais, mas apenas $4/36 = 1/9$ para os dados de Sicherman. A função
-geradora da soma é um objeto que esquece informação --- e é justamente esse
-``esquecimento'' que torna a surpresa possível.
-\end{remark}
-
-\begin{exercise}\label{ex:sicherman-duplos}
-Verifique a afirmação do \Cref{rem:conjunta-muda}: liste os pares ordenados de
-faces dos dados de Sicherman que formam um duplo e conclua que são $4$ de um
-total de $36$.
+\begin{exercise}\label{exercise:gw-4-19}
+Fixe um inteiro $a\geqslant0$ e seja $X$ uniformemente distribuída em
+$\{0,1,\ldots,a\}$. Calcule sua FGP e escreva o resultado como uma razão de
+polinômios.
 \end{exercise}
 
 \begin{exercise}\label{ex:sicherman-verificacao}
-Expandindo diretamente $A(s)B(s)$ com $A$ e $B$ como em
-\eqref{eq:pol-sicherman}, confirme que os coeficientes são os da tabela acima,
-sem usar a fatoração \eqref{eq:identidade-chave}.
-\end{exercise}
-
-\begin{exercise}\label{ex:sicherman-deslocamento}
-Seja $(D, D')$ um par de dados com a mesma distribuição de soma que dois dados
-usuais. Fixado $c \in \mathbb{Z}$, forme os dados cujas faces são
-$\{a + c : a \in D\}$ e $\{b - c : b \in D'\}$. Mostre que a distribuição da
-soma não muda (de fato, o multiconjunto das somas é o mesmo, par a par). Use
-isso para obter, a partir do par de Sicherman, um par com faces nulas.
+Expanda diretamente o produto dos polinômios dos dados de Sicherman em
+\eqref{eq:pol-sicherman}. Confirme, sem usar \eqref{eq:identidade-chave}, que
+seus coeficientes coincidem com os de \eqref{eq:produto-quadrado}.
 \end{exercise}
 
 \begin{exercise}\label{ex:sicherman-soma7}
-Usando apenas a \eqref{eq:produto-quadrado}, mostre que a probabilidade de a
-soma dos dados de Sicherman ser $7$ é $6/36 = 1/6$, a mesma de dois dados
-usuais, e liste os pares de faces de $D_1 \times D_2$ que somam $7$.
+Use \eqref{eq:produto-quadrado} para calcular a probabilidade de que a soma dos
+dados de Sicherman seja $7$. Em seguida, liste os pares de faces que produzem
+essa soma.
 \end{exercise}
 
-\bigskip
+\begin{exercise}\label{ex:sicherman-duplos}
+Liste os pares ordenados de faces iguais nos dados de Sicherman e calcule a
+probabilidade de obter um duplo. Compare o resultado com o dos dados usuais.
+\end{exercise}
 
-\section{Para onde vamos: a função geradora de probabilidade}
-\label{sec:para-onde}
+\begin{exercise}\label{ex:sicherman-deslocamento}
+Seja $(D,D')$ um par de dados cuja soma tem a mesma distribuição que a soma de
+dois dados usuais. Fixe $c\in\mathbb{Z}$, some $c$ a cada face de $D$ e
+subtraia $c$ de cada face de $D'$. Mostre que o multiconjunto das somas não se
+altera. Use esse fato para obter, a partir do par de Sicherman, um par com
+faces nulas.
+\end{exercise}
 
-As duas histórias contam, no fundo, a mesma receita --- codificar, deixar a
-álgebra trabalhar, extrair --- aplicada a dois tipos de sequência. Na
-\Cref{sec:fibonacci} a sequência era determinística (a recorrência de
-Fibonacci) e a recompensa foi uma fórmula fechada. Na \Cref{sec:sicherman} a
-sequência era uma distribuição de probabilidade (os coeficientes contavam
-maneiras, e divididos por $36$ viravam probabilidades), e a recompensa foi
-entender uma surpresa: \emph{somar variáveis independentes é multiplicar
-funções geradoras}, como no \Cref{thm:produto-funcoes}.
+\medskip
+\noindent\textbf{Momentos e Somas}
 
-Quando os coeficientes da função geradora são as probabilidades de uma
-variável aleatória $X$ tomando valores em $\{0,1,2,\ldots\}$, a função
-\begin{equation}\label{eq:def-pgf}
-G_X(s) = \mathbb{E}[s^X] = \sum_{k=0}^{\infty} \mathbb{P}(X = k)\, s^k
-\end{equation}
-recebe um nome especial: \emph{função geradora de probabilidade} de $X$. A
-teoria que desenvolveremos a partir daqui, seguindo o Capítulo 4 de Grimmett e
-Welsh \cite{GrimmettWelsh2014}, explora sistematicamente essa máquina:
-\begin{itemize}
-  \item derivadas de $G_X$ em $s = 1$ produzem os momentos de $X$, e derivadas
-  em $s = 0$ produzem as probabilidades $\mathbb{P}(X = k)$;
-  \item o \Cref{thm:produto-funcoes} transforma somas de variáveis
-  independentes (convolução) em produtos, com aplicações a somas de muitas
-  variáveis, somas com número aleatório de parcelas e passeios aleatórios;
-  \item composição de funções geradoras aparece naturalmente em processos de
-  ramificação, onde a pergunta ``qual a probabilidade de a população se
-  extinguir?'' tem resposta em termos de um ponto fixo de $G_X$.
-\end{itemize}
-Os dados de Sicherman já nos deram um gostinho do poder dessa linguagem: o que
-parecia um quebra-cabeça de contagem virou uma afirmação sobre fatoração de
-polinômios, e o que parecia óbvio (que a distribuição da soma determina os
-dados) revelou-se falso. É essa capacidade de transformar intuição em álgebra
---- e de surpreender a intuição quando a álgebra diz que ela está errada ---
-que faz das funções geradoras uma das ferramentas mais fantásticas da
-probabilidade.
+\begin{exercise}\label{exercise:gw-4-30}
+Seja $X\sim\mathrm{Poisson}(\lambda)$. Use derivadas da FGP para calcular o
+terceiro momento fatorial de $X$ e, a partir dele, determine
+$\mathbb{E}[X^3]$.
+\end{exercise}
 
-%----------------------------------------------------------------------
-% BIBLIOGRAFIA
-%----------------------------------------------------------------------
+\begin{exercise}\label{exercise:gw-4-31}
+Seja $X\sim\mathrm{BinNeg}(n,p)$ e escreva $q=1-p$. Use a FGP para calcular
+$\mathbb{E}[X]$ e $\operatorname{Var}(X)$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-4-40}
+Sejam $X$ e $Y$ independentes, com distribuições de Poisson de parâmetros
+$\lambda$ e $\mu$, respectivamente. Use FGPs para identificar a distribuição
+de $X+Y$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-4-41}
+Sejam $X\sim\mathrm{Bin}(m,p)$ e $Y\sim\mathrm{Bin}(n,p)$ independentes.
+Resolva por FGP o problema de identificar a distribuição de $X+Y$ e compare
+com o método de convolução. Deduza também a distribuição da soma de variáveis
+de Bernoulli independentes com parâmetro comum $p$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-4-42}
+O número de ovos postos por uma galinha em certo dia tem distribuição de
+Poisson de parâmetro $\lambda$. Cada ovo racha, independentemente dos demais,
+com probabilidade $p$. Use composição de FGPs para identificar a distribuição
+do número de ovos que não racham.
+\end{exercise}
+
+\medskip
+\noindent\textbf{Problemas Diversos}
+
+\begin{exercise}\label{exercise:gw-prob-1}
+Seja $X$ uma variável aleatória com FGP $G_X$ e defina
+$u_n=\mathbb{P}(X>n)$. Determine a função geradora $U$ da sequência
+$(u_n)_{n\geqslant0}$ em termos de $G_X$; equivalentemente, mostre que
+$(1-s)U(s)=1-G_X(s)$. Indique onde a convergência das séries é usada.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-prob-2}
+Um dado honesto é lançado sete vezes, independentemente. Calcule, por funções
+geradoras, a probabilidade de que a soma dos pontos seja $14$.
+(Oxford 1974M)
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-prob-3}
+Alan, Bob e Cindy lançam um dado honesto alternadamente, na ordem
+$A,B,C,A,\ldots$, até que alguém obtenha $5$ ou $6$. Seja $T$ o número do
+lançamento em que o jogo termina. Mostre que
+\[
+G_T(s)=\frac{9s+6s^2+4s^3}{27-8s^3}.
+\]
+Calcule as probabilidades de vitória de cada jogador e a duração média do
+jogo. (Oxford 1973M)
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-prob-4}
+Fixe um inteiro positivo $N$. Em cada tentativa, um jogador obtém sucesso com
+probabilidade $p$, independentemente das demais. Um turno termina na primeira
+falha. Determine a FGP do número total de sucessos obtidos em $N$ turnos e
+calcule sua média e sua variância. (Oxford 1974M)
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-prob-5}
+A cada ano, uma árvore produz $K$ flores, com
+$\mathbb{P}(K=n)=(1-p)p^n$ para $n\geqslant0$, onde $0<p<1$. Cada flor
+produz um fruto maduro com probabilidade $1/2$, independentemente das demais.
+\begin{enumerate}[label=(\alph*)]
+\item Determine a probabilidade de a árvore produzir $r$ frutos maduros.
+\item Calcule a probabilidade de que ela tenha produzido $n$ flores, dado que
+produziu $r$ frutos maduros.
+\end{enumerate}
+(Oxford 1982M)
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-prob-6}
+Uma moeda que produz cara com probabilidade $p$ é lançada $n$ vezes,
+independentemente. Seja $X$ o número de caras. Use a FGP de $X$ para calcular:
+\begin{enumerate}[label=(\alph*)]
+\item $\mathbb{E}[X]$ e $\operatorname{Var}(X)$;
+\item $\mathbb{P}(X\text{ é par})$;
+\item $\mathbb{P}(X\text{ é divisível por }3)$.
+\end{enumerate}
+\emph{Sugestão:} use filtros dados pelas raízes da unidade.
+(Oxford 1980M)
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-prob-7}
+Sejam $X\sim\mathrm{Poisson}(\lambda)$ e
+$Y\sim\mathrm{Poisson}(\mu)$ independentes. Identifique a distribuição de
+$X+Y$ e verifique a aditividade das variâncias. Para
+$0\leqslant k\leqslant n$, calcule
+$\mathbb{P}(X=k\mid X+Y=n)$ e use o resultado para determinar
+$\mathbb{E}[X\mid X+Y=n]$. (Oxford 1983M)
+\end{exercise}
+
+\begin{starredexercise}\label{exercise:gw-prob-8}
+Uma moeda honesta é lançada um número aleatório $N$ de vezes. Sejam $X$ e $Y$
+os números de caras e coroas. Suponha que $X$ e $Y$ sejam independentes e que
+$G_N$ esteja definida em uma vizinhança de $1$. Mostre que $N$ tem
+distribuição de Poisson.
+
+\emph{Sugestão:} escreva a FGP conjunta de $(X,Y)$ condicionando em $N$ e use
+a independência para obter uma equação funcional.
+\end{starredexercise}
+
+\begin{exercise}\label{exercise:gw-prob-9}
+Cada pacote de cereal contém um cupom vermelho, azul ou verde, com cores
+equiprováveis e independentes entre pacotes. Seja $X$ o número de pacotes
+abertos até o primeiro cupom vermelho. Determine $G_X$ e $\mathbb{E}[X]$.
+
+Generalize para $m$ cores equiprováveis. Se $Y$ é o número de pacotes abertos
+até completar a coleção, determine sua FGP e sua esperança.
+
+\emph{Sugestão:} decomponha $Y$ em esperas geométricas correspondentes à
+obtenção de uma nova cor. (Oxford 1985M)
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-prob-10}
+Se uma variável aleatória tem FGP $\phi(s)=p(s)/q(s)$, com $q(1)\neq0$,
+use $\phi(1)=1$ e a regra do quociente para mostrar que
+\[
+\mathbb{E}[X]=\phi'(1)=\frac{p'(1)-q'(1)}{q(1)}.
+\]
+Dois duelistas, A e B, atiram alternadamente até o primeiro acerto. A acerta
+cada tiro com probabilidade $a$, B acerta com probabilidade $b$, os tiros são
+independentes, $0<a,b\leqslant1$ e A atira primeiro. Calcule a probabilidade
+de vitória de A.
+Se $T$ é o número total de tiros, mostre que, para $k\geqslant0$,
+\[
+\mathbb{P}(T=2k+1)=[(1-a)(1-b)]^k a,
+\qquad
+\mathbb{P}(T=2k+2)=[(1-a)(1-b)]^k(1-a)b.
+\]
+Obtenha
+\[
+G_T(s)=\frac{as+(1-a)bs^2}{1-(1-a)(1-b)s^2},
+\]
+e verifique que
+$\mathbb{E}[T]=(2-a)/(a+b-ab)$. (Oxford 1976M)
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-prob-11}
+Um número aleatório $N$ de objetos está em uma sopa, com
+$\mathbb{E}[N]=\mu$ e variância finita. Cada objeto é uma mosca com
+probabilidade $p$ e uma aranha com probabilidade $1-p$, independentemente dos
+demais. Sejam $F$ e $S$ as quantidades de moscas e aranhas.
+\begin{enumerate}[label=(\alph*)]
+\item Determine $G_F$ em termos de $G_N$.
+\item Se $N\sim\mathrm{Poisson}(\mu)$, identifique a distribuição de $F$ e
+mostre que $F$ e $S$ são independentes.
+\item Suponha que $p=1/2$ e que $F$ e $S$ sejam independentes, sem hipótese
+sobre a distribuição de $N$. Obtenha a equação funcional
+$G_N(s)=G_N\bigl(\tfrac{1+s}{2}\bigr)^2$ e use-a para mostrar que $N$ tem
+distribuição de Poisson.
+\end{enumerate}
+\emph{Sugestão:} este problema é avançado. Comece pela FGP conjunta de
+$(F,S)$ e, no último item, considere $H(s)=G_N(1-s)$.
+(Cambridge 2002)
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-4-32}
+Seja $X$ uma variável aleatória com valores em $\{1,2,\ldots,N\}$ e defina sua
+função geradora de Dirichlet por $\Delta(s)=\mathbb{E}[X^{-s}]$. Expresse
+$\mathbb{E}[X]$ e $\mathbb{E}[\log X]$ em termos de valores ou derivadas de
+$\Delta$.
+
+\emph{Nota:} este exercício é avançado. Para a segunda identidade, examine o
+quociente incremental de $x^y$ em $y=0$.
+\end{exercise}
+
 \bibliographystyle{plain}
 \bibliography{../arquivos-aux/referencias}
 
