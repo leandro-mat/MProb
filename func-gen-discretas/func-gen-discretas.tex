@@ -218,18 +218,18 @@ como obter a Fórmula de Binet.
 
 Em seguida, consideramos o caso especial em que
 os coeficientes da função geradora são determinados pela função de probabilidade 
-de uma variável aleatória. Este tipo de função geradora é conhecida
+de uma variável aleatória. Este tipo de função geradora é conhecido
 como função geradora de probabilidade (FGP). Mostramos
 que esta função determina completamente a função de probabilidade e vice-versa. 
 Apresentamos também o cálculo explícito de FGP para diversos tipos
 de variáveis aleatórias. Vamos mostrar como obter a função geradora de probabilidade
 de uma soma de variáveis aleatórias independentes e aplicar este resultado para
-estudar somas aleatórias.  Além do mais, 
+estudar somas com número aleatório de parcelas.  Além do mais, 
 mostramos como os momentos de uma variável aleatória podem
 ser obtidos por meio de tais funções e suas derivadas sucessivas. 
 O texto apresenta diversos exemplos, segue de
 perto o Capítulo 4 de Grimmett e Welsh \cite{GrimmettWelsh2014} e conta com
-uma lista exercícios e problemas ao final.
+uma lista de exercícios e problemas ao final.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -976,7 +976,7 @@ Essas fórmulas substituem sequências inteiras de probabilidades por expressõe
 compactas. Nas próximas seções, veremos que essa mudança é especialmente útil
 quando passamos de variáveis aleatórias individuais para somas independentes.
 
-\section{Produtos, Somas Independentes e os Dados de Sicherman}\label{sec:somas-independentes-fgp}
+\section{Somas e Produtos}\label{sec:somas-independentes-fgp}
 
 Nas notas sobre independência de variáveis aleatórias discretas,
 calculamos a função de probabilidade de uma soma de variáveis aleatórias
@@ -1000,7 +1000,7 @@ em geral precisamos realizar $n-1$ convoluções sucessivas.
 Com funções geradoras, essas convoluções serão substituídas por um único
 produto.
 
-\subsection{Da Convolução ao Produto}\label{sec:fgp-produto}
+\subsection{Da Convolução ao Produto das Funções Geradoras}\label{sec:fgp-produto}
 
 Por que a multiplicação deve aparecer?
 Considere primeiro dois termos genéricos das funções geradoras,
@@ -1074,7 +1074,9 @@ G_{S_n}(s)=\bigl(G_X(s)\bigr)^n,
 
 \begin{proof}
 A independência da família garante que
-$S_{n-1}$ e $X_n$ são independentes.
+$S_{n-1}$ e $X_n$ são independentes
+(pois $S_{n-1}=X_1+\cdots+X_{n-1}$ é função de $X_1,\ldots,X_{n-1}$,
+que são independentes de $X_n$).
 Aplicando a \Cref{thm:produto-funcoes} sucessivamente, obtemos
 \[
 G_{S_n}(s)
@@ -1117,8 +1119,8 @@ variáveis são necessariamente iguais em cada resultado, mas que possuem a
 mesma distribuição.
 
 Uma das vantagens deste tipo de decomposição é a facilidade que ela proporciona
-para alguns cálculo, como por exemplo do valor médio, já que ele depende essencialmente
-da função da função de probabilidade
+para alguns cálculos, como, por exemplo, o do valor médio, que a linearidade da
+esperança fornece sem exigir a função de probabilidade de $X$:
 \begin{align*}
 \mathbb{E}[X] = \mathbb{E}[B_1+\ldots+B_n] = \mathbb{E}[B_1]+\ldots+\mathbb{E}[B_n] = np.
 \end{align*}  
@@ -1129,7 +1131,7 @@ Sem ela, ainda vale a igualdade
 $G_{X+Y}(s)=\mathbb{E}[s^Xs^Y]$,
 mas não podemos separar essa esperança em um produto.
 
-\subsection{Dois Dados e os Coeficientes da FGP}\label{sec:produto-dados}
+\subsection{Par de Dados e os Coeficientes da FGP}\label{sec:produto-dados}
 
 Vamos aplicar o \Cref{cor:fgp-soma-finita} ao lançamento de dois dados honestos.
 Antes de normalizar probabilidades,
@@ -1326,7 +1328,7 @@ potências de $X$. Para encontrá-la, precisamos olhar para as derivadas da FGP.
 O valor limite quando $s\uparrow1$ será usado, pois nesse limite os fatores
 $s^k$ deixam de atribuir pesos diferentes aos possíveis valores de $X$.
 
-\subsection{Derivadas Laterais em 1 e Momentos Fatoriais}
+\subsection{Derivadas Laterais e Momentos Fatoriais}
 \label{sec:momentos-fatoriais}
 
 Começamos recordando brevemente a noção que desejamos calcular.
@@ -1395,8 +1397,10 @@ obtemos precisamente \eqref{eq:derivada-fgp}.
 
 Resta atingir $s=1$. Não podemos simplesmente substituir $s=1$ em uma
 identidade demonstrada apenas para $|s|<1$. Os coeficientes da série em
-\eqref{eq:derivada-fgp} são não negativos. Pelo lema de Abel para coeficientes
-não negativos, se $a_k\geqslant0$, então
+\eqref{eq:derivada-fgp} são não negativos. Usaremos o seguinte resultado
+clássico%
+\footnote{Veja, por exemplo, Grimmett e Welsh \cite{GrimmettWelsh2014}, p.\,55.}:
+se $a_k\geqslant0$, então
 $\lim_{s\uparrow1}\sum_k a_ks^k=\sum_k a_k$ em $[0,+\infty]$. Portanto,
 \begin{align*}
 \lim_{s\uparrow 1}G_X^{(r)}(s)
@@ -1404,7 +1408,7 @@ $\lim_{s\uparrow1}\sum_k a_ks^k=\sum_k a_k$ em $[0,+\infty]$. Portanto,
 \\[0.3cm]
 &=\mathbb{E}[(X)_r].
 \end{align*}
-O lema admite o valor $+\infty$. Assim, a conclusão continua válida mesmo
+Esse resultado admite o valor $+\infty$. Assim, a conclusão continua válida mesmo
 quando o momento fatorial não é finito, o que encerra a demonstração.
 \end{proof}
 
@@ -1510,7 +1514,7 @@ precisávamos.
 \subsection{Os Pontos Fixos de uma Permutação}
 \label{sec:pontos-fixos-fgp}
 
-Esta subseção está colocada aqui de propósito. Acabamos de ver que as
+Esta subseção está colocada aqui de propósito. Vimos que as
 derivadas da FGP em $s=1$ fornecem os momentos fatoriais e acabamos de
 reconhecer a FGP da distribuição de Poisson. Agora vamos juntar essas duas
 ideias em um problema clássico de contagem.
@@ -1594,7 +1598,7 @@ G_X(s)=\mathbb{E}[s^X]
       =\sum_{r=0}^{n}\mathbb{P}(X=r)s^r
 \]
 e estudar o que acontece quando $n\to\infty$. O argumento tem quatro etapas:
-\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=0pt, topsep=0pt,
+\begin{enumerate}[label=\arabic*., itemsep=0pt, topsep=0pt,
 parsep=0pt]
 \item interpretar um momento fatorial como uma contagem de $k$-úplas de
 pontos fixos;
@@ -1712,7 +1716,7 @@ Os pontos fixos aparecem sobre a diagonal $y=x$ e estão destacados.
 \end{center}
 \noindent
 Como há três pontos fixos, podemos formar diversas duplas, escolhendo primeiro 
-qualquer um dos pontos fixos e em seguida, qualquer um entre as duas alternativas restantes.
+qualquer um dos pontos fixos e, em seguida, qualquer um entre as duas alternativas restantes.
 \begin{center}
 \begin{tikzpicture}[
   escolha/.style={
@@ -1778,8 +1782,8 @@ precisamente o mecanismo por trás do produto $(X)_k$.
 
 
 Fixe agora $k$ satisfazendo $0\leqslant k\leqslant n$. 
-Para reescrever a contagem feita acima em termos de funções indicadoras. 
-Para isto considere o conjunto 
+Para reescrever a contagem feita acima em termos de funções indicadoras,
+considere o conjunto 
 \[
 \mathcal{L}_k=\{(i_1,\ldots,i_k):i_1,\ldots,i_k
 \text{ são distintos em }\{1,\ldots,n\}\},
@@ -1811,7 +1815,7 @@ todo evento $A_{\ell}$, qualquer que seja $\ell\in\mathcal{L}_k$, pois fixa
 todos os índices. Portanto, os eventos $A_{\ell}$ não são disjuntos: uma
 mesma permutação pode pertencer a vários deles. 
 
-Vamos mostrar a seguir a validade da seguinte igualdade
+Vamos mostrar a validade da seguinte igualdade
 \begin{align}\label{eq-aux1-Xk-sum}
 (X)_k
 =\sum_{(i_1,\ldots,i_k)\in\mathcal{L}_k}
@@ -1849,7 +1853,7 @@ são zero. Consequentemente, para toda permutação $\sigma$,
 =(X)_k(\sigma).
 \]
 Como essa igualdade vale para cada $\sigma\in S_n$, obtemos a igualdade
-entre as variáveis aleatórias em \eqref{eq-aux1-Xk-sum}
+entre as variáveis aleatórias em \eqref{eq-aux1-Xk-sum}.
 
 
 
@@ -2040,7 +2044,7 @@ elementos, então
 pois há $n!$ permutações igualmente prováveis. A fórmula clássica para os
 desarranjos é
 \[
-D_m=m!\sum_{j=0}^{m}\frac{(-1)^j}{j!},
+D_m=m!\sum_{j=0}^{m}\frac{(-1)^j}{j!}.
 \]
 Para lembrar de onde vem essa fórmula, fixemos $m$ e trabalhemos em $S_m$.
 Para cada $i\in\{1,\ldots,m\}$, seja
@@ -2118,7 +2122,7 @@ Nesse caso, primeiro fixamos esse número, usamos o produto e depois reunimos
 os casos possíveis. Esse procedimento transforma o produto em uma composição
 de funções geradoras.
 
-\subsection{A Fórmula da Soma Aleatória}
+\subsection{A Fórmula da Soma de um Número Aleatório de Parcelas}
 \label{sec:formula-soma-aleatoria}
 
 Se o número de parcelas for $n$, já sabemos que a FGP da soma de $n$
@@ -2215,7 +2219,7 @@ aleatório de parcelas, da linearidade da esperança.
 \label{cor:media-soma-aleatoria}
 Suponha que são válidas as hipóteses do \Cref{thm:formula-soma-aleatoria} e também que
 $\mathbb{E}[N]<\infty$ e $\mathbb{E}[X]<\infty$. Então
-$\mathbb{E}[S]<\infty$ e além do mais
+$\mathbb{E}[S]<\infty$ e, além disso,
 \begin{equation}
 \label{eq:media-soma-aleatoria}
 \mathbb{E}[S]=\mathbb{E}[N] \, \mathbb{E}[X].
@@ -2307,11 +2311,11 @@ $\mathbb{E}[X_1]=3$. Pelo \Cref{cor:media-soma-aleatoria},
 =20\cdot\frac12\cdot3
 =30.
 \]
-Em média, portanto, as coelhas que permanecem produzem $30$ filhotes.
+Em média, portanto, o número total de filhotes produzidos é $30$.
 \end{solution}
 \end{example}
 
-\section{Síntese: o dicionário das operações}
+\section{Observações Finais}
 \label{sec:sintese-funcoes-geradoras}
 
 As funções geradoras são úteis porque traduzem operações com sequências e
@@ -2348,7 +2352,7 @@ de aleatoriedade em uma única expressão.
 
 Os exercícios a seguir retomam as operações do dicionário e combinam os
 métodos desenvolvidos ao longo da nota. Salvo indicação em contrário, todas
-as variáveis aleatórias envolvidas assumem valores inteiros não-negativos.
+as variáveis aleatórias envolvidas assumem valores inteiros não negativos.
 
 \medskip
 \noindent\textbf{Funções Geradoras de Sequências}
@@ -2493,8 +2497,8 @@ jogo. (Oxford 1973M)
 
 \begin{exercise}\label{exercise:gw-prob-4}
 Fixe um inteiro positivo $N$. Em cada tentativa, um jogador obtém sucesso com
-probabilidade $p$, independentemente das demais. Um turno termina na primeira
-falha. Determine a FGP do número total de sucessos obtidos em $N$ turnos e
+probabilidade $p$, com $0\leqslant p<1$, independentemente das demais. Um turno
+termina na primeira falha. Determine a FGP do número total de sucessos obtidos em $N$ turnos e
 calcule sua média e sua variância. (Oxford 1974M)
 \end{exercise}
 
