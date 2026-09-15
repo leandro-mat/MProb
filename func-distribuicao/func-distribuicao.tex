@@ -1,0 +1,1298 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazil]{babel}        % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{lucide-icons}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Funções de Distribuição},
+pdfauthor={L. Cioletti},
+pdfsubject={Funções de distribuição, variáveis aleatórias contínuas, funções densidade de probabilidade, densidades usuais},
+pdfkeywords={função de distribuição, variável aleatória contínua, função densidade de probabilidade, densidade, distribuição uniforme, exponencial, normal, gama, beta, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheoremstyle{plainexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{plainexercise}
+\newtheorem{exercise}{Exercício}
+
+% Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
+% como nas notas anteriores.
+\newtheoremstyle{starredexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{starredexercise}
+\newtheorem{starredexercise}[exercise]{Exercício}
+\theoremstyle{definition}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\addto\captionsbrazil{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+\vspace{0.1cm}
+
+% --- TÍTULO, AUTOR E DATA ---
+\begin{center}
+{\LARGE\bf Funções de Distribuição}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Setembro de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Estas notas dão continuidade ao estudo das variáveis aleatórias iniciado nas
+notas sobre variáveis aleatórias discretas. Introduzimos a noção geral de
+variável aleatória e a função de distribuição, estudamos suas propriedades
+gerais e apresentamos os primeiros exemplos. Em seguida definimos as variáveis
+aleatórias contínuas por meio de suas funções densidade de probabilidade e
+mostramos como a densidade se relaciona com a função de distribuição.
+Reunimos também as densidades usuais, a saber, a uniforme, a exponencial, a
+normal, a de Cauchy, a gama, a beta e a qui-quadrado, verificando as suas
+normalizações e a relação entre as funções gama e beta. O texto segue de perto
+as Seções 5.1--5.4 do Capítulo 5 de Grimmett e Welsh \cite{GrimmettWelsh2014}
+e conta com uma lista de exercícios ao final.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+\section{Funções de Distribuição}
+\label{sec:funcoes-distribuicao}
+
+Até aqui trabalhamos com variáveis aleatórias discretas, que assumem apenas
+uma quantidade enumerável de valores. Essa condição é restritiva demais para
+muitas situações e, por isso, vamos adotar uma definição mais ampla.
+
+\begin{definition}[Variável aleatória]
+\label{def:variavel-aleatoria}
+Seja $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade. Dizemos
+que $X$ é uma \emph{variável aleatória} se $X$ é uma função
+$X:\Omega\to\mathbb{R}$ tal que
+\begin{equation}
+\label{eq:variavel-aleatoria}
+  \{\omega\in\Omega : X(\omega)\leqslant x\}\in\mathcal{F}
+  \quad\text{para todo } x\in\mathbb{R}.
+\end{equation}
+\end{definition}
+
+Quando \eqref{eq:variavel-aleatoria} vale, dizemos que $X$ é
+$\mathcal{F}$-mensurável. Daqui em diante, abreviamos o evento
+$\{\omega\in\Omega : X(\omega)\leqslant x\}$ pela expressão mais simples
+$\{X\leqslant x\}$.
+
+Exigimos que as variáveis aleatórias satisfaçam \eqref{eq:variavel-aleatoria}
+pela mesma razão pela qual exigimos uma condição análoga na definição de
+variável aleatória discreta. Estamos interessados nos valores assumidos por
+$X$ e nas probabilidades associadas a esses valores. Uma maneira conveniente
+de estudá-los é fixar $x\in\mathbb{R}$ e calcular a probabilidade de que $X$
+assuma um valor no intervalo $(-\infty,x]$. Essa probabilidade só está
+definida quando a pré-imagem
+$X^{-1}\big((-\infty,x]\big)=\{X\leqslant x\}$ pertence ao espaço de eventos
+$\mathcal{F}$, e é por isso que postulamos que essa condição vale para todo
+$x\in\mathbb{R}$.
+
+Observe que toda variável aleatória discreta é uma variável aleatória. De
+fato, se $X$ é discreta, então
+\[
+  \{X\leqslant x\}
+  = \bigcup_{y\in\operatorname{Im}X :\, y\leqslant x} \{X=y\},
+\]
+que é uma união enumerável de eventos em $\mathcal{F}$ e, portanto, também
+pertence a $\mathcal{F}$.
+
+Enquanto as variáveis aleatórias discretas eram estudadas por meio de suas
+funções de probabilidade, as variáveis aleatórias no sentido mais amplo são
+estudadas por meio de suas funções de distribuição, definidas a seguir.
+
+\begin{definition}[Função de distribuição]
+\label{def:funcao-distribuicao}
+Seja $X$ uma variável aleatória em $(\Omega,\mathcal{F},\mathbb{P})$. A
+\emph{função de distribuição} de $X$ é a função
+$F_X:\mathbb{R}\to[0,1]$ definida por
+\begin{equation}
+\label{eq:def-funcao-distribuicao}
+  F_X(x)=\mathbb{P}(X\leqslant x).
+\end{equation}
+\end{definition}
+
+A função de distribuição de $X$ também é chamada, em alguns textos, de função
+de distribuição acumulada de $X$.
+
+\begin{example}[Função de distribuição de uma variável discreta]
+\label{ex:fd-discreta}
+Suponha que $X$ seja uma variável aleatória discreta que assume valores
+inteiros não negativos, com função de probabilidade
+\[
+  \mathbb{P}(X=k)=p_k \quad\text{para } k=0,1,2,\dots.
+\]
+Para $x\in\mathbb{R}$, temos que $X\leqslant x$ se, e somente se, $X$ assume
+um dos valores $0,1,2,\dots,\lfloor x\rfloor$, onde $\lfloor x\rfloor$ denota
+o maior inteiro que não supera $x$. Logo
+\[
+  F_X(x)=
+  \begin{cases}
+    0, & \text{se } x<0,\\[0.2cm]
+    p_0+p_1+\dots+p_{\lfloor x\rfloor}, & \text{se } x\geqslant 0.
+  \end{cases}
+\]
+Um esboço dessa função, no caso em que $X$ assume valores no conjunto
+$\{0,1,2,3,4,5\}$, é apresentado na \Cref{fig:fd-discreta}.
+\end{example}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[xscale=1.0,yscale=2.4]
+  % eixos
+  \draw[->] (-2.4,0) -- (6.6,0) node[below right] {$x$};
+  \draw[->] (0,-0.06) -- (0,1.18) node[above left] {$F_X(x)$};
+  % patamares, contínua à direita
+  \draw[teal,thick] (-2.4,0) -- (0,0);
+  \draw[teal,thick] (0,0) -- (0,0.10);
+  \draw[teal,thick] (0,0.10) -- (1,0.10);
+  \draw[teal,thick] (1,0.10) -- (1,0.28);
+  \draw[teal,thick] (1,0.28) -- (2,0.28);
+  \draw[teal,thick] (2,0.28) -- (2,0.46);
+  \draw[teal,thick] (2,0.46) -- (3,0.46);
+  \draw[teal,thick] (3,0.46) -- (3,0.64);
+  \draw[teal,thick] (3,0.64) -- (4,0.64);
+  \draw[teal,thick] (4,0.64) -- (4,0.80);
+  \draw[teal,thick] (4,0.80) -- (5,0.80);
+  \draw[teal,thick] (5,0.80) -- (5,1.00);
+  \draw[teal,thick] (5,1.00) -- (6.4,1.00);
+  % pontos incluídos
+  \foreach \p in {(0,0.10),(1,0.28),(2,0.46),(3,0.64),(4,0.80),(5,1.00)}
+    \fill[teal] \p circle (1.6pt);
+  % pontos excluídos
+  \foreach \p in {(0,0),(1,0.10),(2,0.28),(3,0.46),(4,0.64),(5,0.80)}
+    \draw[teal,fill=white,thick] \p circle (1.6pt);
+  % marcas no eixo horizontal
+  \foreach \x in {0,1,2,3,4,5} {
+    \draw (\x,0.02) -- (\x,-0.02);
+    \node[below] at (\x,-0.03) {\small $\x$};
+  }
+  % marca no eixo vertical
+  \draw (-0.05,1.00) -- (0.05,1.00);
+  \node[left] at (-0.07,1.00) {\small $1$};
+\end{tikzpicture}
+\caption{A função de distribuição de uma variável aleatória que assume
+valores no conjunto $\{0,1,2,3,4,5\}$. Os degraus são crescentes e a função é
+contínua à direita, mas descontínua à esquerda em cada ponto do suporte.}
+\label{fig:fd-discreta}
+\end{figure}
+
+A função de distribuição $F_X$ possui várias propriedades gerais e
+elementares, reunidas a seguir.
+
+\begin{proposition}[Propriedades da função de distribuição]
+\label{prop:propriedades-funcao-distribuicao}
+Seja $X$ uma variável aleatória em $(\Omega,\mathcal{F},\mathbb{P})$ e seja
+$F_X$ a sua função de distribuição. Então:
+
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item $F_X$ é monótona não decrescente, isto é,
+    \begin{equation}
+    \label{eq:fd-monotona}
+      F_X(x)\leqslant F_X(y)\quad\text{se } x\leqslant y;
+    \end{equation}
+  \item os limites nas extremidades são
+    \begin{equation}
+    \label{eq:fd-limites}
+      \lim_{x\to-\infty}F_X(x)=0
+      \qquad\text{e}\qquad
+      \lim_{x\to+\infty}F_X(x)=1;
+    \end{equation}
+  \item $F_X$ é contínua à direita, isto é,
+    \begin{equation}
+    \label{eq:fd-continua-direita}
+      F_X(x+\epsilon)\to F_X(x)\quad\text{quando } \epsilon\downarrow 0,
+    \end{equation}
+    onde o limite é tomado com $\epsilon$ tendendo a $0$ apenas por valores
+    positivos.
+\end{enumerate}
+\end{proposition}
+
+A monotonicidade expressa em \eqref{eq:fd-monotona} decorre da inclusão
+\[
+  \{X\leqslant x\}\subseteq\{X\leqslant y\}
+\]
+sempre que $x\leqslant y$, pois se $X$ assume um valor que não excede $x$,
+então esse valor também não excede $y$.
+
+As demais propriedades elementares de $F_X$ dizem respeito ao seu
+comportamento quando $x$ se aproxima de $-\infty$ ou de $+\infty$.
+Intuitivamente é claro que
+\[
+  F_X(x)\to 0 \quad\text{quando } x\to-\infty,
+  \qquad\text{e}\qquad
+  F_X(x)\to 1 \quad\text{quando } x\to+\infty,
+\]
+uma vez que, no primeiro caso, à medida que $x$ diminui, o evento de que $X$
+seja menor do que $x$ torna-se cada vez menos provável; no segundo caso, à
+medida que $x$ cresce, esse evento torna-se cada vez mais provável. No plano
+intuitivo, as igualdades em \eqref{eq:fd-limites} são evidentes, pois
+lembram as afirmações
+\[
+  \mathbb{P}(X\leqslant-\infty)=0,
+  \qquad
+  \mathbb{P}(X\leqslant+\infty)=1,
+\]
+mas a verificação formal de \eqref{eq:fd-limites} depende da continuidade da
+medida de probabilidade $\mathbb{P}$.
+
+A continuidade da medida de probabilidade também é necessária para
+demonstrar a continuidade à direita em \eqref{eq:fd-continua-direita}. De
+fato, se $(x_n)_{n\geqslant1}$ é uma sequência decrescente com $x_n\to x$,
+então os eventos $\{X\leqslant x_n\}$ decrescem para $\{X\leqslant x\}$ e a
+continuidade por cima de $\mathbb{P}$ dá
+\[
+  F_X(x_n)=\mathbb{P}(X\leqslant x_n)\to\mathbb{P}(X\leqslant x)=F_X(x).
+\]
+Observando a \Cref{fig:fd-discreta}, vemos que as funções de distribuição não
+precisam ser contínuas à esquerda: em cada ponto do suporte ocorre um salto.
+
+\begin{remark}
+\label{rem:caracterizacao-fd}
+As três propriedades reunidas na
+\Cref{prop:propriedades-funcao-distribuicao}, isto é, a monotonicidade
+\eqref{eq:fd-monotona}, os limites \eqref{eq:fd-limites} e a continuidade à
+direita \eqref{eq:fd-continua-direita}, caracterizam completamente as funções
+de distribuição. Isso significa que, se $F$ é uma função que satisfaz essas
+três condições, então existem um espaço de probabilidade e uma variável
+aleatória $X$ nesse espaço cuja função de distribuição é $F$. A prova desse
+fato é omitida nestas notas, mas convém registrá-lo, pois em muitas situações
+ele nos permite evitar o trabalho de exibir explicitamente o espaço de
+probabilidade e a variável aleatória.
+\end{remark}
+
+Antes de apresentarmos exemplos de funções de distribuição, vejamos uma
+última propriedade. A probabilidade $F_X(x)=\mathbb{P}(X\leqslant x)$ é a
+probabilidade de que $X$ assuma um valor no intervalo ilimitado
+$(-\infty,x]$. Para encontrarmos a probabilidade de que $X$ assuma um valor
+em um intervalo limitado $(a,b]$, procedemos da seguinte maneira. Para
+$a<b$,
+\begin{equation}
+\label{eq:intervalo-fd}
+  \mathbb{P}(a<X\leqslant b)=F_X(b)-F_X(a).
+\end{equation}
+
+De fato,
+\[
+  \begin{aligned}
+    \mathbb{P}(a<X\leqslant b)
+    &= \mathbb{P}\big(\{X\leqslant b\}\setminus\{X\leqslant a\}\big)\\
+    &= \mathbb{P}(X\leqslant b)-\mathbb{P}(X\leqslant a),
+  \end{aligned}
+\]
+pois o evento $\{X\leqslant a\}$ está contido no evento $\{X\leqslant b\}$.
+
+\section{Exemplos de Funções de Distribuição}\label{sec:exemplos-fd}
+
+Na seção anterior introduzimos a definição de função de distribuição e reunimos
+as suas propriedades gerais na \Cref{prop:propriedades-funcao-distribuicao}.
+O \Cref{ex:fd-discreta} foi o nosso primeiro exemplo: a função de distribuição
+de uma variável aleatória discreta, constante por partes e com saltos
+exatamente nos pontos com probabilidade positiva. Vale a pena observar as características gerais
+daquela função: ela é não decrescente, contínua à direita, tende a $0$ quando
+$x \to -\infty$ e tende a $1$ quando $x \to \infty$. Existem, contudo, funções
+de distribuição que contrastam de modo acentuado com aquele exemplo, por serem
+contínuas em toda a reta. O próximo exemplo é de uma dessas funções.
+
+\begin{example}[Distribuição uniforme]\label{ex:uniforme-fd}
+  Sejam $a, b \in \mathbb{R}$ com $a < b$. Considere a função
+  \[
+    F(x) = \begin{cases}
+      0, & \text{se } x < a, \\[0.2cm]
+      \dfrac{x-a}{b-a}, & \text{se } a \leqslant x \leqslant b, \\[0.2cm]
+      1, & \text{se } x > b,
+    \end{cases}
+  \]
+  cujo gráfico está esboçado na \Cref{fig:fd-uniforme}. Ela possui as
+  propriedades gerais descritas na \Cref{prop:propriedades-funcao-distribuicao}
+  e, portanto, é uma função de distribuição. Dizemos que uma variável aleatória
+  com essa função de distribuição tem \emph{distribuição uniforme} no intervalo
+  $(a,b)$; alguns autores preferem dizer que a distribuição é uniforme no
+  intervalo $[a,b]$.
+
+  Note que os valores de $F$ nos extremos não alteram a distribuição: o que
+  importa é o comportamento de $F$ à esquerda de $a$, entre $a$ e $b$ e à
+  direita de $b$. Em particular, a fórmula define uma função de distribuição
+  para quaisquer escolhas de $a < b$, e a \eqref{eq:intervalo-fd} se aplica
+  diretamente.
+\end{example}
+
+\begin{example}[Distribuição exponencial]\label{ex:exponencial-fd}
+  Seja $\lambda > 0$ e defina $F$ por
+  \begin{equation}\label{eq:fd-exponencial}
+    F(x) = \begin{cases}
+      0, & \text{se } x \leqslant 0, \\[0.2cm]
+      1 - e^{-\lambda x}, & \text{se } x > 0,
+    \end{cases}
+  \end{equation}
+  cujo gráfico esboçamos na \Cref{fig:fd-exponencial}. Vemos que $F$ é
+  claramente uma função de distribuição. Dizemos que uma variável aleatória com
+  essa distribuição tem \emph{distribuição exponencial} com parâmetro
+  $\lambda$.
+\end{example}
+
+As duas funções de distribuição acima são muito importantes na teoria da
+probabilidade. As duas são, além disso, casos particulares de uma família
+maior. Pela caracterização da \Cref{rem:caracterizacao-fd}, qualquer função
+$F$ não negativa, contínua e não decrescente que satisfaz
+\[
+  \lim_{x \to -\infty} F(x) = 0, \qquad \lim_{x \to \infty} F(x) = 1
+\]
+é uma função de distribuição.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[xscale=1.15,yscale=1.8]
+  \draw[->] (-0.6,0) -- (6.3,0) node[below right] {$x$};
+  \draw[->] (0,-0.25) -- (0,1.5) node[left] {$F(x)$};
+  \draw[gray,dashed] (0,1) -- (6.1,1);
+  \node[left] at (0,1) {$1$};
+  \node[left] at (0,0) {$0$};
+  \draw (1.5,0) -- (1.5,-0.07) node[below] {$a$};
+  \draw (4.5,0) -- (4.5,-0.07) node[below] {$b$};
+  \draw[teal,thick] (-0.4,0) -- (1.5,0);
+  \draw[teal,thick] (1.5,0) -- (4.5,1);
+  \draw[teal,thick] (4.5,1) -- (6.1,1);
+  \fill[teal] (1.5,0) circle (1.2pt);
+  \fill[teal] (4.5,1) circle (1.2pt);
+\end{tikzpicture}
+\caption{Função de distribuição uniforme no intervalo $(a,b)$. A função vale
+$0$ à esquerda de $a$, cresce linearmente de $0$ a $1$ em $[a,b]$ e vale $1$ à
+direita de $b$.}
+\label{fig:fd-uniforme}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[xscale=0.95,yscale=1.8]
+  \draw[->] (-0.6,0) -- (6.4,0) node[below right] {$x$};
+  \draw[->] (0,-0.25) -- (0,1.5) node[left] {$F(x)$};
+  \draw[gray,dashed] (0,1) -- (6.2,1);
+  \node[left] at (0,1) {$1$};
+  \node[left] at (0,0) {$0$};
+  \draw[teal,thick,smooth,samples=120,domain=0:6.2]
+    plot (\x,{1-exp(-0.9*\x)});
+  \draw[teal,thick] (-0.4,0) -- (0,0);
+  \fill[teal] (0,0) circle (1.2pt);
+\end{tikzpicture}
+\caption{Função de distribuição exponencial com parâmetro $\lambda$. A função é
+identicamente nula em $(-\infty,0]$ e tende assintoticamente a $1$ quando
+$x \to \infty$.}
+\label{fig:fd-exponencial}
+\end{figure}
+
+\section{Variáveis Aleatórias Contínuas}\label{sec:va-continuas}
+
+As variáveis aleatórias aparecem em muitas formas, mas há duas classes que
+desempenham um papel central no curso:
+
+\begin{enumerate}[label=\Roman*.]
+  \item as variáveis aleatórias discretas;
+  \item as variáveis aleatórias contínuas.
+\end{enumerate}
+
+Uma variável aleatória discreta assume apenas uma quantidade enumerável de
+valores e sua função de distribuição tem, em geral, o aspecto de uma função
+em degraus, como ilustra a \Cref{fig:fd-discreta}. No extremo oposto
+encontram-se variáveis aleatórias cuja função de distribuição é bastante
+suave, como nos casos uniforme e exponencial discutidos na
+\Cref{sec:exemplos-fd} (veja as \Cref{fig:fd-uniforme,fig:fd-exponencial}).
+É essa segunda classe que passamos a estudar e que chamaremos de
+\emph{contínua}.
+
+\begin{definition}[Variável aleatória contínua]\label{def:va-continua}
+  Dizemos que uma variável aleatória $X$ é \emph{contínua} se existir uma
+  função não negativa e mensurável $f_X$ tal que sua função de distribuição $F_X$ possa
+  ser escrita na forma
+  \begin{equation}\label{eq:densidade-integral}
+    F_X(x) = \mathbb{P}(X \leqslant x) = \int_{-\infty}^{x} f_X(u)\,du
+    \quad \text{para todo } x \in \mathbb{R}.
+  \end{equation}
+  Nesse caso, dizemos que $X$ tem \emph{função densidade de probabilidade}
+  (ou simplesmente \emph{densidade}) $f_X$, abreviada por \emph{fdp}.
+\end{definition}
+
+A identidade \eqref{eq:densidade-integral} diz que a probabilidade de o evento
+$\{X \leqslant x\}$ ocorrer é a área sob o gráfico de $f_X$ à esquerda de
+$x$. Assim, $F_X$ acumula a densidade desde $-\infty$ até $x$, e é por isso
+que $F_X$ também é chamada de função de distribuição acumulada.
+
+\begin{remark}
+  Textos mais avançados chamam as variáveis aleatórias descritas na
+  \Cref{def:va-continua} de \emph{absolutamente contínuas}, reservando a
+  palavra ``contínua'' para uma classe mais ampla. Neste curso não faremos
+  essa distinção e usaremos ``contínua'' no sentido da definição acima.
+\end{remark}
+
+\begin{example}\label{ex:densidade-exponencial}
+  Se $X$ tem distribuição exponencial de parâmetro $\lambda > 0$, então,
+  como vimos no \Cref{ex:exponencial-fd},
+  \[
+    F_X(x) =
+    \begin{cases}
+      0, & \text{se } x \leqslant 0, \\[0.2cm]
+      1 - e^{-\lambda x}, & \text{se } x > 0.
+    \end{cases}
+  \]
+  Uma densidade para $X$ é obtida derivando $F_X$ nos pontos em que a
+  derivada existe. Para $x > 0$,
+  \[
+    \frac{d}{dx}\bigl(1 - e^{-\lambda x}\bigr) = \lambda e^{-\lambda x},
+  \]
+  e para $x < 0$ a derivada é $0$. Logo
+  \[
+    f_X(x) =
+    \begin{cases}
+      0, & \text{se } x \leqslant 0, \\[0.2cm]
+      \lambda e^{-\lambda x}, & \text{se } x > 0.
+    \end{cases}
+  \]
+\end{example}
+
+De modo geral, se $X$ é contínua e $F_X$ tem bom comportamento, podemos
+tomar como densidade de $X$ a função
+\begin{equation}\label{eq:densidade-derivada}
+  f_X(x) =
+  \begin{cases}
+    \dfrac{d}{dx} F_X(x), & \text{se essa derivada existe em } x, \\[0.3cm]
+    0, & \text{caso contrário}.
+  \end{cases}
+\end{equation}
+Seguiremos essa receita na maioria dos exemplos. Vale registrar que há
+algumas dificuldades de rigor matemático nessa passagem: nem toda função de
+distribuição é derivável, e a derivada pode não ser uma densidade no sentido
+da identidade \eqref{eq:densidade-integral}. Para os fins deste curso, porém, a
+A fórmula \eqref{eq:densidade-derivada} é suficiente, e dificilmente encontraremos
+problemas ao aplicá-la para determinar a densidade de uma variável aleatória
+contínua.
+
+As densidades desempenham para as variáveis contínuas um papel análogo ao
+das funções de probabilidade para as variáveis discretas, e não é
+surpreendente que as propriedades gerais de umas e de outras sejam muito
+parecidas.
+
+\begin{property}
+  Se $X$ é uma variável aleatória contínua com densidade $f_X$, então
+  \[
+    f_X(x) \geqslant 0 \quad \text{para todo } x \in \mathbb{R},
+    \qquad
+    \int_{-\infty}^{\infty} f_X(x)\,dx = 1.
+  \]
+\end{property}
+
+Essas duas propriedades são as análogas de $p_X(x) \geqslant 0$ e
+$\sum_x p_X(x) = 1$ no caso discreto. A analogia, no entanto, pode ser
+perigosa, pois $f_X(x)$ \emph{não} é uma probabilidade e pode muito bem
+assumir valores maiores que $1$. No exemplo exponencial, por exemplo, se
+$\lambda > 1$, então $f_X$ assume valores maiores que $1$ na vizinhança de
+$x = 0$, ainda que $\mathbb{P}(X = 0) = 0$.
+
+O que $f_X(x)$ mede é a densidade de probabilidade nas proximidades de $x$.
+Se $\delta x$ é pequeno e positivo, então, grosso modo, a probabilidade de
+$X$ estar ``perto'' de $x$ satisfaz
+\begin{align}
+  \mathbb{P}(x < X \leqslant x + \delta x)
+    &= F_X(x + \delta x) - F_X(x)
+       \quad \text{por \eqref{eq:intervalo-fd}} \notag \\[0.2cm]
+    &= \int_x^{x + \delta x} f_X(u)\,du
+       \quad \text{por \eqref{eq:densidade-integral}} \notag \\[0.2cm]
+    &\approx f_X(x)\,\delta x
+       \quad \text{para } \delta x \text{ pequeno}.
+       \label{eq:densidade-aprox}
+\end{align}
+A última aproximação é a interpretação de Riemann da integral: em um
+intervalo curto, a área sob $f_X$ é aproximadamente a área de um retângulo
+de base $\delta x$ e altura $f_X(x)$.
+
+Portanto, a analogia correta não é entre a densidade $f_X(x)$ e a função de
+probabilidade $p_X(x)$, mas sim entre $f_X(x)\,\delta x$ e $p_X(x)$. Essa
+leitura fica clara ao compararmos a normalização da densidade com a da
+função de probabilidade: os valores de uma função de probabilidade são
+substituídos por $f_X(x)\,\delta x$, e a soma, que no caso discreto percorre
+apenas os valores positivos (necessariamente em quantidade enumerável), é
+substituída pela integral. Uma diferença marcante entre os dois casos é dada
+pela primeira parte do teorema a seguir.
+
+\begin{theorem}[Propriedades da densidade]\label{thm:propriedades-densidade}
+  Se $X$ é contínua com densidade $f_X$, então
+  \begin{equation}\label{eq:prob-ponto}
+    \mathbb{P}(X = x) = 0 \quad \text{para todo } x \in \mathbb{R},
+  \end{equation}
+  e
+  \begin{equation}\label{eq:prob-intervalo}
+    \mathbb{P}(a \leqslant X \leqslant b) = \int_a^b f_X(u)\,du
+    \quad \text{para } a, b \in \mathbb{R} \text{ com } a \leqslant b.
+  \end{equation}
+\end{theorem}
+
+\begin{proof}
+  Vamos provar primeiro \eqref{eq:prob-ponto}. Para isso, observamos que os
+  eventos $\{x - \epsilon < X \leqslant x\}$ diminuem para $\{X = x\}$
+  quando $\epsilon$ decresce para $0$, de modo que, pela continuidade da
+  probabilidade,
+  \[
+    \mathbb{P}(X = x) = \lim_{\epsilon \downarrow 0}
+      \mathbb{P}(x - \epsilon < X \leqslant x).
+  \]
+  A partir daí, usando sucessivamente \eqref{eq:intervalo-fd} e
+  \eqref{eq:densidade-integral}, obtemos
+  \[
+    \begin{aligned}
+      \mathbb{P}(X = x)
+        &= \lim_{\epsilon \downarrow 0}
+           \bigl[F_X(x) - F_X(x - \epsilon)\bigr] \\
+        &= \lim_{\epsilon \downarrow 0} \int_{x - \epsilon}^{x} f_X(u)\,du \\
+        &= 0.
+    \end{aligned}
+  \]
+  A última igualdade segue do fato de que a integral sobre um intervalo de
+  comprimento $\epsilon$ tende a $0$ quando $\epsilon \downarrow 0$.
+
+  Para a segunda parte, seja $a \leqslant b$. Como $\{X = a\}$ tem
+  probabilidade $0$ por \eqref{eq:prob-ponto}, os eventos $\{a \leqslant X
+  \leqslant b\}$ e $\{a < X \leqslant b\}$ têm a mesma probabilidade. Logo,
+  por \eqref{eq:intervalo-fd} e \eqref{eq:densidade-integral},
+  \[
+    \begin{aligned}
+      \mathbb{P}(a \leqslant X \leqslant b)
+        &= \mathbb{P}(a < X \leqslant b) \\
+        &= F_X(b) - F_X(a) \\
+        &= \int_{-\infty}^{b} f_X(u)\,du - \int_{-\infty}^{a} f_X(u)\,du \\
+        &= \int_a^b f_X(u)\,du.
+    \end{aligned}
+  \]
+\end{proof}
+
+O teorema acima mostra que, em uma variável aleatória contínua, a
+probabilidade de qualquer valor isolado é nula. Consequentemente, para
+variáveis contínuas, incluir ou excluir os extremos de um intervalo não
+altera sua probabilidade:
+\[
+  \mathbb{P}(a \leqslant X \leqslant b) = \mathbb{P}(a < X \leqslant b)
+  = \mathbb{P}(a \leqslant X < b) = \mathbb{P}(a < X < b).
+\]
+Isso contrasta com o caso discreto, em que um único ponto pode concentrar
+toda a probabilidade.
+
+\medskip
+
+Recapitulando o que vimos até aqui: toda variável aleatória possui uma
+função de distribuição, conforme a \Cref{def:funcao-distribuicao}. No caso
+discreto, essa informação é codificada por uma função de probabilidade
+$p_X$; no caso contínuo, por uma densidade $f_X$. Essas duas classes não
+esgotam, contudo, todas as possibilidades: existem variáveis aleatórias que
+não são nem discretas nem contínuas, ou seja, cuja função de distribuição
+não é uma escada nem pode ser escrita como a integral de uma densidade.
+Tais casos, embora existam, ficam fora do escopo destas notas.
+
+\section{Algumas Funções Densidade Usuais}
+\label{sec:densidades-usuais}
+
+Nas seções anteriores vimos que uma variável aleatória contínua $X$ fica
+descrita por sua função de distribuição $F_X$ e que, quando $F_X$ é
+derivável, sua derivada $f_X$ é a função densidade de probabilidade (fdp)
+associada, conforme a \Cref{def:va-continua}. Cabe agora perguntar o
+contrário: dada uma função $f$, quando ela é a densidade de alguma variável
+aleatória? A resposta é simples e vale a pena enunciá-la antes de listarmos
+os exemplos que ocorrem com mais frequência.
+
+Se $f:\mathbb{R}\to[0,\infty)$ é mensurável e satisfaz
+\begin{equation}
+  f(x) \geqslant 0 \qquad \text{para todo } x \in \mathbb{R}
+  \label{eq:densidade-nao-negativa}
+\end{equation}
+e
+\begin{equation}
+  \int_{-\infty}^{\infty} f(x)\,dx = 1,
+  \label{eq:densidade-normalizacao}
+\end{equation}
+então $f$ é a função densidade de probabilidade de alguma variável
+aleatória. Para confirmar isso, basta definir
+\[
+  F(x) = \int_{-\infty}^{x} f(u)\,du
+\]
+e verificar que $F$ satisfaz as três propriedades reunidas na
+\Cref{prop:propriedades-funcao-distribuicao}, a saber, $F$ é não decrescente,
+contínua à direita, $\lim_{x\to-\infty}F(x)=0$ e
+$\lim_{x\to\infty}F(x)=1$. Pela caracterização da
+\Cref{rem:caracterizacao-fd}, existe uma variável aleatória $X$ cuja função de
+distribuição é $F$. Como $F(x)=\int_{-\infty}^{x}f(u)\,du$, concluímos que $f$
+é uma densidade de $X$.
+
+Mostramos abaixo as densidades mais usadas, cada uma acompanhada de seus
+parâmetros e do respectivo suporte. Em todos os casos a não negatividade
+\eqref{eq:densidade-nao-negativa} é imediata, e a verificação da
+normalização \eqref{eq:densidade-normalizacao} é o ponto que merece atenção.
+Resumimos a lista em forma de tabela no final desta seção
+(\Cref{tab:densidades-usuais}).
+
+\medskip
+\noindent\textbf{Distribuição uniforme.}
+
+Dizemos que $X$ tem \emph{distribuição uniforme} no intervalo $(a,b)$, com
+$a<b$, quando sua densidade é
+\begin{equation}
+  f(x) = \begin{cases}
+    \dfrac{1}{b-a}, & \text{se } a < x < b, \\[0.3cm]
+    0, & \text{caso contrário.}
+  \end{cases}
+  \label{eq:dens-uniforme}
+\end{equation}
+Aqui a integral é elementar:
+\[
+  \int_{-\infty}^{\infty} f(x)\,dx = \int_a^b \frac{1}{b-a}\,dx
+  = \frac{b-a}{b-a} = 1.
+\]
+A densidade é constante sobre o intervalo: não há posição privilegiada
+dentro de $(a,b)$, o que justifica o nome.
+
+\medskip
+\noindent\textbf{Distribuição exponencial.}
+
+Dizemos que $X$ tem \emph{distribuição exponencial} de parâmetro
+$\lambda>0$ quando
+\begin{equation}
+  f(x) = \begin{cases}
+    \lambda e^{-\lambda x}, & \text{se } x > 0, \\[0.2cm]
+    0, & \text{se } x \leqslant 0.
+  \end{cases}
+  \label{eq:dens-exponencial}
+\end{equation}
+Novamente a normalização sai de uma primitiva imediata, pois
+$\frac{d}{dx}\bigl(-e^{-\lambda x}\bigr) = \lambda e^{-\lambda x}$ e
+$e^{-\lambda x}\to 0$ quando $x\to\infty$:
+\[
+  \int_{-\infty}^{\infty} f(x)\,dx
+  = \int_0^{\infty} \lambda e^{-\lambda x}\,dx
+  = \Bigl[-e^{-\lambda x}\Bigr]_{0}^{\infty} = 1.
+\]
+
+\medskip
+\noindent\textbf{Distribuição normal (gaussiana).}
+
+Dizemos que $X$ tem \emph{distribuição normal} (ou \emph{gaussiana}) de
+parâmetros $\mu\in\mathbb{R}$ e $\sigma^2>0$, e escrevemos
+$X\sim \mathrm{N}(\mu,\sigma^2)$, quando
+\begin{equation}
+  f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}
+  \exp\!\left(-\frac{1}{2\sigma^2}(x-\mu)^2\right),
+  \qquad x \in \mathbb{R}.
+  \label{eq:dens-normal}
+\end{equation}
+Para verificar que a integral vale $1$, usamos a integral gaussiana
+\begin{equation}
+  \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}.
+  \label{eq:gaussiana-integral}
+\end{equation}
+Com efeito, a mudança de variáveis $x = \mu + \sigma\sqrt{2}\,z$ dá
+$dx = \sigma\sqrt{2}\,dz$ e
+\[
+  \int_{-\infty}^{\infty} e^{-\frac{1}{2\sigma^2}(x-\mu)^2}\,dx
+  = \sigma\sqrt{2}\int_{-\infty}^{\infty} e^{-z^2}\,dz
+  = \sigma\sqrt{2\pi},
+\]
+onde usamos \eqref{eq:gaussiana-integral}. Dividindo pelo fator
+$\sqrt{2\pi\sigma^2}$ obtemos exatamente $1$. A constante de normalização
+foi escolhida justamente para isso.
+
+\medskip
+\noindent\textbf{Distribuição de Cauchy.}
+
+Dizemos que $X$ tem \emph{distribuição de Cauchy} quando
+\begin{equation}
+  f(x) = \frac{1}{\pi(1+x^2)}, \qquad x \in \mathbb{R}.
+  \label{eq:dens-cauchy}
+\end{equation}
+A normalização segue da derivada da função arco-tangente, pois
+$\frac{d}{dx}\arctan x = \frac{1}{1+x^2}$ e
+$\lim_{x\to\pm\infty}\arctan x = \pm\frac{\pi}{2}$:
+\[
+  \int_{-\infty}^{\infty} \frac{1}{\pi(1+x^2)}\,dx
+  = \frac{1}{\pi}\Bigl[\arctan x\Bigr]_{-\infty}^{\infty}
+  = \frac{1}{\pi}\left(\frac{\pi}{2}+\frac{\pi}{2}\right) = 1.
+\]
+
+\medskip
+\noindent\textbf{Distribuição gama.}
+
+Dizemos que $X$ tem \emph{distribuição gama} de parâmetros $w>0$ e
+$\lambda>0$ quando
+\begin{equation}
+  f(x) = \begin{cases}
+    \dfrac{1}{\Gamma(w)}\,\lambda^w x^{w-1} e^{-\lambda x}, & \text{se } x > 0, \\[0.3cm]
+    0, & \text{se } x \leqslant 0,
+  \end{cases}
+  \label{eq:dens-gama}
+\end{equation}
+onde $\Gamma$ é a \emph{função gama}, definida por
+\begin{equation}
+  \Gamma(w) = \int_0^{\infty} x^{w-1} e^{-x}\,dx.
+  \label{eq:dens-gama-func}
+\end{equation}
+A integral em \eqref{eq:dens-gama-func} converge para todo $w>0$. Para
+checar a normalização de \eqref{eq:dens-gama}, fazemos a mudança
+$y=\lambda x$, de modo que $dx = dy/\lambda$:
+\[
+  \int_{-\infty}^{\infty} f(x)\,dx
+  = \frac{\lambda^w}{\Gamma(w)}\int_0^{\infty} x^{w-1} e^{-\lambda x}\,dx
+  = \frac{1}{\Gamma(w)}\int_0^{\infty} y^{w-1} e^{-y}\,dy
+  = \frac{\Gamma(w)}{\Gamma(w)} = 1.
+\]
+Ou seja, a distribuição gama integra $1$ \emph{por definição} de $\Gamma$.
+
+Observamos ainda que, para inteiro positivo $w=n$, a função gama
+recupera o fatorial. De fato, integrando por partes,
+$\Gamma(w) = (w-1)\Gamma(w-1)$ para $w>1$, e como $\Gamma(1)=1$ segue que
+\[
+  \Gamma(n) = (n-1)! \qquad \text{para } n=1,2,3,\dots
+\]
+Este é o conteúdo do \Cref{exercise:funcao-gama-recorrencia}, ao qual
+remetemos o leitor para os detalhes da indução.
+
+\medskip
+\noindent\textbf{Distribuição beta.}
+
+Dizemos que $X$ tem \emph{distribuição beta} de parâmetros $s>0$ e $t>0$
+quando
+\begin{equation}
+  f(x) = \frac{1}{B(s,t)}\,x^{s-1}(1-x)^{t-1},
+  \qquad 0 < x < 1,
+  \label{eq:dens-beta}
+\end{equation}
+onde $B$ é a \emph{função beta},
+\begin{equation}
+  B(s,t) = \int_0^1 x^{s-1}(1-x)^{t-1}\,dx.
+  \label{eq:dens-beta-func}
+\end{equation}
+Aqui a normalização é tautológica: a constante $B(s,t)$ foi escolhida
+exatamente para que a integral de $f$ em \eqref{eq:dens-beta} seja
+\[
+  \frac{1}{B(s,t)}\int_0^1 x^{s-1}(1-x)^{t-1}\,dx
+  = \frac{B(s,t)}{B(s,t)} = 1.
+\]
+No caso particular $s=t=1$ obtemos $f(x)=1$ em $[0,1]$, isto é, a
+distribuição uniforme nesse intervalo, o que concorda com
+\eqref{eq:dens-uniforme} tomando $a=0$ e $b=1$.
+
+\medskip
+\noindent\textbf{Distribuição qui-quadrado.}
+
+Dizemos que $X$ tem \emph{distribuição qui-quadrado com $n$ graus de
+liberdade}, e escrevemos $X\sim\chi_n^2$, quando
+\begin{equation}
+  f(x) = \begin{cases}
+    \dfrac{1}{2\Gamma\!\bigl(\frac{n}{2}\bigr)}
+    \Bigl(\dfrac{x}{2}\Bigr)^{\frac{n}{2}-1} e^{-\frac{x}{2}}, & \text{se } x > 0, \\[0.4cm]
+    0, & \text{se } x \leqslant 0.
+  \end{cases}
+  \label{eq:dens-qui-quadrado}
+\end{equation}
+Comparando \eqref{eq:dens-qui-quadrado} com \eqref{eq:dens-gama}, vemos que
+esta é precisamente a distribuição gama com parâmetros $w=\frac{n}{2}$ e
+$\lambda=\frac{1}{2}$. Logo a normalização já foi verificada no caso gama, e
+listamos a distribuição separadamente apenas porque ela aparece com muita
+frequência em estatística.
+
+\medskip
+
+A tabela abaixo reúne as densidades discutidas acima. A coluna final
+registra o suporte, isto é, o conjunto onde $f$ é estritamente positiva.
+\begin{table}[H]
+  \centering
+  \small
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    Distribuição & Parâmetros & Densidade $f(x)$ & Suporte \\
+    \midrule
+    Uniforme & $a<b$ &
+    $\dfrac{1}{b-a}$ & $a<x<b$ \\[0.35cm]
+    Exponencial & $\lambda>0$ &
+    $\lambda e^{-\lambda x}$ & $x>0$ \\[0.25cm]
+    Normal & $\mu\in\mathbb{R}$, $\sigma^2>0$ &
+    $\dfrac{1}{\sqrt{2\pi\sigma^2}}
+     e^{-\frac{(x-\mu)^2}{2\sigma^2}}$ & $x\in\mathbb{R}$ \\[0.45cm]
+    Cauchy & nenhum &
+    $\dfrac{1}{\pi(1+x^2)}$ & $x\in\mathbb{R}$ \\[0.4cm]
+    Gama & $w>0$, $\lambda>0$ &
+    $\dfrac{1}{\Gamma(w)}\lambda^w x^{w-1}e^{-\lambda x}$ & $x>0$ \\[0.4cm]
+    Beta & $s>0$, $t>0$ &
+    $\dfrac{1}{B(s,t)}x^{s-1}(1-x)^{t-1}$ & $0<x<1$ \\[0.4cm]
+    Qui-quadrado & $n\in\mathbb{N}$ &
+    $\dfrac{1}{2\Gamma(\frac{n}{2})}
+     \bigl(\frac{x}{2}\bigr)^{\frac{n}{2}-1}e^{-\frac{x}{2}}$ & $x>0$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{As densidades usuais, com seus parâmetros e suportes. Cada
+  constante de normalização foi escolhida para que a integral da densidade
+  sobre $\mathbb{R}$ seja igual a $1$.}
+  \label{tab:densidades-usuais}
+\end{table}
+
+\medskip
+
+
+A lista de \Cref{sec:densidades-usuais} é um compêndio de algumas das densidades mais comuns, e não esperamos que ela, sozinha, seja inspiradora. É difícil motivar adequadamente cada uma dessas densidades neste momento, mas vamos precisar retomá-las mais adiante, quando as encontrarmos em ação.
+
+\medskip
+
+Não é sempre trivial verificar que as funções da lista são realmente densidades. A condição de não negatividade não oferece dificuldade; o cuidado está em conferir que a integral vale $1$. Para a densidade normal, por exemplo, precisamos da integral definida padrão
+\[
+  \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}.
+\]
+Um esboço da prova dessa identidade, por meio de coordenadas polares, está no \Cref{exercise:integral-gaussiana}.
+
+Os fatores constantes que aparecem nas densidades usuais foram escolhidos apenas para que as funções resultantes tenham integral $1$. Considere, por exemplo, a função
+\[
+  g(x) = \frac{1}{1 + x^2} \quad \text{para } x \in \mathbb{R}.
+\]
+Como
+\[
+  \int_{-\infty}^{\infty} g(x)\,dx = \pi,
+\]
+$g$ não é uma densidade. No entanto, a função normalizada
+\[
+  f(x) = \frac{1}{\pi} g(x)
+\]
+é uma densidade, a qual corresponde à distribuição de Cauchy apresentada em \Cref{sec:densidades-usuais}.
+
+
+\medskip
+
+Resta uma relação entre as funções gama e beta que simplifica o cálculo com
+a densidade beta e que usaremos mais adiante. Ela expressa $B(s,t)$ em
+termos de $\Gamma$.
+
+\begin{proposition}
+  \label{prop:beta-gama}
+  Para todos $s>0$ e $t>0$ vale
+  \[
+    B(s,t) = \frac{\Gamma(s)\Gamma(t)}{\Gamma(s+t)}.
+  \]
+\end{proposition}
+
+\begin{proof}
+  Partimos do produto das duas integrais que definem $\Gamma(s)$ e
+  $\Gamma(t)$. Como os integrandos são não negativos, podemos escrever o
+  produto como uma integral dupla sobre o quadrante $(0,\infty)^2$, sem
+  qualquer preocupação com convergência:
+  \[
+    \Gamma(s)\Gamma(t)
+    = \int_0^{\infty}\!\!\int_0^{\infty}
+      e^{-(u+v)} u^{s-1} v^{t-1}\,du\,dv.
+  \]
+  Fazemos agora a mudança de variáveis
+  \[
+    u = r\cos^2\theta, \qquad v = r\operatorname{sen}^2\theta,
+  \]
+  com $r>0$ e $\theta\in(0,\pi/2)$. Essa mudança é sugerida pela
+  identidade $\cos^2\theta+\operatorname{sen}^2\theta=1$: ela transforma a
+  soma $u+v$ na variável radial $r$, de modo que o fator $e^{-(u+v)}$
+  passa a depender apenas de $r$. O determinante jacobiano é
+  \[
+    J = \det
+    \begin{pmatrix}
+      \cos^2\theta & -2r\operatorname{sen}\theta\cos\theta \\[0.2cm]
+      \operatorname{sen}^2\theta & 2r\operatorname{sen}\theta\cos\theta
+    \end{pmatrix}
+    = 2r\operatorname{sen}\theta\cos\theta,
+  \]
+  que é positivo no domínio considerado, logo $|J| = J$. Além disso,
+  $u+v = r$ e
+  \[
+    u^{s-1}v^{t-1}
+    = r^{s+t-2}\cos^{2(s-1)}\theta\,\operatorname{sen}^{2(t-1)}\theta.
+  \]
+  Substituindo na integral dupla, obtemos
+  \begin{align*}
+    \Gamma(s)\Gamma(t)
+    &= \int_0^{\pi/2}\!\!\int_0^{\infty}
+       e^{-r} r^{s+t-2}\cos^{2(s-1)}\theta\,\operatorname{sen}^{2(t-1)}\theta\,
+       2r\operatorname{sen}\theta\cos\theta\,dr\,d\theta \\
+    &= \left(\int_0^{\infty} e^{-r} r^{s+t-1}\,dr\right)
+       \left(2\int_0^{\pi/2}
+       \cos^{2s-1}\theta\,\operatorname{sen}^{2t-1}\theta\,d\theta\right),
+  \end{align*}
+  onde separamos as variáveis porque o domínio é um produto e o integrando
+  é um produto de um fator que depende só de $r$ por outro que depende só
+  de $\theta$. A integral em $r$ é exatamente a definição de
+  $\Gamma(s+t)$.
+
+  Resta identificar a integral em $\theta$ com $B(s,t)$. Para isso,
+  pomos $x=\cos^2\theta$. Então $dx = -2\cos\theta\operatorname{sen}\theta\,d\theta$
+  e, quando $\theta$ vai de $0$ a $\pi/2$, $x$ vai de $1$ a $0$. Escrevendo
+  \[
+    \cos^{2s-1}\theta = x^{s-1}\cos\theta,
+    \qquad
+    \operatorname{sen}^{2t-1}\theta = (1-x)^{t-1}\operatorname{sen}\theta,
+  \]
+  segue que
+  \[
+    \begin{aligned}
+      2\int_0^{\pi/2}
+      \cos^{2s-1}\theta\,\operatorname{sen}^{2t-1}\theta\,d\theta
+      &= 2\int_1^0 x^{s-1}(1-x)^{t-1}
+        \cos\theta\operatorname{sen}\theta\,
+        \frac{-dx}{2\cos\theta\operatorname{sen}\theta} \\[0.2cm]
+      &= \int_0^1 x^{s-1}(1-x)^{t-1}\,dx,
+    \end{aligned}
+  \]
+  que é $B(s,t)$ por \eqref{eq:dens-beta-func}. Juntando os dois fatores,
+  \[
+    \Gamma(s)\Gamma(t) = \Gamma(s+t)\,B(s,t),
+  \]
+  e como $\Gamma(s+t)>0$, dividindo por esse valor chegamos a
+  $B(s,t) = \dfrac{\Gamma(s)\Gamma(t)}{\Gamma(s+t)}$, como queríamos.
+\end{proof}
+
+A \Cref{prop:beta-gama} mostra, em particular, que a constante de
+normalização da densidade beta também pode ser escrita em termos da função
+gama: $B(s,t) = \Gamma(s)\Gamma(t)/\Gamma(s+t)$. Com isso encerramos a
+lista das densidades usuais, que retomaremos quando essas distribuições
+aparecerem em situações concretas.
+
+\section{Exercícios propostos}
+\label{sec:exercicios-funcoes-distribuicao}
+
+Os exercícios a seguir retomam os conceitos e exemplos desenvolvidos ao longo
+da nota: funções de distribuição, densidades e as distribuições usuais.
+Salvo indicação em contrário, $X$ denota uma variável aleatória em um espaço
+de probabilidade fixado.
+
+\medskip
+\noindent\textbf{Funções de distribuição}
+
+\begin{exercise}\label{exercise:soma-massas-intervalo}
+  Seja $X$ uma variável aleatória que assume valores inteiros e satisfaz
+  $\mathbb{P}(X = k) = p_k$ para $k = \dots, -1, 0, 1, \dots$. Mostre que a
+  função de distribuição de $X$ satisfaz
+  \[
+    F_X(b) - F_X(a) = p_{a+1} + p_{a+2} + \dots + p_b
+  \]
+  para todos os inteiros $a, b$ com $a < b$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:descontinuidade-ponto-massa}
+  Seja $X$ uma variável aleatória e seja $c$ um número real tal que
+  $\mathbb{P}(X = c) > 0$. Mostre que a função de distribuição $F_X(x)$ de $X$
+  é descontínua no ponto $x = c$. A recíproca é verdadeira?
+\end{exercise}
+
+\begin{exercise}\label{exercise:fd-maximo-zero}
+  Expresse a função de distribuição de $Y = \max\{0, X\}$ em termos da função
+  de distribuição $F_X$ de $X$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:existencia-mediana}
+  Dizemos que o número real $m$ é uma \emph{mediana} da variável aleatória $X$
+  se
+  \[
+    \mathbb{P}(X < m) \leqslant \frac{1}{2} \leqslant \mathbb{P}(X \leqslant m).
+  \]
+  Mostre que toda variável aleatória possui pelo menos uma mediana.
+\end{exercise}
+
+\medskip
+\noindent\textbf{Exemplos de funções de distribuição}
+
+\begin{exercise}\label{exercise:mistura-fd}
+  Mostre que se $F_1$ e $F_2$ são funções de distribuição, então também é função
+  de distribuição a função
+  \[
+    F(x) = \alpha F_1(x) + (1 - \alpha) F_2(x)
+  \]
+  para qualquer $\alpha$ satisfazendo $0 \leqslant \alpha \leqslant 1$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:normalizacao-exponencial-modulo}
+  Seja
+  \[
+    F(x) = c \int_{-\infty}^{x} e^{-|u|}\,du \qquad \text{para } x \in
+    \mathbb{R}.
+  \]
+  Para qual valor de $c$ a função $F$ é uma função de distribuição?
+\end{exercise}
+
+\medskip
+\noindent\textbf{Variáveis aleatórias contínuas}
+
+\begin{exercise}
+\label{exercise:densidade-linear-crescente}
+  Uma variável aleatória \(X\) tem função densidade de probabilidade
+  \[
+    f(x) = \begin{cases} 2x & \text{se } 0 < x < 1, \\ 0 & \text{caso
+      contrário.} \end{cases}
+  \]
+  Determine a função de distribuição de \(X\).
+\end{exercise}
+
+\begin{exercise}
+\label{exercise:densidade-exponencial-bilateral}
+  Se \(X\) tem função densidade de probabilidade
+  \[
+    f(x) = \frac{1}{2}e^{-|x|} \qquad \text{para } x \in \mathbb{R},
+  \]
+  determine a função de distribuição de \(X\). Esta distribuição é chamada
+  de distribuição \emph{exponencial bilateral} (ou \emph{dupla}).
+\end{exercise}
+
+\begin{exercise}
+\label{exercise:fd-por-partes}
+  Se \(X\) tem função de distribuição
+  \[
+    F(x) = \begin{cases} \frac{1}{2(1+x^2)} & \text{para } -\infty < x
+      \leqslant 0, \\[0.2cm] \frac{1+2x^2}{2(1+x^2)} & \text{para } 0 < x <
+      \infty, \end{cases}
+  \]
+  mostre que \(X\) é contínua e determine a sua função densidade de
+  probabilidade.
+\end{exercise}
+
+\begin{exercise}
+\label{exercise:densidade-valor-extremo}
+  Determine a função de distribuição da chamada densidade de ``valor
+  extremo''
+  \[
+    f(x) = \exp(-x - e^{-x}) \qquad \text{para } x \in \mathbb{R}.
+  \]
+\end{exercise}
+
+\medskip
+\noindent\textbf{Densidades usuais}
+
+\begin{exercise}
+  \label{exercise:gama-exponencial}
+  Para quais valores dos seus parâmetros a distribuição gama é também uma distribuição exponencial?
+\end{exercise}
+
+\begin{exercise}
+  \label{exercise:funcao-gama-recorrencia}
+  Mostre que a função gama $\Gamma(w)$ satisfaz
+  \[
+    \Gamma(w) = (w - 1)\Gamma(w - 1)
+  \]
+  para $w > 1$, e deduza que
+  \[
+    \Gamma(n) = (n - 1)!
+  \]
+  para $n = 1, 2, 3, \ldots$.
+\end{exercise}
+
+\begin{exercise}
+  \label{exercise:integral-gaussiana}
+  Seja
+  \[
+    I = \int_{-\infty}^{\infty} e^{-x^2}\,dx.
+  \]
+  Passando a coordenadas polares, mostre que
+  \[
+    I^2 = \iint_{\mathbb{R}^2} e^{-x^2 - y^2}\,dx\,dy
+        = \int_{\theta=0}^{2\pi} \int_{r=0}^{\infty} e^{-r^2} r\,dr\,d\theta,
+  \]
+  e deduza que $I = \sqrt{\pi}$.
+\end{exercise}
+
+\begin{exercise}
+  \label{exercise:densidade-arcoseno}
+  Mostre que a função densidade
+  \[
+    f(x) = \begin{cases}
+      \dfrac{1}{\pi\sqrt{x(1 - x)}} & \text{se } 0 < x < 1, \\[0.3cm]
+      0 & \text{caso contrário},
+    \end{cases}
+  \]
+  tem função de distribuição da forma
+  \[
+    F(x) = c\operatorname{arcsen}\sqrt{x} \qquad \text{se } 0 < x < 1,
+  \]
+  e determine a constante $c$.
+\end{exercise}
+
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}
