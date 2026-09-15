@@ -4,7 +4,7 @@
 %----------------------------------------------------------------------
 % PACOTES ESSENCIAIS E TRADUÇÃO
 %----------------------------------------------------------------------
-\usepackage[brazil]{babel}        % Suporte à língua portuguesa
+\usepackage[brazilian]{babel}     % Suporte à língua portuguesa
 \usepackage[utf8]{inputenc}       % Codificação de entrada
 \usepackage[T1]{fontenc}          % Codificação da fonte
 \usepackage{lmodern}              % Fonte escalável
@@ -421,6 +421,21 @@ lembram as afirmações
 mas a verificação formal de \eqref{eq:fd-limites} depende da continuidade da
 medida de probabilidade $\mathbb{P}$.
 
+Para tornar essa verificação formal, considere os eventos
+$A_n=\{X\leqslant-n\}$. Eles formam uma sequência decrescente e
+$\bigcap_{n\geqslant1}A_n=\varnothing$, pois nenhum número real é menor ou
+igual a $-n$ para todo $n$. Pela continuidade por cima da probabilidade,
+\[
+  F_X(-n)=\mathbb{P}(A_n)\longrightarrow 0.
+\]
+Analogamente, se $B_n=\{X\leqslant n\}$, então $B_n$ cresce para $\Omega$ e,
+pela continuidade por baixo,
+\[
+  F_X(n)=\mathbb{P}(B_n)\longrightarrow 1.
+\]
+Como $F_X$ é monótona, esses dois limites ao longo dos inteiros implicam os
+limites em \eqref{eq:fd-limites}.
+
 A continuidade da medida de probabilidade também é necessária para
 demonstrar a continuidade à direita em \eqref{eq:fd-continua-direita}. De
 fato, se $(x_n)_{n\geqslant1}$ é uma sequência decrescente com $x_n\to x$,
@@ -495,11 +510,12 @@ contínuas em toda a reta. O próximo exemplo é de uma dessas funções.
   $(a,b)$; alguns autores preferem dizer que a distribuição é uniforme no
   intervalo $[a,b]$.
 
-  Note que os valores de $F$ nos extremos não alteram a distribuição: o que
-  importa é o comportamento de $F$ à esquerda de $a$, entre $a$ e $b$ e à
-  direita de $b$. Em particular, a fórmula define uma função de distribuição
-  para quaisquer escolhas de $a < b$, e a \eqref{eq:intervalo-fd} se aplica
-  diretamente.
+  O fato de chamarmos a distribuição de uniforme em $(a,b)$ ou em $[a,b]$
+  não altera a lei, pois os extremos têm probabilidade zero. Os valores de
+  $F$ nesses pontos, contudo, são determinados pela própria função de
+  distribuição. Em particular, a fórmula define uma função de distribuição
+  para quaisquer escolhas de $a < b$, e a equação \eqref{eq:intervalo-fd} se
+  aplica diretamente.
 \end{example}
 
 \begin{example}[Distribuição exponencial]\label{ex:exponencial-fd}
@@ -647,7 +663,7 @@ Seguiremos essa receita na maioria dos exemplos. Vale registrar que há
 algumas dificuldades de rigor matemático nessa passagem: nem toda função de
 distribuição é derivável, e a derivada pode não ser uma densidade no sentido
 da identidade \eqref{eq:densidade-integral}. Para os fins deste curso, porém, a
-A fórmula \eqref{eq:densidade-derivada} é suficiente, e dificilmente encontraremos
+fórmula \eqref{eq:densidade-derivada} é suficiente, e dificilmente encontraremos
 problemas ao aplicá-la para determinar a densidade de uma variável aleatória
 contínua.
 
@@ -673,7 +689,8 @@ $\lambda > 1$, então $f_X$ assume valores maiores que $1$ na vizinhança de
 $x = 0$, ainda que $\mathbb{P}(X = 0) = 0$.
 
 O que $f_X(x)$ mede é a densidade de probabilidade nas proximidades de $x$.
-Se $\delta x$ é pequeno e positivo, então, grosso modo, a probabilidade de
+Se, além disso, $f_X$ é contínua em $x$ e $\delta x$ é pequeno e positivo,
+então, grosso modo, a probabilidade de
 $X$ estar ``perto'' de $x$ satisfaz
 \begin{align}
   \mathbb{P}(x < X \leqslant x + \delta x)
@@ -685,9 +702,9 @@ $X$ estar ``perto'' de $x$ satisfaz
        \quad \text{para } \delta x \text{ pequeno}.
        \label{eq:densidade-aprox}
 \end{align}
-A última aproximação é a interpretação de Riemann da integral: em um
-intervalo curto, a área sob $f_X$ é aproximadamente a área de um retângulo
-de base $\delta x$ e altura $f_X(x)$.
+A última aproximação usa a continuidade de $f_X$ em $x$: em um intervalo curto,
+a área sob $f_X$ é aproximadamente a área de um retângulo de base $\delta x$ e
+altura $f_X(x)$.
 
 Portanto, a analogia correta não é entre a densidade $f_X(x)$ e a função de
 probabilidade $p_X(x)$, mas sim entre $f_X(x)\,\delta x$ e $p_X(x)$. Essa
@@ -805,7 +822,7 @@ distribuição é $F$. Como $F(x)=\int_{-\infty}^{x}f(u)\,du$, concluímos que $
 é uma densidade de $X$.
 
 Mostramos abaixo as densidades mais usadas, cada uma acompanhada de seus
-parâmetros e do respectivo suporte. Em todos os casos a não negatividade
+parâmetros e de sua região de positividade. Em todos os casos a não negatividade
 \eqref{eq:densidade-nao-negativa} é imediata, e a verificação da
 normalização \eqref{eq:densidade-normalizacao} é o ponto que merece atenção.
 Resumimos a lista em forma de tabela no final desta seção
@@ -856,7 +873,7 @@ $e^{-\lambda x}\to 0$ quando $x\to\infty$:
 \noindent\textbf{Distribuição normal (gaussiana).}
 
 Dizemos que $X$ tem \emph{distribuição normal} (ou \emph{gaussiana}) de
-parâmetros $\mu\in\mathbb{R}$ e $\sigma^2>0$, e escrevemos
+parâmetros $\mu\in\mathbb{R}$ e $\sigma>0$, e escrevemos
 $X\sim \mathrm{N}(\mu,\sigma^2)$, quando
 \begin{equation}
   f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}
@@ -914,7 +931,9 @@ onde $\Gamma$ é a \emph{função gama}, definida por
   \Gamma(w) = \int_0^{\infty} x^{w-1} e^{-x}\,dx.
   \label{eq:dens-gama-func}
 \end{equation}
-A integral em \eqref{eq:dens-gama-func} converge para todo $w>0$. Para
+A integral em \eqref{eq:dens-gama-func} converge para todo $w>0$: perto de
+$0$, o integrando é comparável a $x^{w-1}$, cuja integral converge para
+$w>0$, enquanto, no infinito, o fator $e^{-x}$ garante a convergência. Para
 checar a normalização de \eqref{eq:dens-gama}, fazemos a mudança
 $y=\lambda x$, de modo que $dx = dy/\lambda$:
 \[
@@ -940,8 +959,11 @@ remetemos o leitor para os detalhes da indução.
 Dizemos que $X$ tem \emph{distribuição beta} de parâmetros $s>0$ e $t>0$
 quando
 \begin{equation}
-  f(x) = \frac{1}{B(s,t)}\,x^{s-1}(1-x)^{t-1},
-  \qquad 0 < x < 1,
+  f(x) =
+  \begin{cases}
+    \dfrac{1}{B(s,t)}\,x^{s-1}(1-x)^{t-1}, & \text{se } 0 < x < 1, \\[0.3cm]
+    0, & \text{caso contrário},
+  \end{cases}
   \label{eq:dens-beta}
 \end{equation}
 onde $B$ é a \emph{função beta},
@@ -955,8 +977,9 @@ exatamente para que a integral de $f$ em \eqref{eq:dens-beta} seja
   \frac{1}{B(s,t)}\int_0^1 x^{s-1}(1-x)^{t-1}\,dx
   = \frac{B(s,t)}{B(s,t)} = 1.
 \]
-No caso particular $s=t=1$ obtemos $f(x)=1$ em $[0,1]$, isto é, a
-distribuição uniforme nesse intervalo, o que concorda com
+No caso particular $s=t=1$, a densidade vale $1$ em $(0,1)$ e $0$ fora
+desse intervalo. Os valores nos extremos são irrelevantes, e obtemos a
+distribuição uniforme em $[0,1]$, o que concorda com
 \eqref{eq:dens-uniforme} tomando $a=0$ e $b=1$.
 
 \medskip
@@ -980,20 +1003,22 @@ frequência em estatística.
 
 \medskip
 
-A tabela abaixo reúne as densidades discutidas acima. A coluna final
-registra o suporte, isto é, o conjunto onde $f$ é estritamente positiva.
+A tabela abaixo reúne as densidades discutidas acima. A coluna final registra a
+região de positividade, isto é, o conjunto onde $f$ é estritamente positiva.
+Ela não deve ser confundida com o suporte topológico, que também contém pontos
+de fronteira.
 \begin{table}[H]
   \centering
   \small
   \begin{tabular}{@{}llll@{}}
     \toprule
-    Distribuição & Parâmetros & Densidade $f(x)$ & Suporte \\
+    Distribuição & Parâmetros & Densidade $f(x)$ & Região de positividade \\
     \midrule
     Uniforme & $a<b$ &
     $\dfrac{1}{b-a}$ & $a<x<b$ \\[0.35cm]
     Exponencial & $\lambda>0$ &
     $\lambda e^{-\lambda x}$ & $x>0$ \\[0.25cm]
-    Normal & $\mu\in\mathbb{R}$, $\sigma^2>0$ &
+    Normal & $\mu\in\mathbb{R}$, $\sigma>0$ &
     $\dfrac{1}{\sqrt{2\pi\sigma^2}}
      e^{-\frac{(x-\mu)^2}{2\sigma^2}}$ & $x\in\mathbb{R}$ \\[0.45cm]
     Cauchy & nenhum &
@@ -1007,7 +1032,7 @@ registra o suporte, isto é, o conjunto onde $f$ é estritamente positiva.
      \bigl(\frac{x}{2}\bigr)^{\frac{n}{2}-1}e^{-\frac{x}{2}}$ & $x>0$ \\
     \bottomrule
   \end{tabular}
-  \caption{As densidades usuais, com seus parâmetros e suportes. Cada
+  \caption{As densidades usuais, com seus parâmetros e regiões de positividade. Cada
   constante de normalização foi escolhida para que a integral da densidade
   sobre $\mathbb{R}$ seja igual a $1$.}
   \label{tab:densidades-usuais}
@@ -1016,7 +1041,11 @@ registra o suporte, isto é, o conjunto onde $f$ é estritamente positiva.
 \medskip
 
 
-A lista de \Cref{sec:densidades-usuais} é um compêndio de algumas das densidades mais comuns, e não esperamos que ela, sozinha, seja inspiradora. É difícil motivar adequadamente cada uma dessas densidades neste momento, mas vamos precisar retomá-las mais adiante, quando as encontrarmos em ação.
+A lista apresentada na \Cref{sec:densidades-usuais} é um compêndio de algumas
+das densidades mais comuns, e não esperamos que ela, sozinha, seja
+inspiradora. É difícil motivar adequadamente cada uma dessas densidades neste
+momento, mas vamos precisar retomá-las mais adiante, quando as encontrarmos em
+ação.
 
 \medskip
 
@@ -1038,7 +1067,8 @@ $g$ não é uma densidade. No entanto, a função normalizada
 \[
   f(x) = \frac{1}{\pi} g(x)
 \]
-é uma densidade, a qual corresponde à distribuição de Cauchy apresentada em \Cref{sec:densidades-usuais}.
+é uma densidade, a qual corresponde à distribuição de Cauchy apresentada na
+\Cref{sec:densidades-usuais}.
 
 
 \medskip
@@ -1067,35 +1097,35 @@ termos de $\Gamma$.
   \]
   Fazemos agora a mudança de variáveis
   \[
-    u = r\cos^2\theta, \qquad v = r\operatorname{sen}^2\theta,
+    u = r\cos^2\theta, \qquad v = r\sin^2\theta,
   \]
   com $r>0$ e $\theta\in(0,\pi/2)$. Essa mudança é sugerida pela
-  identidade $\cos^2\theta+\operatorname{sen}^2\theta=1$: ela transforma a
+  identidade $\cos^2\theta+\sin^2\theta=1$: ela transforma a
   soma $u+v$ na variável radial $r$, de modo que o fator $e^{-(u+v)}$
   passa a depender apenas de $r$. O determinante jacobiano é
   \[
     J = \det
     \begin{pmatrix}
-      \cos^2\theta & -2r\operatorname{sen}\theta\cos\theta \\[0.2cm]
-      \operatorname{sen}^2\theta & 2r\operatorname{sen}\theta\cos\theta
+      \cos^2\theta & -2r\sin\theta\cos\theta \\[0.2cm]
+      \sin^2\theta & 2r\sin\theta\cos\theta
     \end{pmatrix}
-    = 2r\operatorname{sen}\theta\cos\theta,
+    = 2r\sin\theta\cos\theta,
   \]
   que é positivo no domínio considerado, logo $|J| = J$. Além disso,
   $u+v = r$ e
   \[
     u^{s-1}v^{t-1}
-    = r^{s+t-2}\cos^{2(s-1)}\theta\,\operatorname{sen}^{2(t-1)}\theta.
+    = r^{s+t-2}\cos^{2(s-1)}\theta\,\sin^{2(t-1)}\theta.
   \]
   Substituindo na integral dupla, obtemos
   \begin{align*}
     \Gamma(s)\Gamma(t)
     &= \int_0^{\pi/2}\!\!\int_0^{\infty}
-       e^{-r} r^{s+t-2}\cos^{2(s-1)}\theta\,\operatorname{sen}^{2(t-1)}\theta\,
-       2r\operatorname{sen}\theta\cos\theta\,dr\,d\theta \\
+       e^{-r} r^{s+t-2}\cos^{2(s-1)}\theta\,\sin^{2(t-1)}\theta\,
+       2r\sin\theta\cos\theta\,dr\,d\theta \\
     &= \left(\int_0^{\infty} e^{-r} r^{s+t-1}\,dr\right)
        \left(2\int_0^{\pi/2}
-       \cos^{2s-1}\theta\,\operatorname{sen}^{2t-1}\theta\,d\theta\right),
+       \cos^{2s-1}\theta\,\sin^{2t-1}\theta\,d\theta\right),
   \end{align*}
   onde separamos as variáveis porque o domínio é um produto e o integrando
   é um produto de um fator que depende só de $r$ por outro que depende só
@@ -1103,21 +1133,21 @@ termos de $\Gamma$.
   $\Gamma(s+t)$.
 
   Resta identificar a integral em $\theta$ com $B(s,t)$. Para isso,
-  pomos $x=\cos^2\theta$. Então $dx = -2\cos\theta\operatorname{sen}\theta\,d\theta$
+  pomos $x=\cos^2\theta$. Então $dx = -2\cos\theta\sin\theta\,d\theta$
   e, quando $\theta$ vai de $0$ a $\pi/2$, $x$ vai de $1$ a $0$. Escrevendo
   \[
     \cos^{2s-1}\theta = x^{s-1}\cos\theta,
     \qquad
-    \operatorname{sen}^{2t-1}\theta = (1-x)^{t-1}\operatorname{sen}\theta,
+    \sin^{2t-1}\theta = (1-x)^{t-1}\sin\theta,
   \]
   segue que
   \[
     \begin{aligned}
       2\int_0^{\pi/2}
-      \cos^{2s-1}\theta\,\operatorname{sen}^{2t-1}\theta\,d\theta
+      \cos^{2s-1}\theta\,\sin^{2t-1}\theta\,d\theta
       &= 2\int_1^0 x^{s-1}(1-x)^{t-1}
-        \cos\theta\operatorname{sen}\theta\,
-        \frac{-dx}{2\cos\theta\operatorname{sen}\theta} \\[0.2cm]
+        \cos\theta\sin\theta\,
+        \frac{-dx}{2\cos\theta\sin\theta} \\[0.2cm]
       &= \int_0^1 x^{s-1}(1-x)^{t-1}\,dx,
     \end{aligned}
   \]
