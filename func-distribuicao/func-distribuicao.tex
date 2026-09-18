@@ -293,7 +293,8 @@ elementares. Apresentamos um resultado que caracteriza as funções de distribui
 e consequentemente permite provar a existência de variáveis aleatórias com determinadas
 propriedades. Em seguida, definimos as variáveis aleatórias absolutamente contínuas
 e as chamadas funções de densidade de probabilidade. Mostramos em detalhes como é possível
-construir um exemplo de uma variável aleatória contínua que não é absolutamente contínua.
+construir um exemplo de uma variável aleatória cuja função de distribuição é
+contínua, mas que não é absolutamente contínua.
 Para finalizar fornecemos diversos exemplos clássicos de variáveis aleatórias absolutamente
 contínuas. O texto segue de perto
 as Seções 5.1--5.4 do Capítulo 5 de Grimmett e Welsh \cite{GrimmettWelsh2014}
@@ -599,10 +600,12 @@ Essa é a estrutura que permite falar simultaneamente sobre os conjuntos que
 podem ser medidos e sobre o tamanho que atribuímos a esses conjuntos.
 
 \begin{definition}[Espaço de medida]
-Um \emph{espaço de medida} é terno ordenado $(S,\mathcal{A},\mu)$ formado por:
+Um \emph{espaço de medida} é uma terna ordenada $(S,\mathcal{A},\mu)$ formada por:
 \begin{enumerate}[label=\textup{(\roman*)}]
   \item um conjunto $S$;
-  \item uma \emph{$\sigma$-álgebra} $\mathcal{A}$ de subconjuntos de $S$;
+  \item uma \emph{$\sigma$-álgebra} $\mathcal{A}$ de subconjuntos de $S$,
+  isto é, uma coleção que contém $S$, é fechada por complementos relativos a
+  $S$ e por uniões enumeráveis;
   \item uma função $\mu:\mathcal{A}\to[0,+\infty]$, chamada de \emph{medida},
   tal que $\mu(\varnothing)=0$ e, para toda sequência $(A_n)_{n\geqslant1}$
   de conjuntos dois a dois disjuntos em $\mathcal{A}$,
@@ -618,11 +621,16 @@ caso, costumamos escrever a medida como $\mathbb{P}$.
 
 Assim, o espaço de probabilidade $(\Omega,\mathcal{F},\mathbb{P})$ estudado
 até aqui é um caso particular de espaço de medida. Outro exemplo importante
-para estas notas é $(\mathbb{R},\mathscr{B}(\mathbb{R}),\lambda)$, onde $\mathscr{B}(\mathbb{R})$
-é a $\sigma$-álgebra de Borel de $\mathbb{R}$ que é a menor $\sigma$-álgebra 
-contendo todos os intervalos abertos e a medida $\lambda$ é a medida
-de Lebesgue que é caracterizada pela seguinte propriedade:
-para todo intervalo semi-aberto $(a,b]\subseteq \mathbb{R}$ temos $\lambda\bigl( (a,b]\bigr)=b-a$.
+para estas notas é $(\mathbb{R},\mathscr{B}(\mathbb{R}),\lambda)$, onde
+$\mathscr{B}(\mathbb{R})$ é a menor $\sigma$-álgebra de subconjuntos de
+$\mathbb{R}$ que contém todos os intervalos abertos. Ela é chamada de
+\emph{$\sigma$-álgebra de Borel}. A medida $\lambda$ é a medida de Lebesgue;
+uma de suas propriedades fundamentais é
+\[
+  \lambda\bigl((a,b]\bigr)=b-a, \qquad a<b.
+\]
+Em particular, todo intervalo é Lebesgue-mensurável e tem medida igual ao seu
+comprimento.
 
 
 Podemos agora definir precisamente o que significa um conjunto
@@ -645,8 +653,17 @@ $\mu_X$ definida nos borelianos $A\subseteq\mathbb{R}$ por
   \mu_X(A)=\mathbb{P}(X\in A).
 \]
 
-A verificação de que essa construção define de fato uma medida de probabilidade,
-no sentido dos axiomas de Kolmogorov, é imediata e fica proposta na lista de
+Para justificar que essa definição faz sentido para todo boreliano, considere
+a coleção
+\[
+  \mathcal{A}_X
+  =\{A\subseteq\mathbb{R}:X^{-1}(A)\in\mathcal{F}\}.
+\]
+Essa coleção é uma $\sigma$-álgebra de subconjuntos de $\mathbb{R}$. Pela
+definição de variável aleatória, ela contém todos os intervalos da forma
+$(-\infty,x]$; como esses intervalos geram $\mathscr{B}(\mathbb{R})$, segue
+que todo boreliano $A$ satisfaz $X^{-1}(A)\in\mathcal{F}$. A verificação de
+que $\mu_X$ é de fato uma medida de probabilidade fica proposta na lista de
 exercícios ao final da nota (\Cref{exercise:lei-medida-probabilidade}).
 
 Vamos dizer que um ponto $x\in\mathbb{R}$ é um \emph{átomo da lei de
@@ -668,14 +685,14 @@ Em particular, $F_X$ é descontínua em $x$ se, e somente se,
 $\mathbb{P}(X=x)>0$, ou seja, $\{x\}$ é um átomo da lei de $X$.
 \end{remark}
 
-Antes de apresentarmos exemplos concretos de funções de distribuição, vamos mostrar mais 
-uma propriedade válida para quaisquer funções de distribuição. 
+Antes de apresentarmos exemplos concretos de funções de distribuição, vamos mostrar
+mais uma propriedade válida para quaisquer funções de distribuição.
 
 A probabilidade $F_X(x)=\mathbb{P}(X\leqslant x)$ é a
 probabilidade de que $X$ assuma um valor no intervalo ilimitado
 $(-\infty,x]$. Logo, segue das propriedades elementares das medidas
 de probabilidade que a probabilidade de $X$ assumir um valor
-em um intervalo limitado $(a,b]$, com $a<b$, é dado por 
+em um intervalo limitado $(a,b]$, com $a<b$, é dada por
 \begin{equation}
 \label{eq:intervalo-fd}
   \mathbb{P}(a<X\leqslant b)=F_X(b)-F_X(a).
@@ -937,15 +954,13 @@ A noção de medida de Lebesgue torna precisa essa ideia e explica a expressão
 \begin{remark}[Medida de Lebesgue e propriedades em quase todo ponto]
 \label{rem:medida-lebesgue-qtp}
 A medida de Lebesgue $\lambda$ formaliza a ideia de comprimento na reta.
-Ela pode ser definida em um $\sigma$-álgebra de subconjuntos de $\mathbb{R}$
-contendo a $\sigma$-álgebra de Bodel $\mathscr{B}(\mathbb{R})$. 
-Esta $\sigma$-álgebra é chamada de $\sigma$-álgebra de Lebesgue, 
-notação $\mathcal{L}$. Como mencionado $\mathscr{B}(\mathbb{R})\subseteq \mathcal{L}$ e
-portanto todo intervalo fechado é conjunto Lebesgue-mensurável e a medida de Lebesgue 
-deste conjunto é dada por 
+Ela está definida na $\sigma$-álgebra de Lebesgue $\mathcal{L}$, que contém a
+$\sigma$-álgebra de Borel $\mathscr{B}(\mathbb{R})$. Portanto, todo intervalo
+é Lebesgue-mensurável e, para $a<b$,
 \[
   \lambda\bigl((a,b]\bigr)=b-a, \qquad a<b.
 \]
+Em particular, a medida de um intervalo coincide com seu comprimento.
 Diremos que uma propriedade $P(x)$ vale em quase todo ponto, com respeito à
 medida de Lebesgue, quando o conjunto excepcional
 \[
@@ -969,11 +984,11 @@ tem medida de Lebesgue nula. Assim, a derivada pode deixar de existir em um
 conjunto excepcional e esse conjunto será irrelevante quando estivermos tratando,
 por exemplo, da integral desta função. 
 
-Embora conjuntos de medida zero sejam ``desprezíveis'' 
-com respeito a operação de integração devemos tomar cuidado com o que 
+Embora conjuntos de medida zero sejam ``desprezíveis''
+com respeito à operação de integração, devemos tomar cuidado com o que
 este ``desprezível'' significa. Por exemplo, se temos a informação de que $f'(x)=0$, em quase todo
-ponto, isto não implica que seja simples recuperar $f$ à partir de $f'$ por um processo simples
-de integração. Mais a frente, vamos fornecer um exemplo de como este problema pode ser complicado.
+ponto, isto não implica que seja simples recuperar $f$ a partir de $f'$ por um processo simples
+de integração. Mais adiante, vamos fornecer um exemplo de como este problema pode ser complicado.
 Este exemplo será baseado na função de Cantor, que como veremos é 
 uma função contínua e não decrescente e também não é constante. Embora ela possua todas
 estas propriedades veremos que ela é também uma função que tem
@@ -1223,9 +1238,21 @@ função de Cantor $\mathcal{C}$ por um processo iterativo de aproximações, o 
 mostra que ela é contínua, não decrescente e cresce de $0$ a $1$. Em seguida
 construímos uma variável aleatória $X$ cuja função de distribuição é
 $\mathcal{C}$; como $X$ está concentrada no conjunto ternário de Cantor, que tem
-medida de Lebesgue nula, concluímos que $X$ é contínua mas não admite densidade.
+medida de Lebesgue nula, conforme será demonstrado no
+\Cref{exercise:medida-cantor}, concluímos que $X$ tem distribuição contínua,
+mas não admite densidade.
 
 \subsection{A função de Cantor}
+
+Usaremos a seguinte notação para o conjunto ternário de Cantor. Começamos com
+$K_0=[0,1]$ e, para obter $K_{n+1}$ a partir de $K_n$, retiramos o terço
+médio aberto de cada intervalo que compõe $K_n$. O conjunto de Cantor é
+\begin{equation}
+  \mathbb{K}=\bigcap_{n=0}^{\infty}K_n.
+  \label{eq:conjunto-cantor}
+\end{equation}
+Assim, os pontos de $\mathbb{K}$ são exatamente aqueles que nunca são
+retirados durante o processo.
 
 Começamos com a função identidade
 \[
@@ -1656,19 +1683,20 @@ distribuição da variável aleatória $X$ construída em
 \subsubsection{Por que essa distribuição não tem densidade?}
 
 Já sabemos que $X\in\mathbb{K}$ com probabilidade $1$, ao passo que
-$\lambda(\mathbb{K})=0$. Como $\mathbb{K}$ é uma interseção de conjuntos
-fechados, ele é Lebesgue-mensurável. Se $X$ tivesse uma densidade $f_X$ com respeito à
-medida de Lebesgue, a probabilidade de um conjunto Lebesgue-nulo seria dada
-pela integral de $f_X$ nesse conjunto. Em particular, teríamos
-
+$\lambda(\mathbb{K})=0$. Podemos mostrar a impossibilidade de uma densidade
+usando a relação entre densidade e derivada apresentada acima. Suponha, por
+contradição, que $X$ tivesse uma densidade $f_X$. A função de distribuição de
+$X$ é a extensão de $\mathcal{C}$ por $0$ à esquerda e por $1$ à direita. Ela
+é constante em cada componente do complemento de $\mathbb{K}$; logo, sua
+derivada é nula fora de $\mathbb{K}$. Como $\lambda(\mathbb{K})=0$, essa
+derivada é nula em quase todo ponto. Pela relação \eqref{eq:densidade-derivada},
+a densidade $f_X$ coincide com essa derivada em quase todo ponto. Portanto,
+$f_X=0$ quase todo ponto, o que daria
 \[
-  1=\mathbb{P}(X\in\mathbb{K})
-    =\int_{\mathbb{K}}f_X(x)\,dx
-    =0,
+  \int_{-\infty}^{\infty}f_X(x)\,dx=0,
 \]
-o que é impossível. A última igualdade decorre da propriedade básica de que
-a integral de uma função não negativa sobre um conjunto de medida de Lebesgue
-nula é zero.
+em contradição com a normalização
+$\int_{-\infty}^{\infty}f_X(x)\,dx=1$.
 
 Portanto, $X$ tem uma função de distribuição contínua, mas não possui uma
 função de densidade de Lebesgue. Dizemos que sua distribuição é uma
