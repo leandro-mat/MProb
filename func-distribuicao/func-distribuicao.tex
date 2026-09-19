@@ -621,11 +621,13 @@ caso, costumamos escrever a medida como $\mathbb{P}$.
 
 Assim, o espaço de probabilidade $(\Omega,\mathcal{F},\mathbb{P})$ estudado
 até aqui é um caso particular de espaço de medida. Outro exemplo importante
-para estas notas é $(\mathbb{R},\mathscr{B}(\mathbb{R}),\lambda)$, onde
-$\mathscr{B}(\mathbb{R})$ é a menor $\sigma$-álgebra de subconjuntos de
-$\mathbb{R}$ que contém todos os intervalos abertos. Ela é chamada de
-\emph{$\sigma$-álgebra de Borel}. A medida $\lambda$ é a medida de Lebesgue;
-uma de suas propriedades fundamentais é
+para estas notas é $(\mathbb{R},\mathcal{L},\lambda)$, onde $\mathcal{L}$ é a
+\emph{$\sigma$-álgebra de Lebesgue} e $\lambda$ é a medida de Lebesgue. A
+$\sigma$-álgebra de Borel $\mathscr{B}(\mathbb{R})$ é a menor
+$\sigma$-álgebra de subconjuntos de $\mathbb{R}$ que contém todos os
+intervalos abertos; em particular,
+$\mathscr{B}(\mathbb{R})\subseteq\mathcal{L}$. Uma propriedade fundamental
+de $\lambda$ é
 \[
   \lambda\bigl((a,b]\bigr)=b-a, \qquad a<b.
 \]
@@ -1171,10 +1173,14 @@ F(x+\varepsilon_n) -F(x)
 &= \int_{x}^{x+\varepsilon_n} f(t)\, dt
 = \int_{-\infty}^{+\infty} \mathds{1}_{[x,x+\varepsilon_n]}(t) f(t)\, dt.
 \end{align*}
-Tomando $f_n \equiv \mathds{1}_{[x,x+\varepsilon_n]}\cdot f$, temos que 
-$f_n(t)\to 0$ em quase todo ponto. Mais precisamente, $f_n(t)$ só não converge
-no ponto $t=x$. Como $|f_n| = |\mathds{1}_{[x,x+\varepsilon_n]}\cdot f| \leqslant f$ 
-e a função $f$ é integrável em toda a reta, 
+Tomando $f_n \equiv \mathds{1}_{[x,x+\varepsilon_n]}\cdot f$, temos que
+$f_n(t)\to 0$ para todo $t\neq x$. No ponto $t=x$, como
+$x\in[x,x+\varepsilon_n]$ para todo $n$, vale $f_n(x)=f(x)$; portanto, a
+sequência converge nesse ponto, mas não necessariamente para $0$. Assim,
+$f_n\to 0$ em quase todo ponto, pois o único ponto excepcional é o conjunto
+unitário $\{x\}$, que tem medida de Lebesgue nula. Como
+$|f_n| = |\mathds{1}_{[x,x+\varepsilon_n]}\cdot f| \leqslant f$
+e a função $f$ é integrável em toda a reta,
 segue da aplicação direta do Teorema da Convergência Dominada que
 existe o seguinte limite e vale a seguinte igualdade 
 \begin{align*}
@@ -1187,7 +1193,7 @@ existe o seguinte limite e vale a seguinte igualdade
 \lim_{n\to\infty}  \mathds{1}_{[x,x+\varepsilon_n]}(t) f(t)\, dt
 \\[0.3cm]
 &=
-\int_{-\infty}^{+\infty} 0\, dt =0.
+\int_{-\infty}^{+\infty} f(x)\mathds{1}_{\{x\}}(t)\,dt =0.
 \end{align*} 
 
 Como $\{\varepsilon_n\}_{n\in\mathbb{N}}$ é uma sequência arbitrária que converge
@@ -1579,25 +1585,31 @@ Em geral, o intervalo determinado pelas primeiras $n$ escolhas é
 
 Os intervalos $I_n$ são encaixados: cada um está contido no anterior. Além
 disso, seus comprimentos tendem a zero. 
-Pelo Teorema dos intervalos encaixados de Cantor, a interseção de todos 
-estes intervalos determina um único ponto. 
-Podemos vê-lo diretamente pela série. Como $0\leqslant B_k\leqslant
-1$, temos
+Para identificar diretamente o ponto da interseção, consideremos os extremos
+esquerdos $X_n$. Se $m>n$, então, como $0\leqslant B_k\leqslant 1$, temos
 
-\begin{align*}
-  0\leqslant X-X_n
-    &\equiv \sum_{k=n+1}^{\infty}\frac{2B_k}{3^k}\\
-    &\leqslant \sum_{k=n+1}^{\infty}\frac{2}{3^k}
-     =\frac{1}{3^n}.
-\end{align*}
+\begin{align}\label{eq2:variavel-cantor}
+0\leqslant X_m-X_n
+= \sum_{k=n+1}^{m}\frac{2B_k}{3^k}
+\leqslant \sum_{k=n+1}^{\infty}\frac{2}{3^k}
+=\frac{1}{3^n}.
+\end{align}
 
-Consequentemente, a série
+Logo, $(X_n)_{n\geqslant 1}$ é uma sequência de Cauchy. Como $\mathbb{R}$ é
+completo, existe o limite
 
 \begin{equation}\label{eq:variavel-cantor}
-  X\equiv\sum_{k=1}^{\infty}\frac{2B_k}{3^k}
+  X\equiv\lim_{n\to\infty}X_n
+  =\sum_{k=1}^{\infty}\frac{2B_k}{3^k}.
 \end{equation}
 
-converge e seu valor pertence a todos os intervalos $I_n$. Em particular,
+Fixando $n\in\mathbb{N}$ e passando ao limite em $m$
+na desigualdade \eqref{eq2:variavel-cantor}, obtemos
+\[
+  0\leqslant X-X_n\leqslant\frac{1}{3^n}.
+\]
+Portanto, $X\in I_n$ para todo $n$. Como os comprimentos dos intervalos
+$I_n$ tendem a zero, esse é o único ponto pertencente a todos eles. Em particular,
 
 \[
   X\in\bigcap_{n=1}^{\infty}K_n=\mathbb{K}
