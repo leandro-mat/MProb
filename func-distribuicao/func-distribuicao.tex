@@ -812,7 +812,8 @@ $x \to +\infty$.}
 
 Os dois exemplos anteriores motivam uma pergunta natural: as propriedades
 fundamentais que verificamos são apenas necessárias, ou também garantem que
-uma função seja uma função de distribuição? A resposta é afirmativa.
+uma função seja uma função de distribuição de alguma variável aleatória $X$? 
+A resposta é afirmativa.
 
 \begin{theorem}[Caracterização das funções de distribuição]
 \label{thm:caracterizacao-fd}
@@ -924,8 +925,8 @@ que $F_X$ também é chamada de função de distribuição acumulada.
   \]
 
   Uma maneira de investigar se $X$ possui uma função de densidade $f_{X}$ seria
-  simplesmente tentar calcular formalmente a derivada de $F_X$, isto é,
-  $F_{X}'$ e tentar mostrar que esta derivada pode ser usada para construir
+  simplesmente calcular formalmente a derivada de $F_X$, isto é,
+  $F_{X}'$ e em seguida, mostrar que esta derivada pode ser usada para construir
   uma função de densidade para $X$.
   Neste caso em particular, temos para todo $x > 0$,
   \[
@@ -940,27 +941,28 @@ que $F_X$ também é chamada de função de distribuição acumulada.
     \end{cases}
   \]
   se apresenta como uma candidata natural a ser uma densidade para $X$.
-  Aqui, neste caso mais simples, uma aplicação direta do
+  Neste caso mais simples, uma aplicação direta do
   Teorema Fundamental do Cálculo confirma nossas suspeitas.
 \end{example}
 
 Observe que, no ponto $x=0$, a derivada de $F_X$ não existe. Mesmo assim,
 podemos atribuir a $f_X$ qualquer valor nesse ponto sem alterar sua integral.
-A noção de medida de Lebesgue torna precisa essa ideia e explica a expressão
-``quase todo ponto''.
+
 
 \subsection{Medida de Lebesgue e propriedades quase em todo ponto}
 
 \begin{remark}[Medida de Lebesgue e propriedades em quase todo ponto]
 \label{rem:medida-lebesgue-qtp}
-A medida de Lebesgue $\lambda$ formaliza a ideia de comprimento na reta.
-Ela está definida na $\sigma$-álgebra de Lebesgue $\mathcal{L}$, que contém a
+A medida de Lebesgue que será denotada por $\lambda$ formaliza a ideia de comprimento na reta.
+Ela está definida na chamada $\sigma$-álgebra de Lebesgue $\mathcal{L}$ que é
+uma $\sigma$-álgebra de subconjuntos de $\mathbb{R}$ que contém a
 $\sigma$-álgebra de Borel $\mathscr{B}(\mathbb{R})$. Portanto, todo intervalo
 é Lebesgue-mensurável e, para $a<b$,
 \[
   \lambda\bigl((a,b]\bigr)=b-a, \qquad a<b.
 \]
-Em particular, a medida de um intervalo coincide com seu comprimento.
+Em particular, a medida de Lebesgue de um intervalo coincide com a noção intuitiva que temos
+de comprimento de um intervalo. 
 Diremos que uma propriedade $P(x)$ vale em quase todo ponto, com respeito à
 medida de Lebesgue, quando o conjunto excepcional
 \[
@@ -968,30 +970,38 @@ medida de Lebesgue, quando o conjunto excepcional
 \]
 é mensurável e tem medida nula, isto é, $\lambda(N_P)=0$.
 
-Para os propósitos deste curso, basta lembrar que um ponto tem medida nula,
-$\lambda(\{x\})=0$, e que, pela $\sigma$-aditividade, todo conjunto
-enumerável $E\subseteq\mathbb{R}$ também tem medida nula. A recíproca é falsa:
-o conjunto ternário de Cantor $\mathbb{K}\subseteq[0,1]$, que construiremos
-mais adiante, é não enumerável e ainda assim satisfaz
-$\lambda(\mathbb{K})=0$.
+Pode ser trabalhoso, em geral, mostrar que um determinado subconjunto da reta
+tem medida de Lebesgue nula, entretanto, para nossos propósitos 
+será suficiente saber que um ponto (ou um conjunto unitário) tem medida nula, isto é,
+para todo $x\in\mathbb{R}$ temos $\lambda(\{x\})=0$. Deste fato e da $\sigma$-aditividade
+da medida de Lebesgue, podemos concluir que todo conjunto
+enumerável $E\subseteq\mathbb{R}$ também tem medida nula. 
+No entanto é importante estar atento ao fato de que é possível construir 
+subconjuntos de $\mathbb{R}$ não-enumeráveis, como 
+o conjunto ternário de Cantor $\mathbb{K}\subseteq[0,1]$
+que possui medida de Lebesgue nula, isto é, $\lambda(\mathbb{K})=0$.
+A construção deste conjunto é apresentada em detalhes adiante. 
 
-Em particular, uma função $f:\mathbb{R}\to\mathbb{R}$ é derivável em quase
-todo ponto quando
+
+\medskip 
+
+Vamos dizer que uma função $f:\mathbb{R}\to\mathbb{R}$ é derivável em quase
+todo ponto quando o conjunto
 \[
   N_f\equiv\{x\in\mathbb{R}: f'(x)\text{ não existe}\}
 \]
-tem medida de Lebesgue nula. Assim, a derivada pode deixar de existir em um
-conjunto excepcional e esse conjunto será irrelevante quando estivermos tratando,
-por exemplo, da integral desta função. 
+tem medida de Lebesgue nula. Neste caso, se o conjunto $N_{f}$ é não-vazio então  
+quer dizer que a derivada de $f$ deixa de existir em um conjunto excepcional. 
+  
+
 
 Embora conjuntos de medida zero sejam ``desprezíveis''
 com respeito à operação de integração, devemos tomar cuidado com o que
-este ``desprezível'' significa. Por exemplo, se temos a informação de que $f'(x)=0$, em quase todo
+este ``desprezível'' significa. Por exemplo, se sabemos apenas que $f'(x)=0$, em quase todo
 ponto, isto não implica que seja simples recuperar $f$ a partir de $f'$ por um processo simples
 de integração. Mais adiante, vamos fornecer um exemplo de como este problema pode ser complicado.
-Este exemplo será baseado na função de Cantor, que como veremos é 
-uma função contínua e não decrescente e também não é constante. Embora ela possua todas
-estas propriedades veremos que ela é também uma função que tem
+Este exemplo será baseado na chamada função de Cantor, que como veremos é 
+uma função contínua, não-decrescente e não-constante, mas possui 
 derivada nula em quase todo ponto.
 \end{remark}
 
@@ -1014,16 +1024,17 @@ escolha não altera integrais nem probabilidades calculadas a partir da
 densidade.
 
 \begin{remark}
-Nos exemplos abordados nestas notas, o procedimento descrito acima fornece a
-função de densidade. No entanto, é importante não concluir que toda função de
-distribuição contínua possa ser obtida integrando uma densidade. A continuidade
-da função de distribuição apenas diz que não existem átomos; a condição de ser
-absolutamente contínua exige algo mais: que as probabilidades dos intervalos
+Nos exemplos abordados nestas notas, a fórmula expressa \eqref{eq:densidade-derivada} 
+irá fornecer a função de densidade. No entanto, é importante saber que nem toda função de
+distribuição que é derivável em quase todo ponto possui uma função de densidade. 
+Observamos também que a mera continuidade da função de distribuição 
+implica apenas que $X$ não possui átomos. A condição de ser
+absolutamente contínua exige algo muito mais forte, que as probabilidades dos intervalos
 possam ser recuperadas por integração de uma densidade em relação à medida de
 Lebesgue.
 \end{remark}
 
-\subsection{Consequências básicas da existência de uma densidade}
+\subsection{Consequências básicas da existência da função densidade}
 
 \begin{remark}\label{rem:densidade-qtp}
 Se $f$ e $g$ são densidades de uma mesma variável aleatória $X$, então $f=g$
@@ -1031,9 +1042,9 @@ em quase todo ponto. Em particular, o valor atribuído a $f_X$ em um ponto
 isolado é irrelevante.
 \end{remark}
 
-As densidades desempenham para as variáveis absolutamente contínuas um papel
-análogo ao das funções de probabilidade para as variáveis discretas. Por isso,
-é natural começar registrando suas propriedades de normalização.
+As densidades desempenham para as variáveis aleatórias absolutamente contínuas um papel
+análogo ao das funções de probabilidade para as variáveis aleatórias discretas. Por isso,
+é natural começar registrando suas propriedades: não negatividade e normalização.
 
 \begin{property}
   Se $X$ é uma variável aleatória absolutamente contínua com densidade $f_X$, então
@@ -1071,40 +1082,6 @@ Portanto, a analogia correta não é entre $f_X(x)$ e a função de probabilidad
 $p_X(x)$, mas entre $f_X(x)\,\delta x$ e $p_X(x)$. No caso absolutamente
 contínuo, pontos isolados têm probabilidade nula; isso será demonstrado mais
 adiante.
-
-\subsection{Um critério para construir densidades}
-
-Até aqui vimos que uma variável aleatória absolutamente contínua $X$ fica
-descrita por sua função de distribuição $F_X$ e que, quando $F_X$ é derivável,
-sua derivada $f_X$ é a função densidade de probabilidade associada, conforme a
-\Cref{def:va-continua}. Cabe agora perguntar o contrário: dada uma função $f$,
-quando ela é a densidade de alguma variável aleatória? A resposta é simples e a
-registramos a seguir.
-
-Se $f:\mathbb{R}\to[0,\infty)$ é Lebesgue-mensurável e satisfaz
-\begin{equation}
-  f(x) \geqslant 0 \qquad \text{para todo } x \in \mathbb{R}
-  \label{eq:densidade-nao-negativa}
-\end{equation}
-e
-\begin{equation}
-  \int_{-\infty}^{\infty} f(x)\,dx = 1,
-  \label{eq:densidade-normalizacao}
-\end{equation}
-então $f$ é a função densidade de probabilidade de alguma variável
-aleatória. Para confirmar isso, basta definir
-\[
-  F(x) = \int_{-\infty}^{x} f(u)\,du
-\]
-Note que \eqref{eq:densidade-normalizacao} garante $f\in L^1(\mathbb{R})$, de
-modo que a integral que define $F$ é finita para todo $x$; a monotonicidade
-segue de \eqref{eq:densidade-nao-negativa}, e a continuidade à direita e os
-limites em $\pm\infty$ seguem da continuidade da integral. Verifica-se assim que
-$F$ satisfaz as propriedades reunidas na
-\Cref{prop:propriedades-funcao-distribuicao}. Pelo \Cref{thm:caracterizacao-fd},
-existe uma variável aleatória $X$ cuja função de
-distribuição é $F$. Como $F(x)=\int_{-\infty}^{x}f(u)\,du$, concluímos que $f$
-é uma densidade de $X$.
 
 \subsection{O Teorema da Convergência Dominada}
 
@@ -1151,10 +1128,95 @@ Então
 \]
 \end{corollary}
 
+\subsection{Um critério para construir densidades}
+
+Até aqui vimos que uma variável aleatória absolutamente contínua $X$ fica
+descrita por sua função de distribuição $F_X$ e que, quando $F_X$ é derivável,
+sua derivada $f_X$ é a função densidade de probabilidade associada, conforme a
+\Cref{def:va-continua}. Cabe agora perguntar o contrário: dada uma função $f$,
+quando ela é a função de densidade de alguma variável aleatória? A resposta é simples e a
+registramos a seguir.
+
+Se $f:\mathbb{R}\to[0,\infty)$ é Lebesgue-mensurável e satisfaz
+\begin{equation}
+  f(x) \geqslant 0 \qquad \text{para todo } x \in \mathbb{R}
+  \label{eq:densidade-nao-negativa}
+\end{equation}
+e
+\begin{equation}
+  \int_{-\infty}^{\infty} f(x)\,dx = 1,
+  \label{eq:densidade-normalizacao}
+\end{equation}
+então $f$ é a função densidade de probabilidade de alguma variável
+aleatória $X$. Para verificar este fato vamos mostra que valem as hipóteses
+do \Cref{thm:caracterizacao-fd} para a função $F:\mathbb{R}\to\mathbb{R}$ definida por
+\[
+  F(x) = \int_{-\infty}^{x} f(u)\,du.
+\]
+
+Primeiro observamos que a hipótese \eqref{eq:densidade-normalizacao},
+de integrabilidade de $f$, garante que $F(x)$ está bem-definida e finita para todo $x\in\mathbb{R}$. 
+A monotonicidade da função $F$ segue do 
+Teorema Fundamental do Cálculo e da hipótese \eqref{eq:densidade-nao-negativa} de não-negatividade de $f$.
+A semi-continuidade à direita e os limites em $\pm\infty$ seguem do 
+Teorema da Convergência Dominada (\Cref{thm:convergencia-dominada}). 
+De fato, para cada $x\in\mathbb{R}$ fixado e cada sequência $\{\varepsilon_n\}_{n\in\mathbb{N}}$ 
+com $\varepsilon_n\geqslant 0$ e $\varepsilon_n\to 0$, quando $n\to\infty$, temos: 
+\begin{align*}
+F(x+\varepsilon_n) -F(x) 
+&= 
+\int_{-\infty}^{x+\varepsilon_n} f(t)\, dt 
+-
+\int_{-\infty}^{x} f(t)\, dt 
+\\[0.3cm]
+&= \int_{x}^{x+\varepsilon_n} f(t)\, dt
+= \int_{-\infty}^{+\infty} \mathds{1}_{[x,x+\varepsilon_n]}(t) f(t)\, dt.
+\end{align*}
+Tomando $f_n \equiv \mathds{1}_{[x,x+\varepsilon_n]}\cdot f$, temos que 
+$f_n(t)\to 0$, em quase todo ponto. Mais precisamente, $f_n(t)$ só não converge
+no ponto $t=x$. Como $|f_n| = |\mathds{1}_{[x,x+\varepsilon_n]}\cdot f| \leqslant f$ 
+e a função $f$ é integrável em toda reta. 
+Segue da aplicação direta do Teorema da Convergência Dominada que
+existe o seguinte limite e vale a seguinte igualdade 
+\begin{align*}
+\lim_{n\to\infty} F(x+\varepsilon_n) -F(x) 
+=
+\lim_{n\to\infty} 
+\int_{-\infty}^{+\infty} \mathds{1}_{[x,x+\varepsilon_n]}(t) f(t)\, dt
+&=
+\int_{-\infty}^{+\infty}
+\lim_{n\to\infty}  \mathds{1}_{[x,x+\varepsilon_n]}(t) f(t)\, dt
+\\[0.3cm]
+&=
+\int_{-\infty}^{+\infty} 0\, dt =0.
+\end{align*} 
+
+Como $\{\varepsilon_n\}_{n\in\mathbb{N}}$ é uma sequência arbitrária que converge
+para zero, por valores não negativos, segue da igualdade acima que
+\begin{align*}
+\lim_{\varepsilon\to 0^{+}} F(x+\varepsilon) = F(x). 
+\end{align*}
+
+De maneira análoga, mostramos que 
+\begin{align*}
+\lim_{x\to -\infty} \int_{-\infty}^{x} f(t)\, dt = 0 
+\qquad \text{e}\qquad 
+\lim_{x\to \infty} \int_{-\infty}^{x} f(t)\, dt = 1,
+\end{align*}
+onde na segunda igualdade usamos além do Teorema da Convergência Dominada 
+de Lebesgue a hipótese \eqref{eq:densidade-normalizacao}.
+
+Portanto pelo \Cref{thm:caracterizacao-fd},
+existe uma variável aleatória $X$ cuja função de
+distribuição é $F$. Como $F(x)=\int_{-\infty}^{x}f(u)\,du$, concluímos que $f$
+é uma função densidade de $X$.
+
+
+
 \subsection{Probabilidades de pontos e intervalos}
 
 \begin{theorem}[Propriedades da densidade]\label{thm:propriedades-densidade}
-  Se $X$ é absolutamente contínua com densidade $f_X$, então
+  Se $X$ é uma variável aleatória absolutamente contínua com densidade $f_X$, então
 \begin{equation}\label{eq:prob-ponto}
     \mathbb{P}(X = x) = 0 \quad \text{para todo } x \in \mathbb{R},
 \end{equation}
@@ -1177,7 +1239,7 @@ Então
     \mathbb{P}(X=x)= \lim_{n\to\infty}
       \mathbb{P}\left( x - \frac{1}{n} < X \leqslant x\right).
   \]
-  Usando \eqref{eq:intervalo-fd} e \eqref{eq:densidade-integral}, obtemos
+  Usando as propriedades elementares \eqref{eq:intervalo-fd} e \eqref{eq:densidade-integral}, obtemos
   \[
     \begin{aligned}
       \mathbb{P}(X=x)
@@ -1186,13 +1248,13 @@ Então
         \notag \\[0.3cm]
         &= \lim_{n\to\infty} \int_{x - \frac{1}{n}}^{x} f_X(u)\,du
         \notag \\[0.3cm]
-        &=0.
+        &=0,
     \end{aligned}
   \]
-  A função $f_X$ é Lebesgue-mensurável e integrável, pois é não negativa e
-  satisfaz a normalização $\int_{\mathbb{R}}f_X(u)\,du=1$. Assim, a última
-  igualdade segue do \Cref{cor:convergencia-dominada}, aplicado a
+  onde a última igualdade segue do \Cref{cor:convergencia-dominada}, aplicado a
   $I_n=[x-1/n,x]$ e $I=\{x\}$.
+
+\medskip 
 
   Para a segunda parte, seja $a\leqslant b$. Como $\{X=a\}$ tem probabilidade
   $0$ pela primeira parte, os eventos $\{a\leqslant X\leqslant b\}$ e
@@ -1207,23 +1269,54 @@ Então
         &= \int_a^b f_X(u)\,du.
     \end{aligned}
   \]
+\bigskip 
+
+
+  \begin{center}
+    \begin{tikzpicture}[x=1.25cm,y=8cm]
+      % Região correspondente à integral \int_a^b f_X(u)\,du,
+      % ilustrada aqui com a normal padrão e a=-1, b=1.
+      \fill[gray!35]
+        (-1,-0.01) -- plot[domain=-1:1, samples=120]
+          (\x,{1/sqrt(2*pi)*exp(-\x*\x/2)}) -- (1,-0.01) -- cycle;
+
+      % Eixos e densidade.
+      \draw[-stealth] (-3.6,-0.01) -- (3.6,-0.01) node[below right] {$x$};
+      \draw[-stealth] (0,-0.02) -- (0,0.47);
+      \node[font=\scriptsize, anchor=south east] at (-0.15,0.40) {$f_X$};
+      \draw[teal, very thick, domain=-3.5:3.5, samples=180]
+        plot (\x,{1/sqrt(2*pi)*exp(-\x*\x/2)});
+
+      % Extremos do intervalo de integração.
+      \draw[gray!70, dashed] (-1,0) -- (-1,0.242);
+      \draw[gray!70, dashed] (1,0) -- (1,0.242);
+      \draw[teal, thick] (-1,0) -- (-1,-0.012);
+      \draw[teal, thick] (1,0) -- (1,-0.012);
+      \node[below=1pt, font=\small] at (-1,-0.012) {$a$};
+      \node[below=1pt, font=\small] at (1,-0.012) {$b$};
+
+      \node[font=\small] at (3.2,0.31)
+        {$\displaystyle \int_a^b f_X(u)\,du = \mathbb{P}(a\leqslant X\leqslant b)$};
+    \end{tikzpicture}
+  \end{center}
 \end{proof}
 
 O teorema mostra que, para uma variável aleatória absolutamente contínua, a
 probabilidade de qualquer valor isolado é nula. Consequentemente, incluir ou
-excluir os extremos de um intervalo não altera sua probabilidade:
-\[
+excluir os extremos de um intervalo não altera sua probabilidade, ou seja,
+\begin{align*}
   \mathbb{P}(a \leqslant X \leqslant b)
-  = \mathbb{P}(a<X \leqslant b)
-  = \mathbb{P}(a \leqslant X<b)
-  = \mathbb{P}(a<X<b).
-\]
+  &= \mathbb{P}(a<X \leqslant b)
+  \\[0.3cm]
+  &= \mathbb{P}(a \leqslant X<b)
+  \\[0.3cm]
+  &= \mathbb{P}(a<X<b).
+\end{align*}
 Isso contrasta com o caso discreto, em que um único ponto pode concentrar
 toda a probabilidade.
 
 
-\break 
-\section{Distribuições Contínuas sem Densidade: o Exemplo de Cantor}
+\section{Distribuições Contínuas sem Densidade}
 \label{sec:distribuicoes-singulares}
 
 Até aqui estudamos duas classes de variáveis aleatórias: as discretas e as
@@ -1231,43 +1324,36 @@ absolutamente contínuas. Essas duas classes, porém, não esgotam as
 possibilidades. Nesta seção construímos o exemplo clássico de uma variável
 aleatória que não pertence a nenhuma delas: sua função de distribuição é
 contínua, de modo que não há átomos, mas não pode ser escrita como a integral de
-uma densidade de Lebesgue.
+uma densidade, com respeito à medida de Lebesgue.
 
 O percurso descreve o mesmo objeto de dois pontos de vista. Primeiro definimos a
-função de Cantor $\mathcal{C}$ por um processo iterativo de aproximações, o que
-mostra que ela é contínua, não decrescente e cresce de $0$ a $1$. Em seguida
-construímos uma variável aleatória $X$ cuja função de distribuição é
-$\mathcal{C}$; como $X$ está concentrada no conjunto ternário de Cantor, que tem
+função de Cantor $\mathcal{C}:[0,1]\to\mathbb{R}$ como o limite
+de um processo iterativo de aproximações. Como veremos a construção já deixa claro
+que esta função é contínua e não decrescente em todo intervalo fechado $[0,1]$. 
+Em seguida, construímos uma variável aleatória $X$ cuja função de distribuição é
+exatamente a função $\mathcal{C}$. 
+Vamos mostrar que $X$ toma valores apenas no conjunto ternário de Cantor, que tem
 medida de Lebesgue nula, conforme será demonstrado no
-\Cref{exercise:medida-cantor}, concluímos que $X$ tem distribuição contínua,
+\Cref{exercise:medida-cantor}, e também que $X$ tem distribuição contínua,
 mas não admite densidade.
 
 \subsection{A função de Cantor}
-
-Usaremos a seguinte notação para o conjunto ternário de Cantor. Começamos com
-$K_0=[0,1]$ e, para obter $K_{n+1}$ a partir de $K_n$, retiramos o terço
-médio aberto de cada intervalo que compõe $K_n$. O conjunto de Cantor é
-\begin{equation}
-  \mathbb{K}=\bigcap_{n=0}^{\infty}K_n.
-  \label{eq:conjunto-cantor}
-\end{equation}
-Assim, os pontos de $\mathbb{K}$ são exatamente aqueles que nunca são
-retirados durante o processo.
 
 Começamos com a função identidade
 \[
   f_0(x)=x, \qquad 0\leqslant x\leqslant 1.
 \]
-Se $f_n$ já foi construída, obtemos a próxima aproximação aplicando a mesma
-regra em cada um dos três terços do intervalo:
+
+Em seguida, prosseguimos com a construção recursivamente.
+Supondo que $f_n$ já foi construída definimos $f_{n+1}$ como sendo a seguinte função
 \[
-f_{n+1}(x)=Tf_n(x)
-=
+f_{n+1}(x)
+\equiv 
 \begin{cases}
 \dfrac{1}{2}f_n(3x), & \text{se } 0\leqslant x\leqslant \dfrac{1}{3},
-\\[0.5cm]
+\\[0.7cm]
 \dfrac{1}{2}, & \text{se } \dfrac{1}{3}\leqslant x\leqslant \dfrac{2}{3},
-\\[0.5cm]
+\\[0.7cm]
 \dfrac{1}{2}+\dfrac{1}{2}f_n(3x-2),
   & \text{se } \dfrac{2}{3}\leqslant x\leqslant 1.
 \end{cases}
@@ -1275,12 +1361,15 @@ f_{n+1}(x)=Tf_n(x)
 
 
 O que essa fórmula faz com o gráfico? Ela copia o gráfico de $f_n$ para o
-terço esquerdo, comprimindo-o verticalmente até a altura $1/2$; mantém o
-terço central na altura $1/2$; e copia novamente o gráfico para o terço direito,
-agora entre as alturas $1/2$ e $1$. Assim, em cada etapa aparece um novo
-trecho horizontal no terço médio de cada intervalo que ainda não havia sido
-achatado. As primeiras aproximações estão na
-\Cref{fig:aproximacoes-funcao-cantor}.
+terço esquerdo, comprimindo-o verticalmente até a altura $1/2$. 
+Mantém o gráfico na função ao longo do terço central 
+constante igual $1/2$. Por último, copia novamente o gráfico para o terço direito,
+comprimindo seu comprimento na direção $y$ por um fator de $1/2$
+e o resultado disto é colocado entre as alturas $1/2$ e $1$. 
+Assim, em cada etapa aparece um novo trecho horizontal no terço médio 
+de cada intervalo que ainda não havia sido achatado. 
+As primeiras etapas da construção descrita acima podem ser visualizadas 
+nos gráfico da \Cref{fig:aproximacoes-funcao-cantor}.
 
 \clearpage
 \enlargethispage{12pt}
@@ -1301,15 +1390,17 @@ restante.}
 
 A sequência de funções definida recursivamente acima
 converge uniformemente para uma função contínua e monótona não decrescente
-$\mathcal{C}$, chamada função de Cantor:
+$\mathcal{C}:[0,1]\to [0,1]$, chamada função de Cantor:
 \[
   \mathcal{C}(x)=\lim_{n\to\infty}f_n(x).
 \]
 
-A ideia por trás da convergência uniforme é que a regra de construção reduz
-pela metade as diferenças entre duas funções que recebem a mesma transformação.
-A verificação formal dessa estimativa fica reunida na lista de exercícios
-avançados ao final das notas.
+A taxa uniforme da convergência de $f_n$ para $\mathcal{C}$ 
+é produzida pela regra de construção, já que a cada etapa reduzimos
+pela metade as diferenças entre duas funções aproximantes consecutivas definidas
+por esta transformação. O significado preciso desta afirmação é apresentado 
+nos itens do \Cref{exercise:construcao-cantor-avancada} 
+que está no final das notas.
 
 Em particular, os intervalos abertos que recebem trechos horizontais na
 construção são precisamente os intervalos removidos na construção do conjunto
@@ -1332,8 +1423,8 @@ primeira vista. O conjunto de Cantor $\mathbb{K}$ tem medida de Lebesgue nula,
 mas a função $\mathcal{C}$ cresce de $0$ a $1$ em $[0,1]$. Será possível
 construir uma variável aleatória que esteja sempre em $\mathbb{K}$ e, ainda
 assim, tenha uma função de distribuição contínua? A resposta é sim. Mais do
-que isso: essa variável aleatória não terá uma função de densidade de
-Lebesgue. O exemplo é importante porque mostra concretamente que
+que isso: essa variável aleatória não terá uma função de densidade. 
+O exemplo é importante porque mostra concretamente que
 ``distribuição contínua'' e ``distribuição absolutamente contínua'' são
 noções diferentes.
 
@@ -1393,7 +1484,8 @@ prescrita de $n$ escolhas, por exemplo
 tem probabilidade $(1/2)^n=2^{-n}$. Essa é a única propriedade da
 independência que usaremos explicitamente.
 
-Para registrar as escolhas, definimos variáveis aleatórias $B_n$ por
+Para registrar as escolhas, definimos variáveis aleatórias $B_n$
+com distribuição de Bernoulli dadas por
 
 \[
   B_n=
@@ -1412,8 +1504,8 @@ Assim, cada $B_n$ assume os valores $0$ e $1$ com a mesma probabilidade:
 Formalmente, podemos pensar que um resultado do experimento é uma sequência
 infinita $(B_1,B_2,B_3,\ldots)$ de zeros e uns. Não será necessário construir
 em detalhes o espaço de probabilidade dessas sequências. Para todos os
-cálculos abaixo, basta saber que os eventos que fixam os primeiros $n$ valores
-de $B_1,\ldots,B_n$ têm probabilidade $2^{-n}$.
+cálculos abaixo, basta saber que os eventos que determinam os primeiros $n$ valores
+$B_1,\ldots,B_n$ têm probabilidade $2^{-n}$.
 
 \subsubsection{O ponto escolhido e sua expansão ternária}
 
@@ -1435,12 +1527,12 @@ $B_1=0$, $B_2=1$, e o intervalo escolhido na segunda etapa é
 O caminho dessas duas escolhas pode ser visualizado na
 \Cref{fig:escolhas-cantor}. Em cada
 linha estão representados os intervalos que permanecem depois da etapa
-correspondente. O intervalo escolhido fica destacado em teal, e as setas
+correspondente. O intervalo escolhido fica destacado, e as setas
 indicam o caminho esquerda--direita determinado por $B_1=0$ e $B_2=1$.
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[x=11cm,y=2.2cm]
+\begin{tikzpicture}[x=9cm,y=1.8cm]
   % Etapa inicial
   \node[left] at (-0.02,0) {$K_0$};
   \draw[gray!35, line width=0.8pt] (0,0) -- (1,0);
@@ -1489,8 +1581,10 @@ Em geral, o intervalo determinado pelas primeiras $n$ escolhas é
 \]
 
 Os intervalos $I_n$ são encaixados: cada um está contido no anterior. Além
-disso, seus comprimentos tendem a zero. Isso sugere que eles determinam um
-único ponto. Podemos vê-lo diretamente pela série. Como $0\leqslant B_k\leqslant
+disso, seus comprimentos tendem a zero. 
+Pelo Teorema dos intervalos encaixantes de Cantor a interseção de todos 
+estes intervalos determinam um único ponto. 
+Podemos vê-lo diretamente pela série. Como $0\leqslant B_k\leqslant
 1$, temos
 
 \begin{align*}
@@ -1536,7 +1630,7 @@ $B_1,B_2,\ldots$.
 Se $x\notin\mathbb{K}$, então $\mathbb{P}(X=x)=0$, pois $X$ sempre pertence a
 $\mathbb{K}$. Consideremos agora $x\in\mathbb{K}$. Em cada etapa $n$, o ponto
 $x$ pertence a um único componente de $K_n$, isto é, a um dos intervalos
-fechados que formam $K_n$; esses componentes são disjuntos. Para que ocorra
+fechados que formam $K_n$. É claro que estes intervalos são disjuntos. Para que ocorra
 $X=x$, as primeiras $n$ escolhas precisam ser exatamente as escolhas que
 conduzem a esse intervalo. Como essa sequência de escolhas tem probabilidade
 $2^{-n}$, obtemos
@@ -1598,8 +1692,8 @@ Vamos calcular $F_X$ separando esses dois casos.
   ocorrer quando $B_1=0$. Nesse caso, $X=Y/3$, e portanto
   \begin{align*}
     F_X(x)
-      &=\mathbb{P}(B_1=0,\,Y\leqslant 3x)\\
-      &=\mathbb{P}(B_1=0)\,\mathbb{P}(Y\leqslant 3x)\\
+      &=\mathbb{P}(B_1=0,\,Y\leqslant 3x)\\[0.3cm]
+      &=\mathbb{P}(B_1=0)\,\mathbb{P}(Y\leqslant 3x)\\[0.3cm]
       &=\frac{1}{2}F_X(3x).
   \end{align*}
 
@@ -1707,19 +1801,22 @@ Lebesgue nula. Assim, para utilizar uma densidade e as ferramentas do cálculo
 integral, é necessário assumir explicitamente que a distribuição é
 absolutamente contínua.
 
-\subsection{Recapitulação}
+\subsection{Resumo}
 
-Recapitulando o percurso desta nota: toda variável aleatória possui uma função
-de distribuição, conforme a \Cref{def:funcao-distribuicao}. No caso discreto,
-essa informação é codificada por uma função de probabilidade $p_X$; no caso
-absolutamente contínuo, por uma densidade $f_X$. Essas duas classes, como
-acabamos de ver, não esgotam todas as possibilidades: a distribuição de Cantor é
-contínua, mas não pode ser escrita como a integral de uma densidade de Lebesgue.
+Antes de prosseguir recapitulamos o percurso feito até o momento. 
+Vimos que toda variável aleatória possui uma função
+de distribuição conforme a \Cref{def:funcao-distribuicao}. No caso discreto,
+a função de distribuição é codificada pela função de probabilidade $p_X$. 
+No caso absolutamente contínuo, pela função densidade $f_X$. Essas duas classes, como
+acabamos de ver, não esgotam todas as possibilidades: a distribuição de Cantor 
+fornece um exemplo da existência de uma variável aleatória
+contínua cuja a função de distribuição não pode 
+ser escrita como a integral de uma densidade.
 
-Para as aplicações, as densidades continuam sendo o instrumento mais útil, e é
-a elas que dedicamos a próxima seção.
+Para diversas aplicações, as funções densidades acabam sendo um instrumento mais útil. 
+Na seção seguinte apresentamos alguns exemplos que aparecem com mais frequência.
 
-\section{Algumas Funções de Densidade Usuais}
+\section{Exemplos de Funções Densidade}
 \label{sec:densidades-usuais}
 
 Mostramos abaixo as densidades mais usadas, cada uma acompanhada de seus
@@ -1742,7 +1839,30 @@ $a<b$, quando sua densidade é
   \end{cases}
   \label{eq:dens-uniforme}
 \end{equation}
-Aqui a integral é elementar:
+O gráfico desta função de densidade é esboçado na figura abaixo.
+\begin{center}
+  \begin{tikzpicture}[x=1.1cm,y=3.2cm]
+    % Esboço da densidade uniforme, no caso ilustrativo a=1 e b=3.
+    % Eixos e gráfico da densidade.
+    \draw[-stealth] (-0.7,0) -- (4.7,0) node[below right] {$x$};
+    \draw[-stealth] (0,-0.08) -- (0,1) node[below left] {$y$};
+    \draw[teal, very thick] (-0.7,0) -- (1,0);
+    \draw[teal, very thick] (1,0.5) -- (3,0.5);
+    \draw[teal, very thick] (3,0) -- (4.7,0);
+
+    % Bordas do intervalo e marcações positivas a=1 e b=3.
+    \draw[gray!70, dashed] (1,0) -- (1,0.5);
+    \draw[gray!70, dashed] (3,0) -- (3,0.5);
+    \draw[teal, thick] (1,0.03) -- (1,-0.03);
+    \draw[teal, thick] (3,0.03) -- (3,-0.03);
+    \node[below=1pt, font=\small] at (1,-0.03) {$a$};
+    \node[below=1pt, font=\small] at (3,-0.03) {$b$};
+  \end{tikzpicture}
+\end{center}
+
+Neste caso, a verificação da condição de normalização \eqref{eq:densidade-normalizacao} 
+é elementar já que valem as
+seguintes igualdades
 \[
   \int_{-\infty}^{\infty} f(x)\,dx = \int_a^b \frac{1}{b-a}\,dx
   = \frac{b-a}{b-a} = 1.
@@ -1762,9 +1882,11 @@ $\lambda>0$ quando
   \end{cases}
   \label{eq:dens-exponencial}
 \end{equation}
-Novamente a normalização sai de uma primitiva imediata, pois
+
+Para verificar que $f$ está normalizada como em \eqref{eq:densidade-normalizacao} 
+basta aplicar o Teorema Fundamental do Cálculo. De fato, já que 
 $\frac{d}{dx}\bigl(-e^{-\lambda x}\bigr) = \lambda e^{-\lambda x}$ e
-$e^{-\lambda x}\to 0$ quando $x\to+\infty$:
+$e^{-\lambda x}\to 0$ quando $x\to+\infty$, temos 
 \[
   \int_{-\infty}^{\infty} f(x)\,dx
   = \int_0^{\infty} \lambda e^{-\lambda x}\,dx
@@ -1778,7 +1900,7 @@ $e^{-\lambda x}\to 0$ quando $x\to+\infty$:
 
 Dizemos que $X$ tem \emph{distribuição normal} (ou \emph{gaussiana}) de
 parâmetros $\mu\in\mathbb{R}$ e $\sigma>0$, e escrevemos
-$X\sim \mathrm{N}(\mu,\sigma^2)$, quando $X$ possui função de densidade dada por
+$X\sim N(\mu,\sigma^2)$, quando $X$ possui função de densidade dada por
 \begin{equation}
   f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}
   \exp\!\left(-\frac{1}{2\sigma^2}(x-\mu)^2\right),
@@ -1786,11 +1908,13 @@ $X\sim \mathrm{N}(\mu,\sigma^2)$, quando $X$ possui função de densidade dada p
   \label{eq:dens-normal}
 \end{equation}
 
-Como veremos mais à frente, o parâmetro $\mu$ será o valor esperado de $X$ e este parâmetro
-desloca o centro da curva ao longo do eixo $x$, enquanto o
+Como veremos mais à frente, o parâmetro $\mu$ será o valor esperado de $X$. 
+Note que ao variar este parâmetro deslocamos o centro da curva ao longo do eixo $x$, enquanto o
 parâmetro $\sigma$ (que será o desvio padrão de $X$ ou a raiz quadrada de sua variância)
-controla sua dispersão. Dizemos que $X$ tem distribuição normal padrão se
-$\mu=0$ e $\sigma=1$ e usaremos a notação $X\sim \mathrm{N}(0,1)$.
+controla sua dispersão (veja o efeito da variação 
+deste parâmetro nos gráficos da \Cref{fig:densidade-normal-parametros}). 
+Dizemos que $X$ tem distribuição normal padrão se
+$\mu=0$ e $\sigma=1$ e usaremos a notação $X\sim N(0,1)$.
 
 \begin{figure}[H]
 \centering
@@ -1804,9 +1928,9 @@ $\mu=0$ e $\sigma=1$ e usaremos a notação $X\sim \mathrm{N}(0,1)$.
     \draw (\x,0.012) -- (\x,-0.012)
       node[below=1pt, font=\scriptsize] {$\x$};
   }
-  \node[font=\small] at (2,0.26) {$\mathrm{N}(0,1)$};
+  \node[font=\small] at (2,0.26) {$N(0,1)$};
 \end{tikzpicture}
-\caption{Densidade da normal padrão $\mathrm{N}(0,1)$.}
+\caption{Densidade da normal padrão $N(0,1)$.}
 \label{fig:densidade-normal-padrao}
 \end{figure}
 
@@ -1831,12 +1955,12 @@ e os pontos situados a um desvio-padrão dela.
     \draw (\x,0.012) -- (\x,-0.012)
       node[below=1pt, font=\scriptsize] {$\label$};
   }
-  \node[font=\small] at (2.5,0.32) {$\mathrm{N}(\mu,\sigma^2)$};
+  \node[font=\small] at (2.5,0.32) {$N(\mu,\sigma^2)$};
   \draw[teal, thick, dashed] (2,0) -- (2,0.26);
 \end{tikzpicture}
-\caption{Densidade normal $\mathrm{N}(\mu,\sigma^2)$ no caso
+\caption{Densidade normal $N(\mu,\sigma^2)$ no caso
 $\mu=2$ e $\sigma=\tfrac{3}{2}$ (curva contínua), comparada com a densidade
-da normal padrão $\mathrm{N}(0,1)$ (curva cinza pontilhada).}
+da normal padrão $N(0,1)$ (curva cinza pontilhada).}
 \label{fig:densidade-normal-parametros}
 \end{figure}
 
@@ -1874,7 +1998,6 @@ $\lim_{x\to\pm\infty}\arctan x = \pm\frac{\pi}{2}$:
 \]
 
 
-\break 
 \subsection{Famílias gama, beta e qui-quadrado}
 
 \medskip
@@ -1948,7 +2071,7 @@ distribuição uniforme em $[0,1]$, o que concorda com
 \eqref{eq:dens-uniforme} tomando $a=0$ e $b=1$.
 
 
-\break 
+\bigskip 
 
 \noindent\textbf{Distribuição qui-quadrado.}
 
@@ -2135,8 +2258,9 @@ termos de $\Gamma$.
   \[
     \Gamma(s)\Gamma(t) = \Gamma(s+t)\,B(s,t),
   \]
-  e como $\Gamma(s+t)>0$, dividindo por esse valor chegamos a
-  $B(s,t) = \dfrac{\Gamma(s)\Gamma(t)}{\Gamma(s+t)}$, como queríamos.
+  e como $\Gamma(s+t)>0$, dividindo por esse valor concluímos que 
+  \[B(s,t) = \dfrac{\Gamma(s)\Gamma(t)}{\Gamma(s+t)},\] 
+  como queríamos demonstrar. 
 \end{proof}
 
 A \Cref{prop:beta-gama} mostra que a constante de
@@ -2150,8 +2274,8 @@ retomadas adiante, quando aparecerem em situações concretas.
 \label{sec:exercicios-funcoes-distribuicao}
 
 Os exercícios a seguir retomam os conceitos e exemplos desenvolvidos ao longo
-da nota: funções de distribuição, densidades, as distribuições usuais e a
-função de Cantor. Salvo indicação em contrário, $X$ denota uma variável
+destas notas: funções de distribuição, densidades, as distribuições usuais e a
+função de Cantor. Nos exercícios abaixo $X$ denota sempre uma variável
 aleatória em um espaço de probabilidade fixado.
 
 \medskip
@@ -2159,7 +2283,7 @@ aleatória em um espaço de probabilidade fixado.
 
 \begin{exercise}\label{exercise:lei-medida-probabilidade}
   Sejam $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade e $X$ uma
-  variável aleatória definida sobre ele. Considere o espaço mensurável
+  variável aleatória definida sobre este espaço. Considere o espaço mensurável
   $(\mathbb{R},\mathscr{B}(\mathbb{R}))$. Mostre que a lei de $X$, definida por
   \[
     \mu_X(A)=\mathbb{P}(X\in A), \qquad A\in\mathscr{B}(\mathbb{R}),
@@ -2328,7 +2452,7 @@ aleatória em um espaço de probabilidade fixado.
 \medskip
 \noindent\textbf{A função e a distribuição de Cantor}
 
-\begin{exercise}[A Medida de Lebesgue do Conjunto de Cantor]
+\begin{exercise}
 \label{exercise:medida-cantor}
 Considere a construção do conjunto ternário de Cantor. Começamos com
 $K_0=[0,1]$ e, em cada etapa, retiramos o terço médio de cada intervalo que
@@ -2342,7 +2466,7 @@ intervalos que permanecem em cada etapa.
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[x=12cm,y=1.2cm]
+\begin{tikzpicture}[x=9cm,y=0.9cm]
   \node[left] at (-0.02,0) {$K_0$};
   \draw[gray!35, line width=0.8pt] (0,0) -- (1,0);
   \draw[teal, line width=2pt] (0,0) -- (1,0);
@@ -2370,8 +2494,7 @@ intervalos que permanecem em cada etapa.
   \draw[teal, line width=2pt] (0.8889,-3) -- (0.9259,-3);
   \draw[teal, line width=2pt] (0.9630,-3) -- (1,-3);
 \end{tikzpicture}
-\caption{\small\emph{A cada etapa, cada intervalo restante dá origem a dois
-intervalos com um terço do comprimento anterior.}}
+\caption{\small\emph{As etapas da construção do Conjunto de Cantor.}}
 \label{fig:construcao-cantor-medida}
 \end{figure}
 
@@ -2385,10 +2508,7 @@ medida de Lebesgue.
   \item Mostre, por indução, que $K_n$ é a união de $2^n$ intervalos fechados,
   cada um deles com comprimento $3^{-n}$.
 
-  \item Para $n\geqslant 1$, denote por
-  \[
-    R_n\equiv K_{n-1}\setminus K_n
-  \]
+  \item Para $n\geqslant 1$, denote por $R_n\equiv K_{n-1}\setminus K_n$
   a união dos intervalos abertos retirados na $n$-ésima etapa; os extremos
   desses intervalos permanecem em $K_n$. Mostre que $R_n$ é a
   união de $2^{n-1}$ intervalos abertos, cada um com comprimento $3^{-n}$, e
