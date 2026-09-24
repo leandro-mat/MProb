@@ -1,0 +1,1155 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazilian]{babel}     % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{lucide-icons}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Funções de Variáveis Aleatórias Contínuas e Esperança},
+pdfauthor={L. Cioletti},
+pdfsubject={Funções de variáveis aleatórias contínuas, transformações de densidades, esperança, variância, lei do estatístico subconsciente},
+pdfkeywords={variáveis aleatórias contínuas, função densidade, transformação de variáveis, esperança, variância, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheoremstyle{plainexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{plainexercise}
+\newtheorem{exercise}{Exercício}
+
+% Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
+% como nas notas anteriores.
+\newtheoremstyle{starredexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{starredexercise}
+\newtheorem{starredexercise}[exercise]{Exercício}
+\theoremstyle{definition}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\AtBeginDocument{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+\vspace{0.1cm}
+
+% --- TÍTULO, AUTOR E DATA ---
+\begin{center}
+{\LARGE\bf Funções de Variáveis Aleatórias Contínuas e Esperança}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Setembro de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Nestas notas damos continuidade ao estudo das variáveis aleatórias iniciado nas
+notas sobre funções de distribuição. Mostramos como determinar a função
+densidade de uma variável aleatória da forma $Y=g(X)$ a partir da densidade
+de $X$, quando a função $g$ é uma função monótona ou quadrática. Em seguida
+definimos a esperança de uma variável aleatória absolutamente contínua e
+apresentamos o enunciado do Teorema da Mudança de Variáveis, que
+permite, em particular, calcular $\mathbb{E}[g(X)]$ diretamente. 
+Em seguida, introduzimos a variância como medida de dispersão, mostrando a identidade
+$\operatorname{Var}(X)=\mathbb{E}[X^2]-\mathbb{E}[X]^2$. A exposição segue de
+perto as Seções 5.5 e 5.6 do Capítulo 5 de \cite{GrimmettWelsh2014}. Como
+aplicação, deduzimos a desigualdade de Cauchy-Schwarz a partir do fato de que
+a variância é sempre não negativa e a traduzimos em uma desigualdade sobre
+integrais. A nota conta com uma lista de exercícios ao final.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+\section{Funções de Variáveis Aleatórias Contínuas}\label{sec:funcoes-va-continuas}
+
+Nas notas anteriores estudamos as variáveis aleatórias absolutamente contínuas
+e suas funções densidade. O problema que estamos interessado agora é o seguinte.
+Seja $X$ uma variável aleatória sobre um espaço de probabilidade 
+$(\Omega, \mathcal{F}, \mathbb{P})$ e suponha que $g:\mathbb{R} \to \mathbb{R}$
+seja uma função. Sob quais condições a composição $Y \equiv g(X)$ que é uma
+aplicação de $\Omega$ em $\mathbb{R}$ definida em cada ponto $\omega\in\Omega$ 
+pela expressão $Y(\omega) \equiv g(X(\omega))$ é uma variável aleatória?  Veja o diagrama abaixo.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Stealth,
+  ponto/.style={circle, fill=black, inner sep=0pt, minimum size=1.2mm},
+  blob/.style={use Hobby shortcut, closed, line width=0.6pt},
+]
+  \draw[blob]
+    (-1.19,0.9) .. (-0.08,-0.94) .. (0.78,-0.47) .. (1.9,-1.07) .. (2.71,0.1)
+    .. (2.91,1.06) .. (2.4,1.59) .. (1.29,1.77) .. (0.17,1.91);
+  \node at (0.8,2.35) {$\Omega$};
+  \node[ponto] (omega) at (0.6,0.4) {};
+  \node[below=1mm] at (0.6,0.4) {$\omega$};
+
+  \draw[->, line width=0.5pt] (7.4,-2.0) -- (7.4,3.4) node[right=1.5mm] {$\mathbb{R}$};
+  \node[ponto] (xomega) at (7.4,0.4) {};
+  \node[left=2mm] at (7.4,0.1) {$X(\omega)$};
+
+  \draw[->, line width=0.5pt] (12.6,-2.0) -- (12.6,3.4) node[right=1.5mm] {$\mathbb{R}$};
+  \node[ponto] (gxomega) at (12.6,0.4) {};
+  \node[right=2mm] at (12.6,0.4) {$g(X(\omega))$};
+
+  \draw[->, line width=0.5pt, shorten <=0.3cm, shorten >=0.3cm]
+    (omega) to[out=20, in=160] node[pos=0.5, above=1mm] {$X$} (xomega);
+  \draw[->, line width=0.5pt, shorten <=0.3cm, shorten >=0.3cm]
+    (xomega) to[out=20, in=160] node[pos=0.5, above=1mm] {$g$} (gxomega);
+\end{tikzpicture}
+\caption{Composição $Y=g\circ X$.}
+\label{fig:composicao-y-gx}
+\end{figure}
+
+
+Antes de responder esta pergunta, vamos recordar a definição de
+variável aleatória no caso geral.
+
+\begin{definition}[Variável aleatória]
+\label{def:variavel-aleatoria}
+Seja $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade. Dizemos
+que $X$ é uma \emph{variável aleatória} se $X$ é uma função
+$X:\Omega\to\mathbb{R}$ tal que
+\begin{equation}
+\label{eq:variavel-aleatoria}
+  \{\omega\in\Omega : X(\omega)\leqslant x\}\in\mathcal{F}
+  \quad\text{para todo } x\in\mathbb{R}.
+\end{equation}
+\end{definition}
+
+Segundo a definição acima para que a composição $Y = g(X)$ seja uma variável aleatória 
+devemos mostrar que $Y$ satisfaz a condição \eqref{eq:variavel-aleatoria}. 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Stealth,
+  ponto/.style={circle, fill=black, inner sep=0pt, minimum size=1.2mm},
+  blob/.style={use Hobby shortcut, closed, line width=0.6pt},
+]
+  % Faixa do intervalo (-infty,x] na segunda reta
+  \def\highlightwidth{8pt}
+  \pgfmathsetlengthmacro{\highlightradius}{0.5*\highlightwidth}
+  \fill[gray!40, opacity=0.44]
+    ([xshift=-\highlightradius]11.8,1.2)
+      -- ([xshift=\highlightradius]11.8,1.2)
+      -- ([xshift=\highlightradius]11.8,-2.0)
+      arc (0:-180:\highlightradius)
+      -- cycle;
+
+  % Espaço amostral Omega
+  \draw[blob]
+    (-1.58,1.2) .. (-0.11,-1.25) .. (1.04,-0.62) .. (2.53,-1.42) .. (3.61,0.13)
+    .. (3.88,1.41) .. (3.2,2.12) .. (1.72,2.36) .. (0.23,2.55);
+  \node at (0.6,3.0) {$\Omega$};
+
+  % Pré-imagem da composta (região de Omega)
+  \filldraw[gray!40, opacity=0.60, blob]
+    (0.96,-0.19) .. (1.32,0.51) .. (2.04,0.39) .. (2.64,0.75)
+    .. (2.58,1.47) .. (1.98,1.77) .. (1.2,1.7);
+  \node at (1.5,1.1) {\small $\{g(X)\leqslant x\}$};
+
+  % Primeira reta
+  \draw[-stealth, line width=0.5pt] (7.0,-2.0) -- (7.0,3.4) node[right=1.5mm] {$\mathbb{R}$};
+  
+  % Segunda reta
+  \draw[-stealth, line width=0.5pt] (11.8,-2.0) -- (11.8,3.4) node[right=1.5mm] {$\mathbb{R}$};
+  \fill (11.8,1.2) circle (1.3pt);
+  \node[left=2mm] at (11.8,1.2) {$x$};
+
+  
+  \draw[-stealth] (3.7,2.2) to [out=30, in=150] node[midway, above] {$X$} (6.5,2) ;
+  \draw[-stealth] (7.5,2.2) to [out=30, in=150] node[midway, above] {$g$} (11.5,2.2) ;
+
+  % Seta da composta
+  \draw[-stealth] (2.5,0.8) to [out=-30, in=-150]  (11.4,-0.3);
+  \node at (9,-0.45) {$Y=g\circ X$};  
+\end{tikzpicture}
+\caption{Pré-imagem de $(-\infty,x]$ pela composta $Y=g\circ X$.}
+\label{fig:pre-imagem-composta}
+\end{figure}
+
+
+Note que a única exigência feita sobre $X$ é que as pré-imagens dos 
+intervalos $(-\infty,x]$ sejam
+eventos. Para que $Y$ herde essa propriedade de $X$, é natural exigir que a função 
+$g$ possua a seguinte propriedade: 
+a imagem inversa por $X$ de conjuntos da forma $g^{-1}( (-\infty,x] )$
+devem ser elementos da $\sigma$-álgebra $\mathcal{F}$.
+Vamos mostrar que a classe de funções $g:\mathbb{R}\to\mathbb{R}$ 
+que resolvem este problema são as chamadas funções Borel-mensuráveis.
+A seguir, apresentamos a definição desta classe de funções. 
+
+\bigskip 
+
+Denotamos por $\mathscr{B}(\mathbb{R})$ a \emph{$\sigma$-álgebra de Borel} de
+$\mathbb{R}$, isto é, a menor $\sigma$-álgebra de subconjuntos de
+$\mathbb{R}$ que contém todos os intervalos abertos. Seus elementos são
+chamados de \emph{borelianos}. Observe que a menor $\sigma$-álgebra 
+contendo todos os intervalos da forma $(-\infty,x]$, com
+$x\in\mathbb{R}$ coincide com $\mathscr{B}(\mathbb{R})$, pois todo intervalo
+aberto pode ser obtido por complementos e uniões enumeráveis de intervalos da forma
+$(-\infty,x]$.
+
+\bigskip 
+
+\begin{definition}[Função Borel-mensurável]
+\label{def:borel-mensuravel}
+Uma função $g:\mathbb{R}\to\mathbb{R}$ é dita \emph{Borel-mensurável} quando
+$g^{-1}(B)\in\mathscr{B}(\mathbb{R})$ para todo $B\in\mathscr{B}(\mathbb{R})$.
+Equivalentemente, $g$ é Borel-mensurável se, e somente se,
+$g^{-1}\bigl((-\infty,x]\bigr)\in\mathscr{B}(\mathbb{R})$ para todo
+$x\in\mathbb{R}$.
+\end{definition}
+
+\bigskip 
+A equivalência registrada na definição é útil na prática: para verificar que
+$g$ é Borel-mensurável não é preciso testar todos os borelianos, mas apenas os
+intervalos $(-\infty,x]$. A prova desta equivalência segue do mesmo argumento de $\sigma$-álgebra
+empregado no lema a seguir. Antes de compor $g$ com $X$, convém registrar que
+a condição \eqref{eq:variavel-aleatoria}, exigida apenas para os intervalos
+$(-\infty,x]$, vale na verdade para todo boreliano.
+
+\bigskip 
+
+\begin{lemma}\label{lem:pre-imagem-boreliano}
+Seja $X$ uma variável aleatória em $(\Omega,\mathcal{F},\mathbb{P})$. Então
+$X^{-1}(B)\in\mathcal{F}$ para todo $B\in\mathscr{B}(\mathbb{R})$. Em outras
+palavras, $\{X\in B\}\equiv X^{-1}(B)$ é um evento para todo boreliano
+$B\subseteq\mathbb{R}$.
+\end{lemma}
+
+\begin{proof}
+Considere a coleção
+\[
+  \mathcal{A}_X=\{B\subseteq\mathbb{R}:X^{-1}(B)\in\mathcal{F}\}.
+\]
+Vamos mostrar que $\mathcal{A}_X$ é uma $\sigma$-álgebra de subconjuntos de
+$\mathbb{R}$. De fato, $X^{-1}(\mathbb{R})=\Omega\in\mathcal{F}$, logo
+$\mathbb{R}\in\mathcal{A}_X$. Observe também que se $B\in\mathcal{A}_X$, então
+\[
+  X^{-1}(\mathbb{R}\setminus B)
+  =\Omega\setminus X^{-1}(B)\in\mathcal{F},
+\]
+e portanto $\mathbb{R}\setminus B\in\mathcal{A}_X$, mostrando que a coleção
+$\mathcal{A}_X$ é fechada para complementação. Por último, se $(B_n)_{n\geqslant1}$ é
+uma sequência arbitrária em $\mathcal{A}_X$, então
+\[
+  X^{-1}\!\left(\bigcup_{n=1}^{\infty}B_n\right)
+  =\bigcup_{n=1}^{\infty}X^{-1}(B_n)\in\mathcal{F},
+\]
+logo $\bigcup_{n=1}^{\infty}B_n\in\mathcal{A}_X$, o que mostra que a coleção 
+$\mathcal{A}_X$ é fechada para uniões enumeráveis.
+
+
+\bigskip 
+Além do mais, segue da definição de variável
+aleatória que $\mathcal{A}_X$ contém cada um dos intervalos da forma $(-\infty,x]$, para todo
+$x\in\mathbb{R}$. Como esses intervalos geram $\mathscr{B}(\mathbb{R})$,
+segue que $\mathscr{B}(\mathbb{R})\subseteq\mathcal{A}_X$, que é a afirmação
+do lema.
+\end{proof}
+
+\begin{proposition}[Composição com uma função Borel-mensurável]
+\label{prop:composicao-borel}
+Se $X$ é uma variável aleatória em $(\Omega,\mathcal{F},\mathbb{P})$ e
+$g:\mathbb{R}\to\mathbb{R}$ é Borel-mensurável, então $Y=g(X)$ é uma variável
+aleatória em $(\Omega,\mathcal{F},\mathbb{P})$.
+\end{proposition}
+
+\begin{proof}
+Como $Y$ assume valores reais, basta verificar a condição
+\eqref{eq:variavel-aleatoria}. Para cada $x\in\mathbb{R}$,
+\[
+\begin{aligned}
+\{Y\leqslant x\}
+&=\{\omega\in\Omega:g(X(\omega))\leqslant x\}
+\\[0.3cm]
+&=\left\{\omega\in\Omega:X(\omega)\in g^{-1}\bigl((-\infty,x]\bigr)\right\}
+\\[0.3cm]
+&=X^{-1}\Bigl(g^{-1}\bigl((-\infty,x]\bigr)\Bigr).
+\end{aligned}
+\]
+Pela \Cref{def:borel-mensuravel}, o conjunto
+$g^{-1}\bigl((-\infty,x]\bigr)$ é um boreliano; pela
+\Cref{lem:pre-imagem-boreliano}, sua pré-imagem por $X$ pertence a
+$\mathcal{F}$. Logo $\{Y\leqslant x\}\in\mathcal{F}$ para todo
+$x\in\mathbb{R}$, isto é, $Y$ é uma variável aleatória.
+\end{proof}
+
+Em particular, toda função contínua é Borel-mensurável, pois a pré-imagem de
+um aberto é aberta, e o mesmo vale para funções monótonas. Assim, a
+\Cref{prop:composicao-borel} cobre os casos usuais. Por causa desta observação daqui em diante
+vamos supor sempre que todas as quantidades da forma $Y=g(X)$ 
+são variáveis aleatórias. 
+
+\medskip 
+
+A questão principal agora é a
+seguinte: se conhecemos a distribuição de $X$, como encontramos a
+distribuição de $Y = g(X)$? Se $X$ é discreta com função de probabilidade
+$p_X$, então a fórmula apresentada nas notas sobre variáveis aleatórias
+discretas fornece a resposta. A seguir, consideramos o caso em que $X$ é
+uma variável aleatória absolutamente contínua, com função densidade $f_X$. 
+Começamos com um exemplo.
+
+\begin{example}[Transformação afim]\label{ex:transformacao-afim}
+  Se $X$ é contínua com função densidade $f_X$, e $g(x) = ax + b$ com
+  $a > 0$, então $Y = g(X) = aX + b$ tem função de distribuição dada por
+  \[
+    \begin{aligned}
+      \mathbb{P}(Y \leqslant y) &= \mathbb{P}(aX + b \leqslant y) \\
+      &= \mathbb{P}\bigl(X \leqslant a^{-1}(y - b)\bigr) \\
+      &= F_X\bigl(a^{-1}(y - b)\bigr).
+    \end{aligned}
+  \]
+  Derivando em relação a $y$, obtemos
+  \[
+    f_Y(y) = a^{-1} f_X\bigl(a^{-1}(y - b)\bigr) \qquad \text{para } y \in
+    \mathbb{R}.
+  \]
+\end{example}
+
+O próximo teorema generaliza o resultado deste exemplo.
+
+\begin{theorem}[Densidade de uma transformação estritamente crescente]\label{thm:transformacao-crescente}
+  Seja $X$ uma variável aleatória contínua com função densidade $f_X$ e seja
+  $g : \mathbb{R} \to \mathbb{R}$ estritamente crescente, diferenciável e com
+  $g'(x) \neq 0$ para todo $x \in \mathbb{R}$. Então $Y = g(X)$ tem função
+  densidade dada por
+  \begin{equation}\label{eq:transformacao-crescente}
+    f_Y(y) = f_X\bigl(g^{-1}(y)\bigr) \frac{d}{dy}[g^{-1}(y)]
+    \qquad \text{para } y \in g(\mathbb{R}),
+  \end{equation}
+  e $f_Y(y) = 0$ para $y \notin g(\mathbb{R})$. Aqui $g^{-1}$ denota a função
+  inversa de $g$, definida em $g(\mathbb{R})$.
+\end{theorem}
+
+\begin{proof}
+  Primeiro, determinamos a função de distribuição de $Y$:
+  \[
+    \begin{aligned}
+      \mathbb{P}(Y \leqslant y) &= \mathbb{P}(g(X) \leqslant y) \\
+      &= \mathbb{P}\bigl(X \leqslant g^{-1}(y)\bigr) \quad \text{pois } g
+        \text{ é crescente.}
+    \end{aligned}
+  \]
+  Derivamos essa expressão em relação a $y$ e usamos a regra da cadeia. Como
+  $g'(x) \neq 0$, a inversa $g^{-1}$ é diferenciável em $g(\mathbb{R})$ e
+  $F_X' = f_X$ nos pontos de diferenciabilidade, de modo que obtemos
+  \eqref{eq:transformacao-crescente}.
+\end{proof}
+
+Se, no teorema acima, $g$ fosse estritamente decrescente e satisfizesse as
+demais hipóteses, o mesmo argumento forneceria que $Y = g(X)$ tem função
+densidade
+\begin{equation}\label{eq:transformacao-decrescente}
+  f_Y(y) = -f_X\bigl(g^{-1}(y)\bigr) \frac{d}{dy}[g^{-1}(y)] \quad \text{para
+  } y \in g(\mathbb{R}),
+\end{equation}
+sendo $f_Y(y) = 0$ para $y \notin g(\mathbb{R})$.
+
+As fórmulas acima dependem fortemente da monotonicidade de $g$. Os demais
+casos são tratados de modo mais adequado individualmente, e há, na verdade,
+muitas razões para usar sempre o método do próximo exemplo, em vez de recorrer
+aos resultados gerais que acabamos de estabelecer.
+
+\begin{example}[Transformação quadrática]\label{ex:transformacao-quadratica}
+Suponha que $X$ tenha função densidade $f_X$ e considere
+$g(x) = x^2$. Então $Y = g(X) = X^2$ tem função de distribuição
+\[
+\begin{aligned}
+\mathbb{P}(Y \leqslant y) &= \mathbb{P}(X^2 \leqslant y) \\
+&= 
+\begin{cases} 0 & \text{se } y < 0, \\[0.3cm] 
+\mathbb{P}(-\sqrt{y} \leqslant X \leqslant \sqrt{y}) & \text{se } y \geqslant 0.
+\end{cases}
+\end{aligned}
+\]
+Consequentemente, $f_Y(y) = 0$ se $y \leqslant 0$, enquanto para
+$y > 0$, se essa derivada existir,
+\[
+\begin{aligned}
+f_Y(y) 
+= \frac{d}{dy}\mathbb{P}(Y \leqslant y) 
+&= \frac{d}{dy}\bigl[F_X(\sqrt{y}) - F_X(-\sqrt{y})\bigr] 
+\\[0.3cm]
+&= \frac{1}{2\sqrt{y}}\bigl[f_X(\sqrt{y}) + f_X(-\sqrt{y})\bigr].
+\end{aligned}
+\]
+\end{example}
+
+\begin{exercise}\label{exercise:densidades-exponencial}
+  Seja $X$ uma variável aleatória com distribuição exponencial de
+  parâmetro $\lambda$. Encontre a função densidade de
+  \begin{enumerate}[label=(\alph*)]
+    \item $A = 2X + 5$,
+    \item $B = \exp(X)$,
+    \item $C = (1 + X)^{-1}$,
+    \item $D = (1 + X)^{-2}$.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:normal-qui-quadrado}
+  Mostre que se $X$ tem distribuição normal com parâmetros $0$ e
+  $1$, então $Y = X^2$ tem distribuição $\chi^2$ com um grau de
+  liberdade.
+\end{exercise}
+
+\section{Esperança de Variáveis Aleatórias Contínuas}\label{sec:esperanca-va-continuas}
+
+Suponha que uma barra metálica unidimensional tenha densidade $\rho(x)$ no
+ponto $x$. Então sua massa é $m = \int \rho(x)\,dx$ e seu centro de
+gravidade está na posição $m^{-1} \int x\rho(x)\,dx$. Isso nos conduz
+naturalmente à ideia de esperança de uma variável aleatória contínua.
+
+\begin{definition}[Esperança]\label{def:esperanca-continua}
+Se $X$ é uma variável aleatória contínua com função de densidade $f_X$,
+a \emph{esperança} de $X$ é denotada por $\mathbb{E}[X]$ e definida por
+\begin{equation}\label{eq:def-esperanca-continua}
+\mathbb{E}[X] = \int_{-\infty}^{\infty} x f_X(x)\,dx,
+\end{equation}
+sempre que essa integral converge absolutamente, isto é, sempre que
+$$\displaystyle\int_{-\infty}^{\infty}|x f_X(x)|\,dx<+\infty.$$
+\end{definition}
+
+Assim como no caso das variáveis discretas, a esperança de $X$ é muitas
+vezes chamada de \emph{valor esperado} ou \emph{média} de $X$.
+
+Se $X$ é uma variável contínua e $g : \mathbb{R} \to \mathbb{R}$, então
+$Y = g(X)$ também é uma variável aleatória, desde que $g$ seja
+suficientemente bem comportada. Pode ser difícil calcular $\mathbb{E}[Y]$ a
+partir dos primeiros princípios, até porque $Y$ pode não ser nem discreta
+nem contínua, de modo que nem a fórmula da esperança no caso discreto nem a
+definição acima se aplicam. É de grande utilidade, aqui, o resultado a seguir,
+que nos permite calcular $\mathbb{E}[Y]$ diretamente a partir do
+conhecimento de $f_X$ e de $g$.
+
+\begin{theorem}[Teorema da Mudança de Variáveis]\label{thm:lotus-continuo}
+  Seja $X$ uma variável aleatória contínua com função de densidade $f_X$ e
+  seja $g : \mathbb{R} \to \mathbb{R}$ mensurável. Então
+  \begin{equation}\label{eq:lotus-continuo}
+    \mathbb{E}[g(X)] = \int_{-\infty}^{\infty} g(x) f_X(x)\,dx,
+  \end{equation}
+  sempre que $\displaystyle\int_{-\infty}^{\infty}|g(x)| f_X(x)\,dx<+\infty$.
+\end{theorem}
+
+Este resultado também é conhecido como \emph{lei do estatístico subconsciente}.
+
+\begin{proof}[Esboço de prova]
+  O teorema não é difícil de demonstrar, mas a demonstração completa foge ao
+  escopo destas notas. Consideramos mais importante entender \emph{por que} ele
+  é verdadeiro do que acompanhar uma prova formal. Recorde o teorema da mudança
+  de variáveis no caso discreto, visto nas notas sobre esperança de variáveis
+  aleatórias discretas: se $Y$ é uma variável aleatória discreta e
+  $g : \mathbb{R} \to \mathbb{R}$, então
+  \[
+    \mathbb{E}[g(Y)] = \sum_x g(x) \mathbb{P}(Y = x).
+  \]
+  Lembre agora da analogia entre funções de probabilidade e funções de
+  densidade: na igualdade acima, substitua $\mathbb{P}(Y = x)$ por
+  $f_X(x)\,dx$ e a soma pela integral, obtendo a fórmula do Teorema da
+  Mudança de Variáveis. Essa é a razão pela qual o resultado é verdadeiro.
+\end{proof}
+
+Assim como no caso das variáveis aleatórias discretas, a média $\mathbb{E}[X]$ de
+uma variável aleatória contínua $X$ é um indicativo do ``centro'' da
+distribuição de $X$. Como medida do grau de dispersão de $X$ em torno dessa
+média, tomamos a \emph{variância} de $X$. Como no caso discreto, exigimos
+$\mathbb{E}[X^2]<+\infty$ para que a variância esteja bem definida.
+
+\begin{definition}[Variância]\label{def:variancia-continua}
+  A \emph{variância} de uma variável aleatória contínua $X$ tal que
+  $\mathbb{E}[X^2]<+\infty$ é definida por
+  \begin{equation}\label{eq:def-variancia-continua}
+    \operatorname{Var}(X) = \mathbb{E}\big[(X - \mathbb{E}[X])^2\big].
+  \end{equation}
+\end{definition}
+
+Pelo Teorema da Mudança de Variáveis, \Cref{thm:lotus-continuo}, e observando
+que $g(x) = (x - \mu)^2$ é não negativa, obtemos
+\[
+  \operatorname{Var}(X) = \int_{-\infty}^{\infty} (x - \mu)^2 f_X(x)\,dx,
+\]
+onde $\mu = \mathbb{E}[X]$. A hipótese $\mathbb{E}[X^2]<+\infty$ garante que
+essa integral converge, já que $(x - \mu)^2 \leqslant 2(x^2 + \mu^2)$. Portanto,
+\[
+\begin{aligned}
+\operatorname{Var}(X) &= \int_{-\infty}^{\infty} (x^2 - 2\mu x + \mu^2) f_X(x)\,dx 
+\\[0.3cm]
+&= \int_{-\infty}^{\infty} x^2 f_X(x)\,dx - 2\mu \int_{-\infty}^{\infty} x f_X(x)\,dx + \mu^2 \int_{-\infty}^{\infty} f_X(x)\,dx 
+\\[0.3cm]
+&= \int_{-\infty}^{\infty} x^2 f_X(x)\,dx - \mu^2,
+\end{aligned}
+\]
+pois a normalização da densidade nos garante que $\int_{-\infty}^{\infty} f_X(x)\,dx = 1$ e, pela definição de $\mu$, que $\int_{-\infty}^{\infty} x f_X(x)\,dx = \mu$. Assim, obtemos a fórmula usual
+\begin{equation}\label{eq:variancia-formula}
+  \operatorname{Var}(X) = \mathbb{E}[X^2] - \mathbb{E}[X]^2.
+\end{equation}
+
+\begin{example}[Esperança na distribuição uniforme]\label{ex:esperanca-uniforme}
+Se $X$ tem a \emph{distribuição uniforme} em $(a, b)$, 
+então a sua densidade é $f_X(x) = \frac{1}{b - a}$ para 
+$x \in (a, b)$ e $f_X(x) = 0$ caso contrário. Pela definição de esperança,
+\[
+\begin{aligned}
+\mathbb{E}[X] &= \int_{-\infty}^{\infty} x f_X(x)\,dx 
+\\[0.3cm]
+&= \int_a^b x \frac{1}{b - a}\,dx = \frac{1}{2}(a + b).
+\end{aligned}
+\]
+Como exemplo de uma função de uma variável aleatória, tomemos $Y = \sin X$. Novamente pelo Teorema da Mudança de Variáveis,
+\[
+\begin{aligned}
+\mathbb{E}[Y] &= \int_{-\infty}^{\infty} \sin x \, f_X(x)\,dx 
+\\[0.3cm]
+&= \int_a^b \frac{\sin x}{b - a}\,dx = \frac{\cos a - \cos b}{b - a}.
+\end{aligned}
+\]
+\end{example}
+
+\begin{example}[Esperança e variância da distribuição exponencial]\label{ex:esperanca-exponencial}
+  Se $X$ tem a \emph{distribuição exponencial} de parâmetro $\lambda > 0$, então $f_X(x) = \lambda e^{-\lambda x}$ para $x \geqslant 0$ e $f_X(x) = 0$ para $x < 0$. Pelo Teorema da Mudança de Variáveis,
+  \[
+    \mathbb{E}[X] = \int_0^{\infty} x \lambda e^{-\lambda x}\,dx
+    \qquad\text{e}\qquad
+    \mathbb{E}[X^2] = \int_0^{\infty} x^2 \lambda e^{-\lambda x}\,dx.
+  \]
+Vamos calcular cada uma dessas integrais separadamente, aplicando integração por partes.
+
+Primeiro, vamos calcular o valor médio de $X$. Para a integração por partes
+tomamos $u = x$ e $dv = \lambda e^{-\lambda x}\,dx$,
+de modo que $du = dx$ e uma primitiva de $dv$ é $v = -e^{-\lambda x}$.
+Desta forma temos, pela fórmula de integração por partes que
+\[
+\begin{aligned}
+\int_0^{\infty} x \lambda e^{-\lambda x}\,dx
+&= -x e^{-\lambda x}\Bigr|_0^{\infty}
++ \int_0^{\infty} e^{-\lambda x}\,dx 
+\\[0.3cm]
+&= -x e^{-\lambda x}\Bigr|_0^{\infty}
+- \frac{1}{\lambda} e^{-\lambda x}\Bigr|_0^{\infty}
+= \frac{1}{\lambda}.
+\end{aligned}
+\]
+Note que na igualdade acima usamos que o termo de fronteira se anula em $x = 0$ e também tem limite zero quando
+$x \to \infty$, já que o decaimento exponencial $e^{-\lambda x}$ domina o
+crescimento linear de $x$, de modo que $x e^{-\lambda x} \to 0$. Logo
+$\mathbb{E}[X] = 1/\lambda$.
+
+\medskip
+Para o cálculo do segundo momento, tomamos $u = x^2$ e
+$dv = \lambda e^{-\lambda x}\,dx$. Deste modo temos que $du = 2x\,dx$ e
+$v = -e^{-\lambda x}$. Aplicando novamente a fórmula da integração por partes
+ficamos com
+\[
+\int_0^{\infty} x^2 \lambda e^{-\lambda x}\,dx
+= -x^2 e^{-\lambda x}\Bigr|_0^{\infty}
++ 2\int_0^{\infty} x e^{-\lambda x}\,dx.
+\]
+Novamente o termo de fronteira se anula, pois a exponencial decai mais
+rápido do que $x^2$ cresce. A integral que sobrou é, a menos do fator
+$\lambda$, a mesma que já apareceu no cálculo de $\mathbb{E}[X]$.
+Assim, realizando novamente a integração por parte com $u = x$ e $dv = e^{-\lambda x}\,dx$, 
+temos $du = dx$ e $v = -\lambda^{-1} e^{-\lambda x}$ e portanto 
+\[
+\begin{aligned}
+\int_0^{\infty} x e^{-\lambda x}\,dx
+&= -x \frac{1}{\lambda} e^{-\lambda x}\Bigr|_0^{\infty}
++ \frac{1}{\lambda} \int_0^{\infty} e^{-\lambda x}\,dx 
+\\[0.3cm]
+&= 0 + \frac{1}{\lambda} \cdot \frac{1}{\lambda}
+= \frac{1}{\lambda^2}.
+\end{aligned}
+\]
+Da igualdade acima concluímos que $\mathbb{E}[X^2] = 2/\lambda^2$.
+
+Logo, por \eqref{eq:variancia-formula}, a variância de $X$ é
+\[
+\begin{aligned}
+\operatorname{Var}(X) &= \mathbb{E}\big[(X - \mathbb{E}[X])^2\big] \\
+&= \mathbb{E}[X^2] - \mathbb{E}[X]^2 = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} = \frac{1}{\lambda^2}.
+\end{aligned}
+\]
+\end{example}
+
+\begin{example}[Esperança e variância da distribuição normal padrão]\label{ex:esperanca-normal}
+  Se $X$ tem \emph{distribuição normal} com parâmetros $\mu = 0$ e
+  $\sigma^2 = 1$, então
+  \[
+    \mathbb{E}[X] = \int_{-\infty}^{\infty} x \frac{1}{\sqrt{2\pi}}
+    e^{-\frac{1}{2}x^2}\,dx = 0,
+  \]
+  por simetria do integrando: a função $x \mapsto x e^{-\frac{1}{2}x^2}$
+  é ímpar e o intervalo de integração é simétrico em relação à origem.
+  Consequentemente, como $\mathbb{E}[X] = 0$, temos
+  \[
+    \operatorname{Var}(X) = \mathbb{E}[X^2]
+    = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} x^2
+    e^{-\frac{1}{2}x^2}\,dx.
+  \]
+  Para calcular essa integral, escrevemos o integrando como
+  $x \cdot \bigl(x e^{-\frac{1}{2}x^2}\bigr)$ e aplicamos a fórmula da
+  integração por partes com $u = x$ e
+  $dv = x e^{-\frac{1}{2}x^2}\,dx$. Nesse caso $du = dx$ e
+  $v = -e^{-\frac{1}{2}x^2}$, e
+  \[
+    \begin{aligned}
+      \int_{-\infty}^{\infty} x^2 e^{-\frac{1}{2}x^2}\,dx
+      &= -x e^{-\frac{1}{2}x^2}\Bigr|_{-\infty}^{\infty}
+        + \int_{-\infty}^{\infty} e^{-\frac{1}{2}x^2}\,dx 
+      \\[0.3cm]
+      &= \int_{-\infty}^{\infty} e^{-\frac{1}{2}x^2}\,dx
+        = \sqrt{2\pi}.
+    \end{aligned}
+  \]
+  O termo de fronteira se anula porque
+  $x e^{-\frac{1}{2}x^2} \to 0$ quando $|x| \to \infty$, e a última
+  igualdade é a normalização da densidade normal padrão. Portanto,
+  \[
+    \operatorname{Var}(X) = \frac{1}{\sqrt{2\pi}} \cdot \sqrt{2\pi} = 1.
+  \]
+  Integrações análogas mostram que a distribuição normal com parâmetros
+  $\mu$ e $\sigma^2$ tem média $\mu$ e variância $\sigma^2$, como
+  era de se esperar.
+\end{example}
+
+\begin{example}\label{ex:esperanca-cauchy}
+  Neste exemplo vamos mostrar que se $X$ tem \emph{distribuição de Cauchy}, então
+  \[
+    \mathbb{E}[X] = \int_{-\infty}^{\infty} x \frac{1}{\pi(1 + x^2)}\,dx,
+  \]
+  não converge, ou seja, uma variável aleatória com distribuição de Cauchy
+  não possui valor médio bem-definido. 
+  
+  \medskip 
+  De fato, para cada $M, N > 0$ fixados, temos
+  \[
+    \begin{aligned}
+      \int_{-M}^{N} x \frac{1}{\pi(1 + x^2)}\,dx &=
+        \left[\frac{1}{2\pi}\log(1 + x^2)\right]_{-M}^{N} \\
+      &= \frac{1}{2\pi}\log\frac{1 + N^2}{1 + M^2} = I(M, N).
+    \end{aligned}
+  \]
+  Portanto o limite de $I(M, N)$ quando $M, N \to \infty$ depende da
+  maneira pela qual $M$ e $N$ tendem a $+\infty$. Se fizermos primeiro
+  $M \to \infty$ e depois $N \to \infty$, então $I(M, N) \to -\infty$;
+  se a passagem ao limite for feita na ordem inversa, então
+  $I(M, N) \to +\infty$. Portanto, \emph{a distribuição de Cauchy não possui
+  esperança bem-definida}. Em contrapartida, existem muitas funções de $X$ com esperança
+  finita. Por exemplo, se $Y = \arctan X$, então
+  \[
+    \begin{aligned}
+      \mathbb{E}[Y] &= \int_{-\infty}^{\infty} \arctan x \frac{1}{\pi(1 +
+        x^2)}\,dx \\
+      &= \int_{-\frac{1}{2}\pi}^{\frac{1}{2}\pi} \frac{v}{\pi}\,dv, 
+        \quad \text{onde } v = \arctan x \\
+      &= 0.
+    \end{aligned}
+  \]
+\end{example}
+
+\section{Uma aplicação: A Desigualdade de Cauchy-Schwarz}\label{sec:cauchy-schwarz}
+
+A identidade \eqref{eq:variancia-formula} e o fato de que a variância é
+sempre não negativa permitem deduzir um resultado clássico da análise. A
+dedução passa pela forma probabilística da desigualdade, enunciada a
+seguir.
+
+\begin{proposition}[Cauchy-Schwarz, forma
+  probabilística]\label{prop:cauchy-schwarz}
+  Seja $X$ uma variável aleatória contínua com função de densidade $f_X$ e
+  sejam $g, h : \mathbb{R} \to \mathbb{R}$ funções mensuráveis tais que
+  $\mathbb{E}[g(X)^2] < +\infty$ e $\mathbb{E}[h(X)^2] < +\infty$. Então o
+  produto $g(X)h(X)$ é integrável e
+  \[
+    \bigl(\mathbb{E}[g(X)h(X)]\bigr)^2
+    \leqslant
+    \mathbb{E}[g(X)^2]\,\mathbb{E}[h(X)^2].
+  \]
+\end{proposition}
+
+\begin{proof}
+Começamos por verificar que as esperanças do enunciado fazem sentido.
+Ponto a ponto vale $2\,|gh| \leqslant g^2 + h^2$ e, portanto,
+\[
+\begin{aligned}
+2\int_{-\infty}^{\infty} |g(x)h(x)| f_X(x)\,dx
+&\leqslant \int_{-\infty}^{\infty} g(x)^2 f_X(x)\,dx
++ \int_{-\infty}^{\infty} h(x)^2 f_X(x)\,dx
+\\[0.3cm]
+&= \mathbb{E}[g(X)^2] + \mathbb{E}[h(X)^2] < +\infty.
+\end{aligned}
+\]
+Assim a integral de $g(x)h(x)f_X(x)$ converge absolutamente e, pelo
+\Cref{thm:lotus-continuo}, o produto $g(X)h(X)$ é integrável.
+
+\medskip
+Agora usamos o fato de que a variância é sempre não negativa. Fixe
+$\lambda \in \mathbb{R}$ e considere a variável aleatória 
+$Z = g(X) - \lambda\,h(X)$. Aplicando a desigualdade
+$(a - b)^2 \leqslant 2a^2 + 2b^2$ a variável aleatória $Z$ concluímos que
+$Z^2 \leqslant 2g(X)^2 + 2\lambda^2 h(X)^2$. Logo, segue diretamente da hipótese que
+$\mathbb{E}[Z^2] < +\infty$ e a variância de $Z$ está bem definida.
+Pela fórmula da variância \eqref{eq:variancia-formula} e pelo fato que
+$\operatorname{Var}(Z) \geqslant 0$, temos
+\[
+\mathbb{E}[Z^2]
+= \operatorname{Var}(Z) + \mathbb{E}[Z]^2 \geqslant 0.
+\]
+Expandindo o quadrado de $Z$ e usando a linearidade da integral,
+obtemos, para cada $\lambda \in \mathbb{R}$,
+\[
+\mathbb{E}[Z^2]
+= \mathbb{E}[g(X)^2] - 2\lambda\,\mathbb{E}[g(X)h(X)]
++ \lambda^2\,\mathbb{E}[h(X)^2] \geqslant 0.
+\]
+Ou seja, o polinômio do segundo grau em $\lambda$ dado pelo lado direito
+acima é não negativo em toda a reta.
+
+\medskip
+Para concluir, consideramos dois casos. Se $\mathbb{E}[h(X)^2] = 0$,
+tomemos $\varepsilon > 0$. Como a desigualdade
+\[
+0 \leqslant 
+\left( \sqrt{\varepsilon}\,|g| -\frac{1}{\sqrt{\varepsilon}}|h|\right)^2
+= \varepsilon\, g^2 - 2\,|gh| + \frac{1}{\varepsilon} h^2,
+\]
+vale em cada ponto, podemos afirmar que 
+\[ 
+2\,|gh| \leqslant \varepsilon\, g^2 + \frac{1}{\varepsilon} h^2.
+\] 
+Usando a desigualdade acima temos a seguinte estimativa
+\[
+2\big|\mathbb{E}[g(X)h(X)]\big|
+\leqslant 2\,\mathbb{E}\big[|g(X)h(X)|\big]
+\leqslant \varepsilon\,\mathbb{E}[g(X)^2]
++ \frac{1}{\varepsilon}\mathbb{E}[h(X)^2]
+= \varepsilon\,\mathbb{E}[g(X)^2],
+\]
+onde na última igualdade usamos que $\mathbb{E}[h(X)^2]$ se anula.
+Fazendo $\varepsilon \to 0$, concluímos que $\mathbb{E}[g(X)h(X)]$
+também se anula. Neste caso concluímos que a desigualdade do enunciado vale como
+igualdade. 
+
+Por outro lado, se $\mathbb{E}[h(X)^2] > 0$, então o polinômio acima tem
+coeficiente dominante positivo e também é não-negativo em toda a reta. Logo o
+seu discriminante é não-positivo, ou seja,
+\[
+4\bigl(\mathbb{E}[g(X)h(X)]\bigr)^2
+- 4\,\mathbb{E}[g(X)^2]\,\mathbb{E}[h(X)^2]
+\leqslant 0.
+\]
+Dividindo por $4$ chega-se à desigualdade do enunciado.
+\end{proof}
+
+A versão clássica desta desigualdade, pode ser obtida considerando
+o caso particular em que $X$ é uma variável aleatória uniforme.
+
+\begin{corollary}[Cauchy-Schwarz para
+  integrais]\label{cor:cauchy-schwarz-integral}
+  Sejam $a < b$ e $g, h : [a, b] \to \mathbb{R}$ funções tais que $g^2$ e
+  $h^2$ são integráveis em $[a, b]$. Então $gh$ é integrável em $[a, b]$ e
+  \[
+    \biggl(\int_a^b g(x)h(x)\,dx\biggr)^{\!2}
+    \leqslant
+    \int_a^b g(x)^2\,dx \int_a^b h(x)^2\,dx.
+  \]
+\end{corollary}
+
+\begin{proof}
+  Seja $X$ com distribuição uniforme em $(a, b)$, como no
+  \Cref{ex:esperanca-uniforme}. Identificando $g$ e $h$ com suas extensões
+  por zero fora de $[a, b]$, as hipóteses garantem
+  $\mathbb{E}[g(X)^2] < +\infty$ e $\mathbb{E}[h(X)^2] < +\infty$. Pela
+  parte inicial da \Cref{prop:cauchy-schwarz}, o produto $g(X)h(X)$ é
+  integrável, isto é, $gh$ é integrável em $[a, b]$. Pelo
+  \Cref{thm:lotus-continuo}, valem então as três igualdades a seguir.
+  \[
+    \begin{aligned}
+      \mathbb{E}[g(X)h(X)] &= \frac{1}{b - a}\int_a^b g(x)h(x)\,dx,
+      \\[0.3cm]
+      \mathbb{E}[g(X)^2] &= \frac{1}{b - a}\int_a^b g(x)^2\,dx,
+      \\[0.3cm]
+      \mathbb{E}[h(X)^2] &= \frac{1}{b - a}\int_a^b h(x)^2\,dx.
+    \end{aligned}
+  \]
+  Substituindo estas três igualdades na \Cref{prop:cauchy-schwarz} e
+  simplificando os fatores $(b - a)^{-2}$, obtemos a desigualdade do
+  enunciado.
+\end{proof}
+
+\begin{remark}\label{rem:cauchy-schwarz-moral}
+  O caso $h \equiv 1$ da \Cref{prop:cauchy-schwarz} é exatamente a
+  afirmação de que a variância de $g(X)$ é não-negativa. De fato,
+  \[
+    \mathbb{E}[g(X)]^2 \leqslant \mathbb{E}[g(X)^2],
+  \]
+  e portanto segue da fórmula \eqref{eq:variancia-formula} que
+  $\operatorname{Var}(g(X)) \geqslant 0$. 
+\end{remark}
+
+\section{Exercícios propostos}\label{sec:exercicios-propostos}
+
+\begin{exercise}\label{exercise:esperanca-arcoseno}
+  Mostre que uma variável aleatória cuja função de densidade é dada por
+  \[
+    f(x) = \begin{cases}
+      \dfrac{1}{\pi\sqrt{x(1 - x)}} & \text{se } 0 < x < 1, \\[2mm]
+      0 & \text{caso contrário,}
+    \end{cases}
+  \]
+  tem média igual a $\frac{1}{2}$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:densidade-quadratica}
+  A variável aleatória $X$ tem função de densidade
+  \[
+    f(x) = c\,x(1 - x) \quad \text{para } 0 \leqslant x \leqslant 1.
+  \]
+  Determine a constante $c$ e calcule a média e a variância de $X$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:esperanca-exponencial-quadrado}
+  Se $X$ tem distribuição normal com média $0$ e variância $1$,
+  calcule $\mathbb{E}\!\left[\,e^{2X}\,\right]$.
+\end{exercise}
+
+\begin{exercise}
+  \label{exercise:transformacao-normal}
+  Sejam $X\sim N(0,1)$, $\mu\in\mathbb{R}$ e $0<\sigma<+\infty$
+  constantes. Seguindo o roteiro abaixo mostre que 
+  $Y\equiv\sigma X+\mu$ é uma variável aleatória
+  com distribuição $N(\mu,\sigma^2)$.
+  \begin{enumerate}[label=\textbf{(\alph*)}, leftmargin=*, itemsep=0.6em]
+    \item Usando a função auxiliar $g(x)=\sigma x+\mu$ argumente que $Y=g(X)$ é uma
+      variável aleatória.
+    \item Mostre que $g$ é uma função estritamente crescente. Em seguida, determine
+      sua imagem $g(\mathbb{R})$, sua inversa $g^{-1}$ e a derivada
+      $(g^{-1})'(y)$.
+    \item Aplique o \Cref{thm:transformacao-crescente} para escrever a
+      densidade $f_Y$ em termos de $f_X$, de $g^{-1}$ e de $(g^{-1})'$.
+    \item Usando a expressão explícita da densidade da normal padrão dada no
+      \Cref{ex:esperanca-normal} e os itens anteriores mostre que, para todo $y\in\mathbb{R}$, temos
+      \[
+        f_Y(y)
+        =\frac{1}{\sqrt{2\pi\sigma^2}}
+          \exp\!\left(-\frac{(y-\mu)^2}{2\sigma^2}\right).
+      \]
+      e conclua que $Y\sim N(\mu,\sigma^2)$.
+    \item \emph Usando o
+      \Cref{thm:lotus-continuo} e os valores de $\mathbb{E}[X]$ e
+      $\operatorname{Var}(X)$ calculados no \Cref{ex:esperanca-normal},
+      mostre que $\mathbb{E}[Y]=\mu$ e $\operatorname{Var}(Y)=\sigma^2$.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:sigma-algebra-gerada}
+  Recorde que uma coleção $\mathcal{A}$ de subconjuntos de $\mathbb{R}$ é uma
+  \emph{$\sigma$-álgebra de subconjuntos de $\mathbb{R}$}, ou simplesmente uma
+  \emph{sub-$\sigma$-álgebra de $\mathbb{R}$}, quando
+  \begin{enumerate}[label=(\roman*)]
+    \item $\mathbb{R} \in \mathcal{A}$;
+    \item se $A \in \mathcal{A}$, então $\mathbb{R} \setminus A \in \mathcal{A}$;
+    \item se $A_1, A_2, \dots \in \mathcal{A}$, então
+      $\bigcup_{n \geqslant 1} A_n \in \mathcal{A}$.
+  \end{enumerate}
+  No texto, $\mathscr{B}(\mathbb{R})$ foi apresentada como ``a menor
+  $\sigma$-álgebra de subconjuntos de $\mathbb{R}$ que contém todos os
+  intervalos abertos''. Nosso objetivo é dar sentido preciso a essa descrição e
+  mostrar que ela de fato define um único objeto. Siga o roteiro abaixo.
+
+  \begin{enumerate}[label=\textbf{(\alph*)}, leftmargin=*, itemsep=0.6em]
+    \item Seja $I \neq
+    \emptyset$ um conjunto de índices e suponha que, para cada $i \in I$,
+    $\mathcal{A}_i$ seja uma sub-$\sigma$-álgebra de $\mathbb{R}$. Considere a
+    coleção
+    \[
+      \mathcal{A} = \bigcap_{i \in I} \mathcal{A}_i.
+    \]
+    Mostre que $\mathcal{A}$ é uma sub-$\sigma$-álgebra de $\mathbb{R}$,
+    verificando separadamente que:
+    \begin{enumerate}[label=(\roman*)]
+      \item $\mathbb{R} \in \mathcal{A}$;
+      \item se $A \in \mathcal{A}$, então $\mathbb{R} \setminus A \in \mathcal{A}$;
+      \item se $A_1, A_2, \dots \in \mathcal{A}$, então
+        $\bigcup_{n \geqslant 1} A_n \in \mathcal{A}$.
+    \end{enumerate}
+    Em cada item, use apenas a definição de interseção e o fato de que cada
+    $\mathcal{A}_i$ satisfaz as condições (i)--(iii) acima. A hipótese $I \neq
+    \emptyset$ é essencial: explique em qual passo ela é usada.
+
+    \item Seja $\mathcal{C} \subseteq \mathcal{P}(\mathbb{R})$ uma
+    coleção arbitrária de subconjuntos de $\mathbb{R}$ e defina a família
+    \[
+      \mathcal{F}_{\mathcal{C}}
+      = \bigl\{\mathcal{A} : \mathcal{A} \text{ é sub-$\sigma$-álgebra de }
+        \mathbb{R} \text{ e } \mathcal{C} \subseteq \mathcal{A}\bigr\}.
+    \]
+    \begin{enumerate}[label=(\roman*)]
+      \item Mostre que $\mathcal{F}_{\mathcal{C}} \neq \emptyset$, exibindo um
+        elemento explícito (por exemplo, $\mathcal{P}(\mathbb{R})$). Por que
+        este passo é indispensável antes de tomar a interseção da família?
+      \item Definimos a \emph{$\sigma$-álgebra gerada por $\mathcal{C}$} por
+        \[
+          \sigma(\mathcal{C})
+          = \bigcap_{\mathcal{A} \in \mathcal{F}_{\mathcal{C}}} \mathcal{A}.
+        \]
+        Conclua dos itens (a) e (b)(i) que $\sigma(\mathcal{C})$ é uma
+        sub-$\sigma$-álgebra de $\mathbb{R}$.
+      \item Mostre que $\mathcal{C} \subseteq \sigma(\mathcal{C})$.
+      \item Seja $\mathcal{A}$ uma
+        sub-$\sigma$-álgebra de $\mathbb{R}$ com $\mathcal{C} \subseteq
+        \mathcal{A}$. Mostre que $\sigma(\mathcal{C}) \subseteq \mathcal{A}$. Conclua que
+        $\sigma(\mathcal{C})$ é a menor sub-$\sigma$-álgebra de $\mathbb{R}$
+        que contém $\mathcal{C}$ e que esta propriedade a caracteriza de forma
+        única.
+    \end{enumerate}
+
+    \item Tome agora para $\mathcal{C}$
+    a coleção de todos os intervalos abertos de $\mathbb{R}$:
+    \[
+      \mathcal{C}_{\text{ab}}
+      = \bigl\{(a,b) : a, b \in \mathbb{R},\ a < b\bigr\}.
+    \]
+    Pelo item (b), a $\sigma$-álgebra $\sigma(\mathcal{C}_{\text{ab}})$ está
+    bem definida. Definimos então
+    \[
+      \mathscr{B}(\mathbb{R}) = \sigma(\mathcal{C}_{\text{ab}}).
+    \]
+    Interprete esta definição à luz do item (b)(iv): ela é precisamente o
+    conteúdo da expressão ``a menor $\sigma$-álgebra de subconjuntos de
+    $\mathbb{R}$ que contém todos os intervalos abertos''.
+
+    \item Fixe $a < b$ em $\mathbb{R}$. Mostre que:
+    \begin{enumerate}[label=(\roman*)]
+      \item $[a,b] = \bigcap_{n \geqslant 1} \bigl(a - \tfrac{1}{n},\,
+        b + \tfrac{1}{n}\bigr)$, isto é, um intervalo fechado é uma
+        interseção enumerável de intervalos abertos;
+      \item $(a,b) = \bigcup_{n \geqslant 1} \bigl[a + \tfrac{1}{n},\,
+        b - \tfrac{1}{n}\bigr]$ (descartando os $n$ para os quais
+        $1/n \geqslant (b-a)/2$, de modo que os intervalos não sejam
+        vazios), isto é, um intervalo aberto é uma união enumerável de
+        intervalos fechados;
+      \item $[a,b) = \bigcap_{n \geqslant 1} \bigl(a - \tfrac{1}{n},\, b\bigr)$
+        e $(a,b] = \bigcap_{n \geqslant 1} \bigl(a,\, b + \tfrac{1}{n}\bigr)$;
+        em particular, um conjunto unitário é um boreliano, pois
+        $\{a\} = \bigcap_{n \geqslant 1}\bigl(a - \tfrac{1}{n},\,
+        a + \tfrac{1}{n}\bigr)$;
+      \item generalize (ii): mostre que todo subconjunto aberto
+        $U \subseteq \mathbb{R}$ é união enumerável de intervalos fechados.
+        \emph{Dica:} use a densidade de $\mathbb{Q}$ para escrever $U$ como
+        união enumerável de intervalos abertos com extremos racionais e
+        aplique (ii) a cada um deles.
+    \end{enumerate}
+    Conclua que, no que diz respeito à $\sigma$-álgebra gerada, não faz
+    diferença partir de intervalos abertos ou de intervalos fechados: cada
+    tipo se obtém do outro por uniões e interseções enumeráveis.
+
+    \item Reunindo os itens anteriores,
+    mostre que todas as coleções abaixo geram a mesma $\sigma$-álgebra, a
+    saber, $\mathscr{B}(\mathbb{R})$:
+    \begin{enumerate}[label=(\roman*)]
+      \item os intervalos abertos $\{(a,b) : a < b\}$;
+      \item os intervalos fechados $\{[a,b] : a < b\}$;
+      \item os intervalos semi-abertos $\{[a,b) : a < b\}$ e, analogamente,
+        $\{(a,b] : a < b\}$;
+      \item os intervalos da forma $(-\infty, x]$, com $x \in \mathbb{R}$;
+      \item os subconjuntos abertos de $\mathbb{R}$.
+    \end{enumerate}
+    \emph{Dica:} para provar que duas coleções $\mathcal{C}_1$ e
+    $\mathcal{C}_2$ geram a mesma $\sigma$-álgebra, é suficiente, pela
+    minimalidade do item (b)(iv), mostrar que
+    $\mathcal{C}_1 \subseteq \sigma(\mathcal{C}_2)$ e
+    $\mathcal{C}_2 \subseteq \sigma(\mathcal{C}_1)$. Use o item (d) para
+    obter cada tipo de intervalo a partir dos demais por operações
+    enumeráveis. Para o item (iv), escreva cada $(a,b)$ a partir de
+    intervalos $(-\infty, x]$ e, reciprocamente, obtenha $(-\infty, x]$ a
+    partir de intervalos abertos. Isto justifica a afirmação do texto de que
+    a menor $\sigma$-álgebra que contém os intervalos $(-\infty, x]$
+    coincide com $\mathscr{B}(\mathbb{R})$.
+  \end{enumerate}
+\end{exercise}
+
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+\end{document}
