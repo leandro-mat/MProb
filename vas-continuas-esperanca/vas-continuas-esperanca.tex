@@ -688,7 +688,7 @@ do plano, integrando para cada $y$ fixado, de $x=y$ até $x=+\infty$.
 \caption{Região de integração na fórmula da cauda, como uma região horizontalmente simples}
 \label{fig:regiao-formula-cauda}
 \end{figure}
-Descrevendo a mesma região, como uma região verticalmente simples.
+Descrevemos agora a mesma região como uma região verticalmente simples.
 Podemos mudar a ordem das integrais iteradas acima, 
 pelo Teorema de Fubini-Tonelli, 
 fixando primeiro $x\in (0,+\infty)$ e integrando de $y=0$ até $y=x$.
@@ -714,7 +714,7 @@ fixando primeiro $x\in (0,+\infty)$ e integrando de $y=0$ até $y=x$.
 \caption{Região de integração na fórmula da cauda, agora como uma região verticalmente simples}
 \label{fig2:regiao-formula-cauda}
 \end{figure}
-Obtendo assim as seguintes igualdades
+Obtemos assim as seguintes igualdades
 \begin{align*}
 \int_{0}^{\infty} \mathbb{P}(Y > y)\,dy
 &= \int_{0}^{\infty} \left(\int_{y}^{\infty} f_Y(x)\,dx\right)dy
@@ -743,7 +743,7 @@ lados valem $+\infty$.
   cauda} para a esperança. Para definir a esperança nestes casos mais 
   gerais costuma-se recorrer ao conceito de integral de Lebesgue,
   assunto este que foge do escopo destas notas.  
-  Entretanto, vamos apresentar uma argumento heurístico que indica
+  Entretanto, vamos apresentar um argumento heurístico que indica
   a razoabilidade do resultado. 
   
   Primeiro, observamos que se $Y>0$, então 
@@ -774,8 +774,9 @@ lados valem $+\infty$.
   $Y$ e altura $1$, cuja área é $Y$.}
   \label{fig:indicador-formula-cauda}
   \end{figure}
-  O próximo passo é obtido assumindo que podemos trocar a ordem da 
-  integral com a esperança e, em seguida, a igualdade obtida em \eqref{eq-aux1-esp-pos}
+  O próximo passo é obtido assumindo que podemos trocar a ordem da
+  integral com a esperança e, em seguida, usando a igualdade obtida em
+  \eqref{eq-aux1-esp-pos}:
   \begin{align*}
   \int_{0}^{\infty} \mathbb{P}(Y>y)\, dy
   &=
@@ -785,18 +786,18 @@ lados valem $+\infty$.
   =
   \mathbb{E}[Y].
   \end{align*}
-É claro que a última igualdade envolve a definição de $\mathbb{E}[Y]$ 
-e portanto ainda carente de um sentido matemático preciso, pelo menos nos casos
-em que $Y$ não é nem absolutamente contínua ou discreta. Ambos os problemas neste argumento heurístico
+É claro que a última igualdade envolve a definição de $\mathbb{E}[Y]$
+e, portanto, ainda carece de um sentido matemático preciso, pelo menos nos casos
+em que $Y$ não é nem absolutamente contínua nem discreta. Ambos os problemas neste argumento heurístico
 são resolvidos com a introdução da Teoria de Integração de Lebesgue. A esperança da variável aleatória
-no caso geral passa ser dada pela integral de Lebesgue da variável aleatória e a troca de ordem
-da esperança com a integral acaba sendo justificada pela versão para tais integrais do Teorema 
-de Fubini-Tonelli. Este tipo de abordagem é desenvolvida em detalhes nos textos mais avançados
+no caso geral passa a ser dada pela integral de Lebesgue da variável aleatória e a troca de ordem
+da esperança com a integral acaba sendo justificada pela versão para tais integrais do Teorema
+de Fubini-Tonelli. Este tipo de abordagem é desenvolvido em detalhes nos textos mais avançados
 sobre a Teoria de Probabilidade como, por exemplo, a referência \cite{MR2893652}.
 \end{remark}
 
-Agora vamos demonstrar o \Cref{thm:lotus-continuo} quando a função $g:\mathbb{R}\to\mathbb{R}$ 
-é uma função Borel-Mensurável não negativa.
+Agora vamos demonstrar o \Cref{thm:lotus-continuo} quando a função $g:\mathbb{R}\to\mathbb{R}$
+é Borel-mensurável e não negativa.
 
 \begin{proof}[Prova do \Cref{thm:lotus-continuo} no caso $g \geqslant 0$]
 Seja $g : \mathbb{R} \to [0, +\infty)$ Borel-mensurável. Pela fórmula da
@@ -1356,7 +1357,7 @@ o caso particular em que $X$ é uma variável aleatória uniforme.
     \item se $A_1, A_2, \dots \in \mathcal{A}$, então
       $\bigcup_{n \geqslant 1} A_n \in \mathcal{A}$.
   \end{enumerate}
-  No texto, $\mathscr{B}(\mathbb{R})$ foi apresentada como ``a menor
+  No texto, a $\sigma$-álgebra $\mathscr{B}(\mathbb{R})$ foi apresentada como ``a menor
   $\sigma$-álgebra de subconjuntos de $\mathbb{R}$ que contém todos os
   intervalos abertos''. Nosso objetivo é dar sentido preciso a essa descrição e
   mostrar que ela de fato define um único objeto. Siga o roteiro abaixo.
