@@ -213,12 +213,13 @@ pdfkeywords={variáveis aleatórias contínuas, função densidade, transformaç
 Nestas notas damos continuidade ao estudo das variáveis aleatórias iniciado nas
 notas sobre funções de distribuição. Mostramos como determinar a função
 densidade de uma variável aleatória da forma $Y=g(X)$ a partir da densidade
-de $X$, quando a função $g$ é uma função monótona ou quadrática. Em seguida
-definimos a esperança de uma variável aleatória absolutamente contínua e
-apresentamos o enunciado do Teorema da Mudança de Variáveis, que
-permite, em particular, calcular $\mathbb{E}[g(X)]$ diretamente. 
+de $X$, quando a função $g$ é monótona ou quadrática. Em seguida, definimos
+a esperança de uma variável aleatória absolutamente contínua e
+demonstramos o Teorema da Mudança de Variáveis no caso de funções não
+negativas, resultado que permite, em particular, calcular
+$\mathbb{E}[g(X)]$ diretamente; o caso geral é completado por exercícios.
 Em seguida, introduzimos a variância como medida de dispersão, mostrando a identidade
-$\operatorname{Var}(X)=\mathbb{E}[X^2]-\mathbb{E}[X]^2$. A exposição segue de
+$\operatorname{Var}(X)=\mathbb{E}[X^2]-(\mathbb{E}[X])^2$. A exposição segue de
 perto as Seções 5.5 e 5.6 do Capítulo 5 de \cite{GrimmettWelsh2014}. Como
 aplicação, deduzimos a desigualdade de Cauchy-Schwarz a partir do fato de que
 a variância é sempre não negativa e a traduzimos em uma desigualdade sobre
@@ -243,12 +244,12 @@ integrais. A nota conta com uma lista de exercícios ao final.
 \section{Funções de Variáveis Aleatórias Contínuas}\label{sec:funcoes-va-continuas}
 
 Nas notas anteriores estudamos as variáveis aleatórias absolutamente contínuas
-e suas funções densidade. O problema que estamos interessado agora é o seguinte.
+e suas funções densidade. O problema que nos interessa agora é o seguinte.
 Seja $X$ uma variável aleatória sobre um espaço de probabilidade 
 $(\Omega, \mathcal{F}, \mathbb{P})$ e suponha que $g:\mathbb{R} \to \mathbb{R}$
 seja uma função. Sob quais condições a composição $Y \equiv g(X)$ que é uma
 aplicação de $\Omega$ em $\mathbb{R}$ definida em cada ponto $\omega\in\Omega$ 
-pela expressão $Y(\omega) \equiv g(X(\omega))$ é uma variável aleatória?  Veja o diagrama abaixo.
+pela expressão $Y(\omega) \equiv g(X(\omega))$ é uma variável aleatória? Veja o diagrama abaixo.
 
 \begin{figure}[H]
 \centering
@@ -297,7 +298,7 @@ $X:\Omega\to\mathbb{R}$ tal que
 \end{equation}
 \end{definition}
 
-Segundo a definição acima para que a composição $Y = g(X)$ seja uma variável aleatória 
+Segundo a definição acima, para que a composição $Y = g(X)$ seja uma variável aleatória 
 devemos mostrar que $Y$ satisfaz a condição \eqref{eq:variavel-aleatoria}. 
 \begin{figure}[H]
 \centering
@@ -353,9 +354,9 @@ Note que a única exigência feita sobre $X$ é que as pré-imagens dos
 intervalos $(-\infty,x]$ sejam
 eventos. Para que $Y$ herde essa propriedade de $X$, é natural exigir que a função 
 $g$ possua a seguinte propriedade: 
-a imagem inversa por $X$ de conjuntos da forma $g^{-1}( (-\infty,x] )$
-devem ser elementos da $\sigma$-álgebra $\mathcal{F}$.
-Vamos mostrar que a classe de funções $g:\mathbb{R}\to\mathbb{R}$ 
+a imagem inversa por $X$ dos conjuntos da forma $g^{-1}\bigl((-\infty,x]\bigr)$
+deve ser um elemento da $\sigma$-álgebra $\mathcal{F}$.
+Vamos mostrar que as funções $g:\mathbb{R}\to\mathbb{R}$ 
 que resolvem este problema são as chamadas funções Borel-mensuráveis.
 A seguir, apresentamos a definição desta classe de funções. 
 
@@ -457,8 +458,9 @@ $x\in\mathbb{R}$, isto é, $Y$ é uma variável aleatória.
 \end{proof}
 
 Em particular, toda função contínua é Borel-mensurável, pois a pré-imagem de
-um aberto é aberta, e o mesmo vale para funções monótonas. Assim, a
-\Cref{prop:composicao-borel} cobre os casos usuais. Por causa desta observação daqui em diante
+um aberto é aberta; e toda função monótona também é Borel-mensurável, pois
+$\{x : g(x) \leqslant y\}$ é um intervalo para cada $y \in \mathbb{R}$. Assim, a
+\Cref{prop:composicao-borel} cobre os casos usuais. Por causa desta observação, daqui em diante
 vamos supor sempre que todas as quantidades da forma $Y=g(X)$ 
 são variáveis aleatórias. 
 
@@ -473,7 +475,7 @@ uma variável aleatória absolutamente contínua, com função densidade $f_X$.
 Começamos com um exemplo.
 
 \begin{example}[Transformação afim]\label{ex:transformacao-afim}
-  Se $X$ é contínua com função densidade $f_X$, e $g(x) = ax + b$ com
+  Se $X$ é absolutamente contínua com função densidade $f_X$, e $g(x) = ax + b$ com
   $a > 0$, então $Y = g(X) = aX + b$ tem função de distribuição dada por
   \[
     \begin{aligned}
@@ -492,7 +494,7 @@ Começamos com um exemplo.
 O próximo teorema generaliza o resultado deste exemplo.
 
 \begin{theorem}[Densidade de uma transformação estritamente crescente]\label{thm:transformacao-crescente}
-  Seja $X$ uma variável aleatória contínua com função densidade $f_X$ e seja
+  Seja $X$ uma variável aleatória absolutamente contínua com função densidade $f_X$ e seja
   $g : \mathbb{R} \to \mathbb{R}$ estritamente crescente, diferenciável e com
   $g'(x) \neq 0$ para todo $x \in \mathbb{R}$. Então $Y = g(X)$ tem função
   densidade dada por
@@ -513,6 +515,10 @@ O próximo teorema generaliza o resultado deste exemplo.
         \text{ é crescente.}
     \end{aligned}
   \]
+  A igualdade acima foi escrita para $y \in g(\mathbb{R})$. Para $y \notin
+  g(\mathbb{R})$, a função de distribuição de $Y$ é constante (igual a $0$
+  abaixo da imagem e a $1$ acima dela), de modo que $f_Y(y) = 0$ nesses
+  pontos.
   Derivamos essa expressão em relação a $y$ e usamos a regra da cadeia. Como
   $g'(x) \neq 0$, a inversa $g^{-1}$ é diferenciável em $g(\mathbb{R})$ e
   $F_X' = f_X$ nos pontos de diferenciabilidade, de modo que obtemos
@@ -578,74 +584,390 @@ f_Y(y)
 \section{Esperança de Variáveis Aleatórias Contínuas}\label{sec:esperanca-va-continuas}
 
 Suponha que uma barra metálica unidimensional tenha densidade $\rho(x)$ no
-ponto $x$. Então sua massa é $m = \int \rho(x)\,dx$ e seu centro de
+ponto $x$. Então sua massa é $m = \int_{\mathbb{R}} \rho(x)\,dx$ e seu centro de
 gravidade está na posição $m^{-1} \int x\rho(x)\,dx$. Isso nos conduz
-naturalmente à ideia de esperança de uma variável aleatória contínua.
+naturalmente à ideia de esperança de uma variável aleatória absolutamente contínua.
 
 \begin{definition}[Esperança]\label{def:esperanca-continua}
-Se $X$ é uma variável aleatória contínua com função de densidade $f_X$,
+Se $X$ é uma variável aleatória absolutamente contínua com função de densidade $f_X$,
 a \emph{esperança} de $X$ é denotada por $\mathbb{E}[X]$ e definida por
 \begin{equation}\label{eq:def-esperanca-continua}
 \mathbb{E}[X] = \int_{-\infty}^{\infty} x f_X(x)\,dx,
 \end{equation}
 sempre que essa integral converge absolutamente, isto é, sempre que
-$$\displaystyle\int_{-\infty}^{\infty}|x f_X(x)|\,dx<+\infty.$$
+\[
+\int_{-\infty}^{\infty}|x f_X(x)|\,dx<+\infty.
+\]
 \end{definition}
 
 Assim como no caso das variáveis discretas, a esperança de $X$ é muitas
 vezes chamada de \emph{valor esperado} ou \emph{média} de $X$.
 
-Se $X$ é uma variável contínua e $g : \mathbb{R} \to \mathbb{R}$, então
-$Y = g(X)$ também é uma variável aleatória, desde que $g$ seja
-suficientemente bem comportada. Pode ser difícil calcular $\mathbb{E}[Y]$ a
-partir dos primeiros princípios, até porque $Y$ pode não ser nem discreta
-nem contínua, de modo que nem a fórmula da esperança no caso discreto nem a
-definição acima se aplicam. É de grande utilidade, aqui, o resultado a seguir,
-que nos permite calcular $\mathbb{E}[Y]$ diretamente a partir do
+Se $X$ é uma variável aleatória absolutamente contínua e $g : \mathbb{R} \to \mathbb{R}$ é uma função, então
+$Y \equiv g(X)$ também é uma variável aleatória, desde que $g$ seja
+uma função Borel-mensurável; veja a \cref{prop:composicao-borel}. 
+No entanto, não é possível garantir que $Y$ seja uma variável
+aleatória absolutamente contínua. Isto é um problema porque não 
+temos ainda uma definição para $\mathbb{E}[Y]$ quando 
+$Y$ não é nem discreta nem absolutamente contínua. Portanto, será de grande utilidade, aqui, o resultado a seguir,
+que permite calcular $\mathbb{E}[Y]$ diretamente a partir do
 conhecimento de $f_X$ e de $g$.
 
 \begin{theorem}[Teorema da Mudança de Variáveis]\label{thm:lotus-continuo}
-  Seja $X$ uma variável aleatória contínua com função de densidade $f_X$ e
-  seja $g : \mathbb{R} \to \mathbb{R}$ mensurável. Então
+  Seja $X$ uma variável aleatória absolutamente contínua com função de densidade $f_X$ e
+  seja $g : \mathbb{R} \to \mathbb{R}$ Borel-mensurável. Então
   \begin{equation}\label{eq:lotus-continuo}
     \mathbb{E}[g(X)] = \int_{-\infty}^{\infty} g(x) f_X(x)\,dx,
   \end{equation}
   sempre que $\displaystyle\int_{-\infty}^{\infty}|g(x)| f_X(x)\,dx<+\infty$.
 \end{theorem}
 
-Este resultado também é conhecido como \emph{lei do estatístico subconsciente}.
+Vamos demonstrar o teorema no caso em que $g(X)$ é não negativa; o caso
+geral, em que $g$ assume valores de ambos os sinais, fica para os
+exercícios que vêm logo após a demonstração. A ferramenta central é uma
+fórmula que expressa a esperança de uma variável aleatória não negativa
+por meio da \emph{cauda} de sua função de distribuição, isto é, da função
+$y \mapsto \mathbb{P}(Y > y)$. O papel dessa fórmula é o seguinte: o lado
+direito do teorema é uma integral envolvendo $f_X$, enquanto
+$\mathbb{E}[g(X)]$, a priori, depende da lei de $g(X)$, que em geral não
+conhecemos. A fórmula da cauda reescreve $\mathbb{E}[g(X)]$ por meio das
+probabilidades $\mathbb{P}(g(X) > y)$, e cada uma destas se calcula a
+partir de $f_X$, sem que seja necessário determinar a lei de $g(X)$. O
+enunciado exato dessa ferramenta é o próximo lema, de interesse
+independente.
 
-\begin{proof}[Esboço de prova]
-  O teorema não é difícil de demonstrar, mas a demonstração completa foge ao
-  escopo destas notas. Consideramos mais importante entender \emph{por que} ele
-  é verdadeiro do que acompanhar uma prova formal. Recorde o teorema da mudança
-  de variáveis no caso discreto, visto nas notas sobre esperança de variáveis
-  aleatórias discretas: se $Y$ é uma variável aleatória discreta e
-  $g : \mathbb{R} \to \mathbb{R}$, então
-  \[
-    \mathbb{E}[g(Y)] = \sum_x g(x) \mathbb{P}(Y = x).
-  \]
-  Lembre agora da analogia entre funções de probabilidade e funções de
-  densidade: na igualdade acima, substitua $\mathbb{P}(Y = x)$ por
-  $f_X(x)\,dx$ e a soma pela integral, obtendo a fórmula do Teorema da
-  Mudança de Variáveis. Essa é a razão pela qual o resultado é verdadeiro.
+\begin{lemma}[Fórmula da cauda]\label{lem:formula-cauda}
+  Seja $Y$ uma variável aleatória não negativa e absolutamente contínua. 
+  Então vale a seguinte igualdade 
+  \begin{equation}\label{eq:formula-cauda}
+    \mathbb{E}[Y] = \int_{0}^{\infty} \mathbb{P}(Y > y)\,dy.
+  \end{equation}
+\end{lemma}
+
+\begin{proof}
+A ideia é reescrever a probabilidade $\mathbb{P}(Y > y)$, que
+aparece no integrando, por meio da densidade $f_Y$. Em seguida, mostramos que a igualdade
+desejada se reduz a comparar duas integrais da mesma função não negativa,
+calculadas em ordens diferentes. 
+
+Pela definição de função de densidade,
+\[
+\mathbb{P}(Y > y) = \int_{y}^{\infty} f_Y(x)\,dx,
+\]
+e portanto
+\begin{equation}\label{eq:cauda-integral-dupla}
+\int_{0}^{\infty} \mathbb{P}(Y > y)\,dy
+= \int_{0}^{\infty} \left(\int_{y}^{\infty} f_Y(x)\,dx\right)dy.
+\end{equation}
+O lado direito é a integral iterada da função não negativa 
+$(x, y) \longmapsto f_Y(x)$ sobre a faixa
+\[
+\{(x, y) \in \mathbb{R}^2 : 0 < y < x\}
+\]
+do plano, integrando para cada $y$ fixado, de $x=y$ até $x=+\infty$. 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Stealth]
+  % A janela mostra apenas uma parte da região ilimitada 0 < y < x.
+  \begin{scope}
+    \clip (0,0) rectangle (5.4,3.7);
+    \fill[pattern=north east lines, pattern color=gray!35]
+      (0,0) -- (5.4,0) -- (5.4,5.4) -- cycle;
+  \end{scope}
+  \draw[->] (0,0) -- (5.8,0) node[below] {$x$};
+  \draw[->] (0,0) -- (0,3.9) node[above, left] {$y$};
+  \draw[thick] (0,0) -- (3.7,3.7) node[above right] {$y=x$};
+  \draw[red!75, dashed] (0,1) -- (1,1);
+  \draw[red!75, dashed] (1,0) -- (1,1);
+  \draw[red!75, thick] (1.01,1) -- (5.4,1);
+  \fill[red!75] (1,1) circle (1.5pt);
+  \node at (-0.35,1) {$y_0$};
+  \node at (1,-0.35) {$y_0$};
+  \node at (8,1.6) {$\{(x,y)\in\mathbb{R}^2 : 0<y<x\}$};
+\end{tikzpicture}
+\caption{Região de integração na fórmula da cauda, como uma região horizontalmente simples}
+\label{fig:regiao-formula-cauda}
+\end{figure}
+Descrevendo a mesma região, como uma região verticalmente simples.
+Podemos mudar a ordem das integrais iteradas acima, 
+pelo Teorema de Fubini-Tonelli, 
+fixando primeiro $x\in (0,+\infty)$ e integrando de $y=0$ até $y=x$.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Stealth]
+  % A janela mostra apenas uma parte da região ilimitada 0 < y < x.
+  \begin{scope}
+    \clip (0,0) rectangle (5.4,3.7);
+    \fill[pattern=north east lines, pattern color=gray!35]
+      (0,0) -- (5.4,0) -- (5.4,5.4) -- cycle;
+  \end{scope}
+  \draw[->] (0,0) -- (5.8,0) node[below] {$x$};
+  \draw[->] (0,0) -- (0,3.9) node[above, left] {$y$};
+  \draw[thick] (0,0) -- (3.7,3.7) node[above right] {$y=x$};
+  \draw[red!75, thick] (3,0) -- (3,3);
+  \fill[red!75] (3,3) circle (1.5pt);
+  \node at (-0.35,3) {$x_0$};
+  \draw[red!75, dashed] (0,3) -- (3,3);
+  \node at (3,-0.35) {$x_0$};
+  \node at (8,1.6) {$\{(x,y)\in\mathbb{R}^2 : 0<y<x\}$};
+\end{tikzpicture}
+\caption{Região de integração na fórmula da cauda, agora como uma região verticalmente simples}
+\label{fig2:regiao-formula-cauda}
+\end{figure}
+Obtendo assim as seguintes igualdades
+\begin{align*}
+\int_{0}^{\infty} \mathbb{P}(Y > y)\,dy
+&= \int_{0}^{\infty} \left(\int_{y}^{\infty} f_Y(x)\,dx\right)dy
+\\[0.3cm]
+&= \int_{0}^{\infty} \left( \int_{0}^{x} f_Y(x)\,dy \right) dx
+\\[0.3cm]
+&= \int_{0}^{\infty} x\, f_Y(x)\,dx.
+\end{align*}
+Como $Y$ é não negativa, temos $\mathbb{P}(Y < 0) = 0$ e 
+este fato implica que $f_Y(x)=0$ em quase todo ponto de $(-\infty,0)$ e portanto podemos  
+assumir $f_Y(x) = 0$ para $x < 0$. Desta observação segue que 
+a integral acima coincide com a definição \eqref{eq:def-esperanca-continua} de
+$\mathbb{E}[Y]$. Como todas as integrais envolvidas são de funções não
+negativas, a igualdade vale também quando elas divergem e, neste caso, ambos os
+lados valem $+\infty$.
 \end{proof}
 
+
+\bigskip 
+
+\begin{remark}[A fórmula da cauda sem hipótese de densidade]\label{rem:formula-cauda-geral}
+  Na prova acima, a hipótese de que $Y$ tem função de densidade foi usada
+  apenas para escrever $\mathbb{P}(Y > y)$ e $\mathbb{E}[Y]$ por meio de $f_Y$.
+  A igualdade \eqref{eq:formula-cauda} vale, na verdade, para toda
+  variável aleatória não negativa, e é conhecida como \emph{fórmula da
+  cauda} para a esperança. Para definir a esperança nestes casos mais 
+  gerais costuma-se recorrer ao conceito de integral de Lebesgue,
+  assunto este que foge do escopo destas notas.  
+  Entretanto, vamos apresentar uma argumento heurístico que indica
+  a razoabilidade do resultado. 
+  
+  Primeiro, observamos que se $Y>0$, então 
+  \begin{align}\label{eq-aux1-esp-pos}
+  \int_{0}^{\infty} \mathds{1}_{\{Y>y\}}\, dy
+  =
+  \int_{0}^{\infty} \mathds{1}_{[0,Y)}(y)\, dy = Y-0=Y.
+  \end{align}
+  \begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[>=Stealth, x=1cm, y=1.3cm]
+    % Retângulo sob o indicador: base [0,Y], altura 1
+    \fill[pattern=north east lines, pattern color=gray!35]
+      (0,0) rectangle (3.4,1);
+    % Eixos
+    \draw[->] (-0.45,0) -- (5.5,0) node[below] {$y$};
+    \draw[->] (0,-0.35) -- (0,1.95);
+    % Gráfico do indicador
+    \draw[thick] (0,1) -- (3.4,1) -- (3.4,0) -- (5.3,0);
+    \fill (0,1) circle (1.5pt);
+    \draw[fill=white] (3.4,1) circle (1.5pt);
+    \node[left] at (0,1) {$1$};
+    \node[below] at (3.4,0) {$Y$};
+    \node at (1.5,0.5) {área $=Y$};
+  \end{tikzpicture}
+  \caption{O indicador $\mathds{1}_{\{Y>y\}}$ como função de $y$: ele vale $1$
+  em $[0,Y)$ e $0$ em $[Y,+\infty)$. A região hachurada é um retângulo de base
+  $Y$ e altura $1$, cuja área é $Y$.}
+  \label{fig:indicador-formula-cauda}
+  \end{figure}
+  O próximo passo é obtido assumindo que podemos trocar a ordem da 
+  integral com a esperança e, em seguida, a igualdade obtida em \eqref{eq-aux1-esp-pos}
+  \begin{align*}
+  \int_{0}^{\infty} \mathbb{P}(Y>y)\, dy
+  &=
+  \int_{0}^{+\infty} \mathbb{E}\bigl[\mathds{1}_{\{Y>y\}}\bigr] \, dy
+  =
+  \mathbb{E}\left[ \int_{0}^{+\infty} \mathds{1}_{\{Y>y\}} \, dy \right] 
+  =
+  \mathbb{E}[Y].
+  \end{align*}
+É claro que a última igualdade envolve a definição de $\mathbb{E}[Y]$ 
+e portanto ainda carente de um sentido matemático preciso, pelo menos nos casos
+em que $Y$ não é nem absolutamente contínua ou discreta. Ambos os problemas neste argumento heurístico
+são resolvidos com a introdução da Teoria de Integração de Lebesgue. A esperança da variável aleatória
+no caso geral passa ser dada pela integral de Lebesgue da variável aleatória e a troca de ordem
+da esperança com a integral acaba sendo justificada pela versão para tais integrais do Teorema 
+de Fubini-Tonelli. Este tipo de abordagem é desenvolvida em detalhes nos textos mais avançados
+sobre a Teoria de Probabilidade como, por exemplo, a referência \cite{MR2893652}.
+\end{remark}
+
+Agora vamos demonstrar o \Cref{thm:lotus-continuo} quando a função $g:\mathbb{R}\to\mathbb{R}$ 
+é uma função Borel-Mensurável não negativa.
+
+\begin{proof}[Prova do \Cref{thm:lotus-continuo} no caso $g \geqslant 0$]
+Seja $g : \mathbb{R} \to [0, +\infty)$ Borel-mensurável. Pela fórmula da
+cauda para variáveis aleatórias não negativas (veja a
+\Cref{rem:formula-cauda-geral}), aplicada a $g(X)$, temos
+\begin{equation}\label{eq:lotus-cauda}
+\mathbb{E}[g(X)] = \int_{0}^{\infty} \mathbb{P}(g(X) > y)\,dy.
+\end{equation}
+Vamos calcular o integrando a partir da densidade $f_X$ de $X$. O
+evento $\{g(X) > y\}$ é o evento $\{X \in A_y\}$, com
+$A_y = \{x \in \mathbb{R} : g(x) > y\}$, e como $X$ tem densidade
+$f_X$,
+\[
+\mathbb{P}(g(X) > y) 
+= \mathbb{P}(X\in A_{y}) 
+= \int_{A_y} f_X(x)\,dx
+= \int_{\{x \,:\, g(x) > y\}} f_X(x)\,dx.
+\]
+Substituindo esta expressão em \eqref{eq:lotus-cauda}, obtemos
+\[
+\mathbb{E}[g(X)]
+= \int_{0}^{\infty} \left(
+\int_{\{x \,:\, g(x) > y\}} f_X(x)\,dx
+\right) dy.
+\]
+O lado direito é a integral dupla da função não negativa 
+$(x, y) \longmapsto f_X(x)$
+sobre a região
+\[
+\{(x, y) \in \mathbb{R}^2 : 0 < y < g(x)\},
+\]
+na ordem $dx\,dy$. Invertendo a ordem de integração, como na
+demonstração do \Cref{lem:formula-cauda}, obtemos
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Stealth, x=1cm, y=0.8cm]
+  % Esboço de uma função g não negativa com suporte em [0,5].
+  \begin{scope}
+    \fill[pattern=north east lines, pattern color=gray!35]
+      (0,0) parabola bend (2.5,3.75) (5,0) -- cycle;
+    \draw[->] (-0.5,0) -- (5.6,0) node[below] {$x$};
+    \draw[->] (0,0) -- (0,4.3) node[above] {$y$};
+    \draw[thick] (0,0) parabola bend (2.5,3.75) (5,0);
+    \node at (4.2,3.6) {$y=g(x)$};
+    \draw[red!75, dashed] (0,1.2) -- (0.44,1.2);
+    \draw[red!75, thick] (0.44,1.2) -- (4.56,1.2);
+    \fill[red!75] (0.44,1.2) circle (1.5pt);
+    \fill[red!75] (4.56,1.2) circle (1.5pt);
+    \node[left] at (0,1.2) {$y_0$};
+  \end{scope}
+  \begin{scope}[xshift=9cm]
+    \fill[pattern=north east lines, pattern color=gray!35]
+      (0,0) parabola bend (2.5,3.75) (5,0) -- cycle;
+    \draw[->] (-0.5,0) -- (5.6,0) node[below] {$x$};
+    \draw[->] (0,0) -- (0,4.3) node[above] {$y$};
+    \draw[thick] (0,0) parabola bend (2.5,3.75) (5,0);
+    \node at (4.2,3.6) {$y=g(x)$};
+    \draw[red!75, thick] (3,0) -- (3,3.6);
+    \draw[red!75, dashed] (0,3.6) -- (3,3.6);
+    \fill[red!75] (3,3.6) circle (1.5pt);
+    \node[left] at (0,3.6) {$g(x_0)$};
+    \node[below] at (3,0) {$x_0$};
+  \end{scope}
+\end{tikzpicture}
+\caption{A região $0<y<g(x)$ em um esboço: cortes horizontais
+(à esquerda) e verticais (à direita) para a troca da ordem de integração.}
+\label{fig:regiao-lotus-troca-ordem}
+\end{figure}
+\begin{align*}
+\mathbb{E}[g(X)]
+&= \int_{\{x \,:\, g(x) > 0\}} \left(\int_{0}^{g(x)} f_X(x)\, dy\right) \,dx
+\\[0.3cm]
+&= \int_{\{x \,:\, g(x) > 0\}} g(x) f_X(x)\,dx
+\\[0.3cm]
+&= \int_{-\infty}^{\infty} g(x) f_X(x)\,dx,
+\end{align*}
+onde a integral interna em $y$ vale $g(x)$ e, na última igualdade,
+usamos que $g(x) = 0$ no conjunto $\{x : g(x) = 0\}$, que portanto não
+contribui para a integral.
+\end{proof}
+
+Isso conclui a demonstração no caso não negativo. O caso geral, em que
+$g$ assume valores de ambos os sinais, será feito no
+\Cref{exercise:lotus-caso-geral} abaixo. Enunciamos antes uma
+propriedade de uso constante, cuja prova também fica como exercício.
+
+\begin{corollary}[Linearidade da esperança]\label{cor:linearidade-esperanca}
+  Seja $X$ uma variável aleatória absolutamente contínua com esperança bem definida e
+  sejam $a, b \in \mathbb{R}$ constantes. Então
+  \[
+    \mathbb{E}[aX + b] = a\,\mathbb{E}[X] + b.
+  \]
+\end{corollary}
+
+Os exercícios a seguir completam a demonstração do
+\Cref{thm:lotus-continuo} e complementam o \Cref{lem:formula-cauda}.
+
+\begin{exercise}\label{exercise:cauda-geral}
+  Seja $Y$ uma variável aleatória absolutamente contínua com função de densidade $f_Y$
+  e esperança bem definida. Mostre que
+  \[
+    \mathbb{E}[Y]
+    = \int_{0}^{\infty} \mathbb{P}(Y > y)\,dy
+    - \int_{0}^{\infty} \mathbb{P}(Y < -y)\,dy.
+  \]
+  Este resultado estende o \Cref{lem:formula-cauda} ao caso em que $Y$
+  assume valores de ambos os sinais. \emph{Dica:} comece mostrando que
+  \[
+    \int_{0}^{\infty} \mathbb{P}(Y < -y)\,dy
+    = -\int_{-\infty}^{0} x f_Y(x)\,dx
+    \qquad\text{e}\qquad
+    \int_{0}^{\infty} \mathbb{P}(Y > y)\,dy
+    = \int_{0}^{\infty} x f_Y(x)\,dx.
+  \]
+\end{exercise}
+
+\begin{exercise}\label{exercise:lotus-caso-geral}
+  Sejam $X$ uma variável aleatória absolutamente contínua com função de densidade $f_X$
+  e $g : \mathbb{R} \to \mathbb{R}$ uma função Borel-mensurável. Mostre que
+  \[
+    \mathbb{E}[g(X)] = \int_{-\infty}^{\infty} g(x) f_X(x)\,dx,
+  \]
+  sempre que $\int_{-\infty}^{\infty} |g(x)| f_X(x)\,dx < +\infty$, isto
+  é, estabeleça o caso geral do \Cref{thm:lotus-continuo}.
+  \emph{Dica:} usando a identidade do \Cref{exercise:cauda-geral}
+  aplicada a $Y = g(X)$, comece por
+  \[
+    \mathbb{E}[g(X)]
+    = \int_{0}^{\infty} \mathbb{P}(g(X) > y)\,dy
+    - \int_{0}^{\infty} \mathbb{P}(g(X) < -y)\,dy
+  \]
+  e siga os mesmos passos da demonstração do teorema no caso
+  $g(X) \geqslant 0$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:prova-linearidade}
+  Prove o \Cref{cor:linearidade-esperanca}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:momentos-cauda}
+  Use o \Cref{lem:formula-cauda}, isto é, a igualdade
+  \[
+    \mathbb{E}[Y] = \int_{0}^{\infty} \mathbb{P}(Y > t)\,dt
+  \]
+  válida para $Y \geqslant 0$, para mostrar que, se $X$ é não negativa,
+  então
+  \[
+    \mathbb{E}[X^n]
+    = \int_{0}^{\infty} n x^{n-1} \mathbb{P}(X > x)\,dx,
+    \qquad n = 1, 2, \ldots
+  \]
+  \emph{Dica:} comece com
+  $\mathbb{E}[X^n] = \int_{0}^{\infty} \mathbb{P}(X^n > t)\,dt$ e faça a
+  mudança de variáveis $t = x^n$.
+\end{exercise}
+
 Assim como no caso das variáveis aleatórias discretas, a média $\mathbb{E}[X]$ de
-uma variável aleatória contínua $X$ é um indicativo do ``centro'' da
+uma variável aleatória absolutamente contínua $X$ é um indicativo do ``centro'' da
 distribuição de $X$. Como medida do grau de dispersão de $X$ em torno dessa
 média, tomamos a \emph{variância} de $X$. Como no caso discreto, exigimos
 $\mathbb{E}[X^2]<+\infty$ para que a variância esteja bem definida.
 
 \begin{definition}[Variância]\label{def:variancia-continua}
-  A \emph{variância} de uma variável aleatória contínua $X$ tal que
+  A \emph{variância} de uma variável aleatória absolutamente contínua $X$ tal que
   $\mathbb{E}[X^2]<+\infty$ é definida por
   \begin{equation}\label{eq:def-variancia-continua}
     \operatorname{Var}(X) = \mathbb{E}\big[(X - \mathbb{E}[X])^2\big].
   \end{equation}
 \end{definition}
 
-Pelo Teorema da Mudança de Variáveis, \Cref{thm:lotus-continuo}, e observando
+Pelo Teorema da Mudança de Variáveis (\Cref{thm:lotus-continuo}), observando
 que $g(x) = (x - \mu)^2$ é não negativa, obtemos
 \[
   \operatorname{Var}(X) = \int_{-\infty}^{\infty} (x - \mu)^2 f_X(x)\,dx,
@@ -663,7 +985,7 @@ essa integral converge, já que $(x - \mu)^2 \leqslant 2(x^2 + \mu^2)$. Portanto
 \]
 pois a normalização da densidade nos garante que $\int_{-\infty}^{\infty} f_X(x)\,dx = 1$ e, pela definição de $\mu$, que $\int_{-\infty}^{\infty} x f_X(x)\,dx = \mu$. Assim, obtemos a fórmula usual
 \begin{equation}\label{eq:variancia-formula}
-  \operatorname{Var}(X) = \mathbb{E}[X^2] - \mathbb{E}[X]^2.
+  \operatorname{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2.
 \end{equation}
 
 \begin{example}[Esperança na distribuição uniforme]\label{ex:esperanca-uniforme}
@@ -677,7 +999,7 @@ $x \in (a, b)$ e $f_X(x) = 0$ caso contrário. Pela definição de esperança,
 &= \int_a^b x \frac{1}{b - a}\,dx = \frac{1}{2}(a + b).
 \end{aligned}
 \]
-Como exemplo de uma função de uma variável aleatória, tomemos $Y = \sin X$. Novamente pelo Teorema da Mudança de Variáveis,
+Como exemplo de uma função de uma variável aleatória, tomemos $Y = \sin X$. Pelo Teorema da Mudança de Variáveis,
 \[
 \begin{aligned}
 \mathbb{E}[Y] &= \int_{-\infty}^{\infty} \sin x \, f_X(x)\,dx 
@@ -696,7 +1018,7 @@ Como exemplo de uma função de uma variável aleatória, tomemos $Y = \sin X$. 
   \]
 Vamos calcular cada uma dessas integrais separadamente, aplicando integração por partes.
 
-Primeiro, vamos calcular o valor médio de $X$. Para a integração por partes
+Primeiro, vamos calcular a esperança de $X$. Para a integração por partes
 tomamos $u = x$ e $dv = \lambda e^{-\lambda x}\,dx$,
 de modo que $du = dx$ e uma primitiva de $dv$ é $v = -e^{-\lambda x}$.
 Desta forma temos, pela fórmula de integração por partes que
@@ -727,14 +1049,14 @@ ficamos com
 + 2\int_0^{\infty} x e^{-\lambda x}\,dx.
 \]
 Novamente o termo de fronteira se anula, pois a exponencial decai mais
-rápido do que $x^2$ cresce. A integral que sobrou é, a menos do fator
-$\lambda$, a mesma que já apareceu no cálculo de $\mathbb{E}[X]$.
-Assim, realizando novamente a integração por parte com $u = x$ e $dv = e^{-\lambda x}\,dx$, 
+rápido do que $x^2$ cresce. A integral que sobrou difere da anterior por um
+fator $1/\lambda$.
+Assim, realizando novamente a integração por partes com $u = x$ e $dv = e^{-\lambda x}\,dx$, 
 temos $du = dx$ e $v = -\lambda^{-1} e^{-\lambda x}$ e portanto 
 \[
 \begin{aligned}
 \int_0^{\infty} x e^{-\lambda x}\,dx
-&= -x \frac{1}{\lambda} e^{-\lambda x}\Bigr|_0^{\infty}
+&= -\frac{x}{\lambda} e^{-\lambda x}\Bigr|_0^{\infty}
 + \frac{1}{\lambda} \int_0^{\infty} e^{-\lambda x}\,dx 
 \\[0.3cm]
 &= 0 + \frac{1}{\lambda} \cdot \frac{1}{\lambda}
@@ -747,7 +1069,7 @@ Logo, por \eqref{eq:variancia-formula}, a variância de $X$ é
 \[
 \begin{aligned}
 \operatorname{Var}(X) &= \mathbb{E}\big[(X - \mathbb{E}[X])^2\big] \\
-&= \mathbb{E}[X^2] - \mathbb{E}[X]^2 = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} = \frac{1}{\lambda^2}.
+&= \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} = \frac{1}{\lambda^2}.
 \end{aligned}
 \]
 \end{example}
@@ -784,7 +1106,7 @@ Logo, por \eqref{eq:variancia-formula}, a variância de $X$ é
   \]
   O termo de fronteira se anula porque
   $x e^{-\frac{1}{2}x^2} \to 0$ quando $|x| \to \infty$, e a última
-  igualdade é a normalização da densidade normal padrão. Portanto,
+  igualdade decorre da normalização da densidade normal padrão. Portanto,
   \[
     \operatorname{Var}(X) = \frac{1}{\sqrt{2\pi}} \cdot \sqrt{2\pi} = 1.
   \]
@@ -799,7 +1121,7 @@ Logo, por \eqref{eq:variancia-formula}, a variância de $X$ é
     \mathbb{E}[X] = \int_{-\infty}^{\infty} x \frac{1}{\pi(1 + x^2)}\,dx,
   \]
   não converge, ou seja, uma variável aleatória com distribuição de Cauchy
-  não possui valor médio bem-definido. 
+  não possui valor médio bem definido. 
   
   \medskip 
   De fato, para cada $M, N > 0$ fixados, temos
@@ -815,13 +1137,13 @@ Logo, por \eqref{eq:variancia-formula}, a variância de $X$ é
   $M \to \infty$ e depois $N \to \infty$, então $I(M, N) \to -\infty$;
   se a passagem ao limite for feita na ordem inversa, então
   $I(M, N) \to +\infty$. Portanto, \emph{a distribuição de Cauchy não possui
-  esperança bem-definida}. Em contrapartida, existem muitas funções de $X$ com esperança
+  esperança bem definida}. Em contrapartida, existem muitas funções de $X$ com esperança
   finita. Por exemplo, se $Y = \arctan X$, então
   \[
     \begin{aligned}
       \mathbb{E}[Y] &= \int_{-\infty}^{\infty} \arctan x \frac{1}{\pi(1 +
         x^2)}\,dx \\
-      &= \int_{-\frac{1}{2}\pi}^{\frac{1}{2}\pi} \frac{v}{\pi}\,dv, 
+      &= \int_{-\pi/2}^{\pi/2} \frac{v}{\pi}\,dv, 
         \quad \text{onde } v = \arctan x \\
       &= 0.
     \end{aligned}
@@ -837,7 +1159,7 @@ seguir.
 
 \begin{proposition}[Cauchy-Schwarz, forma
   probabilística]\label{prop:cauchy-schwarz}
-  Seja $X$ uma variável aleatória contínua com função de densidade $f_X$ e
+  Seja $X$ uma variável aleatória absolutamente contínua com função de densidade $f_X$ e
   sejam $g, h : \mathbb{R} \to \mathbb{R}$ funções mensuráveis tais que
   $\mathbb{E}[g(X)^2] < +\infty$ e $\mathbb{E}[h(X)^2] < +\infty$. Então o
   produto $g(X)h(X)$ é integrável e
@@ -867,14 +1189,14 @@ Assim a integral de $g(x)h(x)f_X(x)$ converge absolutamente e, pelo
 Agora usamos o fato de que a variância é sempre não negativa. Fixe
 $\lambda \in \mathbb{R}$ e considere a variável aleatória 
 $Z = g(X) - \lambda\,h(X)$. Aplicando a desigualdade
-$(a - b)^2 \leqslant 2a^2 + 2b^2$ a variável aleatória $Z$ concluímos que
+$(a - b)^2 \leqslant 2a^2 + 2b^2$ à variável aleatória $Z$ concluímos que
 $Z^2 \leqslant 2g(X)^2 + 2\lambda^2 h(X)^2$. Logo, segue diretamente da hipótese que
 $\mathbb{E}[Z^2] < +\infty$ e a variância de $Z$ está bem definida.
-Pela fórmula da variância \eqref{eq:variancia-formula} e pelo fato que
+Pela fórmula da variância \eqref{eq:variancia-formula} e pelo fato de que
 $\operatorname{Var}(Z) \geqslant 0$, temos
 \[
 \mathbb{E}[Z^2]
-= \operatorname{Var}(Z) + \mathbb{E}[Z]^2 \geqslant 0.
+= \operatorname{Var}(Z) + (\mathbb{E}[Z])^2 \geqslant 0.
 \]
 Expandindo o quadrado de $Z$ e usando a linearidade da integral,
 obtemos, para cada $\lambda \in \mathbb{R}$,
@@ -898,7 +1220,7 @@ vale em cada ponto, podemos afirmar que
 \[ 
 2\,|gh| \leqslant \varepsilon\, g^2 + \frac{1}{\varepsilon} h^2.
 \] 
-Usando a desigualdade acima temos a seguinte estimativa
+Usando a desigualdade acima, temos a seguinte estimativa
 \[
 2\big|\mathbb{E}[g(X)h(X)]\big|
 \leqslant 2\,\mathbb{E}\big[|g(X)h(X)|\big]
@@ -912,8 +1234,8 @@ também se anula. Neste caso concluímos que a desigualdade do enunciado vale co
 igualdade. 
 
 Por outro lado, se $\mathbb{E}[h(X)^2] > 0$, então o polinômio acima tem
-coeficiente dominante positivo e também é não-negativo em toda a reta. Logo o
-seu discriminante é não-positivo, ou seja,
+coeficiente dominante positivo e também é não negativo em toda a reta. Logo o
+seu discriminante é não positivo, ou seja,
 \[
 4\bigl(\mathbb{E}[g(X)h(X)]\bigr)^2
 - 4\,\mathbb{E}[g(X)^2]\,\mathbb{E}[h(X)^2]
@@ -922,7 +1244,7 @@ seu discriminante é não-positivo, ou seja,
 Dividindo por $4$ chega-se à desigualdade do enunciado.
 \end{proof}
 
-A versão clássica desta desigualdade, pode ser obtida considerando
+A versão clássica desta desigualdade pode ser obtida considerando
 o caso particular em que $X$ é uma variável aleatória uniforme.
 
 \begin{corollary}[Cauchy-Schwarz para
@@ -960,9 +1282,9 @@ o caso particular em que $X$ é uma variável aleatória uniforme.
 
 \begin{remark}\label{rem:cauchy-schwarz-moral}
   O caso $h \equiv 1$ da \Cref{prop:cauchy-schwarz} é exatamente a
-  afirmação de que a variância de $g(X)$ é não-negativa. De fato,
+  afirmação de que a variância de $g(X)$ é não negativa. De fato,
   \[
-    \mathbb{E}[g(X)]^2 \leqslant \mathbb{E}[g(X)^2],
+    (\mathbb{E}[g(X)])^2 \leqslant \mathbb{E}[g(X)^2],
   \]
   e portanto segue da fórmula \eqref{eq:variancia-formula} que
   $\operatorname{Var}(g(X)) \geqslant 0$. 
@@ -984,8 +1306,9 @@ o caso particular em que $X$ é uma variável aleatória uniforme.
 \begin{exercise}\label{exercise:densidade-quadratica}
   A variável aleatória $X$ tem função de densidade
   \[
-    f(x) = c\,x(1 - x) \quad \text{para } 0 \leqslant x \leqslant 1.
+    f(x) = c\,x(1 - x) \quad \text{para } 0 \leqslant x \leqslant 1,
   \]
+  e $f(x) = 0$ caso contrário.
   Determine a constante $c$ e calcule a média e a variância de $X$.
 \end{exercise}
 
@@ -997,7 +1320,7 @@ o caso particular em que $X$ é uma variável aleatória uniforme.
 \begin{exercise}
   \label{exercise:transformacao-normal}
   Sejam $X\sim N(0,1)$, $\mu\in\mathbb{R}$ e $0<\sigma<+\infty$
-  constantes. Seguindo o roteiro abaixo mostre que 
+  constantes. Seguindo o roteiro abaixo, mostre que 
   $Y\equiv\sigma X+\mu$ é uma variável aleatória
   com distribuição $N(\mu,\sigma^2)$.
   \begin{enumerate}[label=\textbf{(\alph*)}, leftmargin=*, itemsep=0.6em]
@@ -1009,14 +1332,14 @@ o caso particular em que $X$ é uma variável aleatória uniforme.
     \item Aplique o \Cref{thm:transformacao-crescente} para escrever a
       densidade $f_Y$ em termos de $f_X$, de $g^{-1}$ e de $(g^{-1})'$.
     \item Usando a expressão explícita da densidade da normal padrão dada no
-      \Cref{ex:esperanca-normal} e os itens anteriores mostre que, para todo $y\in\mathbb{R}$, temos
+      \Cref{ex:esperanca-normal} e os itens anteriores, mostre que, para todo $y\in\mathbb{R}$, temos
       \[
         f_Y(y)
         =\frac{1}{\sqrt{2\pi\sigma^2}}
           \exp\!\left(-\frac{(y-\mu)^2}{2\sigma^2}\right).
       \]
-      e conclua que $Y\sim N(\mu,\sigma^2)$.
-    \item \emph Usando o
+      Conclua que $Y\sim N(\mu,\sigma^2)$.
+    \item Usando o
       \Cref{thm:lotus-continuo} e os valores de $\mathbb{E}[X]$ e
       $\operatorname{Var}(X)$ calculados no \Cref{ex:esperanca-normal},
       mostre que $\mathbb{E}[Y]=\mu$ e $\operatorname{Var}(Y)=\sigma^2$.
@@ -1107,7 +1430,7 @@ o caso particular em que $X$ é uma variável aleatória uniforme.
         interseção enumerável de intervalos abertos;
       \item $(a,b) = \bigcup_{n \geqslant 1} \bigl[a + \tfrac{1}{n},\,
         b - \tfrac{1}{n}\bigr]$ (descartando os $n$ para os quais
-        $1/n \geqslant (b-a)/2$, de modo que os intervalos não sejam
+        $1/n > (b-a)/2$, de modo que os intervalos não sejam
         vazios), isto é, um intervalo aberto é uma união enumerável de
         intervalos fechados;
       \item $[a,b) = \bigcap_{n \geqslant 1} \bigl(a - \tfrac{1}{n},\, b\bigr)$
