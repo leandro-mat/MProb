@@ -191,13 +191,14 @@ pdfkeywords={variáveis aleatórias contínuas, função densidade, transformaç
 %----------------------------------------------------------------------
 \begin{document}
 % --- CABEÇALHO COM O LOGO DA UnB ---
-\vspace*{-1.0cm}
+\vspace*{-0.8cm}
 \begin{figure}[H]
 \includegraphics{logo-mat-unb.pdf}
 \end{figure}
 
 
 % --- TÍTULO, AUTOR E DATA ---
+\vspace*{0.3cm}
 \begin{center}
 {\LARGE\bf Funções de Variáveis Aleatórias Contínuas e Esperança}
 \vspace{1cm}
@@ -214,8 +215,9 @@ Nestas notas damos continuidade ao estudo das variáveis aleatórias
 absolutamente contínuas iniciado nas notas sobre funções de distribuição.
 Começamos verificando quando $g(X)$ é uma variável aleatória e obtemos
 densidades para transformações monótonas, além de estudar o caso $X^2$.
-Depois definimos a esperança de uma variável aleatória com densidade e
-estudamos a fórmula da cauda e o Teorema da Mudança de Variáveis. O caso
+Depois definimos a esperança de uma variável aleatória com densidade,
+estudamos como expressá-la por probabilidades de cauda e demonstramos
+o Teorema da Mudança de Variáveis. O caso
 de funções não negativas é desenvolvido no texto; o caso em que a função
 assume valores negativos fica como exercício. Introduzimos a variância e
 a identidade
@@ -674,13 +676,13 @@ por meio da \emph{cauda} de sua função de distribuição, isto é, da função
 $y \mapsto \mathbb{P}(Y > y)$. O papel dessa fórmula é o seguinte: o lado
 direito do teorema é uma integral envolvendo $f_X$, enquanto
 $\mathbb{E}[g(X)]$, a priori, depende da lei de $g(X)$, que em geral não
-conhecemos. A fórmula da cauda reescreve $\mathbb{E}[g(X)]$ por meio das
+conhecemos. Essa expressão reescreve $\mathbb{E}[g(X)]$ por meio das
 probabilidades $\mathbb{P}(g(X) > y)$, e cada uma destas se calcula a
 partir de $f_X$, sem que seja necessário determinar a lei de $g(X)$. O
 enunciado exato dessa ferramenta é o próximo lema, de interesse
 independente.
 
-\begin{lemma}[Fórmula da cauda]\label{lem:formula-cauda}
+\begin{lemma}\label{lem:formula-cauda}
   Seja $Y$ uma variável aleatória não negativa, discreta ou absolutamente
   contínua. A integral abaixo é finita se, e somente se, $Y$ possui
   esperança bem definida. Nesse caso,
@@ -731,7 +733,7 @@ do plano, integrando para cada $y$ fixado, de $x=y$ até $x=+\infty$.
   \node at (1,-0.35) {$y_0$};
   \node at (8,1.6) {$\{(x,y)\in\mathbb{R}^2 : 0<y<x\}$};
 \end{tikzpicture}
-\caption{Região de integração na fórmula da cauda, como uma região horizontalmente simples}
+\caption{A região $0<y<x$, descrita por cortes horizontais.}
 \label{fig:regiao-formula-cauda}
 \end{figure}
 Descrevemos agora a mesma região como uma região verticalmente simples.
@@ -757,7 +759,7 @@ fixando primeiro $x\in (0,+\infty)$ e integrando de $y=0$ até $y=x$.
   \node at (3,-0.35) {$x_0$};
   \node at (8,1.6) {$\{(x,y)\in\mathbb{R}^2 : 0<y<x\}$};
 \end{tikzpicture}
-\caption{Região de integração na fórmula da cauda, agora como uma região verticalmente simples}
+\caption{A região $0<y<x$, descrita por cortes verticais.}
 \label{fig2:regiao-formula-cauda}
 \end{figure}
 Obtemos assim as seguintes igualdades
@@ -810,13 +812,11 @@ bem definida. Nesse caso, ela vale $\mathbb{E}[Y]$, como afirma o lema.
 
 \bigskip
 
-\begin{remark}[A fórmula da cauda sem hipótese de densidade]\label{rem:formula-cauda-geral}
+\begin{remark}\label{rem:formula-cauda-geral}
   Quando se define a esperança para variáveis aleatórias gerais,
   a igualdade \eqref{eq:formula-cauda} vale para toda variável aleatória
-  não negativa e é conhecida como \emph{fórmula da cauda} para a
-  esperança. Para definir a esperança nestes casos mais
-  gerais costuma-se recorrer ao conceito de integral de Lebesgue,
-  que não desenvolveremos aqui.
+  não negativa. Essa extensão costuma ser demonstrada com a integral
+  de Lebesgue, que não desenvolveremos aqui.
   Entretanto, vamos apresentar um argumento heurístico que indica
   a razoabilidade do resultado. 
   
@@ -878,8 +878,10 @@ Agora vamos demonstrar o \Cref{thm:lotus-continuo} quando a função $g:\mathbb{
 Seja $g : \mathbb{R} \to [0, +\infty)$ Borel-mensurável e suponha que
 $Y=g(X)$ seja discreta ou absolutamente contínua, como no enunciado.
 Vamos calcular a integral da cauda de $Y$ a partir de $f_X$. Depois,
-o \Cref{lem:formula-cauda} identificará essa integral com
-$\mathbb{E}[Y]$, desde que seja finita. Escreva
+podemos usar o \Cref{lem:formula-cauda} para identificar a integral com
+$\mathbb{E}[Y]$, desde que esta integral seja finita.
+
+Seja
 \begin{equation}\label{eq:lotus-cauda}
 T=\int_{0}^{\infty} \mathbb{P}(g(X) > y)\,dy.
 \end{equation}
@@ -953,7 +955,8 @@ T
 \end{align*}
 onde a integral interna em $y$ vale $g(x)f_X(x)$ e, na última igualdade,
 usamos que $g(x) = 0$ no conjunto $\{x : g(x) = 0\}$, que portanto não
-contribui para a integral. Pela hipótese do teorema, $T$ é finita.
+contribui para a integral. Pela hipótese do teorema e a igualdade
+acima segue que $T$ é finito.
 O \Cref{lem:formula-cauda} garante então que $Y$ possui esperança
 bem definida e que $\mathbb{E}[g(X)]=T$, como queríamos.
 \end{proof}
@@ -972,8 +975,8 @@ propriedade de uso constante, cuja prova também fica como exercício.
 \end{corollary}
 
 Os exercícios a seguir completam a demonstração do
-\Cref{thm:lotus-continuo}. O primeiro estende a fórmula da cauda a
-variáveis que também assumem valores negativos.
+\Cref{thm:lotus-continuo}. O primeiro estende a expressão da esperança
+por probabilidades de cauda a variáveis que também assumem valores negativos.
 
 \begin{exercise}\label{exercise:cauda-geral}
   Seja $Y$ uma variável aleatória discreta ou absolutamente contínua.
@@ -1019,7 +1022,8 @@ variáveis que também assumem valores negativos.
 
 \bigskip
 
-Passemos à dispersão de uma variável aleatória $X$ que possui densidade.
+Vamos considerar agora uma das possíveis noções de
+dispersão, em torno da média, de uma variável aleatória $X$ que possui densidade.
 Assim como no caso discreto, a média $\mathbb{E}[X]$ indica o centro
 da distribuição. A variância medirá a dispersão em torno desse centro.
 Para defini-la como um número finito, vamos exigir que
