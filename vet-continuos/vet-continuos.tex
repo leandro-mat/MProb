@@ -444,6 +444,69 @@ para todos $a, b, c, d \in \mathbb{R}$ satisfazendo $a < b$ e $c < d$.
 \end{exercise}
 
 \subsection{Funções de Densidade Conjunta}\label{subsec:densidade-conjunta}
+Uma densidade conjunta permitirá calcular a probabilidade de o vetor
+aleatório pertencer a uma região do plano. Antes de defini-la, vamos
+especificar quais regiões serão mensuráveis, estendendo ao plano a noção
+de conjunto boreliano já apresentada na reta.
+
+Dados $a \in \mathbb{R}^2$ e $r > 0$, o disco aberto de centro $a$ e raio
+$r$ é o conjunto
+\[
+  D(a,r) = \{x \in \mathbb{R}^2 : \|x-a\| < r\},
+\]
+isto é, o conjunto dos pontos cuja distância até $a$ é menor que $r$.
+Aqui, $\|\cdot\|$ denota a norma euclidiana.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.85, >=Stealth]
+  \draw[->] (-0.35,0) -- (4.5,0) node[below right] {$x_1$};
+  \draw[->] (0,-0.35) -- (0,3.65) node[above left] {$x_2$};
+  \fill[teal!10] (2.1,1.65) circle (1.25);
+  \draw[teal, dashed, line width=0.9pt] (2.1,1.65) circle (1.25);
+  \fill (2.1,1.65) circle (1.5pt) node[below left] {$a$};
+  \draw[teal!80!black, line width=0.8pt] (2.1,1.65) -- (2.984,2.534);
+  \node[teal!80!black, above left] at (2.56,2.11) {$r$};
+  \node[teal!80!black] at (2.05,3.3) {$D(a,r)$};
+\end{tikzpicture}
+\caption{Disco aberto de centro $a$ e raio $r$ em $\mathbb{R}^2$.}
+\label{fig:disco-aberto}
+\end{figure}
+Um conjunto $U \subseteq \mathbb{R}^2$ é \emph{aberto} se, para todo ponto
+$a \in U$, existe algum raio $r > 0$ tal que $D(a,r) \subseteq U$.
+Denotemos por $\mathscr{C}$ a coleção de todos os discos abertos de
+$\mathbb{R}^2$, com centros em $\mathbb{R}^2$ e raios positivos.
+A $\sigma$-álgebra de Borel de
+$\mathbb{R}^2$, denotada por $\mathscr{B}(\mathbb{R}^2)$, é a menor
+$\sigma$-álgebra de subconjuntos de $\mathbb{R}^2$ que contém $\mathscr{C}$. Em
+outras palavras, é a interseção de todas as $\sigma$-álgebras de subconjuntos
+de $\mathbb{R}^2$ que contêm todos os discos abertos. Seus elementos são
+chamados de \emph{conjuntos borelianos}, ou simplesmente \emph{borelianos}.
+
+Todo aberto do plano é uma união enumerável de discos abertos com centros
+em $\mathbb{Q}^2$ e raios racionais positivos. Por isso, a classe dos
+borelianos contém todos os conjuntos abertos e fechados do plano. Em
+particular, inclui retângulos, discos e regiões delimitadas por curvas
+fechadas simples (curvas de Jordan), entre outros conjuntos que aparecem
+nas aplicações do Cálculo.
+
+Diremos que uma função $f:\mathbb{R}^2\to\mathbb{R}$ é
+\emph{Borel-mensurável} se, para todo $t \in \mathbb{R}$, o conjunto
+\[
+  \{(x,y) \in \mathbb{R}^2 : f(x,y) \leqslant t\}
+\]
+pertencer a $\mathscr{B}(\mathbb{R}^2)$. Como os intervalos $(-\infty,t]$
+geram $\mathscr{B}(\mathbb{R})$, essa condição equivale a exigir que a
+pré-imagem $f^{-1}(C) = \{(x,y) \in \mathbb{R}^2 : f(x,y) \in C\}$
+pertença a $\mathscr{B}(\mathbb{R}^2)$ para todo
+$C \in \mathscr{B}(\mathbb{R})$. Essa condição é análoga à usada na
+definição de variável aleatória: as pré-imagens dos borelianos da reta
+devem ser conjuntos mensuráveis no domínio. Na reta, usamos a mesma
+definição, tomando $\mathscr{B}(\mathbb{R})$ também no domínio.
+Em particular, toda função
+contínua é Borel-mensurável, pois a pré-imagem de um aberto por uma função
+contínua é um conjunto aberto.
+
+Com essas noções, podemos passar das densidades na reta às densidades no plano.
 Recordamos que uma variável aleatória $X$ é dita \emph{absolutamente contínua}
 se sua função de distribuição admitir uma representação integral da forma
 \[
@@ -482,7 +545,7 @@ conjunto de área zero.
 Assim como no caso unidimensional, duas densidades representam a mesma
 distribuição conjunta se, e somente se, coincidem quase em todo ponto.
 Em particular, a densidade não é única: alterar seus valores em um conjunto
-de área zero, mantendo a mensurabilidade e a não negatividade, não altera
+de área zero, mantendo a Borel-mensurabilidade e a não negatividade, não altera
 a representação integral de $F_{X,Y}$.
 
 Sob hipóteses de regularidade, podemos obter uma densidade por derivação.
@@ -517,10 +580,10 @@ e a integral unitária,
 \begin{equation}\label{eq:densidade-integral-unitaria}
   \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{X,Y}(x, y)\,dx\,dy = 1.
 \end{equation}
-Esta última igualdade resulta de fazer $x$ e $y$ tenderem a $+\infty$ em
-\eqref{eq:distr-conjunta-integral}: os eventos
+Esta última igualdade é obtida tomando o limite quando $x$ e $y$ tendem a $+\infty$ na igualdade
+\eqref{eq:distr-conjunta-integral}, já que os eventos
 $\{X \leqslant n, Y \leqslant n\}$ crescem para $\Omega$ e, pela não
-negatividade, as integrais correspondentes crescem para a integral sobre
+negatividade de $f$, as integrais correspondentes crescem para a integral sobre
 todo o plano.
 
 Mais uma vez, observamos uma analogia entre funções densidade conjuntas e
@@ -530,7 +593,7 @@ pequenos $\delta x$ e $\delta y$, a probabilidade de o vetor aleatório $(X, Y)$
 pertencer ao pequeno retângulo com vértice inferior esquerdo em $(x, y)$ e
 lados de comprimentos $\delta x$ e $\delta y$ é dada aproximadamente por
 \begin{equation}\label{eq:prob-retangulo-infinitesimal}
-  \mathbb{P}(x < X \leqslant x + \delta x,\, y < Y \leqslant y + \delta y)
+  \mathbb{P}\bigl(x < X \leqslant x + \delta x,\  y < Y \leqslant y + \delta y\bigr)
   \approx f_{X,Y}(x, y)\,\delta x\,\delta y.
 \end{equation}
 De fato, pela continuidade, a densidade varia pouco nesse retângulo.
@@ -538,36 +601,6 @@ O erro da aproximação, dividido pela área $\delta x\,\delta y$, tende a zero
 quando $\delta x$ e $\delta y$ tendem a zero por valores positivos.
 Essa interpretação sugere que a probabilidade de uma região deve ser obtida
 integrando a densidade sobre ela, como veremos a seguir.
-
-Antes de prosseguir, vamos definir os discos abertos de $\mathbb{R}^2$. Dados
-$a \in \mathbb{R}^2$ e $r > 0$, o disco aberto de centro $a$ e raio $r$ é o
-conjunto
-\[
-  D(a,r) = \{x \in \mathbb{R}^2 : \|x-a\| < r\},
-\]
-isto é, o conjunto dos pontos cuja distância até $a$ é menor que $r$.
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[scale=0.85, >=Stealth]
-  \draw[->] (-0.35,0) -- (4.5,0) node[below right] {$x_1$};
-  \draw[->] (0,-0.35) -- (0,3.65) node[above left] {$x_2$};
-  \fill[teal!10] (2.1,1.65) circle (1.25);
-  \draw[teal, dashed, line width=0.9pt] (2.1,1.65) circle (1.25);
-  \fill (2.1,1.65) circle (1.5pt) node[below left] {$a$};
-  \draw[teal!80!black, line width=0.8pt] (2.1,1.65) -- (2.984,2.534);
-  \node[teal!80!black, above left] at (2.56,2.11) {$r$};
-  \node[teal!80!black] at (2.05,3.3) {$D(a,r)$};
-\end{tikzpicture}
-\caption{Disco aberto de centro $a$ e raio $r$ em $\mathbb{R}^2$.}
-\label{fig:disco-aberto}
-\end{figure}
-Denotemos por $\mathscr{C}$ a coleção de todos os discos abertos de
-$\mathbb{R}^2$, com centros em $\mathbb{R}^2$ e raios positivos.
-A $\sigma$-álgebra de Borel de
-$\mathbb{R}^2$, denotada por $\mathscr{B}(\mathbb{R}^2)$, é a menor
-$\sigma$-álgebra de subconjuntos de $\mathbb{R}^2$ que contém $\mathscr{C}$. Em
-outras palavras, é a interseção de todas as $\sigma$-álgebras de subconjuntos
-de $\mathbb{R}^2$ que contêm todos os discos abertos.
 
 \begin{theorem}[Probabilidade de regiões borelianas]\label{thm:probabilidade-subconjuntos-regulares}
   Se $A$ é um boreliano de $\mathbb{R}^2$ e $X$ e $Y$ são
@@ -577,8 +610,15 @@ de $\mathbb{R}^2$ que contêm todos os discos abertos.
     \mathbb{P}\bigl((X, Y) \in A\bigr) = \iint_A f_{X,Y}(x, y)\,dx\,dy.
   \end{equation}
 \end{theorem}
-O evento $\{(X, Y) \in A\}$ pertence a $\mathcal{F}$, pois as coordenadas
-$X$ e $Y$ são variáveis aleatórias e $A$ é boreliano.
+O evento $\{(X, Y) \in A\}$ pertence a $\mathcal{F}$. Para justificar
+essa afirmação, observamos que a pré-imagem de um retângulo
+$(a,b]\times(c,d]$ é a interseção dos eventos
+$\{a < X \leqslant b\}$ e $\{c < Y \leqslant d\}$ e, portanto, pertence
+a $\mathcal{F}$. A coleção dos conjuntos do plano cujas pré-imagens
+pertencem a $\mathcal{F}$ é uma $\sigma$-álgebra. Ela contém todos os
+discos abertos, pois cada um deles é uma união enumerável desses
+retângulos com extremos racionais. Logo, contém
+$\mathscr{B}(\mathbb{R}^2)$, o que justifica a afirmação para todo boreliano $A$.
 
 \begin{figure}[H]
 \centering
@@ -616,12 +656,7 @@ $f_{X,Y}(x, y)\,\delta x\,\delta y$.}
 \end{figure}
 
 O \Cref{thm:probabilidade-subconjuntos-regulares} depende de resultados da
-teoria da integração, e omitimos sua demonstração. Todo aberto do plano é
-uma união enumerável de discos abertos com centros em $\mathbb{Q}^2$ e
-raios racionais positivos. Por isso, a classe dos borelianos contém todos
-os conjuntos abertos e fechados do plano. Em particular, inclui
-retângulos, discos e regiões delimitadas por curvas fechadas de Jordan,
-entre outros conjuntos que aparecem nas aplicações do Cálculo.
+teoria da integração, e omitimos sua demonstração.
 
 Podemos entender intuitivamente o resultado para uma região limitada $A$
 como a da \Cref{fig:densidade-conjunta-interpretacao}. Suponha que sua fronteira
@@ -669,11 +704,9 @@ integral da densidade sobre $A$.
   $B = (0, a) \times (0, b)$. Para qualquer boreliano $A$ do plano,
   \begin{align*}
     \mathbb{P}\bigl((X, Y) \in A\bigr)
-    &= \iint_A f(x, y)\,dx\,dy
-    \\[0.3cm]
-    &= \iint_{A \cap B} \frac{1}{ab}\,dx\,dy
-    \\[0.3cm]
-    &= \frac{\text{área}(A \cap B)}{\text{área}(B)}.
+    = \iint_A f(x, y)\,dx\,dy
+    = \iint_{A \cap B} \frac{1}{ab}\,dx\,dy
+    = \frac{\text{área}(A \cap B)}{\text{área}(B)}.
   \end{align*}
 \end{example}
 
@@ -826,7 +859,16 @@ fatores, dividindo cada um por sua integral, para obter as densidades marginais.
 
 Não vamos nos estender longamente sobre o caso em que há três ou mais
 variáveis aleatórias. De modo geral, todas as ideias desenvolvidas até
-aqui possuem análogos em mais de duas dimensões. Por exemplo, dizemos que
+aqui possuem análogos em mais de duas dimensões. Em $\mathbb{R}^3$, a
+$\sigma$-álgebra de Borel $\mathscr{B}(\mathbb{R}^3)$ é gerada pelas bolas
+abertas $\{x \in \mathbb{R}^3 : \|x-a\| < r\}$, com
+$a \in \mathbb{R}^3$ e $r > 0$. A Borel-mensurabilidade de funções reais
+é definida pelo mesmo critério de pré-imagens, usando
+$\mathscr{B}(\mathbb{R}^3)$ no domínio. Volume nulo e propriedades quase
+em todo ponto são definidos como no plano, substituindo os retângulos
+e suas áreas por paralelepípedos e seus volumes.
+
+Por exemplo, dizemos que
 três variáveis aleatórias $X$, $Y$ e $Z$ são
 \emph{conjuntamente absolutamente contínuas} se
 \[
