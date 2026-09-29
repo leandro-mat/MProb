@@ -1,0 +1,979 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazilian]{babel}     % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{lucide-icons}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Vetores Contínuos: Densidade Conjunta, Marginais e Independência},
+pdfauthor={L. Cioletti},
+pdfsubject={Vetores aleatórios contínuos, função de distribuição conjunta, densidade conjunta, densidades marginais e independência},
+pdfkeywords={vetores aleatórios contínuos, distribuição conjunta, densidade conjunta, densidades marginais, independência, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheoremstyle{plainexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{plainexercise}
+\newtheorem{exercise}{Exercício}
+
+% Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
+% como nas notas anteriores.
+\newtheoremstyle{starredexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{starredexercise}
+\newtheorem{starredexercise}[exercise]{Exercício}
+\theoremstyle{definition}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\AtBeginDocument{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\vspace*{-0.8cm}
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+
+% --- TÍTULO, AUTOR E DATA ---
+\vspace*{0.3cm}
+\begin{center}
+{\LARGE\bf Vetores Contínuos: Densidade Conjunta, Marginais e Independência}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Setembro de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Nestas notas, damos continuidade ao estudo das variáveis aleatórias
+e iniciamos o estudo dos vetores aleatórios contínuos. Apresentamos a
+função de distribuição conjunta e suas propriedades, definimos a
+densidade conjunta e mostramos como calcular probabilidades por meio de
+integração sobre regiões do plano. Em seguida, introduzimos as densidades
+marginais, obtidas integrando a densidade conjunta em relação à outra
+variável, e estudamos o conceito de independência de variáveis
+aleatórias absolutamente contínuas, caracterizada pela fatoração da
+densidade conjunta, em quase todo ponto, como produto das densidades
+marginais. A exposição segue de perto as
+Seções 6.1 a 6.3 do Capítulo 6 de \cite{GrimmettWelsh2014}.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+\section{Densidade Conjunta, Densidades Marginais\texorpdfstring{\\}{ }e Independência}\label{sec:vetores-continuos}
+
+\subsection{Vetores Aleatórios e Independência}\label{subsec:vetores-aleatorios}
+Dadas duas variáveis aleatórias $X$ e $Y$, definidas em um espaço de
+probabilidade $(\Omega, \mathcal{F}, \mathbb{P})$, é frequentemente útil
+pensar nelas conjuntamente como um vetor aleatório $(X, Y)$ que assume valores
+em $\mathbb{R}^2$. Quando $X$ e $Y$ são discretas, podemos estudar esse
+vetor aleatório por meio da função de probabilidade conjunta de $X$ e $Y$,
+mas, para variáveis aleatórias gerais, essa função pode não determinar
+a distribuição. Uma ferramenta aplicável em todos esses casos é a
+\emph{função de distribuição conjunta}, definida a seguir.
+
+\begin{definition}[Função de distribuição conjunta]\label{def:funcao-distribuicao-conjunta}
+  A função de distribuição conjunta do par de variáveis aleatórias $X$ e $Y$
+  é a função $F_{X,Y} : \mathbb{R}^2 \to [0, 1]$ dada por
+  \begin{equation}
+  \label{eq:def-distribuicao-conjunta}
+    F_{X,Y}(x, y) = \mathbb{P}(X \leqslant x, Y \leqslant y).
+  \end{equation}
+\end{definition}
+
+A notação $\mathbb{P}(X \leqslant x, Y \leqslant y)$ representa a
+probabilidade da interseção dos eventos $\{X \leqslant x\}$ e
+$\{Y \leqslant y\}$.
+
+Algumas propriedades elementares das funções de distribuição conjunta
+são análogas às das funções de distribuição usuais. Por exemplo,
+\begin{equation}
+\label{eq:lim-dist-conjunta-menos-infinito}
+  \lim_{x,y \to -\infty} F_{X,Y}(x, y) = 0
+\end{equation}
+e
+\begin{equation}
+\label{eq:lim-dist-conjunta-mais-infinito}
+  \lim_{x,y \to \infty} F_{X,Y}(x, y) = 1.
+\end{equation}
+
+Para justificar o primeiro limite, basta observar que
+$0 \leqslant F_{X,Y}(x, y) \leqslant F_X(x)$ e que
+$F_X(x) \to 0$ quando $x \to -\infty$. Para o segundo, usamos a
+continuidade da probabilidade em sequências crescentes: os eventos
+$\{X \leqslant n, Y \leqslant n\}$ crescem até $\Omega$ quando
+$n \to \infty$, pois $X$ e $Y$ assumem valores reais. Além disso,
+$F_{X,Y}(x, y) \geqslant F_{X,Y}(n, n)$ sempre que $x, y \geqslant n$.
+
+Da mesma forma, a inclusão dos eventos mostra que $F_{X,Y}$ é
+não decrescente em cada variável, no sentido de que
+\begin{equation}
+\label{eq:monotonicidade-distribuicao-conjunta}
+  F_{X,Y}(x_1, y_1) \leqslant F_{X,Y}(x_2, y_2)
+  \quad \text{se} \quad x_1 \leqslant x_2 \text{ e } y_1 \leqslant y_2.
+\end{equation}
+
+A função de distribuição conjunta $F_{X,Y}$ contém, em geral, mais informação
+do que as duas funções de distribuição usuais $F_X$ e $F_Y$, uma vez que
+ela descreve como $X$ e $Y$ se comportam \emph{conjuntamente}. Em
+particular, as funções de distribuição de $X$ e $Y$ podem ser obtidas a
+partir de sua função de distribuição conjunta de maneira direta.
+Para obter $F_X(x)$, fixamos $x$ e deixamos o limiar de $Y$ tender ao
+infinito. Os eventos $\{X \leqslant x, Y \leqslant n\}$ crescem até
+$\{X \leqslant x\}$ quando $n \to \infty$. Pela continuidade da
+probabilidade em sequências crescentes, e analogamente para $Y$, temos
+\begin{equation}
+\label{eq:distribuicoes-marginais-limites}
+  F_X(x) = \lim_{y \to \infty} F_{X,Y}(x, y),
+  \qquad
+  F_Y(y) = \lim_{x \to \infty} F_{X,Y}(x, y).
+\end{equation}
+
+Essas funções de distribuição são chamadas de funções de distribuição
+\emph{marginais} da função de distribuição conjunta $F_{X,Y}$.
+
+A noção de independência das variáveis aleatórias $X$ e $Y$ surge
+naturalmente dessa discussão.
+
+\begin{definition}[Variáveis aleatórias independentes]\label{def:variaveis-aleatorias-independentes}
+  Dizemos que $X$ e $Y$ são \textbf{independentes} se, para quaisquer $x, y \in
+  \mathbb{R}$, os eventos $\{X \leqslant x\}$ e $\{Y \leqslant y\}$ forem
+  independentes.
+\end{definition}
+
+Isto é, $X$ e $Y$ são independentes se, e somente se,
+\[
+  \mathbb{P}(X \leqslant x, Y \leqslant y)
+  = \mathbb{P}(X \leqslant x)\,\mathbb{P}(Y \leqslant y)
+  \quad \text{para todos } x, y \in \mathbb{R},
+\]
+o que equivale a dizer que a sua função de distribuição conjunta se fatora
+como o produto das duas funções de distribuição marginais:
+\begin{equation}
+\label{eq:fatoracao-distribuicao-conjunta}
+  F_{X,Y}(x, y) = F_X(x)\,F_Y(y)
+  \quad \text{para todos } x, y \in \mathbb{R}.
+\end{equation}
+
+No caso de variáveis aleatórias \emph{discretas}, essa definição equivale
+à fatoração da função de probabilidade conjunta como produto das funções
+de probabilidade marginais. A verificação fica como exercício.
+Variáveis aleatórias que não são independentes são chamadas de
+\emph{dependentes}.
+
+Estudamos famílias finitas de variáveis aleatórias da mesma maneira.
+Se $X_1, X_2, \ldots, X_n$ são variáveis aleatórias em
+$(\Omega, \mathcal{F}, \mathbb{P})$, escrevemos
+$\mathbf{X} = (X_1, X_2, \ldots, X_n)$. A sua \emph{função de
+distribuição conjunta} é a função
+$F_{\mathbf{X}} : \mathbb{R}^n \to [0, 1]$ dada por
+\begin{equation}
+\label{eq:distribuicao-conjunta-n-dimensoes}
+  F_{\mathbf{X}}(\mathbf{x})
+  = \mathbb{P}(X_1 \leqslant x_1, X_2 \leqslant x_2, \ldots, X_n \leqslant x_n),
+\end{equation}
+para $\mathbf{x} = (x_1, x_2, \ldots, x_n) \in \mathbb{R}^n$. As variáveis
+$X_1, X_2, \ldots, X_n$ são chamadas de \emph{independentes} se
+\[
+  \mathbb{P}(X_1 \leqslant x_1, \ldots, X_n \leqslant x_n)
+  = \mathbb{P}(X_1 \leqslant x_1)\cdots\mathbb{P}(X_n \leqslant x_n)
+  \quad \text{para todo } \mathbf{x} \in \mathbb{R}^n,
+\]
+ou, equivalentemente, se
+\begin{equation}
+\label{eq:fatoracao-distribuicao-n-dimensoes}
+  F_{\mathbf{X}}(\mathbf{x})
+  = F_{X_1}(x_1)\cdots F_{X_n}(x_n)
+  \quad \text{para todo } \mathbf{x} \in \mathbb{R}^n.
+\end{equation}
+
+\begin{example}[Função de distribuição conjunta discreta]\label{ex:distribuicao-conjunta-discreta}
+Suponha que $X$ e $Y$ sejam variáveis aleatórias em um espaço de probabilidade,
+cada uma assumindo valores no conjunto dos inteiros
+$\mathbb{Z} = \{\ldots, -1, 0, 1, \ldots\}$,
+com função de probabilidade conjunta
+\[
+  \mathbb{P}(X = i, Y = j) = p(i, j)
+  \quad\text{para } i, j \in \mathbb{Z}.
+\]
+Somando as probabilidades dos eventos $\{X = i, Y = j\}$,
+que são dois a dois disjuntos, obtemos
+\[
+  F_{X,Y}(x, y)
+  = \sum_{\substack{i,j\in\mathbb{Z} \\ i\leqslant x,\,j\leqslant y}} p(i, j)
+  \quad\text{para todo } (x, y) \in \mathbb{R}^2.
+\]
+\end{example}
+
+\begin{example}[Distribuição conjunta e independência de exponenciais]\label{ex:distribuicao-conjunta-exponenciais}
+Suponha que $X$ e $Y$ sejam variáveis aleatórias com função de distribuição conjunta
+\[
+  F_{X,Y}(x, y) =
+  \begin{cases}
+    1 - e^{-x} - e^{-y} + e^{-x-y} & \text{se } x, y \geqslant 0,
+    \\[0.2cm]
+    0 & \text{caso contrário.}
+  \end{cases}
+\]
+A função de distribuição marginal de $X$ é
+\[
+  F_X(x) = \lim_{y \to \infty} F_{X,Y}(x, y) =
+  \begin{cases}
+    1 - e^{-x} & \text{se } x \geqslant 0,
+    \\[0.2cm]
+    0 & \text{caso contrário,}
+  \end{cases}
+\]
+de modo que $X$ tem distribuição exponencial com parâmetro $1$. Um cálculo
+análogo mostra que $Y$ também possui essa distribuição.
+Para $x, y \geqslant 0$, podemos fatorar a expressão inicial:
+\[
+  F_{X,Y}(x, y) = (1 - e^{-x})(1 - e^{-y}) = F_X(x)\,F_Y(y).
+\]
+Se $x < 0$ ou $y < 0$, tanto $F_{X,Y}(x, y)$ quanto
+$F_X(x)\,F_Y(y)$ são nulos. Portanto, a fatoração vale para todos
+$x, y \in \mathbb{R}$, e $X$ e $Y$ são independentes.
+\end{example}
+
+\begin{exercise}\label{exercise:independencia-probabilidades-cauda}
+Mostre que duas variáveis aleatórias $X$ e $Y$ são independentes se, e somente se,
+\[
+  \mathbb{P}(X > x, Y > y) = \mathbb{P}(X > x)\,\mathbb{P}(Y > y)
+  \quad\text{para todos } x, y \in \mathbb{R}.
+\]
+\end{exercise}
+
+\begin{exercise}\label{exercise:probabilidade-retangulo-fdc}
+Seja $(X, Y)$ um par de variáveis aleatórias com função de distribuição
+conjunta $F$.
+Prove que
+\[
+  \mathbb{P}(a < X \leqslant b, \, c < Y \leqslant d)
+  = F(b, d) + F(a, c) - F(a, d) - F(b, c)
+\]
+para quaisquer $a, b, c, d \in \mathbb{R}$ tais que $a < b$ e $c < d$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:independencia-retangulos}
+Prove que duas variáveis aleatórias $X$ e $Y$ são independentes se, e somente se,
+\[
+  \mathbb{P}(a < X \leqslant b, \, c < Y \leqslant d)
+  = \mathbb{P}(a < X \leqslant b)\,\mathbb{P}(c < Y \leqslant d)
+\]
+para todos $a, b, c, d \in \mathbb{R}$ satisfazendo $a < b$ e $c < d$.
+\end{exercise}
+
+\subsection{Funções de Densidade Conjunta}\label{subsec:densidade-conjunta}
+Recordamos que uma variável aleatória $X$ é dita \emph{absolutamente contínua}
+se sua função de distribuição admitir uma representação integral da forma
+\[
+  F_X(x) = \mathbb{P}(X \leqslant x) = \int_{-\infty}^{x} f(u)\,du,
+  \qquad \text{para todo } x \in \mathbb{R},
+\]
+para alguma função mensurável e não negativa $f$.
+
+\begin{definition}[Variáveis aleatórias conjuntamente absolutamente contínuas]\label{def:va-conjuntamente-continuas}
+  Dizemos que o par $(X, Y)$ de variáveis aleatórias em
+  $(\Omega, \mathcal{F}, \mathbb{P})$ é
+  \emph{(conjuntamente) absolutamente contínuo} se sua função de distribuição
+  conjunta puder ser expressa na forma\footnote{As integrais são tomadas no
+  sentido de Lebesgue. Nos exemplos do curso, elas podem ser calculadas pelas
+  técnicas usuais do Cálculo. Como o integrando é mensurável e não negativo,
+  o Teorema de Tonelli permite trocar a ordem de integração. Quando sua
+  integral é finita, também se aplica o Teorema de Fubini.}
+  \begin{equation}\label{eq:distr-conjunta-integral}
+    F_{X,Y}(x, y) = \mathbb{P}(X \leqslant x, Y \leqslant y)
+    = \int_{-\infty}^{x} \int_{-\infty}^{y} f(u, v)\,dv\,du
+  \end{equation}
+  para quaisquer $x, y \in \mathbb{R}$ e alguma função Borel-mensurável
+  $f : \mathbb{R}^2 \to [0, \infty)$. Quando essa condição é satisfeita,
+  dizemos que $X$ e $Y$ possuem \emph{função densidade (de probabilidade)
+  conjunta} $f$, e costumamos denotar essa função por $f_{X,Y}$.
+\end{definition}
+
+A medida de Lebesgue no plano formaliza a ideia de área, assim como na reta
+formaliza o comprimento. Um conjunto tem \emph{área zero} se, para todo
+$\varepsilon > 0$, puder ser coberto por uma união enumerável de retângulos
+cuja soma das áreas seja menor que $\varepsilon$. Por exemplo, todo segmento
+de reta tem área zero. Dizemos que uma propriedade vale
+\emph{quase em todo ponto} do plano quando ela pode falhar apenas em um
+conjunto de área zero.
+
+Assim como no caso unidimensional, duas densidades representam a mesma
+distribuição conjunta se, e somente se, coincidem quase em todo ponto.
+Em particular, a densidade não é única: alterar seus valores em um conjunto
+de área zero, mantendo a mensurabilidade e a não negatividade, não altera
+a representação integral de $F_{X,Y}$.
+
+Sob hipóteses de regularidade, podemos obter uma densidade por derivação.
+Uma condição suficiente é que o par $(X, Y)$ seja conjuntamente absolutamente
+contínuo e que $F_{X,Y}$ tenha derivadas parciais de segunda ordem contínuas
+em um aberto $G \subseteq \mathbb{R}^2$ cujo complemento tenha área zero.
+Nesse caso, uma densidade conjunta é dada por
+\begin{equation}\label{eq:densidade-derivada-mista}
+  f_{X,Y}(x, y) =
+  \begin{cases}
+    \dfrac{\partial^2}{\partial x \partial y} F_{X,Y}(x, y)
+    & \text{se } (x, y) \in G,
+    \\[0.3cm]
+    0 & \text{caso contrário}.
+  \end{cases}
+\end{equation}
+Para entender essa fórmula, observe que a integral da derivada mista sobre
+um retângulo cujo fecho esteja contido em $G$ é, pelo Teorema Fundamental
+do Cálculo, a diferença de quatro valores de $F_{X,Y}$ que dá a probabilidade
+desse retângulo (\Cref{exercise:probabilidade-retangulo-fdc}). Isso identifica a derivada
+mista com uma densidade quase em todo ponto de $G$. A escolha do valor zero
+fora de $G$ não altera as integrais, pois esse complemento tem área zero.
+Nos exemplos em que essa hipótese estiver satisfeita, usaremos
+\eqref{eq:densidade-derivada-mista} para encontrar uma densidade conjunta.
+
+As propriedades elementares da função densidade conjunta $f_{X,Y}$ são a
+não negatividade, exigida na definição,
+\begin{equation}\label{eq:densidade-nao-negativa}
+  f_{X,Y}(x, y) \geqslant 0 \quad \text{para quaisquer } x, y \in \mathbb{R},
+\end{equation}
+e a integral unitária,
+\begin{equation}\label{eq:densidade-integral-unitaria}
+  \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{X,Y}(x, y)\,dx\,dy = 1.
+\end{equation}
+Esta última igualdade resulta de fazer $x$ e $y$ tenderem a $+\infty$ em
+\eqref{eq:distr-conjunta-integral}: os eventos
+$\{X \leqslant n, Y \leqslant n\}$ crescem para $\Omega$ e, pela não
+negatividade, as integrais correspondentes crescem para a integral sobre
+todo o plano.
+
+Mais uma vez, observamos uma analogia entre funções densidade conjuntas e
+funções de probabilidade conjuntas. De modo intuitivo, podemos dizer que, para
+um ponto $(x, y)$ em que $f_{X,Y}$ seja contínua e para acréscimos positivos
+pequenos $\delta x$ e $\delta y$, a probabilidade de o vetor aleatório $(X, Y)$
+pertencer ao pequeno retângulo com vértice inferior esquerdo em $(x, y)$ e
+lados de comprimentos $\delta x$ e $\delta y$ é dada aproximadamente por
+\begin{equation}\label{eq:prob-retangulo-infinitesimal}
+  \mathbb{P}(x < X \leqslant x + \delta x,\, y < Y \leqslant y + \delta y)
+  \approx f_{X,Y}(x, y)\,\delta x\,\delta y.
+\end{equation}
+De fato, pela continuidade, a densidade varia pouco nesse retângulo.
+O erro da aproximação, dividido pela área $\delta x\,\delta y$, tende a zero
+quando $\delta x$ e $\delta y$ tendem a zero por valores positivos.
+Essa interpretação sugere que a probabilidade de uma região deve ser obtida
+integrando a densidade sobre ela, como veremos a seguir.
+
+Antes de prosseguir, vamos definir os discos abertos de $\mathbb{R}^2$. Dados
+$a \in \mathbb{R}^2$ e $r > 0$, o disco aberto de centro $a$ e raio $r$ é o
+conjunto
+\[
+  D(a,r) = \{x \in \mathbb{R}^2 : \|x-a\| < r\},
+\]
+isto é, o conjunto dos pontos cuja distância até $a$ é menor que $r$.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.85, >=Stealth]
+  \draw[->] (-0.35,0) -- (4.5,0) node[below right] {$x_1$};
+  \draw[->] (0,-0.35) -- (0,3.65) node[above left] {$x_2$};
+  \fill[teal!10] (2.1,1.65) circle (1.25);
+  \draw[teal, dashed, line width=0.9pt] (2.1,1.65) circle (1.25);
+  \fill (2.1,1.65) circle (1.5pt) node[below left] {$a$};
+  \draw[teal!80!black, line width=0.8pt] (2.1,1.65) -- (2.984,2.534);
+  \node[teal!80!black, above left] at (2.56,2.11) {$r$};
+  \node[teal!80!black] at (2.05,3.3) {$D(a,r)$};
+\end{tikzpicture}
+\caption{Disco aberto de centro $a$ e raio $r$ em $\mathbb{R}^2$.}
+\label{fig:disco-aberto}
+\end{figure}
+Denotemos por $\mathscr{C}$ a coleção de todos os discos abertos de
+$\mathbb{R}^2$, com centros em $\mathbb{R}^2$ e raios positivos.
+A $\sigma$-álgebra de Borel de
+$\mathbb{R}^2$, denotada por $\mathscr{B}(\mathbb{R}^2)$, é a menor
+$\sigma$-álgebra de subconjuntos de $\mathbb{R}^2$ que contém $\mathscr{C}$. Em
+outras palavras, é a interseção de todas as $\sigma$-álgebras de subconjuntos
+de $\mathbb{R}^2$ que contêm todos os discos abertos.
+
+\begin{theorem}[Probabilidade de regiões borelianas]\label{thm:probabilidade-subconjuntos-regulares}
+  Se $A$ é um boreliano de $\mathbb{R}^2$ e $X$ e $Y$ são
+  variáveis aleatórias conjuntamente absolutamente contínuas com função
+  densidade conjunta $f_{X,Y}$, então
+  \begin{equation}\label{eq:probabilidade-conjunta-regiao}
+    \mathbb{P}\bigl((X, Y) \in A\bigr) = \iint_A f_{X,Y}(x, y)\,dx\,dy.
+  \end{equation}
+\end{theorem}
+O evento $\{(X, Y) \in A\}$ pertence a $\mathcal{F}$, pois as coordenadas
+$X$ e $Y$ são variáveis aleatórias e $A$ é boreliano.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.75, >=Stealth,
+  regiao/.style={use Hobby shortcut, closed, draw=teal,
+    fill=teal!10, line width=0.8pt},
+]
+  \draw[->] (-0.4,0) -- (5.25,0) node[below] {$x$};
+  \draw[->] (0,-0.4) -- (0,4.05) node[left] {$y$};
+  % Mesmo contorno suave da região na figura de pré-imagem das notas anteriores.
+  \draw[regiao]
+    (0.52,2.50) .. (1.62,0.66) .. (2.48,1.14) .. (3.60,0.54)
+    .. (4.41,1.70) .. (4.61,2.66) .. (4.10,3.19)
+    .. (2.99,3.37) .. (1.87,3.51);
+  \node[teal!80!black] at (3.72,2.70) {$A$};
+
+  \draw[dashed, gray!70] (2.05,0) -- (2.05,1.60);
+  \draw[dashed, gray!70] (2.75,0) -- (2.75,2.00);
+  \draw[dashed, gray!70] (0,1.60) -- (2.05,1.60);
+  \draw[dashed, gray!70] (0,2.00) -- (2.75,2.00);
+  \draw[fill=teal!40, draw=teal, line width=0.6pt]
+    (2.05,1.60) rectangle (2.75,2.00);
+  \node[below] at (2.05,0) {$x$};
+  \node[below] at (2.95,0) {$x+\delta x$};
+  \node[left] at (0,1.55) {$y$};
+  \node[left] at (0,2.05) {$y+\delta y$};
+  \node[teal!80!black] (area) at (3.50,2.10) {$\delta x\,\delta y$};
+  \draw[->, teal!80!black, line width=0.45pt]
+    (area.west) to[out=190,in=30] (2.50,1.82);
+\end{tikzpicture}
+\caption{Quando a densidade varia pouco no retângulo destacado em $A$,
+a probabilidade de que $(X, Y)$ pertença a ele é aproximadamente
+$f_{X,Y}(x, y)\,\delta x\,\delta y$.}
+\label{fig:densidade-conjunta-interpretacao}
+\end{figure}
+
+O \Cref{thm:probabilidade-subconjuntos-regulares} depende de resultados da
+teoria da integração, e omitimos sua demonstração. Todo aberto do plano é
+uma união enumerável de discos abertos com centros em $\mathbb{Q}^2$ e
+raios racionais positivos. Por isso, a classe dos borelianos contém todos
+os conjuntos abertos e fechados do plano. Em particular, inclui
+retângulos, discos e regiões delimitadas por curvas fechadas de Jordan,
+entre outros conjuntos que aparecem nas aplicações do Cálculo.
+
+Podemos entender intuitivamente o resultado para uma região limitada $A$
+como a da \Cref{fig:densidade-conjunta-interpretacao}. Suponha que sua fronteira
+tenha área zero e que a densidade seja contínua em uma vizinhança de seu
+fecho. A ideia é aproximar $A$ por uniões de pequenos retângulos dois a dois
+disjuntos. Em cada retângulo, a probabilidade é aproximadamente a densidade
+em um de seus pontos multiplicada pela área. Somando essas pequenas
+probabilidades e refinando a divisão, obtemos somas que convergem para a
+integral da densidade sobre $A$.
+
+\begin{example}[Distribuição uniforme em um retângulo]\label{ex:distribuicao-uniforme-retangulo}
+  Uma função Borel-mensurável $f : \mathbb{R}^2 \to \mathbb{R}$
+  é a função densidade conjunta de algum par de variáveis aleatórias,
+  em algum espaço de probabilidade, se, e somente se, satisfaz as condições
+  \[
+    f(x, y) \geqslant 0 \quad \text{para quaisquer } x, y \in \mathbb{R}
+    \quad \text{e} \quad
+    \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x, y)\,dx\,dy = 1.
+  \]
+  Para verificar a suficiência, podemos tomar $\Omega = \mathbb{R}^2$ e
+  $\mathcal{F} = \mathscr{B}(\mathbb{R}^2)$ e definir
+  \[
+    \mathbb{P}(A) = \iint_A f(x,y)\,dx\,dy
+    \quad \text{para todo } A \in \mathcal{F}.
+  \]
+  Usamos então as variáveis aleatórias $X(x,y) = x$ e $Y(x,y) = y$.
+  A mensurabilidade, a não negatividade e a
+  integral unitária garantem que essa construção define uma medida de
+  probabilidade. A caracterização é análoga à do caso unidimensional.
+
+  Fixe agora $a > 0$ e $b > 0$. A função
+  \[
+    f(x, y) =
+    \begin{cases}
+      \dfrac{1}{ab}, & \text{se } 0 < x < a \text{ e } 0 < y < b, \\[0.3cm]
+      0, & \text{caso contrário},
+    \end{cases}
+  \]
+  é mensurável, não negativa e satisfaz
+  \[
+    \int_0^a \int_0^b \frac{1}{ab}\,dy\,dx = 1.
+  \]
+  Portanto, é uma função densidade conjunta. Se $X$ e $Y$ têm densidade
+  conjunta $f$, dizemos que o vetor $(X, Y)$ é uniformemente distribuído no retângulo
+  $B = (0, a) \times (0, b)$. Para qualquer boreliano $A$ do plano,
+  \begin{align*}
+    \mathbb{P}\bigl((X, Y) \in A\bigr)
+    &= \iint_A f(x, y)\,dx\,dy
+    \\[0.3cm]
+    &= \iint_{A \cap B} \frac{1}{ab}\,dx\,dy
+    \\[0.3cm]
+    &= \frac{\text{área}(A \cap B)}{\text{área}(B)}.
+  \end{align*}
+\end{example}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  x={(1.15cm,0cm)}, y={(0.65cm,0.38cm)}, z={(0cm,1.05cm)},
+  >=Stealth, line join=round, line cap=round,
+  eixo/.style={->, line width=0.5pt},
+  face/.style={draw=teal!70!black, line width=0.8pt},
+]
+  % Eixos coordenados
+  \draw[eixo] (-0.45,0,0) -- (4.65,0,0) node[below right] {$x$};
+  \draw[eixo] (0,-0.45,0) -- (0,4.25,0) node[above left] {$y$};
+  \draw[eixo] (0,0,0) -- (0,0,3.85) node[above=10pt,left] {$f(x,y)$};
+
+  % Prisma sob a densidade constante em B = (0,a) x (0,b)
+  \fill[teal!18] (0,0,2) -- (4,0,2) -- (4,3,2) -- (0,3,2) -- cycle;
+  \draw[face] (0,0,0) -- (4,0,0) -- (4,3,0) -- (0,3,0) -- cycle;
+  \draw[face] (0,0,2) -- (4,0,2) -- (4,3,2) -- (0,3,2) -- cycle;
+  \draw[face] (0,0,0) -- (0,0,2);
+  \draw[face] (4,0,0) -- (4,0,2);
+  \draw[face] (4,3,0) -- (4,3,2);
+  \draw[face, densely dashed] (0,3,0) -- (0,3,2);
+
+  % Marcas dos comprimentos e da altura
+  \fill (4,0,0) circle (2pt) node[below,xshift=-5pt] {$a$};
+  \fill (0,3,0) circle (2pt)
+    node[left, above=-5pt, xshift=-8pt] {$b$};
+  \fill (0,0,2) circle (2pt);
+  \draw[densely dashed] (0,0,2) -- (0,0,0);
+  \node[left] at (0,0,2) {$\dfrac{1}{ab}$};
+\end{tikzpicture}
+\caption{A densidade uniforme tem altura $1/(ab)$ sobre o retângulo
+$B=(0,a)\times(0,b)\subseteq \mathbb{R}^2$. O prisma representado tem volume $1$.}
+\label{fig:densidade-uniforme-retangulo}
+\end{figure}
+
+\begin{exercise}\label{exercise:constante-e-distribuicao-conjunta}
+  As variáveis aleatórias $X$ e $Y$ têm função densidade conjunta dada por
+  \[
+    f(x, y) =
+    \begin{cases}
+      c\bigl(x^2 + \frac{1}{2}xy\bigr), & \text{se } 0 < x < 1 \text{ e } 0 < y < 2, \\[0.3cm]
+      0, & \text{caso contrário}.
+    \end{cases}
+  \]
+  Determine o valor da constante $c$ e a função de distribuição conjunta
+  de $X$ e $Y$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:probabilidades-densidade-exponencial}
+  As variáveis aleatórias $X$ e $Y$ têm função densidade conjunta dada por
+  \[
+    f(x, y) =
+    \begin{cases}
+      e^{-x-y}, & \text{se } x > 0 \text{ e } y > 0, \\[0.3cm]
+      0, & \text{caso contrário}.
+    \end{cases}
+  \]
+  Calcule $\mathbb{P}(X + Y \leqslant 1)$ e $\mathbb{P}(X > Y)$.
+\end{exercise}
+
+\subsection{Densidades Marginais e Independência}\label{subsec:densidades-marginais}
+Sempre que o par $(X, Y)$ possui função densidade conjunta $f_{X,Y}$,
+podemos obter as funções densidade de $X$ e de $Y$ integrando em relação
+à outra coordenada. Para encontrar uma densidade de $X$, observamos que
+\[
+  \mathbb{P}(X \leqslant x)
+  = \int_{-\infty}^{x}
+  \left[\int_{-\infty}^{\infty} f_{X,Y}(u, v)\,dv\right]\,du.
+\]
+A integração iterada é válida porque a densidade conjunta é não negativa.
+Além disso, a função entre colchetes é mensurável, não negativa e tem
+integral $1$ sobre a reta. Assim, uma densidade de $X$ é dada por
+\begin{equation}\label{eq:densidade-marginal-x}
+  f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, v)\,dv
+  \quad \text{para quase todo ponto } x \in \mathbb{R}.
+\end{equation}
+De modo análogo,
+\begin{equation}\label{eq:densidade-marginal-y}
+  f_Y(y) = \int_{-\infty}^{\infty} f_{X,Y}(u, y)\,du
+  \quad \text{para quase todo ponto } y \in \mathbb{R}.
+\end{equation}
+Como essas funções têm integral $1$, as integrais acima são finitas em
+quase todo ponto. Se uma delas for infinita em um ponto excepcional,
+fixamos a densidade marginal igual a zero nesse ponto. O conjunto de tais
+pontos tem comprimento nulo, de modo que essa modificação não altera as
+probabilidades.
+
+Essas funções densidade são chamadas de funções densidade \emph{marginais}
+de $X$ e de $Y$, pois são obtidas ao ``projetar'' o vetor aleatório
+$(X, Y)$ sobre os dois eixos coordenados do plano.
+
+
+\bigskip
+
+Recorde, pela \Cref{def:variaveis-aleatorias-independentes},
+que $X$ e $Y$ são \emph{independentes} se suas funções de distribuição
+satisfazem
+\begin{equation}\label{eq:independencia-distribuicao-conjunta}
+  F_{X,Y}(x, y) = F_X(x)F_Y(y) \qquad \forall (x,y) \in \mathbb{R}^2.
+\end{equation}
+
+Suponha agora que $X$ e $Y$ sejam conjuntamente absolutamente contínuas.
+O produto $f_X(x)f_Y(y)$ é uma função mensurável não negativa e tem
+integral $1$ sobre o plano. Sua função de distribuição é
+\[
+  \int_{-\infty}^{x}\int_{-\infty}^{y}
+  f_X(u)f_Y(v)\,dv\,du = F_X(x)F_Y(y).
+\]
+Se $X$ e $Y$ são independentes, essa função de distribuição coincide com
+$F_{X,Y}$. Portanto, $f_{X,Y}$ e o produto das densidades marginais são
+densidades da mesma distribuição e coincidem quase em todo ponto:
+\begin{equation}\label{eq:independencia-densidade-conjunta}
+  f_{X,Y}(x, y) = f_X(x)f_Y(y)
+  \quad \text{para quase todo ponto } (x,y) \in \mathbb{R}^2.
+\end{equation}
+Aqui, ``quase todo ponto'' permite que a igualdade falhe em um conjunto
+de área nula, pois os valores de uma densidade nesse conjunto não alteram
+as probabilidades. Reciprocamente, se
+integrarmos ambos os lados de \eqref{eq:independencia-densidade-conjunta}
+com $x$ variando em $(-\infty, u]$ e $y$ variando em $(-\infty, v]$,
+obtemos \eqref{eq:independencia-distribuicao-conjunta}. Assim, variáveis
+aleatórias conjuntamente absolutamente contínuas são independentes se,
+e somente se, sua função densidade conjunta se fatora, quase em todo ponto,
+como o produto das duas funções densidade marginais.
+Esse resultado é análogo ao caso de variáveis
+aleatórias discretas, estudado anteriormente. Do mesmo modo que no caso
+discreto, há um resultado mais geral.
+
+\begin{theorem}[Critério de fatoração para independência]\label{thm:criterio-fatoracao-independencia}
+Sejam $X$ e $Y$ variáveis aleatórias conjuntamente absolutamente contínuas.
+Elas são independentes se, e somente se, existem funções Borel-mensuráveis
+não negativas $g,h:\mathbb{R}\to[0,\infty)$ tais que
+\[
+  f_{X,Y}(x, y) = g(x)h(y)
+  \quad \text{para quase todo ponto } (x,y) \in \mathbb{R}^2.
+\]
+Isto é, a densidade conjunta se fatora como o produto de uma função da
+primeira coordenada por uma função da segunda.
+\end{theorem}
+
+Não apresentamos a demonstração aqui, mas sugerimos ao leitor que adapte
+a demonstração correspondente dada para variáveis discretas, substituindo os
+somatórios por integrais. Para essa adaptação, verifique primeiro que a
+integral unitária da densidade conjunta implica que as integrais de $g$ e
+de $h$ são finitas e estritamente positivas. Isso permite normalizar os
+fatores, dividindo cada um por sua integral, para obter as densidades marginais.
+
+Não vamos nos estender longamente sobre o caso em que há três ou mais
+variáveis aleatórias. De modo geral, todas as ideias desenvolvidas até
+aqui possuem análogos em mais de duas dimensões. Por exemplo, dizemos que
+três variáveis aleatórias $X$, $Y$ e $Z$ são
+\emph{conjuntamente absolutamente contínuas} se
+\[
+  \begin{aligned}
+    F_{X,Y,Z}(x,y,z)
+    &= \mathbb{P}(X \leqslant x, Y \leqslant y, Z \leqslant z)
+    \\[0.3cm]
+    &= \int_{-\infty}^{x}\int_{-\infty}^{y}\int_{-\infty}^{z}
+    f(u, v, w)\,dw\,dv\,du
+  \end{aligned}
+\]
+para todo $(x,y,z) \in \mathbb{R}^3$ e alguma função Borel-mensurável
+não negativa $f:\mathbb{R}^3\to[0,\infty)$ cuja integral sobre
+$\mathbb{R}^3$ seja $1$. Como no caso bidimensional, se $F_{X,Y,Z}$
+tem derivadas parciais contínuas até a ordem três em um aberto
+$H \subseteq \mathbb{R}^3$ cujo complemento tenha volume nulo,
+podemos obter uma densidade pela fórmula
+\[
+  f(x, y, z) =
+  \begin{cases}
+    \dfrac{\partial^3 F_{X,Y,Z}}{
+    \partial x\,\partial y\,\partial z}(x,y,z),
+    & \text{se } (x,y,z) \in H, \\[0.3cm]
+    0, & \text{caso contrário}.
+  \end{cases}
+\]
+Para qualquer vetor conjuntamente absolutamente contínuo $(X,Y,Z)$,
+as três variáveis são \emph{independentes} se, e somente se, a densidade
+conjunta se fatora como o produto das funções densidade marginais:
+\[
+  f(x, y, z) = f_X(x)f_Y(y)f_Z(z)
+  \quad \text{para quase todo ponto } (x,y,z) \in \mathbb{R}^3.
+\]
+Nesse caso, o conjunto excepcional tem volume nulo.
+
+\begin{example}[Exponenciais independentes]\label{ex:exponenciais-independentes}
+  Suponha que $X$ e $Y$ tenham função densidade conjunta dada por
+  \[
+    f(x, y) =
+    \begin{cases}
+      e^{-x-y}, & \text{se } x > 0 \text{ e } y > 0, \\[0.2cm]
+      0, & \text{caso contrário}.
+    \end{cases}
+  \]
+  Então
+  \[
+    \begin{aligned}
+      f_X(x)
+      &= \int_{-\infty}^{\infty} f(x, y)\,dy
+      \\[0.3cm]
+      &= \begin{cases}
+        \displaystyle\int_0^{\infty} e^{-x-y}\,dy,
+        & \text{se } x > 0, \\[0.2cm]
+        0, & \text{caso contrário},
+      \end{cases}
+      \\[0.3cm]
+      &= \begin{cases}
+        e^{-x}, & \text{se } x > 0, \\[0.2cm]
+        0, & \text{caso contrário},
+      \end{cases}
+    \end{aligned}
+  \]
+  o que mostra que $X$ tem distribuição exponencial com parâmetro $1$. A
+  variável aleatória $Y$ também possui essa distribuição. Com essas
+  escolhas das densidades marginais, temos
+  \[
+    f_{X,Y}(x, y) = f_X(x)f_Y(y) \quad \text{para todo } x, y \in \mathbb{R},
+  \]
+  de modo que $X$ e $Y$ são independentes.
+\end{example}
+
+\begin{example}[Constante de normalização e dependência]\label{ex:constante-normalizacao-dependencia}
+  Suponha que $X$ e $Y$ tenham função densidade conjunta dada por
+  \begin{equation}\label{eq:densidade-conjunta-dependente}
+    f(x, y) =
+    \begin{cases}
+      c e^{-x-y}, & \text{se } 0 < x < y, \\[0.2cm]
+      0, & \text{caso contrário},
+    \end{cases}
+  \end{equation}
+  para alguma constante $c$. Encontre o valor de $c$ e determine se $X$ e $Y$
+  são independentes.
+  \begin{solution}
+    A não negatividade da densidade implica $c \geqslant 0$. Como sua
+    integral deve ser $1$, vamos integrar primeiro em relação a $y$,
+    que varia de $x$ a $\infty$ na região $0<x<y$:
+    \begin{align*}
+      1
+      &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}
+      f(x, y)\,dy\,dx
+      \\[0.3cm]
+      &= c\int_{0}^{\infty}\int_{x}^{\infty} e^{-x-y}\,dy\,dx
+      \\[0.3cm]
+      &= c\int_0^{\infty} e^{-2x}\,dx = \frac{c}{2},
+    \end{align*}
+    o que fornece $c=2$.
+
+    Para verificar se $X$ e $Y$ são independentes, vamos comparar a
+    probabilidade de $\{X>2,Y<1\}$ com o produto das probabilidades
+    de $\{X>2\}$ e $\{Y<1\}$. Pela densidade conjunta,
+    \[
+      \mathbb{P}(X > 2, Y < 1) = \int_{2}^{\infty} \int_{-\infty}^{1}
+      f(x, y)\,dy\,dx = 0,
+    \]
+    já que $f(x,y)=0$ quando $y<x$. Por outro lado,
+    \begin{align*}
+      \mathbb{P}(X > 2)
+      &= \int_2^{\infty}\int_x^{\infty} 2e^{-x-y}\,dy\,dx
+      = e^{-4} > 0,
+      \\[0.3cm]
+      \mathbb{P}(Y < 1)
+      &= \int_0^1\int_0^y 2e^{-x-y}\,dx\,dy
+      = (1-e^{-1})^2 > 0,
+    \end{align*}
+    de modo que
+    \[
+      \mathbb{P}(X > 2, Y < 1) \neq \mathbb{P}(X > 2)\mathbb{P}(Y < 1),
+    \]
+    mostrando que $X$ e $Y$ são dependentes.
+  \end{solution}
+\end{example}
+
+\begin{exercise}\label{exercise:densidades-marginais-e-independencia}
+  Sejam $X$ e $Y$ variáveis aleatórias com função densidade conjunta dada por
+  \[
+    f(x, y) =
+    \begin{cases}
+      cx, & \text{se } 0 < y < x < 1, \\[0.2cm]
+      0, & \text{caso contrário}.
+    \end{cases}
+  \]
+  Encontre o valor da constante $c$ e as funções densidade marginais de $X$
+  e $Y$. As variáveis $X$ e $Y$ são independentes?
+\end{exercise}
+
+\begin{exercise}\label{exercise:independencia-tres-variaveis}
+  As variáveis aleatórias $X$, $Y$ e $Z$ têm função densidade conjunta dada por
+  \[
+    f(x, y, z) =
+    \begin{cases}
+      8xyz, & \text{se } 0 < x,y,z < 1, \\[0.2cm]
+      0, & \text{caso contrário}.
+    \end{cases}
+  \]
+  As variáveis $X$, $Y$ e $Z$ são independentes? Calcule $\mathbb{P}(X > Y)$
+  e $\mathbb{P}(Y > Z)$.
+\end{exercise}
+
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+\end{document}
