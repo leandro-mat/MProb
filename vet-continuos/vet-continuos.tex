@@ -261,7 +261,7 @@ a distribuição. Uma ferramenta aplicável em todos esses casos é a
 \end{definition}
 
 A notação $\mathbb{P}(X \leqslant x, Y \leqslant y)$ representa a
-probabilidade da interseção dos eventos $\{X \leqslant x\}$ e
+probabilidade da interseção dos seguintes eventos $\{X \leqslant x\}$ e
 $\{Y \leqslant y\}$.
 
 Algumas propriedades elementares das funções de distribuição conjunta
@@ -280,7 +280,7 @@ Para justificar o primeiro limite, basta observar que
 $0 \leqslant F_{X,Y}(x, y) \leqslant F_X(x)$ e que
 $F_X(x) \to 0$ quando $x \to -\infty$. Para o segundo, usamos a
 continuidade da probabilidade em sequências crescentes: os eventos
-$\{X \leqslant n, Y \leqslant n\}$ crescem até $\Omega$ quando
+$\{X \leqslant n, Y \leqslant n\}$ crescem para $\Omega$ quando
 $n \to \infty$, pois $X$ e $Y$ assumem valores reais. Além disso,
 $F_{X,Y}(x, y) \geqslant F_{X,Y}(n, n)$ sempre que $x, y \geqslant n$.
 
@@ -350,20 +350,21 @@ $F_{\mathbf{X}} : \mathbb{R}^n \to [0, 1]$ dada por
 \label{eq:distribuicao-conjunta-n-dimensoes}
   F_{\mathbf{X}}(\mathbf{x})
   = \mathbb{P}(X_1 \leqslant x_1, X_2 \leqslant x_2, \ldots, X_n \leqslant x_n),
+  \qquad \forall \mathbf{x} = (x_1, x_2, \ldots, x_n) \in \mathbb{R}^n.
 \end{equation}
-para $\mathbf{x} = (x_1, x_2, \ldots, x_n) \in \mathbb{R}^n$. As variáveis
-$X_1, X_2, \ldots, X_n$ são chamadas de \emph{independentes} se
+Vamos dizer que uma coleção finita de variáveis aleatórias
+$X_1, X_2, \ldots, X_n$ são \emph{independentes} se
 \[
   \mathbb{P}(X_1 \leqslant x_1, \ldots, X_n \leqslant x_n)
   = \mathbb{P}(X_1 \leqslant x_1)\cdots\mathbb{P}(X_n \leqslant x_n)
-  \quad \text{para todo } \mathbf{x} \in \mathbb{R}^n,
+  \qquad \forall \mathbf{x} \in \mathbb{R}^n,
 \]
 ou, equivalentemente, se
 \begin{equation}
 \label{eq:fatoracao-distribuicao-n-dimensoes}
   F_{\mathbf{X}}(\mathbf{x})
   = F_{X_1}(x_1)\cdots F_{X_n}(x_n)
-  \quad \text{para todo } \mathbf{x} \in \mathbb{R}^n.
+  \qquad \forall\mathbf{x} \in \mathbb{R}^n.
 \end{equation}
 
 \begin{example}[Função de distribuição conjunta discreta]\label{ex:distribuicao-conjunta-discreta}
@@ -379,7 +380,7 @@ Somando as probabilidades dos eventos $\{X = i, Y = j\}$,
 que são dois a dois disjuntos, obtemos
 \[
   F_{X,Y}(x, y)
-  = \sum_{\substack{i,j\in\mathbb{Z} \\ i\leqslant x,\,j\leqslant y}} p(i, j)
+  = \sum_{\substack{i,j\in\mathbb{Z} \\ i\leqslant x,\ j\leqslant y}} p(i, j)
   \quad\text{para todo } (x, y) \in \mathbb{R}^2.
 \]
 \end{example}
@@ -449,7 +450,7 @@ se sua função de distribuição admitir uma representação integral da forma
   F_X(x) = \mathbb{P}(X \leqslant x) = \int_{-\infty}^{x} f(u)\,du,
   \qquad \text{para todo } x \in \mathbb{R},
 \]
-para alguma função mensurável e não negativa $f$.
+para alguma função Borel mensurável e não negativa $f$.
 
 \begin{definition}[Variáveis aleatórias conjuntamente absolutamente contínuas]\label{def:va-conjuntamente-continuas}
   Dizemos que o par $(X, Y)$ de variáveis aleatórias em
