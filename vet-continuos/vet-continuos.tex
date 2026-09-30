@@ -220,7 +220,11 @@ marginais, obtidas integrando a densidade conjunta em relação à outra
 variável, e estudamos o conceito de independência de variáveis
 aleatórias absolutamente contínuas, caracterizada pela fatoração da
 densidade conjunta, em quase todo ponto, como produto das densidades
-marginais. A exposição segue de perto as
+marginais. Desenvolvemos três aplicações à inteligência artificial:
+sorteios com probabilidades softmax por meio de relógios exponenciais,
+classificação baseada na informação conjunta de duas características e
+escassez de amostras locais em dimensão alta. A apresentação dos conceitos
+segue de perto as
 Seções 6.1 a 6.3 do Capítulo 6 de \cite{GrimmettWelsh2014}.
 \end{abstract}
 
@@ -239,9 +243,7 @@ Seções 6.1 a 6.3 do Capítulo 6 de \cite{GrimmettWelsh2014}.
 % CONTEÚDO
 %----------------------------------------------------------------------
 
-\section{Densidade Conjunta, Densidades Marginais\texorpdfstring{\\}{ }e Independência}\label{sec:vetores-continuos}
-
-\subsection{Vetores Aleatórios e Independência}\label{subsec:vetores-aleatorios}
+\section{Vetores aleatórios e independência}\label{sec:vetores-aleatorios}
 Dadas duas variáveis aleatórias $X$ e $Y$, definidas em um espaço de
 probabilidade $(\Omega, \mathcal{F}, \mathbb{P})$, é frequentemente útil
 pensar nelas conjuntamente como um vetor aleatório $(X, Y)$ que assume valores
@@ -443,7 +445,7 @@ Prove que duas variáveis aleatórias $X$ e $Y$ são independentes se, e somente
 para todos $a, b, c, d \in \mathbb{R}$ satisfazendo $a < b$ e $c < d$.
 \end{exercise}
 
-\subsection{Funções de Densidade Conjunta}\label{subsec:densidade-conjunta}
+\section{Funções de densidade conjunta}\label{sec:densidade-conjunta}
 Uma densidade conjunta permitirá calcular a probabilidade de o vetor
 aleatório pertencer a uma região do plano. Antes de defini-la, vamos
 especificar quais regiões serão mensuráveis, estendendo ao plano a noção
@@ -770,7 +772,7 @@ $B=(0,a)\times(0,b)\subseteq \mathbb{R}^2$. O prisma representado tem volume $1$
   Calcule $\mathbb{P}(X + Y \leqslant 1)$ e $\mathbb{P}(X > Y)$.
 \end{exercise}
 
-\subsection{Densidades Marginais e Independência}\label{subsec:densidades-marginais}
+\section{Densidades marginais e independência}\label{sec:densidades-marginais}
 Sempre que o par $(X, Y)$ possui função densidade conjunta $f_{X,Y}$,
 podemos obter as funções densidade de $X$ e de $Y$ integrando em relação
 à outra coordenada. Para encontrar uma densidade de $X$, observamos que
@@ -1016,6 +1018,538 @@ Nesse caso, o conjunto excepcional tem volume nulo.
   As variáveis $X$, $Y$ e $Z$ são independentes? Calcule $\mathbb{P}(X > Y)$
   e $\mathbb{P}(Y > Z)$.
 \end{exercise}
+
+\section{Aplicações à inteligência artificial}\label{sec:aplicacoes-vetores-continuos}
+Os conceitos de densidade conjunta, marginalização e independência permitem
+investigar perguntas que aparecem em inteligência artificial. Vamos usá-los
+para construir:
+\begin{itemize}
+\item sorteios com os pesos da função \emph{softmax};
+\item identificar uma informação presente apenas na interação entre duas características;
+\item examinar como a dimensão influencia a disponibilidade de amostras locais.
+\end{itemize}
+Estes exemplos usam apenas as técnicas de probabilidade desenvolvidas até aqui.
+
+
+\subsection{Corridas exponenciais e amostragem softmax}\label{subsec:aplicacoes-softmax}
+
+\begin{example}[Relógios exponenciais, softmax e sorteios]\label{ex:corrida-exponenciais-softmax}
+Considere dois relógios independentes $X\sim\mathrm{Exp}(\lambda)$ e
+$Y\sim\mathrm{Exp}(\mu)$, com $\lambda,\mu>0$. O valor de cada variável
+representa o tempo que o relógio correspondente leva para tocar.
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.28\textwidth}
+\centering
+\input{figuras/despertador.tikz}
+\\[0.3cm]
+{\small $X\sim \mathrm{Exp}(\lambda)$}
+\end{minipage}\hspace{2.6cm}%
+\begin{minipage}[t]{0.28\textwidth}
+\centering
+\input{figuras/despertador-vermelho.tikz}
+\\[0.3cm]
+{\small $Y\sim \mathrm{Exp}(\mu)$}
+\end{minipage}
+\label{fig:despertadores-tikz}
+\end{figure}
+
+
+Pela independência e pela forma das densidades exponenciais, uma densidade
+conjunta é
+\[
+  f_{X,Y}(x,y)
+  = \lambda e^{-\lambda x}\,\mu e^{-\mu y}
+  \mathds{1}_{(0,\infty)^2}(x,y).
+\]
+De fato, a integral desse produto sobre
+$(-\infty,x]\times(-\infty,y]$ é $F_X(x)F_Y(y)=F_{X,Y}(x,y)$, como exige
+a definição de densidade conjunta.
+Vamos primeiro calcular a probabilidade de que o relógio $X$ toque antes de
+$Y$. No plano, o evento $\{X<Y\}$ é a região acima da diagonal $y=x$ no
+quadrante positivo, como ilustra a Figura~\ref{fig:regiao-x-menor-y}.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9,>=Stealth]
+  \fill[teal!15] (0,0) -- (0,4) -- (4,4) -- cycle;
+  \draw[->,thick] (0,0) -- (4.5,0) node[right] {$x$};
+  \draw[->,thick] (0,0) -- (0,4.5) node[above] {$y$};
+  \draw[thick,dashed,muted] (0,0) -- (4,4)
+    node[pos=0.72,below right=2pt,text=text] {$y=x$};
+  % Seção vertical em x=x_0, com as projeções sobre os dois eixos.
+  \draw[red!75,dashed] (0,2.2) -- (2.2,2.2);
+  \draw[red!75,dashed] (2.2,0) -- (2.2,2.2);
+  \draw[red!75,thick] (2.2,2.25) -- (2.2,4);
+  \fill[red!75] (2.2,2.2) circle (1.5pt);
+  \node at (-0.35,2.2) {$x_0$};
+  \node at (2.2,-0.35) {$x_0$};
+  \node[align=center] at (1.15,3.15) {$x<y$};
+  \node[below left=2pt] at (0,0) {$0$};
+\end{tikzpicture}
+\captionsetup{width=\textwidth}
+\caption{A região sombreada representa $\mathcal{S}\equiv \{(x,y)\in(0,\infty)^2:x<y\}$.}
+\label{fig:regiao-x-menor-y}
+\end{figure}
+Para descrever essa região por seções verticais, fixemos $x=x_0>0$. A seção
+indicada em vermelho na figura mostra que, para esse valor de $x$, a coordenada
+$y$ varia de $x_0$ até $\infty$. Portanto
+\begin{align*}
+  \mathbb{P}(X<Y)
+  =
+  \mathbb{P}\bigl( (X,Y)\in\mathcal{S} \bigr)
+  =
+  \iint_{\mathcal{S}} f_{X,Y}(x,y)\, dx\,dy
+  &= \int_0^\infty\int_x^\infty
+  \lambda\mu e^{-\lambda x-\mu y}\,dy\,dx
+  \\[0.3cm]
+  &= \int_0^\infty \lambda e^{-\lambda x}e^{-\mu x}\,dx
+  = \frac{\lambda}{\lambda+\mu}.
+\end{align*}
+Trocando os papéis dos relógios, obtemos
+$\mathbb{P}(Y<X)=\mu/(\lambda+\mu)$. O empate corresponde à diagonal
+$\{(x,y):x=y\}$, que tem área nula no plano. Como $(X,Y)$ tem densidade,
+segue que $\mathbb{P}(X=Y)=0$. Assim, quase certamente há um único relógio
+que toca primeiro.
+
+O cálculo sugere que a taxa de um relógio determina sua chance de vencer.
+Para ver também o que acontece com o instante em que o primeiro toque ocorre,
+consideremos $n\geqslant2$ relógios independentes $X_1,\ldots,X_n$, com
+$X_i\sim\mathrm{Exp}(\lambda_i)$ e $\lambda_i>0$. Definimos
+\[
+  T=\min_{1\leqslant j\leqslant n}X_j,
+  \qquad
+  J=i \text{ quando } X_i=T,
+  \qquad
+  \Lambda=\sum_{j=1}^n\lambda_j.
+\]
+O índice $J$ registra qual relógio venceu; em caso de empate, escolhemos o
+menor índice entre os vencedores. Para cada par de relógios distintos,
+o argumento da diagonal usado acima mostra que
+$\mathbb{P}(X_i=X_j)=0$. O evento de algum empate está contido na união
+finita desses eventos, logo também tem probabilidade zero.
+
+Para estudar conjuntamente o tempo e o vencedor, descrevemos a região em que
+o relógio $i$ vence depois do instante $t\geqslant0$. Se sua coordenada vale
+$u>t$, todas as demais coordenadas devem ser maiores que $u$. Integramos,
+portanto, a densidade produto primeiro nas outras coordenadas, de $u$ até
+$\infty$, e depois na coordenada do vencedor:
+\begin{align*}
+  \mathbb{P}(T>t, J=i)
+  &= \int_t^\infty
+  \lambda_i e^{-\lambda_i u}
+  \prod_{j\ne i}\left(\int_u^\infty
+  \lambda_j e^{-\lambda_j x_j}\,dx_j\right)du
+  \\[0.3cm]
+  &= \int_t^\infty \lambda_i e^{-\Lambda u}\,du
+  = \frac{\lambda_i}{\Lambda}e^{-\Lambda t}.
+\end{align*}
+De fato, cada integral interna percorre exatamente os valores $x_j>u$ para
+$j\ne i$, enquanto $u$ percorre os instantes posteriores a $t$. A exclusão
+dos empates não altera a probabilidade, pois eles têm probabilidade zero.
+
+Somando sobre $i$, encontramos
+\[
+  \mathbb{P}(T>t)=e^{-\Lambda t},
+\]
+portanto $T\sim\mathrm{Exp}(\Lambda)$. Fazendo $t=0$ na identidade anterior,
+temos $\mathbb{P}(J=i)=\lambda_i/\Lambda$. Além disso, para todo
+$t\geqslant0$,
+\[
+  \mathbb{P}(T>t,J=i)
+  =\mathbb{P}(T>t)\,\mathbb{P}(J=i).
+\]
+Para qualquer $k\in\mathbb{R}$, somando essa igualdade sobre os índices
+$i\leqslant k$, obtemos a mesma
+fatoração para $\mathbb{P}(T>t,J\leqslant k)$. Tomando o complementar de
+$\{T>t\}$, segue que
+$F_{T,J}(t,k)=F_T(t)F_J(k)$. Para $t<0$, ambos os lados são zero.
+Pela definição de independência, $T$ e $J$ são, portanto, independentes.
+Em particular, saber qual relógio tocou primeiro
+não altera a distribuição do tempo até o toque: o tempo mínimo tem taxa total
+$\Lambda$, e a identidade do vencedor é sorteada com probabilidades
+proporcionais às taxas individuais.
+
+Agora tomemos escores reais $s_1,\ldots,s_n$. Para transformá-los em taxas,
+precisamos de números positivos, e a exponencial faz isso sem alterar a
+ordem dos escores. Além disso, ela converte os pesos não normalizados
+$e^{s_i}$ da medida de Gibbs nas taxas da corrida. Escolhemos, portanto,
+$\lambda_i=e^{s_i}$. A probabilidade de o relógio $i$ vencer fica
+\[
+  \mathbb{P}(J=i)
+  =\frac{e^{s_i}}{\sum_{j=1}^n e^{s_j}}.
+\]
+O lado direito é a probabilidade \emph{softmax} dos escores. Para sortear um
+índice com essas probabilidades, basta gerar relógios independentes com essas
+taxas e selecionar o índice do menor tempo. Essa é uma
+maneira de amostrar uma posição com os pesos normalizados da medida de Gibbs
+nas notas de propriedades da probabilidade, e com os mesmos pesos
+$\alpha_i$ usados pela atenção discutida nas notas de vetores discretos.
+No problema da atenção, os pesos $\alpha_i$ são usados para formar a média ponderada
+$\sum_i\alpha_i v_i$. A corrida fornece também uma maneira de sortear uma
+posição com essas mesmas probabilidades.
+\end{example}
+
+\begin{remark}[O truque Gumbel-Max]\label{rem:gumbel-max}
+Há uma forma de fazer o mesmo sorteio usando apenas variáveis uniformes.
+Para obter uma exponencial de taxa um, procuramos uma transformação cuja
+probabilidade de exceder $t$ seja $e^{-t}$. Uma uniforme em $(0,1)$ fica
+abaixo de $e^{-t}$ com essa probabilidade; como $-\log$ é decrescente, a
+transformação $-\log U$ converte essa condição em $-\log U>t$.
+Depois, reescalamos os tempos para obter as taxas $e^{s_i}$. Sejam
+$U_1,\ldots,U_n:\Omega\to(0,1)$ variáveis aleatórias uniformes e
+independentes, e defina
+\[
+  E_i=-\log U_i.
+\]
+Para $t\geqslant0$, a transformação fornece
+\[
+  \mathbb{P}(E_i>t)
+  =\mathbb{P}(U_i<e^{-t})=e^{-t},
+\]
+de modo que $E_i\sim\mathrm{Exp}(1)$. Para verificar a independência, note
+que, para $t_1,\ldots,t_n\geqslant0$,
+\[
+  \mathbb{P}(E_1\leqslant t_1,\ldots,E_n\leqslant t_n)
+  =\mathbb{P}(U_1\geqslant e^{-t_1},\ldots,U_n\geqslant e^{-t_n})
+  =\prod_{i=1}^n(1-e^{-t_i}).
+\]
+A segunda igualdade usa a independência das uniformes. Se algum $t_i<0$,
+tanto a probabilidade conjunta quanto o produto das marginais são zero.
+Assim, a função de distribuição conjunta se fatora, e $E_1,\ldots,E_n$
+são independentes. Ponha
+\[
+  T_i=\frac{E_i}{e^{s_i}}.
+\]
+Para $t\geqslant0$, temos
+$\mathbb{P}(T_i>t)=\mathbb{P}(E_i>e^{s_i}t)=e^{-e^{s_i}t}$.
+Logo $T_i$ tem distribuição exponencial de taxa $e^{s_i}$. A fatoração
+da função de distribuição conjunta continua válida após esse
+reescalonamento de cada limiar, de modo que os tempos permanecem
+independentes. Pelo \Cref{ex:corrida-exponenciais-softmax}, o índice que
+minimiza os $T_i$ tem a distribuição softmax.
+
+Para escrever essa regra como uma maximização, aplicamos $-\log$, que é
+estritamente decrescente nos números positivos. Portanto,
+\[
+  \operatorname*{argmin}_{1\leqslant i\leqslant n}T_i
+  =\operatorname*{argmax}_{1\leqslant i\leqslant n}(-\log T_i)
+  =\operatorname*{argmax}_{1\leqslant i\leqslant n}(s_i+G_i),
+\]
+onde $G_i=-\log(-\log U_i)$. Aqui, $\operatorname*{argmin}$ e
+$\operatorname*{argmax}$ denotam os índices em que o mínimo e o máximo
+são atingidos. Como o empate tem probabilidade zero, esses índices são
+únicos com probabilidade $1$. Os ruídos $G_i$ são independentes, pois
+suas transformações são estritamente crescentes em cada $U_i$, e a
+fatoração das funções de distribuição é preservada.
+Calculamos a distribuição de cada $G_i$ diretamente. Para $g\in\mathbb{R}$,
+\begin{align*}
+  F_{G_i}(g)
+  &=\mathbb{P}\bigl(-\log(-\log U_i)\leqslant g\bigr)
+  \\[0.2cm]
+  &=\mathbb{P}\bigl(U_i\leqslant e^{-e^{-g}}\bigr)
+  =e^{-e^{-g}}.
+\end{align*}
+Essa é a distribuição Gumbel padrão. Assim, gerar ruídos Gumbel independentes,
+somá-los aos escores e escolher o índice do maior valor é um algoritmo exato
+para sortear uma posição com probabilidades softmax. Esse procedimento é
+conhecido como \emph{truque Gumbel-Max}.\footnote{Veja C.~J.~Maddison,
+\href{https://arxiv.org/abs/1602.05986}{\emph{A Poisson process model for
+Monte Carlo}} (2016), para essa ligação entre corridas exponenciais
+e o truque Gumbel-Max.}
+\end{remark}
+
+\subsection{Informação conjunta na classificação}\label{subsec:classificacao-informacao-conjunta}
+
+\begin{example}[Duas características e uma informação conjunta]\label{ex:classes-mesmas-marginais}
+Queremos construir um exemplo em que cada característica, observada sozinha,
+não ajude a identificar a classe, mas as duas características em conjunto
+determinem a classe. Isso nos permitirá ver concretamente que as distribuições
+marginais podem perder a informação sobre a interação entre variáveis.
+
+Considere um rótulo de classe $C\in\{0,1\}$, com
+$\mathbb{P}(C=0)=\mathbb{P}(C=1)=1/2$, e duas características reais $X$ e $Y$.
+Em ambas as classes, queremos que cada coordenada seja uniforme em $(0,1)$.
+Para que o par revele a classe, porém, vamos concentrar a distribuição em
+quadrantes diferentes do quadrado $Q=(0,1)^2$.
+
+Escrevemos
+\begin{align*}
+  R_0&=\{(x,y)\in Q:(x-\tfrac12)(y-\tfrac12)>0\},
+  \\
+  R_1&=\{(x,y)\in Q:(x-\tfrac12)(y-\tfrac12)<0\}.
+\end{align*}
+Assim, $R_0$ reúne os dois quadrantes em que as coordenadas ficam do mesmo lado
+de $1/2$, e $R_1$ reúne os dois quadrantes em que ficam de lados opostos.
+As duas linhas divisórias serão excluídas de $R_0$ e $R_1$; elas têm área nula.
+
+Para descrever a distribuição das características em cada classe, usamos a
+medida condicional ao evento $\{C=c\}$, que tem probabilidade positiva.
+Denotamos essa medida por
+$\mathbb{P}_c(B)=\mathbb{P}(B\mid C=c)$, para eventos $B\in\mathcal{F}$.
+Sob $\mathbb{P}_c$, vamos atribuir ao par $(X,Y)$ a densidade conjunta $h_c$,
+onde
+\[
+  h_0(x,y)=2\,\mathds{1}_{R_0}(x,y),
+  \qquad
+  h_1(x,y)=2\,\mathds{1}_{R_1}(x,y).
+\]
+Essa escolha dá densidade constante em cada região permitida e nula fora dela.
+Como $R_0$ e $R_1$ são uniões de dois quadrados de lado $1/2$, cada uma tem área
+$1/2$. As funções $h_0$ e $h_1$ são Borel-mensuráveis e não negativas, e
+\[
+  \iint_{\mathbb{R}^2}h_c(x,y)\,dx\,dy
+  =2\,\text{área}(R_c)=2\cdot\tfrac12=1,
+  \qquad c\in\{0,1\}.
+\]
+Portanto, cada uma define uma distribuição de probabilidade para $(X,Y)$
+dentro da classe correspondente.
+
+A \Cref{fig:classes-mesmas-marginais} resume as distribuições em cada classe:
+em cada painel, os quadrantes sombreados têm densidade $2$, e os quadrantes
+brancos têm densidade zero.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  escala/.style={x=2.2cm,y=2.2cm},
+  eixo/.style={->,line width=0.5pt},
+  quadrante/.style={fill=teal!18,draw=teal!70!black,line width=0.6pt}
+]
+  % Classe 0: quadrantes em que as coordenadas ficam do mesmo lado de 1/2.
+  \begin{scope}[escala]
+    \fill[quadrante] (0,0) rectangle (0.5,0.5);
+    \fill[quadrante] (0.5,0.5) rectangle (1,1);
+    \draw (0,0) rectangle (1,1);
+    \draw (0.5,0) -- (0.5,1);
+    \draw (0,0.5) -- (1,0.5);
+    \draw[eixo] (-0.08,0) -- (1.15,0) node[right] {$x$};
+    \draw[eixo] (0,-0.08) -- (0,1.15) node[above] {$y$};
+    \node[below] at (0,0) {$0$};
+    \node[below] at (0.5,0) {$1/2$};
+    \node[below] at (1,0) {$1$};
+    \node[left] at (0,0.5) {$1/2$};
+    \node[left] at (0,1) {$1$};
+    \node at (0.25,0.25) {$2$};
+    \node at (0.75,0.75) {$2$};
+    \node at (0.75,0.25) {$0$};
+    \node at (0.25,0.75) {$0$};
+    \node[font=\small] at (0.5,1.38) {Classe $0$};
+  \end{scope}
+  % Classe 1: quadrantes em que as coordenadas ficam de lados opostos.
+  \begin{scope}[xshift=4.0cm,escala]
+    \fill[quadrante] (0.5,0) rectangle (1,0.5);
+    \fill[quadrante] (0,0.5) rectangle (0.5,1);
+    \draw (0,0) rectangle (1,1);
+    \draw (0.5,0) -- (0.5,1);
+    \draw (0,0.5) -- (1,0.5);
+    \draw[eixo] (-0.08,0) -- (1.15,0) node[right] {$x$};
+    \draw[eixo] (0,-0.08) -- (0,1.15) node[above] {$y$};
+    \node[below] at (0,0) {$0$};
+    \node[below] at (0.5,0) {$1/2$};
+    \node[below] at (1,0) {$1$};
+    \node[left] at (0,0.5) {$1/2$};
+    \node[left] at (0,1) {$1$};
+    \node at (0.75,0.25) {$2$};
+    \node at (0.25,0.75) {$2$};
+    \node at (0.25,0.25) {$0$};
+    \node at (0.75,0.75) {$0$};
+    \node[font=\small] at (0.5,1.38) {Classe $1$};
+  \end{scope}
+\end{tikzpicture}
+\caption{Densidades conjuntas das características $(X,Y)$ em cada classe.
+Em cada painel, os interiores dos quadrantes sombreados têm densidade $2$
+e os dos quadrantes brancos têm densidade $0$. Os números indicam
+esses valores.}
+\label{fig:classes-mesmas-marginais}
+\end{figure}
+
+Vamos agora marginalizar para verificar o que uma única característica revela.
+Para $x\in(0,1)$ com $x\ne1/2$, o corte vertical de cada $R_c$ tem
+comprimento $1/2$, de modo que
+\[
+  \int_{\mathbb{R}}h_c(x,y)\,dy=2\cdot\tfrac12=1,
+  \qquad c\in\{0,1\}.
+\]
+Fora de $(0,1)$, essa integral é zero. Para $x=1/2$, ela também é zero,
+pois fixamos as densidades conjuntas como zero nas linhas divisórias.
+Alterar o valor de uma densidade marginal nesse único ponto não muda a
+distribuição. O mesmo argumento vale para os cortes horizontais.
+Assim, podemos escolher as versões marginais
+\[
+  h_{c,X}(x)=\mathds{1}_{(0,1)}(x),
+  \qquad
+  h_{c,Y}(y)=\mathds{1}_{(0,1)}(y),
+  \qquad c\in\{0,1\}.
+\]
+Essas versões coincidem com as integrais marginais em quase todo ponto.
+Em particular, sob ambas as medidas $\mathbb{P}_0$ e $\mathbb{P}_1$,
+$X$ e $Y$ têm, individualmente, distribuição uniforme em $(0,1)$.
+Isoladamente, nenhuma das características distingue as classes.
+
+Para quantificar essa limitação, considere uma regra determinística mensurável
+que, observando apenas $X$, prevê a classe $0$ nos valores de um boreliano
+$D\subseteq\mathbb{R}$ e prevê a classe $1$ nos demais. Como as distribuições
+marginais de $X$ nas duas classes são iguais,
+\begin{align*}
+  \mathbb{P}(\text{acerto})
+  &=\tfrac12\,\mathbb{P}_0(X\in D)
+    +\tfrac12\,\mathbb{P}_1(X\notin D)
+  \\[0.2cm]
+  &=\tfrac12\,\mathbb{P}_0(X\in D)
+    +\tfrac12\bigl(1-\mathbb{P}_0(X\in D)\bigr)
+  =\tfrac12.
+\end{align*}
+Logo, toda regra determinística mensurável baseada somente em $X$ acerta com
+probabilidade $1/2$.
+O mesmo cálculo vale para qualquer regra determinística baseada somente em
+$Y$. A conclusão vem tanto das proporções iguais das classes quanto da
+igualdade das distribuições marginais.
+
+Com as duas características, a regra pode usar de que lado de $1/2$
+cada coordenada está. Ela prevê a classe $0$ se
+$(X-\tfrac12)(Y-\tfrac12)>0$ e a classe $1$ se
+$(X-\tfrac12)(Y-\tfrac12)<0$, atribuindo qualquer previsão sobre as linhas
+divisórias. Sob a classe $c$, o par pertence a $R_c$ com probabilidade $1$;
+as linhas divisórias têm probabilidade zero, pois as distribuições têm
+densidades. Portanto, essa regra conjunta acerta com probabilidade $1$.
+A interação entre as coordenadas contém toda a informação de classe, embora
+cada marginal, separadamente, não contenha nenhuma.
+
+Essa construção também mostra o que se perde ao substituir, dentro de cada
+classe, a densidade conjunta pelo produto das densidades marginais. Em ambas
+as classes esse produto é
+$h_{c,X}(x)h_{c,Y}(y)=\mathds{1}_{Q}(x,y)$, uma densidade uniforme em $Q$.
+Ela não depende de $c$ e, portanto, apaga a interação que permitia classificar
+perfeitamente. O classificador \emph{naive Bayes} supõe que as características
+sejam independentes dentro de cada classe e usa produtos de densidades
+marginais para descrever sua distribuição conjunta.\footnote{Veja a
+\href{https://scikit-learn.org/stable/modules/naive_bayes.html}{documentação
+do scikit-learn sobre \emph{naive Bayes}} para essa hipótese de modelagem.}
+Neste exemplo, essa hipótese elimina toda a informação que separa as classes.
+
+Há ainda uma consequência para a população sem observar o rótulo. Pela regra
+da probabilidade total, a densidade conjunta de $(X,Y)$ é
+\[
+  h(x,y)=\tfrac12h_0(x,y)+\tfrac12h_1(x,y)
+  =\mathds{1}_{Q}(x,y)
+  \quad\text{para quase todo ponto }(x,y)\in\mathbb{R}^2.
+\]
+Assim, na população total, $X$ e $Y$ são independentes e uniformes em $(0,1)$.
+Dentro de cada classe, entretanto, elas são dependentes. Por exemplo, tome
+$A=\{(X,Y)\in(0,\tfrac12)^2\}$. Então
+\[
+  \mathbb{P}_0(A)=\tfrac12,\qquad
+  \mathbb{P}_0(X<\tfrac12)=\mathbb{P}_0(Y<\tfrac12)=\tfrac12,
+\]
+de modo que a probabilidade de $A$ não é o produto das probabilidades
+marginais, que seria $1/4$. Na classe $1$, $\mathbb{P}_1(A)=0$, o que também
+mostra a dependência.
+
+\end{example}
+
+\subsection{Dimensão e escassez de amostras locais}\label{subsec:dimensao-amostras-locais}
+
+\begin{example}[Dimensão e escassez de amostras locais]\label{ex:dimensao-amostras-locais}
+  Em algumas tarefas de inteligência artificial, queremos encontrar amostras
+  que sejam próximas de uma consulta em várias características ao mesmo tempo.
+  Para isolar o efeito do número de características, vamos estudar um modelo
+  simples: cada ponto é escolhido uniformemente no cubo unitário e suas
+  coordenadas são independentes. Perguntamos com que probabilidade um ponto fica
+  na região central em todas as coordenadas.
+
+  Fixe $d\in\mathbb{N}$ e sejam $X_1,\ldots,X_d$ variáveis aleatórias
+  independentes, cada uma com distribuição uniforme em $(0,1)$. O vetor
+  $(X_1,\ldots,X_d)$ representa um ponto escolhido no cubo $(0,1)^d$.
+  Consideremos o evento
+  \[
+    A_d = \left\{\frac{1}{4}<X_i<\frac{3}{4}
+    \text{ para todo } i=1,\ldots,d\right\}.
+  \]
+  Assim, em cada coordenada, exigimos que o valor esteja no intervalo central
+  $(1/4,3/4)$, que tem metade do comprimento do intervalo $(0,1)$. Aqui,
+  ``central'' significa que cada coordenada, separadamente, está próxima de
+  $1/2$: exigimos que seu desvio absoluto em relação a $1/2$ seja menor
+  que $1/4$.
+
+  Para calcular $\mathbb{P}(A_d)$, escrevemos $A_d$ como a interseção dos
+  eventos correspondentes a cada coordenada. Cada um tem probabilidade
+  $1/2$, e a independência permite multiplicar essas probabilidades:
+  \begin{equation}\label{eq:probabilidade-regiao-central}
+    \mathbb{P}(A_d)
+    = \prod_{i=1}^{d}\mathbb{P}\left(\frac{1}{4}<X_i<\frac{3}{4}\right)
+    = \left(\frac{1}{2}\right)^d.
+  \end{equation}
+  O mesmo cálculo pode ser lido geometricamente. A região central é o produto
+  de $d$ intervalos de comprimento $1/2$, logo seu volume é $(1/2)^d$; como o
+  cubo todo tem volume $1$, essa também é a fração do volume ocupada pela
+  região. Sob o modelo uniforme com coordenadas independentes, essa fração
+  de volume coincide com a probabilidade calculada.
+
+  A escolha de metade do intervalo serve apenas para fixar a escala. Se
+  $0<\varepsilon<1/2$ e exigirmos que cada coordenada pertença a
+  $(1/2-\varepsilon,1/2+\varepsilon)$, a probabilidade de uma coordenada
+  satisfazer a condição é $2\varepsilon$. Pela independência, a probabilidade
+  de todas as $d$ coordenadas satisfazerem a condição é
+  \[
+    \mathbb{P}\left(\left|X_i-\tfrac12\right|<\varepsilon
+    \text{ para todo }i=1,\ldots,d\right)=(2\varepsilon)^d.
+  \]
+  Portanto, mesmo um intervalo de comprimento fixo em cada coordenada pode
+  corresponder a uma fração pequena do volume total quando há muitas
+  coordenadas.
+
+  Vejamos o que isso implica para uma coleção de amostras. Sejam
+  $(X_1^{(k)},\ldots,X_d^{(k)})$, para $k=1,\ldots,N$, pontos gerados de modo
+  que todas as $Nd$ coordenadas sejam independentes e uniformes em $(0,1)$.
+  Seja $A_d^{(k)}$ o evento de que o ponto de índice $k$ pertence à região
+  central. Cada evento tem probabilidade $2^{-d}$. Além
+  disso, os eventos $A_d^{(1)},\ldots,A_d^{(N)}$ são independentes, pois cada
+  um impõe condições apenas às coordenadas de seu próprio vetor. Para qualquer
+  coleção desses eventos, a probabilidade da interseção é o produto das
+  probabilidades, pela independência das coordenadas envolvidas.
+  Assim, a probabilidade de nenhum ponto estar
+  na região é $(1-2^{-d})^N$, e obtemos
+  \begin{equation}\label{eq:probabilidade-alguma-amostra-central}
+    \mathbb{P}\left(\bigcup_{k=1}^{N} A_d^{(k)}\right)
+    = 1-(1-2^{-d})^N
+    \leqslant N2^{-d}.
+  \end{equation}
+  A desigualdade também decorre diretamente da desigualdade da união: a
+  probabilidade de pelo menos um dos eventos ocorrer não excede a soma de
+  suas probabilidades.
+
+  Por exemplo, para $d=30$ e $N=1\,000\,000$, essa estimativa fornece
+  \[
+    \mathbb{P}\left(\bigcup_{k=1}^{N} A_{30}^{(k)}\right)
+    \leqslant \frac{1\,000\,000}{2^{30}}
+    < 0{,}001 = 0{,}1\%.
+  \]
+  Portanto, nesse modelo, um milhão de pontos ainda tem probabilidade menor
+  que um décimo de um por cento de incluir um ponto central em todas as
+  coordenadas.
+
+  A mesma estimativa dá uma condição necessária sobre o número de amostras.
+  Se a probabilidade de encontrar ao menos um ponto na região for pelo menos
+  $1/2$, então, por \eqref{eq:probabilidade-alguma-amostra-central},
+  \begin{equation}\label{eq:amostras-necessarias-regiao-central}
+    \frac{1}{2}\leqslant N2^{-d},
+    \qquad\text{e, portanto,}\qquad N\geqslant 2^{d-1}.
+  \end{equation}
+  Trata-se de uma condição necessária obtida por uma cota superior para a
+  probabilidade. Ela, por si só, não afirma que esse número de amostras seja
+  suficiente para atingir a probabilidade desejada.
+
+  Este modelo ajuda a entender uma dificuldade possível em métodos que
+  procuram pontos locais comparando várias características simultaneamente:
+  ainda que cada característica admita um intervalo central relativamente
+  largo, exigir que todas fiquem nesses intervalos pode selecionar uma fração
+  muito pequena do espaço de possibilidades. A conclusão é sobre o modelo
+  uniforme com coordenadas independentes e ilustra um dos fenômenos conhecidos
+  como \emph{maldição da dimensionalidade}: o número de amostras necessário
+  para obter uma chance fixa de encontrar um ponto na região cresce, no
+  mínimo, exponencialmente com $d$. A distribuição dos dados faz parte
+  desse diagnóstico; dados concentrados em estruturas de menor dimensão
+  exigem uma análise que leve essa estrutura em conta.
+\end{example}
 
 \bibliographystyle{plain}
 \bibliography{../arquivos-aux/referencias}
