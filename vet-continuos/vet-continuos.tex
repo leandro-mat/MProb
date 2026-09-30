@@ -1019,7 +1019,7 @@ Nesse caso, o conjunto excepcional tem volume nulo.
   e $\mathbb{P}(Y > Z)$.
 \end{exercise}
 
-\section{Aplicações à inteligência artificial}\label{sec:aplicacoes-vetores-continuos}
+\section{Aplicações}\label{sec:aplicacoes-vetores-continuos}
 Os conceitos de densidade conjunta, marginalização e independência permitem
 investigar perguntas que aparecem em inteligência artificial. Vamos usá-los
 para construir:
@@ -1113,82 +1113,127 @@ segue que $\mathbb{P}(X=Y)=0$. Assim, quase certamente há um único relógio
 que toca primeiro.
 
 O cálculo sugere que a taxa de um relógio determina sua chance de vencer.
-Para ver também o que acontece com o instante em que o primeiro toque ocorre,
-consideremos $n\geqslant2$ relógios independentes $X_1,\ldots,X_n$, com
-$X_i\sim\mathrm{Exp}(\lambda_i)$ e $\lambda_i>0$. Definimos
+Agora queremos acompanhar também o instante do primeiro toque. Consideremos
+$n\geqslant2$ relógios independentes $X_1,\ldots,X_n$, com
+$X_i\sim\mathrm{Exp}(\lambda_i)$ e $\lambda_i>0$. Para registrar o instante
+e o relógio que toca primeiro, definimos
 \[
   T=\min_{1\leqslant j\leqslant n}X_j,
   \qquad
-  J= \sum_{i=1}^{n} i\, \mathds{1}_{\{X_i=T\}},
+  J=\min\{i\in\{1,\ldots,n\}:X_i=T\},
   \qquad
   \Lambda=\sum_{j=1}^n\lambda_j.
 \]
-A variável aleatória $J$ registra simplesmente o número
-do relógio que venceu; em caso de empate, escolhemos o
-menor índice entre os vencedores. Para cada par de relógios distintos,
-o argumento da diagonal usado acima mostra que
-$\mathbb{P}(X_i=X_j)=0$. O evento de algum empate está contido na união
-finita desses eventos, logo também tem probabilidade zero.
+Assim, $T$ é o instante do primeiro toque, e $J$ indica qual relógio o
+produziu. A definição também cobre o caso de empate: escolhemos o menor índice
+entre os relógios que tocam juntos. Vamos ver que essa convenção só afeta um
+evento de probabilidade zero. Fixemos um par $i<j$. Pela independência, a
+densidade conjunta de $(X_i,X_j)$ é
+$f_{X_i,X_j}(x,y)=\lambda_i\lambda_j e^{-\lambda_i x-\lambda_j y}$, para
+$x,y>0$. O empate entre esses relógios corresponde à diagonal $x=y$. Como a
+probabilidade é a integral da densidade nessa região, e a diagonal tem área
+nula, temos $\mathbb{P}(X_i=X_j)=0$. Se houver empate no primeiro toque,
+algum par de relógios terá tempos iguais. Há apenas finitos pares, e a
+probabilidade da união dos eventos $\{X_i=X_j\}$ é no máximo a soma das
+probabilidades individuais; portanto, também é zero.
 
-Para estudar conjuntamente o tempo e o vencedor, descrevemos a região em que
-o relógio $i$ vence depois do instante $t\geqslant0$. Se sua coordenada vale
-$u>t$, todas as demais coordenadas devem ser maiores que $u$. Integramos,
-portanto, a densidade produto primeiro nas outras coordenadas, de $u$ até
-$\infty$, e depois na coordenada do vencedor:
-\begin{align*}
+Para calcular a lei conjunta de $T$ e $J$, fixemos $i$ e consideremos a
+probabilidade de o relógio $i$ ser o primeiro a tocar, com esse toque ocorrendo
+depois de $t\geqslant0$.
+Como os empates têm probabilidade zero, podemos integrar sobre a região em que
+$i$ toca estritamente antes dos demais. Se esse toque ocorre no instante
+$u>t$, todas as outras coordenadas $x_j$ devem satisfazer $x_j>u$. Integramos
+primeiro nessas coordenadas e depois em $u$:
+\begin{align}\label{eq-aux1-ex-corrida-despertadores}
   \mathbb{P}(T>t, J=i)
   &= \int_t^\infty
   \lambda_i e^{-\lambda_i u}
   \prod_{j\ne i}\left(\int_u^\infty
   \lambda_j e^{-\lambda_j x_j}\,dx_j\right)du
-  \\[0.3cm]
+  \nonumber\\[0.3cm]
   &= \int_t^\infty \lambda_i e^{-\Lambda u}\,du
   = \frac{\lambda_i}{\Lambda}e^{-\Lambda t}.
-\end{align*}
-De fato, cada integral interna percorre exatamente os valores $x_j>u$ para
-$j\ne i$, enquanto $u$ percorre os instantes posteriores a $t$. A exclusão
-dos empates não altera a probabilidade, pois eles têm probabilidade zero.
+\end{align}
+Cada integral interna integra a densidade do relógio $j$ nos valores $x_j>u$,
+enquanto a integral externa percorre os instantes $u>t$ em que o relógio $i$
+pode tocar primeiro.
 
-Somando sobre $i$, encontramos
-\[
+Somando sobre $i$, usando a $\sigma$-aditividade de $\mathbb{P}$ ficamos com
+\begin{align}\label{eq-aux2-ex-corrida-despertadores} 
   \mathbb{P}(T>t)=e^{-\Lambda t},
-\]
-portanto $T\sim\mathrm{Exp}(\Lambda)$. Fazendo $t=0$ na identidade anterior,
-temos $\mathbb{P}(J=i)=\lambda_i/\Lambda$. Além disso, para todo
-$t\geqslant0$,
-\[
+\end{align}
+portanto $T\sim\mathrm{Exp}(\Lambda)$. Fazendo $t=0$ em \eqref{eq-aux1-ex-corrida-despertadores}
+temos que $\{T>0\}=\Omega\setminus \{T=0\}$ e portanto 
+segue do fato de $\mathbb{P}(T=0)=0$ que
+\begin{align}\label{eq-aux3-ex-corrida-despertadores}
+\mathbb{P}(J=i)=\frac{\lambda_i}{\Lambda}.
+\end{align}
+Além disso, segue das identidades 
+\eqref{eq-aux1-ex-corrida-despertadores}, 
+\eqref{eq-aux2-ex-corrida-despertadores} 
+e 
+\eqref{eq-aux3-ex-corrida-despertadores}
+que para todo $t\geqslant0$,
+\begin{align}\label{eq-aux4-ex-corrida-despertadores}
   \mathbb{P}(T>t,J=i)
   =\mathbb{P}(T>t)\,\mathbb{P}(J=i).
-\]
-Para qualquer $k\in\mathbb{R}$, somando essa igualdade sobre os índices
-$i\leqslant k$, obtemos a mesma
-fatoração para $\mathbb{P}(T>t,J\leqslant k)$. Tomando o complementar de
-$\{T>t\}$, segue que
-$F_{T,J}(t,k)=F_T(t)F_J(k)$. Para $t<0$, ambos os lados são zero.
+\end{align}
+
+Fixado $s\in\mathbb{R}$ e somando a igualdade acima sobre os índices inteiros não-negativos satisfazendo
+$i\leqslant s$, obtemos a seguinte igualdade 
+\begin{align*}
+\mathbb{P}(T>t,J\leqslant s)
+=
+\sum_{i=1}^{\lfloor s\rfloor} \mathbb{P}(T>t,J=i)
+=
+\mathbb{P}(T>t)\,\sum_{i=1}^{\lfloor s\rfloor }\mathbb{P}(J=i)
+=
+\mathbb{P}(T>t)\,\mathbb{P}(J\leqslant s)
+\end{align*}
+
+
+Tomando o complementar de
+$\{T>t\}$, concluímos da identidade acima que
+\[ 
+F_{T,J}(t,s)=F_T(t)F_J(s), \qquad t>0 \ \  \text{e}\ \  s\in\mathbb{R}
+\] 
+Para $t<0$, ambos os lados são zero.
 Pela definição de independência, $T$ e $J$ são, portanto, independentes.
 Em particular, saber qual relógio tocou primeiro
-não altera a distribuição do tempo até o toque: o tempo mínimo tem taxa total
-$\Lambda$, e a identidade do vencedor é sorteada com probabilidades
-proporcionais às taxas individuais.
+não altera a distribuição do tempo até o toque, 
+isto é, $\mathbb{P}(T\leqslant t\,|\, J=i) =\mathbb{P}(T\leqslant t)$.
+Observe que \eqref{eq-aux2-ex-corrida-despertadores} diz que o tempo mínimo tem taxa total
+$\Lambda$, e a identidade do vencedor, segundo \eqref{eq-aux3-ex-corrida-despertadores}, 
+é sorteada com probabilidades proporcionais às taxas individuais.
 
-Agora tomemos escores reais $s_1,\ldots,s_n$. Para transformá-los em taxas,
-precisamos de números positivos, e a exponencial faz isso sem alterar a
-ordem dos escores. Além disso, ela converte os pesos não normalizados
-$e^{s_i}$ da medida de Gibbs nas taxas da corrida. Escolhemos, portanto,
-$\lambda_i=e^{s_i}$. A probabilidade de o relógio $i$ vencer fica
+\bigskip 
+
+Podemos agora usar a fórmula do vencedor como um método de amostragem:
+escolheremos as taxas de modo que o índice vencedor tenha a distribuição
+\emph{softmax} de uma lista de escores. Consideremos escores (ou pontuações ou log-pesos) 
+$s_1,\ldots,s_n\in\mathbb{R}$. Como as taxas na distribuição exponencial precisam ser positivas, 
+então tomamos $\lambda_i=e^{s_i}$. Já que a função exponencial é positiva e estritamente crescente esta transformação 
+fornece taxas e preserva a ordem dos escores. Observe que agora, os valores
+$\lambda_i \equiv e^{s_i}$ podem ser vistos como  pesos não normalizados 
+da distribuição de Gibbs definida pelos escores. 
+Substituindo essas taxas em \eqref{eq-aux3-ex-corrida-despertadores},
+obtemos
 \[
   \mathbb{P}(J=i)
+  =\frac{\lambda_i}{\Lambda}
   =\frac{e^{s_i}}{\sum_{j=1}^n e^{s_j}}.
 \]
-O lado direito é a probabilidade \emph{softmax} dos escores. Para sortear um
-índice com essas probabilidades, basta gerar relógios independentes com essas
-taxas e selecionar o índice do menor tempo. Essa é uma
-maneira de amostrar uma posição com os pesos normalizados da medida de Gibbs
-nas notas de propriedades da probabilidade, e com os mesmos pesos
-$\alpha_i$ usados pela atenção discutida nas notas de vetores discretos.
-No problema da atenção, os pesos $\alpha_i$ são usados para formar a média ponderada
-$\sum_i\alpha_i v_i$. A corrida fornece também uma maneira de sortear uma
-posição com essas mesmas probabilidades.
+Essa é a distribuição \emph{softmax} dos escores. Portanto, para sortear um
+índice com essas probabilidades, basta gerar, independentemente,
+$X_i\sim\mathrm{Exp}(e^{s_i})$ e escolher o índice do menor valor.
+
+Essa distribuição conecta a corrida a dois exemplos vistos antes. Nas notas
+sobre propriedades da probabilidade, ela aparece como a distribuição de Gibbs
+obtida ao normalizar os pesos $e^{s_i}$. Nas notas sobre vetores discretos,
+quando os escores do problema de atenção são $s_i$, os pesos são
+$\alpha_i=e^{s_i}/\sum_{j=1}^n e^{s_j}$ e formam a combinação convexa
+$\sum_i\alpha_i v_i$. A corrida usa esses mesmos pesos para sortear o índice
+$J$, de modo que $\mathbb{P}(J=i)=\alpha_i$.
 \end{example}
 
 \begin{remark}[O truque Gumbel-Max]\label{rem:gumbel-max}
@@ -1282,7 +1327,8 @@ Escrevemos
 \end{align*}
 Assim, $R_0$ reúne os dois quadrantes em que as coordenadas ficam do mesmo lado
 de $1/2$, e $R_1$ reúne os dois quadrantes em que ficam de lados opostos.
-As duas linhas divisórias serão excluídas de $R_0$ e $R_1$; elas têm área nula.
+As duas linhas divisórias serão excluídas de $R_0$ e $R_1$ e isto não é 
+muito importante já que estas linhas têm área nula.
 
 Para descrever a distribuição das características em cada classe, usamos a
 medida condicional ao evento $\{C=c\}$, que tem probabilidade positiva.
