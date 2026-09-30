@@ -1035,8 +1035,9 @@ Estes exemplos usam apenas as técnicas de probabilidade desenvolvidas até aqui
 
 \begin{example}[Relógios exponenciais, softmax e sorteios]\label{ex:corrida-exponenciais-softmax}
 Considere dois relógios independentes $X\sim\mathrm{Exp}(\lambda)$ e
-$Y\sim\mathrm{Exp}(\mu)$, com $\lambda,\mu>0$. O valor de cada variável
-representa o tempo que o relógio correspondente leva para tocar.
+$Y\sim\mathrm{Exp}(\mu)$, com $\lambda,\mu>0$. O valor de cada uma destas
+duas variáveis aleatórias representa o tempo que
+o relógio correspondente leva para tocar.
 \begin{figure}[H]
 \centering
 \begin{minipage}[t]{0.28\textwidth}
@@ -1072,8 +1073,8 @@ quadrante positivo, como ilustra a Figura~\ref{fig:regiao-x-menor-y}.
 \centering
 \begin{tikzpicture}[scale=0.9,>=Stealth]
   \fill[teal!15] (0,0) -- (0,4) -- (4,4) -- cycle;
-  \draw[->,thick] (0,0) -- (4.5,0) node[right] {$x$};
-  \draw[->,thick] (0,0) -- (0,4.5) node[above] {$y$};
+  \draw[->,thick] (-1,0) -- (4.5,0) node[below] {$x$};
+  \draw[->,thick] (0,-0.7) -- (0,4.5) node[left] {$y$};
   \draw[thick,dashed,muted] (0,0) -- (4,4)
     node[pos=0.72,below right=2pt,text=text] {$y=x$};
   % Seção vertical em x=x_0, com as projeções sobre os dois eixos.
@@ -1118,11 +1119,12 @@ $X_i\sim\mathrm{Exp}(\lambda_i)$ e $\lambda_i>0$. Definimos
 \[
   T=\min_{1\leqslant j\leqslant n}X_j,
   \qquad
-  J=i \text{ quando } X_i=T,
+  J= \sum_{i=1}^{n} i\, \mathds{1}_{\{X_i=T\}},
   \qquad
   \Lambda=\sum_{j=1}^n\lambda_j.
 \]
-O índice $J$ registra qual relógio venceu; em caso de empate, escolhemos o
+A variável aleatória $J$ registra simplesmente o número
+do relógio que venceu; em caso de empate, escolhemos o
 menor índice entre os vencedores. Para cada par de relógios distintos,
 o argumento da diagonal usado acima mostra que
 $\mathbb{P}(X_i=X_j)=0$. O evento de algum empate está contido na união
