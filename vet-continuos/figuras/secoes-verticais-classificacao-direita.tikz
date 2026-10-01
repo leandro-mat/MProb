@@ -1,0 +1,53 @@
+\begin{tikzpicture}[
+  x=3.6cm,y=3.6cm,>=Stealth,
+  eixo/.style={->,thick},
+  divisoria/.style={dashed,muted},
+  secao/.style={red!75,thick},
+  extremo/.style={draw=red!75,fill=white,line width=0.8pt}
+]
+  % O valor desenhado de x_0 é 0.7, pertencente a (1/2,1).
+  \foreach \indice/\deslocamento in {0/0,1/7.1} {
+    \begin{scope}[xshift=\deslocamento cm]
+      \ifnum\indice=0
+        \fill[teal!15] (0,0) rectangle (0.5,0.5);
+        \fill[teal!15] (0.5,0.5) rectangle (1,1);
+        \node at (0.25,0.25) {$R_0$};
+        \node at (0.9,0.75) {$R_0$};
+      \else
+        \fill[teal!15] (0,0.5) rectangle (0.5,1);
+        \fill[teal!15] (0.5,0) rectangle (1,0.5);
+        \node at (0.25,0.75) {$R_1$};
+        \node at (0.9,0.25) {$R_1$};
+      \fi
+
+      \draw[muted] (0,0) rectangle (1,1);
+      \draw[divisoria] (0.5,0) -- (0.5,1);
+      \draw[divisoria] (0,0.5) -- (1,0.5);
+      \draw[eixo] (-0.08,0) -- (1.15,0) node[right] {$x$};
+      \draw[eixo] (0,-0.08) -- (0,1.15) node[above] {$y$};
+
+      % A linha tracejada fixa x=x_0; a parte contínua é a seção de R_c.
+      \draw[red!75,dashed] (0.7,0) -- (0.7,1.07);
+      \draw[red!75,dashed] (0,0.5) -- (0.7,0.5);
+      \ifnum\indice=0
+        \draw[red!75,dashed] (0,1) -- (0.7,1);
+        \draw[secao] (0.7,0.5) -- (0.7,1);
+        \draw[extremo] (0.7,0.5) circle (1.8pt);
+        \draw[extremo] (0.7,1) circle (1.8pt);
+        \node at (0.5,1.3) {$R_0$};
+      \else
+        \draw[secao] (0.7,0) -- (0.7,0.5);
+        \draw[extremo] (0.7,0) circle (1.8pt);
+        \draw[extremo] (0.7,0.5) circle (1.8pt);
+        \node at (0.5,1.3) {$R_1$};
+      \fi
+
+      \node[below left=2pt] at (0,0) {$0$};
+      \node[below=3pt] at (0.7,0) {$x_0$};
+      \foreach \valor/\texto in {0.5/{\tfrac12},1/{1}} {
+        \node[below=3pt] at (\valor,0) {$\texto$};
+        \node[left=3pt] at (0,\valor) {$\texto$};
+      }
+    \end{scope}
+  }
+\end{tikzpicture}

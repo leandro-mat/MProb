@@ -1,0 +1,40 @@
+\begin{tikzpicture}[
+  x=3.2cm,y=3.2cm,>=Stealth,
+  eixo/.style={->,line width=0.6pt},
+  divisoria/.style={draw=muted,densely dashed,line width=0.7pt},
+  rotulo/.style={text=teal!80!black,font=\large}
+]
+  \foreach \indice/\deslocamento in {0/0,1/7.1} {
+    \begin{scope}[xshift=\deslocamento cm]
+      % Os quadrantes destacados dependem do sinal do produto.
+      \ifnum\indice=0
+        \fill[teal!20] (0,0) rectangle (0.5,0.5);
+        \fill[teal!20] (0.5,0.5) rectangle (1,1);
+        \node[rotulo] at (0.25,0.25) {$R_0$};
+        \node[rotulo] at (0.75,0.75) {$R_0$};
+      \else
+        \fill[teal!20] (0,0.5) rectangle (0.5,1);
+        \fill[teal!20] (0.5,0) rectangle (1,0.5);
+        \node[rotulo] at (0.25,0.75) {$R_1$};
+        \node[rotulo] at (0.75,0.25) {$R_1$};
+      \fi
+
+      \draw[draw=muted,line width=0.6pt] (0,0) rectangle (1,1);
+      % O fundo branco separa visualmente os quadrantes abertos.
+      \draw[preaction={draw=white,line width=2.2pt},divisoria]
+        (0.5,0) -- (0.5,1);
+      \draw[preaction={draw=white,line width=2.2pt},divisoria]
+        (0,0.5) -- (1,0.5);
+      \draw[eixo] (-0.08,0) -- (1.15,0) node[right] {$x$};
+      \draw[eixo] (0,-0.08) -- (0,1.15) node[above] {$y$};
+
+      \node[below left] at (0,0) {$0$};
+      \foreach \valor/\texto in {0.5/{\tfrac12},1/{1}} {
+        \draw (\valor,0.015) -- (\valor,-0.015);
+        \draw (0.015,\valor) -- (-0.015,\valor);
+        \node[below] at (\valor,-0.02) {$\texto$};
+        \node[left] at (-0.02,\valor) {$\texto$};
+      }
+    \end{scope}
+  }
+\end{tikzpicture}

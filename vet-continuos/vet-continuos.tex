@@ -1158,13 +1158,13 @@ Cada integral interna integra a densidade do relógio $j$ nos valores $x_j>u$,
 enquanto a integral externa percorre os instantes $u>t$ em que o relógio $i$
 pode tocar primeiro.
 
-Somando sobre $i$, usando a $\sigma$-aditividade de $\mathbb{P}$ ficamos com
+Somando sobre $i\in\{1,\ldots,n\}$, usamos a aditividade de $\mathbb{P}$ para obter
 \begin{align}\label{eq-aux2-ex-corrida-despertadores} 
   \mathbb{P}(T>t)=e^{-\Lambda t},
 \end{align}
-portanto $T\sim\mathrm{Exp}(\Lambda)$. Fazendo $t=0$ em \eqref{eq-aux1-ex-corrida-despertadores}
-temos que $\{T>0\}=\Omega\setminus \{T=0\}$ e portanto 
-segue do fato de $\mathbb{P}(T=0)=0$ que
+portanto $T\sim\mathrm{Exp}(\Lambda)$. Fazendo $t=0$ em \eqref{eq-aux1-ex-corrida-despertadores},
+obtemos $\mathbb{P}(T>0, J=i)=\lambda_i/\Lambda$. Como $\{J=i\} = \{T>0, J=i\} \cup \{T=0, J=i\}$
+e $\mathbb{P}(T=0)=0$, segue que
 \begin{align}\label{eq-aux3-ex-corrida-despertadores}
 \mathbb{P}(J=i)=\frac{\lambda_i}{\Lambda}.
 \end{align}
@@ -1173,35 +1173,29 @@ Além disso, segue das identidades
 \eqref{eq-aux2-ex-corrida-despertadores} 
 e 
 \eqref{eq-aux3-ex-corrida-despertadores}
-que para todo $t\geqslant0$,
+que, para todo $t\geqslant0$,
 \begin{align}\label{eq-aux4-ex-corrida-despertadores}
   \mathbb{P}(T>t,J=i)
   =\mathbb{P}(T>t)\,\mathbb{P}(J=i).
 \end{align}
 
-Fixado $s\in\mathbb{R}$ e somando a igualdade acima sobre os índices inteiros não-negativos satisfazendo
-$i\leqslant s$, obtemos a seguinte igualdade 
-\begin{align*}
-\mathbb{P}(T>t,J\leqslant s)
-=
-\sum_{i=1}^{\lfloor s\rfloor} \mathbb{P}(T>t,J=i)
-=
-\mathbb{P}(T>t)\,\sum_{i=1}^{\lfloor s\rfloor }\mathbb{P}(J=i)
-=
-\mathbb{P}(T>t)\,\mathbb{P}(J\leqslant s)
-\end{align*}
-
-
-Tomando o complementar de
-$\{T>t\}$, concluímos da identidade acima que
+Fixado $k\in\mathbb{R}$, somando a igualdade acima sobre os índices $i\in\{1,\ldots,n\}$ satisfazendo
+$i\leqslant k$, obtemos
+\[
+  \mathbb{P}(T>t,J\leqslant k)
+  = \sum_{1\leqslant i\leqslant k} \mathbb{P}(T>t,J=i)
+  = \mathbb{P}(T>t)\sum_{1\leqslant i\leqslant k}\mathbb{P}(J=i)
+  = \mathbb{P}(T>t)\,\mathbb{P}(J\leqslant k).
+\]
+Tomando o complementar de $\{T>t\}$ em relação ao evento $\{J\leqslant k\}$, concluímos que
 \[ 
-F_{T,J}(t,s)=F_T(t)F_J(s), \qquad t>0 \ \  \text{e}\ \  s\in\mathbb{R}
+  F_{T,J}(t,k)=F_T(t)F_J(k), \qquad t\geqslant 0 \ \  \text{e}\ \  k\in\mathbb{R}.
 \] 
 Para $t<0$, ambos os lados são zero.
 Pela definição de independência, $T$ e $J$ são, portanto, independentes.
 Em particular, saber qual relógio tocou primeiro
 não altera a distribuição do tempo até o toque, 
-isto é, $\mathbb{P}(T\leqslant t\,|\, J=i) =\mathbb{P}(T\leqslant t)$.
+isto é, $\mathbb{P}(T\leqslant t\mid J=i) =\mathbb{P}(T\leqslant t)$.
 Observe que \eqref{eq-aux2-ex-corrida-despertadores} diz que o tempo mínimo tem taxa total
 $\Lambda$, e a identidade do vencedor, segundo \eqref{eq-aux3-ex-corrida-despertadores}, 
 é sorteada com probabilidades proporcionais às taxas individuais.
@@ -1212,7 +1206,7 @@ Podemos agora usar a fórmula do vencedor como um método de amostragem:
 escolheremos as taxas de modo que o índice vencedor tenha a distribuição
 \emph{softmax} de uma lista de escores. Consideremos escores (ou pontuações ou log-pesos) 
 $s_1,\ldots,s_n\in\mathbb{R}$. Como as taxas na distribuição exponencial precisam ser positivas, 
-então tomamos $\lambda_i=e^{s_i}$. Já que a função exponencial é positiva e estritamente crescente esta transformação 
+tomamos $\lambda_i=e^{s_i}$. Já que a função exponencial é positiva e estritamente crescente, esta transformação 
 fornece taxas e preserva a ordem dos escores. Observe que agora, os valores
 $\lambda_i \equiv e^{s_i}$ podem ser vistos como  pesos não normalizados 
 da distribuição de Gibbs definida pelos escores. 
@@ -1305,7 +1299,7 @@ Monte Carlo}} (2016), para essa ligação entre corridas exponenciais
 e o truque Gumbel-Max.}
 \end{remark}
 
-\subsection{Informação conjunta na classificação}\label{subsec:classificacao-informacao-conjunta}
+\subsection{Informação Conjunta e o Problema de Classificação}\label{subsec:classificacao-informacao-conjunta}
 
 \begin{example}[Duas características e uma informação conjunta]\label{ex:classes-mesmas-marginais}
 Queremos construir um exemplo em que cada característica, observada sozinha,
@@ -1313,37 +1307,81 @@ não ajude a identificar a classe, mas as duas características em conjunto
 determinem a classe. Isso nos permitirá ver concretamente que as distribuições
 marginais podem perder a informação sobre a interação entre variáveis.
 
-Considere um rótulo de classe $C\in\{0,1\}$, com
-$\mathbb{P}(C=0)=\mathbb{P}(C=1)=1/2$, e duas características reais $X$ e $Y$.
-Em ambas as classes, queremos que cada coordenada seja uniforme em $(0,1)$.
-Para que o par revele a classe, porém, vamos concentrar a distribuição em
-quadrantes diferentes do quadrado $Q=(0,1)^2$.
-
-Escrevemos
-\begin{align*}
-  R_0&=\{(x,y)\in Q:(x-\tfrac12)(y-\tfrac12)>0\},
-  \\
-  R_1&=\{(x,y)\in Q:(x-\tfrac12)(y-\tfrac12)<0\}.
-\end{align*}
-Assim, $R_0$ reúne os dois quadrantes em que as coordenadas ficam do mesmo lado
-de $1/2$, e $R_1$ reúne os dois quadrantes em que ficam de lados opostos.
-As duas linhas divisórias serão excluídas de $R_0$ e $R_1$ e isto não é 
-muito importante já que estas linhas têm área nula.
-
-Para descrever a distribuição das características em cada classe, usamos a
-medida condicional ao evento $\{C=c\}$, que tem probabilidade positiva.
-Denotamos essa medida por
-$\mathbb{P}_c(B)=\mathbb{P}(B\mid C=c)$, para eventos $B\in\mathcal{F}$.
-Sob $\mathbb{P}_c$, vamos atribuir ao par $(X,Y)$ a densidade conjunta $h_c$,
-onde
+Seja $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade e seja
+$C:\Omega\to\{0,1\}$ uma variável aleatória com distribuição de Bernoulli
+de parâmetro $1/2$. A variável $C$ divide o espaço amostral em dois grupos,
+representados pelos eventos
 \[
-  h_0(x,y)=2\,\mathds{1}_{R_0}(x,y),
+  \{C=0\}=\{\omega\in\Omega:C(\omega)=0\},
   \qquad
-  h_1(x,y)=2\,\mathds{1}_{R_1}(x,y).
+  \{C=1\}=\{\omega\in\Omega:C(\omega)=1\}.
 \]
-Essa escolha dá densidade constante em cada região permitida e nula fora dela.
-Como $R_0$ e $R_1$ são uniões de dois quadrados de lado $1/2$, cada uma tem área
-$1/2$. As funções $h_0$ e $h_1$ são Borel-mensuráveis e não negativas, e
+Esses eventos são disjuntos, sua união é $\Omega$, e
+\[
+  \mathbb{P}(C=0)=\mathbb{P}(C=1)=\tfrac12.
+\]
+Sejam ainda $X,Y:\Omega\to\mathbb{R}$ duas variáveis aleatórias. Para cada
+resultado $\omega$, o par $(X(\omega),Y(\omega))$ registra duas características
+desse resultado, enquanto $C(\omega)$ indica seu grupo. Um dos nossos objetivos é encontrar
+a distribuição condicional conjunta dessas características (ou do vetor $(X,Y)$) 
+dado um determinado grupo.
+Este tipo de problema é muito comum quando estamos trabalhando em tarefas de classificação, 
+já que, em geral, conhecemos algumas características do objeto que queremos
+classificar, neste nosso exemplo seriam as variáveis aleatórias $X$ e $Y$, 
+e queremos com base nestes valores inferir a que categoria, segundo o classificador $C$,
+nosso objeto pertence. 
+
+Vamos assumir que 
+\[ 
+\mathbb{P}\big( (X,Y)\in (0,1)\times (0,1)\big) =1.
+\] 
+Vamos considerar as seguintes regiões do quadrado aberto
+$Q=(0,1)\times(0,1)$:
+\begin{align*}
+  R_0&=\bigl\{(x,y)\in Q :(x-\tfrac12)(y-\tfrac12)>0\bigr\},
+  \\[0.3cm]
+  R_1&=\bigl\{(x,y)\in Q :(x-\tfrac12)(y-\tfrac12)<0\bigr\}.
+\end{align*}
+\begin{figure}[H]
+\centering
+\input{figuras/regioes-classificacao.tikz}
+\caption{As regiões $R_0$ e $R_1$ são a união dos dois quadrantes sombreados.
+As linhas divisórias $x=1/2$ e $y=1/2$, representadas por traços, e a borda
+do quadrado estão excluídas das regiões.}
+\label{fig:regioes-classificacao}
+\end{figure}
+
+É importante observar que os eventos $\{C=0\}$ e $\{C=1\}$ são subconjuntos de $\Omega$, 
+enquanto as regiões $R_0$ e $R_1$ são subconjuntos de $\mathbb{R}^2$. 
+Vamos relacioná-los abaixo no momento de construir a distribuição
+condicional. Isto será feito de modo que, dado $\{C=0\}$, o par $(X,Y)$ pertença a $R_0$ quase certamente,
+com respeito à distribuição condicional conjunta. 
+Analogamente dado $\{C=1\}$ o par $(X,Y)$ tomará valores em $R_1$, quase certamente,
+também com respeito à distribuição condicional conjunta.  
+
+Para descrever a distribuição das características determinadas pelo vetor aleatório $(X,Y)$ 
+em cada classe, usamos a medida condicional ao evento $\{C=c\}$, com $c=0,1$.
+Para facilitar a notação vamos denotar estas medidas condicionais por $\mathbb{P}_{c}$.
+Desta forma temos para todo $B\in\mathcal{F}$ que 
+\[
+  \mathbb{P}_c(B)=\mathbb{P}(B\mid C=c)
+  =
+  \frac{\mathbb{P}(B\cap\{C=c\})}{\mathbb{P}(C=c)}
+  =
+  \frac{\mathbb{P}(B\cap\{C=c\})}{1/2}
+  =
+  2\,\mathbb{P}(B\cap\{C=c\}).
+\]
+Vamos supor que sob $\mathbb{P}_c$ o vetor aleatório
+$(X,Y)$ tenha a densidade conjunta $h_c:\mathbb{R}^2 \to\mathbb{R}$, onde
+para cada $(x,y)\in\mathbb{R}^2$ temos
+\[
+  h_0(x,y)=2\cdot\mathds{1}_{R_0}(x,y),
+  \qquad
+  h_1(x,y)=2\cdot \mathds{1}_{R_1}(x,y).
+\]
+Para verificar que as funções $h_0$ e $h_1$ são de fato funções de densidade basta
+observar que ambas são Borel-mensuráveis, não negativas e satisfazem 
 \[
   \iint_{\mathbb{R}^2}h_c(x,y)\,dx\,dy
   =2\,\text{área}(R_c)=2\cdot\tfrac12=1,
@@ -1351,252 +1389,469 @@ $1/2$. As funções $h_0$ e $h_1$ são Borel-mensuráveis e não negativas, e
 \]
 Portanto, cada uma define uma distribuição de probabilidade para $(X,Y)$
 dentro da classe correspondente.
-
-A \Cref{fig:classes-mesmas-marginais} resume as distribuições em cada classe:
-em cada painel, os quadrantes sombreados têm densidade $2$, e os quadrantes
-brancos têm densidade zero.
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[
-  escala/.style={x=2.2cm,y=2.2cm},
-  eixo/.style={->,line width=0.5pt},
-  quadrante/.style={fill=teal!18,draw=teal!70!black,line width=0.6pt}
-]
-  % Classe 0: quadrantes em que as coordenadas ficam do mesmo lado de 1/2.
-  \begin{scope}[escala]
-    \fill[quadrante] (0,0) rectangle (0.5,0.5);
-    \fill[quadrante] (0.5,0.5) rectangle (1,1);
-    \draw (0,0) rectangle (1,1);
-    \draw (0.5,0) -- (0.5,1);
-    \draw (0,0.5) -- (1,0.5);
-    \draw[eixo] (-0.08,0) -- (1.15,0) node[right] {$x$};
-    \draw[eixo] (0,-0.08) -- (0,1.15) node[above] {$y$};
-    \node[below] at (0,0) {$0$};
-    \node[below] at (0.5,0) {$1/2$};
-    \node[below] at (1,0) {$1$};
-    \node[left] at (0,0.5) {$1/2$};
-    \node[left] at (0,1) {$1$};
-    \node at (0.25,0.25) {$2$};
-    \node at (0.75,0.75) {$2$};
-    \node at (0.75,0.25) {$0$};
-    \node at (0.25,0.75) {$0$};
-    \node[font=\small] at (0.5,1.38) {Classe $0$};
-  \end{scope}
-  % Classe 1: quadrantes em que as coordenadas ficam de lados opostos.
-  \begin{scope}[xshift=4.0cm,escala]
-    \fill[quadrante] (0.5,0) rectangle (1,0.5);
-    \fill[quadrante] (0,0.5) rectangle (0.5,1);
-    \draw (0,0) rectangle (1,1);
-    \draw (0.5,0) -- (0.5,1);
-    \draw (0,0.5) -- (1,0.5);
-    \draw[eixo] (-0.08,0) -- (1.15,0) node[right] {$x$};
-    \draw[eixo] (0,-0.08) -- (0,1.15) node[above] {$y$};
-    \node[below] at (0,0) {$0$};
-    \node[below] at (0.5,0) {$1/2$};
-    \node[below] at (1,0) {$1$};
-    \node[left] at (0,0.5) {$1/2$};
-    \node[left] at (0,1) {$1$};
-    \node at (0.75,0.25) {$2$};
-    \node at (0.25,0.75) {$2$};
-    \node at (0.25,0.25) {$0$};
-    \node at (0.75,0.75) {$0$};
-    \node[font=\small] at (0.5,1.38) {Classe $1$};
-  \end{scope}
-\end{tikzpicture}
-\caption{Densidades conjuntas das características $(X,Y)$ em cada classe.
-Em cada painel, os interiores dos quadrantes sombreados têm densidade $2$
-e os dos quadrantes brancos têm densidade $0$. Os números indicam
-esses valores.}
-\label{fig:classes-mesmas-marginais}
-\end{figure}
-
-Vamos agora marginalizar para verificar o que uma única característica revela.
-Para $x\in(0,1)$ com $x\ne1/2$, o corte vertical de cada $R_c$ tem
-comprimento $1/2$, de modo que
+A distribuição de $C$ e essas duas distribuições condicionais determinam a distribuição 
+conjunta de $(C,X,Y)$. Mais precisamente, para todo boreliano
+$S\subseteq\mathbb{R}^2$,
 \[
-  \int_{\mathbb{R}}h_c(x,y)\,dy=2\cdot\tfrac12=1,
+  \mathbb{P}\bigl(C=c,(X,Y)\in S\bigr)
+  =\tfrac12\,\mathbb{P}_c\bigl((X,Y)\in S\bigr)
+  =\tfrac12\iint_S h_c(x,y)\,dx\,dy.
+\]
+
+
+Para determinar a distribuição de $X$ em cada classe, calculamos sua
+densidade marginal sob $\mathbb{P}_c$. Pela fórmula
+\eqref{eq:densidade-marginal-x}, uma versão dessa densidade é
+\[
+  h_{X,c}(x)=\int_{\mathbb{R}}h_c(x,y)\,dy,
   \qquad c\in\{0,1\}.
 \]
-Fora de $(0,1)$, essa integral é zero. Para $x=1/2$, ela também é zero,
+
+Fixemos $x\in(0,1/2)$. Neste caso, $x-1/2<0$, portanto pelas definições de $R_0$ e $R_1$
+temos as seguintes seções verticais:
+\[
+  \{y\in\mathbb{R}:(x,y)\in R_0\}=\bigl(0,\tfrac{1}{2}\bigr)
+  \qquad \text{e}\qquad 
+  \{y\in\mathbb{R}:(x,y)\in R_1\}=\bigl(\tfrac{1}{2},1\bigr).
+\]
+Como $h_c=2\cdot\mathds{1}_{R_c}$, segue que, para todo $y\in\mathbb{R}$,
+\[
+  h_0(x,y)=2\cdot\mathds{1}_{\left(0\,,\,\tfrac{1}{2}\right)}(y),
+  \qquad
+  h_1(x,y)=2\cdot\mathds{1}_{\left( \tfrac{1}{2}\,,\, 1\right)}(y).
+\]
+Essas seções estão representadas em vermelho na
+\Cref{fig:secoes-verticais-classificacao}.
+\begin{figure}[H]
+\centering
+\input{figuras/secoes-verticais-classificacao.tikz}
+\captionsetup{width=\textwidth}
+\caption{Seções verticais de $R_0$ e $R_1$ para um valor fixado
+$x_0\in(0,1/2)$. Os segmentos vermelhos correspondem aos intervalos
+$0<y<1/2$ e $1/2<y<1$, respectivamente. Os círculos abertos indicam os
+extremos excluídos.}
+\label{fig:secoes-verticais-classificacao}
+\end{figure}
+Consequentemente,
+\begin{align}
+  h_{X,0}(x)&=\int_{\mathbb{R}}h_0(x,y)\,dy
+  =\int_0^{1/2}2\,dy=1, \qquad \forall x\in \left(0,\tfrac{1}{2}\right)
+  \label{eq:marginal-x-classe0-esquerda}
+  \\[0.2cm]
+  h_{X,1}(x)&=\int_{\mathbb{R}}h_1(x,y)\,dy
+  =\int_{1/2}^{1}2\,dy=1, \qquad \forall x\in \left(0,\tfrac{1}{2}\right).
+  \label{eq:marginal-x-classe1-esquerda}
+\end{align}
+
+Fixemos agora $x\in(1/2,1)$. Agora, $x-1/2>0$, portanto pelas definições
+de $R_0$ e $R_1$ temos as seguintes seções verticais:
+\[
+  \{y\in\mathbb{R}:(x,y)\in R_0\}=\bigl(\tfrac{1}{2},1\bigr)
+  \qquad \text{e}\qquad
+  \{y\in\mathbb{R}:(x,y)\in R_1\}=\bigl(0,\tfrac{1}{2}\bigr).
+\]
+Como $h_c=2\cdot\mathds{1}_{R_c}$, segue que, para todo $y\in\mathbb{R}$,
+\[
+  h_0(x,y)=2\cdot\mathds{1}_{\left(\tfrac{1}{2}\,,\,1\right)}(y),
+  \qquad
+  h_1(x,y)=2\cdot\mathds{1}_{\left(0\,,\,\tfrac{1}{2}\right)}(y).
+\]
+Essas seções estão representadas em vermelho na
+\Cref{fig:secoes-verticais-classificacao-direita}.
+\begin{figure}[H]
+\centering
+\input{figuras/secoes-verticais-classificacao-direita.tikz}
+\captionsetup{width=\textwidth}
+\caption{Seções verticais de $R_0$ e $R_1$ para um valor fixado
+$x_0\in(1/2,1)$. Os segmentos vermelhos correspondem aos intervalos
+$1/2<y<1$ e $0<y<1/2$, respectivamente. Os círculos abertos indicam os
+extremos excluídos.}
+\label{fig:secoes-verticais-classificacao-direita}
+\end{figure}
+Consequentemente,
+\begin{align}
+  h_{X,0}(x)&=\int_{\mathbb{R}}h_0(x,y)\,dy
+  =\int_{1/2}^{1}2\,dy=1, \qquad \forall x\in\left(\tfrac{1}{2},1\right)
+  \label{eq:marginal-x-classe0-direita}
+  \\[0.2cm]
+  h_{X,1}(x)&=\int_{\mathbb{R}}h_1(x,y)\,dy
+  =\int_0^{1/2}2\,dy=1, \qquad \forall x\in\left(\tfrac{1}{2},1\right).
+  \label{eq:marginal-x-classe1-direita}
+\end{align}
+
+Portanto, pelas igualdades \eqref{eq:marginal-x-classe0-esquerda},
+\eqref{eq:marginal-x-classe1-esquerda}, \eqref{eq:marginal-x-classe0-direita}
+e \eqref{eq:marginal-x-classe1-direita}, para cada $c\in\{0,1\}$ fixado e
+cada $x\in(0,1)\setminus\{\tfrac{1}{2}\}$ temos
+\[
+  \int_{\mathbb{R}}h_c(x,y)\,dy=2\cdot\tfrac{1}{2}=1.
+\]
+Para $x\in \mathbb{R}\setminus (0,1)$, a integral acima é zero. Para $x=1/2$, ela também é zero,
 pois fixamos as densidades conjuntas como zero nas linhas divisórias.
-Alterar o valor de uma densidade marginal nesse único ponto não muda a
-distribuição. O mesmo argumento vale para os cortes horizontais.
+Já que alterar o valor de uma densidade marginal em um único ponto não muda a
+distribuição da variável aleatória então concluímos que 
+\begin{align*}
+h_{X,c}(x) = \mathds{1}_{(0,1)}(x), \qquad \forall x\in \mathbb{R}.
+\end{align*}
+
+O mesmo argumento vale para os cortes horizontais, já que $h_c(x,y)=h_c(y,x)$.
 Assim, podemos escolher as versões marginais
 \[
-  h_{c,X}(x)=\mathds{1}_{(0,1)}(x),
+  h_{X,c}(x)=\mathds{1}_{(0,1)}(x),
   \qquad
-  h_{c,Y}(y)=\mathds{1}_{(0,1)}(y),
+  h_{Y,c}(y)=\mathds{1}_{(0,1)}(y),
   \qquad c\in\{0,1\}.
 \]
 Essas versões coincidem com as integrais marginais em quase todo ponto.
 Em particular, sob ambas as medidas $\mathbb{P}_0$ e $\mathbb{P}_1$,
-$X$ e $Y$ têm, individualmente, distribuição uniforme em $(0,1)$.
-Isoladamente, nenhuma das características distingue as classes.
+as duas variáveis aleatórias $X$ e $Y$ têm, individualmente, distribuição uniforme em $(0,1)$.
 
-Para quantificar essa limitação, considere uma regra determinística mensurável
-que, observando apenas $X$, prevê a classe $0$ nos valores de um boreliano
-$D\subseteq\mathbb{R}$ e prevê a classe $1$ nos demais. Como as distribuições
-marginais de $X$ nas duas classes são iguais,
+Desta forma temos
+\[
+\mathbb{P}_0(X\in D)=\mathbb{P}_1(X\in D), \qquad \forall D\in\mathscr{B}(\mathbb{R}).
+\] 
+A mesma igualdade também é válida para a variável aleatória $Y$. 
+
+Por exemplo, saber que $X$ pertence a um intervalo $I\subseteq(0,1)$ 
+de comprimento positivo mantém as probabilidades das duas classes 
+iguais às probabilidades iniciais:
+\[
+  \mathbb{P}(C=0\mid X\in I)
+  =\mathbb{P}(C=1\mid X\in I)=\tfrac12.
+\]
+Para justificar essa igualdade, denotemos por $\ell(I)>0$ o comprimento de
+$I$. Como a distribuição de $X$ sob $\mathbb{P}_c$ é uniforme em $(0,1)$,
+para cada $c\in\{0,1\}$ temos
+\[
+  \mathbb{P}(X\in I\mid C=c)
+  =\mathbb{P}_c(X\in I)
+  =\int_I h_{X,c}(x)\,dx
+  =\int_I 1\,dx=\ell(I).
+\]
+Os eventos $\{C=0\}$ e $\{C=1\}$ formam uma partição de $\Omega$.
+Logo, pela fórmula da probabilidade total,
 \begin{align*}
-  \mathbb{P}(\text{acerto})
+  \mathbb{P}(X\in I)
+  &=\sum_{c=0}^{1}\mathbb{P}(X\in I\mid C=c)\,\mathbb{P}(C=c)
+  \\[0.2cm]
+  &=\ell(I)\cdot\tfrac12+\ell(I)\cdot\tfrac12
+  =\ell(I)>0.
+\end{align*}
+Portanto, podemos condicionar ao evento $\{X\in I\}$. Pela definição de
+probabilidade condicional e pela fórmula de Bayes, para cada
+$c\in\{0,1\}$ obtemos
+\begin{align*}
+  \mathbb{P}(C=c\mid X\in I)
+  &=\frac{\mathbb{P}(\{C=c\}\cap\{X\in I\})}{\mathbb{P}(X\in I)}
+  \\[0.2cm]
+  &=\frac{\mathbb{P}(X\in I\mid C=c)\,\mathbb{P}(C=c)}
+    {\mathbb{P}(X\in I)}
+  \\[0.2cm]
+  &=\frac{\ell(I)\cdot\tfrac12}{\ell(I)}=\tfrac12.
+\end{align*}
+O cálculo mostra por que as probabilidades das classes permanecem iguais:
+o evento $\{X\in I\}$ tem a mesma probabilidade condicional em ambas as
+classes.
+O mesmo vale quando a informação é sobre $Y$. Assim, informações sobre uma
+única coordenada não alteram as probabilidades dos grupos; para recuperar
+o valor de $C$, precisamos considerar como as duas coordenadas se combinam.
+
+Para quantificar a limitação descrita acima, podemos usar uma
+regra de previsão baseada exclusivamente na variável aleatória $X$. 
+Uma regra de previsão é simplesmente uma função Borel-mensurável 
+$g:\mathbb{R}\to\{0,1\}$ e funciona da seguinte maneira. 
+Ao observar o valor $X(\omega)=x$, a classe prevista será a classe $g(x)$. 
+Uma regra de previsão às vezes é chamada de uma regra ``\emph{determinística}'', 
+porque, para um mesmo valor $x$, a função $g$ sempre produz a mesma previsão. 
+
+Denotemos por $\widehat{C}$ a previsão obtida a partir de $X$:
+\[
+  \widehat{C}:\Omega\to\{0,1\},
+  \qquad \widehat{C}(\omega)=g(X(\omega)).
+\]
+Como $X$ e $g$ são mensuráveis, $\widehat{C}$ é uma variável aleatória.
+Observe que $C$ indica a classe verdadeira, enquanto $\widehat{C}$ indica
+a classe prevista pela regra ``determinística''.
+
+Já que $g$ é mensurável e assume apenas dois valores então o boreliano 
+\[
+  D=g^{-1}(\{0\})=\{x\in\mathbb{R}:g(x)=0\},
+\]
+determina $g$ e vice-versa já que 
+\[
+  g(x)=
+  \begin{cases}
+    0, & x\in D,\\[0.1cm]
+    1, & x\notin D.
+  \end{cases}
+\]
+Como $X$ é uma variável aleatória e $D$ é boreliano, temos imediatamente que
+\[
+  \{\widehat{C}=0\}=\{X\in D\}\in\mathcal{F}
+	\qquad \text{e}\qquad 
+  \{\widehat{C}=1\}=\{X\notin D\}\in\mathcal{F}.
+\]
+
+A regra ``determinística'' acerta quando $\widehat{C}(\omega)=C(\omega)$. Portanto, o evento de
+acerto é a união disjunta
+\[
+  \{\widehat{C}=C\}
+  =\bigl(\{C=0\}\cap\{X\in D\}\bigr)
+   \cup\bigl(\{C=1\}\cap\{X\notin D\}\bigr).
+\]
+Usando a definição de $\mathbb{P}_c$ e a igualdade das distribuições
+marginais nas duas classes, obtemos
+\begin{align*}
+  \mathbb{P}(\widehat{C}=C)
+  &=\mathbb{P}(C=0,X\in D)+\mathbb{P}(C=1,X\notin D)
+  \\[0.2cm]
   &=\tfrac12\,\mathbb{P}_0(X\in D)
     +\tfrac12\,\mathbb{P}_1(X\notin D)
   \\[0.2cm]
   &=\tfrac12\,\mathbb{P}_0(X\in D)
     +\tfrac12\bigl(1-\mathbb{P}_0(X\in D)\bigr)
-  =\tfrac12.
+  =\tfrac12,
 \end{align*}
-Logo, toda regra determinística mensurável baseada somente em $X$ acerta com
+onde na penúltima igualdade usamos que 
+$\mathbb{P}_1(X\notin D)=\mathbb{P}_0(X\notin D)=1-\mathbb{P}_0(X\in D)$.
+
+Logo, toda regra determinística mensurável baseada somente na variável aleatória $X$ acerta com
 probabilidade $1/2$.
 O mesmo cálculo vale para qualquer regra determinística baseada somente em
-$Y$. A conclusão vem tanto das proporções iguais das classes quanto da
-igualdade das distribuições marginais.
+$Y$. 
 
-Com as duas características, a regra pode usar de que lado de $1/2$
-cada coordenada está. Ela prevê a classe $0$ se
-$(X-\tfrac12)(Y-\tfrac12)>0$ e a classe $1$ se
-$(X-\tfrac12)(Y-\tfrac12)<0$, atribuindo qualquer previsão sobre as linhas
-divisórias. Sob a classe $c$, o par pertence a $R_c$ com probabilidade $1$;
-as linhas divisórias têm probabilidade zero, pois as distribuições têm
-densidades. Portanto, essa regra conjunta acerta com probabilidade $1$.
+
+\bigskip 
+
+Por outro lado, vamos mostrar que é possível construir uma regra determinística
+mensurável baseada no vetor $(X,Y)$ que classifica corretamente com
+probabilidade $1$. Agora, uma regra de previsão é uma função
+$G:\mathbb{R}^2\to\{0,1\}$: ao observar
+$(X(\omega),Y(\omega))=(x,y)$, a classe prevista será $G(x,y)$.
+
+Para escolher essa função, usamos as definições de $R_0$ e $R_1$. Em $R_0$,
+as duas coordenadas são simultaneamente menores que $1/2$ ou simultaneamente
+maiores que $1/2$, de modo que $(x-\tfrac12)(y-\tfrac12)>0$. Em $R_1$,
+uma coordenada é menor que $1/2$ e a outra é maior, de modo que esse produto
+é negativo. Assim, definimos, para todo $(x,y)\in\mathbb{R}^2$,
+\[
+  G(x,y)=
+  \begin{cases}
+    0, & (x-\tfrac12)(y-\tfrac12)\geqslant 0,\\[0.2cm]
+    1, & (x-\tfrac12)(y-\tfrac12)<0.
+  \end{cases}
+\]
+Essa definição atribui a previsão $0$ às linhas divisórias $x=1/2$ e
+$y=1/2$. Como a função $(x,y)\mapsto(x-\tfrac12)(y-\tfrac12)$ é contínua,
+o conjunto $G^{-1}(\{0\})$ é fechado e o conjunto $G^{-1}(\{1\})$ é aberto.
+Ambos são borelianos de $\mathbb{R}^2$, logo $G$ é Borel-mensurável.
+
+Denotemos por $\widehat{C}_{X,Y}$ a previsão obtida a partir das duas
+características:
+\[
+  \widehat{C}_{X,Y}:\Omega\to\{0,1\},
+  \qquad \widehat{C}_{X,Y}(\omega)=G(X(\omega),Y(\omega)).
+\]
+Como $(X,Y)$ e $G$ são mensuráveis, $\widehat{C}_{X,Y}$ é uma variável
+aleatória. Para cada $c\in\{0,1\}$, o evento em que a regra prevê a classe
+$c$ é
+\[
+  \{\widehat{C}_{X,Y}=c\}
+  =\{(X,Y)\in G^{-1}(\{c\})\}\in\mathcal{F}.
+\]
+
+Pela construção de $G$, temos $R_c\subseteq G^{-1}(\{c\})$ para
+$c\in\{0,1\}$. Além disso, a densidade $h_c$ é nula fora de $R_c$.
+Portanto, sob a medida condicional $\mathbb{P}_c$, a regra prevê a classe
+$c$ com probabilidade $1$:
+\begin{align*}
+  \mathbb{P}_c(\widehat{C}_{X,Y}=c)
+  &=\iint_{G^{-1}(\{c\})}h_c(x,y)\,dx\,dy
+  \\[0.2cm]
+  &=\iint_{R_c}h_c(x,y)\,dx\,dy
+  =2\cdot\tfrac12=1.
+\end{align*}
+Para obter a probabilidade de acerto sob $\mathbb{P}$, escrevemos novamente
+o evento de acerto como uma união disjunta:
+\[
+  \{\widehat{C}_{X,Y}=C\}
+  =\bigl(\{C=0\}\cap\{\widehat{C}_{X,Y}=0\}\bigr)
+   \cup\bigl(\{C=1\}\cap\{\widehat{C}_{X,Y}=1\}\bigr).
+\]
+Usando a definição das medidas condicionais, obtemos
+\begin{align*}
+  \mathbb{P}(\widehat{C}_{X,Y}=C)
+  &=\mathbb{P}(C=0,\widehat{C}_{X,Y}=0)
+    +\mathbb{P}(C=1,\widehat{C}_{X,Y}=1)
+  \\[0.2cm]
+  &=\tfrac12\,\mathbb{P}_0(\widehat{C}_{X,Y}=0)
+    +\tfrac12\,\mathbb{P}_1(\widehat{C}_{X,Y}=1)
+  \\[0.2cm]
+  &=\tfrac12\cdot1+\tfrac12\cdot1=1.
+\end{align*}
+Como as linhas divisórias têm área zero e a distribuição conjunta de
+$(X,Y)$ sob cada $\mathbb{P}_c$ tem densidade, o evento
+$\{X=1/2\}\cup\{Y=1/2\}$ tem probabilidade zero sob cada $\mathbb{P}_c$.
+Pela fórmula da probabilidade total, esse evento também tem probabilidade
+zero sob $\mathbb{P}$. Portanto, qualquer escolha da previsão nessas linhas
+produz a mesma probabilidade de acerto.
+Assim, com probabilidade $1$, o valor de $C$ pode ser recuperado a partir
+do par $(X,Y)$.
 A interação entre as coordenadas contém toda a informação de classe, embora
 cada marginal, separadamente, não contenha nenhuma.
 
 Essa construção também mostra o que se perde ao substituir, dentro de cada
 classe, a densidade conjunta pelo produto das densidades marginais. Em ambas
 as classes esse produto é
-$h_{c,X}(x)h_{c,Y}(y)=\mathds{1}_{Q}(x,y)$, uma densidade uniforme em $Q$.
-Ela não depende de $c$ e, portanto, apaga a interação que permitia classificar
-perfeitamente. O classificador \emph{naive Bayes} supõe que as características
-sejam independentes dentro de cada classe e usa produtos de densidades
-marginais para descrever sua distribuição conjunta.\footnote{Veja a
-\href{https://scikit-learn.org/stable/modules/naive_bayes.html}{documentação
-do scikit-learn sobre \emph{naive Bayes}} para essa hipótese de modelagem.}
-Neste exemplo, essa hipótese elimina toda a informação que separa as classes.
-
-Há ainda uma consequência para a população sem observar o rótulo. Pela regra
-da probabilidade total, a densidade conjunta de $(X,Y)$ é
-\[
-  h(x,y)=\tfrac12h_0(x,y)+\tfrac12h_1(x,y)
-  =\mathds{1}_{Q}(x,y)
-  \quad\text{para quase todo ponto }(x,y)\in\mathbb{R}^2.
-\]
-Assim, na população total, $X$ e $Y$ são independentes e uniformes em $(0,1)$.
-Dentro de cada classe, entretanto, elas são dependentes. Por exemplo, tome
-$A=\{(X,Y)\in(0,\tfrac12)^2\}$. Então
-\[
-  \mathbb{P}_0(A)=\tfrac12,\qquad
-  \mathbb{P}_0(X<\tfrac12)=\mathbb{P}_0(Y<\tfrac12)=\tfrac12,
-\]
-de modo que a probabilidade de $A$ não é o produto das probabilidades
-marginais, que seria $1/4$. Na classe $1$, $\mathbb{P}_1(A)=0$, o que também
-mostra a dependência.
+$h_{X,c}(x)h_{Y,c}(y)=\mathds{1}_{Q}(x,y)$, uma densidade uniforme em $Q$.
+Como esse produto não depende de $c$, a substituição atribui a mesma
+distribuição conjunta às duas classes e elimina a informação que permitia
+recuperar $C$ a partir do vetor $(X,Y)$.
 
 \end{example}
 
 \subsection{Dimensão e escassez de amostras locais}\label{subsec:dimensao-amostras-locais}
 
 \begin{example}[Dimensão e escassez de amostras locais]\label{ex:dimensao-amostras-locais}
-  Em algumas tarefas de inteligência artificial, queremos encontrar amostras
-  que sejam próximas de uma consulta em várias características ao mesmo tempo.
-  Para isolar o efeito do número de características, vamos estudar um modelo
-  simples: cada ponto é escolhido uniformemente no cubo unitário e suas
-  coordenadas são independentes. Perguntamos com que probabilidade um ponto fica
-  na região central em todas as coordenadas.
+  No exemplo anterior, usamos o vetor $(X,Y)$ para representar duas
+  características de um objeto. Agora, fixemos um inteiro $d\geqslant1$ e
+  consideremos objetos descritos por $d$ características reais. Cada objeto
+  será representado por um vetor $x=(x_1,\ldots,x_d)\in\mathbb{R}^d$, no qual
+  a coordenada $x_i$ registra o valor da $i$-ésima característica. Assim, o
+  número de características é a dimensão do espaço em que representamos os
+  objetos.
 
-  Fixe $d\in\mathbb{N}$ e sejam $X_1,\ldots,X_d$ variáveis aleatórias
-  independentes, cada uma com distribuição uniforme em $(0,1)$. O vetor
-  $(X_1,\ldots,X_d)$ representa um ponto escolhido no cubo $(0,1)^d$.
-  Consideremos o evento
+  Em algumas tarefas de inteligência artificial, procuramos, entre os dados
+  disponíveis, objetos com características próximas às de um objeto de
+  referência. Neste contexto, chamaremos de \emph{amostra} cada vetor de dados
+  disponível e de \emph{consulta} o vetor fixo
+  $q=(q_1,\ldots,q_d)\in\mathbb{R}^d$ que representa o objeto de referência.
+  Escolhida uma tolerância $\varepsilon>0$, diremos que uma amostra $x$ está
+  próxima da consulta $q$ em todas as características quando
   \[
-    A_d = \left\{\frac{1}{4}<X_i<\frac{3}{4}
-    \text{ para todo } i=1,\ldots,d\right\}.
+    |x_i-q_i|<\varepsilon,\qquad\forall i\in\{1,\ldots,d\}.
   \]
-  Assim, em cada coordenada, exigimos que o valor esteja no intervalo central
-  $(1/4,3/4)$, que tem metade do comprimento do intervalo $(0,1)$. Aqui,
-  ``central'' significa que cada coordenada, separadamente, está próxima de
-  $1/2$: exigimos que seu desvio absoluto em relação a $1/2$ seja menor
-  que $1/4$.
+  Queremos estudar como a dimensão $d$ afeta a probabilidade de obter uma
+  amostra que satisfaça simultaneamente essas $d$ condições.
 
-  Para calcular $\mathbb{P}(A_d)$, escrevemos $A_d$ como a interseção dos
-  eventos correspondentes a cada coordenada. Cada um tem probabilidade
-  $1/2$, e a independência permite multiplicar essas probabilidades:
+  Para isso, vamos usar um modelo probabilístico simples. Seja
+  $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade e sejam
+  $X_1,\ldots,X_d:\Omega\to\mathbb{R}$ variáveis aleatórias independentes,
+  cada uma com distribuição uniforme em $(0,1)$, isto é, $X_i\sim U(0,1)$. O vetor aleatório
+  \[
+    \mathbf{X}:\Omega\to\mathbb{R}^d,
+    \qquad \mathbf{X}(\omega)=(X_1(\omega),\ldots,X_d(\omega)),
+  \]
+  modela a geração de uma amostra: para cada resultado $\omega$, o vetor
+  $\mathbf{X}(\omega)$ é a amostra obtida, e $X_i(\omega)$ é o valor de sua
+  $i$-ésima característica. Esse vetor pertence ao cubo $(0,1)^d$ quase
+  certamente.
+
+  Neste exemplo, fixaremos a consulta no centro do cubo,
+  $q=(1/2,\ldots,1/2)$, e usaremos a tolerância $\varepsilon=1/4$.
+  A região dos vetores próximos dessa consulta é
+  \[
+    V_d=\prod_{i=1}^{d}\left(q_i-\frac14,q_i+\frac14\right)
+    =\left(\frac14,\frac34\right)^d.
+  \]
+  O evento de que a amostra gerada esteja próxima dessa consulta em todas
+  as características é dado por
+  \[
+    A_d=\{\mathbf{X}\in V_d\}
+    =\bigcap_{i=1}^{d}\left\{|X_i-q_i|<\frac14\right\}.
+  \]
+  Observe que $V_d$ é uma região de $\mathbb{R}^d$, enquanto $A_d$ é um
+  evento de $\Omega$: ele reúne os resultados $\omega$ para os quais
+  $\mathbf{X}(\omega)$ pertence a $V_d$.
+
+  Para calcular $\mathbb{P}(A_d)$, começamos pela condição em uma única
+  característica. Como $q_i=1/2$ e $X_i\sim U(0,1)$, para cada
+  $i\in\{1,\ldots,d\}$ temos
+  \[
+    \mathbb{P}\left(|X_i-q_i|<\frac14\right)
+    =\mathbb{P}\left(\frac14<X_i<\frac34\right)
+    =\int_{1/4}^{3/4}1\,dx=\frac12.
+  \]
+  Pela independência das variáveis $X_1,\ldots,X_d$, os eventos
+  $\{|X_i-q_i|<1/4\}$ são independentes. Portanto,
   \begin{equation}\label{eq:probabilidade-regiao-central}
     \mathbb{P}(A_d)
-    = \prod_{i=1}^{d}\mathbb{P}\left(\frac{1}{4}<X_i<\frac{3}{4}\right)
-    = \left(\frac{1}{2}\right)^d.
+    =\prod_{i=1}^{d}\mathbb{P}\left(|X_i-q_i|<\frac14\right)
+    =2^{-d}.
   \end{equation}
-  O mesmo cálculo pode ser lido geometricamente. A região central é o produto
-  de $d$ intervalos de comprimento $1/2$, logo seu volume é $(1/2)^d$; como o
-  cubo todo tem volume $1$, essa também é a fração do volume ocupada pela
-  região. Sob o modelo uniforme com coordenadas independentes, essa fração
-  de volume coincide com a probabilidade calculada.
+  Geometricamente, $V_d$ tem volume $2^{-d}$ e o cubo $(0,1)^d$ tem volume
+  $1$. Como $\mathbf{X}$ tem distribuição uniforme nesse cubo,
+  $\mathbb{P}(A_d)$ coincide com a fração do volume ocupada por $V_d$.
 
-  A escolha de metade do intervalo serve apenas para fixar a escala. Se
-  $0<\varepsilon<1/2$ e exigirmos que cada coordenada pertença a
-  $(1/2-\varepsilon,1/2+\varepsilon)$, a probabilidade de uma coordenada
-  satisfazer a condição é $2\varepsilon$. Pela independência, a probabilidade
-  de todas as $d$ coordenadas satisfazerem a condição é
+  Para estudar a chance de sucesso com uma coleção de amostras, fixe um
+  inteiro $N\geqslant1$ e sejam
+  $\mathbf{X}^{(k)}=(X_1^{(k)},\ldots,X_d^{(k)})$, para $k=1,\ldots,N$,
+  vetores aleatórios definidos no mesmo espaço de probabilidade.
+  Assumimos que as $Nd$ variáveis $X_i^{(k)}$ sejam todas independentes e
+  uniformes em $(0,1)$. Aqui, o índice $i$ identifica a característica e o
+  índice $k$ identifica a amostra.
+
+  Para cada $k\in\{1,\ldots,N\}$, o evento de que a $k$-ésima amostra
+  esteja próxima da consulta é
   \[
-    \mathbb{P}\left(\left|X_i-\tfrac12\right|<\varepsilon
-    \text{ para todo }i=1,\ldots,d\right)=(2\varepsilon)^d.
+    A_d^{(k)}=\{\mathbf{X}^{(k)}\in V_d\}.
   \]
-  Portanto, mesmo um intervalo de comprimento fixo em cada coordenada pode
-  corresponder a uma fração pequena do volume total quando há muitas
-  coordenadas.
+  Cada vetor $\mathbf{X}^{(k)}$ tem a mesma distribuição que $\mathbf{X}$.
+  Logo, por \eqref{eq:probabilidade-regiao-central},
+  $\mathbb{P}(A_d^{(k)})=2^{-d}$. Além disso, os eventos
+  $A_d^{(1)},\ldots,A_d^{(N)}$ são independentes: cada um é determinado
+  pelas coordenadas de um único vetor, e esses grupos de coordenadas são
+  independentes entre si.
 
-  Vejamos o que isso implica para uma coleção de amostras. Sejam
-  $(X_1^{(k)},\ldots,X_d^{(k)})$, para $k=1,\ldots,N$, pontos gerados de modo
-  que todas as $Nd$ coordenadas sejam independentes e uniformes em $(0,1)$.
-  Seja $A_d^{(k)}$ o evento de que o ponto de índice $k$ pertence à região
-  central. Cada evento tem probabilidade $2^{-d}$. Além
-  disso, os eventos $A_d^{(1)},\ldots,A_d^{(N)}$ são independentes, pois cada
-  um impõe condições apenas às coordenadas de seu próprio vetor. Para qualquer
-  coleção desses eventos, a probabilidade da interseção é o produto das
-  probabilidades, pela independência das coordenadas envolvidas.
-  Assim, a probabilidade de nenhum ponto estar
-  na região é $(1-2^{-d})^N$, e obtemos
-  \begin{equation}\label{eq:probabilidade-alguma-amostra-central}
-    \mathbb{P}\left(\bigcup_{k=1}^{N} A_d^{(k)}\right)
-    = 1-(1-2^{-d})^N
-    \leqslant N2^{-d}.
-  \end{equation}
-  A desigualdade também decorre diretamente da desigualdade da união: a
-  probabilidade de pelo menos um dos eventos ocorrer não excede a soma de
-  suas probabilidades.
-
-  Por exemplo, para $d=30$ e $N=1\,000\,000$, essa estimativa fornece
+  Encontrar ao menos uma amostra próxima da consulta corresponde ao evento
   \[
-    \mathbb{P}\left(\bigcup_{k=1}^{N} A_{30}^{(k)}\right)
+    B_{d,N}=\bigcup_{k=1}^{N}A_d^{(k)}.
+  \]
+  Para calcular sua probabilidade, é conveniente considerar o evento
+  complementar: nenhuma das $N$ amostras pertence a $V_d$. Como os
+  complementares dos eventos $A_d^{(k)}$ também são independentes, temos
+  \begin{align*}
+    \mathbb{P}(B_{d,N}^{c})
+    &=\mathbb{P}\left(\bigcap_{k=1}^{N}(A_d^{(k)})^c\right)
+    \\[0.2cm]
+    &=\prod_{k=1}^{N}\mathbb{P}((A_d^{(k)})^c)
+    =(1-2^{-d})^N.
+  \end{align*}
+  Passando ao complementar e aplicando a desigualdade da união, obtemos
+  \begin{equation}\label{eq:probabilidade-alguma-amostra-central}
+    \begin{aligned}
+      \mathbb{P}(B_{d,N})&=1-(1-2^{-d})^N
+      \\[0.2cm]
+      &\leqslant\sum_{k=1}^{N}\mathbb{P}(A_d^{(k)})=N2^{-d}.
+    \end{aligned}
+  \end{equation}
+
+  Por exemplo, com $d=30$ características e $N=1\,000\,000$ amostras, a
+  probabilidade de encontrar ao menos uma amostra próxima da consulta
+  satisfaz
+  \[
+    \mathbb{P}(B_{30,1\,000\,000})
     \leqslant \frac{1\,000\,000}{2^{30}}
     < 0{,}001 = 0{,}1\%.
   \]
-  Portanto, nesse modelo, um milhão de pontos ainda tem probabilidade menor
-  que um décimo de um por cento de incluir um ponto central em todas as
-  coordenadas.
-
-  A mesma estimativa dá uma condição necessária sobre o número de amostras.
-  Se a probabilidade de encontrar ao menos um ponto na região for pelo menos
-  $1/2$, então, por \eqref{eq:probabilidade-alguma-amostra-central},
+  Para uma dimensão $d$ fixada, se desejarmos
+  $\mathbb{P}(B_{d,N})\geqslant1/2$, o número $N$ de amostras deve
+  satisfazer, por \eqref{eq:probabilidade-alguma-amostra-central},
   \begin{equation}\label{eq:amostras-necessarias-regiao-central}
-    \frac{1}{2}\leqslant N2^{-d},
+    \frac12\leqslant\mathbb{P}(B_{d,N})\leqslant N2^{-d},
     \qquad\text{e, portanto,}\qquad N\geqslant 2^{d-1}.
   \end{equation}
-  Trata-se de uma condição necessária obtida por uma cota superior para a
-  probabilidade. Ela, por si só, não afirma que esse número de amostras seja
-  suficiente para atingir a probabilidade desejada.
+  Essa condição é necessária, pois foi obtida de uma cota superior. Para
+  verificar se um valor de $N$ é suficiente, usamos a expressão exata
+  $1-(1-2^{-d})^N$ em \eqref{eq:probabilidade-alguma-amostra-central}.
 
-  Este modelo ajuda a entender uma dificuldade possível em métodos que
-  procuram pontos locais comparando várias características simultaneamente:
-  ainda que cada característica admita um intervalo central relativamente
-  largo, exigir que todas fiquem nesses intervalos pode selecionar uma fração
-  muito pequena do espaço de possibilidades. A conclusão é sobre o modelo
-  uniforme com coordenadas independentes e ilustra um dos fenômenos conhecidos
-  como \emph{maldição da dimensionalidade}: o número de amostras necessário
-  para obter uma chance fixa de encontrar um ponto na região cresce, no
-  mínimo, exponencialmente com $d$. A distribuição dos dados faz parte
-  desse diagnóstico; dados concentrados em estruturas de menor dimensão
-  exigem uma análise que leve essa estrutura em conta.
+  Com a consulta e a tolerância escolhidas, cada característica adicional
+  impõe uma condição independente de probabilidade $1/2$, reduzindo pela
+  metade a probabilidade de uma única amostra estar próxima de $q$.
+  A condição \eqref{eq:amostras-necessarias-regiao-central} impõe ao número
+  de amostras uma cota inferior que cresce exponencialmente com a
+  dimensão. Esse comportamento ilustra, no modelo considerado, um
+  dos fenômenos conhecidos como \emph{maldição da dimensionalidade}.
 \end{example}
 
 \bibliographystyle{plain}
