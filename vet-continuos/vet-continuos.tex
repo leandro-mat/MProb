@@ -223,7 +223,9 @@ densidade conjunta, em quase todo ponto, como produto das densidades
 marginais. Desenvolvemos três aplicações à inteligência artificial:
 sorteios com probabilidades softmax por meio de relógios exponenciais,
 classificação baseada na informação conjunta de duas características e
-escassez de amostras locais em dimensão alta. A apresentação dos conceitos
+escassez de amostras locais em dimensão alta. Para preparar a primeira
+aplicação, estudamos a distribuição exponencial e sua caracterização pela
+propriedade de falta de memória. A apresentação dos conceitos
 segue de perto as
 Seções 6.1 a 6.3 do Capítulo 6 de \cite{GrimmettWelsh2014}.
 \end{abstract}
@@ -884,7 +886,8 @@ três variáveis aleatórias $X$, $Y$ e $Z$ são
 \]
 para todo $(x,y,z) \in \mathbb{R}^3$ e alguma função Borel-mensurável
 não negativa $f:\mathbb{R}^3\to[0,\infty)$ cuja integral sobre
-$\mathbb{R}^3$ seja $1$. Como no caso bidimensional, se $F_{X,Y,Z}$
+$\mathbb{R}^3$ seja $1$. Como no caso bidimensional, quando o vetor
+$(X,Y,Z)$ é conjuntamente absolutamente contínuo e $F_{X,Y,Z}$
 tem derivadas parciais contínuas até a ordem três em um aberto
 $H \subseteq \mathbb{R}^3$ cujo complemento tenha volume nulo,
 podemos obter uma densidade pela fórmula
@@ -1022,13 +1025,453 @@ Nesse caso, o conjunto excepcional tem volume nulo.
 \section{Aplicações}\label{sec:aplicacoes-vetores-continuos}
 Os conceitos de densidade conjunta, marginalização e independência permitem
 investigar perguntas que aparecem em inteligência artificial. Vamos usá-los
-para construir:
+para:
 \begin{itemize}
-\item sorteios com os pesos da função \emph{softmax};
+\item construir sorteios com os pesos da função \emph{softmax};
 \item identificar uma informação presente apenas na interação entre duas características;
 \item examinar como a dimensão influencia a disponibilidade de amostras locais.
 \end{itemize}
-Estes exemplos usam apenas as técnicas de probabilidade desenvolvidas até aqui.
+Antes do primeiro exemplo, estudaremos a distribuição exponencial, que
+modelará os tempos de espera dos relógios usados no sorteio.
+
+\subsection{A distribuição exponencial e a falta de memória}\label{subsec:exponencial-falta-memoria}
+
+Uma variável aleatória não negativa pode representar o tempo de espera até
+a ocorrência de um evento. No exemplo dos relógios da subseção seguinte,
+cada variável representará o tempo até um relógio tocar. Uma hipótese
+possível para esse tempo de espera é a seguinte: sabendo que o evento ainda
+não ocorreu após $t$ unidades de tempo, a distribuição do tempo adicional
+de espera é a mesma da espera inicial. Chamaremos essa propriedade de
+\emph{falta de memória}.
+
+Vamos definir a distribuição exponencial, verificar que ela possui essa
+propriedade e mostrar que, entre as variáveis aleatórias estritamente
+positivas quase certamente, ela é a única distribuição sem memória.
+Depois relacionaremos essa propriedade à taxa de falha constante e a um
+modelo de ocorrência de eventos em intervalos de tempo. A demonstração da
+caracterização acompanha a apresentação de \cite[Seção~5.5]{Ross2010}.
+
+\subsubsection{Definição e função de distribuição}
+
+\begin{definition}[Distribuição exponencial]\label{def:distribuicao-exponencial}
+Seja $\lambda>0$. Dizemos que uma variável aleatória $X$ tem
+\emph{distribuição exponencial de parâmetro} $\lambda$, e escrevemos
+$X\sim\mathrm{Exp}(\lambda)$, quando admite a função densidade
+\[
+  f_X(x)=
+  \begin{cases}
+    \lambda e^{-\lambda x}, & \text{se } x\geqslant 0,
+    \\[0.2cm]
+    0, & \text{se } x<0.
+  \end{cases}
+\]
+O número $\lambda$ também é chamado de \emph{taxa} da distribuição.
+\end{definition}
+
+A função é não negativa, e sua integral sobre a reta é
+\begin{align*}
+  \int_{-\infty}^{\infty} f_X(x)\,dx
+  &=\int_0^{\infty}\lambda e^{-\lambda x}\,dx
+  =\left[-e^{-\lambda x}\right]_0^{\infty}=1.
+\end{align*}
+Portanto, ela é de fato uma densidade. Para $a<0$, temos $F_X(a)=0$;
+para $a\geqslant0$, a função de distribuição é
+\begin{equation}\label{eq:fda-exponencial}
+  F_X(a)=\mathbb{P}(X\leqslant a)
+  =\int_0^a\lambda e^{-\lambda x}\,dx=1-e^{-\lambda a}.
+\end{equation}
+Em particular, $\mathbb{P}(X>0)=1$. É conveniente registrar também a
+\emph{função de cauda}, isto é, a probabilidade de $X$ exceder um valor
+dado. Para $a\geqslant0$,
+\begin{equation}\label{eq:cauda-exponencial}
+  G(a)\equiv\mathbb{P}(X>a)=1-F_X(a)=e^{-\lambda a}.
+\end{equation}
+Essa função é não crescente e contínua, com $G(0)=1$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.78\textwidth, height=6.2cm,
+  axis lines=left,
+  xlabel={$x$}, ylabel={$f_X$},
+  ylabel style={rotate=-90},
+  xmin=0, xmax=8, ymin=0, ymax=2.1,
+  ytick={0,0.5,1,1.5,2},
+  yticklabels={$0$,$\tfrac{1}{2}$,$1$,$\tfrac{3}{2}$,$2$},
+  /pgf/number format/use comma,
+  domain=0:8, samples=200,
+  legend style={at={(0.97,0.97)},anchor=north east,draw=none,fill=none,
+    row sep=4pt},
+  every axis plot/.append style={line width=1.1pt},
+]
+\addplot[teal] {0.5*exp(-0.5*x)};
+\addplot[muted] {1.0*exp(-1.0*x)};
+\addplot[black] {2.0*exp(-2.0*x)};
+\legend{$\lambda=\tfrac{1}{2}$,$\lambda=1$,$\lambda=2$}
+\end{axis}
+\end{tikzpicture}
+\caption{Densidades exponenciais para três taxas. Quanto maior a taxa
+$\lambda$, menor a probabilidade $\mathbb{P}(X>a)=e^{-\lambda a}$ para
+cada $a>0$ fixado.}
+\label{fig:densidades-exponenciais}
+\end{figure}
+
+\begin{example}[Média, variância e o significado da taxa]\label{ex:media-variancia-exponencial}
+Calculemos $\mathbb{E}[X]$ para interpretar o parâmetro $\lambda$.
+Integrando por partes com $u=x$ e $dv=\lambda e^{-\lambda x}\,dx$, de
+modo que $v=-e^{-\lambda x}$, obtemos
+\begin{align*}
+  \mathbb{E}[X]
+  &=\int_0^{\infty}x\lambda e^{-\lambda x}\,dx
+  \\[0.3cm]
+  &=\left[-xe^{-\lambda x}\right]_0^{\infty}
+    +\int_0^{\infty}e^{-\lambda x}\,dx
+  =\frac{1}{\lambda}.
+\end{align*}
+O termo de fronteira se anula porque $xe^{-\lambda x}\to0$ quando
+$x\to\infty$. Aplicando integração por partes ao segundo momento,
+com $u=x^2$ e o mesmo $dv$, temos
+\[
+  \mathbb{E}[X^2]
+  =\left[-x^2e^{-\lambda x}\right]_0^{\infty}
+    +2\int_0^{\infty}xe^{-\lambda x}\,dx
+  =\frac{2}{\lambda}\mathbb{E}[X]=\frac{2}{\lambda^2}.
+\]
+Logo,
+\[
+  \operatorname{Var}(X)
+  =\mathbb{E}[X^2]-\bigl(\mathbb{E}[X]\bigr)^2
+  =\frac{1}{\lambda^2}.
+\]
+Assim, aumentar a taxa $\lambda$ reduz o tempo médio de espera
+$1/\lambda$. Mais adiante veremos outra interpretação de $\lambda$:
+ela determina a probabilidade de o evento ocorrer em um intervalo curto,
+dado que ainda não ocorreu.
+\end{example}
+
+\subsubsection{A falta de memória}
+
+Antes de enunciar a propriedade em tempo contínuo, recordemos seu análogo
+discreto.
+
+\begin{example}[A distribuição geométrica como análoga discreta]\label{ex:geometrica-sem-memoria}
+Considere uma sequência de tentativas independentes, cada uma com
+probabilidade de sucesso $p\in(0,1)$. Seja $N$ o número da tentativa em
+que ocorre o primeiro sucesso. Então $N$ tem distribuição geométrica,
+com a convenção
+\[
+  \mathbb{P}(N=n)=p(1-p)^{n-1},\qquad n\in\{1,2,\ldots\}.
+\]
+Para cada inteiro $k\geqslant0$,
+\[
+  \mathbb{P}(N>k)=(1-p)^k,
+\]
+pois $\{N>k\}$ é o evento de não haver sucesso nas $k$ primeiras
+tentativas. Para inteiros $m,k\geqslant0$, a inclusão
+$\{N>m+k\}\subseteq\{N>m\}$ dá
+\[
+  \mathbb{P}(N>m+k\mid N>m)
+  =\frac{\mathbb{P}(N>m+k)}{\mathbb{P}(N>m)}
+  =\frac{(1-p)^{m+k}}{(1-p)^m}
+  =(1-p)^k=\mathbb{P}(N>k).
+\]
+Portanto, sob a condição de que as $m$ primeiras tentativas falharam,
+$N-m$ tem a mesma distribuição que $N$. Essa é a propriedade de falta de
+memória da geométrica. Sua cauda $(1-p)^k$ pode ser escrita como
+$e^{-\lambda k}$, com $\lambda=-\log(1-p)>0$; a cauda exponencial
+$e^{-\lambda t}$ estende essa forma aos tempos reais $t\geqslant0$.
+\end{example}
+
+\begin{definition}[Variável aleatória sem memória]\label{def:variavel-sem-memoria}
+Uma variável aleatória $X$ satisfazendo a condição $\mathbb{P}(X\geqslant0)=1$ é
+chamada de uma variável aleatória \emph{sem memória} se, para todos $s,t\geqslant0$ tais que
+$\mathbb{P}(X>t)>0$,
+\begin{equation}\label{eq:falta-memoria-condicional}
+  \mathbb{P}(X>s+t\mid X>t)=\mathbb{P}(X>s).
+\end{equation}
+A condição $\mathbb{P}(X>t)>0$, na definição acima, é usada para garantir que a probabilidade condicional
+esteja definida.
+\end{definition}
+
+No evento $\{X>t\}$, o tempo adicional de espera é $X-t$. Assim,
+\eqref{eq:falta-memoria-condicional} também se escreve como
+\[
+  \mathbb{P}(X-t>s\mid X>t)=\mathbb{P}(X>s),\qquad s\geqslant0.
+\]
+Essa igualdade diz que a distribuição condicional do tempo restante,
+após $t$ unidades de espera sem ocorrência do evento, é a mesma da espera
+inicial. Para estudar a propriedade, vamos escrevê-la em termos da cauda
+$G(x)=\mathbb{P}(X>x)$.
+
+\begin{proposition}[Reformulação como equação funcional]\label{prop:falta-memoria-equacao}
+Uma variável aleatória não negativa quase certamente $X$ é sem memória
+se, e somente se, sua cauda $G(x)=\mathbb{P}(X>x)$ satisfaz
+\begin{equation}\label{eq:equacao-funcional-cauda}
+  G(s+t)=G(s)G(t),\qquad\forall s,t\geqslant0.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Suponha primeiro que $X$ é sem memória e fixe $s,t\geqslant0$. Se
+$G(t)>0$, a definição de probabilidade condicional e a inclusão
+$\{X>s+t\}\subseteq\{X>t\}$ dão
+\[
+  G(s+t)=\mathbb{P}(X>s+t\mid X>t)\mathbb{P}(X>t)=G(s)G(t).
+\]
+Se $G(t)=0$, a monotonicidade da cauda dá
+$0\leqslant G(s+t)\leqslant G(t)=0$. Portanto, a igualdade também vale
+nesse caso. Reciprocamente, se \eqref{eq:equacao-funcional-cauda} vale
+e $G(t)>0$, então
+\[
+  \mathbb{P}(X>s+t\mid X>t)=\frac{G(s+t)}{G(t)}=G(s)
+  =\mathbb{P}(X>s).
+\]
+\end{proof}
+
+\begin{proposition}[A exponencial é sem memória]\label{prop:exponencial-sem-memoria}
+Se $X\sim\mathrm{Exp}(\lambda)$, então $X$ é sem memória.
+\end{proposition}
+\begin{proof}
+Por \eqref{eq:cauda-exponencial}, sua cauda é $G(x)=e^{-\lambda x}$,
+para $x\geqslant0$. Logo,
+\[
+  G(s+t)=e^{-\lambda(s+t)}=e^{-\lambda s}e^{-\lambda t}=G(s)G(t),
+  \qquad s,t\geqslant0,
+\]
+e a afirmação segue da \Cref{prop:falta-memoria-equacao}.
+\end{proof}
+
+\subsubsection{A falta de memória caracteriza a exponencial}
+
+A proposição anterior verifica que a exponencial é sem memória. Para
+provar a recíproca, precisamos determinar as funções de cauda que resolvem
+\eqref{eq:equacao-funcional-cauda}. A identidade
+$e^{-\lambda(s+t)}=e^{-\lambda s}e^{-\lambda t}$ sugere a forma da
+solução. Para demonstrar que essa forma é obrigatória, calcularemos
+primeiro $G$ nos argumentos racionais, usando a equação funcional, e
+depois estenderemos a argumentos em $\mathbb{R}$ usando a continuidade à direita.
+
+\begin{theorem}[Caracterização pela falta de memória]\label{thm:caracterizacao-falta-memoria}
+Seja $X$ uma variável aleatória com $\mathbb{P}(X>0)=1$. Se $X$ é sem
+memória, então existe $\lambda>0$ tal que $X\sim\mathrm{Exp}(\lambda)$.
+\end{theorem}
+\begin{proof}
+Escreva $G(x)=\mathbb{P}(X>x)$. Por hipótese, $G(0)=1$ e, pela
+\Cref{prop:falta-memoria-equacao}, vale
+\eqref{eq:equacao-funcional-cauda}.
+
+\smallskip
+\noindent\textbf{Passo 1 (determinar $G$ nos racionais).}
+Seja $p=G(1)$. Como $G$ é não crescente e $G(0)=1$, temos
+$0\leqslant p\leqslant1$. Vamos primeiro excluir os valores $0$ e $1$.
+
+Se $p=1$, a iteração de \eqref{eq:equacao-funcional-cauda} dá
+$G(n)=G(1)^n=1$ para todo inteiro $n\geqslant1$. Isso contradiz
+$\lim_{n\to\infty}\mathbb{P}(X>n)=0$, pois $X$ assume valores reais.
+Logo, $p<1$.
+
+Se $p=0$, tomando $s=t=1/2$ em
+\eqref{eq:equacao-funcional-cauda}, temos $G(1/2)^2=G(1)=0$.
+Repetindo o argumento, $G(1/2^n)=0$ para todo inteiro $n\geqslant1$.
+Os eventos $\{X>1/2^n\}$ crescem para $\{X>0\}$. Pela continuidade da
+probabilidade em sequências crescentes,
+\[
+  G(0)=\mathbb{P}(X>0)
+  =\lim_{n\to\infty}\mathbb{P}(X>1/2^n)=0,
+\]
+contrariando $G(0)=1$. Portanto, $0<p<1$.
+
+Escolhemos então
+\[
+  \lambda=-\log p>0,\qquad\text{de modo que}\qquad p=e^{-\lambda}.
+\]
+Para inteiros $n\geqslant1$, a iteração da equação funcional dá
+\[
+  G(n)=G(1)^n=p^n=e^{-\lambda n}.
+\]
+Escrevendo $1$ como a soma de $n$ parcelas iguais a $1/n$ e aplicando a
+mesma equação sucessivamente, obtemos
+\[
+  p=G(1)=G(1/n)^n,\qquad\text{logo}\qquad
+  G(1/n)=p^{1/n}=e^{-\lambda/n}.
+\]
+Repetindo agora a parcela $1/n$ um total de $m$ vezes, para inteiros
+$m,n\geqslant1$, segue que
+\[
+  G(m/n)=G(1/n)^m=p^{m/n}=e^{-\lambda m/n}.
+\]
+Juntamente com $G(0)=1$, isso determina $G(x)=e^{-\lambda x}$ para todo
+racional $x\geqslant0$.
+
+\smallskip
+\noindent\textbf{Passo 2 (estender aos reais).}
+Como $G=1-F_X$ e toda função de distribuição é contínua à direita, $G$
+também é contínua à direita. Fixe $x\geqslant0$ e tome uma sequência de
+racionais $x_k\downarrow x$. Então
+\[
+  G(x)=\lim_{k\to\infty}G(x_k)
+  =\lim_{k\to\infty}e^{-\lambda x_k}=e^{-\lambda x}.
+\]
+Consequentemente, $F_X(x)=0$ para $x<0$ e
+$F_X(x)=1-e^{-\lambda x}$ para $x\geqslant0$. Essa é a função de
+distribuição calculada em \eqref{eq:fda-exponencial}. Em particular,
+\[
+  F_X(x)=\int_{-\infty}^{x}
+  \lambda e^{-\lambda u}\mathds{1}_{[0,\infty)}(u)\,du,
+  \qquad\forall x\in\mathbb{R},
+\]
+de modo que $X$ admite a densidade da
+\Cref{def:distribuicao-exponencial} e $X\sim\mathrm{Exp}(\lambda)$.
+\end{proof}
+
+\begin{remark}[O caso degenerado]\label{rem:caso-degenerado}
+Se $X=0$ quase certamente, então $\mathbb{P}(X>t)=0$ para todo
+$t\geqslant0$. Nesse caso, a \Cref{def:variavel-sem-memoria} é satisfeita
+de modo vacuamente verdadeiro: não há valor de $t$ para o qual seja
+necessário verificar a igualdade condicional. A equação funcional também
+vale, pois $G$ é identicamente nula em $[0,\infty)$.
+
+Esse é o único caso sem memória que a hipótese
+$\mathbb{P}(X>0)=1$ exclui entre as variáveis não negativas. De fato,
+tomando $s=t=0$ em \eqref{eq:equacao-funcional-cauda}, temos
+$G(0)=G(0)^2$, logo $G(0)\in\{0,1\}$. Se $G(0)=0$, então $X=0$ quase
+certamente; se $G(0)=1$, aplica-se o
+\Cref{thm:caracterizacao-falta-memoria}.
+\end{remark}
+
+\begin{remark}[O papel das propriedades da cauda]\label{rem:regularidade-equacao-funcional}
+A equação funcional permite determinar $G$ nos racionais a partir de
+$G(1)$. Para chegar aos reais, usamos a continuidade à direita, uma
+propriedade que toda função de cauda já possui.
+
+Alternativamente, podemos concluir essa etapa usando a monotonicidade de
+$G$, sem recorrer à sua continuidade à direita. Para cada $x>0$,
+escolhendo racionais não negativos $a_k\uparrow x$ e $b_k\downarrow x$,
+temos
+\[
+  e^{-\lambda b_k}=G(b_k)\leqslant G(x)\leqslant G(a_k)=e^{-\lambda a_k}.
+\]
+Pela continuidade da função exponencial e pelo Teorema do Confronto,
+segue que $G(x)=e^{-\lambda x}$. O caso $x=0$ já foi estabelecido.
+
+Portanto, não foi necessário supor que $X$ tivesse densidade ou que $G$
+fosse diferenciável. A existência da
+densidade exponencial foi obtida como consequência da falta de memória.
+\end{remark}
+
+\subsubsection{Taxa de falha constante}
+
+Seja $X$ não negativa quase certamente, com densidade $f_X$ contínua em
+$[0,\infty)$ e cauda $G(t)=\mathbb{P}(X>t)>0$ para todo $t\geqslant0$.
+Definimos sua \emph{taxa de falha}, ou \emph{taxa de risco}, por
+\[
+  h_X(t)=\frac{f_X(t)}{G(t)},\qquad t\geqslant0.
+\]
+Para entender essa razão, fixe um valor $t\geqslant0$. Para cada $\delta>0$, temos
+\[
+  \mathbb{P}(t<X\leqslant t+\delta\mid X>t)
+  =\frac{1}{G(t)}\int_t^{t+\delta}f_X(u)\,du.
+\]
+Pela continuidade de $f_X$, dividindo por $\delta$ e fazendo
+$\delta\downarrow0$, obtemos
+\[
+  \lim_{\delta\downarrow0}
+  \frac{\mathbb{P}(t<X\leqslant t+\delta\mid X>t)}{\delta}
+  =h_X(t).
+\]
+Assim, $h_X(t)$ mede a taxa de ocorrência do evento logo após $t$, sob a
+condição de que ele ainda não ocorreu.
+
+\begin{example}[Taxa de falha da exponencial]\label{ex:taxa-falha-exponencial}
+Se $X\sim\mathrm{Exp}(\lambda)$, usando a densidade da
+\Cref{def:distribuicao-exponencial}, temos
+\[
+  h_X(t)=\frac{\lambda e^{-\lambda t}}{e^{-\lambda t}}=\lambda,
+  \qquad t\geqslant0.
+\]
+Portanto, essa taxa não depende do tempo já decorrido. Reciprocamente,
+sob as hipóteses acima, suponha que $h_X(t)=\lambda>0$ para todo
+$t\geqslant0$. Como $X$ tem densidade e é não negativa quase certamente,
+$G(0)=1$. Além disso, para $t>0$,
+\[
+  G'(t)=-f_X(t)=-\lambda G(t).
+\]
+Para resolver essa equação, observe que
+$\frac{d}{dt}(e^{\lambda t}G(t))=0$. Logo,
+$e^{\lambda t}G(t)=G(0)=1$ e $G(t)=e^{-\lambda t}$, para
+$t\geqslant0$. Assim, $X\sim\mathrm{Exp}(\lambda)$. Nessas condições,
+a taxa de falha constante e a falta de memória caracterizam a mesma
+distribuição.
+\end{example}
+
+\subsubsection{A exponencial como tempo de espera de eventos raros}
+
+Podemos também obter a distribuição exponencial a partir de um modelo
+para a contagem de eventos. A ideia é supor que as contagens em intervalos
+disjuntos sejam independentes, que sua distribuição dependa apenas do
+comprimento do intervalo e que, em um intervalo curto, a probabilidade
+de uma ocorrência seja aproximadamente proporcional a esse comprimento.
+
+\begin{proposition}[Tempo até o primeiro evento]\label{prop:tempo-primeiro-evento}
+Sejam $N(t):\Omega\to\{0,1,2,\ldots\}$, para $t\geqslant0$, variáveis
+aleatórias em $(\Omega,\mathcal{F},\mathbb{P})$, em que $N(t)$ representa
+o número de eventos ocorridos no intervalo $(0,t]$. Suponha que, para
+cada $\omega\in\Omega$, temos $N(0)(\omega)=0$ e a função
+$t\mapsto N(t)(\omega)$ é não decrescente e contínua à direita.
+Suponha ainda que:
+\begin{enumerate}[label=\textnormal{(\roman*)}]
+  \item as contagens em qualquer coleção finita de intervalos disjuntos
+  sejam independentes;
+  \item para quaisquer $a,h\geqslant0$, a contagem $N(a+h)-N(a)$ tenha
+  a mesma distribuição que $N(h)$;
+  \item exista $\lambda>0$ tal que, quando $h\downarrow0$,
+  \[
+    \mathbb{P}(N(h)=1)=\lambda h+o(h),
+    \qquad \mathbb{P}(N(h)\geqslant2)=o(h).
+  \]
+\end{enumerate}
+Aqui, $o(h)$ denota uma quantidade cuja razão por $h$ tende a zero
+quando $h\downarrow0$. Então o tempo até o primeiro evento,
+\[
+  T=\inf\{t>0:N(t)\geqslant1\},
+\]
+com a convenção $\inf\varnothing=\infty$, é finito quase certamente e
+tem distribuição $\mathrm{Exp}(\lambda)$.
+\end{proposition}
+\begin{proof}
+O evento de o primeiro evento ocorrer após $t$ é o evento de não haver
+ocorrências em $(0,t]$: $\{T>t\}=\{N(t)=0\}$.
+Essa identidade decorre das propriedades das trajetórias de $N$.
+Em particular, ela garante a mensurabilidade de $T$.
+
+Para calcular essa probabilidade, fixe $t>0$ e divida $(0,t]$ em $n$
+intervalos disjuntos de comprimento $t/n$. Pela hipótese (iii),
+podemos escrever
+\[
+  \mathbb{P}(N(h)=0)=1-\lambda h+r(h),
+  \qquad \lim_{h\downarrow0}\frac{r(h)}{h}=0.
+\]
+Pela hipótese (ii), essa é também a probabilidade de nenhuma ocorrência
+em qualquer intervalo de comprimento $h$. Portanto, pela independência
+das contagens em (i),
+\[
+  \mathbb{P}(T>t)
+  =\mathbb{P}(N(t)=0)
+  =\left(1-\frac{\lambda t}{n}+r(t/n)\right)^n.
+\]
+Como $nr(t/n)=t\,r(t/n)/(t/n)\to0$, o limite usual da função
+exponencial dá
+\[
+  \lim_{n\to\infty}
+  \left(1-\frac{\lambda t}{n}+r(t/n)\right)^n=e^{-\lambda t}.
+\]
+O lado esquerdo da igualdade anterior a esse limite é
+$\mathbb{P}(T>t)$ para todo $n$. Logo,
+$\mathbb{P}(T>t)=e^{-\lambda t}$ para todo $t>0$.
+Fazendo $t\to\infty$ e $t\downarrow0$, respectivamente, concluímos
+que $\mathbb{P}(T=\infty)=0$ e $\mathbb{P}(T>0)=1$.
+Assim, $T$ tem a função de distribuição exponencial.
+\end{proof}
 
 
 \subsection{Corridas exponenciais e amostragem softmax}\label{subsec:aplicacoes-softmax}
@@ -1163,8 +1606,8 @@ Somando sobre $i\in\{1,\ldots,n\}$, usamos a aditividade de $\mathbb{P}$ para ob
   \mathbb{P}(T>t)=e^{-\Lambda t},
 \end{align}
 portanto $T\sim\mathrm{Exp}(\Lambda)$. Fazendo $t=0$ em \eqref{eq-aux1-ex-corrida-despertadores},
-obtemos $\mathbb{P}(T>0, J=i)=\lambda_i/\Lambda$. Como $\{J=i\} = \{T>0, J=i\} \cup \{T=0, J=i\}$
-e $\mathbb{P}(T=0)=0$, segue que
+obtemos $\mathbb{P}(T>0, J=i)=\lambda_i/\Lambda$. Como $T>0$ quase
+certamente, temos $\mathbb{P}(T>0,J=i)=\mathbb{P}(J=i)$, e segue que
 \begin{align}\label{eq-aux3-ex-corrida-despertadores}
 \mathbb{P}(J=i)=\frac{\lambda_i}{\Lambda}.
 \end{align}
@@ -1328,8 +1771,8 @@ dado um determinado grupo.
 Este tipo de problema é muito comum quando estamos trabalhando em tarefas de classificação, 
 já que, em geral, conhecemos algumas características do objeto que queremos
 classificar, neste nosso exemplo seriam as variáveis aleatórias $X$ e $Y$, 
-e queremos com base nestes valores inferir a que categoria, segundo o classificador $C$,
-nosso objeto pertence. 
+e queremos, com base nesses valores, inferir a que classe, indicada pela
+variável aleatória $C$, nosso objeto pertence.
 
 Vamos assumir que 
 \[ 
@@ -1486,16 +1929,12 @@ cada $x\in(0,1)\setminus\{\tfrac{1}{2}\}$ temos
 \[
   \int_{\mathbb{R}}h_c(x,y)\,dy=2\cdot\tfrac{1}{2}=1.
 \]
-Para $x\in \mathbb{R}\setminus (0,1)$, a integral acima é zero. Para $x=1/2$, ela também é zero,
-pois fixamos as densidades conjuntas como zero nas linhas divisórias.
-Já que alterar o valor de uma densidade marginal em um único ponto não muda a
-distribuição da variável aleatória então concluímos que 
-\begin{align*}
-h_{X,c}(x) = \mathds{1}_{(0,1)}(x), \qquad \forall x\in \mathbb{R}.
-\end{align*}
-
-O mesmo argumento vale para os cortes horizontais, já que $h_c(x,y)=h_c(y,x)$.
-Assim, podemos escolher as versões marginais
+Para $x\notin(0,1)$, essa integral é zero. Para $x=1/2$, ela também é
+zero, pois fixamos as densidades conjuntas como zero nas linhas divisórias.
+Podemos, porém, escolher outra versão da densidade marginal, atribuindo-lhe
+o valor $1$ nesse único ponto, sem alterar a distribuição de $X$.
+O mesmo argumento vale para os cortes horizontais, já que
+$h_c(x,y)=h_c(y,x)$. Assim, passaremos a usar as versões marginais
 \[
   h_{X,c}(x)=\mathds{1}_{(0,1)}(x),
   \qquad
