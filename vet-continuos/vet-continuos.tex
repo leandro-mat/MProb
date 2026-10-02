@@ -245,7 +245,7 @@ Seções 6.1 a 6.3 do Capítulo 6 de \cite{GrimmettWelsh2014}.
 % CONTEÚDO
 %----------------------------------------------------------------------
 
-\section{Vetores aleatórios e independência}\label{sec:vetores-aleatorios}
+\section{Vetores Aleatórios e Independência}\label{sec:vetores-aleatorios}
 Dadas duas variáveis aleatórias $X$ e $Y$, definidas em um espaço de
 probabilidade $(\Omega, \mathcal{F}, \mathbb{P})$, é frequentemente útil
 pensar nelas conjuntamente como um vetor aleatório $(X, Y)$ que assume valores
@@ -255,7 +255,7 @@ mas, para variáveis aleatórias gerais, essa função pode não determinar
 a distribuição. Uma ferramenta aplicável em todos esses casos é a
 \emph{função de distribuição conjunta}, definida a seguir.
 
-\begin{definition}[Função de distribuição conjunta]\label{def:funcao-distribuicao-conjunta}
+\begin{definition}[Função de Distribuição Conjunta]\label{def:funcao-distribuicao-conjunta}
   A função de distribuição conjunta do par de variáveis aleatórias $X$ e $Y$
   é a função $F_{X,Y} : \mathbb{R}^2 \to [0, 1]$ dada por
   \begin{equation}
@@ -318,7 +318,7 @@ Essas funções de distribuição são chamadas de funções de distribuição
 A noção de independência das variáveis aleatórias $X$ e $Y$ surge
 naturalmente dessa discussão.
 
-\begin{definition}[Variáveis aleatórias independentes]\label{def:variaveis-aleatorias-independentes}
+\begin{definition}[Variáveis Aleatórias Independentes]\label{def:variaveis-aleatorias-independentes}
   Dizemos que $X$ e $Y$ são \textbf{independentes} se, para quaisquer $x, y \in
   \mathbb{R}$, os eventos $\{X \leqslant x\}$ e $\{Y \leqslant y\}$ forem
   independentes.
@@ -371,7 +371,7 @@ ou, equivalentemente, se
   \qquad \forall\mathbf{x} \in \mathbb{R}^n.
 \end{equation}
 
-\begin{example}[Função de distribuição conjunta discreta]\label{ex:distribuicao-conjunta-discreta}
+\begin{example}[Função de Distribuição Conjunta Discreta]\label{ex:distribuicao-conjunta-discreta}
 Suponha que $X$ e $Y$ sejam variáveis aleatórias em um espaço de probabilidade,
 cada uma assumindo valores no conjunto dos inteiros
 $\mathbb{Z} = \{\ldots, -1, 0, 1, \ldots\}$,
@@ -389,7 +389,7 @@ que são dois a dois disjuntos, obtemos
 \]
 \end{example}
 
-\begin{example}[Distribuição conjunta e independência de exponenciais]\label{ex:distribuicao-conjunta-exponenciais}
+\begin{example}[Distribuição Conjunta e Independência de Exponenciais]\label{ex:distribuicao-conjunta-exponenciais}
 Suponha que $X$ e $Y$ sejam variáveis aleatórias com função de distribuição conjunta
 \[
   F_{X,Y}(x, y) =
@@ -447,7 +447,7 @@ Prove que duas variáveis aleatórias $X$ e $Y$ são independentes se, e somente
 para todos $a, b, c, d \in \mathbb{R}$ satisfazendo $a < b$ e $c < d$.
 \end{exercise}
 
-\section{Funções de densidade conjunta}\label{sec:densidade-conjunta}
+\section{Funções de Densidade Conjunta}\label{sec:densidade-conjunta}
 Uma densidade conjunta permitirá calcular a probabilidade de o vetor
 aleatório pertencer a uma região do plano. Antes de defini-la, vamos
 especificar quais regiões serão mensuráveis, estendendo ao plano a noção
@@ -519,7 +519,7 @@ se sua função de distribuição admitir uma representação integral da forma
 \]
 para alguma função Borel mensurável e não negativa $f$.
 
-\begin{definition}[Variáveis aleatórias conjuntamente absolutamente contínuas]\label{def:va-conjuntamente-continuas}
+\begin{definition}[Variáveis Aleatórias Conjuntamente Absolutamente Contínuas]\label{def:va-conjuntamente-continuas}
   Dizemos que o par $(X, Y)$ de variáveis aleatórias em
   $(\Omega, \mathcal{F}, \mathbb{P})$ é
   \emph{(conjuntamente) absolutamente contínuo} se sua função de distribuição
@@ -606,7 +606,7 @@ quando $\delta x$ e $\delta y$ tendem a zero por valores positivos.
 Essa interpretação sugere que a probabilidade de uma região deve ser obtida
 integrando a densidade sobre ela, como veremos a seguir.
 
-\begin{theorem}[Probabilidade de regiões borelianas]\label{thm:probabilidade-subconjuntos-regulares}
+\begin{theorem}[Probabilidade de Regiões Borelianas]\label{thm:probabilidade-subconjuntos-regulares}
   Se $A$ é um boreliano de $\mathbb{R}^2$ e $X$ e $Y$ são
   variáveis aleatórias conjuntamente absolutamente contínuas com função
   densidade conjunta $f_{X,Y}$, então
@@ -671,7 +671,7 @@ em um de seus pontos multiplicada pela área. Somando essas pequenas
 probabilidades e refinando a divisão, obtemos somas que convergem para a
 integral da densidade sobre $A$.
 
-\begin{example}[Distribuição uniforme em um retângulo]\label{ex:distribuicao-uniforme-retangulo}
+\begin{example}[Distribuição Uniforme em um Retângulo]\label{ex:distribuicao-uniforme-retangulo}
   Uma função Borel-mensurável $f : \mathbb{R}^2 \to \mathbb{R}$
   é a função densidade conjunta de algum par de variáveis aleatórias,
   em algum espaço de probabilidade, se, e somente se, satisfaz as condições
@@ -774,7 +774,7 @@ $B=(0,a)\times(0,b)\subseteq \mathbb{R}^2$. O prisma representado tem volume $1$
   Calcule $\mathbb{P}(X + Y \leqslant 1)$ e $\mathbb{P}(X > Y)$.
 \end{exercise}
 
-\section{Densidades marginais e independência}\label{sec:densidades-marginais}
+\section{Densidades Marginais e Independência}\label{sec:densidades-marginais}
 Sempre que o par $(X, Y)$ possui função densidade conjunta $f_{X,Y}$,
 podemos obter as funções densidade de $X$ e de $Y$ integrando em relação
 à outra coordenada. Para encontrar uma densidade de $X$, observamos que
@@ -842,7 +842,7 @@ Esse resultado é análogo ao caso de variáveis
 aleatórias discretas, estudado anteriormente. Do mesmo modo que no caso
 discreto, há um resultado mais geral.
 
-\begin{theorem}[Critério de fatoração para independência]\label{thm:criterio-fatoracao-independencia}
+\begin{theorem}[Critério de Fatoração para Independência]\label{thm:criterio-fatoracao-independencia}
 Sejam $X$ e $Y$ variáveis aleatórias conjuntamente absolutamente contínuas.
 Elas são independentes se, e somente se, existem funções Borel-mensuráveis
 não negativas $g,h:\mathbb{R}\to[0,\infty)$ tais que
@@ -909,7 +909,7 @@ conjunta se fatora como o produto das funções densidade marginais:
 \]
 Nesse caso, o conjunto excepcional tem volume nulo.
 
-\begin{example}[Exponenciais independentes]\label{ex:exponenciais-independentes}
+\begin{example}[Exponenciais Independentes]\label{ex:exponenciais-independentes}
   Suponha que $X$ e $Y$ tenham função densidade conjunta dada por
   \[
     f(x, y) =
@@ -945,7 +945,7 @@ Nesse caso, o conjunto excepcional tem volume nulo.
   de modo que $X$ e $Y$ são independentes.
 \end{example}
 
-\begin{example}[Constante de normalização e dependência]\label{ex:constante-normalizacao-dependencia}
+\begin{example}[Constante de Normalização e Dependência]\label{ex:constante-normalizacao-dependencia}
   Suponha que $X$ e $Y$ tenham função densidade conjunta dada por
   \begin{equation}\label{eq:densidade-conjunta-dependente}
     f(x, y) =
@@ -1034,7 +1034,7 @@ para:
 Antes do primeiro exemplo, estudaremos a distribuição exponencial, que
 modelará os tempos de espera dos relógios usados no sorteio.
 
-\subsection{A distribuição exponencial e a falta de memória}\label{subsec:exponencial-falta-memoria}
+\subsection{A Distribuição Exponencial e a Falta de Memória}\label{subsec:exponencial-falta-memoria}
 
 Uma variável aleatória não negativa pode representar o tempo de espera até
 a ocorrência de um evento. No exemplo dos relógios da subseção seguinte,
@@ -1051,9 +1051,9 @@ Depois relacionaremos essa propriedade à taxa de falha constante e a um
 modelo de ocorrência de eventos em intervalos de tempo. A demonstração da
 caracterização acompanha a apresentação de \cite[Seção~5.5]{Ross2010}.
 
-\subsubsection{Definição e função de distribuição}
+\subsubsection{Definição e Função de Distribuição}
 
-\begin{definition}[Distribuição exponencial]\label{def:distribuicao-exponencial}
+\begin{definition}[Distribuição Exponencial]\label{def:distribuicao-exponencial}
 Seja $\lambda>0$. Dizemos que uma variável aleatória $X$ tem
 \emph{distribuição exponencial de parâmetro} $\lambda$, e escrevemos
 $X\sim\mathrm{Exp}(\lambda)$, quando admite a função densidade
@@ -1117,7 +1117,7 @@ cada $a>0$ fixado.}
 \label{fig:densidades-exponenciais}
 \end{figure}
 
-\begin{example}[Média, variância e o significado da taxa]\label{ex:media-variancia-exponencial}
+\begin{example}[Média, Variância e o Significado da Taxa]\label{ex:media-variancia-exponencial}
 Calculemos $\mathbb{E}[X]$ para interpretar o parâmetro $\lambda$.
 Integrando por partes com $u=x$ e $dv=\lambda e^{-\lambda x}\,dx$, de
 modo que $v=-e^{-\lambda x}$, obtemos
@@ -1150,12 +1150,12 @@ ela determina a probabilidade de o evento ocorrer em um intervalo curto,
 dado que ainda não ocorreu.
 \end{example}
 
-\subsubsection{A falta de memória}
+\subsubsection{A Falta de Memória}
 
 Antes de enunciar a propriedade em tempo contínuo, recordemos seu análogo
 discreto.
 
-\begin{example}[A distribuição geométrica como análoga discreta]\label{ex:geometrica-sem-memoria}
+\begin{example}[A Distribuição Geométrica como Análoga Discreta]\label{ex:geometrica-sem-memoria}
 Considere uma sequência de tentativas independentes, cada uma com
 probabilidade de sucesso $p\in(0,1)$. Seja $N$ o número da tentativa em
 que ocorre o primeiro sucesso. Então $N$ tem distribuição geométrica,
@@ -1183,7 +1183,7 @@ $e^{-\lambda k}$, com $\lambda=-\log(1-p)>0$; a cauda exponencial
 $e^{-\lambda t}$ estende essa forma aos tempos reais $t\geqslant0$.
 \end{example}
 
-\begin{definition}[Variável aleatória sem memória]\label{def:variavel-sem-memoria}
+\begin{definition}[Variável Aleatória sem Memória]\label{def:variavel-sem-memoria}
 Uma variável aleatória $X$ satisfazendo a condição $\mathbb{P}(X\geqslant0)=1$ é
 chamada de uma variável aleatória \emph{sem memória} se, para todos $s,t\geqslant0$ tais que
 $\mathbb{P}(X>t)>0$,
@@ -1204,7 +1204,7 @@ após $t$ unidades de espera sem ocorrência do evento, é a mesma da espera
 inicial. Para estudar a propriedade, vamos escrevê-la em termos da cauda
 $G(x)=\mathbb{P}(X>x)$.
 
-\begin{proposition}[Reformulação como equação funcional]\label{prop:falta-memoria-equacao}
+\begin{proposition}[Reformulação como Equação Funcional]\label{prop:falta-memoria-equacao}
 Uma variável aleatória não negativa quase certamente $X$ é sem memória
 se, e somente se, sua cauda $G(x)=\mathbb{P}(X>x)$ satisfaz
 \begin{equation}\label{eq:equacao-funcional-cauda}
@@ -1228,7 +1228,7 @@ e $G(t)>0$, então
 \]
 \end{proof}
 
-\begin{proposition}[A exponencial é sem memória]\label{prop:exponencial-sem-memoria}
+\begin{proposition}[A Exponencial É sem Memória]\label{prop:exponencial-sem-memoria}
 Se $X\sim\mathrm{Exp}(\lambda)$, então $X$ é sem memória.
 \end{proposition}
 \begin{proof}
@@ -1241,7 +1241,7 @@ para $x\geqslant0$. Logo,
 e a afirmação segue da \Cref{prop:falta-memoria-equacao}.
 \end{proof}
 
-\subsubsection{A falta de memória caracteriza a exponencial}
+\subsubsection{A Falta de Memória Caracteriza a Exponencial}
 
 A proposição anterior verifica que a exponencial é sem memória. Para
 provar a recíproca, precisamos determinar as funções de cauda que resolvem
@@ -1251,7 +1251,7 @@ solução. Para demonstrar que essa forma é obrigatória, calcularemos
 primeiro $G$ nos argumentos racionais, usando a equação funcional, e
 depois estenderemos a argumentos em $\mathbb{R}$ usando a continuidade à direita.
 
-\begin{theorem}[Caracterização pela falta de memória]\label{thm:caracterizacao-falta-memoria}
+\begin{theorem}[Caracterização pela Falta de Memória]\label{thm:caracterizacao-falta-memoria}
 Seja $X$ uma variável aleatória com $\mathbb{P}(X>0)=1$. Se $X$ é sem
 memória, então existe $\lambda>0$ tal que $X\sim\mathrm{Exp}(\lambda)$.
 \end{theorem}
@@ -1324,7 +1324,7 @@ de modo que $X$ admite a densidade da
 \Cref{def:distribuicao-exponencial} e $X\sim\mathrm{Exp}(\lambda)$.
 \end{proof}
 
-\begin{remark}[O caso degenerado]\label{rem:caso-degenerado}
+\begin{remark}[O Caso Degenerado]\label{rem:caso-degenerado}
 Se $X=0$ quase certamente, então $\mathbb{P}(X>t)=0$ para todo
 $t\geqslant0$. Nesse caso, a \Cref{def:variavel-sem-memoria} é satisfeita
 de modo vacuamente verdadeiro: não há valor de $t$ para o qual seja
@@ -1339,7 +1339,7 @@ certamente; se $G(0)=1$, aplica-se o
 \Cref{thm:caracterizacao-falta-memoria}.
 \end{remark}
 
-\begin{remark}[O papel das propriedades da cauda]\label{rem:regularidade-equacao-funcional}
+\begin{remark}[O Papel das Propriedades da Cauda]\label{rem:regularidade-equacao-funcional}
 A equação funcional permite determinar $G$ nos racionais a partir de
 $G(1)$. Para chegar aos reais, usamos a continuidade à direita, uma
 propriedade que toda função de cauda já possui.
@@ -1359,7 +1359,7 @@ fosse diferenciável. A existência da
 densidade exponencial foi obtida como consequência da falta de memória.
 \end{remark}
 
-\subsubsection{Taxa de falha constante}
+\subsubsection{Taxa de Falha Constante}
 
 Seja $X$ não negativa quase certamente, com densidade $f_X$ contínua em
 $[0,\infty)$ e cauda $G(t)=\mathbb{P}(X>t)>0$ para todo $t\geqslant0$.
@@ -1382,7 +1382,7 @@ $\delta\downarrow0$, obtemos
 Assim, $h_X(t)$ mede a taxa de ocorrência do evento logo após $t$, sob a
 condição de que ele ainda não ocorreu.
 
-\begin{example}[Taxa de falha da exponencial]\label{ex:taxa-falha-exponencial}
+\begin{example}[Taxa de Falha da Exponencial]\label{ex:taxa-falha-exponencial}
 Se $X\sim\mathrm{Exp}(\lambda)$, usando a densidade da
 \Cref{def:distribuicao-exponencial}, temos
 \[
@@ -1404,7 +1404,7 @@ a taxa de falha constante e a falta de memória caracterizam a mesma
 distribuição.
 \end{example}
 
-\subsubsection{A exponencial como tempo de espera de eventos raros}
+\subsubsection{A Exponencial como Tempo de Espera de Eventos Raros}
 
 Podemos também obter a distribuição exponencial a partir de um modelo
 para a contagem de eventos. A ideia é supor que as contagens em intervalos
@@ -1412,7 +1412,7 @@ disjuntos sejam independentes, que sua distribuição dependa apenas do
 comprimento do intervalo e que, em um intervalo curto, a probabilidade
 de uma ocorrência seja aproximadamente proporcional a esse comprimento.
 
-\begin{proposition}[Tempo até o primeiro evento]\label{prop:tempo-primeiro-evento}
+\begin{proposition}[Tempo até o Primeiro Evento]\label{prop:tempo-primeiro-evento}
 Sejam $N(t):\Omega\to\{0,1,2,\ldots\}$, para $t\geqslant0$, variáveis
 aleatórias em $(\Omega,\mathcal{F},\mathbb{P})$, em que $N(t)$ representa
 o número de eventos ocorridos no intervalo $(0,t]$. Suponha que, para
@@ -1474,9 +1474,9 @@ Assim, $T$ tem a função de distribuição exponencial.
 \end{proof}
 
 
-\subsection{Corridas exponenciais e amostragem softmax}\label{subsec:aplicacoes-softmax}
+\subsection{Corridas Exponenciais e Amostragem Softmax}\label{subsec:aplicacoes-softmax}
 
-\begin{example}[Relógios exponenciais, softmax e sorteios]\label{ex:corrida-exponenciais-softmax}
+\begin{example}[Relógios Exponenciais, Softmax e Sorteios]\label{ex:corrida-exponenciais-softmax}
 Considere dois relógios independentes $X\sim\mathrm{Exp}(\lambda)$ e
 $Y\sim\mathrm{Exp}(\mu)$, com $\lambda,\mu>0$. O valor de cada uma destas
 duas variáveis aleatórias representa o tempo que
@@ -1673,7 +1673,7 @@ $\sum_i\alpha_i v_i$. A corrida usa esses mesmos pesos para sortear o índice
 $J$, de modo que $\mathbb{P}(J=i)=\alpha_i$.
 \end{example}
 
-\begin{remark}[O truque Gumbel-Max]\label{rem:gumbel-max}
+\begin{remark}[O Truque Gumbel-Max]\label{rem:gumbel-max}
 Há uma forma de fazer o mesmo sorteio usando apenas variáveis uniformes.
 Para obter uma exponencial de taxa um, procuramos uma transformação cuja
 probabilidade de exceder $t$ seja $e^{-t}$. Uma uniforme em $(0,1)$ fica
@@ -1744,7 +1744,7 @@ e o truque Gumbel-Max.}
 
 \subsection{Informação Conjunta e o Problema de Classificação}\label{subsec:classificacao-informacao-conjunta}
 
-\begin{example}[Duas características e uma informação conjunta]\label{ex:classes-mesmas-marginais}
+\begin{example}[Duas Características e uma Informação Conjunta]\label{ex:classes-mesmas-marginais}
 Queremos construir um exemplo em que cada característica, observada sozinha,
 não ajude a identificar a classe, mas as duas características em conjunto
 determinem a classe. Isso nos permitirá ver concretamente que as distribuições
@@ -2149,9 +2149,9 @@ recuperar $C$ a partir do vetor $(X,Y)$.
 
 \end{example}
 
-\subsection{Dimensão e escassez de amostras locais}\label{subsec:dimensao-amostras-locais}
+\subsection{Dimensão e Escassez de Amostras Locais}\label{subsec:dimensao-amostras-locais}
 
-\begin{example}[Dimensão e escassez de amostras locais]\label{ex:dimensao-amostras-locais}
+\begin{example}[Dimensão e Escassez de Amostras Locais]\label{ex:dimensao-amostras-locais}
   No exemplo anterior, usamos o vetor $(X,Y)$ para representar duas
   características de um objeto. Agora, fixemos um inteiro $d\geqslant1$ e
   consideremos objetos descritos por $d$ características reais. Cada objeto
