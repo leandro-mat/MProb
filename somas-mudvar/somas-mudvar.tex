@@ -1,0 +1,1089 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazilian]{babel}     % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{lucide-icons}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Somas de Variáveis Aleatórias Contínuas e Mudança de Variáveis},
+pdfauthor={L. Cioletti},
+pdfsubject={Somas de variáveis aleatórias contínuas, fórmula da convolução, densidade da soma, mudança de variáveis, determinante jacobiano e densidade conjunta transformada},
+pdfkeywords={somas de variáveis aleatórias contínuas, fórmula da convolução, densidade da soma, mudança de variáveis, determinante jacobiano, densidade conjunta, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheoremstyle{plainexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{plainexercise}
+\newtheorem{exercise}{Exercício}
+
+% Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
+% como nas notas anteriores.
+\newtheoremstyle{starredexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{starredexercise}
+\newtheorem{starredexercise}[exercise]{Exercício}
+\theoremstyle{definition}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\AtBeginDocument{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\vspace*{-0.8cm}
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+
+% --- TÍTULO, AUTOR E DATA ---
+\vspace*{0.3cm}
+\begin{center}
+{\LARGE\bf Somas de Variáveis Aleatórias Contínuas \\[0.2cm] e Mudança de Variáveis}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Outubro de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Nestas notas, damos continuidade ao estudo dos vetores aleatórios contínuos.
+Começamos determinando a densidade da soma $Z = X + Y$ de duas variáveis
+aleatórias conjuntamente contínuas e, no caso de independência, obtemos a
+fórmula da convolução. Como aplicação, mostramos que a soma de duas variáveis
+independentes com distribuição gama de mesma taxa tem distribuição gama com os
+parâmetros de forma somados, o que recupera, por outro caminho, a relação entre
+as funções beta e gama. Em seguida, estudamos a fórmula do jacobiano para a
+distribuição conjunta de um par $(U, V) = (u(X, Y), v(X, Y))$, que permite
+transferir a densidade conjunta de $(X, Y)$ para o novo par por meio do
+determinante jacobiano da transformação inversa. Ilustramos o método com uma
+transformação que produz uma variável uniforme independente de uma variável
+com distribuição gama. A exposição segue de perto as Seções 6.4 e 6.5 do
+Capítulo 6 de \cite{GrimmettWelsh2014}.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+
+
+\section{Somas de Variáveis Aleatórias Contínuas}\label{sec:somas-continuas}
+Nas notas de aula anteriores sobre vetores aleatórios contínuos, aprendemos como
+descrever a distribuição conjunta de um par $(X, Y)$ absolutamente contínuo 
+por meio de uma função densidade conjunta $f_{X,Y}$ e vimos como recuperar as distribuições de $X$ e
+de $Y$ integrando a densidade conjunta em relação à outra coordenada. Também
+caracterizamos a independência pela fatoração da densidade conjunta, quase em
+todo ponto, como o produto das densidades marginais. Nestas notas, utilizamos
+essas ferramentas para responder a uma pergunta natural: dada uma função das
+coordenadas, como a soma $Z = X + Y$, qual é a sua distribuição? Mais adiante,
+trataremos do caso geral em que o par de interesse é obtido de $(X, Y)$ por uma
+transformação $(U, V) = (u(X, Y), v(X, Y))$, e para isso desenvolveremos a
+fórmula do jacobiano.
+
+A soma de variáveis aleatórias aparece em muitas aplicações e merece um estudo próprio. 
+Para determinar sua densidade, começaremos calculando a função de distribuição da soma. 
+Uma mudança de variáveis permitirá escrever essa função como uma integral cuja 
+derivada fornece a densidade procurada. 
+Posteriormente, usaremos mudanças de variáveis para determinar a densidade 
+conjunta de pares obtidos por transformações que podem depender de formas mais gerais do
+vetor aleatório $(X,Y)$. 
+ 
+
+\subsection{A Densidade da Soma}\label{subsec:densidade-soma}
+Como a densidade de uma variável aleatória é, quando existe, a derivada de sua
+função de distribuição, calculamos primeiro $\mathbb{P}(Z \leqslant z)$ e em
+seguida derivamos em relação a $z$. Logo se $Z\equiv X+Y$, então o evento $\{Z \leqslant z\}$ é o mesmo que
+$\{X + Y \leqslant z\}$, ou seja, é o evento correspondente ao vetor aleatório $(X, Y)$
+pertencer à região
+\[
+  A = \{(x, y) \in \mathbb{R}^2 : x + y \leqslant z\}.
+\]
+
+Supondo que o vetor aleatório $(X,Y)$ possua uma função de densidade conjunta
+segue do Teorema da Mudança de Variáveis que a probabilidade de $(X, Y)$ pertencer a $A$ é a
+integral da densidade conjunta sobre essa região. Logo
+\begin{align*}
+  \mathbb{P}(Z \leqslant z)
+  &= \mathbb{P}(X + Y \leqslant z)
+  \\[0.3cm]
+  &= \iint_A f_{X,Y}(x, y)\,dy\,dx.
+\end{align*}
+
+Para calcular a integral, descrevemos $A$ por meio das desigualdades
+$-\infty < x < \infty$ e $-\infty < y \leqslant z - x$. 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, >=Stealth]
+  % Janela de visualização do semiplano: a região não é limitada.
+  \fill[teal!15]
+    (-2.6,-2.5) -- (4.9,-2.5) -- (-2.3,4.7) -- (-2.6,4.7) -- cycle;
+
+  \draw[->, thick] (-2.9,0) -- (5.3,0) node[below] {$x$};
+  \draw[->, thick] (0,-2.7) -- (0,5.0) node[left] {$y$};
+  % A fronteira pertence a A, por isso a reta é contínua.
+  \draw[thick, muted] (-2.3,4.7) -- (4.9,-2.5);
+  \node[rotate=-45, text=text, above=3pt] at (3.90,-1.50)
+    {$x+y=z$};
+  \node[teal!80!black] at (-2,-2) {$A$};
+  \node[teal!80!black] at (2.95,-1.95) {$y\leqslant z-x$};
+
+  % Interceptos, desenhados para z>0 apenas para facilitar a leitura.
+  \fill[muted] (2.4,0) circle (1.5pt)
+    node[above=7pt, right] {$z$};
+  \fill[muted] (0,2.4) circle (1.5pt) node[above=5pt, right] {$z$};
+  \node[below left=2pt] at (0,0) {$0$};
+
+  % Para x=x_0, a seção vertical de A é uma semirreta fechada.
+  \draw[red!75, dashed] (0,1.05) -- (1.35,1.05);
+  \node[left=3pt] at (0,1.05) {$z-x_0$};
+  \draw[red!75, thick] (1.35,1.05) -- (1.35,-2.4);
+  \fill[red!75] (1.35,1.05) circle (1.8pt);
+  \fill[red!75] (1.35,0) circle (1.8pt);
+  \node[below left] at (1.35,0) {$x_0$};
+  \node[red!75, below=3pt] at (1.35,-2.4) {$-\infty$};
+\end{tikzpicture}
+\caption{O semiplano $A=\{(x,y):x+y\leqslant z\}$, sombreado,
+inclui a reta $x+y=z$ e se estende além da janela desenhada. Para cada
+$x=x_0$, a seção vertical indicada em vermelho é dada por
+$-\infty<y\leqslant z-x_0$.}
+\label{fig:semiplano-densidade-soma}
+\end{figure}
+Escrevendo os limites
+de integração de forma explícita, obtemos
+\[
+  \mathbb{P}(Z \leqslant z)
+  = \int_{-\infty}^{\infty} \int_{-\infty}^{z-x} f_{X,Y}(x, y)\,dy\,dx.
+\]
+
+Para cada $x$ fixado, fazemos na integral interna a substituição $v=x+y$.
+Como $y=v-x$ e $dy=dv$, obtemos
+\[
+  \mathbb{P}(Z \leqslant z)
+  = \int_{-\infty}^{\infty} \left[ \int_{-\infty}^{z} f_{X,Y}(x, v-x)\,dv \right] dx.
+\]
+Agora o limite superior da integral interna não depende de $x$. Como o
+integrando é não negativo e mensurável, o Teorema de Tonelli permite trocar a
+ordem de integração:
+\[
+  \mathbb{P}(Z \leqslant z)
+  = \int_{-\infty}^{z} \left[ \int_{-\infty}^{\infty} f_{X,Y}(x, v-x)\,dx \right] dv.
+\]
+
+Próximo passo e calcular a derivada da expressão acima, em relação a $z$. 
+Para deixar mais claro o argumento, denotamos a integrando mais interno da integral
+dupla acima por
+\[
+  H(v) = \int_{-\infty}^{\infty} f_{X,Y}(x, v-x)\,dx.
+\]
+Logo, temos da igualdade anterior que
+\begin{align}\label{eq-aux1-dens-soma}
+  \mathbb{P}(Z \leqslant z) = \int_{-\infty}^{z} H(v)\,dv.
+\end{align}
+A função $H$ é Borel-mensurável e não negativa, por ser a integral de uma
+função com essas propriedades. Além disso, quando $z$ tende a $+\infty$, o lado
+esquerdo de \eqref{eq-aux1-dens-soma} tende a $1$, e portanto $\int_{-\infty}^{\infty} H(v)\,dv = 1 <
+\infty$. Assim, $H$ é integrável. Pelo teorema fundamental do cálculo para a
+integral de Lebesgue, a derivada da função $z \mapsto \int_{-\infty}^{z}
+H(v)\,dv$ é igual a $H(z)$ em quase todo ponto. Assim concluímos que uma densidade de
+$Z$ é dada por
+\begin{equation}\label{eq:densidade-soma}
+  f_Z(z) = \int_{-\infty}^{\infty} f_{X,Y}(x, z-x)\,dx
+  \quad \text{para quase todo ponto } z \in \mathbb{R}.
+\end{equation}
+Observamos que sem hipóteses adicionais
+sobre a regularidade de $f_{X,Y}$ igualdade obtida acima é válida apenas 
+para quase todo ponto. 
+A razão é que só é possível garantir a existência da derivada do lado direito da
+expressão \eqref{eq-aux1-dens-soma}, com relação a $z$, em quase todo ponto. 
+Entretanto, se $f_{X,Y}$ for uma função contínua então podemos afirmar que a derivada
+existe em todo ponto. 
+De qualquer maneira, como os valores de uma densidade em um conjunto 
+de medida nula não alteram as probabilidades, não é necessário
+assumir que $f_{X,Y}$ em todo ponto.
+
+\subsection{O Caso Independente e a Fórmula da Convolução}\label{subsec:formula-convolucao}
+Um caso particular importante é quando $X$ e $Y$ são variáveis aleatórias independentes. 
+Neste caso, a densidade conjunta se fatora, em quase todo ponto, como $f_{X,Y}(x, y) =
+f_X(x)\,f_Y(y)$, e a substituição em \eqref{eq:densidade-soma} fornece a
+fórmula da convolução.
+
+\begin{theorem}[Fórmula da Convolução]\label{thm:formula-convolucao}
+  Sejam $X$ e $Y$ variáveis aleatórias independentes e absolutamente contínuas,
+  com funções densidade $f_X$ e $f_Y$. Então $X$ e $Y$ são conjuntamente
+  absolutamente contínuas e a variável aleatória $Z = X + Y$ tem densidade
+  dada por
+  \begin{equation}\label{eq:convolucao}
+    f_Z(z) = \int_{-\infty}^{\infty} f_X(x)\,f_Y(z - x)\,dx
+    \quad \text{para quase todo ponto } z \in \mathbb{R}.
+  \end{equation}
+\end{theorem}
+
+\begin{proof}
+  Como $X$ e $Y$ são independentes e têm densidades $f_X$ e $f_Y$, o
+  produto $f_X(x)\,f_Y(y)$ é uma densidade conjunta do par $(X, Y)$, conforme
+  mostramos nas notas sobre vetores contínuos. Em particular, a densidade
+  conjunta satisfaz $f_{X,Y}(x, y) = f_X(x)\,f_Y(y)$ quase em todo ponto.
+  Substituindo essa fatoração em \eqref{eq:densidade-soma}, obtemos
+  \eqref{eq:convolucao}. A
+  alteração da densidade conjunta em um conjunto de área nula não modifica o
+  valor da integral, o que justifica a substituição.
+\end{proof}
+
+Na linguagem da análise, a equação \eqref{eq:convolucao} diz que $f_Z$ é a
+\emph{convolução} das funções $f_X$ e $f_Y$, e escrevemos $f_Z = f_X * f_Y$.
+De modo geral, a convolução de duas funções integráveis $f$ e $g$ é definida
+por
+\[
+  (f * g)(z) = \int_{-\infty}^{\infty} f(x)\,g(z - x)\,dx,
+\]
+sempre que a integral fizer sentido. Dizer que a densidade da soma de variáveis
+aleatórias independentes é a convolução de suas densidades é, portanto, o mesmo
+que dizer que a distribuição de $X + Y$ é determinada pela operação acima.
+Voltaremos a esse ponto nos exemplos a seguir, nos quais aplicamos a
+\Cref{thm:formula-convolucao} a pares de variáveis aleatórias concretos.
+
+\subsection{Somas de Variáveis Gama}\label{subsec:somas-gama}
+\begin{example}[Soma de Variáveis Gama Independentes]\label{ex:soma-gamas}
+  Sejam $X$ e $Y$ variáveis aleatórias independentes, com
+  $X\sim\mathrm{Gama}(s,\lambda)$ e $Y\sim\mathrm{Gama}(t,\lambda)$, onde
+  $s,t,\lambda>0$. Recordamos, das notas sobre funções de distribuição, que a
+  densidade gama de parâmetros $w>0$ e $\lambda>0$ é dada por
+  \[
+    f(x) =
+    \begin{cases}
+      \dfrac{1}{\Gamma(w)}\,\lambda^w x^{w-1} e^{-\lambda x}, & \text{se } x > 0, \\[0.3cm]
+      0, & \text{se } x \leqslant 0,
+    \end{cases}
+  \]
+  onde $w$ é o parâmetro de forma e $\lambda$ é a taxa. Escrevemos $Z=X+Y$ e
+  vamos mostrar que $Z$ também tem distribuição gama, com os parâmetros de
+  forma combinados de modo natural.
+
+  Como $X$ e $Y$ são independentes e cada uma delas tem densidade, segue da
+  fórmula da convolução, \eqref{eq:convolucao}, que a densidade de $Z$ é
+  \begin{equation}
+    f_Z(z) = \int_{-\infty}^{\infty} f_X(x) f_Y(z-x)\,dx.
+    \label{eq:t2-convolucao}
+  \end{equation}
+  O integrando $f_X(x)f_Y(z-x)$ é não negativo, e cada fator tem suporte
+  restrito: $f_X(x)$ se anula para $x\leqslant 0$, enquanto $f_Y(z-x)$ se
+  anula quando $z-x\leqslant 0$, isto é, quando $x\geqslant z$. Assim, para
+  $z$ fixado, o integrando é nulo fora do intervalo $0<x<z$. Quando
+  $z>0$ esse intervalo é não vazio e a integral se reduz a ele; quando
+  $z\leqslant 0$ o intervalo é vazio e o integrando é nulo em toda a reta.
+  Portanto
+  \[
+    f_Z(z) =
+    \begin{cases}
+      \displaystyle\int_0^z f_X(x) f_Y(z-x)\,dx, & \text{se } z > 0, \\[0.3cm]
+      0, & \text{se } z \leqslant 0.
+    \end{cases}
+  \]
+
+  Resta calcular a integral no caso $z>0$. Substituindo as duas densidades,
+  \begin{align*}
+    f_Z(z)
+    &= \int_0^z \frac{1}{\Gamma(s)}\lambda^s x^{s-1} e^{-\lambda x}
+       \cdot \frac{1}{\Gamma(t)}\lambda^t (z-x)^{t-1} e^{-\lambda(z-x)}\,dx
+    \\[0.3cm]
+    &= \frac{\lambda^{s+t}}{\Gamma(s)\Gamma(t)}
+       \int_0^z x^{s-1}(z-x)^{t-1} e^{-\lambda x - \lambda(z-x)}\,dx
+    \\[0.3cm]
+    &= \frac{\lambda^{s+t}}{\Gamma(s)\Gamma(t)}\, e^{-\lambda z}
+       \int_0^z x^{s-1}(z-x)^{t-1}\,dx,
+  \end{align*}
+  pois $e^{-\lambda x}e^{-\lambda(z-x)}=e^{-\lambda z}$ e o fator
+  $e^{-\lambda z}$ não depende de $x$, podendo ser retirado da integral.
+
+  Para calcular a integral que permanece, fazemos a substituição $y=x/z$, ou
+  seja, $x=zy$, com $dx=z\,dy$. Enquanto $x$ percorre o intervalo $(0,z)$, a
+  nova variável $y$ percorre $(0,1)$, e
+  \[
+    x^{s-1}(z-x)^{t-1}
+    = (zy)^{s-1}\bigl(z(1-y)\bigr)^{t-1}
+    = z^{s+t-2} y^{s-1}(1-y)^{t-1}.
+  \]
+  Multiplicando ainda pelo fator $z$ proveniente do diferencial, obtemos
+  \begin{equation}
+    \int_0^z x^{s-1}(z-x)^{t-1}\,dx
+    = z^{s+t-1}\int_0^1 y^{s-1}(1-y)^{t-1}\,dy
+    = z^{s+t-1} B(s,t),
+    \label{eq:t2-integral-beta}
+  \end{equation}
+  onde reconhecemos na última integral a função beta $B(s,t)$, definida nas
+  notas sobre funções de distribuição.
+
+  Reunindo os dois últimos passos, concluímos que, para $z>0$,
+  \begin{equation}
+    f_Z(z) = C\, z^{s+t-1} e^{-\lambda z},
+    \label{eq:densidade-soma-gamas}
+  \end{equation}
+  em que a constante $C$ é dada por
+  \[
+    C = \frac{\lambda^{s+t}}{\Gamma(s)\Gamma(t)}\,B(s,t).
+  \]
+
+  Para identificar $C$, usamos a relação beta--gama demonstrada nas notas
+  sobre funções de distribuição, segundo a qual
+  \[
+    B(s,t) = \frac{\Gamma(s)\Gamma(t)}{\Gamma(s+t)}
+  \]
+  para quaisquer $s,t>0$. Substituindo essa expressão em $C$, os fatores
+  $\Gamma(s)$ e $\Gamma(t)$ se cancelam e obtemos
+  \[
+    C = \frac{\lambda^{s+t}}{\Gamma(s+t)}.
+  \]
+
+  Portanto
+  \[
+    f_Z(z) =
+    \begin{cases}
+      \dfrac{1}{\Gamma(s+t)}\,\lambda^{s+t} z^{s+t-1} e^{-\lambda z}, & \text{se } z > 0, \\[0.3cm]
+      0, & \text{se } z \leqslant 0.
+    \end{cases}
+  \]
+  Comparando com a densidade gama, reconhecemos em $f_Z$ a densidade de
+  parâmetros $s+t$ e $\lambda$. Segue que
+  \[
+    X+Y \sim \mathrm{Gama}(s+t,\lambda).
+  \]
+  Em palavras: a soma de duas variáveis independentes com distribuição gama de
+  mesma taxa tem distribuição gama cujos parâmetros de forma se somam, com a
+  taxa preservada.
+
+  O cálculo acima também fornece uma maneira indireta de calcular $B(s,t)$. 
+  Vamos imaginar que não conhecemos a
+  relação beta--gama. Poderíamos, neste caso, determinar $C$ exigindo que a densidade em
+  \eqref{eq:densidade-soma-gamas} tenha integral $1$. Isto força a seguinte igualdade
+  $C=\lambda^{s+t}/\Gamma(s+t)$. Comparando esse valor com a expressão
+  $C=\lambda^{s+t}B(s,t)/(\Gamma(s)\Gamma(t))$ obtida acima, poderíamos concluir que
+  \[
+    B(s,t) = \frac{\Gamma(s)\Gamma(t)}{\Gamma(s+t)},
+  \]
+  isto é, o argumento de convolução reobtém a relação beta--gama.
+\end{example}
+
+\begin{exercise}\label{exercise:densidade-soma-exercicio}
+  As variáveis aleatórias $X$ e $Y$ têm função densidade conjunta dada por
+  \[
+    f_{X,Y}(x, y) =
+    \begin{cases}
+      \frac{1}{2}(x + y)e^{-x-y}, & \text{se } x > 0 \text{ e } y > 0, \\[0.3cm]
+      0, & \text{caso contrário}.
+    \end{cases}
+  \]
+  Determine a função densidade de $X + Y$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:soma-qui-quadrado}
+  Sejam $X$ e $Y$ variáveis aleatórias independentes com distribuição
+  qui-quadrado com $m$ e $n$ graus de liberdade, respectivamente.
+  Mostre que $X + Y$ tem distribuição qui-quadrado com $m + n$ graus de
+  liberdade.
+
+  Recorde, das notas sobre funções de distribuição, que a distribuição
+  qui-quadrado com $n$ graus de liberdade é a distribuição gama com
+  parâmetros de forma $n/2$ e de taxa $1/2$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:soma-normais}
+  Sejam $X$ e $Y$ variáveis aleatórias independentes, cada uma com
+  distribuição normal padrão, isto é, com média $0$ e variância $1$.
+  Determine a distribuição de $X + Y$.
+\end{exercise}
+
+\section{Mudança de Variáveis}\label{sec:mudanca-variaveis}
+A seguinte situação ocorre com frequência na Teoria de Probabilidade. Sejam $X$ e $Y$ variáveis
+aleatórias e sejam $u, v : \mathbb{R}^2 \to \mathbb{R}$ funções. O que podemos
+dizer sobre a distribuição conjunta do vetor $(U, V)$ de variáveis aleatórias
+definido por
+\[
+  U = u(X, Y), \qquad V = v(X, Y)?
+\]
+Esta é a pergunta que orienta a presente seção. Vamos apresentar uma resposta
+para o caso em que $X$ e $Y$ são conjuntamente absolutamente contínuas e as funções $u$ e $v$
+satisfazem certas condições que permitem recorrer à teoria usual de mudança de
+variáveis dentro de uma integral.
+
+\subsection{O Jacobiano}\label{subsec:jacobiano}
+Seja $T$ a aplicação de $\mathbb{R}^2$ em $\mathbb{R}^2$ dada por
+$T(x, y) = (u, v)$, onde $u = u(x, y)$ e $v = v(x, y)$, e suponhamos que $T$
+seja uma bijeção entre um domínio $D \subseteq \mathbb{R}^2$ e um contradomínio
+$S \subseteq \mathbb{R}^2$. 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.05, >=Stealth]
+  % Plano de partida e representação abstrata do domínio.
+  \fill[teal!15] (0,0) circle (1.4);
+  \draw[teal, line width=0.9pt] (0,0) circle (1.4);
+  \draw[->, thick] (-2.22,0) -- (2.34,0) node[below] {$x$};
+  \draw[->, thick] (0,-2.22) -- (0,2.34) node[left] {$y$};
+  \node[teal!80!black] at (-0.65,0.65) {$D$};
+
+  % Plano de chegada e representação abstrata do contradomínio.
+  % Os eixos horizontais dos dois planos ficam na mesma altura.
+  \begin{scope}[xshift=5.2cm]
+    \fill[teal!15] (0,0) rectangle (2.35,1.8);
+    \draw[teal, line width=0.9pt] (0,0) rectangle (2.35,1.8);
+    \draw[->, thick] (-0.42,0) -- (3.54,0) node[below] {$u$};
+    \draw[->, thick] (0,-0.42) -- (0,2.82) node[left] {$v$};
+    \node[teal!80!black] at (1.175,0.9) {$S$};
+  \end{scope}
+
+  % A seta indica a aplicação entre as regiões, sem fixar uma fórmula.
+  \draw[->, teal!80!black, line width=0.9pt]
+    (1.3,1.2) to[out=30, in=150, looseness=1.2]  node[pos=0.5, above=4pt] {$T$} (4.6,1.0);
+  % Reflexão da curva no eixo horizontal, com o sentido invertido.
+  \draw[->, teal!80!black, line width=0.9pt]
+    (4.6,-1.0) to[out=-150, in=-30, looseness=1.2]
+    node[pos=0.5, below=4pt] {$T^{-1}$} (1.3,-1.2);
+\end{tikzpicture}
+\caption{Representação esquemática de uma bijeção $T:D\to S$
+entre duas regiões do plano e de sua inversa $T^{-1}:S\to D$.}
+\label{fig:bijecao-mudanca-variaveis}
+\end{figure}
+Nesse caso, podemos inverter $T$ e obter uma
+bijeção $T^{-1} : S \to D$. Isto é, para cada $(u, v) \in S$ existe um único
+ponto $(x, y) = T^{-1}(u, v)$ em $D$, e escrevemos
+\[
+  x = x(u, v), \qquad y = y(u, v).
+\]
+
+O jacobiano de $T^{-1}$ é definido como o determinante
+\begin{equation}
+\label{eq:jacobiano}
+  J(u, v)
+  = \left|
+    \begin{array}{>{\displaystyle}c@{\hspace{0.8cm}}>{\displaystyle}c}
+      \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} 
+      \\[0.6cm]
+      \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+    \end{array}
+    \right|
+  = \frac{\partial x}{\partial u} \frac{\partial y}{\partial v}
+  - \frac{\partial y}{\partial u} \frac{\partial x}{\partial v},
+\end{equation}
+e supomos que essas derivadas parciais existem e são contínuas em todos os
+pontos de $S$.
+
+A teoria padrão das integrais múltiplas nos diz como efetuar uma mudança de
+variáveis dentro da integral. 
+Se $g : D \to \mathbb{R}$ é uma função integrável, então
+\begin{equation}
+\label{eq:mudanca-variaveis-integral}
+  \iint_D g(x, y)\,dx\,dy
+  = \iint_{T(D)} g\bigl(x(u, v), y(u, v)\bigr)\,|J(u, v)|\, dudv
+\end{equation}
+ou equivalentemente,
+\begin{equation}
+\label{eq:mudanca-variaveis-integral-v2}
+  \iint_{T^{-1}(S)} g(x, y)\,dx\,dy
+  = \iint_{S} g\bigl(x(u, v), y(u, v)\bigr)\,|J(u, v)|\, dudv
+\end{equation}
+
+
+A presença do fator $|J(u, v)|$ nessa fórmula se explica da seguinte maneira:
+o valor absoluto do determinante jacobiano mede a dilatação local de área
+produzida pela aplicação inversa $T^{-1}$. Em outras palavras, um retângulo
+infinitesimal de área $du\,dv$ em torno do ponto $(u, v) \in S$ é levado por
+$T^{-1}$ a uma região infinitesimal em torno de $(x, y) = T^{-1}(u, v)$ cuja
+área é $|J(u, v)|\,du\,dv$. Esse é o motivo pelo qual a integral sobre $A$ se
+transforma na integral sobre $T(A)$ mediante a multiplicação do integrando pelo
+fator $|J(u, v)|$.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.05, >=Stealth]
+  % Plano x-y: imagem do pequeno retângulo pela aplicação inversa.
+  \draw[->, thick] (-2.22,0) -- (2.34,0) node[below] {$x$};
+  \draw[->, thick] (0,-2.22) -- (0,2.34) node[left] {$y$};
+  % Curvaturas suaves sugerem que T^{-1} pode ser não linear.
+  \filldraw[fill=teal!15, draw=teal!80!black, line width=0.9pt]
+    (0.524,0.516)
+    to[out=2, in=202] (1.42,0.708)
+    to[out=56, in=256] (1.676,1.284)
+    to[out=182, in=22] (0.78,1.092)
+    to[out=236, in=76] (0.524,0.516) -- cycle;
+  \fill[teal!80!black] (1.1,0.9) circle (1.8pt);
+  \node[below=4pt] at (1.4,0.74) {$(x,y)$};
+  \node at (0,-2.65) {$\text{Área}\approx |J(u,v)|\,du\,dv$};
+
+  % Plano u-v: o retângulo infinitesimal e seus dois comprimentos.
+  \begin{scope}[xshift=5.2cm]
+    \draw[->, thick] (-0.42,0) -- (3.54,0) node[below] {$u$};
+    \draw[->, thick] (0,-0.42) -- (0,2.82) node[left] {$v$};
+    \filldraw[fill=teal!15, draw=teal!80!black, line width=0.9pt]
+      (0.65,0.45) rectangle (1.7,1.25);
+    \fill[teal!80!black] (1.175,0.85) circle (1.8pt);
+    \node[above=4pt] at (1.175,1.3) {$(u,v)$};
+    \draw[<->, teal!80!black] (0.65,0.25) -- (1.7,0.25)
+      node[midway, below=2pt] {$du$};
+    \draw[<->, teal!80!black] (1.9,0.45) -- (1.9,1.25)
+      node[midway, right=2pt] {$dv$};
+    \node at (1.175,-2.65) {$\text{Área}=du\,dv$};
+  \end{scope}
+
+  \draw[->, teal!80!black, line width=0.9pt]
+    (5.5,1.0) to[out=165, in=15, looseness=1.2]
+    node[pos=0.5, above=4pt] {$T^{-1}$} (1.9,1.0);
+\end{tikzpicture}
+\caption{Dilatação local de área pela aplicação inversa $T^{-1}$.
+O quadrilátero de lados curvos representa a imagem do pequeno
+retângulo; a razão entre as áreas tende a $|J(u,v)|$ quando o retângulo
+encolhe em torno de $(u,v)$.}
+\label{fig:jacobiano-area-local}
+\end{figure}
+
+
+No caso unidimensional, onde $T:[c,d]\to [a,b]$ é uma função
+estritamente crescente e diferenciável, 
+a fórmula \eqref{eq:mudanca-variaveis-integral-v2} se
+reduz à conhecida fórmula de substituição simples
+\[
+  \int_{T^{-1}([a,b])} g(x)\, dx
+  =
+  \int_{T^{-1}(a)}^{T^{-1}(b)} g(t)\,dt 
+  = 
+  \int_{a}^{b} g(T^{-1}(u))\, (T^{-1})'(u)\,du,
+\]
+o que ajuda a fixar a interpretação do jacobiano como fator de escala local. A
+seguir, vamos combinar \eqref{eq:mudanca-variaveis-integral} com a
+probabilidade de regiões borelianas, estudada nas notas sobre vetores
+contínuos, para transferir a densidade conjunta de $(X, Y)$ para a densidade
+conjunta de $(U, V)$.
+
+\subsection{A Fórmula do Jacobiano}\label{subsec:formula-jacobiano}
+\begin{theorem}[Fórmula do Jacobiano]\label{thm:formula-jacobiano}
+Sejam $X$ e $Y$ variáveis aleatórias conjuntamente contínuas, com função
+densidade conjunta $f_{X,Y}$, e seja
+$D = \{(x, y) : f_{X,Y}(x, y) > 0\}$.
+Suponha que a aplicação $T:D\to S$
+seja uma bijeção de $D$ sobre um conjunto $S \subseteq \mathbb{R}^2$,
+dada por $T(x, y) = (u(x, y), v(x, y))$ e que
+$T^{-1}$ tenha derivadas parciais contínuas em $S$, satisfeitas as
+condições de regularidade que garantem a validade da fórmula de mudança de
+variáveis \eqref{eq:mudanca-variaveis-integral} (por exemplo, quando o
+jacobiano $J$ definido em \eqref{eq:jacobiano} não se anula em $S$). Então
+o par $(U, V) = (u(X, Y), v(X, Y))$ é conjuntamente contínuo e sua função
+densidade conjunta é dada por
+\begin{equation}\label{eq:densidade-transformada}
+  f_{U,V}(u, v) =
+  \begin{cases}
+    f_{X,Y}\bigl(x(u, v), y(u, v)\bigr)\,|J(u, v)|
+    , & \text{se } (u, v) \in S,
+    \\[0.2cm]
+    0, & \text{caso contrário}.
+  \end{cases}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Vamos mostrar que a função $h$ definida por
+\[
+  h(u, v) =
+  \begin{cases}
+    f_{X,Y}\bigl(x(u, v), y(u, v)\bigr)\,|J(u, v)|
+    , & \text{se } (u, v) \in S,
+    \\[0.2cm]
+    0, & \text{caso contrário},
+  \end{cases}
+\]
+é uma função densidade conjunta para $(U, V)$. Primeiro observamos que
+$(X, Y)$ assume valores em $D$ com probabilidade um, pois fora de $D$ a
+densidade $f_{X,Y}$ se anula. Como $T$ leva $D$ sobre $S$, segue que
+$(U, V) = T(X, Y)$ assume valores em $S$ com probabilidade um, de modo que
+não há massa de probabilidade de $(U, V)$ fora de $S$. Além disso, $h$ é
+não negativa, pois $f_{X,Y} \geqslant 0$ e $|J| \geqslant 0$, e é
+Borel-mensurável, pois $f_{X,Y}$ é Borel-mensurável e $x$, $y$ e $J$ são
+contínuas em $S$. Resta verificar que $h$ reproduz, por integração, as
+probabilidades dos eventos que envolvem $(U, V)$.
+
+Seja $B \subseteq S$ um boreliano e defina $A = T^{-1}(B)$, de modo que
+$A \subseteq D$ e $T(A) = B$. Como $T^{-1}$ é contínua segue que $A$ é um boreliano
+de $\mathbb{R}^2$. Vamos relacionar as probabilidades dos dois eventos por
+meio da bijeção. Para todo $\omega$ no espaço amostral temos 
+\[
+  (X(\omega), Y(\omega)) \in A
+  \quad \Longleftrightarrow \quad
+  T\bigl(X(\omega), Y(\omega)\bigr) \in T(A) = B,
+\]
+isto é, $(X, Y) \in A$ se, e somente se, $(U, V) \in B$. Logo,
+\begin{equation}\label{eq:probabilidade-bijecao}
+  \mathbb{P}\bigl((U, V) \in B\bigr)
+  = \mathbb{P}\bigl((X, Y) \in A\bigr).
+\end{equation}
+Já que o vetor $(X,Y)$ possui densidade conjunta podemos afirmar que o lado direito da igualdade acima é 
+dado por
+\[
+  \mathbb{P}\bigl((X, Y) \in A\bigr)
+  = \iint_A f_{X,Y}(x, y)\,dx\,dy.
+\]
+Agora aplicamos a fórmula de mudança de variáveis
+\eqref{eq:mudanca-variaveis-integral} à integral que aparece no lado direito da igualdade acima, 
+com a função integrável sendo $f_{X,Y}$ e $T(A) = B$. Como $J$ é o jacobiano da
+inversa $T^{-1}$, temos
+\[
+  \iint_A f_{X,Y}(x, y)\,dx\,dy
+  = \iint_B f_{X,Y}\bigl(x(u, v), y(u, v)\bigr)\,|J(u, v)|\,du\,dv
+  = \iint_B h(u, v)\,du\,dv.
+\]
+Reunindo as duas igualdades, obtemos
+\[
+  \mathbb{P}\bigl((U, V) \in B\bigr) = \iint_B h(u, v)\,du\,dv
+\]
+para todo boreliano $B \subseteq S$. Essa é exatamente a propriedade que
+caracteriza $h$ como densidade conjunta de $(U, V)$, e isso conclui a
+prova de que o vetor aleatório $(U, V)$ possui densidade conjunta.
+\end{proof}
+
+A identificação da densidade em \eqref{eq:densidade-transformada} é feita
+a menos de conjuntos de medida nula. De fato, duas funções não negativas
+que coincidem em quase todo ponto produzem as mesmas integrais sobre
+qualquer boreliano e, portanto, as mesmas probabilidades. Assim, a
+igualdade $\mathbb{P}((U, V) \in B) = \iint_B h$ não distingue duas
+densidades que difiram apenas em um conjunto de medida nula. A escolha em
+\eqref{eq:densidade-transformada}, que atribui o valor $0$ fora de $S$, é
+a representação canônica dessa classe.
+
+\begin{example}[Transformação com Jacobiano e uma Uniforme]\label{ex:transformacao-jacobiano}
+Suponha que $X$ e $Y$ tenham função densidade conjunta
+\begin{equation}\label{eq:densidade-conjunta-jacobiano}
+  f_{X,Y}(x,y) =
+  \begin{cases}
+    e^{-x-y}, & \text{se } x, y > 0, \\[0.2cm]
+    0, & \text{caso contrário},
+  \end{cases}
+\end{equation}
+e defina
+\[
+  U = X + Y, \qquad V = \frac{X}{X+Y}.
+\]
+Vamos determinar a densidade conjunta de $(U,V)$ e a densidade marginal de
+$V$.
+
+\begin{solution}
+  A transformação deste exemplo é $T(x,y) = (u(x,y)\, ,\, v(x,y))$, dada por
+  \begin{equation}\label{eq:transformacao-jacobiano-exemplo}
+    u(x,y) = x + y, \qquad v(x,y) = \frac{x}{x+y}.
+  \end{equation}
+  Para usar a fórmula do jacobiano, \Cref{thm:formula-jacobiano}, precisamos
+  primeiro verificar que $T$ é uma bijeção de
+  $D = \{(x,y) : x, y > 0\}$ em $S = \{(u,v) : u > 0,\ 0 < v < 1\}$.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.05, >=Stealth]
+  % Janela do primeiro quadrante: D se estende para cima e para a direita.
+  \fill[teal!15] (0,0) rectangle (3.0,2.8);
+  \draw[->, thick] (-0.42,0) -- (3.35,0) node[below] {$x$};
+  \draw[->, thick] (0,-0.42) -- (0,3.15) node[left] {$y$};
+  % As fronteiras tracejadas não pertencem às regiões.
+  \draw[teal, dashed, line width=0.9pt] (0,2.8) -- (0,0) -- (3.0,0);
+  \node[below left=2pt] at (0,0) {$0$};
+  \node[teal!80!black] at (1.5,1.4) {$D$};
+
+  % Janela da faixa S: a altura 2.1 representa v=1.
+  % Aumente ou diminua este valor para ajustar a separação dos gráficos.
+  % Com scale=1.05, cada 1 cm aqui corresponde a 1.05 cm no PDF.
+  \def\distanciaGraficos{7.2cm}
+  \begin{scope}[xshift=\distanciaGraficos]
+    \coordinate (setaTchegada) at (0.6,2.9);
+    \coordinate (setaTinversaPartida) at (0.6,-0.65);
+    \fill[teal!15] (0,0) rectangle (3.0,2.1);
+    \draw[->, thick] (-0.42,0) -- (3.35,0) node[below] {$u$};
+    \draw[->, thick] (0,-0.42) -- (0,3.15) node[left] {$v$};
+    \draw[teal, dashed, line width=0.9pt]
+      (3.0,0) -- (0,0) -- (0,2.1) -- (3.0,2.1);
+    \node[below left=2pt] at (0,0) {$0$};
+    \node[left=3pt] at (0,2.1) {$1$};
+    \fill[muted] (0,2.1) circle (1.5pt);
+    \node[teal!80!black] at (1.5,1.05) {$S$};
+  \end{scope}
+
+  \draw[->, teal!80!black, line width=0.9pt]
+    (3.1,1.3) to[out=20, in=160]
+    node[midway, above=4pt] {$T$} (6.8,1.3);
+  \draw[->, teal!80!black, line width=0.9pt]
+    (setaTinversaPartida) to[out=-145, in=-35]
+    node[midway, below=4pt] {$T^{-1}$} (2.4,-0.65);
+\end{tikzpicture}
+\caption{A transformação $T(x,y)=\left( x+y\, , \, \displaystyle\frac{x}{x+y} \right)$.}
+\label{fig:dominio-faixa-transformacao}
+\end{figure}
+  \smallskip
+
+Vamos começar mostrando que a aplicação $T$ leva o conjunto $D$ no conjunto $S$, isto é,
+$T(D)\subseteq S$. De fato, para quaisquer $x, y > 0$, temos
+\begin{align*}
+0< x+y = u
+\qquad \text{e}\qquad 
+0< v = \frac{x}{x+y}<1,
+\end{align*}
+Logo $T(D) \subseteq S$.
+
+\smallskip
+Nosso próximo passo será mostrar que $T(D)=S$ e que $T$ é bijetiva. 
+De fato, dado $(u,v) \in S$, o sistema formado pelas duas equações em
+\eqref{eq:transformacao-jacobiano-exemplo} tem solução única
+\begin{equation}\label{eq:inversa-jacobiano-exemplo}
+x = uv, \qquad y = u(1-v).
+\end{equation}
+Para verificar que esta afirmação é verdadeira, primeiro observamos que 
+\begin{align*}
+u=x+y \quad \text{e} \quad v = \frac{x}{x+y} \quad \Longrightarrow \quad x = v(x+y) = vu 
+\end{align*}
+Substituindo em $u=x+y$, o resultado da última igualdade acima concluímos que
+\begin{align*}
+y = u - x = u - uv = u(1-v). 
+\end{align*}
+Como $u > 0$ e $0 < v < 1$, segue que
+$x = uv > 0$ e $y = u(1-v) > 0$, ou seja, $(x,y) \in D$. 
+Isto mostra que a aplicação 
+\begin{align*}
+T^{-1}(u,v) = (uv\, ,\, u(1-v))
+\end{align*}
+envia o conjunto $S$ em $D$. Além do mais, segue das igualdades acima que
+$T\circ T^{-1}(u,v)=(u,v)$ e $T^{-1}\circ T(x,y)=(x,y)$ e portanto $T^{-1}$
+é de fato a inversa de $T$.  
+
+\medskip
+O determinante jacobiano de $T^{-1}$ é o determinante da matriz das
+derivadas parciais de $x\equiv x(u,v)$ e $y\equiv y(u,v)$, em relação a $u$ e $v$:
+\[
+J(u,v)
+=
+\left|
+\begin{array}{>{\displaystyle}c@{\hspace{0.8cm}}>{\displaystyle}c}
+\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} 
+\\[0.6cm]
+\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+\end{array}
+\right|
+=
+\begin{vmatrix}
+v\ & u 
+\\[0.3cm]
+1-v\ & -u
+\end{vmatrix}
+= -uv - u(1-v) = -u.
+\]
+Portanto $|J(u,v)| = u$ em todo ponto de $S$, já que $u > 0$.
+
+\medskip
+Podemos agora aplicar a fórmula da densidade transformada,
+\eqref{eq:densidade-transformada}, segundo a qual
+\[
+f_{U,V}(u,v)
+= f_{X,Y}\bigl(x(u,v), y(u,v)\bigr)\,\bigl|J(u,v)\bigr|.
+\]
+Para $(u,v) \in S$, as relações \eqref{eq:inversa-jacobiano-exemplo}
+dão $x = uv > 0$ e $y = u(1-v) > 0$, de modo que o fator
+$e^{-x-y}$ em \eqref{eq:densidade-conjunta-jacobiano} vale
+\[
+e^{-x-y} = e^{-uv}\,e^{-u(1-v)} = e^{-u}.
+\]
+Multiplicando pelo jacobiano, obtemos
+\begin{equation}\label{eq:densidade-conjunta-uv}
+f_{U,V}(u,v) =
+\begin{cases}
+u\,e^{-u}, & \text{se } u > 0 \text{ e } 0 < v < 1, \\[0.2cm]
+0, & \text{caso contrário}.
+\end{cases}
+\end{equation}
+
+\medskip
+Vamos calcular a densidade marginal de $V$. Pela definição de densidade
+marginal, integramos \eqref{eq:densidade-conjunta-uv} em relação a $u$.
+O integrando é nulo fora de $u > 0$, o que justifica reduzir a integral
+a esse intervalo:
+\begin{align*}
+f_V(v)
+&= \int_{-\infty}^{\infty} f_{U,V}(u,v)\,du
+\\[0.3cm]
+&= \begin{cases}
+\displaystyle\int_0^{\infty} u\,e^{-u}\,du, & \text{se } 0 < v < 1, \\[0.4cm]
+0, & \text{caso contrário}.
+\end{cases}
+\end{align*}
+A integral que aparece é $\Gamma(2) = 1! = 1$, conforme a definição da
+função gama nas notas sobre funções de distribuição. Logo
+\begin{equation}\label{eq:marginal-v-uniforme}
+f_V(v) =
+\begin{cases}
+1, & \text{se } 0 < v < 1, \\[0.2cm]
+0, & \text{caso contrário},
+\end{cases}
+\end{equation}
+o que mostra que $V$ tem distribuição uniforme no intervalo $(0,1)$.
+
+\medskip
+De modo análogo, a marginal de $U$ vem de integrar
+\eqref{eq:densidade-conjunta-uv} em relação a $v$, com $v$ percorrendo
+$(0,1)$:
+\[
+f_U(u) = \int_0^1 u\,e^{-u}\,dv = u\,e^{-u}, \qquad u > 0.
+\]
+Comparando com a densidade gama daquelas notas, com parâmetros de forma
+$2$ e taxa $1$, cuja expressão é
+$\frac{1}{\Gamma(2)}\,u^{2-1}e^{-u} = u\,e^{-u}$ para $u > 0$,
+concluímos que $U$ tem distribuição gama com parâmetros $2$ e $1$.
+Além disso, como \eqref{eq:densidade-conjunta-uv} se fatora no produto
+da marginal \eqref{eq:marginal-v-uniforme} com a marginal de $U$, isto é,
+\[
+f_{U,V}(u,v) = f_U(u)\,f_V(v) \qquad \text{para todo } (u,v) \in \mathbb{R}^2,
+\]
+segue que $U$ e $V$ são independentes. Em particular, reobtemos que
+$X+Y$ e $X/(X+Y)$ são independentes, com $X+Y$ gama de parâmetros $2$ e
+$1$ e $X/(X+Y)$ uniforme em $(0,1)$.
+\end{solution}
+\end{example}
+
+\begin{exercise}\label{exercise:diferenca-soma-normais}
+  Sejam $X$ e $Y$ variáveis aleatórias independentes, cada uma com
+  distribuição normal de média $\mu$ e variância $\sigma^2$. Determine a
+  função densidade conjunta do par $(U, V)$, em que
+  \[
+    U = X - Y
+    \qquad \text{e} \qquad
+    V = X + Y.
+  \]
+  As variáveis aleatórias $U$ e $V$ são independentes?
+\end{exercise}
+
+\begin{exercise}\label{exercise:distribuicao-dupla-exponencial}
+  Sejam $X$ e $Y$ variáveis aleatórias com função densidade conjunta
+  \[
+    f(x, y) =
+    \begin{cases}
+      \frac{1}{4}e^{-\frac{1}{2}(x+y)}, & \text{se } x > 0 \text{ e } y > 0, \\[0.3cm]
+      0, & \text{caso contrário}.
+    \end{cases}
+  \]
+  Mostre que a função densidade conjunta do par $(U, V)$, em que
+  \[
+    U = \frac{1}{2}(X - Y)
+    \qquad \text{e} \qquad
+    V = Y,
+  \]
+  é dada por
+  \[
+    f_{U,V}(u, v) =
+    \begin{cases}
+      \frac{1}{2}e^{-u-v}, & \text{se } (u, v) \in A, \\[0.3cm]
+      0, & \text{caso contrário},
+    \end{cases}
+  \]
+  em que $A$ é uma região do plano $(u, v)$ que deve ser determinada.
+  Deduza que $U$ tem distribuição exponencial bilateral, com função densidade
+  \[
+    f_U(u) = \frac{1}{2}e^{-|u|}
+    \qquad \text{para todo } u \in \mathbb{R}.
+  \]
+\end{exercise}
+
+\begin{exercise}\label{exercise:probabilidade-raizes-reais}
+  Sejam $B$ e $C$ variáveis aleatórias independentes, cada uma com
+  distribuição uniforme no intervalo $[-1,1]$. Calcule a probabilidade da
+  equação quadrática aleatória
+  \[
+    z^2 + Bz + C = 0
+  \]
+  possuir duas raízes reais, admitindo a possibilidade de uma raiz dupla.
+  Use o discriminante $\Delta = B^2 - 4C$ e siga as etapas:
+  \begin{enumerate}
+    \item Considere a transformação $T(x,y)=(u(x,y)\, ,\, v(x,y))$ induzida por 
+    $U=B$ e $V=B^2-4C$. Determine sua
+      inversa e a imagem $S$ do quadrado $(-1,1)\times(-1,1)$ no plano $(u,v)$,
+      esboçando essa região.
+    \item Calcule o jacobiano da transformação inversa. Use que a densidade
+      conjunta do vetor aleatório $(B,C)$ é $1/4$ no quadrado para obter a densidade conjunta
+      de $(U,V)$ em $S$.
+    \item Expresse o evento de a equação ter raízes reais em termos de
+      $(U,V)$ e calcule sua probabilidade integrando a densidade transformada
+      sobre a parte correspondente de $S$. (Sugestão: note que $|u| < 1$
+      implica $u^2-4 < 0$, o que determina o limite inferior de integração
+      em $v$.)
+    \item Como conferência, calcule diretamente, no plano $(b,c)$, a área da
+      região $\{(b,c) \in (-1,1)^2 : c \le b^2/4\}$ e conclua que a
+      probabilidade, dada pela razão entre essa área e a área $4$ do
+      quadrado, é $13/24$.
+  \end{enumerate}
+\end{exercise}
+
+
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+\end{document}
