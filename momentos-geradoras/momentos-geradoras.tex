@@ -209,10 +209,11 @@ pdfkeywords={momentos, variância, covariância, correlação, desigualdade de C
 % --- RESUMO (ABSTRACT) ---
 \begin{abstract}
 Nestas notas estudamos os momentos de uma variável aleatória e as funções
-geradoras de momentos. Começamos com uma nota geral sobre o tratamento de
-variáveis aleatórias sem supor que sejam discretas ou absolutamente
-contínuas, com a regra de conversão que troca $f_X(x)\,dx$ por $p_X(x)$ e a
-integral pela soma. Definimos os momentos $\mathbb{E}[X^k]$, calculamos os
+geradoras de momentos. Começamos retomando a expressão da esperança como
+integral da cauda, que permite tratar distribuições gerais por meio de
+integrais impróprias de Riemann. Nos cálculos, usamos principalmente
+densidades e funções de probabilidade. Definimos os momentos
+$\mathbb{E}[X^k]$, calculamos os
 momentos da distribuição exponencial, observamos que a distribuição de Cauchy
 não possui momentos e discutimos em que sentido a sequência de momentos
 determina a distribuição, com a distribuição log-normal como contraexemplo.
@@ -249,14 +250,15 @@ separadas, as absolutamente contínuas. No caso discreto descrevemos a
 distribuição por uma função de probabilidade $p_X$ e calculamos esperanças por
 meio de somas; no caso absolutamente contínuo descrevemos a distribuição por
 uma densidade $f_X$ e calculamos as mesmas grandezas por meio de integrais.
-Essa separação tem a vantagem de manter cada dedução próxima das ferramentas
-disponíveis no momento, mas sugere que existem duas teorias distintas, quando a
-estrutura por trás das duas é a mesma: em ambos os casos somamos valores da
-variável contra pesos, e é a aditividade da esperança sobre eventos dois a dois
-disjuntos que organiza as contas. Além disso, mal tocamos na existência de
-variáveis aleatórias que não são de nenhum dos dois tipos, questão que
-retomamos ao final desta seção. A \Cref{fig:mapa-variaveis} dá uma visão geral
-do percurso feito até aqui e do lugar ocupado pelas duas classes estudadas.
+Essa separação mantém cada dedução próxima das ferramentas disponíveis no
+momento, mas as duas classes não esgotam as possibilidades. A distribuição
+de Cantor, construída nas notas sobre funções de distribuição, por exemplo,
+não é discreta nem admite densidade: sua função de distribuição é contínua,
+mas a distribuição é singular. Também há distribuições que combinam uma
+parte discreta e uma parte absolutamente contínua. Para estudar momentos sem
+restringir o tipo da variável, precisamos de uma noção de esperança que
+inclua esses casos. A \Cref{fig:mapa-variaveis} situa as duas classes já
+estudadas nesse quadro mais geral.
 
 \begin{figure}[H]
 \centering
@@ -313,21 +315,85 @@ que essas duas classes não esgotam todas as possibilidades.}
 \label{fig:mapa-variaveis}
 \end{figure}
 
-Não podemos continuar tratando o caso discreto e o caso absolutamente contínuo
-separadamente e os demais casos de modo algum. O que se deve fazer neste ponto
-é estudar as variáveis aleatórias em sua generalidade. O tratamento rigoroso
-desse problema, porém, exigiria definir a esperança de uma variável aleatória
-arbitrária, o que se faz com as ideias e as técnicas da teoria da medida e da
-integração, e esse caminho está além do que supomos conhecido até aqui. Somos
-levados, portanto, a adotar uma estratégia intermediária. Vamos enunciar e
-demonstrar os resultados de modo que eles não mencionem explicitamente o tipo
-(discreto, absolutamente contínuo ou outro) das variáveis envolvidas. Em
-alguns pontos, um enunciado geral será usado como guia e verificado apenas no
-caso particular que sabemos tratar com as ferramentas já desenvolvidas; quando
-isso acontecer, diremos com clareza qual caso está sendo verificado. Algumas
-vezes teremos de examinar um caso particular, e então trataremos normalmente o caso
-\emph{absolutamente contínuo}. O caso discreto é em geral análogo e mais
-simples, e uma regra prática para converter um argumento sobre variáveis
+A expressão \eqref{eq:esperanca-cauda} fornece uma maneira de fazer isso
+com as ferramentas do cálculo. Nas notas sobre funções de variáveis
+aleatórias contínuas e esperança, demonstramos essa identidade para variáveis discretas ou
+absolutamente contínuas e comentamos sua extensão ao caso geral. Podemos
+agora tomá-la como definição: para qualquer variável aleatória $Y\geqslant0$,
+definimos
+\begin{equation}\label{eq:esperanca-cauda}
+\mathbb{E}[Y]
+=\int_0^\infty\mathbb{P}(Y>t)\,dt
+=\lim_{R\to\infty}\int_0^R[1-F_Y(t)]\,dt
+\in[0,+\infty].
+\end{equation}
+A função $t\mapsto\mathbb{P}(Y>t)$ é não crescente e limitada entre $0$ e
+$1$. Seu conjunto de descontinuidades é no máximo enumerável, e ela é
+integrável no sentido de Riemann em todo intervalo compacto. Essa integrabilidade
+também se verifica diretamente: em uma partição de $[0,R]$ em $n$
+subintervalos iguais, a diferença entre as somas superior e inferior é no
+máximo $R/n$. Como o integrando é não negativo, o limite em
+\eqref{eq:esperanca-cauda} sempre existe, podendo ser infinito. Assim, essa
+definição usa apenas integrais de Riemann e um limite monótono, sem exigir a
+teoria abstrata da integral de Lebesgue, e coincide com as definições
+anteriores nos casos discreto e absolutamente contínuo.
+
+Podemos definir a esperança para variáveis aleatórias gerais,
+que assumem ambos valores positivos e negativos, separando $X$ em suas partes positiva e negativa:
+\[
+X^+=\max\{X,0\} \qquad \text{e}\qquad X^-=\max\{-X,0\}.
+\] 
+
+Dizemos que $X$ é \emph{integrável}, ou que possui esperança finita, quando
+\[ \mathbb{E}[|X|]=\mathbb{E}[X^+]+\mathbb{E}[X^-]<\infty.\] 
+Neste caso, definimos
+\begin{equation}\label{eq:esperanca-caudas-geral}
+\mathbb{E}[X]
+=\mathbb{E}[X^+]-\mathbb{E}[X^-]
+=\int_0^\infty\mathbb{P}(X>t)\,dt
+-\int_0^\infty\mathbb{P}(X<-t)\,dt.
+\end{equation}
+As duas integrais devem ser finitas separadamente. A igualdade usada no
+critério de integrabilidade decorre de
+$\mathbb{P}(|X|>t)=\mathbb{P}(X>t)+\mathbb{P}(X<-t)$ para $t\geqslant0$.
+Aplicando essas mesmas definições a $g(X)$, sempre que $g(X)$ for uma
+variável aleatória, também damos sentido a $\mathbb{E}[g(X)]$ sem supor que
+$X$ tenha densidade ou função de probabilidade.
+
+Em particular, para $g(x)=x^n$, com $n\geqslant1$ inteiro, a mudança de
+variável $t=u^n$ na expressão \eqref{eq:esperanca-cauda}, aplicada a $X^n$,
+dá, quando $X\geqslant0$,
+\begin{equation}\label{eq:potencia-nao-negativa-cauda}
+\mathbb{E}[X^n]
+=\int_0^\infty\mathbb{P}(X^n>t)\,dt
+=n\int_0^\infty u^{n-1}\mathbb{P}(X>u)\,du.
+\end{equation}
+Essa igualdade vale também com valor $+\infty$. Para uma variável $X$ de
+sinal qualquer, supondo $\mathbb{E}[|X|^n]<\infty$, obtemos
+\begin{equation}\label{eq:potencia-caudas-geral}
+\mathbb{E}[X^n]
+=n\int_0^\infty u^{n-1}
+\bigl[\mathbb{P}(X>u)+(-1)^n\mathbb{P}(X<-u)\bigr]\,du.
+\end{equation}
+De fato, para $n$ par, $X^n=|X|^n$ e as duas caudas se somam; para $n$
+ímpar, aplicamos \eqref{eq:esperanca-caudas-geral} a $X^n$ e fazemos a
+mesma mudança de variável em cada integral. A hipótese de integrabilidade
+garante que as integrais das duas caudas, com o peso $n u^{n-1}$, sejam
+finitas separadamente.
+
+Esse ponto de vista permite enunciar os resultados sem restringir o tipo
+de variável aleatória e ao mesmo tempo evitar todo o ferramental 
+envolvido na construção da Teoria de Medida e Integração de Lebesgue.  
+Para evitar tecnicalidades desnecessárias optamos por não desenvolver 
+aqui toda a teoria da esperança a partir da expressão \eqref{eq:esperanca-caudas-geral}.
+Ao invés disto, por questão de clareza e melhor exposição das ideias, 
+nos cálculos concretos, continuaremos usando sobretudo
+densidades e funções de probabilidade. Para que o leitor não fique 
+confuso sobre a generalidade da validade de cada afirmação 
+mencionaremos explicitamente que optamos por apresentar o argumento em um contexto 
+particular  e se pertinente quais seriam as mudanças necessárias para 
+adaptar nosso argumento para o caso geral. 
+Uma regra prática para converter um argumento sobre variáveis
 absolutamente contínuas em um argumento sobre variáveis discretas é substituir
 $f_X(x)\,dx$ por $p_X(x)$ e a integral pela soma:
 \begin{equation}\label{eq:regra-conversao}
@@ -337,19 +403,13 @@ f_X(x)\,dx \ \longmapsto\ p_X(x),
 \end{equation}
 A correspondência em \eqref{eq:regra-conversao} não é um teorema, e sim um guia
 de leitura: ela diz que, nos argumentos que faremos, o caso discreto se obtém
-do caso contínuo trocando a densidade pela função de probabilidade e o símbolo
-de integração pelo de soma, sem que a estrutura da dedução mude.
+do caso absolutamente contínuo trocando a densidade pela função de
+probabilidade e o símbolo de integração pelo de soma, sem que a estrutura
+da dedução mude.
 
-Uma última observação, que pode ser lida como um comentário à parte. Para quem
-quiser conhecer uma variável aleatória que não é discreta nem absolutamente
-contínua, o exemplo padrão é a distribuição de Cantor, construída nas notas
-sobre funções de distribuição: sua função de distribuição é contínua, mas ela
-não concentra massa em pontos e tampouco admite densidade, trata-se de uma
-distribuição singular. Esse fato mostra que as duas classes estudadas até aqui
-não esgotam todas as possibilidades, e é justamente por isso que os resultados
-desta nota são enunciados sem referência ao tipo das variáveis. Com esse
-panorama, passamos ao estudo dos momentos, que permitem descrever aspectos da
-distribuição de uma variável aleatória sem restringir o seu tipo.
+Passamos ao estudo dos momentos, usando a expressão
+\eqref{eq:esperanca-caudas-geral} como base para a definição geral e as
+expressões por somas e densidades como ferramentas de cálculo.
 
 \section{Momentos}\label{sec:momentos}
 
@@ -376,26 +436,32 @@ dependem apenas dela, e não do espaço de probabilidade particular em que $X$
 está definida. Por isso também falamos dos momentos de uma distribuição ou de
 uma densidade.
 
-Vale explicitar o que a \Cref{def:momento} pede em cada caso. Se $X$ é discreta,
+Para qualquer distribuição, a \Cref{def:momento} exige
+$\mathbb{E}[|X|^k]<\infty$. Pela expressão \eqref{eq:esperanca-cauda},
+aplicada a $Y=|X|^k$, e pela mudança de variável $t=u^k$, temos
+\begin{equation}\label{eq:momento-absoluto-cauda}
+\mathbb{E}[|X|^k]
+=\int_0^\infty\mathbb{P}(|X|^k>t)\,dt
+=k\int_0^\infty u^{k-1}\mathbb{P}(|X|>u)\,du.
+\end{equation}
+Essa identidade vale também com valor $+\infty$ e dá um critério de
+existência dos momentos mesmo quando $X$ não é discreta nem absolutamente
+contínua. Quando esse valor é finito, calculamos $\mathbb{E}[X^k]$
+por \eqref{eq:potencia-caudas-geral}, que leva em conta a paridade de $k$.
+
+Nos dois casos já estudados, recuperamos as expressões usuais. Se $X$ é discreta,
 então
 \[
 \mathbb{E}[X^k]=\sum_{x\in\operatorname{Im}X}x^k\,\mathbb{P}(X=x),
 \]
-e a soma deve convergir absolutamente, já que $\mathbb{E}[|X|^k]=\mathbb{E}[X^k]$
-somente quando $k$ é par. Se $X$ tem densidade $f$, então
+e a soma deve convergir absolutamente. Se $X$ tem densidade $f$, então
 \[
 \mathbb{E}[X^k]=\int_{-\infty}^{\infty}x^k f(x)\,dx,
 \]
-e aqui a exigência é a mesma: como vimos nas notas sobre funções de variáveis
-aleatórias contínuas, a esperança de uma variável aleatória está definida
-apenas quando ela é integrável, de modo que a integral de $|x|^k f(x)$ precisa
-ser finita. Em ambos os casos,
-\[
-\mathbb{E}[X^k] \ \text{está bem definida} \quad \Longleftrightarrow \quad \mathbb{E}\bigl[|X|^k\bigr]<\infty .
-\]
-Para $k$ par as duas quantidades coincidem, mas para $k$ ímpar o integrando
-troca de sinal, e a convergência absoluta não é uma exigência técnica
-dispensável.
+e a integral de $|x|^k f(x)$ precisa ser finita. Assim, a convergência absoluta
+nas fórmulas por somas ou densidades expressa o mesmo critério de
+integrabilidade. Em particular, para potências ímpares, cancelamentos entre
+valores positivos e negativos não substituem essa exigência.
 
 \begin{example}[Momentos da distribuição exponencial]\label{ex:momento-exponencial}
 Fixe $\lambda>0$ e suponha que $X$ tenha densidade
@@ -529,7 +595,8 @@ $k\leqslant 0$ não deixa nenhuma ordem admissível, como já sabíamos.
 \end{example}
 
 Conhecida a função de distribuição de $X$, podemos calcular seus momentos,
-sempre que eles existirem, pelo menos quando $X$ é discreta ou tem densidade.
+sempre que eles existirem, pela expressão \eqref{eq:potencia-caudas-geral},
+qualquer que seja o tipo da distribuição.
 Cabe então perguntar se vale a recíproca: dada a sequência dos momentos finitos
 \[
 \mathbb{E}[X],\ \mathbb{E}[X^2],\ \mathbb{E}[X^3],\ \ldots,
