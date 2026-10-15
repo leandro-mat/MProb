@@ -262,30 +262,45 @@ do percurso feito até aqui e do lugar ocupado pelas duas classes estudadas.
 \centering
 \begin{tikzpicture}[
   font=\footnotesize,
-  caixa/.style={draw=black!60, fill=card, inner sep=5pt, align=center},
+  caixa/.style={draw=black!60, fill=card, inner sep=5pt},
   seta/.style={-{Latex[length=2mm]}, draw=black!70, thin},
 ]
-\node[caixa, text width=6.4cm] (espaco)
-  {espaço de probabilidade\\[0.15cm] $(\Omega,\mathcal{F},\mathbb{P})$};
-\node[caixa, text width=6.4cm, below=0.9cm of espaco] (va)
-  {variável aleatória\\[0.15cm] $X:\Omega\to\mathbb{R}$\\[0.15cm]
-   função de distribuição $F_X(x)=\mathbb{P}(X\leqslant x)$};
+\node[caixa] (espaco)
+  {\begin{minipage}{6.4cm}\centering
+   espaço de probabilidade\\[0.15cm]
+   $(\Omega,\mathcal{F},\mathbb{P})$
+   \end{minipage}};
+\node[caixa, below=0.9cm of espaco] (va)
+  {\begin{minipage}{6.4cm}\centering
+   variável aleatória\\[0.15cm]
+   $X:\Omega\to\mathbb{R}$\\[0.15cm]
+   função de distribuição\\[0.15cm]
+   $F_X(x)=\mathbb{P}(X\leqslant x)$
+   \end{minipage}};
 \draw[seta] (espaco) -- (va);
 \coordinate (juncao) at ($(va.south)+(0,-0.7)$);
 \draw[seta] (va.south) -- (juncao);
-\node[caixa, text width=4.3cm, below=1.5cm of va, xshift=-5.1cm] (disc)
-  {\textbf{discretas}\\[0.15cm] $X(\Omega)$ é enumerável\\[0.15cm]
-   função de probabilidade\\ $p_X(x)=\mathbb{P}(X=x)$\\[0.15cm]
-   $\mathbb{E}[X]=\sum_{x}x\,p_X(x)$};
-\node[caixa, text width=4.3cm, below=1.5cm of va] (outras)
-  {\textbf{nem discretas\\ nem absolutamente\\ contínuas}\\[0.15cm]
+\node[caixa, below=1.5cm of va, xshift=-5.1cm] (disc)
+  {\begin{minipage}{4.3cm}\centering
+   \textbf{discretas}\\[0.15cm]
+   $X(\Omega)$ é enumerável\\[0.15cm]
+   função de probabilidade\\[0.15cm]
+   $p_X(x)=\mathbb{P}(X=x)$\\[0.15cm]
+   $\mathbb{E}[X]=\sum_{x}x\,p_X(x)$
+   \end{minipage}};
+\node[caixa, below=1.5cm of va] (outras)
+  {\begin{minipage}{4.3cm}\centering
+   \textbf{nem discretas\\ nem absolutamente\\ contínuas}\\[0.15cm]
    por exemplo, a distribuição de Cantor, construída nas notas
-   sobre funções de distribuição};
-\node[caixa, text width=4.3cm, below=1.5cm of va, xshift=5.1cm] (cont)
-  {\textbf{absolutamente contínuas}\\[0.15cm]
+   sobre funções de distribuição
+   \end{minipage}};
+\node[caixa, below=1.5cm of va, xshift=5.1cm] (cont)
+  {\begin{minipage}{4.3cm}\centering
+   \textbf{absolutamente\\ contínuas}\\[0.15cm]
    $F_X(x)=\int_{-\infty}^{x}f_X(u)\,du$\\[0.15cm]
    densidade $f_X$\\[0.15cm]
-   $\mathbb{E}[X]=\int_{-\infty}^{\infty}x\,f_X(x)\,dx$};
+   $\mathbb{E}[X]=\int_{-\infty}^{\infty}x\,f_X(x)\,dx$
+   \end{minipage}};
 \draw[seta] (juncao) -| (disc.north);
 \draw[seta] (juncao) -- (outras.north);
 \draw[seta] (juncao) -| (cont.north);
