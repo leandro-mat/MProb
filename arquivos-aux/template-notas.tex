@@ -4,7 +4,7 @@
 %----------------------------------------------------------------------
 % PACOTES ESSENCIAIS E TRADUÇÃO
 %----------------------------------------------------------------------
-\usepackage[brazil]{babel}        % Suporte à língua portuguesa
+\usepackage[brazilian]{babel}     % Suporte à língua portuguesa
 \usepackage[utf8]{inputenc}       % Codificação de entrada
 \usepackage[T1]{fontenc}          % Codificação da fonte
 \usepackage{lmodern}              % Fonte escalável
@@ -36,12 +36,15 @@
 \usepackage{enumitem}
 \usepackage{float}
 \usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
 \usepackage{fontawesome5}
+\usepackage{lucide-icons}
 \usepackage{caption}
 \usepackage{stackengine}
 \captionsetup{width=0.8\textwidth}
 
-% Definição de Cores (do Teorema Ergódico)
+% Definição de Cores
 \definecolor{teal}{RGB}{15,118,110}
 \definecolor{text}{RGB}{28,25,23}
 \definecolor{muted}{RGB}{87,83,78}
@@ -66,7 +69,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
-\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
 
 %----------------------------------------------------------------------
 % REFERÊNCIAS, LINKS E METADADOS DO PDF
@@ -121,7 +124,20 @@ pdfkeywords={Palavras-chave, das notas, MAT-UnB}
 \newtheorem{remark}[remark]{Observação}
 \aliascntresetthe{remark}
 
+\newtheoremstyle{plainexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{plainexercise}
 \newtheorem{exercise}{Exercício}
+
+% Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
+% como nas notas anteriores.
+\newtheoremstyle{starredexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{starredexercise}
+\newtheorem{starredexercise}[exercise]{Exercício}
+\theoremstyle{definition}
 
 % Ambientes não numerados usados no texto
 \newtheorem*{property}{Propriedade}
@@ -135,7 +151,7 @@ pdfkeywords={Palavras-chave, das notas, MAT-UnB}
 \makeatother
 
 % Nomes em português para os ambientes
-\addto\captionsbrazil{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\AtBeginDocument{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
 \renewcommand{\qedsymbol}{$\blacksquare$}
 
 % Cleveref (deve vir depois de hyperref e amsthm)
