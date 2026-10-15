@@ -278,7 +278,7 @@ do percurso feito até aqui e do lugar ocupado pelas duas classes estudadas.
    função de probabilidade\\ $p_X(x)=\mathbb{P}(X=x)$\\[0.15cm]
    $\mathbb{E}[X]=\sum_{x}x\,p_X(x)$};
 \node[caixa, text width=4.3cm, below=1.5cm of va] (outras)
-  {\textbf{nem discretas nem\\ absolutamente contínuas}\\[0.15cm]
+  {\textbf{nem discretas\\ nem absolutamente\\ contínuas}\\[0.15cm]
    por exemplo, a distribuição de Cantor, construída nas notas
    sobre funções de distribuição};
 \node[caixa, text width=4.3cm, below=1.5cm of va, xshift=5.1cm] (cont)
@@ -306,9 +306,11 @@ arbitrária, o que se faz com as ideias e as técnicas da teoria da medida e da
 integração, e esse caminho está além do que supomos conhecido até aqui. Somos
 levados, portanto, a adotar uma estratégia intermediária. Vamos enunciar e
 demonstrar os resultados de modo que eles não mencionem explicitamente o tipo
-(discreto, absolutamente contínuo ou outro) das variáveis envolvidas; em geral,
-tais argumentos podem ser admitidos no sentido amplo. Algumas vezes teremos de
-examinar um caso particular, e então trataremos normalmente o caso
+(discreto, absolutamente contínuo ou outro) das variáveis envolvidas. Em
+alguns pontos, um enunciado geral será usado como guia e verificado apenas no
+caso particular que sabemos tratar com as ferramentas já desenvolvidas; quando
+isso acontecer, diremos com clareza qual caso está sendo verificado. Algumas
+vezes teremos de examinar um caso particular, e então trataremos normalmente o caso
 \emph{absolutamente contínuo}. O caso discreto é em geral análogo e mais
 simples, e uma regra prática para converter um argumento sobre variáveis
 absolutamente contínuas em um argumento sobre variáveis discretas é substituir
@@ -323,14 +325,16 @@ de leitura: ela diz que, nos argumentos que faremos, o caso discreto se obtém
 do caso contínuo trocando a densidade pela função de probabilidade e o símbolo
 de integração pelo de soma, sem que a estrutura da dedução mude.
 
-Por fim, para quem quiser conhecer uma variável aleatória que não é discreta
-nem absolutamente contínua, o exemplo padrão é a distribuição de Cantor,
-construída nas notas sobre funções de distribuição: sua função de distribuição
-é contínua, mas ela não concentra massa em pontos e tampouco admite densidade,
-trata-se de uma distribuição singular. Esse fato mostra que as duas classes
-estudadas até aqui não esgotam todas as possibilidades, e é justamente por isso
-que os resultados desta nota são enunciados sem referência ao tipo das
-variáveis. Quem preferir pode seguir direto para a próxima seção.
+Uma última observação, que pode ser lida como um comentário à parte. Para quem
+quiser conhecer uma variável aleatória que não é discreta nem absolutamente
+contínua, o exemplo padrão é a distribuição de Cantor, construída nas notas
+sobre funções de distribuição: sua função de distribuição é contínua, mas ela
+não concentra massa em pontos e tampouco admite densidade, trata-se de uma
+distribuição singular. Esse fato mostra que as duas classes estudadas até aqui
+não esgotam todas as possibilidades, e é justamente por isso que os resultados
+desta nota são enunciados sem referência ao tipo das variáveis. Com esse
+panorama, passamos ao estudo dos momentos, que permitem descrever aspectos da
+distribuição de uma variável aleatória sem restringir o seu tipo.
 
 \section{Momentos}\label{sec:momentos}
 
@@ -344,10 +348,12 @@ Começamos pelos cálculos diretos, que mostram o que a definição exige e o qu
 ela pode falhar em fornecer.
 
 \begin{definition}[Momento de ordem $k$]\label{def:momento}
-Seja $X$ uma variável aleatória e seja $k\in\mathbb{N}$. O \emph{momento de
-ordem $k$} de $X$ é o número $\mathbb{E}[X^k]$, sempre que essa esperança
-existir e for finita. Nesse caso dizemos que $X$ possui momento de ordem $k$;
-caso contrário, dizemos que o momento de ordem $k$ não existe.
+Seja $X$ uma variável aleatória e seja $k\geqslant 1$ um inteiro. O
+\emph{momento de ordem $k$} de $X$ é o número $\mathbb{E}[X^k]$, sempre que essa
+esperança existir e for finita. Nesse caso dizemos que $X$ possui momento de
+ordem $k$; caso contrário, dizemos que o momento de ordem $k$ não existe. Por
+conveniência, também falamos do momento de ordem $0$, que é sempre
+$\mathbb{E}[X^0]=1$.
 \end{definition}
 
 Como a esperança é calculada a partir da distribuição de $X$, os momentos
@@ -404,7 +410,10 @@ $\lim_{x\to\infty}x^k e^{-\lambda x}=0$. Quanto à integral que sobra,
 = \frac{k}{\lambda}\,\mathbb{E}[X^{k-1}],
 \]
 onde a última igualdade usa novamente a definição do momento de ordem $k-1$.
-Reunindo os dois passos, obtemos a recorrência
+Como o integrando é não negativo, a integração por partes pode ser feita em
+$[0,R]$ e seguida da passagem ao limite $R\to\infty$, de modo que a recorrência
+abaixo vale em $[0,+\infty]$, isto é, ela é válida mesmo que um dos dois lados
+seja infinito. Reunindo os dois passos, obtemos a recorrência
 \[
 \mathbb{E}[X^k]=\frac{k}{\lambda}\,\mathbb{E}[X^{k-1}],\qquad k\geqslant 1 .
 \]
@@ -420,10 +429,11 @@ Aplicando-a repetidamente,
 \end{align*}
 pois $X^0=1$ e a esperança da constante $1$ é $1$. Para $k=1$ recuperamos
 $\mathbb{E}[X]=1/\lambda$, o valor já conhecido para a média da exponencial.
-Mais do que isso, a recorrência mostra por indução que todas as integrais
-envolvidas são finitas: se $\mathbb{E}[X^{k-1}]<\infty$, então
-$\mathbb{E}[X^k]=(k/\lambda)\mathbb{E}[X^{k-1}]<\infty$, e o caso $k=0$ é
-imediato. Logo a distribuição exponencial possui momentos de todas as ordens,
+Mais do que isso, como $\mathbb{E}[X^0]=1$ é finita, a recorrência fornece,
+por indução, $\mathbb{E}[X^k]<\infty$ para todo $k$: se
+$\mathbb{E}[X^{k-1}]<\infty$, então
+$\mathbb{E}[X^k]=(k/\lambda)\mathbb{E}[X^{k-1}]<\infty$. Logo a distribuição
+exponencial possui momentos de todas as ordens,
 dados por $\mathbb{E}[X^k]=k!/\lambda^k$.
 \end{example}
 
@@ -727,7 +737,7 @@ $\mathbb{E}[(X-\mu)^2]$ é pequena. O caso extremo é o de uma variável
 \emph{concentrada} em um único ponto, e é isso que caracterizamos a seguir.
 
 Começamos por um critério de anulamento que vale para qualquer variável
-aleatória não negativa quadrado-integrável.
+aleatória quadrado-integrável.
 
 \begin{lemma}[Anulamento do segundo momento]\label{lem:segundo-momento-zero}
 Para uma variável aleatória $Y$ com $\mathbb{E}[Y^2]<\infty$,
@@ -914,11 +924,6 @@ essa quantidade que se chama \emph{covariância} de $X$ e $Y$, e é o objeto que
 estudamos na próxima subseção.
 
 \subsection{Covariância}\label{subsec:covariancia}
-É conveniente dar um nome ao termo do meio na expressão que obtivemos para a
-variância de uma soma. Esse termo mede a maneira como $X$ e $Y$ variam
-conjuntamente: ele é positivo quando os desvios $X-\mathbb{E}[X]$ e
-$Y-\mathbb{E}[Y]$ tendem a ter o mesmo sinal, e negativo quando os sinais
-tendem a ser opostos. Por isso ele recebe o nome de covariância.
 
 \begin{definition}[Covariância]\label{def:covariancia}
 A covariância das variáveis aleatórias $X$ e $Y$ é a quantidade denotada
@@ -1333,9 +1338,10 @@ modificação da anterior. De fato, tomando $s=e^t$ em
 M_X(t) = \mathbb{E}\bigl[e^{tX}\bigr] = \mathbb{E}\bigl[(e^t)^X\bigr] = G_X(e^t),
 \end{equation}
 desde que a série em \eqref{eq:fgp-recordacao} convirja em $s=e^t$, o que
-ocorre em particular para todo $t\leqslant 0$. Veremos adiante que essa
-identidade costuma estender o domínio de validade para algum intervalo em torno
-da origem, mas não sempre.
+ocorre em particular para todo $t\leqslant 0$. Quando o raio de convergência da
+série é estritamente maior do que $1$, a identidade vale também para uma faixa
+de valores positivos de $t$: no caso da distribuição de Poisson, por exemplo, a
+série converge para todo $s\in\mathbb{R}$ e a identidade vale em toda a reta.
 
 Em geral, separando os casos discreto e contínuo, a definição se lê como
 \begin{equation}\label{eq:fgm-casos}
@@ -1435,16 +1441,24 @@ comportamento do integrando
 \[
 g_t(x) = \frac{e^{tx}}{\pi(1+x^2)}
 \]
-quando $x\to+\infty$. Nesse extremo temos $e^{tx}/(1+x^2)\sim e^{tx}/x^2$, que
-cresce mais rápido do que qualquer potência de $x$; em particular $g_t(x)$ não é
-$O(1/x)$ quando $x\to+\infty$. Logo a integral de $g_t$ sobre $[1,\infty)$
-diverge para $+\infty$, e o mesmo ocorre com $\int_{-\infty}^{\infty} g_t$.
+quando $x\to+\infty$. Para obter uma cota inferior, observamos que
+$1+x^2\leqslant 2x^2$ para $x\geqslant 1$, de modo que
+\[
+g_t(x)=\frac{e^{tx}}{\pi(1+x^2)}
+\geqslant \frac{e^{tx}}{2\pi x^2},\qquad x\geqslant 1 .
+\]
+A função $x\mapsto e^{tx}/x^2$ tende a $+\infty$, pois a exponencial cresce
+mais rápido do que qualquer polinômio; logo existe $x_0\geqslant 1$ tal que
+$e^{tx}/x^2\geqslant 1$ para todo $x\geqslant x_0$, e portanto
+$g_t(x)\geqslant 1/(2\pi)$ nesse intervalo. A integral de $g_t$ sobre
+$[x_0,\infty)$ diverge para $+\infty$, e o mesmo ocorre com
+$\int_{-\infty}^{\infty} g_t$.
 
 Suponha agora $t<0$. Desta vez $e^{tx}\to+\infty$ quando $x\to-\infty$. No
-extremo $x\to-\infty$ escrevemos $u=-x\to+\infty$; a densidade se comporta como
-$1/(\pi u^2)$ e $e^{tx}=e^{-|t|u}$, de modo que o integrando não é $O(1/u)$
-quando $u\to+\infty$ e a integral diverge para $+\infty$. Reunindo os dois
-casos,
+extremo $x\to-\infty$ escrevemos $u=-x\to+\infty$, e a mesma comparação se
+aplica: a densidade se comporta como $1/(\pi u^2)$ e $e^{tx}=e^{-|t|u}$, de modo
+que o integrando é limitado inferiormente por uma constante positiva a partir de
+algum ponto e a integral diverge para $+\infty$. Reunindo os dois casos,
 \[
 M_X(t) = \begin{cases}
 1, & \text{se } t=0, \\[0.2cm]
@@ -1946,8 +1960,9 @@ finitas e as integrais que aparecem convergem absolutamente.
 \end{exercise}
 
 \begin{starredexercise}\label{exercise:gw-7-62}
-  Sejam $X_1, X_2, \ldots$ variáveis aleatórias identicamente distribuídas, com
-  função geradora de momentos comum $M$. Seja $N$ uma variável aleatória que
+  Sejam $X_1, X_2, \ldots$ variáveis aleatórias independentes e identicamente
+  distribuídas, com função geradora de momentos comum $M$. Seja $N$ uma
+  variável aleatória que
   assume valores inteiros não negativos, com função geradora de probabilidade
   $G$, e suponha que $N$ seja independente da sequência $(X_i)$. Mostre que a
   soma aleatória $S = X_1 + X_2 + \cdots + X_N$ tem função geradora de momentos
@@ -1962,6 +1977,13 @@ finitas e as integrais que aparecem convergem absolutamente.
   aleatório de parcelas foi examinada no caso discreto. A composição obtida aqui
   também explica por que $G$ precisa assumir valores não negativos no ponto
   $M(t)$.
+
+  \emph{Nota:} a independência mútua das parcelas $X_i$ é indispensável, e não
+  apenas a independência entre $N$ e a sequência. Sem ela a identidade
+  $M_{X_1+\cdots+X_n}(t)=M(t)^n$ pode falhar, e com ela o resultado deixa de
+  valer. O enunciado impresso do livro que seguimos menciona apenas que as
+  variáveis são identicamente distribuídas; acrescentamos a hipótese que falta
+  para que o enunciado seja verdadeiro.
 \end{starredexercise}
 
 \bibliographystyle{plain}
