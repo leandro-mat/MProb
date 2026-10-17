@@ -69,6 +69,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
+\usepgfplotslibrary{fillbetween}
 \usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
 
 %----------------------------------------------------------------------
@@ -225,8 +226,11 @@ mostramos que os momentos se recuperam das derivadas de $M_X$ na origem, que
 $M_{aX+b}(t)=e^{tb}M_X(at)$ e que a geradora da soma de variáveis aleatórias
 independentes é o produto das geradoras. Com o teorema de unicidade,
 mostramos que a soma de duas variáveis normais independentes é normal.
-A exposição segue de perto as Seções 7.1 a 7.4 do Capítulo 7 da referência
-\cite{GrimmettWelsh2014}.
+Encerramos com uma aplicação da geradora da uniforme discreta: uma única
+expansão de Taylor produz a fórmula de Faulhaber para as somas de potências,
+com os números de Bernoulli como coeficientes. A exposição segue de perto as
+Seções 7.1 a 7.4 do Capítulo 7 da referência \cite{GrimmettWelsh2014}, com
+exceção dessa última seção, que é uma aplicação adicional.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -381,21 +385,34 @@ mesma mudança de variável em cada integral. A hipótese de integrabilidade
 garante que as integrais das duas caudas, com o peso $n u^{n-1}$, sejam
 finitas separadamente.
 
-Esse ponto de vista permite enunciar os resultados sem restringir o tipo
-de variável aleatória e ao mesmo tempo evitar todo o ferramental 
-envolvido na construção da Teoria de Medida e Integração de Lebesgue.  
-Para evitar tecnicalidades desnecessárias optamos por não desenvolver 
-aqui toda a teoria da esperança a partir da expressão \eqref{eq:esperanca-caudas-geral}.
-Ao invés disto, por questão de clareza e melhor exposição das ideias, 
-nos cálculos concretos, continuaremos usando sobretudo
-densidades e funções de probabilidade. Para que o leitor não fique 
-confuso sobre a generalidade da validade de cada afirmação 
-mencionaremos explicitamente que optamos por apresentar o argumento em um contexto 
-particular  e se pertinente quais seriam as mudanças necessárias para 
-adaptar nosso argumento para o caso geral. 
+Esse ponto de vista permite definir a esperança sem restringir o tipo de
+variável aleatória e sem pressupor a construção da integral de Lebesgue.
+Para manter o foco nas ideias desta nota, não desenvolveremos toda a teoria
+da esperança a partir de \eqref{eq:esperanca-caudas-geral}. Nos cálculos
+concretos, continuaremos usando sobretudo densidades e funções de
+probabilidade. Sempre que um argumento se limitar a um caso particular,
+indicaremos essa restrição e, quando pertinente, o que seria necessário
+para tratar o caso geral. Também distinguiremos as demonstrações completas
+das ideias de prova e dos resultados usados sem demonstração.
+
+Em particular, usaremos a linearidade da esperança para variáveis
+integráveis e o fato de que, para $U$ e $V$ integráveis e independentes,
+o produto $UV$ é integrável e satisfaz
+$\mathbb{E}[UV]=\mathbb{E}[U]\mathbb{E}[V]$.
+Essas propriedades foram estudadas nos casos discreto e
+absolutamente contínuo; aqui admitiremos, sem demonstração, sua validade
+para distribuições gerais. Uma dedução a partir de
+\eqref{eq:esperanca-caudas-geral} pode ser feita por aproximação e passagem
+ao limite, mas não a desenvolveremos aqui. Já a monotonicidade da esperança
+segue da comparação das probabilidades nas integrais que a definem.
+Assim, os argumentos algébricos baseados nessas propriedades serão válidos
+para quaisquer distribuições, sob as hipóteses de integrabilidade
+indicadas, mesmo quando não escrevermos a esperança como soma ou integral
+contra uma densidade.
+
 Uma regra prática para converter um argumento sobre variáveis
 absolutamente contínuas em um argumento sobre variáveis discretas é substituir
-$f_X(x)\,dx$ por $p_X(x)$ e a integral pela soma:
+``$f_X(x)\,dx$'' por ``$p_X(x)$'' e a integral pela soma:
 \begin{equation}\label{eq:regra-conversao}
 f_X(x)\,dx \ \longmapsto\ p_X(x),
 \qquad
@@ -405,22 +422,24 @@ A correspondência em \eqref{eq:regra-conversao} não é um teorema, e sim um gu
 de leitura: ela diz que, nos argumentos que faremos, o caso discreto se obtém
 do caso absolutamente contínuo trocando a densidade pela função de
 probabilidade e o símbolo de integração pelo de soma, sem que a estrutura
-da dedução mude.
+da dedução mude estruturalmente.
 
 Passamos ao estudo dos momentos, usando a expressão
-\eqref{eq:esperanca-caudas-geral} como base para a definição geral e as
-expressões por somas e densidades como ferramentas de cálculo.
+\eqref{eq:esperanca-caudas-geral} para a esperança e sua aplicação às
+potências em \eqref{eq:potencia-caudas-geral} como base para a definição
+geral dos momentos. As expressões por somas e densidades continuarão sendo
+nossas principais ferramentas de cálculo.
 
 \section{Momentos}\label{sec:momentos}
 
 \subsection{Definição e Primeiros Exemplos}\label{subsec:momentos-exemplos}
 
 A média de uma variável aleatória $X$ é apenas o primeiro de uma família de
-números que descrevem sua distribuição. Nesta nota vamos estudar os
-\emph{momentos} de $X$, isto é, as esperanças de suas potências, e ver como
+números que descrevem sua distribuição. Nestas notas vamos estudar os
+\emph{momentos} de $X$, isto é, as esperanças de suas potências não-negativas, e ver como
 essa sequência de números permite extrair informações sobre a distribuição.
 Começamos pelos cálculos diretos, que mostram o que a definição exige e o que
-ela pode falhar em fornecer.
+ela eventualmente não nos fornece.
 
 \begin{definition}[Momento de ordem $k$]\label{def:momento}
 Seja $X$ uma variável aleatória e seja $k\geqslant 1$ um inteiro. O
@@ -433,7 +452,7 @@ $\mathbb{E}[X^0]=1$.
 
 Como a esperança é calculada a partir da distribuição de $X$, os momentos
 dependem apenas dela, e não do espaço de probabilidade particular em que $X$
-está definida. Por isso também falamos dos momentos de uma distribuição ou de
+está definida. Por isso também faz sentido falar dos momentos de uma distribuição ou de
 uma densidade.
 
 Para qualquer distribuição, a \Cref{def:momento} exige
@@ -460,13 +479,14 @@ e a soma deve convergir absolutamente. Se $X$ tem densidade $f$, então
 \]
 e a integral de $|x|^k f(x)$ precisa ser finita. Assim, a convergência absoluta
 nas fórmulas por somas ou densidades expressa o mesmo critério de
-integrabilidade. Em particular, para potências ímpares, cancelamentos entre
-valores positivos e negativos não substituem essa exigência.
+integrabilidade. É importante observar que mesmo no caso de potências ímpares, 
+mesmo os eventuais cancelamentos entre valores positivos e negativos não 
+são suficientes para substituírem a condição \eqref{eq:momento-absoluto-cauda}.
 
 \begin{example}[Momentos da distribuição exponencial]\label{ex:momento-exponencial}
 Fixe $\lambda>0$ e suponha que $X$ tenha densidade
 $f(x)=\lambda e^{-\lambda x}$ para $x>0$ e $f(x)=0$ para $x\leqslant 0$. Como
-$X\geqslant 0$, a integrabilidade de $X^k$ coincide com a convergência da
+$X\geqslant 0$, a condição de integrabilidade de $X^k$ coincide com a convergência da
 integral que define $\mathbb{E}[X^k]$, e podemos escrever, para $k\geqslant 1$,
 \[
 \mathbb{E}[X^k]=\int_0^{\infty}x^k\lambda e^{-\lambda x}\,dx .
@@ -498,14 +518,13 @@ seja infinito. Reunindo os dois passos, obtemos a recorrência
 \[
 \mathbb{E}[X^k]=\frac{k}{\lambda}\,\mathbb{E}[X^{k-1}],\qquad k\geqslant 1 .
 \]
-Aplicando-a repetidamente,
+Aplicando a identidade acima recursivamente, ficamos com
 \begin{align*}
 \mathbb{E}[X^k]
-&= \frac{k}{\lambda}\,\mathbb{E}[X^{k-1}]
+= \frac{k}{\lambda}\,\mathbb{E}[X^{k-1}]
 = \frac{k(k-1)}{\lambda^2}\,\mathbb{E}[X^{k-2}]
 = \cdots
-\\[0.3cm]
-&= \frac{k!}{\lambda^k}\,\mathbb{E}[X^0]
+= \frac{k!}{\lambda^k}\,\mathbb{E}[X^0]
 = \frac{k!}{\lambda^k},
 \end{align*}
 pois $X^0=1$ e a esperança da constante $1$ é $1$. Para $k=1$ recuperamos
@@ -515,7 +534,10 @@ por indução, $\mathbb{E}[X^k]<\infty$ para todo $k$: se
 $\mathbb{E}[X^{k-1}]<\infty$, então
 $\mathbb{E}[X^k]=(k/\lambda)\mathbb{E}[X^{k-1}]<\infty$. Logo a distribuição
 exponencial possui momentos de todas as ordens,
-dados por $\mathbb{E}[X^k]=k!/\lambda^k$.
+dados por 
+\begin{align*}
+\mathbb{E}[X^k]=\frac{k!}{\lambda^k},\qquad \forall k\in \{0,1,2,\ldots\}.
+\end{align*}
 \end{example}
 
 \begin{example}[A distribuição de Cauchy não possui momentos]\label{ex:momento-cauchy}
@@ -625,9 +647,15 @@ entre a sequência de momentos e uma função geradora.
   momentos determina unicamente a distribuição de $X$.
 \end{theorem}
 
-A prova não pertence à probabilidade elementar: ela usa argumentos de análise
-real e complexa, pode ser encontrada em textos de análise, e por isso a
-omitimos. O ponto de contato com a probabilidade está na forma de
+A prova deste fato não pode ser obtidas usando apenas ferramentas da Teoria de Probabilidade. 
+O caminho padrão para esta demonstração passa por argumentos de análise
+real e complexa. Ela pode ser encontrada em textos de Análise e por isso a
+omitimos. 
+
+\bigskip 
+
+Observamos que o enunciado vale para distribuições gerais, sem hipótese de
+existência de densidade. O ponto de contato com a probabilidade está na forma de
 \eqref{eq:momentos-serie}: essa série é a função geradora exponencial da
 sequência $(\mathbb{E}[X^k])_{k \geqslant 0}$, e o teorema é o análogo, para
 momentos, do teorema de unicidade da função geradora de probabilidade, que
@@ -635,150 +663,350 @@ estudamos nas notas sobre funções geradoras de probabilidade. Assim como lá a
 função geradora determinava a distribuição, aqui a convergência absoluta da
 série faz a sequência de momentos determinar a distribuição.
 
-O papel lógico da hipótese é de condição suficiente, e não necessária: a
+\bigskip 
+
+O papel lógico da hipótese é o de uma condição suficiente para a conclusão: a
 convergência absoluta de \eqref{eq:momentos-serie} para algum $t > 0$ basta
-para que os momentos determinem a distribuição, mas ela não é indispensável em
-todo caso. A subseção seguinte mostra que, sem hipótese alguma sobre a
-convergência da série, os momentos podem deixar de determinar a distribuição.
+para que os momentos determinem a distribuição. O teorema não afirma que essa
+convergência seja necessária, e o exemplo da subseção seguinte mostra que a
+hipótese não é supérflua: sem hipótese alguma sobre a convergência da série,
+os momentos podem deixar de determinar a distribuição.
 
 \subsection{Um Contraexemplo: A Distribuição Log-Normal}\label{subsec:lognormal}
 
-Vamos construir uma distribuição que não é determinada pelos seus momentos. A
-partida é a distribuição log-normal: se $X \sim \mathrm{N}(0,1)$, dizemos que
-$Y = e^X$ tem a distribuição log-normal padrão. Para $x > 0$, a função de
-distribuição de $Y$ vale $\mathbb{P}(Y \leqslant x) = \mathbb{P}(X \leqslant
+Vamos construir uma distribuição que não é determinada pelos seus momentos. Para
+isto nosso ponto de partida será considerar uma variável aleatória
+com distribuição log-normal. Isto é, dizemos que $Y$ tem a distribuição log-normal (padrão)
+se $Y$ é da forma $Y = e^X$, onde $X \sim \mathrm{N}(0,1)$. 
+Vamos verificar que se $Y$ é uma variável aleatória log-normal, então $Y$ possui uma função de densidade.
+De fato, para $x > 0$, a função de distribuição de $Y$ 
+é dada por $\mathbb{P}(Y \leqslant x) = \mathbb{P}(X \leqslant
 \log x)$, e derivando em relação a $x$ (ou pela fórmula de mudança de variável
 para transformações crescentes e diferenciáveis) obtemos a densidade
 \begin{equation}\label{eq:densidade-lognormal}
   f(x) =
   \begin{cases}
-    \dfrac{1}{x\sqrt{2\pi}} \exp\Bigl[-\dfrac{1}{2}(\log x)^2\Bigr]
+    \dfrac{1}{x\sqrt{2\pi}} \exp\Bigl[-\dfrac{1}{2}(\log x)^2\Bigr],
       & \text{se } x > 0,
-    \\[0.4cm]
-    0 & \text{se } x \leqslant 0.
+    \\[0.6cm]
+    0, & \text{se } x \leqslant 0.
   \end{cases}
 \end{equation}
 
 \begin{example}[Momentos que não determinam a distribuição]\label{ex:lognormal-momentos}
-  Fixe $a$ com $-1 \leqslant a \leqslant 1$ e defina
-  \[
-    f_a(x) = \bigl[1 + a\sin(2\pi \log x)\bigr] f(x)
-    \qquad \text{para } x > 0,
-  \]
-  com $f_a(x) = 0$ para $x \leqslant 0$. Vamos verificar que
-  (i) $f_a$ é uma densidade,
-  (ii) $f$ tem momentos finitos de todas as ordens,
-  (iii) $f_a$ e $f$ têm momentos iguais de todas as ordens.
+Fixe $a$ com $-1 \leqslant a \leqslant 1$ e defina
+\[
+f_a(x) = \bigl[1 + a\sin(2\pi \log x)\bigr] f(x)
+\qquad \text{para } x > 0,
+\]
+com $f_a(x) = 0$ para $x \leqslant 0$. Vamos verificar que
+\begin{itemize}
+\item[(i)] $f_a$ é uma densidade,
+\item[(ii)] $f$ tem momentos finitos de todas as ordens,
+\item[(iii)] $f_a$ e $f$ têm momentos iguais de todas as ordens.
+\end{itemize}	
+O fator $1 + a\sin(2\pi\log x)$ modifica a densidade $f$. Vamos mostrar
+que essa modificação preserva tanto a integral da densidade quanto todos
+os seus momentos. A presença de $\log x$ sugere a substituição $u=\log x$:
+ela transforma a expressão $e^{-(\log x)^2/2}$ em $e^{-u^2/2}$, que aparece
+na densidade da normal padrão. Faremos essa substituição explicitamente
+em cada uma das contas.
 
-  Todas as contas usam a mudança de variável $x = e^u$, com $u = \log x$ e
-  $dx = e^u\,du$, que leva a parte principal da densidade à densidade da normal
-  padrão:
-  \[
-    f(x)\,dx
-    = \frac{1}{x\sqrt{2\pi}}\, e^{-u^2/2}\, e^u\,du
-    = \frac{1}{\sqrt{2\pi}}\, e^{-u^2/2}\,du.
-  \]
-  Em particular, $\int_0^\infty g(x) f(x)\,dx = \mathbb{E}[g(e^U)]$ quando
-  $U \sim \mathrm{N}(0,1)$ e o lado direito faça sentido; veremos que isso
-  ocorre para $g(x) = x^k$.
+\smallskip
+\noindent\textbf{(i) A função $f_a$ é uma densidade.}
+Precisamos verificar que $f_a$ é mensurável, não negativa e tem integral
+igual a $1$. A mensurabilidade decorre de ela ser contínua em $(0,\infty)$
+e nula em $(-\infty,0]$. Para verificar o sinal, usamos $|\sin t|\leqslant 1$
+e $|a|\leqslant 1$:
+\[
+1+a\sin(2\pi\log x)
+\geqslant 1-|a\sin(2\pi\log x)|
+\geqslant 1-|a|
+\geqslant 0.
+\]
+Como $f(x)\geqslant 0$, segue que $f_a(x)\geqslant 0$ para $x>0$.
+Para $x\leqslant 0$, isso também vale, pois $f_a(x)=0$.
 
-  \smallskip
-  \noindent\textbf{(i)}
-  Para $x > 0$ temos $|a\sin(2\pi \log x)| \leqslant |a| \leqslant 1$, logo
-  $1 + a\sin(2\pi \log x) \geqslant 1 - |a| \geqslant 0$ e $f_a(x) \geqslant 0$
-  em $\mathbb{R}$; a função $f_a$ é contínua em $(0,\infty)$ e nula em
-  $(-\infty, 0]$, logo é mensurável. Para a integral, aplicamos a mudança de
-  variável nos dois termos:
-  \[
-    \int_0^\infty f_a(x)\,dx
-    = \int_0^\infty f(x)\,dx
-      + a \int_{-\infty}^{\infty} \sin(2\pi u)\,
-          \frac{1}{\sqrt{2\pi}}\, e^{-u^2/2}\,du
-    = 1.
-  \]
-  De fato, o primeiro termo vale $1$, por ser a integral da densidade de
-  $\mathrm{N}(0,1)$, e o integrando do segundo é ímpar, pois é o produto de
-  $\sin(2\pi u)$, ímpar, por $e^{-u^2/2}$, par; uma função ímpar integrada
-  sobre um intervalo simétrico tem integral nula. Concluímos que $f_a$ é uma
-  densidade.
+Agora vamos calcular a integral de $f_a$ ao longo de toda a reta real. 
+Primeiro, vamos conferir diretamente que a integral
+de $f$ é $1$. Fazemos
+\[
+u=\log x,\qquad x=e^u,\qquad dx=e^u\,du.
+\]
+Quando $x\to 0^+$, temos $u\to-\infty$; quando $x\to+\infty$, temos
+$u\to+\infty$. Substituindo também o fator $1/x$ por $1/e^u$, obtemos
+\begin{align*}
+\int_0^\infty f(x)\,dx
+&=\int_0^\infty \frac{1}{x\sqrt{2\pi}}
+   e^{-(\log x)^2/2}\,dx
+\\[0.3cm]
+&=\int_{-\infty}^{\infty}\frac{1}{e^u\sqrt{2\pi}}
+   e^{-u^2/2}\,e^u\,du
+\\[0.3cm]
+&=\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-u^2/2}\,du
+=1.
+\end{align*}
+Na segunda linha, os fatores $1/e^u$ e $e^u$ se cancelam. A última
+integral vale $1$ porque é a integral da densidade da normal padrão.
 
-  \smallskip
-  \noindent\textbf{(ii)}
-  Seja $k \geqslant 1$ inteiro. Completando o quadrado em
-  $ku - \frac{u^2}{2} = -\frac{1}{2}(u - k)^2 + \frac{k^2}{2}$, obtemos
-  \begin{align*}
-    \int_0^\infty x^k f(x)\,dx
-    &= \int_{-\infty}^{\infty} e^{ku}\,
-       \frac{1}{\sqrt{2\pi}}\, e^{-u^2/2}\,du
-    \\[0.3cm]
-    &= e^{k^2/2} \int_{-\infty}^{\infty}
-       \frac{1}{\sqrt{2\pi}}\, e^{-(u-k)^2/2}\,du
-    \\[0.3cm]
-    &= e^{k^2/2} < \infty.
-  \end{align*}
-  A última integral vale $1$ por ser a integral da densidade de $\mathrm{N}(k,1)$.
-  Assim $f$ tem momentos finitos (e positivos) de todas as ordens, e o momento
-  de ordem $k$ vale $e^{k^2/2}$.
+Para calcular a integral de $f_a$, falta examinar o termo que contém o
+seno. Essa integral é absolutamente convergente, pois
+\[
+\int_0^\infty\bigl|\sin(2\pi\log x)f(x)\bigr|\,dx
+\leqslant\int_0^\infty f(x)\,dx=1.
+\]
+Usando novamente $x=e^u$, $\log x=u$ e $dx=e^u\,du$, temos
+\begin{align*}
+\int_0^\infty\sin(2\pi\log x)f(x)\,dx
+&=\int_{-\infty}^{\infty}\sin(2\pi u)
+  \frac{1}{e^u\sqrt{2\pi}}e^{-u^2/2}\,e^u\,du
+\\[0.3cm]
+&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}
+  \sin(2\pi u)e^{-u^2/2}\,du
+\\[0.3cm]
+&=
+0.
+\end{align*}
+Essa última integral é zero, pois o integrando é o produto de uma função par por uma função ímpar
+o que dá uma função ímpar.
 
-  \smallskip
-  \noindent\textbf{(iii)}
-  Resta comparar os momentos de $f_a$ e $f$. Separamos a perturbação senoidal do
-  termo principal e repetimos as duas etapas anteriores:
-  \begin{align*}
-    \int_0^\infty x^k f_a(x)\,dx
-    &= \int_0^\infty x^k f(x)\,dx
-       + a \int_0^\infty x^k \sin(2\pi \log x)\, f(x)\,dx
-    \\[0.3cm]
-    &= e^{k^2/2}
-       + \frac{a\, e^{k^2/2}}{\sqrt{2\pi}}
-         \int_{-\infty}^{\infty} \sin(2\pi u)\,
-         e^{-(u-k)^2/2}\,du.
-  \end{align*}
-  Na integral restante a gaussiana está centrada em $u = k$; a translação
-  $v = u - k$, que preserva os limites de $-\infty$ a $+\infty$, dá
-  \[
-    \int_{-\infty}^{\infty} \sin(2\pi u)\, e^{-(u-k)^2/2}\,du
-    = \int_{-\infty}^{\infty} \sin\bigl(2\pi(v + k)\bigr)\, e^{-v^2/2}\,dv.
-  \]
-  É aqui que entra a hipótese de $k$ ser inteiro: pela fórmula de adição do
-  seno,
-  \[
-    \sin\bigl(2\pi(v + k)\bigr)
-    = \sin(2\pi v)\cos(2\pi k) + \cos(2\pi v)\sin(2\pi k)
-    = \sin(2\pi v),
-  \]
-  pois $\cos(2\pi k) = 1$ e $\sin(2\pi k) = 0$ para $k \in \mathbb{Z}$. Assim,
-  \[
-    \int_{-\infty}^{\infty} \sin\bigl(2\pi(v + k)\bigr)\, e^{-v^2/2}\,dv
-    = \int_{-\infty}^{\infty} \sin(2\pi v)\, e^{-v^2/2}\,dv
-    = 0,
-  \]
-  porque o novo integrando é ímpar. Note o cuidado com o segundo termo da
-  fórmula de adição: $\int_{-\infty}^{\infty} \cos(2\pi v)\, e^{-v^2/2}\,dv$ é
-  positiva e não se anula por paridade; esse termo desaparece porque a sua
-  amplitude $\sin(2\pi k)$ se anula para $k$ inteiro. Voltando à cadeia de
-  cálculos, concluímos que
-  \[
-    \int_0^\infty x^k f_a(x)\,dx
-    = e^{k^2/2}
-    = \int_0^\infty x^k f(x)\,dx
-    \qquad \text{para } k = 1, 2, \ldots
-  \]
-  (para $k = 0$ a igualdade também vale, pois ambas as integrais são $1$).
+Usando os dois resultados obtidos acima concluímos que 
+\begin{align*}
+\int_{\mathbb{R}}f_a(x)\,dx
+&=\int_0^\infty\bigl[1+a\sin(2\pi\log x)\bigr]f(x)\,dx
+\\[0.3cm]
+&=\int_0^\infty f(x)\,dx
+  +a\int_0^\infty\sin(2\pi\log x)f(x)\,dx
+\\[0.3cm]
+&=1+a\cdot 0=1.
+\end{align*}
+Isso conclui a verificação de que $f_a$ é uma densidade.
 
-  Finalmente, as densidades $f_a$ são distintas para valores distintos de $a$:
-  se $a \neq a'$, a diferença $f_a(x) - f_{a'}(x) = (a - a')\sin(2\pi \log x)
-  f(x)$ não se anula quase sempre, pois $\sin(2\pi \log x) f(x)$ é não nula em
-  um conjunto de medida positiva. Portanto $\{f_a : -1 \leqslant a \leqslant 1\}$
-  é uma família de densidades distintas com os mesmos momentos de todas as
-  ordens.
+\smallskip
+\noindent\textbf{(ii) Cálculo dos momentos de $f$.}
+Fixe um inteiro $k\geqslant 1$. Como a densidade é nula para $x\leqslant 0$,
+o momento de ordem $k$ é $\int_0^\infty x^k f(x)\,dx$.
+Para calcular estes momentos vamos usar mais uma vez a substituição
+\[
+u=\log x,\qquad x=e^u,\qquad x^k=e^{ku},\qquad dx=e^u\,du.
+\]
+Os limites $0$ e $+\infty$ passam a $-\infty$ e $+\infty$,
+respectivamente. Assim,
+\begin{align*}
+\int_0^\infty x^k f(x)\,dx
+&=\int_0^\infty x^k\frac{1}{x\sqrt{2\pi}}
+  e^{-(\log x)^2/2}\,dx
+\\[0.3cm]
+&=\int_{-\infty}^{\infty}e^{ku}\frac{1}{e^u\sqrt{2\pi}}
+  e^{-u^2/2}\,e^u\,du
+\\[0.3cm]
+&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{ku-u^2/2}\,du.
+\end{align*}
+Queremos reconhecer novamente uma integral da densidade normal. Para isso,
+vamos escrever o expoente como o negativo de um quadrado mais uma constante.
+Como $(u-k)^2=u^2-2ku+k^2$, temos
+\[
+ku-\frac{u^2}{2}
+=-\frac12(u^2-2ku)
+=-\frac12\bigl[(u-k)^2-k^2\bigr]
+=-\frac{(u-k)^2}{2}+\frac{k^2}{2}.
+\]
+Consequentemente,
+\[
+e^{ku-u^2/2}=e^{k^2/2}e^{-(u-k)^2/2}.
+\]
+O fator $e^{k^2/2}$ não depende de $u$ e pode sair da integral. Logo,
+\[
+\int_0^\infty x^k f(x)\,dx
+=e^{k^2/2}\frac{1}{\sqrt{2\pi}}
+  \int_{-\infty}^{\infty}e^{-(u-k)^2/2}\,du.
+\]
+Para calcular a integral restante, fazemos
+\[
+v=u-k,\qquad u=v+k,\qquad du=dv.
+\]
+Subtrair a constante $k$ não altera os limites infinitos. Portanto,
+\[
+\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-(u-k)^2/2}\,du
+=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-v^2/2}\,dv
+=1.
+\]
+Concluímos que
+\[
+\int_0^\infty x^k f(x)\,dx=e^{k^2/2}<\infty
+\qquad\text{para }k=1,2,\ldots.
+\]
+Assim, $f$ tem momentos finitos de todas as ordens.
+
+\smallskip
+\noindent\textbf{(iii) Os momentos de $f_a$ são iguais aos de $f$.}
+Fixe um inteiro $k\geqslant 1$. Antes de separar os termos da integral,
+observamos que $0\leqslant f_a(x)\leqslant 2f(x)$ e, portanto,
+\[
+0\leqslant\int_0^\infty x^k f_a(x)\,dx
+\leqslant 2\int_0^\infty x^k f(x)\,dx
+=2e^{k^2/2}<\infty.
+\]
+Além disso, $|x^k\sin(2\pi\log x)f(x)|\leqslant x^k f(x)$, de modo que
+o termo com seno também é absolutamente integrável. Pela definição de $f_a$,
+\[
+\int_0^\infty x^k f_a(x)\,dx
+=\int_0^\infty x^k f(x)\,dx
+ +a\int_0^\infty x^k\sin(2\pi\log x)f(x)\,dx.
+\]
+O primeiro termo já foi calculado em (ii). Para mostrar que os momentos
+são iguais, precisamos mostrar que o segundo termo é zero. Vamos chamar
+a integral desse termo de
+\[
+J_k=\int_0^\infty x^k\sin(2\pi\log x)f(x)\,dx.
+\]
+Fazemos novamente $u=\log x$, de modo que $x=e^u$, $x^k=e^{ku}$ e
+$dx=e^u\,du$. Os limites passam de $(0,\infty)$ para $(-\infty,\infty)$,
+e obtemos
+\begin{align*}
+J_k
+&=\int_0^\infty x^k\sin(2\pi\log x)
+  \frac{1}{x\sqrt{2\pi}}e^{-(\log x)^2/2}\,dx
+\\[0.3cm]
+&=\int_{-\infty}^{\infty}e^{ku}\sin(2\pi u)
+  \frac{1}{e^u\sqrt{2\pi}}e^{-u^2/2}\,e^u\,du
+\\[0.3cm]
+&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}
+  \sin(2\pi u)e^{ku-u^2/2}\,du.
+\end{align*}
+Usamos a mesma identidade de (ii),
+\[
+ku-\frac{u^2}{2}=-\frac{(u-k)^2}{2}+\frac{k^2}{2},
+\]
+para obter
+\[
+J_k=\frac{e^{k^2/2}}{\sqrt{2\pi}}
+\int_{-\infty}^{\infty}\sin(2\pi u)e^{-(u-k)^2/2}\,du.
+\]
+Para aproveitar o cancelamento por simetria usado em (i), queremos que
+o fator exponencial tenha a forma $e^{-v^2/2}$. Por isso, fazemos
+\[
+v=u-k,\qquad u=v+k,\qquad du=dv.
+\]
+Nessa substituição, precisamos trocar $u$ nos dois fatores do integrando:
+\[
+e^{-(u-k)^2/2}=e^{-v^2/2},
+\qquad
+\sin(2\pi u)=\sin\bigl(2\pi(v+k)\bigr).
+\]
+Os limites continuam sendo $-\infty$ e $+\infty$. Assim,
+\[
+J_k=\frac{e^{k^2/2}}{\sqrt{2\pi}}
+\int_{-\infty}^{\infty}\sin\bigl(2\pi(v+k)\bigr)e^{-v^2/2}\,dv.
+\]
+É neste ponto que usamos o fato de $k$ ser inteiro: somar $2\pi k$ ao
+argumento do seno corresponde a dar um número inteiro de voltas no círculo
+trigonométrico e não muda seu valor. Portanto,
+\[
+\sin\bigl(2\pi(v+k)\bigr)=\sin(2\pi v+2\pi k)=\sin(2\pi v).
+\]
+Com isso,
+\[
+J_k=\frac{e^{k^2/2}}{\sqrt{2\pi}}
+\int_{-\infty}^{\infty}\sin(2\pi v)e^{-v^2/2}\,dv=0.
+\]
+A integral é zero pelo mesmo motivo explicado em (i): o seno é ímpar,
+o fator exponencial é par, e as integrais sobre as duas metades da reta
+se cancelam. Voltando ao momento de $f_a$, concluímos que
+\[
+\int_0^\infty x^k f_a(x)\,dx
+=e^{k^2/2}+aJ_k
+=e^{k^2/2}
+=\int_0^\infty x^k f(x)\,dx.
+\]
+Isso vale para todo inteiro $k\geqslant 1$. Para $k=0$, a igualdade
+também vale, pois ambas as densidades têm integral $1$.
+
+\smallskip
+\noindent\textbf{As distribuições são diferentes.}
+Falta verificar que variar $a$ realmente produz distribuições diferentes.
+Suponha que $a>a'$. Pela definição,
+\[
+f_a(x)-f_{a'}(x)=(a-a')\sin(2\pi\log x)f(x),\qquad x>0.
+\]
+Se $1<x<e^{1/2}$, então $0<\log x<1/2$ e, portanto,
+$0<2\pi\log x<\pi$. Nesse intervalo, $\sin(2\pi\log x)>0$.
+Como também $a-a'>0$ e $f(x)>0$, temos $f_a(x)>f_{a'}(x)$ em todo
+esse intervalo. Integrando, obtemos
+\[
+\int_1^{e^{1/2}}f_a(x)\,dx
+>\int_1^{e^{1/2}}f_{a'}(x)\,dx.
+\]
+Essas integrais são as probabilidades que as duas distribuições atribuem
+ao intervalo $(1,e^{1/2})$. Como as probabilidades são diferentes, as
+distribuições também são diferentes. Se $a<a'$, basta trocar os papéis
+dos parâmetros no argumento.
+
+A figura abaixo ilustra essa comparação para $a=1$ e $a'=-1$.
+A região sombreada fica entre as duas densidades no intervalo
+$(1,e^{1/2})$: sua área é a diferença entre as probabilidades que elas
+atribuem a esse intervalo.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.88\linewidth,
+  height=6.5cm,
+  xmin=0.9, xmax=1.8,
+  ymin=0, ymax=0.78,
+  axis lines=left,
+  axis line style={text!70},
+  xlabel={$x$},
+  xtick={1,1.648721271},
+  xticklabels={$1$,$e^{1/2}$},
+  ytick=\empty,
+  tick label style={font=\small},
+  label style={font=\small},
+  domain=0.9:1.8,
+  samples=180,
+  clip=false
+]
+% Os caminhos auxiliares delimitam somente a faixa usada na prova.
+\addplot[name path=superior,draw=none,domain=1:1.648721271,forget plot]
+  {(1+sin(deg(2*pi*ln(x))))*exp(-ln(x)^2/2)/(x*sqrt(2*pi))};
+\addplot[name path=inferior,draw=none,domain=1:1.648721271,forget plot]
+  {(1-sin(deg(2*pi*ln(x))))*exp(-ln(x)^2/2)/(x*sqrt(2*pi))};
+\addplot[fill=teal!18,draw=none,forget plot]
+  fill between[of=superior and inferior];
+\draw[border,dashed] (axis cs:1,0) -- (axis cs:1,0.39894228);
+\draw[border,dashed] (axis cs:1.648721271,0) -- (axis cs:1.648721271,0.21353841);
+\addplot[teal,very thick]
+  {(1+sin(deg(2*pi*ln(x))))*exp(-ln(x)^2/2)/(x*sqrt(2*pi))};
+\addplot[orange!80!black,very thick,dashed]
+  {(1-sin(deg(2*pi*ln(x))))*exp(-ln(x)^2/2)/(x*sqrt(2*pi))};
+% Posições dos nomes: em (axis cs:x,y), x e y são coordenadas do gráfico.
+% anchor=south deixa o texto acima do ponto; anchor=north, abaixo.
+\node[teal,anchor=south] at (axis cs:1.22,0.64) {$f_1$};
+\node[orange!80!black,anchor=north] at (axis cs:1.05,0.20) {$f_{-1}$};
+\end{axis}
+\end{tikzpicture}
+\caption{Um trecho de duas densidades com os mesmos momentos de todas as
+ordens. Entre $1$ e $e^{1/2}$, a curva de $f_1$ fica acima da curva de
+$f_{-1}$. A área sombreada é positiva, mostrando que as duas distribuições
+atribuem probabilidades diferentes a esse intervalo.}
+\label{fig:lognormal-mesmos-momentos}
+\end{figure}
+
+Construímos, assim, uma família de distribuições distintas, cujas densidades correspondentes
+são dadas pela família de funções $\{f_a:-1\leqslant a\leqslant 1\}$, que possuem os mesmos momentos de todas
+as ordens. Logo, conhecer todos os momentos não basta, em geral, para
+determinar uma distribuição.
 \end{example}
 
-Concluímos que os momentos não determinam a distribuição quando a hipótese de
-\Cref{thm:momentos-unicidade} falha: as densidades $f_a$ acima são distintas,
-mas compartilham a sequência de momentos
-$\bigl(\mathbb{E}[Y^k]\bigr)_{k \geqslant 1}
-= \bigl(e^{k^2/2}\bigr)_{k \geqslant 1}$. Para esta família a série
+Concluímos que a hipótese de \Cref{thm:momentos-unicidade} não é supérflua: as
+densidades $f_a$ acima são distintas, mas compartilham a sequência de momentos
+$$
+\bigl(\mathbb{E}[Y^k]\bigr)_{k \geqslant 1}
+= 
+\bigl(e^{k^2/2}\bigr)_{k \geqslant 1}.
+$$
+Para esta família a série de potências 
 \eqref{eq:momentos-serie} diverge para todo $t > 0$: a razão entre termos
 consecutivos é $\frac{t\, e^{k + 1/2}}{k + 1}$, que tende a $+\infty$, de modo
 que os termos gerais nem sequer tendem a zero. Temos assim o contraponto do
@@ -803,13 +1031,13 @@ $\mu=\mathbb{E}[X]$. A \emph{variância} de $X$ é
 \end{equation}
 \end{definition}
 
-A exigência $\mathbb{E}[X^2]<\infty$ garante que a esperança em
-\eqref{eq:variancia-def} está bem definida: como $X-\mu$ é uma variável
-aleatória e $(X-\mu)^2\geqslant 0$, a esperança existe sempre como elemento de
-$[0,\infty]$, e é finita exatamente quando $\mathbb{E}[(X-\mu)^2]<\infty$, o
-que ocorre se, e somente se, $\mathbb{E}[X^2]<\infty$ e $\mathbb{E}[X]<\infty$.
-Trabalharemos sempre nesse regime, de modo que as manipulações abaixo envolvem
-apenas quantidades reais.
+A exigência $\mathbb{E}[X^2]<\infty$ garante primeiro que $\mu$ é finita,
+pois $|X|\leqslant1+X^2$. Em seguida,
+$(X-\mu)^2\leqslant2X^2+2\mu^2$ garante que a esperança em
+\eqref{eq:variancia-def} também é finita. Usamos aqui a monotonicidade e a
+linearidade da esperança, com o alcance fixado na \Cref{sec:introducao}.
+Essas estimativas valem para qualquer distribuição; não precisamos supor
+que $X$ seja discreta ou tenha densidade.
 
 A variância mede a dispersão de $X$ em torno de sua esperança $\mu$. Se $X$
 assume com frequência valores consideravelmente distantes de $\mu$, então
@@ -821,7 +1049,7 @@ $\mathbb{E}[(X-\mu)^2]$ é pequena. O caso extremo é o de uma variável
 Começamos por um critério de anulamento que vale para qualquer variável
 aleatória quadrado-integrável.
 
-\begin{lemma}[Anulamento do segundo momento]\label{lem:segundo-momento-zero}
+\begin{lemma}\label{lem:segundo-momento-zero}
 Para uma variável aleatória $Y$ com $\mathbb{E}[Y^2]<\infty$,
 \begin{equation}\label{eq:variancia-zero}
 \mathbb{E}[Y^2]=0
@@ -836,10 +1064,12 @@ certamente e, pela definição de esperança de uma variável que se anula em um
 evento de probabilidade $1$, temos $\mathbb{E}[Y^2]=0$.
 
 Para a recíproca, suponha que $\mathbb{E}[Y^2]=0$ e fixe
-$\varepsilon>0$. Como $Y^2$ é não negativa, a definição de esperança fornece
-diretamente a desigualdade de Markov,
+$\varepsilon>0$. Para $0\leqslant t<\varepsilon^2$, temos
+$\mathbb{P}(Y^2>t)\geqslant\mathbb{P}(Y^2\geqslant\varepsilon^2)$.
+Integrando essa comparação e usando \eqref{eq:esperanca-cauda}, obtemos
 \[
 \varepsilon^2\,\mathbb{P}\bigl(Y^2\geqslant\varepsilon^2\bigr)
+\leqslant\int_0^{\varepsilon^2}\mathbb{P}(Y^2>t)\,dt
 \leqslant \mathbb{E}[Y^2]=0,
 \]
 e portanto $\mathbb{P}(|Y|\geqslant\varepsilon)=0$ para todo
@@ -958,10 +1188,10 @@ com a mudança de unidades descrita por $a$.
 
 \medskip
 
-Voltamo-nos agora para a variância de uma soma. A pergunta natural é se
+Vamos voltar nossa atenção novamente para a variância de uma soma. A pergunta natural é se
 $\operatorname{Var}(X+Y)$ se decompõe em $\operatorname{Var}(X)+
 \operatorname{Var}(Y)$. Veremos que isso não é verdade em geral e que o termo
-que falta tem significado próprio.
+que pode alterar esta igualdade tem significado próprio.
 
 \begin{proposition}[Variância de uma soma]\label{prop:variancia-soma}
 Sejam $X$ e $Y$ variáveis aleatórias com $\mathbb{E}[X^2]<\infty$ e
@@ -991,8 +1221,11 @@ $(X+Y)-\mathbb{E}[X+Y]=(X-\mu_X)+(Y-\mu_Y)$. Expandindo o quadrado dessa soma,
 \end{align*}
 A validade da expansão do quadrado segue da linearidade da esperança: as três
 parcelas são integráveis, pois $\mathbb{E}[(X-\mu_X)^2]<\infty$,
-$\mathbb{E}[(Y-\mu_Y)^2]<\infty$ e $|(X-\mu_X)(Y-\mu_Y)|\leqslant
-\tfrac12\bigl[(X-\mu_X)^2+(Y-\mu_Y)^2\bigr]$, o que garante que o termo misto é
+$\mathbb{E}[(Y-\mu_Y)^2]<\infty$ e 
+\begin{align*}
+|(X-\mu_X)(Y-\mu_Y)|\leqslant \tfrac12\bigl[(X-\mu_X)^2+(Y-\mu_Y)^2\bigr], 
+\end{align*}
+o que garante que o termo misto é
 absolutamente integrável.
 \end{proof}
 
@@ -1021,9 +1254,10 @@ generaliza a variância, que mede a dispersão de uma única variável em torno 
 sua média, para o caso de duas variáveis.
 
 A expressão em \eqref{eq:cov-def} pode ser reescrita de forma mais simples.
-Vamos expandir o produto e usar a linearidade da esperança; como $X$ e $Y$ têm
-segundo momento finito, o produto $XY$ é integrável e todas as esperanças
-abaixo estão bem definidas:
+Suponha que $X$ e $Y$ tenham segundo momento finito. Como
+$|XY|\leqslant(X^2+Y^2)/2$, o produto $XY$ é integrável. Podemos então
+expandir o produto e usar a linearidade da esperança, para distribuições
+gerais obtendo
 
 \begin{equation}\label{eq:cov-formula}
 \begin{aligned}
@@ -1034,7 +1268,6 @@ abaixo estão bem definidas:
 &= \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y],
 \end{aligned}
 \end{equation}
-
 onde usamos que $\mathbb{E}[X]$ e $\mathbb{E}[Y]$ são constantes. Vale a pena
 guardar a forma final: ela dispensa o cálculo prévio das médias dentro do
 produto e é, em geral, a mais rápida de calcular.
@@ -1042,33 +1275,40 @@ produto e é, em geral, a mais rápida de calcular.
 Voltando à expressão da variância de uma soma, obtida na subseção anterior, o
 termo do meio é $2\,\mathbb{E}\bigl[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])\bigr]$,
 e portanto
-
 \begin{equation}\label{eq:variancia-soma-cov}
 \operatorname{Var}(X+Y)
 = \operatorname{Var}(X) + 2\operatorname{Cov}(X,Y) + \operatorname{Var}(Y),
 \end{equation}
-
-identidade válida para quaisquer $X$ e $Y$ com segundo momento finito, sem
+é uma identidade válida para quaisquer $X$ e $Y$ com segundo momento finito, sem
 hipótese de independência.
 
-Suponhamos agora que $X$ e $Y$ sejam independentes. Nesse caso a esperança do
-produto se fatora, como vimos nas notas sobre esperança no caso discreto:
-$\mathbb{E}[XY]=\mathbb{E}[X]\mathbb{E}[Y]$. Substituindo em
-\eqref{eq:cov-formula}, obtemos
+Suponhamos agora, ainda com segundos momentos finitos, que $X$ e $Y$ sejam
+independentes. Usamos a fatoração
+$\mathbb{E}[XY]=\mathbb{E}[X]\mathbb{E}[Y]$, cuja validade para
+distribuições gerais foi admitida na \Cref{sec:introducao}. No caso
+discreto, ela se demonstra fatorando a soma conjunta; no caso de um par com
+densidade conjunta, a independência permite fatorar a densidade e separar
+as integrais. Essas verificações não cobrem todas as distribuições, mas,
+admitida a propriedade geral, o argumento a seguir não exige outra
+adaptação. 
 
+Das observações acima e da identidade \eqref{eq:cov-formula} concluímos que
+no caso de variáveis aleatórias $X$ e $Y$ independentes e com segundo momento
+finito temos 
 \begin{equation}\label{eq:cov-independentes}
-\operatorname{Cov}(X,Y)=\mathbb{E}[XY]-\mathbb{E}[X]\mathbb{E}[Y]=0,
+\operatorname{Cov}(X,Y)=\mathbb{E}[XY]-\mathbb{E}[X]\mathbb{E}[Y]=0.
 \end{equation}
-
-ou seja, variáveis independentes não são correlacionadas. Levando esse
-resultado a \eqref{eq:variancia-soma-cov}, recuperamos a fórmula já conhecida
+Ou seja, variáveis aleatórias independentes, com segundo momento finito, 
+não são correlacionadas. Usando esse
+resultado na igualdade \eqref{eq:variancia-soma-cov}, recuperamos a fórmula já conhecida
 
 \begin{equation}\label{eq:variancia-soma-independentes}
 \operatorname{Var}(X+Y)=\operatorname{Var}(X)+\operatorname{Var}(Y),
 \end{equation}
+válida sempre que as variâncias existem e que $X$ e $Y$ forem independentes. 
 
-válida sempre que as variâncias existem.
 
+\bigskip 
 A recíproca é falsa: covariância nula não implica independência. Como esse
 ponto costuma causar confusão, vamos examiná-lo num exemplo com as contas
 feitas.
@@ -1076,25 +1316,25 @@ feitas.
 \begin{example}[Covariância nula não implica independência]\label{ex:cov-nula}
 Seja $X$ uniforme em $\{-1,0,1\}$, isto é, $\mathbb{P}(X=x)=\tfrac13$ para cada
 $x\in\{-1,0,1\}$, e defina $Y=X^2$. Como $Y$ é função de $X$, as variáveis são
-dependentes: por exemplo, $\mathbb{P}(X=1,\,Y=1)=\tfrac13$, enquanto
-$\mathbb{P}(X=1)\mathbb{P}(Y=1)=\tfrac13\cdot\tfrac23=\tfrac29$.
-
-Vamos calcular a covariância:
+dependentes. De fato, observe que  $\mathbb{P}(X=1,\,Y=1)=\tfrac13$, enquanto
+$\mathbb{P}(X=1)\mathbb{P}(Y=1)=\tfrac13\cdot\tfrac23=\tfrac29$. O que mostra
+que $X$ e $Y$ são dependentes. Por outro lado, elas possuem covariância nula,
+como mostram os cálculos abaixo:
 \begin{align*}
-\mathbb{E}[X] &= \tfrac13(-1)+\tfrac13\cdot 0+\tfrac13\cdot 1=0,
+\mathbb{E}[X] &= \tfrac13(-1)+\tfrac13\cdot 0+\tfrac13\cdot 1=0;
 \\[0.2cm]
 \mathbb{E}[Y] &= \mathbb{E}[X^2]
-= \tfrac13\cdot 1+\tfrac13\cdot 0+\tfrac13\cdot 1=\tfrac23,
+= \tfrac13\cdot 1+\tfrac13\cdot 0+\tfrac13\cdot 1=\tfrac23;
 \\[0.2cm]
 \mathbb{E}[XY] &= \mathbb{E}[X^3]=\mathbb{E}[X]=0,
 \end{align*}
 pois $X$ assume apenas os valores $-1$, $0$ e $1$, e nesse conjunto $X^3=X$
-ponto a ponto. Substituindo em \eqref{eq:cov-formula},
+ponto a ponto e finalmente por \eqref{eq:cov-formula},
 \[
 \operatorname{Cov}(X,Y)=\mathbb{E}[XY]-\mathbb{E}[X]\mathbb{E}[Y]
 =0-0\cdot\tfrac23=0.
 \]
-Concluímos que $X$ e $Y$ são dependentes e, ainda assim, não correlacionadas.
+Portanto este é um exemplo em que $X$ e $Y$ são dependentes e, ainda assim, não correlacionadas.
 A razão do cancelamento está na simetria: quando $X$ se afasta da média para a
 direita, $Y$ também se afasta para a direita, mas o mesmo ocorre quando $X$ se
 afasta para a esquerda, e as duas contribuições se anulam.
@@ -1133,7 +1373,7 @@ $\operatorname{Var}(X)\operatorname{Var}(Y)\neq 0$.
 \end{definition}
 
 A condição $\operatorname{Var}(X)\operatorname{Var}(Y)\neq 0$ garante que o
-denominador não se anule: se uma das variáveis fosse constante, ela não teria
+denominador não se anule. Além do mais, se uma das variáveis fosse constante, ela não teria
 dispersão, e não haveria o que medir conjuntamente.
 
 Vejamos que a correlação é invariante por translações e mudanças de escala.
@@ -1165,8 +1405,8 @@ Substituindo em \eqref{eq:correlacao-def},
 
 Em particular, se $ac>0$, como em qualquer mudança de unidades aplicada às duas
 coordenadas (metros e centímetros, quilos e gramas), temos
-$\rho(aX+b,cY+d)=\rho(X,Y)$: a correlação é invariante por escala. Se $ac<0$,
-uma das coordenadas é invertida e o sinal de $\rho$ se inverte, o que é
+$\rho(aX+b,cY+d)=\rho(X,Y)$ e consequentemente que a correlação é invariante por escala. 
+Se $ac<0$, uma das coordenadas é invertida e o sinal de $\rho$ se inverte, o que é
 coerente com a interpretação de $\rho$ como medida da tendência de os desvios
 terem o mesmo sinal.
 
@@ -1191,13 +1431,15 @@ Nas notas sobre funções de variáveis aleatórias contínuas, provamos uma
 desigualdade de Cauchy-Schwarz integrando $(g-\lambda h)^2$ em relação a uma
 densidade. O argumento não depende de representação alguma da distribuição e
 vale para variáveis aleatórias arbitrárias; é o que vamos registrar agora.
-A desigualdade compara o momento de segunda ordem do produto $UV$ com os
-momentos de segunda ordem de $U$ e $V$, e não exige nenhuma hipótese de
-independência entre as variáveis.
+A desigualdade controla a esperança do produto $UV$ pelos segundos
+momentos de $U$ e $V$, e não exige independência. A prova abaixo usa apenas
+a positividade e a linearidade da esperança, propriedades 
+cuja a validade foi discutida no caso geral na
+\Cref{sec:introducao}.
 
 \begin{theorem}[Desigualdade de Cauchy--Schwarz]\label{thm:cauchy-schwarz}
-Sejam $U$ e $V$ variáveis aleatórias quaisquer. Então, sempre que as
-esperanças envolvidas existirem,
+Sejam $U$ e $V$ variáveis aleatórias com segundos momentos finitos. Então
+$UV$ é integrável e
 \begin{equation}\label{eq:cauchy-schwarz}
   [\mathbb{E}[UV]]^2
   \leqslant
@@ -1206,6 +1448,8 @@ esperanças envolvidas existirem,
 \end{theorem}
 
 \begin{proof}
+A integrabilidade do produto segue de
+$|UV|\leqslant(U^2+V^2)/2$.
 A ideia é produzir uma função quadrática em uma variável real $s$ que não
 assume valores negativos e extrair uma restrição sobre seus coeficientes.
 Para isso, fixe $s\in\mathbb{R}$ e defina a variável aleatória
@@ -1229,7 +1473,7 @@ com coeficientes
 Claramente $a \geqslant 0$, pois $U^2 \geqslant 0$. Podemos supor $a > 0$: se
 $a = \mathbb{E}[U^2] = 0$, então $U = 0$ quase certamente (resultado da
 subseção anterior), de modo que $\mathbb{E}[UV] = 0$ e
-\eqref{eq:cauchy-schwarz} vale com igualdade.
+\eqref{eq:cauchy-schwarz} vale como igualdade.
 
 Considere então a função quadrática $g(s) = as^2 + bs + c$ com $a > 0$. Por
 \eqref{eq:quadratica-cauchy}, temos $g(s) \geqslant 0$ para todo
@@ -1237,11 +1481,13 @@ $s\in\mathbb{R}$. Afimamos que $g$ tem no máximo uma raiz real. De fato, se
 $g(s_1) = g(s_2) = 0$ com $s_1 \neq s_2$, então, como $a > 0$, vale
 $g(s) = a(s - s_1)(s - s_2)$, e para $s$ estritamente entre $s_1$ e $s_2$ os
 dois fatores têm sinais opostos, donde $g(s) < 0$, em contradição com
-\eqref{eq:quadratica-cauchy}. As raízes de $g$ são
-$\dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$, de modo que a existência de duas raízes
-reais distintas equivale a $b^2 - 4ac > 0$. Portanto $b^2 - 4ac \leqslant 0$;
-o caso $b^2 - 4ac = 0$ ocorre quando $g$ toca o eixo horizontal em uma raiz
-dupla. Substituindo os coeficientes, concluímos que
+\eqref{eq:quadratica-cauchy}. 
+É claro que as raízes de $g$ são
+$$\dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a},$$ 
+de modo que a existência de duas raízes
+reais distintas equivale a $b^2 - 4ac > 0$. Portanto $b^2 - 4ac \leqslant 0$.
+Além do mais, se o determinante $b^2 - 4ac = 0$, então o gráfico de $g$ toca o eixo horizontal 
+em uma raiz dupla. Substituindo os coeficientes, concluímos que
 \[
   0
   \geqslant b^2 - 4ac
@@ -1374,7 +1620,7 @@ forma de dependência.
 
 \subsection{Definição e Exemplos}\label{subsec:fgm-definicao}
 
-Na nota sobre funções geradoras de probabilidade estudamos, em detalhe, a
+Nas notas sobre funções geradoras de probabilidade estudamos, em detalhe, a
 ferramenta que associa a uma variável aleatória $X$ com valores em
 $\{0,1,2,\ldots\}$ a função
 \begin{equation}\label{eq:fgp-recordacao}
@@ -1389,12 +1635,19 @@ para comparar com o objeto novo desta seção.
 A limitação de \eqref{eq:fgp-recordacao} é imediata: a expressão só faz sentido
 quando $X$ toma valores inteiros não negativos. Se $X$ é, por exemplo, uma
 variável com densidade ou uma variável discreta que assume valores negativos,
-não há como escrever $s^X$ como potência inteira de $s$ com expoente aleatório
-e a construção não se aplica. Para variáveis gerais, o costume é substituir a
-potência de base livre $s$ pela exponencial de base fixa $e$, cujo expoente é o
-produto $tX$. A vantagem é que $e^{tX}$ está definida para todo $x$ real e todo
-$t$ real, de modo que a esperança pode ser formada sempre que o integrando ou a
-série correspondente for absolutamente integrável ou somável.
+não há uma maneira canônica de definir $s^X$ e portanto $G_{X}(s)$ poderia não estar
+bem-definida. Este problema ocorre, por exemplo, no caso $s=-1$ e $X=1/2$. 
+
+Para trabalhar com uma variável aleatória $X$ que possa assumir quaisquer
+valores reais, vamos considerar apenas bases positivas: assim, $s^X$ está
+definida para todos os valores de $X$. É conveniente escrever $s=e^t$, com
+$t\in\mathbb{R}$, pois então $s^X=(e^t)^X=e^{tX}$. Isso nos leva a estudar
+a esperança $\mathbb{E}[e^{tX}]$ como função do parâmetro real $t$.
+Para cada $t$ fixado, $e^{tX}$ é uma variável aleatória positiva e portanto,
+sua esperança está bem-definida por \eqref{eq:esperanca-cauda}, para qualquer que
+seja a distribuição de $X$. Essa esperança, porém, pode ser infinita.
+Na definição a seguir, consideramos apenas os valores de $t$ para os quais
+ela é finita.
 
 \begin{definition}[Função geradora de momentos]\label{def:fgm}
 A \emph{função geradora de momentos} da variável aleatória $X$ é a função
@@ -1425,18 +1678,20 @@ série é estritamente maior do que $1$, a identidade vale também para uma faix
 de valores positivos de $t$: no caso da distribuição de Poisson, por exemplo, a
 série converge para todo $s\in\mathbb{R}$ e a identidade vale em toda a reta.
 
-Em geral, separando os casos discreto e contínuo, a definição se lê como
+Nos casos discreto e absolutamente contínuo, a definição se lê como
 \begin{equation}\label{eq:fgm-casos}
 M_X(t) = \mathbb{E}\bigl[e^{tX}\bigr] =
 \begin{cases}
-\displaystyle \sum_{x} e^{tx}\,\mathbb{P}(X=x), & \text{se } X \text{ é discreta,} \\[0.3cm]
-\displaystyle \int_{-\infty}^{\infty} e^{tx}\,f_X(x)\,dx, & \text{se } X \text{ é contínua,}
+\displaystyle \sum_{x} e^{tx}\,\mathbb{P}(X=x), & \text{se } X \text{ é discreta,} 
+\\[0.8cm]
+\displaystyle \int_{-\infty}^{\infty} e^{tx}\,f_X(x)\,dx, & \text{se } X \text{ é absolutamente contínua,}
 \end{cases}
 \end{equation}
-sempre que a soma ou a integral converge absolutamente. A exigência de
-convergência absoluta não é um detalhe técnico dispensável: é o que garante que
-a soma ou a integral não dependa da ordem em que seus termos são adicionados,
-de modo que o valor de $M_X(t)$ esteja bem definido. Como veremos nos exemplos
+quando a soma ou a integral é finita. Como os termos e o integrando são
+não negativos, essa finitude equivale à convergência absoluta. As duas
+expressões são ferramentas de cálculo para essas classes, e não uma
+restrição da \Cref{def:fgm}; para outras distribuições, usamos
+\eqref{eq:esperanca-cauda} com $Y=e^{tX}$. Como veremos nos exemplos
 seguintes, a existência de $M_X(t)$ para $t\neq0$ pode falhar, e falha com
 frequência suficiente para merecer atenção.
 
@@ -1502,7 +1757,8 @@ $t>\lambda$ ele cresce exponencialmente, de modo que em ambos os casos a
 integral diverge para $+\infty$. Resumindo,
 \[
 M_X(t) = \begin{cases}
-\dfrac{\lambda}{\lambda - t}, & \text{se } t<\lambda, \\[0.3cm]
+\dfrac{\lambda}{\lambda - t}, & \text{se } t<\lambda, 
+\\[0.6cm]
 +\infty, & \text{se } t\geqslant\lambda.
 \end{cases}
 \]
@@ -1538,7 +1794,7 @@ $\int_{-\infty}^{\infty} g_t$.
 
 Suponha agora $t<0$. Desta vez $e^{tx}\to+\infty$ quando $x\to-\infty$. No
 extremo $x\to-\infty$ escrevemos $u=-x\to+\infty$, e a mesma comparação se
-aplica: a densidade se comporta como $1/(\pi u^2)$ e $e^{tx}=e^{-|t|u}$, de modo
+aplica: a densidade se comporta como $1/(\pi u^2)$ e $e^{tx}=e^{|t|u}$, de modo
 que o integrando é limitado inferiormente por uma constante positiva a partir de
 algum ponto e a integral diverge para $+\infty$. Reunindo os dois casos,
 \[
@@ -1556,26 +1812,27 @@ de momentos útil.
 
 O último exemplo mostra que a dificuldade com a existência de
 $\mathbb{E}\bigl[e^{tX}\bigr]$ é intrínseca e não se resolve com uma escolha
-melhor de parametrização. Há uma forma de contorná-la: estudar a função
-característica $\phi_X(t)=\mathbb{E}\bigl[e^{itX}\bigr]$, com $i=\sqrt{-1}$, que
-envolve números complexos e existe para todo $t\in\mathbb{R}$ porque
-$|e^{itX}|=1$. Esse caminho, porém, depende de integração complexa e de
-argumentos de análise de Fourier que ficam fora do escopo destas notas; ficamos,
-portanto, com a função geradora de momentos e convivemos com a restrição.
+melhor de parametrização. Há uma forma de contornar este problema. Isto envolve estudar a função
+característica $\phi_X(t)=\mathbb{E}[e^{itX}]$, onde $i$ é a unidade imaginária no plano complexo. 
+Neste caso, segue da fórmula de Euler que $\phi_X(t)$ existe para todo $t\in\mathbb{R}$,
+independentemente de qual é a distribuição de $X$, porque $|e^{itX}|=1$. 
+Esse caminho, porém, depende da teoria de funções de uma variável complexa.
+Vamos voltar a este contexto futuramente. 
 
-Para o que faremos em seguida isso é suficiente, porque o que realmente importa
-não é que $M_X(t)$ exista em todos os $t$, mas que exista em uma vizinhança
+Vamos voltar nossas atenções para os casos em que $M_X(t)$ existe para todo $t$ em uma vizinhança
 $(-\delta,\delta)$ da origem, para algum $\delta>0$. Essa condição é a que
-permite derivar $M_X$ repetidamente em $t=0$ e recuperar os momentos de $X$, e é
-também a hipótese do teorema de unicidade que garante que a função geradora
-determina a distribuição. Sempre que usarmos uma geradora de momentos em
-momentos de $t$ diferentes de zero, ou em vizinhanças de zero, essa existência
-local será um pressuposto implícito.
+permite derivar $M_X$ sucessivamente em $t=0$ e recuperar os momentos de $X$ e 
+também consiste na hipótese do teorema de unicidade que garante que a função geradora
+determina a distribuição. No que segue sempre que usarmos uma função geradora de momentos, em
+valores de $t$ diferentes de zero em vizinhanças da origem, estamos admitindo que todos
+os momentos existem e que a série que define a função geradora de momentos é absolutamente
+convergente nesta vizinhança da origem.
 
 \medskip
 
-Resta explicar o nome. A justificativa é o desenvolvimento, intuitivamente
-atraente, da exponencial em série de potências:
+Resta explicar porque $M_X$ é chamada de função geradora de momentos. 
+A justificativa se deve ao seguinte argumento heurístico
+baseado na expansão, em séries de potências, da função exponencial
 \begin{align}
 M_X(t)
 &= \mathbb{E}\bigl[e^{tX}\bigr] = \mathbb{E}\left(1 + tX + \frac{1}{2!}(tX)^2 + \cdots\right)
@@ -1583,12 +1840,14 @@ M_X(t)
 &= 1 + t\,\mathbb{E}[X] + \frac{1}{2!}\,t^2\,\mathbb{E}\bigl[X^2\bigr] + \cdots.
 \label{eq:fgm-expansao}
 \end{align}
-Os coeficientes são, a menos dos fatoriais, os momentos de $X$: o termo de
-ordem $n$ em $t$ é $\frac{1}{n!}t^n\mathbb{E}[X^n]$. É nesse sentido que $M_X$
-é a função geradora exponencial dos momentos de $X$.
+Os coeficientes da série de potências que aparece no lado direito da
+igualdade acima são, a menos dos fatoriais, os momentos de $X$. Mais precisamente, o termo de
+ordem $n$ em $t$ é dado por 
+$$\frac{1}{n!}\mathbb{E}[X^n]\ t^n.$$ 
 
-Devemos ser honestos quanto ao estatuto de \eqref{eq:fgm-expansao} neste ponto:
-o cálculo acima é apenas formal. Trocamos a esperança pela soma infinita e
+
+Devemos ser cuidadosos quanto ao status de \eqref{eq:fgm-expansao} neste ponto.
+Sem hipóteses adicionais o cálculo acima é apenas formal. Trocamos a esperança pela soma infinita e
 permutamos a soma sobre $n$ com a soma ou a integral que define a esperança, e
 nenhuma dessas passagens foi justificada. Elas exigem, entre outras coisas, que
 $\mathbb{E}\bigl[e^{tX}\bigr]$ exista em uma vizinhança da origem, o que já
@@ -1601,21 +1860,21 @@ esperamos que seja verdadeiro.
 
 \subsection{Momentos, Transformações Lineares e Somas}\label{subsec:fgm-momentos}
 
-Nas subseções anteriores usamos a função geradora de momentos como um objeto
-que codifica a distribuição de uma variável aleatória. Vamos agora extrair dela
-duas consequências operacionais: a recuperação dos momentos por derivação em
-$t=0$, e o comportamento da geradora sob transformações lineares e sob somas de
+Nas seções anteriores vimos como podemos usar a função geradora de momentos como uma forma de 
+codificar a distribuição de uma variável aleatória. Vamos mostrar agora como tais funções 
+podem ser usadas para fornecer: os momentos de uma variável aleatória, por meio de suas derivadas em
+$t=0$; como se comportam sob transformações lineares; e sob somas de
 variáveis aleatórias independentes.
 
 Antes de enunciar o primeiro resultado, precisamos deixar claro o que significa
 existir. Como $e^{tX}>0$, a esperança $\mathbb{E}[e^{tX}]$ está sempre bem
-definida, eventualmente valendo $+\infty$; dizemos então que $M_X(t)$
-\emph{existe} em $t$ quando essa esperança é finita, isto é, quando
-$M_X(t)<\infty$. Dizemos que $M_X(t)$ existe numa vizinhança de $0$ quando
-existe $\delta>0$ tal que $M_X(t)<\infty$ para todo $t\in(-\delta,\delta)$. Essa
+definida, eventualmente valendo $+\infty$. Vamos dizer então que $M_X(t)$
+\emph{existe} em $t$ quando essa esperança for finita, isto é, quando
+$M_X(t)<\infty$. Analogamente, vamos dizer que $M_X(t)$ existe numa vizinhança de $0$, 
+quando existe algum  $\delta>0$ tal que $M_X(t)<\infty$ para todo $t\in(-\delta,\delta)$. Essa
 é a hipótese que garante a existência de todos os momentos de $X$.
 
-\begin{theorem}[Momentos por derivação da função geradora]\label{thm:fgm-momentos}
+\begin{theorem}\label{thm:fgm-momentos}
 Suponha que $M_X(t)$ existe numa vizinhança de $0$. Então $\mathbb{E}[|X|^k]$
 é finita para todo $k\geqslant 1$ e
 
@@ -1628,55 +1887,251 @@ $t=0$.
 \end{theorem}
 
 \begin{proof}[Ideia da prova]
-O ponto de partida é a definição de derivada aplicada à função $t\mapsto
-M_X(t)=\mathbb{E}[e^{tX}]$. No caso $k=1$, para $t$ numa vizinhança de $0$,
+O argumento vale para qualquer distribuição e geralmente é provado usando um resultado de
+convergência que é uma consequência do Teorema da Convergência Dominada cujo enunciado é o seguinte. 
+Se $Z_h\to Z$, quando $h\to 0$, quase certamente e $|Z_h|\leqslant H$, para alguma variável aleatória 
+integrável $H$, então $\mathbb{E}[Z_h]\to\mathbb{E}[Z]$. 
+No caso discreto, este resultado justifica a troca do limite com o somatório. 
+Já no caso absolutamente contínuo, ele permite permutar a ordem do limite e de integração.
+Sua versão para distribuições gerais é o passo adicional que vamos assumir sem prova.
 
+Vamos construir os majorantes que permitirão aplicar esse resultado.
+Ao derivar $e^{sX}$ repetidamente em relação a $s$, aparecem expressões
+da forma $X^j e^{sX}$. Precisamos limitar seus módulos por uma variável
+aleatória com esperança finita, que seja a mesma para todos os valores
+de $s$ em um pequeno intervalo em torno de $0$.
+
+Por hipótese, existe $\delta>0$ tal que $M_X(t)<\infty$ sempre que
+$|t|<\delta$. Escolhemos dois números $a$ e $b$ com
+$0<a<b<\delta$. 
+
+\bigskip 
+
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[-stealth, thick] (-0.4,0) -- (8.4,0);
+\foreach \pos/\rotulo in {0/0,2.2/a,3.8/b,6/\delta} {
+  \fill (\pos,0) circle (1.6pt);
+  \node[below=5pt] at (\pos,0) {$\rotulo$};
+}
+\end{tikzpicture}
+\end{center}
+
+Vamos considerar $s$ no intervalo $[-a,a]$ 
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[-stealth, thick] (-3.4,0) -- (7.4,0);
+\draw[very thick, red] (-3,0) -- (3,0);
+\foreach \pos/\rotulo in {-3/-a,0/0,3/a,4.6/b,6.6/\delta} {
+  \fill (\pos,0) circle (1.6pt);
+  \node[below=5pt] at (\pos,0) {$\rotulo$};
+}
+% Altere 1.2 nas duas linhas abaixo para deslocar s dentro de [-3,3].
+\fill (1.2,0) circle (1.6pt);
+\node[above=5pt] at (1.2,0) {$s$};
+\end{tikzpicture}
+\end{center}
+e usar as esperanças finitas $M_X(b)$ e $M_X(-b)$ para construir o majorante.
+A escolha $b>a$ deixará uma margem no expoente para controlar também
+o fator $|X|^j$.
+
+
+Primeiro, se $|s|\leqslant a$, então, para qualquer valor real $x$,
+\[
+sx\leqslant |s|\,|x|\leqslant a|x|.
+\]
+Como a função exponencial é crescente, segue que
+\[
+|x|^j e^{sx}\leqslant |x|^j e^{a|x|}.
+\]
+O lado direito já não depende de $s$. Falta mostrar que, ao substituir
+$x$ por $X$, obtemos uma variável aleatória com esperança finita.
+
+Para controlar o fator $|x|^j$, vamos usar a diferença positiva $b-a$.
+Fixe um inteiro $j\geqslant0$. Para $r\geqslant0$, todos os termos da
+série da exponencial são não negativos; em particular, a soma é maior
+ou igual ao termo de ordem $j$:
+\[
+e^{(b-a)r}
+=\sum_{n=0}^{\infty}\frac{((b-a)r)^n}{n!}
+\geqslant\frac{(b-a)^j r^j}{j!}.
+\]
+Isolando $r^j$ e depois multiplicando por $e^{ar}$, obtemos
+\[
+r^j\leqslant\frac{j!}{(b-a)^j}e^{(b-a)r},
+\qquad
+r^j e^{ar}\leqslant\frac{j!}{(b-a)^j}e^{br}.
+\]
+Assim, podemos tomar explicitamente
+$C_{j,a,b}=j!/(b-a)^j$. Essa constante é finita porque $b-a>0$.
+Aplicando a desigualdade com $r=|x|$, chegamos a estimativa
+\[
+|x|^j e^{a|x|}\leqslant C_{j,a,b}\ e^{b|x|}.
+\]
+
+Agora relacionamos $e^{b|x|}$ às duas exponenciais cujas esperanças
+conhecemos. Se $x\geqslant0$, então $e^{b|x|}=e^{bx}$; se $x<0$, então
+$e^{b|x|}=e^{-bx}$. Em ambos os casos,
+\[
+e^{b|x|}\leqslant e^{bx}+e^{-bx}.
+\]
+Reunindo as desigualdades e substituindo $x$ por $X$, obtemos
+\[
+\bigl|X^j e^{sX}\bigr|
+=|X|^j e^{sX}
+\leqslant |X|^j e^{a|X|}
+\leqslant C_{j,a,b}\bigl(e^{bX}+e^{-bX}\bigr),
+\qquad |s|\leqslant a.
+\]
+Portanto, o majorante procurado é
+\begin{equation}\label{eq:fgm-def-majorante}
+H_j=C_{j,a,b}\bigl(e^{bX}+e^{-bX}\bigr).
+\end{equation}
+Note que esta cota superior não depende de $s$ e tem esperança finita, pois
+\[
+\mathbb{E}[H_j]
+=C_{j,a,b}\bigl(\mathbb{E}[e^{bX}]+\mathbb{E}[e^{-bX}]\bigr)
+=C_{j,a,b}\bigl(M_X(b)+M_X(-b)\bigr)<\infty.
+\]
+Na última passagem usamos $b<\delta$, de modo que tanto $b$ quanto $-b$
+pertencem ao intervalo onde $M_X$ é finita.
+
+Essa estimativa também já prova a existência dos momentos absolutos.
+De fato, tomando $s=0$, temos $e^{sX}=1$ e, portanto,
+\[
+0\leqslant\mathbb{E}[|X|^j]
+\leqslant\mathbb{E}[H_j]<\infty.
+\]
+Como podemos fazer isso para cada inteiro $j\geqslant1$, todos os
+momentos absolutos de $X$ são finitos.
+
+Vamos agora calcular a primeira derivada de $M_X$. Fixe $t$ com $|t|<a$.
+Pela definição de derivada, precisamos estudar o quociente
+\[
+\frac{M_X(t+h)-M_X(t)}{h},\qquad h\neq0,
+\]
+quando $h\to0$. Escolhemos $h$ de modo que $0<|h|<a-|t|$.
+Essa escolha é possível porque $|t|<a$ e garante que
+\[
+|t+h|\leqslant |t|+|h|<a.
+\]
+Assim, tanto $t$ quanto $t+h$ pertencem a $(-a,a)$, onde $M_X$ é finita.
+Podemos, portanto, usar a definição de $M_X$ e a linearidade da esperança:
+\begin{align*}
+\frac{M_X(t+h)-M_X(t)}{h}
+&=\frac{\mathbb{E}[e^{(t+h)X}]-\mathbb{E}[e^{tX}]}{h}
+\\[0.3cm]
+&=\mathbb{E}\left[\frac{e^{(t+h)X}-e^{tX}}{h}\right].
+\end{align*}
+Para aplicar o resultado de convergência enunciado no início da prova,
+vamos usar a mesma notação e definir
+\[
+Z_h=\frac{e^{(t+h)X}-e^{tX}}{h}.
+\]
+Para cada valor real $x$ de $X$, o quociente
+$(e^{(t+h)x}-e^{tx})/h$ converge para $xe^{tx}$, pois essa
+é a derivada da função $u\mapsto e^{ux}$ em $u=t$. Logo,
+\[
+Z_h\longrightarrow Xe^{tX}\qquad\text{quando }h\to0.
+\]
+Queremos concluir que as esperanças também convergem. Para aplicar
+a convergência dominada, falta encontrar um majorante integrável para
+$|Z_h|$ que não dependa de $h$.
+
+É aqui que usamos o teorema do valor médio. Fixado $x\in\mathbb{R}$,
+aplicamos esse teorema à função $u\mapsto e^{ux}$ entre $t$ e $t+h$.
+Existe um número $\xi$ entre esses dois pontos tal que
+\[
+\frac{e^{(t+h)x}-e^{tx}}{h}=xe^{\xi x}.
+\]
+O número $\xi$ pode depender de $x$ e de $h$, mas o que precisamos
+saber é apenas que $|\xi|<a$, pois os dois extremos estão em $(-a,a)$.
+Consequentemente, $\xi x\leqslant |\xi|\,|x|\leqslant a|x|$ e
+\[
+\left|\frac{e^{(t+h)x}-e^{tx}}{h}\right|
+=|x|e^{\xi x}
+\leqslant |x|e^{a|x|}.
+\]
+Como essa desigualdade vale para todo $x$, podemos substituir $x$ por $X$:
+\begin{equation}\label{eq:fgm-majorante-quociente}
+|Z_h|\leqslant |X|e^{a|X|}\leqslant H_1.
+\end{equation}
+O majorante $H_1$ é o que construímos acima para $j=1$: não depende
+de $h$ e satisfaz $\mathbb{E}[H_1]<\infty$. Temos, assim, as duas
+condições necessárias: $Z_h\to Xe^{tX}$ e $|Z_h|\leqslant H_1$.
+Na notação do resultado inicial, o limite é $Z=Xe^{tX}$ e o majorante
+é $H=H_1$. Pela consequência do Teorema da Convergência Dominada, podemos afirmar que
+\[
+\lim_{h\to0}\mathbb{E}[Z_h]=\mathbb{E}[Xe^{tX}].
+\]
+Voltando ao quociente que define a derivada, obtemos
 \[
 M_X'(t)
-= \lim_{h\to 0}\frac{M_X(t+h)-M_X(t)}{h}
-= \lim_{h\to 0}\mathbb{E}\left[\frac{e^{(t+h)X}-e^{tX}}{h}\right].
+=\lim_{h\to0}\frac{M_X(t+h)-M_X(t)}{h}
+=\lim_{h\to0}\mathbb{E}[Z_h]
+=\mathbb{E}[Xe^{tX}],\qquad |t|<a.
 \]
 
-Para cada $\omega$ fixado, o quociente de diferenças converge para
-$X(\omega)e^{tX(\omega)}$, de modo que o limite dentro da esperança é
-$\mathbb{E}[Xe^{tX}]$. O que falta justificar é a passagem do limite para
-dentro do operador de esperança. Esse é o ponto delicado da demonstração e é
-exatamente onde o livro opta por não entrar: é preciso um majorante integrável
-que não dependa de $h$, e a existência de $M_X(t)$ numa vizinhança de $0$
-fornece esse majorante para $t$ próximo de $0$. Trata-se do mesmo tipo de
-argumento de convergência dominada que usamos nas notas sobre densidades
-condicionais para derivar sob o sinal de esperança; não vamos reproduzi-lo aqui
-em detalhe, mas registramos que é ele, e não a manipulação formal, que sustenta
-a identidade
-
+Para obter as derivadas seguintes, vamos explicitar como esse argumento
+se repete. Para cada inteiro $j\geqslant0$, defina
 \[
-\frac{d}{dt}M_X(t) = \mathbb{E}\bigl[Xe^{tX}\bigr].
+F_j(t)=\mathbb{E}[X^j e^{tX}],\qquad |t|<a.
 \]
+Essas esperanças são finitas, pois já mostramos que
+$|X^j e^{tX}|\leqslant H_j$ e $\mathbb{E}[H_j]<\infty$.
+Em particular, $F_0=M_X$, e o cálculo anterior mostrou que $F_0'=F_1$.
 
-Uma vez obtida essa identidade para $t$ próximo de $0$, podemos repetir o
-argumento: o lado direito é novamente uma esperança de uma função derivável de
-$t$, com a mesma estrutura e o mesmo tipo de majorante, de modo que derivar
-$k$ vezes sucessivamente conduz a
-
+Fixe agora $j\geqslant0$ e considere novamente $0<|h|<a-|t|$.
+Pela linearidade,
+\begin{align*}
+\frac{F_j(t+h)-F_j(t)}{h}
+&=\mathbb{E}\left[
+ X^j\frac{e^{(t+h)X}-e^{tX}}{h}\right]
+\\[0.3cm]
+&=\mathbb{E}[X^j Z_h].
+\end{align*}
+Dentro da esperança, temos a convergência
 \[
-\frac{d^k}{dt^k}M_X(t) = \mathbb{E}\bigl[X^k e^{tX}\bigr].
+X^j Z_h\longrightarrow X^{j+1}e^{tX}.
 \]
-
-Fazendo $t=0$, o fator $e^{0\cdot X}$ se reduz a $1$ e obtemos
-\eqref{eq:fgm-momentos}.
+Além disso, multiplicando a primeira desigualdade de
+\eqref{eq:fgm-majorante-quociente} por $|X|^j$ e usando o majorante
+$H_{j+1}$ definido em \eqref{eq:fgm-def-majorante}, com $j$ substituído
+por $j+1$, obtemos
+\[
+|X^j Z_h|
+\leqslant |X|^{j+1}e^{a|X|}
+\leqslant H_{j+1}.
+\]
+Como $H_{j+1}$ também é integrável e não depende de $h$, podemos aplicar
+novamente a convergência dominada. Isso fornece
+\[
+F_j'(t)=\mathbb{E}[X^{j+1}e^{tX}]=F_{j+1}(t).
+\]
+Portanto, derivar $F_j$ produz $F_{j+1}$. Começando com $F_0=M_X$,
+concluímos sucessivamente que $M_X'=F_1$, $M_X''=F_2$ e, por indução,
+\[
+M_X^{(k)}(t)=F_k(t)=\mathbb{E}[X^k e^{tX}],\qquad |t|<a.
+\]
+Finalmente, $t=0$ na identidade acima concluímos finalmente que
+\[
+M_X^{(k)}(0)=\mathbb{E}[X^k e^{0X}]=\mathbb{E}[X^k].
+\]
 \end{proof}
 
-Com o teorema acima, os momentos deixam de ser quantidades que precisam ser
-calculadas por somas ou integrais separadas: eles ficam armazenados nas
-derivadas de $M_X$ em $0$. Vejamos agora como a geradora se comporta sob duas
+Com o teorema acima, podemos pensar que os momentos deixam de ser quantidades 
+que só podem ser obtidas por meio de somas ou integrais e passam a
+ser quantidades que ficam codificadas nas derivadas da função $M_X$ em $0$. 
+
+Vamos ver a seguir como a geradora se comporta sob duas
 operações que aparecem o tempo todo em probabilidade.
 
 \medskip
 \noindent\textbf{Transformações lineares.}
 Seja $X$ uma variável aleatória e considere $aX+b$, com $a,b\in\mathbb{R}$.
-Fixado $t$, o expoente se decompõe em um fator que depende de $X$ e um fator
-constante, e podemos usar a linearidade da esperança no fator constante:
-
+Fixado $t$, o expoente na definição da função geradora se decompõe em um fator que depende de $X$ e um fator
+constante, e podemos usar a linearidade da esperança no fator constante
+para obter a seguinte igualdade
 \begin{align*}
 M_{aX+b}(t)
 &= \mathbb{E}\bigl[e^{t(aX+b)}\bigr]
@@ -1685,12 +2140,8 @@ M_{aX+b}(t)
 &= e^{tb}\,\mathbb{E}\bigl[e^{(at)X}\bigr]
 = e^{tb}M_X(at),
 \end{align*}
-
 sempre que $M_{aX+b}(t)$ seja finita, o que ocorre precisamente quando $M_X(at)$
-é finita. A primeira igualdade é a definição de função geradora de momentos
-aplicada a $aX+b$; na segunda usamos $e^{u+v}=e^u e^v$; na terceira, que $e^{tb}$
-não depende de $\omega$ e pode sair da esperança. Concluímos que
-
+é finita. Desta forma concluímos que
 \begin{equation}\label{eq:fgm-linear}
 M_{aX+b}(t) = e^{tb}M_X(at).
 \end{equation}
@@ -1703,14 +2154,14 @@ $e^{tb}M_X(0)=e^{tb}$, como esperado.
 \medskip
 \noindent\textbf{Somas de variáveis independentes.}
 Boa parte da teoria da probabilidade gira em torno de somas de variáveis
-aleatórias. Obter a distribuição de uma soma a partir das distribuições das
-parcelas costuma ser trabalhoso: nas notas sobre somas de variáveis aleatórias
-contínuas fizemos isso por convolução, identificando a densidade de $X+Y$ com
+aleatórias independentes. Obter a distribuição de uma soma a partir das distribuições das
+parcelas costuma ser trabalhoso. Nas notas sobre somas de variáveis aleatórias
+contínuas, fizemos isso por meio de convoluções, identificando a densidade de $X+Y$ com
 a convolução das densidades de $X$ e de $Y$, cálculo que frequentemente envolve
-integrais desconfortáveis. As funções geradoras de momentos são úteis aqui
+integrais bastante elaboradas. As funções geradoras de momentos são úteis aqui
 porque transformam somas em produtos, e produtos são fáceis de manipular.
 
-\begin{theorem}[Geradora da soma de duas variáveis independentes]\label{thm:fgm-soma}
+\begin{theorem}\label{thm:fgm-soma}
 Sejam $X$ e $Y$ variáveis aleatórias independentes e suponha que $M_X(t)$ e
 $M_Y(t)$ são finitas. Então $M_{X+Y}(t)$ é finita e
 
@@ -1720,27 +2171,21 @@ M_{X+Y}(t) = M_X(t)\,M_Y(t).
 \end{theorem}
 
 \begin{proof}
-Como $t(X+Y)=tX+tY$, podemos escrever o integrando como um produto:
-
-\[
-M_{X+Y}(t) = \mathbb{E}\bigl[e^{t(X+Y)}\bigr] = \mathbb{E}\bigl[e^{tX}e^{tY}\bigr].
-\]
-
-Aqui entra a independência. Nas notas sobre independência de variáveis
-aleatórias, e mais geralmente nas notas sobre vetores aleatórios, vimos que, se
-$X$ e $Y$ são independentes, então
-$\mathbb{E}[g(X)h(Y)]=\mathbb{E}[g(X)]\mathbb{E}[h(Y)]$ para funções
-mensuráveis $g$ e $h$ para as quais as esperanças envolvidas façam sentido.
-Aplicamos esse resultado com $g(x)=e^{tx}$ e $h(y)=e^{ty}$, que são
-mensuráveis e não negativas, logo fora do caso de indeterminação. Segue que
-
-\[
-\mathbb{E}\bigl[e^{tX}e^{tY}\bigr] = \mathbb{E}\bigl[e^{tX}\bigr]\mathbb{E}\bigl[e^{tY}\bigr] = M_X(t)M_Y(t).
-\]
-
-Como as duas geradoras são finitas por hipótese, o produto é finito e portanto
-$M_{X+Y}(t)$ é finita, o que justifica as passagens acima. Isto prova
-\eqref{eq:fgm-produto}.
+Como $X$ e $Y$ são independentes, $e^{tX}$ e $e^{tY}$ também são,
+pois são funções mensuráveis de $X$ e de $Y$, respectivamente.
+Além disso, suas esperanças são finitas por hipótese. Podemos, portanto,
+usar a propriedade de que a esperança do produto de variáveis
+independentes e integráveis é o produto das esperanças. Como
+$e^{t(X+Y)}=e^{tX}e^{tY}$, obtemos
+\begin{align*}
+\mathbb{E}\bigl[e^{t(X+Y)}\bigr]
+&=\mathbb{E}\bigl[e^{tX}e^{tY}\bigr]
+\\[0.3cm]
+&=\mathbb{E}\bigl[e^{tX}\bigr]\,\mathbb{E}\bigl[e^{tY}\bigr]
+\\[0.3cm]
+&=M_X(t)\,M_Y(t)<\infty.
+\end{align*}
+Assim, $M_{X+Y}(t)$ é finita e vale $M_X(t)M_Y(t)$, como queríamos provar.
 \end{proof}
 
 O mesmo argumento se estende a qualquer número finito de parcelas
@@ -1786,8 +2231,8 @@ seguir garante exatamente isso.
 
 \begin{theorem}[Unicidade das funções geradoras de momentos]\label{thm:fgm-unicidade}
   Seja $X$ variável aleatória cuja função geradora de momentos
-  $M_X(t)=\mathbb{E}[e^{tX}]$ satisfaz $M_X(t)<\infty$ para todo $t$ com
-  $|t|<\delta$, em que $\delta>0$. Então valem as duas conclusões a seguir.
+  $M_X(t)=\mathbb{E}[e^{tX}]$ satisfaz $M_X(t)<\infty$ para todo $t\in (-\delta,\delta)$, 
+  para algum $\delta>0$. Então valem as duas conclusões a seguir.
   (i) Existe uma única distribuição com função geradora de momentos $M_X$.
   (ii) Todos os momentos $\mathbb{E}[X^k]$ são finitos, para $k=1,2,\ldots$,
   e vale a expansão em série de potências
@@ -1796,126 +2241,644 @@ seguir garante exatamente isso.
   \end{equation}
 \end{theorem}
 
-Não demonstramos este teorema. Ele é, em essência, o teorema de inversão da
-transformada de Laplace. De fato, quando $X$ é absolutamente contínua, com
-densidade $f_X$, vale $M_X(t)=\int_{-\infty}^{+\infty}e^{tx}f_X(x)\,dx$, que
-é a transformada de Laplace de $f_X$, a menos do sinal do parâmetro; e o
-teorema de inversão afirma que, quando essa transformada existe de modo
-adequado, a densidade $f_X$ pode ser recuperada da transformada por uma
-fórmula de inversão. A igualdade \eqref{eq:fgm-serie} é a mesma expansão de
-\eqref{eq:fgm-expansao}, mas a passagem exige cuidado: é preciso justificar a
-permutação entre a esperança $\mathbb{E}$ e a soma, como observamos após
-\eqref{eq:fgm-expansao}. O teorema é o que dá rigor ao desenvolvimento formal
-apresentado antes. Existe também uma relação estreita com
-\Cref{thm:momentos-unicidade}, o teorema de unicidade dos momentos: trata-se
-do mesmo fenômeno, visto pelo lado da série de momentos.
+O teorema reúne duas afirmações: a função geradora determina a distribuição
+e, perto de $0$, pode ser escrita como uma série cujos coeficientes são
+os momentos. Vamos explicar separadamente essas duas afirmações e sua
+relação com o teorema de unicidade dos momentos.
+
+\medskip
+\noindent\textbf{Por que a geradora determina a distribuição?}
+A conclusão de unicidade significa o seguinte: se outra variável aleatória
+$Y$ satisfaz $M_Y(t)=M_X(t)$ para todo $t$ em algum intervalo aberto
+contendo $0$, então $X$ e $Y$ têm a mesma distribuição. Não precisamos
+conhecer a geradora em toda a reta; seus valores nesse intervalo já bastam.
+Usaremos esse resultado sem demonstração, pois sua prova exige ferramentas
+de análise que não desenvolveremos nestas notas.
+
+Uma conexão com as transformadas integrais ajuda a situar o resultado.
+Se $X$ tem densidade $f_X$, então
+\[
+M_X(t)=\int_{-\infty}^{\infty}e^{tx}f_X(x)\,dx.
+\]
+Essa expressão é uma transformada de Laplace \emph{bilateral}, com troca
+de sinal no parâmetro. Mais precisamente, se adotamos a convenção
+\[
+\mathcal{L}_{\mathrm{bil}}f_X(s)
+=\int_{-\infty}^{\infty}e^{-sx}f_X(x)\,dx,
+\]
+então $M_X(t)=\mathcal{L}_{\mathrm{bil}}f_X(-t)$ nos pontos em que a
+integral é finita. A palavra ``bilateral'' indica que a integração é feita
+em toda a reta ao invés de apenas sobre o intervalo $[0,\infty)$. 
+A unicidade da geradora é uma manifestação da propriedade de unicidade dessa transformada
+em um contexto apropriado. 
+
+
+\medskip
+\noindent\textbf{Por que a expansão em série é válida?}
+Aqui podemos justificar a passagem que antes fizemos formalmente.
+Fixe $t$ com $|t|<\delta$ e escolha $r$ tal que
+$|t|<r<\delta$. Como $r$ e $-r$ estão no intervalo onde a geradora é
+finita, temos
+\[
+e^{r|X|}\leqslant e^{rX}+e^{-rX},
+\qquad
+\mathbb{E}[e^{r|X|}]\leqslant M_X(r)+M_X(-r)<\infty.
+\]
+Considere agora as somas parciais da série da exponencial,
+\[
+S_n=\sum_{k=0}^{n}\frac{t^k X^k}{k!}.
+\]
+Para cada valor de $X$, temos $S_n\to e^{tX}$. Além disso, pela
+desigualdade triangular e pela série da exponencial,
+\[
+|S_n|
+\leqslant\sum_{k=0}^{n}\frac{|t|^k|X|^k}{k!}
+\leqslant e^{|t||X|}
+\leqslant e^{r|X|}.
+\]
+Encontramos, assim, um majorante integrável que não depende de $n$.
+Pelo Teorema da Convergência Dominada podemos podemos justificar a troca de ordem
+do limite e da esperança ficando assim com as seguintes igualdades
+\begin{align*}
+M_X(t)
+&=\mathbb{E}[e^{tX}]
+=\lim_{n\to\infty}\mathbb{E}[S_n]
+\\[0.3cm]
+&=\lim_{n\to\infty}\sum_{k=0}^{n}\frac{t^k}{k!}\mathbb{E}[X^k]
+=\sum_{k=0}^{\infty}\frac{t^k}{k!}\mathbb{E}[X^k].
+\end{align*}
+Isso prova \eqref{eq:fgm-serie} e justifica a troca entre a esperança e
+a soma em \eqref{eq:fgm-expansao}.
+
+\medskip
+\noindent\textbf{Qual é a relação com a unicidade dos momentos?}
+A hipótese de que $M_X$ é finita numa vizinhança de $0$ equivale à
+hipótese de \Cref{thm:momentos-unicidade}: todos os momentos existem e a
+série \eqref{eq:momentos-serie} converge absolutamente para algum parâmetro
+positivo. Vejamos as duas implicações.
+
+\bigskip 
+
+Primeiro, suponha que $M_X$ seja finita em $(-\delta,\delta)$.
+Já provamos que todos os momentos absolutos são finitos. Para verificar
+a convergência absoluta da série, fixe $|t|<r<\delta$ e observe que
+\[
+e^{r|X|}\geqslant\frac{r^k|X|^k}{k!},
+\qquad
+\mathbb{E}[|X|^k]\leqslant k!\,r^{-k}\mathbb{E}[e^{r|X|}].
+\]
+Como $|\mathbb{E}[X^k]|\leqslant\mathbb{E}[|X|^k]$, segue que
+\begin{align*}
+\sum_{k=0}^{\infty}\frac{|t|^k}{k!}\bigl|\mathbb{E}[X^k]\bigr|
+&\leqslant\mathbb{E}[e^{r|X|}]
+  \sum_{k=0}^{\infty}\left(\frac{|t|}{r}\right)^k
+\\[0.3cm]
+&=\frac{\mathbb{E}[e^{r|X|}]}{1-|t|/r}<\infty.
+\end{align*}
+A série geométrica converge porque $|t|<r$. É importante usar um ponto
+$r$ estritamente menor que $\delta$: a hipótese não garante finitude da
+geradora nos extremos $\delta$ e $-\delta$.
+
+
+\bigskip 
+
+Reciprocamente, suponha que todos os momentos existam e que a série
+\eqref{eq:momentos-serie} convirja absolutamente para algum $t_0>0$.
+Sua subsérie de índices pares também converge, de modo que
+\[
+A=\sum_{j=0}^{\infty}\frac{t_0^{2j}}{(2j)!}\mathbb{E}[X^{2j}]<\infty.
+\]
+Vamos mostrar que essa informação já controla uma exponencial de $|X|$.
+Somando as séries de $e^u$ e $e^{-u}$, os termos ímpares se cancelam e
+os termos pares se somam. Assim, para todo $x\in\mathbb{R}$,
+\[
+e^{t_0|x|}\leqslant e^{t_0x}+e^{-t_0x}
+=2\sum_{j=0}^{\infty}\frac{t_0^{2j}x^{2j}}{(2j)!}.
+\]
+Todos os termos da última série são não negativos. Por isso, podemos
+trocar a esperança e a soma pelo Teorema da Convergência Monótona,
+obtendo
+\[
+\mathbb{E}[e^{t_0|X|}]
+\leqslant 2\sum_{j=0}^{\infty}\frac{t_0^{2j}}{(2j)!}\mathbb{E}[X^{2j}]
+=2A<\infty.
+\]
+Finalmente, se $|s|\leqslant t_0$, então $sX\leqslant t_0|X|$ e, portanto,
+\[
+M_X(s)=\mathbb{E}[e^{sX}]
+\leqslant\mathbb{E}[e^{t_0|X|}]<\infty.
+\]
+Logo, a geradora é finita numa vizinhança de $0$, como queríamos mostrar.
+As duas hipóteses expressam, assim, a mesma condição de controle dos
+momentos: podemos apresentá-la pela convergência da série ou pela
+finitude da função geradora perto de $0$.
+
+\bigskip 
 
 Vamos aplicar a parte de unicidade do teorema em um exemplo em que ela é
 indispensável.
 
-\begin{example}[Soma de duas normais independentes]\label{ex:soma-normais}
-  Sejam $X\sim\mathrm{N}(\mu_1,\sigma_1^2)$ e
-  $Y\sim\mathrm{N}(\mu_2,\sigma_2^2)$ variáveis aleatórias independentes.
-  Mostre que a soma $Z=X+Y$ tem distribuição
-  $\mathrm{N}(\mu_1+\mu_2,\sigma_1^2+\sigma_2^2)$.
-  \begin{solution}
-    Começamos calculando a função geradora de momentos de uma normal geral.
-    Seja $U\sim\mathrm{N}(\mu,\sigma^2)$, com $\mu\in\mathbb{R}$ e $\sigma>0$.
-    Fixado $t\in\mathbb{R}$, vamos calcular $M_U(t)=\mathbb{E}[e^{tU}]$. O
-    integrando $e^{tu}f_U(u)$ é positivo, de modo que a integral converge
-    absolutamente e podemos manipulá-la livremente. A ideia do cálculo é
-    dupla: a substituição $x=(u-\mu)/\sigma$ transfere a integral para a
-    normal padrão, e o completamento de quadrado no expoente absorve o termo
-    linear em $x$ criado por $e^{\sigma t x}$, restando a massa total de uma
-    densidade normal. Assim,
-    \begin{align}
-      M_U(t)
-      &=
-      \int_{-\infty}^{+\infty}
-      e^{tu}\,\frac{1}{\sqrt{2\pi\sigma^2}}\,
-      \exp\Bigl(-\frac{(u-\mu)^2}{2\sigma^2}\Bigr)\,du
-      \notag \\[0.3cm]
-      &=
-      e^{\mu t}\int_{-\infty}^{+\infty}
-      e^{\sigma t x}\,\frac{1}{\sqrt{2\pi}}\,
-      e^{-\frac{1}{2}x^2}\,dx
-      \qquad\text{com }x=\frac{u-\mu}{\sigma}
-      \notag \\[0.3cm]
-      &=
-      e^{\mu t+\frac{1}{2}\sigma^2t^2}\int_{-\infty}^{+\infty}
-      \frac{1}{\sqrt{2\pi}}\,
-      e^{-\frac{1}{2}(x-\sigma t)^2}\,dx
-      \notag \\[0.3cm]
-      &=
-      \exp\Bigl(\mu t+\frac{\sigma^2t^2}{2}\Bigr),
-      \label{eq:fgm-normal-geral}
-    \end{align}
-    para todo $t\in\mathbb{R}$. Na segunda linha usamos $u=\mu+\sigma x$, de
-    modo que $du=\sigma\,dx$ e $e^{tu}=e^{\mu t}e^{\sigma t x}$; na terceira
-    completamos o quadrado,
-    \[
-      \sigma t x-\frac{x^2}{2}=-\frac{(x-\sigma t)^2}{2}+\frac{\sigma^2t^2}{2},
-    \]
-    e, na quarta, a integral restante é a massa total da densidade de
-    $\mathrm{N}(\sigma t,1)$, logo vale $1$.
+\bigskip 
 
-    Voltemos a $X$ e $Y$. Como as duas variáveis são independentes,
-    \Cref{thm:fgm-soma} nos dá $M_Z(t)=M_X(t)\,M_Y(t)$ para todo $t$ em que
-    as duas geradoras são finitas. Aplicando \eqref{eq:fgm-normal-geral} a
-    cada parcela, obtemos
-    \begin{align*}
-      M_Z(t)
-      &= M_X(t)\,M_Y(t) \\[0.3cm]
-      &=
-      \exp\Bigl(\mu_1t+\frac{\sigma_1^2t^2}{2}\Bigr)\,
-      \exp\Bigl(\mu_2t+\frac{\sigma_2^2t^2}{2}\Bigr) \\[0.3cm]
-      &=
-      \exp\Bigl[(\mu_1+\mu_2)t+\frac{(\sigma_1^2+\sigma_2^2)t^2}{2}\Bigr].
-    \end{align*}
-    O lado direito é exatamente \eqref{eq:fgm-normal-geral} com
-    $\mu=\mu_1+\mu_2$ e $\sigma^2=\sigma_1^2+\sigma_2^2$: trata-se da função
-    geradora de momentos de $\mathrm{N}(\mu_1+\mu_2,\sigma_1^2+\sigma_2^2)$,
-    que é finita para todo $t\in\mathbb{R}$. Assim, vale a hipótese de
-    \Cref{thm:fgm-unicidade} para qualquer $\delta>0$, e a conclusão de
-    unicidade desse teorema dá que $Z$ tem essa distribuição: se
-    $W\sim\mathrm{N}(\mu_1+\mu_2,\sigma_1^2+\sigma_2^2)$, então
-    $Z\overset{d}{=}W$.
-  \end{solution}
+\begin{example}[Soma de duas normais independentes]\label{ex:soma-normais}
+Sejam $X\sim\mathrm{N}(\mu_1,\sigma_1^2)$ e
+$Y\sim\mathrm{N}(\mu_2,\sigma_2^2)$ variáveis aleatórias independentes.
+Mostre que a variável aleatória  $Z\equiv X+Y$ possui  distribuição
+$\mathrm{N}(\mu_1+\mu_2\, ,\,\sigma_1^2+\sigma_2^2)$.
+\begin{solution}
+Para usar a propriedade da geradora de uma soma de variáveis independentes,
+precisamos primeiro conhecer a geradora de cada parcela. Vamos, portanto,
+calcular a função geradora de momentos de uma normal com parâmetros gerais.
+Seja $U\sim\mathrm{N}(\mu,\sigma^2)$, com $\mu\in\mathbb{R}$ e
+$\sigma>0$, e fixe $t\in\mathbb{R}$. Pela expressão da densidade de $U$,
+temos que
+\[
+\mathbb{E}[e^{tU}]
+=
+\int_{-\infty}^{+\infty}
+e^{tu}\,\frac{1}{\sigma\sqrt{2\pi}}\,
+\exp\Bigl(-\frac{(u-\mu)^2}{2\sigma^2}\Bigr)\,du
+.
+\]
+Como o integrando é não negativo, essa integral está bem definida, embora
+ainda possa valer $+\infty$. As mudanças de variável abaixo são válidas
+também nessa situação; o próprio cálculo mostrará que a integral é finita.
+
+Começamos pela mudança de variável que aparece na padronização de uma
+normal:
+\[
+x=\frac{u-\mu}{\sigma},
+\qquad u=\mu+\sigma x,
+\qquad du=\sigma\,dx.
+\]
+Ela transforma $(u-\mu)^2/(2\sigma^2)$ em $x^2/2$. Além disso,
+$e^{tu}=e^{t(\mu+\sigma x)}=e^{\mu t}e^{\sigma t x}$ e, como
+$\sigma>0$, os limites de integração continuam sendo $-\infty$ e
+$+\infty$. Substituindo essas expressões na integral, obtemos
+\begin{align*}
+\mathbb{E}[e^{tU}]
+&=\int_{-\infty}^{+\infty}
+e^{\mu t}e^{\sigma t x}\,
+\frac{1}{\sigma\sqrt{2\pi}}\,e^{-x^2/2}\,\sigma\,dx
+\\[0.3cm]
+&=e^{\mu t}\int_{-\infty}^{+\infty}
+\frac{1}{\sqrt{2\pi}}\,
+\exp\Bigl(\sigma t x-\frac{x^2}{2}\Bigr)\,dx.
+\end{align*}
+Na última passagem, cancelamos os fatores $\sigma$ e retiramos da integral
+o fator $e^{\mu t}$, que não depende de $x$.
+
+Queremos agora reconhecer uma densidade normal na integral restante.
+Para isso, vamos escrever o expoente como um quadrado com sinal negativo,
+mais um termo que não depende de $x$. A identidade
+\[
+(x-\sigma t)^2=x^2-2\sigma t x+\sigma^2t^2
+\]
+mostra qual termo precisamos acrescentar e subtrair:
+\begin{align*}
+\sigma t x-\frac{x^2}{2}
+&=-\frac{1}{2}\bigl(x^2-2\sigma t x\bigr)
+\\[0.3cm]
+&=-\frac{1}{2}\bigl[(x-\sigma t)^2-\sigma^2t^2\bigr]
+\\[0.3cm]
+&=-\frac{(x-\sigma t)^2}{2}+\frac{\sigma^2t^2}{2}.
+\end{align*}
+Portanto, podemos retirar também o fator $e^{\sigma^2t^2/2}$ da integral:
+\[
+\mathbb{E}[e^{tU}]
+=e^{\mu t+\sigma^2t^2/2}
+\int_{-\infty}^{+\infty}
+\frac{1}{\sqrt{2\pi}}\,e^{-(x-\sigma t)^2/2}\,dx.
+\]
+A função que aparece nessa última integral é a densidade de uma
+$\mathrm{N}(\sigma t,1)$, cuja integral sobre toda a reta vale $1$.
+Podemos verificar isso diretamente com a translação
+$v=x-\sigma t$: nesse caso, $dv=dx$, os limites continuam sendo
+$-\infty$ e $+\infty$, e
+\[
+\int_{-\infty}^{+\infty}
+\frac{1}{\sqrt{2\pi}}\,e^{-(x-\sigma t)^2/2}\,dx
+=\int_{-\infty}^{+\infty}
+\frac{1}{\sqrt{2\pi}}\,e^{-v^2/2}\,dv
+=1,
+\]
+pois reconhecemos a densidade da normal padrão. Concluímos que a
+esperança calculada é finita para qualquer $t\in\mathbb{R}$. Assim, a
+geradora de $U$ está definida em toda a reta e é dada por
+\begin{equation}\label{eq:fgm-normal-geral}
+M_U(t)=\exp\Bigl(\mu t+\frac{\sigma^2t^2}{2}\Bigr),
+\qquad t\in\mathbb{R}.
+\end{equation}
+
+Vamos voltar ao problema de calcular a função geradora de $Z\equiv X+Y$. 
+Como $X$ e $Y$ são variáveis aleatórias independentes, o
+\Cref{thm:fgm-soma} nos dá $M_Z(t)=M_X(t)\,M_Y(t)$ para todo $t$ em que
+as duas geradoras são finitas. Aplicando \eqref{eq:fgm-normal-geral} a
+cada parcela, obtemos
+\begin{align*}
+M_Z(t)
+&= M_X(t)\,M_Y(t) \\[0.3cm]
+&=
+\exp\Bigl(\mu_1t+\frac{\sigma_1^2t^2}{2}\Bigr)\,
+\exp\Bigl(\mu_2t+\frac{\sigma_2^2t^2}{2}\Bigr) \\[0.3cm]
+&=
+\exp\Bigl[(\mu_1+\mu_2)t+\frac{(\sigma_1^2+\sigma_2^2)t^2}{2}\Bigr].
+\end{align*}
+O lado direito é exatamente \eqref{eq:fgm-normal-geral} com
+$\mu=\mu_1+\mu_2$ e $\sigma^2=\sigma_1^2+\sigma_2^2$ e portanto trata-se da função
+geradora de momentos de uma variável aleatória 
+com distribuição $\mathrm{N}(\mu_1+\mu_2,\sigma_1^2+\sigma_2^2)$,
+que é finita para todo $t\in\mathbb{R}$. Assim, vale a hipótese de
+\Cref{thm:fgm-unicidade} para qualquer $\delta>0$, e a conclusão de
+unicidade desse teorema dá que $Z$ tem essa distribuição, ou seja, se
+\begin{align*}
+W\sim\mathrm{N}(\mu_1+\mu_2,\sigma_1^2+\sigma_2^2) 
+\quad \text{então} \quad Z\overset{d}{=}W.
+\end{align*}
+\end{solution}
 \end{example}
 
-Na nota sobre somas de variáveis aleatórias contínuas, obtivemos a soma de gamas
-independentes por convolução das densidades; o argumento por funções geradoras é
-bem mais curto, e a normal é o caso em que essa economia aparece com clareza.
+Nas notas sobre somas de variáveis aleatórias contínuas, mostramos, por meio
+da convolução das densidades, que a soma de duas variáveis aleatórias
+independentes com distribuições gama de mesma taxa é ainda uma gama. Mais precisamente, se
+$X\sim\mathrm{Gama}(w_1,\lambda)$ e $Y\sim\mathrm{Gama}(w_2,\lambda)$ são
+independentes, com $w_1,w_2,\lambda>0$, então
+$X+Y\sim\mathrm{Gama}(w_1+w_2,\lambda)$. Esse resultado
+se obtém muito mais rapidamente com funções geradoras de momentos. Para
+$t<\lambda$,
+\[
+M_{X+Y}(t)=M_X(t)M_Y(t)
+=\Bigl(\frac{\lambda}{\lambda-t}\Bigr)^{w_1}
+ \Bigl(\frac{\lambda}{\lambda-t}\Bigr)^{w_2}
+=\Bigl(\frac{\lambda}{\lambda-t}\Bigr)^{w_1+w_2},
+\]
+que é a geradora de $\mathrm{Gama}(w_1+w_2,\lambda)$; a unicidade,
+\Cref{thm:fgm-unicidade}, converte essa identidade algébrica na igualdade de
+distribuições. O exemplo anterior, com a soma de duas normais, mostra o mesmo
+mecanismo: o produto das geradoras resolve a soma, e a unicidade traduz o
+resultado de volta em distribuição. No caso gama a economia é ainda mais
+visível, pois a convolução exige a relação beta--gama.
 
-\section{Exercícios propostos}\label{sec:exercicios-momentos}
+\section{Uma Aplicação: Faulhaber e Bernoulli}\label{sec:faulhaber}
 
-Os exercícios a seguir percorrem os três temas centrais desta nota: o cálculo de
-momentos por integração direta, o estudo da variância e da covariância e o uso
-das funções geradoras de momentos como instrumento de cálculo e de
-identificação de distribuições. Alguns deles pedem apenas a execução de uma
-integral já preparada no texto; outros exigem que você reconheça qual resultado
-da nota se aplica e verifique suas hipóteses antes de usá-lo. Salvo menção
-explícita em contrário, todas as variáveis aleatórias têm esperança e variância
-finitas e as integrais que aparecem convergem absolutamente.
+As fórmulas
+\[
+\sum_{k=1}^{n}k=\frac{n(n+1)}{2},\qquad
+\sum_{k=1}^{n}k^{2}=\frac{n(n+1)(2n+1)}{6},\qquad
+\sum_{k=1}^{n}k^{3}=\Bigl(\frac{n(n+1)}{2}\Bigr)^{2}
+\]
+costumam ser demonstradas uma a uma, por indução ou por argumentos telescópicos, e cada
+nova potência parece exigir uma ideia nova. Nesta seção mostramos que todas
+elas podem ser obtidas pelo mesmo procedimento. Para isso, vamos interpretar
+uma soma de potências como um momento de uma variável aleatória uniforme.
+A função geradora de momentos reunirá então todas essas somas em uma única
+função: sua derivada de ordem $m$ em $0$ fornecerá, a menos de um fator
+constante, a soma das potências de ordem $m$.
+A fórmula geral, que aparece na obra de Bernoulli
+de 1713 e usa os números que hoje levam seu nome, sai então de uma única
+expansão de Taylor. Faulhaber já conhecia muitos casos particulares.
+
+\bigskip 
+
+Fixamos um inteiro $n\geqslant1$ e tomamos $X$ uniforme em
+$\{0,1,\dots,n-1\}$, isto é, 
+\begin{align*}
+\mathbb{P}(X=k)= \frac{1}{n}, \qquad k=0,1,\dots,n-1. 
+\end{align*}
+Essa escolha é útil porque a esperança de uma função de $X$ é a média
+dos valores dessa função nos pontos $0,1,\dots,n-1$.
+Em particular, para cada inteiro $m\geqslant0$,
+\[
+\mathbb{E}[X^m]=\sum_{k=0}^{n-1}k^m\,\mathbb{P}(X=k)
+=\frac1n\sum_{k=0}^{n-1}k^m.
+\]
+Assim, basta calcular esse momento e multiplicá-lo por $n$ para obter a
+soma desejada. Quando $m=0$, adotamos aqui a convenção $k^0=1$ também
+para $k=0$: a soma tem $n$ parcelas iguais a $1$ e $\mathbb{E}[X^0]=1$.
+
+Como $X$ assume apenas uma quantidade finita de valores, todos os seus
+momentos são finitos. Sua geradora também é finita para todo $t$ real e
+vale
+\[
+M_X(t)=\mathbb{E}[e^{tX}]=\frac1n\sum_{k=0}^{n-1}e^{tk}
+=\frac1n\bigl(1+e^t+\cdots+e^{(n-1)t}\bigr).
+\]
+Para $t\neq0$, a expressão entre parênteses é uma soma geométrica de
+razão $e^t\neq1$. De fato, escrevendo $S=1+e^t+\cdots+e^{(n-1)t}$,
+a subtração $e^tS-S$ cancela todos os termos intermediários e dá
+$(e^t-1)S=e^{nt}-1$. Portanto,
+\begin{equation}\label{eq:faulhaber-mgf}
+M_X(t)=\frac1n\sum_{k=0}^{n-1}e^{tk}
+=\frac1n\,\frac{e^{nt}-1}{e^{t}-1},\qquad t\neq0.
+\end{equation}
+Em $t=0$, usamos a soma finita original e obtemos $M_X(0)=1$.
+Essa soma mostra ainda que $M_X$ é contínua e possui derivadas de todas
+as ordens. Como a geradora é finita em toda a reta, podemos aplicar
+\Cref{thm:fgm-momentos}. Esse teorema dá, para
+todo inteiro $m\geqslant0$,
+\begin{equation}\label{eq:faulhaber-momento}
+\mathbb{E}[X^{m}]=M_X^{(m)}(0),
+\qquad\text{e portanto}\qquad
+\sum_{k=0}^{n-1}k^{m}=n\,M_X^{(m)}(0).
+\end{equation}
+Resta calcular as derivadas de $M_X$ em $0$. Para isso, basta conhecer a
+expansão de Taylor do quociente em \eqref{eq:faulhaber-mgf}.
+De fato, a expansão da geradora é
+\[
+nM_X(t)=\sum_{m=0}^{\infty}
+\left(\sum_{k=0}^{n-1}k^m\right)\frac{t^m}{m!}.
+\]
+Uma série da forma $\sum_{m\geqslant0}a_m t^m/m!$ é chamada de
+\emph{função geradora exponencial} da sequência $(a_m)$. Neste caso,
+os coeficientes $a_m$ são precisamente as somas que queremos calcular.
+
+O denominador $e^t-1$ se anula em $0$. Entretanto, quando $t\to0$,
+temos $(e^t-1)/t\to1$, de modo que seu recíproco $t/(e^t-1)$ também
+tende a $1$. Isso sugere separar o quociente em dois fatores que têm
+limite quando $t\to0$:
+\[
+\frac{e^{nt}-1}{e^t-1}
+=\frac{e^{nt}-1}{t}\,\frac{t}{e^t-1}.
+\]
+Com $n$ fixado, o primeiro fator tende a $n$ e o segundo tende a $1$
+quando $t\to0$.
+Para aproveitar a expansão do segundo fator, distribuímos o numerador
+$e^{nt}-1$ e escrevemos, para $t\neq0$,
+\[
+\frac{e^{nt}-1}{e^{t}-1}
+=\frac{1}{t}\left(\frac{t\,e^{nt}}{e^{t}-1}
+-\frac{t}{e^{t}-1}\right).
+\]
+As duas parcelas entre parênteses têm agora a mesma forma:
+$t\,e^{xt}/(e^{t}-1)$, nos pontos $x=n$ e $x=0$. É essa função que define os
+polinômios de Bernoulli.
+
+\begin{definition}[Números e polinômios de Bernoulli]\label{def:bernoulli}
+Os \emph{números de Bernoulli} $B_j$ são definidos pela expansão
+\begin{equation}\label{eq:bernoulli-geradora}
+\frac{t}{e^{t}-1}=\sum_{j=0}^{\infty}B_j\,\frac{t^j}{j!},
+\qquad |t|<2\pi,
+\end{equation}
+e os \emph{polinômios de Bernoulli} $B_j(x)$ pela expansão
+\begin{equation}\label{eq:bernoulli-polinomios}
+\frac{t\,e^{xt}}{e^{t}-1}=\sum_{j=0}^{\infty}B_j(x)\,\frac{t^j}{j!},
+\qquad |t|<2\pi,
+\end{equation}
+para cada $x\in\mathbb{R}$ fixado. Em $t=0$, os quocientes são
+entendidos pelo seu limite quando $t\to0$, igual a $1$.
+\end{definition}
+
+Usaremos essas séries apenas perto de $t=0$, onde convergem
+absolutamente. O raio de convergência $2\pi$ pode ser justificado por
+análise complexa: após preencher o valor em $0$ por continuidade, as
+singularidades mais próximas são os polos $t=\pm2\pi i$. Essa
+justificativa não será necessária nos cálculos abaixo.
+
+Vamos mostrar como a definição permite calcular os primeiros números.
+Como $t/(e^t-1)\to1$ quando $t\to0$, temos $B_0=1$.
+Além disso, multiplicando
+\eqref{eq:bernoulli-geradora} por $(e^t-1)/t$, obtemos
+\[
+\left(1+B_1t+\frac{B_2}{2!}t^2+\cdots\right)
+\left(1+\frac{t}{2!}+\frac{t^2}{3!}+\cdots\right)=1.
+\]
+O lado direito tem coeficientes nulos em todas as potências positivas
+de $t$. Comparando os coeficientes de $t$ e de $t^2$, respectivamente,
+\[
+B_1+\frac12=0,
+\qquad
+\frac{B_2}{2}+\frac{B_1}{2}+\frac16=0.
+\]
+A primeira equação dá $B_1=-1/2$; substituindo esse valor na segunda,
+obtemos $B_2/2=1/4-1/6=1/12$, isto é, $B_2=1/6$.
+Continuando a comparação, calculamos os demais valores. Os primeiros são:
+\begin{center}
+\begin{tabular}{c|ccccccccc}
+\toprule
+$j$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$\\
+\midrule
+$B_j$ & $1$ & $-\tfrac12$ & $\tfrac16$ & $0$ & $-\tfrac1{30}$ & $0$
+& $\tfrac1{42}$ & $0$ & $-\tfrac1{30}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{proposition}\label{prop:bernoulli}
+Para todo $j\geqslant0$ e todo $x\in\mathbb{R}$,
+\begin{equation}\label{eq:bernoulli-explicito}
+B_j(x)=\sum_{i=0}^{j}\binom{j}{i}B_i\,x^{j-i}.
+\end{equation}
+Em particular, $B_j(0)=B_j$ e $B_1(x)=x-\tfrac12$. Além disso,
+$B_{2k+1}=0$ para todo $k\geqslant1$.
+\end{proposition}
+
+\begin{proof}
+Para encontrar $B_j(x)$, precisamos identificar o coeficiente de $t^j$
+no produto que define sua geradora. Para $|t|<2\pi$, as duas séries
+abaixo convergem absolutamente, o que permite multiplicá-las e agrupar
+os termos de mesma potência:
+\[
+\frac{t\,e^{xt}}{e^{t}-1}
+=\left(\sum_{r=0}^{\infty}\frac{x^{r}t^{r}}{r!}\right)
+\left(\sum_{i=0}^{\infty}B_i\,\frac{t^{i}}{i!}\right).
+\]
+Um termo de grau $r$ da primeira série e um termo de grau $i$ da
+segunda contribuem para $t^j$ exatamente quando $r+i=j$, ou seja,
+$r=j-i$. Assim, o coeficiente de $t^j$ nesse produto é
+\[
+\sum_{i=0}^{j}\frac{B_i x^{j-i}}{i!(j-i)!}
+=\frac1{j!}\sum_{i=0}^{j}\binom ji B_i x^{j-i}.
+\]
+Na série \eqref{eq:bernoulli-polinomios}, esse mesmo coeficiente é
+$B_j(x)/j!$. Igualando as duas expressões e multiplicando por $j!$,
+obtemos \eqref{eq:bernoulli-explicito}. Em particular, essa expressão
+mostra que $B_j(x)$ é de fato um polinômio. Com $x=0$, sobra apenas
+o termo $i=j$, dando $B_j(0)=B_j$; para $j=1$,
+$B_1(x)=B_0x+B_1=x-1/2$.
+
+Resta explicar por que os números de índice ímpar maior que $1$ se
+anulam. Como $B_1=-1/2$, somar $t/2$ à geradora cancela justamente
+seu termo de grau $1$. A função resultante é par: para $t\neq0$,
+\[
+F(t):=\frac{t}{e^t-1}+\frac t2
+=\frac{t(e^t+1)}{2(e^t-1)},
+\]
+e uma substituição direta dá
+\[
+F(-t)=\frac{(-t)(e^{-t}+1)}{2(e^{-t}-1)}
+=\frac{(-t)(1+e^t)}{2(1-e^t)}=F(t).
+\]
+A igualdade vale também em $0$ por continuidade. Na série de Taylor de
+uma função par, os coeficientes das potências ímpares são nulos:
+substituir $t$ por $-t$ troca o sinal apenas dessas potências, mas
+deixa a função inalterada. Para os graus ímpares $j\geqslant3$, os
+coeficientes de $F$ continuam sendo $B_j/j!$, pois só alteramos o
+termo de grau $1$. Portanto, $B_{2k+1}=0$ para $k\geqslant1$.
+\end{proof}
+
+\begin{theorem}[Fórmula de Faulhaber]\label{thm:faulhaber}
+Para quaisquer inteiros $n\geqslant1$ e $m\geqslant0$, com a convenção
+$0^{0}=1$,
+\begin{equation}\label{eq:faulhaber}
+\sum_{k=0}^{n-1}k^{m}
+=\frac{B_{m+1}(n)-B_{m+1}}{m+1}.
+\end{equation}
+Para $m\geqslant1$, equivalentemente,
+\begin{equation}\label{eq:faulhaber-1a-n}
+\sum_{k=1}^{n}k^{m}
+=\frac{B_{m+1}(n+1)-B_{m+1}}{m+1}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Pela relação \eqref{eq:faulhaber-momento}, basta encontrar a derivada
+$M_X^{(m)}(0)$. Vamos obtê-la identificando o coeficiente de $t^m$ na
+série da geradora: esse coeficiente é $M_X^{(m)}(0)/m!$.
+Usando a decomposição que motivou os polinômios de Bernoulli,
+para $0<|t|<2\pi$ temos
+\[
+M_X(t)
+=\frac1{n\,t}\left(\frac{t\,e^{nt}}{e^{t}-1}
+-\frac{t}{e^{t}-1}\right)
+.
+\]
+Expandimos a primeira parcela com \eqref{eq:bernoulli-polinomios},
+tomando $x=n$, e a segunda com \eqref{eq:bernoulli-geradora}:
+\[
+M_X(t)=\frac1{n\,t}\sum_{j=0}^{\infty}
+\bigl(B_j(n)-B_j\bigr)\frac{t^j}{j!}.
+\]
+O termo $j=0$ é nulo, pois $B_0(x)=B_0=1$. Por isso, todos os termos
+restantes têm um fator $t$, que cancela o $t$ do denominador:
+\[
+M_X(t)=\frac1n\sum_{j=1}^{\infty}
+\bigl(B_j(n)-B_j\bigr)\frac{t^{j-1}}{j!}.
+\]
+Agora as potências aparecem como $t^{j-1}$. Para escrevê-las como $t^m$,
+fazemos a mudança de índice $m=j-1$, isto é, $j=m+1$. Quando $j$ começa
+em $1$, o novo índice $m$ começa em $0$, e $j!=(m+1)!$. Logo,
+\[
+M_X(t)=\frac1n\sum_{m=0}^{\infty}
+\frac{B_{m+1}(n)-B_{m+1}}{(m+1)!}\,t^{m},
+\]
+inicialmente para $0<|t|<2\pi$ e também em $t=0$ por continuidade.
+Comparando essa série com a série de Taylor de $M_X$, obtemos
+\[
+\frac{M_X^{(m)}(0)}{m!}
+=\frac1n\,\frac{B_{m+1}(n)-B_{m+1}}{(m+1)!}.
+\]
+Multiplicando por $n\,m!$ e usando $(m+1)!=(m+1)m!$, chegamos a
+\[
+\sum_{k=0}^{n-1}k^m
+=nM_X^{(m)}(0)
+=\frac{m!}{(m+1)!}\bigl(B_{m+1}(n)-B_{m+1}\bigr)
+=\frac{B_{m+1}(n)-B_{m+1}}{m+1}.
+\]
+Isso prova \eqref{eq:faulhaber}. Para obter a soma de $1$ a $n$,
+substituímos $n$ por $n+1$, obtendo uma soma de $0$ a $n$. Quando
+$m\geqslant1$, seu termo $k=0$ vale $0^m=0$ e pode ser retirado.
+Essa é precisamente \eqref{eq:faulhaber-1a-n}. Para $m=0$, o termo
+$k=0$ vale $1$ pela convenção adotada, razão pela qual essa segunda
+forma foi enunciada apenas para $m\geqslant1$.
+\end{proof}
 
 \medskip
-\noindent\textbf{Momentos}
+\noindent\textbf{Exemplos.}
+Para aplicar a fórmula, calculamos primeiro os polinômios necessários
+usando \eqref{eq:bernoulli-explicito} e os valores da tabela:
+\begin{align*}
+B_1(x)&=x-\frac12,\\[0.2cm]
+B_2(x)&=x^2+2\left(-\frac12\right)x+\frac16
+=x^2-x+\frac16,\\[0.2cm]
+B_3(x)&=x^3+3\left(-\frac12\right)x^2
++3\left(\frac16\right)x=x^3-\frac32x^2+\frac12x,\\[0.2cm]
+B_4(x)&=x^4+4\left(-\frac12\right)x^3
++6\left(\frac16\right)x^2-\frac1{30}
+=x^4-2x^3+x^2-\frac1{30}.
+\end{align*}
+Para $m=0$, \eqref{eq:faulhaber} dá
+$B_1(n)-B_1=(n-1/2)-(-1/2)=n$, como esperado.
+Para $m=1,2,3$, a mesma fórmula fornece
+\begin{align*}
+\sum_{k=0}^{n-1}k
+&=\frac{B_2(n)-B_2}{2}
+=\frac{n^2-n}{2}=\frac{n(n-1)}2,\\[0.3cm]
+\sum_{k=0}^{n-1}k^2
+&=\frac{B_3(n)-B_3}{3}
+=\frac{n^3-\frac32n^2+\frac12n}{3}
+=\frac{n(n-1)(2n-1)}6,\\[0.3cm]
+\sum_{k=0}^{n-1}k^3
+&=\frac{B_4(n)-B_4}{4}
+=\frac{n^4-2n^3+n^2}{4}
+=\frac{n^2(n-1)^2}{4}.
+\end{align*}
+Substituindo $n$ por $n+1$ nessas três expressões, recuperamos as
+fórmulas de somas de $1$ a $n$ apresentadas no início da seção.
 
-\begin{exercise}\label{exercise:gw-7-3}
-  Uma moeda honesta é lançada indefinidamente. No $k$-ésimo lançamento, o
-  apostador recebe $0$ se o resultado for coroa e $2/3^k$ se o resultado for
-  cara. Seja $X$ o ganho total do apostador na sequência infinita de
-  lançamentos. Mostre que $X$ tem a distribuição de Cantor.
+Por fim, em \eqref{eq:bernoulli-explicito} o termo $i=0$ é
+$B_0x^j=x^j$ e os demais têm grau menor que $j$. Assim, $B_{m+1}(x)$
+tem grau $m+1$ e coeficiente líder $1$. Subtrair a constante $B_{m+1}$
+não altera esse termo de maior grau; dividir por $m+1$ mostra que a soma
+em \eqref{eq:faulhaber} é um polinômio em $n$ de grau $m+1$, cujo
+termo líder é $n^{m+1}/(m+1)$.
 
-  \emph{Sugestão:} escreva $X$ como soma das contribuições de cada lançamento,
-  usando indicadoras dos eventos ``cara no $k$-ésimo lançamento'', e determine a
-  função de distribuição de $X$. A construção da distribuição de Cantor foi
-  feita nas notas sobre funções de distribuição; reconheça ali o mesmo objeto.
-\end{exercise}
+\begin{remark}[Bernoulli e a função zeta]\label{rem:bernoulli-zeta}
+Os números de Bernoulli também aparecem em um problema que, à primeira
+vista, parece distante das somas finitas de potências: calcular as
+séries infinitas
+\[
+\zeta(2k)=\sum_{r=1}^{\infty}\frac1{r^{2k}},\qquad k\geqslant1.
+\]
+Euler obteve
+\begin{equation}\label{eq:zeta-2k}
+\zeta(2k)=(-1)^{k+1}\frac{(2\pi)^{2k}}{2\,(2k)!}\,B_{2k},
+\qquad k\geqslant1,
+\end{equation}
+fórmula que não demonstraremos aqui. Por exemplo, com $k=1$ e
+$B_2=1/6$, temos
+\[
+\zeta(2)=\frac{(2\pi)^2}{2\cdot2!}\,\frac16
+=\frac{4\pi^2}{4}\,\frac16=\frac{\pi^2}{6}.
+\]
+Com $k=2$ e $k=3$, usando $B_4=-1/30$ e $B_6=1/42$, obtemos
+\[
+\zeta(4)=\frac{16\pi^4}{2\cdot24\cdot30}=\frac{\pi^4}{90},
+\qquad
+\zeta(6)=\frac{64\pi^6}{2\cdot720\cdot42}=\frac{\pi^6}{945}.
+\]
+Assim, $\zeta(2k)$ é sempre um múltiplo racional de $\pi^{2k}$; e, como
+$\zeta(2k)>0$, podemos tomar módulos em \eqref{eq:zeta-2k} e isolar
+$|B_{2k}|$:
+\[
+|B_{2k}|=\frac{2(2k)!}{(2\pi)^{2k}}\,\zeta(2k).
+\]
+Além disso, $\zeta(2k)\to1$ quando $k\to\infty$.
+Para verificar esse limite, separamos o
+termo $r=1$ e estimamos a cauda da série por uma integral:
+\[
+0\leqslant\zeta(2k)-1
+=\sum_{r=2}^{\infty}\frac1{r^{2k}}
+\leqslant\frac1{2^{2k}}+\int_2^\infty x^{-2k}\,dx
+=\frac1{2^{2k}}+\frac{2^{1-2k}}{2k-1}
+\xrightarrow{\ k\to\infty\ }0.
+\]
+Aqui usamos que $x^{-2k}$ é decrescente: para cada $r\geqslant3$,
+$r^{-2k}\leqslant\int_{r-1}^r x^{-2k}\,dx$.
+Voltando à expressão de $|B_{2k}|$, obtemos, quando $k\to\infty$,
+\[
+\frac{|B_{2k}|}{2(2k)!/(2\pi)^{2k}}\longrightarrow1,
+\qquad\text{isto é,}\qquad
+|B_{2k}|\sim\frac{2(2k)!}{(2\pi)^{2k}}.
+\]
+A fórmula de Euler acima trata dos argumentos pares. Os valores nos
+inteiros ímpares maiores que $1$ são menos compreendidos: $\zeta(3)$ é
+irracional (Apéry, 1978), mas não se sabe se é transcendente.
+Nas notas sobre esperança de variáveis discretas, $\zeta(2)$
+e $\zeta(3)$ já haviam aparecido no cálculo dos momentos da distribuição
+zeta.
+\end{remark}
 
-\begin{starredexercise}\label{exercise:gw-7-4}
-  Mostre que o conjunto de Cantor é não enumerável.
-\end{starredexercise}
+\section{Exercícios propostos}\label{sec:exercicios-momentos}
 
 \begin{exercise}\label{exercise:gw-7-10}
   Se $X$ é uniformemente distribuída no intervalo $(a,b)$, mostre que
@@ -1932,7 +2895,7 @@ finitas e as integrais que aparecem convergem absolutamente.
     \qquad \text{para } k = 1, 2, \ldots.
   \]
 
-  \emph{Nota:} usamos a convenção de densidade adotada nas notas sobre somas de
+  \noindent\emph{Nota:} usamos a convenção de densidade adotada nas notas sobre somas de
   variáveis aleatórias, em que
   \[
     f_X(x) = \frac{\lambda^w}{\Gamma(w)}\,x^{w-1}e^{-\lambda x},
@@ -1951,13 +2914,11 @@ finitas e as integrais que aparecem convergem absolutamente.
     \qquad \text{para } k = 1, 2, \ldots.
   \]
 
-  \emph{Sugestão:} observe que a distribuição $\chi^2$ com $n$ graus de
+  \noindent\emph{Sugestão:} observe que a distribuição $\chi^2$ com $n$ graus de
   liberdade é o caso particular $w = n/2$ e $\lambda = 1/2$ da distribuição
   gama e aplique o exercício anterior.
 \end{exercise}
 
-\medskip
-\noindent\textbf{Variância e covariância}
 
 \begin{starredexercise}\label{exercise:gw-7-35}
   Sejam $X$ e $Y$ variáveis aleatórias com distribuição normal bivariada de
@@ -1968,7 +2929,7 @@ finitas e as integrais que aparecem convergem absolutamente.
     \rho(X,Y) = \rho.
   \]
 
-  \emph{Nota:} a densidade normal bivariada já foi estudada nas notas sobre
+  \noindent\emph{Nota:} a densidade normal bivariada já foi estudada nas notas sobre
   densidades condicionais. Use a expressão da densidade lá obtida e, para
   calcular $\operatorname{Cov}(X,Y)$, comece determinando
   $\mathbb{E}[X\mid Y]$, tal como fizemos naquelas notas. Este exercício
@@ -1985,7 +2946,7 @@ finitas e as integrais que aparecem convergem absolutamente.
     \qquad \text{se } m < n.
   \]
 
-  \emph{Sugestão:} use a bilinearidade da covariância e a hipótese de que
+  \noindent\emph{Sugestão:} use a bilinearidade da covariância e a hipótese de que
   $\operatorname{Cov}(X_i,X_j) = 0$ para $i\neq j$. Note que a hipótese $m<n$
   apenas escolhe as duas somas de modo que $S_m$ seja a menor delas: para
   $m>n$ a mesma conta dá $\operatorname{Cov}(S_m,S_n) = n\sigma^2$, pois cada
@@ -2003,13 +2964,11 @@ finitas e as integrais que aparecem convergem absolutamente.
     \end{cases}
   \]
 
-  \emph{Sugestão:} condicione em $Y$ para calcular $\mathbb{E}[X\mid Y]$ e,
+  \noindent\emph{Sugestão:} condicione em $Y$ para calcular $\mathbb{E}[X\mid Y]$ e,
   depois, $\mathbb{E}[X]$; ou trabalhe diretamente com a densidade conjunta,
   calculando as integrais iteradas na ordem mais conveniente.
 \end{starredexercise}
 
-\medskip
-\noindent\textbf{Funções geradoras de momentos}
 
 \begin{exercise}\label{exercise:gw-7-59}
   Determine a função geradora de momentos de uma variável aleatória com
@@ -2018,7 +2977,7 @@ finitas e as integrais que aparecem convergem absolutamente.
     \item distribuição de Poisson de parâmetro $\lambda$.
   \end{enumerate}
 
-  \emph{Nota:} em (a), use a mesma convenção de densidade do
+  \noindent\emph{Nota:} em (a), use a mesma convenção de densidade do
   \cref{exercise:gw-7-11}, com $\lambda$ como taxa. Em ambos os itens, indique o
   intervalo de valores de $t$ para os quais a FGM está definida.
 \end{exercise}
@@ -2027,7 +2986,7 @@ finitas e as integrais que aparecem convergem absolutamente.
   Se $X$ tem distribuição normal com média $\mu$ e variância $\sigma^2$,
   determine $\mathbb{E}[X^3]$.
 
-  \emph{Sugestão:} a FGM da normal foi calculada nesta nota. Derive-a três
+  \noindent\emph{Sugestão:} a FGM da normal foi calculada nesta nota. Derive-a três
   vezes em $t$ e avalie o resultado em $t=0$; verifique que a derivação sob o
   sinal de integral é legítima em uma vizinhança de $0$.
 \end{exercise}
@@ -2036,7 +2995,7 @@ finitas e as integrais que aparecem convergem absolutamente.
   Mostre que, se $X$ tem distribuição normal, então $aX+b$ também tem
   distribuição normal, quaisquer que sejam $a,b\in\mathbb{R}$ com $a\neq 0$.
 
-  \emph{Sugestão:} use a unicidade das funções geradoras de momentos, vista
+  \noindent\emph{Sugestão:} use a unicidade das funções geradoras de momentos, vista
   nesta nota, e a expressão da FGM da distribuição normal para calcular a FGM
   de $aX+b$ e reconhecê-la como a FGM de uma normal.
 \end{exercise}
@@ -2052,7 +3011,7 @@ finitas e as integrais que aparecem convergem absolutamente.
     M_S(t) = G\bigl(M(t)\bigr).
   \]
 
-  \emph{Sugestão:} condicione no valor de $N$ e use a independência para fatorar
+  \noindent\emph{Sugestão:} condicione no valor de $N$ e use a independência para fatorar
   a esperança. O resultado é a versão, na linguagem das funções geradoras de
   momentos, da composição de funções geradoras de probabilidade estudada nas
   notas sobre funções geradoras de probabilidade, onde a soma de um número
@@ -2060,7 +3019,9 @@ finitas e as integrais que aparecem convergem absolutamente.
   também explica por que $G$ precisa assumir valores não negativos no ponto
   $M(t)$.
 
-  \emph{Nota:} a independência mútua das parcelas $X_i$ é indispensável, e não
+  \bigskip 
+	
+  \noindent \emph{Nota:} a independência mútua das parcelas $X_i$ é indispensável, e não
   apenas a independência entre $N$ e a sequência. Sem ela a identidade
   $M_{X_1+\cdots+X_n}(t)=M(t)^n$ pode falhar, e com ela o resultado deixa de
   valer. O enunciado impresso do livro que seguimos menciona apenas que as
