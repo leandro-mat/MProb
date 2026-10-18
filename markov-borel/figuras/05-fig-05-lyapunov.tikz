@@ -5,7 +5,7 @@
 %   no ponto r = 2 a corda vale -0,9548 e a curva vale -1,0986.
 % Painel direito: r -> (E|X|^r)^{1/r} = (1/(r+1))^{1/r}, crescente.
 %   limite em r -> 0: 1/e = 0,3679; limite em r -> infinito: 1.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \begin{minipage}{0.48\linewidth}
 \centering

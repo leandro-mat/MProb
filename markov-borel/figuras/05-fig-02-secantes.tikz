@@ -2,7 +2,7 @@
 % g(x) = 0,4x^2 + 0,4; u = 0,4, w = 1,3, v = 2,6.
 % g(u) = 0,464; g(w) = 1,076; g(v) = 3,104.
 % s_1 = 0,680; s_2 = 1,562; s_uv = 1,200.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[x=2.0cm, y=1.35cm, >=latex,
     rot/.style={font=\scriptsize},
@@ -17,7 +17,7 @@
 
   % secantes
   \draw[thick] (0.4,0.464) -- (1.3,1.076);
-  \draw[thick] (1.3,1.076) -- (2.6,3.104);
+  \draw[thick, teal] (1.3,1.076) -- (2.6,3.104);
   \draw[thick, dashed, muted] (0.4,0.464) -- (2.6,3.104);
 
   % pontos
@@ -36,7 +36,7 @@
         fill=white, draw=border, rounded corners=1pt,
         inner sep=4pt] at (0.12,4.45)
     {\textcolor{black}{\rule{0.7cm}{0.6pt}}\quad $s_1\approx 0{,}68$\\[2pt]
-     \textcolor{black}{\rule{0.7cm}{0.6pt}}\quad $s_2\approx 1{,}56$\\[2pt]
+     \textcolor{teal}{\rule{0.7cm}{0.6pt}}\quad $s_2\approx 1{,}56$\\[2pt]
      \textcolor{muted}{\rule{0.7cm}{0.6pt}}\quad $s_{uv}\approx 1{,}20$\\[3pt]
      \hspace*{0.1cm}$s_1\leqslant s_{uv}\leqslant s_2$};
 \end{tikzpicture}

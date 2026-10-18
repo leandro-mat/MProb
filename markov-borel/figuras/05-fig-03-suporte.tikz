@@ -1,7 +1,7 @@
 % F3 do levantamento 05-convexidade: a reta de suporte, com e sem derivada.
 % Painel esquerdo: g(x) = 0,4x^2 + 0,4; w = 1,4; g'(w) = 1,12.
 % Painel direito: g(x) = |x - 1,5| + 0,7, com bico em w = 1,5.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \begin{minipage}{0.47\linewidth}
 \centering

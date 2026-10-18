@@ -1,7 +1,7 @@
 % F1 do levantamento 05-convexidade: a corda fica acima do gráfico.
 % g(x) = 0,4x^2 + 0,4 em [0,3]; u = 0,5, v = 2,7, x_0 = 1,6.
 % g(u) = 0,500; g(v) = 3,316; g(x_0) = 1,424; corda em x_0 = 1,908.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[x=2.2cm, y=1.5cm, >=latex,
     rot/.style={font=\scriptsize},
@@ -41,7 +41,7 @@
 \end{tikzpicture}
 \caption{A função é convexa quando a corda que une dois pontos quaisquer do
 gráfico fica acima do gráfico. O segmento vertical destacado mede a folga
-$\lambda g(u)+(1-\lambda)g(v)-g(x_0)$, onde
-$x_0=\lambda u+(1-\lambda)v$.}
+$(1-t)g(u)+tg(v)-g(x_0)$, onde
+$x_0=(1-t)u+tv$.}
 \label{fig:convexidade-corda}
 \end{figure}
