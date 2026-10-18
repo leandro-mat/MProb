@@ -1,0 +1,47 @@
+% F1 do levantamento 05-convexidade: a corda fica acima do gráfico.
+% g(x) = 0,4x^2 + 0,4 em [0,3]; u = 0,5, v = 2,7, x_0 = 1,6.
+% g(u) = 0,500; g(v) = 3,316; g(x_0) = 1,424; corda em x_0 = 1,908.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=2.2cm, y=1.5cm, >=latex,
+    rot/.style={font=\scriptsize},
+    marca/.style={font=\scriptsize, text=muted}]
+
+  % eixos
+  \draw[thin, ->] (-0.15,0) -- (3.2,0) node[below, font=\scriptsize] {$x$};
+  \draw[thin, ->] (0,-0.1) -- (0,4.8);
+
+  % gráfico de g
+  \draw[thick, domain=0:3, samples=120] plot (\x,{0.4*\x*\x+0.4});
+  \node[rot, anchor=south west] at (3.02,4.0) {$y=g(x)$};
+
+  % corda pelos pontos de abscissas u e v
+  \draw[thick] (0.5,0.5) -- (2.7,3.316);
+  \node[rot, rotate=41, anchor=south west] at (0.55,1.15) {corda};
+
+  % extremos da corda
+  \fill (0.5,0.5) circle (1.6pt);
+  \node[rot, anchor=north west] at (0.55,0.44) {$g(u)$};
+  \fill (2.7,3.316) circle (1.6pt);
+  \node[rot, anchor=north west] at (2.74,3.2) {$g(v)$};
+
+  % folga entre a corda e o gráfico no ponto de abscissa x_0
+  \draw[thin, dashed, muted] (1.6,0) -- (1.6,1.424);
+  \fill[teal] (1.6,1.424) circle (1.5pt);
+  \fill[teal] (1.6,1.908) circle (1.5pt);
+  \draw[very thick, teal] (1.6,1.424) -- (1.6,1.908);
+  \draw[decorate, decoration={brace, amplitude=4pt, mirror}, teal]
+      (1.7,1.43) -- (1.7,1.90);
+
+  % marcas no eixo
+  \foreach \p in {0.5,1.6,2.7} \draw[thin] (\p,0) -- (\p,-0.07);
+  \node[marca, below] at (0.5,-0.05) {$u$};
+  \node[marca, below] at (2.7,-0.05) {$v$};
+  \node[marca, below] at (1.6,-0.05) {$x_0$};
+\end{tikzpicture}
+\caption{A função é convexa quando a corda que une dois pontos quaisquer do
+gráfico fica acima do gráfico. O segmento vertical destacado mede a folga
+$\lambda g(u)+(1-\lambda)g(v)-g(x_0)$, onde
+$x_0=\lambda u+(1-\lambda)v$.}
+\label{fig:convexidade-corda}
+\end{figure}

@@ -1,0 +1,58 @@
+% F3 do levantamento 05-convexidade: a reta de suporte, com e sem derivada.
+% Painel esquerdo: g(x) = 0,4x^2 + 0,4; w = 1,4; g'(w) = 1,12.
+% Painel direito: g(x) = |x - 1,5| + 0,7, com bico em w = 1,5.
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.47\linewidth}
+\centering
+\begin{tikzpicture}[x=1.5cm, y=1.1cm, >=latex,
+    rot/.style={font=\scriptsize},
+    marca/.style={font=\scriptsize, text=muted}]
+
+  \draw[thin, ->] (-0.15,0) -- (3.2,0) node[below, font=\scriptsize] {$x$};
+  \draw[thin, ->] (0,-0.6) -- (0,4.95);
+
+  \draw[thick, domain=0:3, samples=120] plot (\x,{0.4*\x*\x+0.4});
+  \node[rot, anchor=south west] at (3.02,4.0) {$y=g(x)$};
+
+  % reta tangente em w
+  \draw[teal, thick, domain=0.3:2.9] plot (\x,{1.12*\x-0.384});
+  \fill (1.4,1.184) circle (1.6pt);
+  \draw[thin, dashed, muted] (1.4,0) -- (1.4,1.184);
+  \node[marca, below] at (1.4,-0.05) {$w$};
+
+  % rótulo da reta de suporte, abaixo da tangente
+  \node[rot, text=teal, rotate=39, anchor=north west] at (1.9,1.72)
+    {reta de suporte};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}{0.47\linewidth}
+\centering
+\begin{tikzpicture}[x=1.5cm, y=1.1cm, >=latex,
+    rot/.style={font=\scriptsize},
+    marca/.style={font=\scriptsize, text=muted}]
+
+  \draw[thin, ->] (0.1,0) -- (2.95,0) node[below, font=\scriptsize] {$x$};
+  \draw[thin, ->] (1.5,0) -- (1.5,2.35);
+
+  % função com bico
+  \draw[thick] (0.2,2.1) -- (1.5,0.7) -- (2.8,2.1);
+
+  % reta de suporte horizontal, que não é nenhum dos ramos
+  \draw[teal, thick, dashed] (0.2,0.7) -- (2.8,0.7);
+  \fill (1.5,0.7) circle (1.6pt);
+  \node[marca, below] at (1.5,-0.05) {$w$};
+
+  \node[rot, text=teal, anchor=south] at (2.55,0.75) {$\alpha=0$};
+  \node[rot, text=muted, anchor=south] at (0.65,1.85) {$\alpha=-1$};
+  \node[rot, text=muted, anchor=south] at (2.35,1.85) {$\alpha=+1$};
+  \node[rot, anchor=north] at (1.5,0.55) {$\alpha\in[L_w,R_w]$};
+\end{tikzpicture}
+\end{minipage}
+\caption{Toda função convexa admite em cada ponto uma reta de suporte. À
+esquerda, o caso diferenciável, em que a reta de suporte é a tangente, de
+inclinação $\alpha=g'(w)$. À direita, uma função com bico: qualquer reta de
+inclinação $\alpha\in[L_w,R_w]$ que passa pelo bico é uma reta de suporte, e
+por isso a convexidade não exige derivada.}
+\label{fig:convexidade-suporte}
+\end{figure}

@@ -1,0 +1,48 @@
+% F2 do levantamento 05-convexidade: as inclinações das secantes crescem.
+% g(x) = 0,4x^2 + 0,4; u = 0,4, w = 1,3, v = 2,6.
+% g(u) = 0,464; g(w) = 1,076; g(v) = 3,104.
+% s_1 = 0,680; s_2 = 1,562; s_uv = 1,200.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=2.0cm, y=1.35cm, >=latex,
+    rot/.style={font=\scriptsize},
+    marca/.style={font=\scriptsize, text=muted}]
+
+  % eixos
+  \draw[thin, ->] (-0.15,0) -- (3.2,0) node[below, font=\scriptsize] {$x$};
+  \draw[thin, ->] (0,-0.1) -- (0,4.6);
+
+  % gráfico de g
+  \draw[thick, domain=0:3, samples=120] plot (\x,{0.4*\x*\x+0.4});
+
+  % secantes
+  \draw[thick] (0.4,0.464) -- (1.3,1.076);
+  \draw[thick] (1.3,1.076) -- (2.6,3.104);
+  \draw[thick, dashed, muted] (0.4,0.464) -- (2.6,3.104);
+
+  % pontos
+  \fill (0.4,0.464) circle (1.5pt);
+  \fill (1.3,1.076) circle (1.5pt);
+  \fill (2.6,3.104) circle (1.5pt);
+
+  % marcas no eixo
+  \foreach \p in {0.4,1.3,2.6} \draw[thin] (\p,0) -- (\p,-0.07);
+  \node[marca, below] at (0.4,-0.05) {$u$};
+  \node[marca, below] at (1.3,-0.05) {$w$};
+  \node[marca, below] at (2.6,-0.05) {$v$};
+
+  % quadro com as inclinações, na região livre acima da curva
+  \node[anchor=north west, align=left, font=\scriptsize,
+        fill=white, draw=border, rounded corners=1pt,
+        inner sep=4pt] at (0.12,4.45)
+    {\textcolor{black}{\rule{0.7cm}{0.6pt}}\quad $s_1\approx 0{,}68$\\[2pt]
+     \textcolor{black}{\rule{0.7cm}{0.6pt}}\quad $s_2\approx 1{,}56$\\[2pt]
+     \textcolor{muted}{\rule{0.7cm}{0.6pt}}\quad $s_{uv}\approx 1{,}20$\\[3pt]
+     \hspace*{0.1cm}$s_1\leqslant s_{uv}\leqslant s_2$};
+\end{tikzpicture}
+\caption{Para três pontos $u<w<v$, a inclinação $s_1$ da secante sobre $[u,w]$
+não excede a inclinação $s_{uv}$ da secante sobre $[u,v]$, que por sua vez não
+excede a inclinação $s_2$ da secante sobre $[w,v]$. As inclinações das secantes
+crescem com o deslocamento do ponto para a direita.}
+\label{fig:convexidade-secantes}
+\end{figure}

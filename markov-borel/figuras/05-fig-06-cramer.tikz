@@ -1,0 +1,45 @@
+% F6 do levantamento 05-convexidade: convexidade de Lambda e o expoente de Cramer.
+% Exemplo: P(X = -1) = P(X = 1) = 1/2, donde M(t) = cosh t e Lambda(t) = log cosh t.
+% a = 0,5; tau = arctanh(0,5) = 0,5493; Lambda(tau) = 0,1438.
+% A reta y = at e a tangente em tau sao paralelas; a folga vertical em tau vale
+% Lambda^*(a) = a*tau - Lambda(tau) = 0,1309.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=2.4cm, y=3.0cm, >=latex,
+    rot/.style={font=\scriptsize},
+    marca/.style={font=\scriptsize, text=muted}]
+
+  \draw[thin, ->] (-1.7,0) -- (2.05,0) node[below, font=\scriptsize] {$t$};
+  \draw[thin, ->] (0,-0.1) -- (0,1.65);
+
+  % Lambda(t) = log cosh t
+  \draw[thick, domain=-1.6:1.9, samples=120] plot (\x,{ln(cosh(\x))});
+  \node[rot, anchor=west] at (1.5,1.45) {$\Lambda(t)=\log M_X(t)$};
+
+  % reta y = at
+  \draw[thin, dashed] (-0.2,-0.1) -- (1.9,0.95);
+  \node[rot, anchor=north east] at (1.62,0.72) {$y=at$};
+
+  % tangente em tau, paralela a reta
+  \draw[teal, thick, domain=0.12:1.15] plot (\x,{0.5*\x-0.1309});
+  \fill (0.5493,0.1438) circle (1.6pt);
+  \draw[thin, dashed, muted] (0.5493,0) -- (0.5493,0.1438);
+  \node[marca, below] at (0.5493,-0.05) {$\tau$};
+  \node[rot, text=teal, anchor=north] at (1.02,0.28) {inclinação $a$};
+
+  % folga vertical em tau, prolongada ate o rotulo
+  \draw[very thick, teal] (0.5493,0.1438) -- (0.5493,0.2747);
+  \draw[thin, teal, dashed] (0.5493,0.2747) -- (0.5493,0.86);
+  \node[rot, text=teal, anchor=south] at (0.5493,0.88)
+    {$\Lambda^{*}(a)=\sup_t\{at-\Lambda(t)\}$};
+
+  % anotações sobre as derivadas
+  \node[rot, text=muted, anchor=north west, align=left] at (-1.65,1.55)
+    {$\Lambda'(0)=0$\\[1pt]$\Lambda'(\tau)=a$\\[1pt]$\Lambda'$ é crescente};
+\end{tikzpicture}
+\caption{A convexidade de $\Lambda(t)=\log M_X(t)$ garante que
+$t\mapsto at-\Lambda(t)$ atinge o máximo em um único ponto, onde a reta de
+inclinação $a$ tangencia o gráfico. Como $\Lambda'(0)=0$ e $a>0$, esse ponto
+está à direita da origem. A altura máxima é $\Lambda^{*}(a)$.}
+\label{fig:cramer-lambda}
+\end{figure}

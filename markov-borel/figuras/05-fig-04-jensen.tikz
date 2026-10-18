@@ -1,0 +1,44 @@
+% F4 do levantamento 05-convexidade: Jensen como centro de massa.
+% g(x) = 0,35x^2 + 0,4; u = 0,7 (massa p = 0,65), v = 2,5 (massa 1-p = 0,35).
+% mu = 1,33; g(u) = 0,5715; g(v) = 2,5875; g(mu) = 1,0191;
+% E[g(X)] = 1,2771, que coincide com a corda em x = mu.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=2.1cm, y=1.35cm, >=latex,
+    rot/.style={font=\scriptsize},
+    marca/.style={font=\scriptsize, text=muted}]
+
+  \draw[thin, ->] (-0.15,0) -- (3.15,0) node[below, font=\scriptsize] {$x$};
+  \draw[thin, ->] (0,-0.25) -- (0,3.9);
+
+  \draw[thick, domain=0:3, samples=120] plot (\x,{0.35*\x*\x+0.4});
+  \node[rot, anchor=west] at (2.3,3.55) {$y=g(x)$};
+
+  % corda
+  \draw[thick] (0.7,0.5715) -- (2.5,2.5875);
+  \fill (0.7,0.5715) circle (1.6pt);
+  \fill (2.5,2.5875) circle (1.6pt);
+  \node[rot, anchor=north east] at (0.66,0.55) {$P_1$};
+  \node[rot, anchor=west] at (2.6,2.52) {$P_2$};
+
+  % massas
+  \node[rot, text=muted, anchor=north west] at (0.8,0.5) {$p$};
+  \node[rot, text=muted, anchor=south east] at (2.42,2.72) {$1-p$};
+
+  % ponto da corda e ponto do gráfico em x = mu
+  \fill[teal] (1.33,1.2771) circle (1.5pt);
+  \fill (1.33,1.0191) circle (1.5pt);
+  \draw[very thick, teal] (1.33,1.0191) -- (1.33,1.2771);
+  \draw[thin, dashed, muted] (1.33,0) -- (1.33,1.0191);
+  \node[marca, below] at (1.33,-0.05) {$\mathbb{E}[X]$};
+
+  % rótulo da folga, na região livre à esquerda
+  \node[rot, text=teal, anchor=north west, align=left] at (0.12,2.85)
+    {folga\\[1pt]$\mathbb{E}[g(X)]-g(\mathbb{E}[X])\geqslant 0$};
+\end{tikzpicture}
+\caption{A esperança de $g(X)$ é a média ponderada das alturas $g(u)$ e $g(v)$,
+com pesos $p$ e $1-p$. Ela cai sobre a corda, no ponto de abscissa
+$\mathbb{E}[X]$, e portanto acima de $g(\mathbb{E}[X])$, que é o ponto do
+próprio gráfico.}
+\label{fig:jensen-esperanca}
+\end{figure}

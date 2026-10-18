@@ -1,0 +1,1892 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazilian]{babel}     % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{lucide-icons}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Desigualdades de Markov e Chebyshev e o lema de Borel-Cantelli},
+pdfauthor={L. Cioletti},
+pdfsubject={Desigualdades de Markov, Chebyshev, Jensen e Lyapunov, convexidade e lema de Borel-Cantelli},
+pdfkeywords={desigualdade de Markov, desigualdade de Chebyshev, convexidade, desigualdade de Jensen, desigualdade de Lyapunov, lema de Borel-Cantelli, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheoremstyle{plainexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{plainexercise}
+\newtheorem{exercise}{Exercício}
+
+% Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
+% como nas notas anteriores.
+\newtheoremstyle{starredexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{starredexercise}
+\newtheorem{starredexercise}[exercise]{Exercício}
+\theoremstyle{definition}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\AtBeginDocument{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+\begin{document}
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\vspace*{-0.8cm}
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+
+% --- TÍTULO, AUTOR E DATA ---
+\vspace*{0.3cm}
+\begin{center}
+{\LARGE\bf Desigualdades de Markov e Chebyshev\\[2pt] e o lema de Borel-Cantelli}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Outubro de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Nestas notas, estudamos três famílias de desigualdades que relacionam
+probabilidades, esperanças e momentos, e o lema de Borel-Cantelli, que decide
+quando uma sequência de eventos ocorre infinitas vezes. Começamos com as
+desigualdades de Markov e Chebyshev, que transformam informação sobre a média e
+a variância em cotas para a probabilidade de desvios. A seguir, estudamos
+convexidade: o critério da corda, a monotonicidade das inclinações secantes, a
+reta de suporte e a desigualdade de Jensen, com as caracterizações
+equivalentes no caso diferenciável. Com essas ferramentas, demonstramos a
+desigualdade de Lyapunov, que compara momentos de ordens distintas, e
+descrevemos o comportamento da curva $r\mapsto(\mathbb{E}|X|^r)^{1/r}$. Por
+fim, definimos $\limsup$ e $\liminf$ de eventos, recordamos a continuidade das
+medidas de probabilidade e demonstramos as duas partes do lema de
+Borel-Cantelli, com a lei 0-1 de Borel como corolário. Três aplicações fecham
+os blocos: o limiar $\sqrt N$ do problema dos aniversários, o jogo honesto cujo
+capital decai quase certamente e a maior sequência de caras em $n$
+lançamentos. A exposição das desigualdades de Markov e Chebyshev e do material
+de convexidade segue de perto a Seção 7.5 do Capítulo 7, os problemas desse
+capítulo e a Seção 8.2 do Capítulo 8 da referência \cite{GrimmettWelsh2014}. O
+lema de Borel-Cantelli não consta dessa referência e segue \cite{MR1155402} e
+\cite{RollaLima2026}.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+\section{Introdução}\label{sec:introducao}
+
+A média de uma variável aleatória condensa a distribuição em um único número.
+Nas notas anteriores, estudamos os momentos e as funções geradoras de momentos,
+que refinam essa descrição. Nestas notas, fazemos a pergunta inversa: o que um
+número como $\mathbb{E}[X]$, ou um punhado deles, diz sobre a distribuição de
+$X$? A primeira resposta é que a média sozinha já impede caudas muito pesadas.
+Se $X\geqslant0$ e $\mathbb{E}[X]<\infty$, a probabilidade de $X$ assumir
+valores grandes decai pelo menos como $1/t$, e essa é a desigualdade de Markov.
+Se também conhecemos a variância, a probabilidade de $X$ se afastar da média
+decai como $1/t^2$, e essa é a desigualdade de Chebyshev.
+
+As duas desigualdades são casos particulares de uma observação sobre funções
+convexas. Se $g$ é convexa, o valor de $g$ na média de $X$ não excede a média
+dos valores de $g$, e essa é a desigualdade de Jensen. A convexidade organiza
+também a comparação entre momentos de ordens distintas: as normas
+$(\mathbb{E}|X|^r)^{1/r}$ crescem com $r$, e essa é a desigualdade de Lyapunov.
+O material de convexidade ocupa a maior parte da nota porque é ele que dá
+sentido geométrico às contas. As figuras que acompanham o texto mostram a
+mesma ideia em três formas: a corda acima do gráfico, a reta que apoia o
+gráfico e o centro de massa dos pontos do gráfico.
+
+O último bloco trata de um tipo diferente de pergunta. Em vez de estimar a
+probabilidade de um evento, queremos saber se uma sequência de eventos ocorre
+infinitas vezes. A soma $\sum_n\mathbb{P}(A_n)$ é o número esperado de
+ocorrências. O lema de Borel-Cantelli diz que, quando essa soma converge, as
+ocorrências se esgotam quase certamente, e que, quando diverge e os eventos são
+independentes, elas se repetem para sempre quase certamente.
+
+A aplicação que encerra cada bloco foi escolhida para mostrar a desigualdade
+em ação, e não apenas como cota. No problema dos aniversários, Markov e
+Chebyshev determinam a ordem correta do número de pessoas a partir do qual uma
+coincidência se torna provável. No jogo honesto, Jensen explica por que a
+esperança do capital pode ficar constante enquanto o capital típico decai. Na
+maior sequência de caras, Borel-Cantelli determina a escala exata $\log_2 n$.
+
+%----------------------------------------------------------------------
+\section{As desigualdades de Markov e Chebyshev}\label{sec:markov-chebyshev}
+
+\subsection{A desigualdade de Markov}\label{subsec:markov}
+
+A pergunta que orienta esta seção é a seguinte: se sabemos que
+$\mathbb{E}[X]$ é finito e que $X$ não assume valores negativos, o que podemos
+dizer sobre a probabilidade de $X$ ser grande? A cauda direita de $X$ é a
+função $t\mapsto\mathbb{P}(X\geqslant t)$, definida para $t>0$. A
+desigualdade de Markov diz que essa função não pode decair mais devagar do que
+$1/t$.
+
+\begin{theorem}[Desigualdade de Markov]\label{thm:markov}
+Seja $X$ uma variável aleatória não negativa. Então, para cada $t>0$,
+\begin{equation}\label{eq:markov}
+\mathbb{P}(X\geqslant t)\leqslant\frac{\mathbb{E}[X]}{t}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Fixe $t>0$. Os eventos $\{X\geqslant t\}$ e $\{X<t\}$ são disjuntos e a união
+deles é $\Omega$, de modo que formam uma partição de $\Omega$. A esperança é
+aditiva nessa decomposição, e a forma de escrever isso é multiplicar $X$ pela
+indicadora de cada uma das partes:
+\begin{align*}
+\mathbb{E}[X]
+&=
+\mathbb{E}\Bigl[X\Bigl(\mathds{1}_{\{X\geqslant t\}}
++\mathds{1}_{\{X<t\}}\Bigr)\Bigr]
+\\[0.3cm]
+&=
+\mathbb{E}\bigl[X\,\mathds{1}_{\{X\geqslant t\}}\bigr]
++
+\mathbb{E}\bigl[X\,\mathds{1}_{\{X<t\}}\bigr].
+\end{align*}
+A segunda parcela é não negativa, porque $X\geqslant0$. Descartá-la só pode
+diminuir o lado direito, logo
+\[
+\mathbb{E}[X]\geqslant\mathbb{E}\bigl[X\,\mathds{1}_{\{X\geqslant t\}}\bigr].
+\]
+No evento $\{X\geqslant t\}$, a variável $X$ é limitada inferiormente por $t$.
+Substituir $X$ por $t$ nessa parcela só pode diminuir a esperança, donde
+\[
+\mathbb{E}\bigl[X\,\mathds{1}_{\{X\geqslant t\}}\bigr]
+\geqslant
+\mathbb{E}\bigl[t\,\mathds{1}_{\{X\geqslant t\}}\bigr]
+=
+t\,\mathbb{P}(X\geqslant t).
+\]
+Reunindo as duas desigualdades, obtemos
+$\mathbb{E}[X]\geqslant t\,\mathbb{P}(X\geqslant t)$. Como $t>0$, podemos
+dividir por $t$ e concluir \eqref{eq:markov}.
+\end{proof}
+
+A cota é ótima no sentido de que não se pode melhorar a constante. Se $X$
+assume o valor $t$ com probabilidade $p$ e o valor $0$ com probabilidade
+$1-p$, então $\mathbb{E}[X]=pt$ e $\mathbb{P}(X\geqslant t)=p$, de modo que
+\eqref{eq:markov} vale com igualdade. O que a desigualdade não controla é a
+forma da cauda: duas variáveis com a mesma média podem ter caudas muito
+diferentes, e Markov dá a mesma cota para ambas.
+
+A prova não usou a distribuição de $X$, apenas a positividade e a
+linearidade da esperança. Por isso ela se estende sem mudança a qualquer
+potência ou função crescente de $X$. Se $g\colon[0,\infty)\to[0,\infty)$ é não
+decrescente e $g(t)>0$, então o evento $\{X\geqslant t\}$ está contido em
+$\{g(X)\geqslant g(t)\}$, e a desigualdade de Markov aplicada a $g(X)$ dá
+\begin{equation}\label{eq:markov-generalizada}
+\mathbb{P}(X\geqslant t)
+\leqslant
+\mathbb{P}\bigl(g(X)\geqslant g(t)\bigr)
+\leqslant
+\frac{\mathbb{E}[g(X)]}{g(t)}.
+\end{equation}
+A desigualdade de Chebyshev é o caso $g(x)=x^2$, e é essa escolha que
+introduz a variância.
+
+\subsection{A desigualdade de Chebyshev}\label{subsec:chebyshev}
+
+Se $X$ tem média $\mu$ e variância finita, a variável $(X-\mu)^2$ é não
+negativa e sua esperança é $\operatorname{Var}(X)$. Aplicando a desigualdade de
+Markov a essa variável, obtemos uma cota para a probabilidade de $X$ se
+afastar de $\mu$.
+
+\begin{theorem}[Desigualdade de Chebyshev]\label{thm:chebyshev}
+Seja $X$ uma variável aleatória com $\mathbb{E}[X^2]<\infty$. Então, para cada
+$\varepsilon>0$,
+\begin{equation}\label{eq:chebyshev}
+\mathbb{P}\bigl(|X-\mathbb{E}[X]|\geqslant\varepsilon\bigr)
+\leqslant
+\frac{\operatorname{Var}(X)}{\varepsilon^2}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Seja $\mu=\mathbb{E}[X]$. A função $u\mapsto u^2$ é crescente em $[0,\infty)$
+e ambos os membros de $|X-\mu|\geqslant\varepsilon$ são não negativos, logo
+\[
+\{|X-\mu|\geqslant\varepsilon\}
+=
+\{(X-\mu)^2\geqslant\varepsilon^2\}.
+\]
+Aplicando o \Cref{thm:markov} à variável não negativa $(X-\mu)^2$, com nível
+$\varepsilon^2$, obtemos
+\[
+\mathbb{P}\bigl((X-\mu)^2\geqslant\varepsilon^2\bigr)
+\leqslant
+\frac{\mathbb{E}\bigl[(X-\mu)^2\bigr]}{\varepsilon^2}
+=
+\frac{\operatorname{Var}(X)}{\varepsilon^2}.
+\]
+Isso prova \eqref{eq:chebyshev}.
+\end{proof}
+
+Equivalentemente, tomando o complementar,
+\begin{equation}\label{eq:chebyshev-complementar}
+\mathbb{P}\bigl(|X-\mathbb{E}[X]|<\varepsilon\bigr)
+\geqslant
+1-\frac{\operatorname{Var}(X)}{\varepsilon^2}.
+\end{equation}
+A forma \eqref{eq:chebyshev-complementar} é a que costuma ser usada: ela diz
+que, com probabilidade alta, $X$ fica em um intervalo centrado na média, e que
+o comprimento desse intervalo precisa crescer como o desvio padrão para que a
+probabilidade se aproxime de $1$.
+
+A mesma prova, com $|X-\mu|^p$ no lugar de $(X-\mu)^2$, dá
+\[
+\mathbb{P}\bigl(|X-\mu|\geqslant\varepsilon\bigr)
+\leqslant
+\frac{\mathbb{E}\bigl[|X-\mu|^p\bigr]}{\varepsilon^p},
+\]
+para todo $p>0$ tal que o momento exista. Quanto maior o momento disponível,
+mais rápida é a decaída da cota. A \Cref{sec:lyapunov} mostra que os momentos
+de ordens maiores são os mais exigentes, e que a existência deles é uma
+condição mais forte.
+
+\begin{remark}\label{rem:chebyshev-nao-e-otima}
+A desigualdade de Chebyshev é geral, e é justamente por isso que ela não é
+ótima em exemplos concretos. Para $X\sim\mathrm{Bin}(n,p)$, por exemplo, a cota
+para $\mathbb{P}(|X-np|\geqslant\varepsilon)$ é da ordem de $1/\varepsilon^2$,
+enquanto a distribuição real decai de forma gaussiana. O valor da desigualdade
+está em não exigir nada sobre a forma da distribuição.
+\end{remark}
+
+\subsection{A mediana e uma cota para a média}\label{subsec:mediana}
+
+A desigualdade de Markov também compara a média com a mediana, e essa
+comparação é útil porque a mediana sempre existe, mesmo quando a média não.
+
+\begin{definition}[Mediana]\label{def:mediana}
+Seja $X$ uma variável aleatória. Um número real $m$ é uma \emph{mediana} de
+$X$ se
+\[
+\mathbb{P}(X<m)\leqslant\frac{1}{2}\leqslant\mathbb{P}(X\leqslant m).
+\]
+\end{definition}
+
+Toda variável aleatória possui pelo menos uma mediana. De fato, seja $F$ a
+função de distribuição de $X$ e defina
+\[
+m=\inf\{x\in\mathbb{R}:F(x)\geqslant1/2\}.
+\]
+Como $F$ é não decrescente e tende a $1$, o conjunto acima é não vazio, e como
+$F$ tende a $0$ em $-\infty$, ele é limitado inferiormente. A continuidade à
+direita de $F$ dá $F(m)\geqslant1/2$, isto é, $\mathbb{P}(X\leqslant m)\geqslant1/2$.
+Além disso, todo $x<m$ satisfaz $F(x)<1/2$, pela definição de ínfimo, logo
+$\mathbb{P}(X<m)\leqslant1/2$. Assim $m$ é uma mediana.
+
+\begin{proposition}\label{prop:mediana-markov}
+Seja $X$ uma variável aleatória não negativa com $\mathbb{E}[X]<\infty$. Se
+$m$ é uma mediana de $X$, então $m\leqslant2\mathbb{E}[X]$.
+\end{proposition}
+
+\begin{proof}
+Como $m$ é mediana, $\mathbb{P}(X\geqslant m)\geqslant1/2$. Pelo
+\Cref{thm:markov},
+\[
+\frac{1}{2}\leqslant\mathbb{P}(X\geqslant m)\leqslant\frac{\mathbb{E}[X]}{m}.
+\]
+Se $m>0$, basta dividir a última desigualdade por $m$ e multiplicar por $2$.
+Se $m\leqslant0$, a conclusão é imediata, porque $\mathbb{E}[X]\geqslant0$.
+\end{proof}
+
+A proposição diz que a mediana de uma variável não negativa não pode estar
+muito à direita da média. A recíproca não vale: a média pode estar muito à
+direita da mediana, e é isso que acontece com variáveis de cauda pesada. O
+\Cref{exercise:mediana-igualdade} pede o exemplo em que a cota é atingida.
+
+\subsection{Aplicação: o limiar do problema dos aniversários}\label{subsec:aniversarios}
+
+Em uma sala com $n$ pessoas, qual é a probabilidade de que duas façam
+aniversário no mesmo dia? A resposta exata depende de uma contagem, mas a
+ordem de grandeza do número de pessoas necessário para que a coincidência se
+torne provável pode ser obtida com Markov e Chebyshev, sem calcular a
+distribuição.
+
+Suponha que os aniversários sejam independentes e uniformemente distribuídos
+em $N$ dias, e que $N$ seja grande. Numeramos as pessoas de $1$ a $n$ e, para
+cada par $\{i,j\}$ com $i<j$, definimos
+\[
+I_{ij}=\mathds{1}_{\{i\text{ e }j\text{ fazem aniversário no mesmo dia}\}},
+\qquad
+X=\sum_{1\leqslant i<j\leqslant n}I_{ij}.
+\]
+Assim $X$ é o número de pares coincidentes, e o evento de interesse é
+$\{X\geqslant1\}$. Cada par coincide com probabilidade $1/N$, logo
+\[
+\mathbb{E}[X]=\binom{n}{2}\frac{1}{N}.
+\]
+Pela desigualdade de Markov,
+\begin{equation}\label{eq:aniversarios-markov}
+\mathbb{P}(X\geqslant1)\leqslant\binom{n}{2}\frac{1}{N}
+\approx\frac{n^2}{2N}.
+\end{equation}
+Portanto, se $n\ll\sqrt N$, a probabilidade de coincidência é pequena. Com
+$N=365$ e $n=23$, a cota vale $\binom{23}{2}/365=253/365\approx0{,}69$, que já
+não é informativa; a probabilidade exata é aproximadamente $0{,}51$. Markov dá
+a ordem certa, mas não a constante.
+
+Para o outro lado, precisamos de uma cota inferior para $\mathbb{P}(X\geqslant1)$,
+e é aqui que entra Chebyshev. As indicadoras $I_{ij}$ são duas a duas
+independentes. De fato, se os pares $\{i,j\}$ e $\{k,l\}$ compartilham um
+índice, digamos $i=k$, então ambos os eventos ocorrem se, e somente se, as
+três pessoas têm o mesmo aniversário, o que tem probabilidade $1/N^2$; se os
+pares são disjuntos, a probabilidade é $(1/N)^2$. Em ambos os casos o produto
+das probabilidades é $1/N^2$, que é o valor da probabilidade conjunta. Logo
+todas as covariâncias se anulam e
+\[
+\operatorname{Var}(X)
+=
+\sum_{i<j}\operatorname{Var}(I_{ij})
+=
+\binom{n}{2}\frac{1}{N}\Bigl(1-\frac{1}{N}\Bigr).
+\]
+Aplicando Chebyshev com $\varepsilon=\mathbb{E}[X]$,
+\[
+\mathbb{P}(X=0)
+\leqslant
+\mathbb{P}\bigl(|X-\mathbb{E}[X]|\geqslant\mathbb{E}[X]\bigr)
+\leqslant
+\frac{\operatorname{Var}(X)}{(\mathbb{E}[X])^2}
+=
+\frac{N-1}{\binom{n}{2}}.
+\]
+Logo
+\begin{equation}\label{eq:aniversarios-chebyshev}
+\mathbb{P}(X\geqslant1)\geqslant1-\frac{N-1}{\binom{n}{2}}
+\approx1-\frac{2N}{n^2}.
+\end{equation}
+Se $n\gg\sqrt N$, a probabilidade tende a $1$.
+
+Reunindo \eqref{eq:aniversarios-markov} e \eqref{eq:aniversarios-chebyshev},
+vemos que o número crítico de pessoas é da ordem de $\sqrt N$. As duas cotas
+têm a mesma ordem de grandeza e nenhuma delas depende da forma exata da
+distribuição. Para $N=365$ e $n=41$, a cota \eqref{eq:aniversarios-chebyshev}
+dá
+\[
+\mathbb{P}(X\geqslant1)\geqslant1-\frac{364}{820}\approx0{,}556,
+\]
+enquanto a probabilidade exata é aproximadamente $0{,}903$. A cota é honesta,
+mas perde cerca de um terço do valor real.
+
+Vale registrar a fórmula exata, para comparação. A probabilidade de que todos
+os aniversários sejam distintos é
+\[
+\prod_{k=0}^{n-1}\Bigl(1-\frac{k}{N}\Bigr),
+\]
+e a probabilidade de ao menos uma coincidência é o complementar. Para
+$n$ pequeno em relação a $N$, o logaritmo do produto é aproximadamente
+$-n(n-1)/(2N)$, e a coincidência se torna provável quando $n(n-1)\approx2N\log2$,
+o que confirma a escala $\sqrt N$ e dá a constante correta. O que Markov e
+Chebyshev fornecem é a escala, sem a constante.
+
+\section{Convexidade e a desigualdade de Jensen}\label{sec:convexidade}
+
+Nesta seção, estudamos a propriedade geométrica que está por trás de
+Chebyshev e de Lyapunov. A ideia central é simples: uma função convexa tem
+gráfico que se encurva para cima, de modo que o segmento que une dois pontos do
+gráfico fica acima do gráfico. Todas as desigualdades da seção são
+consequências dessa imagem, e as figuras foram desenhadas para tornar cada
+passo visível.
+
+\subsection{A definição e o critério da corda}\label{subsec:convexidade-definicao}
+
+\begin{definition}[Função convexa]\label{def:convexa}
+Sejam $-\infty\leqslant a<b\leqslant\infty$. Uma função
+$g\colon(a,b)\to\mathbb{R}$ é \emph{convexa} se
+\begin{equation}\label{eq:convexidade}
+g\bigl((1-t)u+tv\bigr)\leqslant(1-t)g(u)+tg(v)
+\end{equation}
+para todos $t\in[0,1]$ e $u,v\in(a,b)$. Se a desigualdade é estrita sempre que
+$u\neq v$ e $t\in(0,1)$, dizemos que $g$ é \emph{estritamente convexa}.
+\end{definition}
+
+O ponto $(1-t)u+tv$ percorre o segmento entre $u$ e $v$ quando $t$ percorre
+$[0,1]$. O lado direito de \eqref{eq:convexidade} é a altura do ponto
+correspondente na corda que une $(u,g(u))$ e $(v,g(v))$. A definição diz,
+portanto, que a corda fica acima do gráfico. A \Cref{fig:convexidade-corda}
+mostra a situação e destaca a folga entre a corda e o gráfico.
+
+\input{figuras/05-fig-01-corda.tikz}
+
+\begin{remark}\label{rem:convexidade-lambda}
+É costume escrever a combinação convexa na forma
+$\lambda u+(1-\lambda)v$, com $\lambda\in[0,1]$. As duas formas são
+equivalentes: basta tomar $\lambda=1-t$. Usaremos as duas, escolhendo em cada
+cálculo a que deixa a expressão mais curta.
+\end{remark}
+
+A definição se estende a qualquer número finito de pontos. Se
+$g$ é convexa, se $x_1,\ldots,x_n\in(a,b)$ e se $\lambda_1,\ldots,\lambda_n$
+são não negativos com soma $1$, então
+\begin{equation}\label{eq:convexidade-n-pontos}
+g\Bigl(\sum_{i=1}^{n}\lambda_ix_i\Bigr)
+\leqslant
+\sum_{i=1}^{n}\lambda_ig(x_i).
+\end{equation}
+A prova é por indução em $n$. Para $n=2$ é a definição. Para $n\geqslant3$,
+se $\lambda_n<1$, escrevemos
+\[
+\sum_{i=1}^{n}\lambda_ix_i
+=
+(1-\lambda_n)\sum_{i=1}^{n-1}\frac{\lambda_i}{1-\lambda_n}x_i
++\lambda_nx_n,
+\]
+aplicamos a definição aos dois pontos $\sum_{i<n}\frac{\lambda_i}{1-\lambda_n}x_i$
+e $x_n$, e depois aplicamos a hipótese de indução à combinação dos $n-1$
+primeiros pontos. Se $\lambda_n=1$, o resultado é imediato.
+
+A forma \eqref{eq:convexidade-n-pontos} explica por que a média de dois pontos
+se estende a uma esperança. Uma esperança de uma variável aleatória discreta é
+uma combinação convexa de valores de $g$, e a passagem ao limite cobre as
+demais distribuições. É essa observação que torna Jensen plausível antes de
+qualquer prova.
+
+\subsection{As inclinações das secantes}\label{subsec:secantes}
+
+A definição é uma desigualdade entre valores. A próxima proposição a converte
+em uma desigualdade entre inclinações, que é mais fácil de usar e que produz a
+reta de suporte.
+
+\begin{lemma}[Monotonicidade das secantes]\label{lem:secantes}
+Seja $g\colon(a,b)\to\mathbb{R}$ convexa e sejam $u<w<v$ em $(a,b)$. Então
+\begin{equation}\label{eq:secantes}
+\frac{g(w)-g(u)}{w-u}
+\leqslant
+\frac{g(v)-g(u)}{v-u}
+\leqslant
+\frac{g(v)-g(w)}{v-w}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Escrevemos $w=(1-t)u+tv$, com
+\[
+t=\frac{w-u}{v-u}\in(0,1).
+\]
+Pela convexidade,
+\[
+g(w)\leqslant(1-t)g(u)+tg(v).
+\]
+Subtraindo $g(u)$ dos dois lados e usando $1-t=(v-w)/(v-u)$,
+\[
+g(w)-g(u)
+\leqslant
+t\bigl(g(v)-g(u)\bigr),
+\]
+isto é,
+\[
+\frac{g(w)-g(u)}{w-u}
+\leqslant
+\frac{g(v)-g(u)}{v-u}.
+\]
+Isso prova a primeira desigualdade. Para a segunda, subtraímos $g(v)$ da
+desigualdade de convexidade e usamos $t=(w-u)/(v-u)$:
+\[
+g(w)-g(v)
+\leqslant
+(1-t)\bigl(g(u)-g(v)\bigr),
+\]
+o que, depois de multiplicar por $-1$ e dividir por $v-w$, dá
+\[
+\frac{g(v)-g(u)}{v-u}
+\leqslant
+\frac{g(v)-g(w)}{v-w}.
+\]
+\end{proof}
+
+A \Cref{fig:convexidade-secantes} mostra as três secantes para o mesmo trio de
+pontos e destaca a ordem entre as inclinações.
+
+\input{figuras/05-fig-02-secantes.tikz}
+
+Uma consequência imediata é que, para $w$ fixo, a função
+\[
+u\mapsto\frac{g(w)-g(u)}{w-u}
+\]
+é não decrescente em $(a,w)$, e a função
+\[
+v\mapsto\frac{g(v)-g(w)}{v-w}
+\]
+é não decrescente em $(w,b)$. Com efeito, a primeira afirmação é exatamente
+\eqref{eq:secantes} escrita para $u<w'<w$, e a segunda para $w<v'<v$. Assim os
+dois limites laterais
+\[
+L_w=\sup_{u<w}\frac{g(w)-g(u)}{w-u},
+\qquad
+R_w=\inf_{v>w}\frac{g(v)-g(w)}{v-w}
+\]
+existem, são finitos, e satisfazem $L_w\leqslant R_w$. O intervalo
+$[L_w,R_w]$ é o conjunto dos coeficientes angulares admissíveis para uma reta
+que apoia o gráfico em $w$.
+
+\subsection{A reta de suporte}\label{subsec:reta-suporte}
+
+A reta de suporte é a versão local da corda. Em cada ponto do gráfico, existe
+pelo menos uma reta que passa pelo ponto e deixa o gráfico inteiro de um mesmo
+lado. Essa reta substitui a tangente quando a função não é diferenciável.
+
+\begin{theorem}[Reta de suporte]\label{thm:reta-suporte}
+Seja $g\colon(a,b)\to\mathbb{R}$ convexa e seja $w\in(a,b)$. Então existe
+$\alpha\in\mathbb{R}$ tal que
+\begin{equation}\label{eq:reta-suporte}
+g(x)\geqslant g(w)+\alpha(x-w)
+\qquad
+\text{para todo }x\in(a,b).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Sejam $L_w$ e $R_w$ como acima. Como $L_w\leqslant R_w$, escolha
+$\alpha\in[L_w,R_w]$. Se $x<w$, então
+\[
+\frac{g(w)-g(x)}{w-x}\leqslant L_w\leqslant\alpha,
+\]
+e multiplicando por $w-x>0$ obtemos $g(w)-g(x)\leqslant\alpha(w-x)$, que é
+\eqref{eq:reta-suporte} escrita para $x<w$. Se $x>w$, então
+\[
+\alpha\leqslant R_w\leqslant\frac{g(x)-g(w)}{x-w},
+\]
+e multiplicando por $x-w>0$ obtemos \eqref{eq:reta-suporte} para $x>w$. Para
+$x=w$ a desigualdade é uma igualdade.
+\end{proof}
+
+A \Cref{fig:convexidade-suporte} mostra dois casos. À esquerda, a função é
+diferenciável e a reta de suporte é a tangente, com $\alpha=g'(w)$. À direita,
+a função tem um bico e existem várias retas de suporte, uma para cada
+$\alpha\in[L_w,R_w]$. É por isso que a convexidade não exige derivada.
+
+\input{figuras/05-fig-03-suporte.tikz}
+
+\begin{remark}\label{rem:suporte-derivavel}
+Se $g$ é diferenciável em $w$, então $L_w=R_w=g'(w)$ e a reta de suporte é
+única. De fato, o quociente $(g(w)-g(u))/(w-u)$ tende a $g'(w)$ quando
+$u\to w^-$ e $(g(v)-g(w))/(v-w)$ tende a $g'(w)$ quando $v\to w^+$. Como as
+duas funções são monótonas e limitadas, os supremo e ínfimo coincidem com os
+limites laterais.
+\end{remark}
+
+\subsection{Caracterizações equivalentes}\label{subsec:caracterizacoes}
+
+Reunimos agora as três descrições da convexidade e acrescentamos a descrição
+por derivadas segunda, que é a mais usada nos exemplos.
+
+\begin{proposition}\label{prop:caracterizacoes}
+Seja $g\colon(a,b)\to\mathbb{R}$. As afirmações seguintes são equivalentes.
+\begin{enumerate}[label=(\roman*)]
+\item $g$ é convexa.
+\item Para todos $u<w<v$ em $(a,b)$, vale \eqref{eq:secantes}.
+\item Para cada $w\in(a,b)$ existe $\alpha\in\mathbb{R}$ tal que vale
+\eqref{eq:reta-suporte}.
+\end{enumerate}
+Se $g$ é duas vezes diferenciável, as três são ainda equivalentes a
+\begin{enumerate}[label=(\roman*),start=4]
+\item $g''(x)\geqslant0$ para todo $x\in(a,b)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+A implicação (i)$\Rightarrow$(ii) é o \Cref{lem:secantes}, e
+(ii)$\Rightarrow$(iii) é o \Cref{thm:reta-suporte}, cuja prova usa apenas a
+existência de $L_w$ e $R_w$ e a desigualdade $L_w\leqslant R_w$, que por sua
+vez segue de (ii). Para (iii)$\Rightarrow$(i), tome $u<v$ e
+$w=(1-t)u+tv$. Aplicando \eqref{eq:reta-suporte} a $x=u$ e a $x=v$ e
+multiplicando as duas desigualdades por $1-t$ e por $t$, respectivamente,
+obtemos
+\[
+(1-t)g(u)+tg(v)
+\geqslant
+g(w)+\alpha\bigl((1-t)(u-w)+t(v-w)\bigr)
+=
+g(w),
+\]
+porque o termo entre parênteses é nulo. Isso é \eqref{eq:convexidade}.
+
+Suponha agora que $g$ seja duas vezes diferenciável. Se $g''\geqslant0$, então
+$g'$ é não decrescente. Pelo teorema do valor médio, a inclinação da secante
+sobre $[u,w]$ é $g'(\xi_1)$ para algum $\xi_1\in(u,w)$ e a inclinação sobre
+$[w,v]$ é $g'(\xi_2)$ para algum $\xi_2\in(w,v)$. Como $\xi_1<\xi_2$ e $g'$ é
+não decrescente, vale \eqref{eq:secantes}, e por (ii)$\Rightarrow$(i) a função
+é convexa.
+
+Resta provar que (i) implica $g''\geqslant0$. Seja $x_0\in(a,b)$ e suponha, por
+absurdo, que $g''(x_0)<0$. Pela continuidade de $g''$, existe $h>0$ tal que
+$g''<0$ em $(x_0-h,x_0+h)$. A fórmula de Taylor com resto de Lagrange, aplicada
+a $x_0+h$ e a $x_0-h$, dá
+\[
+g(x_0+h)+g(x_0-h)-2g(x_0)
+=
+\frac{h^2}{2}\bigl(g''(\xi_+)+g''(\xi_-)\bigr)
+\]
+para certos $\xi_+\in(x_0,x_0+h)$ e $\xi_-\in(x_0-h,x_0)$. O lado direito é
+negativo, logo
+\[
+g(x_0)>\frac{g(x_0+h)+g(x_0-h)}{2},
+\]
+o que contradiz a convexidade no par $x_0-h<x_0+h$ com $t=1/2$.
+\end{proof}
+
+\begin{remark}\label{rem:convexidade-exemplos}
+A proposição dá um critério rápido para verificar convexidade. São convexas:
+$x\mapsto x^2$, $x\mapsto e^{tx}$ para cada $t$, $x\mapsto x^p$ em $(0,\infty)$
+para $p\geqslant1$, $x\mapsto1/x$ em $(0,\infty)$ e $x\mapsto-\log x$ em
+$(0,\infty)$. A última tem derivada segunda $1/x^2>0$ e é o exemplo que
+produz a desigualdade entre as médias geométrica e aritmética.
+\end{remark}
+
+\subsection{A desigualdade de Jensen}\label{subsec:jensen}
+
+Com a reta de suporte, a prova de Jensen é curta: basta aplicar a desigualdade
+ponto a ponto e tomar esperanças.
+
+\begin{theorem}[Desigualdade de Jensen]\label{thm:jensen}
+Seja $X$ uma variável aleatória assumindo valores em um intervalo
+$(a,b)$, com $\mathbb{E}[X]$ finita, e seja $g\colon(a,b)\to\mathbb{R}$
+convexa tal que $\mathbb{E}\bigl[|g(X)|\bigr]<\infty$. Então
+\begin{equation}\label{eq:jensen}
+\mathbb{E}\bigl[g(X)\bigr]\geqslant g\bigl(\mathbb{E}[X]\bigr).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Seja $\mu=\mathbb{E}[X]$. Como $X$ assume valores em $(a,b)$ e $\mu$ é uma
+média ponderada desses valores, $\mu\in(a,b)$. Pelo
+\Cref{thm:reta-suporte}, aplicado em $w=\mu$, existe $\alpha\in\mathbb{R}$ tal
+que
+\[
+g(x)\geqslant g(\mu)+\alpha(x-\mu)
+\qquad
+\text{para todo }x\in(a,b).
+\]
+Substituindo $x$ por $X$ e tomando esperanças, obtemos
+\[
+\mathbb{E}\bigl[g(X)\bigr]
+\geqslant
+g(\mu)+\alpha\bigl(\mathbb{E}[X]-\mu\bigr)
+=
+g(\mu),
+\]
+que é \eqref{eq:jensen}.
+\end{proof}
+
+A \Cref{fig:jensen-esperanca} interpreta a desigualdade como uma afirmação
+sobre centro de massa. Se $X$ assume dois valores $u$ e $v$, com
+probabilidades $p$ e $1-p$, então $\mathbb{E}[g(X)]$ é a média ponderada das
+alturas $g(u)$ e $g(v)$, e cai sobre a corda. O ponto do gráfico de abscissa
+$\mathbb{E}[X]$ está abaixo da corda, e a distância entre os dois é a folga de
+Jensen.
+
+\input{figuras/05-fig-04-jensen.tikz}
+
+\begin{remark}\label{rem:jensen-media}
+A desigualdade de Jensen diz que a média de $g(X)$ fica acima de $g$ aplicada à
+média de $X$. A intuição é que $g$ amplifica os desvios: quando $X$ oscila, a
+média dos valores de $g$ é maior do que o valor de $g$ na média. A diferença
+entre os dois lados mede, portanto, a variabilidade de $X$ vista através de
+$g$.
+\end{remark}
+
+\subsection{O caso de igualdade}\label{subsec:jensen-igualdade}
+
+A desigualdade de Jensen se transforma em critério quando $g$ é estritamente
+convexa. A prova é a mesma usada na caracterização dos casos extremos de
+Cauchy-Schwarz: a folga é não negativa e tem esperança nula.
+
+\begin{proposition}\label{prop:jensen-igualdade}
+Nas hipóteses do \Cref{thm:jensen}, suponha que $g$ seja estritamente convexa.
+Então vale a igualdade em \eqref{eq:jensen} se, e somente se,
+$X=\mathbb{E}[X]$ quase certamente.
+\end{proposition}
+
+\begin{proof}
+Se $X=\mu$ quase certamente, então $\mathbb{E}[g(X)]=g(\mu)$ e a igualdade
+vale. Suponha agora que valha a igualdade. Seja $\alpha$ o coeficiente dado
+pela reta de suporte em $\mu$ e defina
+\[
+Z=g(X)-g(\mu)-\alpha(X-\mu).
+\]
+Por \eqref{eq:reta-suporte}, $Z\geqslant0$; pela igualdade em
+\eqref{eq:jensen}, $\mathbb{E}[Z]=0$. Uma variável não negativa com esperança
+nula é nula quase certamente, logo
+\[
+g(X)=g(\mu)+\alpha(X-\mu)
+\qquad
+\text{quase certamente}.
+\]
+No evento $\{X\neq\mu\}$, a igualdade acima diria que a reta de suporte toca o
+gráfico em dois pontos distintos, $X$ e $\mu$. Mas, pela convexidade estrita, o
+ponto médio entre eles estaria estritamente abaixo da corda, e a corda coincide
+com a reta de suporte, o que contradiz \eqref{eq:reta-suporte}. Logo
+$\{X\neq\mu\}$ tem probabilidade nula.
+\end{proof}
+
+\subsection{Exemplos}\label{subsec:jensen-exemplos}
+
+O primeiro exemplo recupera a não negatividade da variância.
+
+\begin{example}[Desigualdade de Cauchy-Schwarz]\label{ex:jensen-quadrado}
+Tome $g(x)=x^2$, que é estritamente convexa. O \Cref{thm:jensen} dá
+\[
+\mathbb{E}[X^2]\geqslant\bigl(\mathbb{E}[X]\bigr)^2,
+\]
+isto é, $\operatorname{Var}(X)\geqslant0$. A igualdade vale se, e somente se,
+$X$ é constante quase certamente. Esse é o mesmo conteúdo da desigualdade de
+Cauchy-Schwarz para $X$ e $1$, que já foi provada na nota de momentos por outro
+argumento. Aqui ela aparece como um caso particular de convexidade.
+\end{example}
+
+O segundo exemplo é a desigualdade entre as médias geométrica e aritmética.
+
+\begin{example}[Média geométrica e média aritmética]\label{ex:media-geometrica}
+A função $g(x)=-\log x$ é estritamente convexa em $(0,\infty)$, pois
+$g''(x)=1/x^2>0$. Seja $X$ uma variável aleatória positiva com
+$\mathbb{E}[X]<\infty$ e $\mathbb{E}\bigl[|\log X|\bigr]<\infty$. Jensen dá
+\begin{equation}\label{eq:jensen-log}
+\mathbb{E}[\log X]\leqslant\log\mathbb{E}[X],
+\end{equation}
+ou, exponenciando,
+\[
+\exp\bigl(\mathbb{E}[\log X]\bigr)\leqslant\mathbb{E}[X].
+\]
+Suponha agora que $X$ assume os valores positivos $x_1,\ldots,x_n$ com a mesma
+probabilidade. Então
+\[
+\mathbb{E}[\log X]=\frac{1}{n}\sum_{i=1}^{n}\log x_i=\log\gamma,
+\qquad
+\mathbb{E}[X]=\frac{1}{n}\sum_{i=1}^{n}x_i=\bar{x},
+\]
+onde
+\[
+\gamma=\Bigl(\prod_{i=1}^{n}x_i\Bigr)^{1/n},
+\qquad
+\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i
+\]
+são a média geométrica e a média aritmética dos $x_i$. Por \eqref{eq:jensen-log},
+$\log\gamma\leqslant\log\bar{x}$, e como o logaritmo é crescente,
+\[
+\gamma\leqslant\bar{x}.
+\]
+Além disso, a igualdade vale se, e somente se, todos os $x_i$ são iguais.
+\end{example}
+
+O terceiro exemplo compara a média harmônica com a geométrica.
+
+\begin{example}[Média harmônica]\label{ex:media-harmonica}
+A média harmônica dos positivos $x_1,\ldots,x_n$ é definida por
+\[
+\frac{1}{\eta}=\frac{1}{n}\sum_{i=1}^{n}\frac{1}{x_i}.
+\]
+Aplicando o \Cref{ex:media-geometrica} aos números $1/x_1,\ldots,1/x_n$,
+obtemos
+\[
+\Bigl(\prod_{i=1}^{n}\frac{1}{x_i}\Bigr)^{1/n}
+\leqslant
+\frac{1}{n}\sum_{i=1}^{n}\frac{1}{x_i},
+\]
+isto é, $1/\gamma\leqslant1/\eta$, ou seja, $\eta\leqslant\gamma$. A média
+harmônica não excede a geométrica, que por sua vez não excede a aritmética.
+\end{example}
+
+O quarto exemplo conecta Jensen com a função geradora de momentos.
+
+\begin{example}[A função geradora de momentos]\label{ex:jensen-fgm}
+Para cada $t\in\mathbb{R}$, a função $g(x)=e^{tx}$ é estritamente convexa.
+Jensen dá
+\[
+\mathbb{E}\bigl[e^{tX}\bigr]\geqslant e^{t\mathbb{E}[X]},
+\]
+isto é, $M_X(t)\geqslant e^{t\mathbb{E}[X]}$ para todo $t$ tal que a geradora
+exista. Essa desigualdade é a base das cotas exponenciais de cauda, que serão
+estudadas na nota de leis dos grandes números.
+\end{example}
+
+\section{A desigualdade de Lyapunov}\label{sec:lyapunov}
+
+A convexidade também organiza a comparação entre momentos de ordens distintas.
+A pergunta é a seguinte: se $\mathbb{E}|X|^r$ é finito para algum $r>0$, o que
+isso diz sobre $\mathbb{E}|X|^s$ para outros valores de $s$? A resposta tem duas
+partes. Primeiro, a finitude se propaga para baixo. Depois, as normas
+$(\mathbb{E}|X|^r)^{1/r}$ crescem com $r$. A segunda parte é a desigualdade de
+Lyapunov.
+
+\subsection{Finitude para ordens menores}\label{subsec:lyapunov-finitude}
+
+O ponto de partida é uma desigualdade pontual entre potências.
+
+\begin{lemma}\label{lem:potencias}
+Sejam $0<s\leqslant r$ e $x\in\mathbb{R}$. Então
+\begin{equation}\label{eq:potencias}
+|x|^s\leqslant1+|x|^r.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Se $|x|\leqslant1$, então $|x|^s\leqslant1\leqslant1+|x|^r$. Se $|x|>1$,
+então $|x|^s\leqslant|x|^r\leqslant1+|x|^r$, porque $s\leqslant r$ e a função
+$u\mapsto u^s$ é crescente em $[0,\infty)$.
+\end{proof}
+
+Tomando esperanças em \eqref{eq:potencias}, obtemos
+\[
+\mathbb{E}|X|^s\leqslant1+\mathbb{E}|X|^r.
+\]
+Em particular, se $\mathbb{E}|X|^r<\infty$, então $\mathbb{E}|X|^s<\infty$.
+Isso mostra que o conjunto
+\[
+I=\bigl\{r>0:\mathbb{E}|X|^r<\infty\bigr\}
+\]
+é um intervalo com extremo esquerdo $0$: se $r\in I$, então $(0,r]\subseteq I$.
+O intervalo pode ser $(0,\infty)$, como no caso gaussiano, em que todos os
+momentos são finitos. Pode ser $(0,R)$ para algum $R>0$, como no caso da
+distribuição de Cauchy, em que $\mathbb{E}|X|^r$ é finito para $0<r<1$ e
+infinito para $r\geqslant1$. E pode ser $(0,R]$, se o momento de ordem $R$ for
+finito mas os de ordem maior não forem. Em qualquer caso, a existência de um
+momento de ordem alta implica a existência de todos os momentos de ordem menor.
+
+\subsection{A desigualdade de Lyapunov}\label{subsec:lyapunov}
+
+A desigualdade de Lyapunov compara as normas em ordens diferentes. A prova é
+uma aplicação de Jensen à variável $Z^s$ e à função $y\mapsto y^{r/s}$, que é
+convexa porque $r/s\geqslant1$.
+
+\begin{theorem}[Desigualdade de Lyapunov]\label{thm:lyapunov}
+Seja $Z$ uma variável aleatória não negativa e sejam $0<s\leqslant r$. Então
+\begin{equation}\label{eq:lyapunov}
+\bigl(\mathbb{E}[Z^r]\bigr)^{1/r}
+\geqslant
+\bigl(\mathbb{E}[Z^s]\bigr)^{1/s}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Se $\mathbb{E}[Z^r]=\infty$, a desigualdade é imediata. Suponha que
+$\mathbb{E}[Z^r]<\infty$. Pelo \Cref{lem:potencias}, aplicado a $Z$,
+$\mathbb{E}[Z^s]<\infty$. Seja $Y=Z^s$ e $g(y)=y^{r/s}$, definida para
+$y\geqslant0$. Como $r/s\geqslant1$, a função $g$ é convexa em $[0,\infty)$.
+O \Cref{thm:jensen} aplicado a $Y$ e $g$ dá
+\[
+\mathbb{E}\bigl[Z^r\bigr]
+=
+\mathbb{E}\bigl[Y^{r/s}\bigr]
+\geqslant
+\bigl(\mathbb{E}[Y]\bigr)^{r/s}
+=
+\bigl(\mathbb{E}[Z^s]\bigr)^{r/s}.
+\]
+Extraindo a raiz $r$-ésima dos dois lados, que é uma função crescente em
+$[0,\infty)$, obtemos \eqref{eq:lyapunov}.
+\end{proof}
+
+A ordem das duas últimas subseções não é acidental. Para aplicar Jensen a
+$Y=Z^s$, precisamos saber que $\mathbb{E}[Z^s]$ é finita, e o
+\Cref{lem:potencias} fornece essa informação a partir de $\mathbb{E}[Z^r]$ sem
+usar Lyapunov. Se tentássemos provar a finitude por Lyapunov, usaríamos a
+desigualdade que queremos demonstrar.
+
+\begin{corollary}\label{cor:lyapunov-momentos}
+Seja $X$ uma variável aleatória e sejam $0<s\leqslant r$. Então
+\[
+\bigl(\mathbb{E}|X|^s\bigr)^{1/s}
+\leqslant
+\bigl(\mathbb{E}|X|^r\bigr)^{1/r}.
+\]
+Em particular, $\mathbb{E}|X|\leqslant\bigl(\mathbb{E}[X^2]\bigr)^{1/2}$.
+\end{corollary}
+
+\begin{proof}
+Aplique o \Cref{thm:lyapunov} a $Z=|X|$.
+\end{proof}
+
+A desigualdade de Lyapunov também melhora as cotas de cauda. Aplicando a
+desigualdade de Markov a $|X|^r$ e usando \eqref{eq:lyapunov}, obtemos, para
+cada $t>0$,
+\[
+\mathbb{P}(|X|\geqslant t)
+=
+\mathbb{P}(|X|^r\geqslant t^r)
+\leqslant
+\frac{\mathbb{E}|X|^r}{t^r}.
+\]
+Quanto maior é $r$, mais rápida é a decaída. É essa observação que dá conteúdo
+quantitativo à existência de momentos altos.
+
+\subsection{A curva das normas}\label{subsec:curva-normas}
+
+O \Cref{thm:lyapunov} diz que a função $r\mapsto(\mathbb{E}|X|^r)^{1/r}$ é não
+decrescente. Há uma segunda estrutura por trás dela: o logaritmo dessa função é
+convexo. A prova usa a desigualdade de Hölder, que é a forma geral da
+desigualdade de Cauchy-Schwarz e que também sai da convexidade.
+
+\begin{lemma}[Desigualdade de Young]\label{lem:young}
+Sejam $p,q>1$ com $1/p+1/q=1$ e sejam $a,b\geqslant0$. Então
+\[
+ab\leqslant\frac{a^p}{p}+\frac{b^q}{q}.
+\]
+\end{lemma}
+
+\begin{proof}
+Se $a=0$ ou $b=0$, a desigualdade é imediata. Caso contrário, a função
+$t\mapsto e^t$ é convexa, logo
+\[
+ab=\exp\Bigl(\frac{1}{p}\log a^p+\frac{1}{q}\log b^q\Bigr)
+\leqslant
+\frac{1}{p}e^{\log a^p}+\frac{1}{q}e^{\log b^q}
+=
+\frac{a^p}{p}+\frac{b^q}{q}.
+\]
+\end{proof}
+
+\begin{theorem}[Desigualdade de Hölder]\label{thm:holder}
+Sejam $p,q>1$ com $1/p+1/q=1$ e sejam $X,Y$ variáveis aleatórias tais que
+$\mathbb{E}|X|^p<\infty$ e $\mathbb{E}|Y|^q<\infty$. Então
+\[
+\mathbb{E}|XY|\leqslant\bigl(\mathbb{E}|X|^p\bigr)^{1/p}
+\bigl(\mathbb{E}|Y|^q\bigr)^{1/q}.
+\]
+\end{theorem}
+
+\begin{proof}
+Se $\mathbb{E}|X|^p=0$, então $X=0$ quase certamente e a desigualdade é
+imediata. O mesmo vale para $Y$. Suponha então que os dois momentos sejam
+positivos e defina
+\[
+\tilde X=\frac{X}{(\mathbb{E}|X|^p)^{1/p}},
+\qquad
+\tilde Y=\frac{Y}{(\mathbb{E}|Y|^q)^{1/q}}.
+\]
+Então $\mathbb{E}|\tilde X|^p=\mathbb{E}|\tilde Y|^q=1$. Aplicando o
+\Cref{lem:young} a $|\tilde X|$ e $|\tilde Y|$, obtemos
+\[
+|\tilde X\tilde Y|\leqslant\frac{|\tilde X|^p}{p}+\frac{|\tilde Y|^q}{q}.
+\]
+Tomando esperanças,
+\[
+\mathbb{E}|\tilde X\tilde Y|\leqslant\frac{1}{p}+\frac{1}{q}=1,
+\]
+que é a desigualdade para $X$ e $Y$.
+\end{proof}
+
+\begin{proposition}\label{prop:log-convexa}
+Seja $X$ uma variável aleatória e seja $I=\{r>0:\mathbb{E}|X|^r<\infty\}$.
+Então a função $r\mapsto\log\mathbb{E}|X|^r$ é convexa em $I$.
+\end{proposition}
+
+\begin{proof}
+Sejam $r_1<r_2$ em $I$ e $t\in(0,1)$. Escreva
+$r=(1-t)r_1+tr_2$. Queremos mostrar que
+\[
+\log\mathbb{E}|X|^r
+\leqslant
+(1-t)\log\mathbb{E}|X|^{r_1}+t\log\mathbb{E}|X|^{r_2}.
+\]
+Equivalentemente, depois de exponenciar,
+\[
+\mathbb{E}|X|^r
+\leqslant
+\bigl(\mathbb{E}|X|^{r_1}\bigr)^{1-t}
+\bigl(\mathbb{E}|X|^{r_2}\bigr)^{t}.
+\]
+Escrevemos $|X|^r=|X|^{(1-t)r_1}|X|^{tr_2}$ e aplicamos a desigualdade de
+Hölder com
+\[
+p=\frac{1}{1-t},
+\qquad
+q=\frac{1}{t},
+\]
+de modo que $1/p+1/q=1$. Tomando
+$X_1=|X|^{(1-t)r_1}$ e $X_2=|X|^{tr_2}$, Hölder dá
+\[
+\mathbb{E}|X|^r
+\leqslant
+\bigl(\mathbb{E}|X|^{r_1}\bigr)^{1-t}
+\bigl(\mathbb{E}|X|^{r_2}\bigr)^{t},
+\]
+como queríamos.
+\end{proof}
+
+A \Cref{fig:lyapunov-ordens} mostra as duas propriedades no exemplo em que $X$
+é uniforme em $[0,1]$, de modo que $\mathbb{E}|X|^r=1/(r+1)$. No painel da
+esquerda, o gráfico de $r\mapsto\log\mathbb{E}|X|^r$ é convexo e a corda fica
+acima dele. No painel da direita, $r\mapsto(\mathbb{E}|X|^r)^{1/r}$ é não
+decrescente, parte da média geométrica e tende ao supremo essencial.
+
+\input{figuras/05-fig-05-lyapunov.tikz}
+
+\subsection{Aplicação: o jogo honesto que arruína}\label{subsec:jogo}
+
+Considere o seguinte jogo. O jogador começa com capital $W_0=1$. Em cada
+rodada, o capital é multiplicado por $3/2$ ou por $1/2$, com probabilidade
+$1/2$ cada, independentemente das rodadas anteriores. O jogo é honesto no
+sentido de que o retorno esperado de cada rodada é
+\[
+\mathbb{E}[R_1]=\frac{1}{2}\cdot\frac{3}{2}+\frac{1}{2}\cdot\frac{1}{2}=1.
+\]
+Por independência, $\mathbb{E}[W_n]=1$ para todo $n$. A pergunta é se o
+capital típico se mantém, cresce ou decai.
+
+O capital depois de $n$ rodadas é
+\[
+W_n=R_1R_2\cdots R_n,
+\]
+com os $R_i$ independentes e identicamente distribuídos. Como $W_n>0$ sempre,
+podemos tomar logaritmos. A convexidade de $-\log$ ou, equivalentemente, a
+concavidade de $\log$, dá
+\[
+\mathbb{E}[\log W_n]\leqslant\log\mathbb{E}[W_n]=0.
+\]
+A desigualdade é estrita, porque $W_n$ não é constante. De fato,
+\[
+\mathbb{E}[\log R_1]
+=
+\frac{1}{2}\log\frac{3}{2}+\frac{1}{2}\log\frac{1}{2}
+=
+\frac{1}{2}\log\frac{3}{4}
+=
+-\frac{1}{2}\log\frac{4}{3}
+\approx-0{,}14384,
+\]
+logo
+\begin{equation}\label{eq:jogo-log}
+\mathbb{E}[\log W_n]
+=
+\sum_{i=1}^{n}\mathbb{E}[\log R_i]
+=
+-\frac{n}{2}\log\frac{4}{3}
+\;\xrightarrow[n\to\infty]{}\;-\infty.
+\end{equation}
+Enquanto o logaritmo da esperança do capital é zero, a esperança do logaritmo
+tende a $-\infty$. A diferença entre as duas quantidades é a folga de Jensen, e
+ela cresce linearmente em $n$.
+
+Vale registrar a leitura pela desigualdade de Lyapunov. Como os $R_i$ são
+independentes,
+\[
+\mathbb{E}[W_n^2]=\prod_{i=1}^{n}\mathbb{E}[R_i^2]
+=\Bigl(\frac{5}{4}\Bigr)^{n},
+\]
+e o \Cref{cor:lyapunov-momentos} dá
+\[
+\mathbb{E}[W_n]\leqslant\bigl(\mathbb{E}[W_n^2]\bigr)^{1/2}
+=\Bigl(\frac{5}{4}\Bigr)^{n/2}.
+\]
+A cota cresce exponencialmente, enquanto a esperança é constante. A folga entre
+as duas é a mesma assimetria que Jensen detecta, lida agora como comparação
+entre momentos de ordens distintas.
+
+Para transformar \eqref{eq:jogo-log} em uma afirmação sobre o capital, sem
+usar a lei dos grandes números, basta conhecer a distribuição exata. Seja
+$K_n$ o número de rodadas em que o capital foi multiplicado por $3/2$. Então
+$K_n\sim\mathrm{Bin}(n,1/2)$ e
+\[
+W_n=\Bigl(\frac{3}{2}\Bigr)^{K_n}\Bigl(\frac{1}{2}\Bigr)^{n-K_n}
+=
+\frac{3^{K_n}}{2^n}.
+\]
+Se $K_n\leqslant n/2$, então
+\[
+W_n\leqslant\frac{3^{n/2}}{2^n}
+=
+\Bigl(\frac{\sqrt3}{2}\Bigr)^{n}.
+\]
+Como a distribuição de $K_n$ é simétrica em torno de $n/2$, o evento
+$\{K_n\leqslant n/2\}$ tem probabilidade pelo menos $1/2$. Logo
+\begin{equation}\label{eq:jogo-mediana}
+\mathbb{P}\Bigl(W_n\leqslant\Bigl(\frac{\sqrt3}{2}\Bigr)^{n}\Bigr)
+\geqslant\frac{1}{2}.
+\end{equation}
+Com probabilidade pelo menos um meio, o capital decai a uma taxa geométrica de
+$\sqrt3/2\approx0{,}866$ por rodada, isto é, pelo menos $13{,}4\%$ ao longo de
+cada rodada, em termos geométricos. O valor mais provável de $W_n$ ocorre em
+$K_n=n/2$ e vale exatamente $(\sqrt3/2)^n$.
+
+A desigualdade de Chebyshev dá uma segunda leitura, agora sobre a
+probabilidade de o jogador terminar acima do capital inicial. O evento
+$\{W_n>1\}$ é o mesmo que $\{3^{K_n}>2^n\}$, ou seja,
+\[
+K_n>n\frac{\log2}{\log3}.
+\]
+Como $\log2/\log3\approx0{,}63093$, o evento é
+$\{K_n-n/2>0{,}13093\,n\}$. A variância de $K_n$ é $n/4$, logo Chebyshev dá
+\begin{equation}\label{eq:jogo-chebyshev}
+\mathbb{P}(W_n>1)
+\leqslant
+\frac{n/4}{(0{,}13093\,n)^2}
+=
+\frac{14{,}58}{n}.
+\end{equation}
+Assim a probabilidade de terminar com mais do que se começou tende a zero,
+embora a esperança do capital seja $1$ para todo $n$.
+
+Os números para $n=20$ resumem o fenômeno. Temos $\mathbb{E}[W_{20}]=1$ e
+$\mathbb{E}[W_{20}^2]=(5/4)^{20}\approx86{,}7$, de modo que o desvio padrão de
+$W_{20}$ é aproximadamente $9{,}3$. A cota \eqref{eq:jogo-mediana} diz que, com
+probabilidade pelo menos $1/2$, o capital é no máximo
+$(0{,}866)^{20}\approx0{,}056$. O valor mais provável é exatamente esse, com
+probabilidade $\binom{20}{10}2^{-20}\approx0{,}176$. Em outras palavras, o
+capital mais provável é cerca de $5{,}6\%$ do inicial, enquanto a média é
+$100\%$ do inicial. A média é sustentada por uma minoria de trajetórias com
+ganhos muito grandes.
+
+A lição é que a esperança de um produto não é o produto das esperanças quando o
+que interessa é a taxa de crescimento. Para o crescimento multiplicativo, a
+quantidade relevante é $\mathbb{E}[\log R_1]$, e não $\mathbb{E}[R_1]$. Jensen
+diz exatamente que as duas não coincidem, e a diferença é a folga entre a média
+aritmética e a média geométrica.
+
+\subsection{A convexidade da função geradora de momentos}\label{subsec:fgm-convexa}
+
+A mesma argumentação de Hölder se aplica à função geradora de momentos e
+produz a convexidade que está por trás das cotas exponenciais de cauda.
+
+\begin{proposition}\label{prop:fgm-convexa}
+Seja $X$ uma variável aleatória e seja $J$ o conjunto dos $t\in\mathbb{R}$ para
+os quais $M_X(t)=\mathbb{E}[e^{tX}]<\infty$. Então $J$ é um intervalo e a
+função
+\[
+\Lambda(t)=\log M_X(t)
+\]
+é convexa em $J$.
+\end{proposition}
+
+\begin{proof}
+Se $t_1,t_2\in J$ e $t=(1-\lambda)t_1+\lambda t_2$ com $\lambda\in(0,1)$,
+escrevemos
+\[
+e^{tX}=\bigl(e^{t_1X}\bigr)^{1-\lambda}\bigl(e^{t_2X}\bigr)^{\lambda}.
+\]
+O \Cref{thm:holder}, com $p=1/(1-\lambda)$ e $q=1/\lambda$, dá
+\[
+M_X(t)
+\leqslant
+\bigl(M_X(t_1)\bigr)^{1-\lambda}\bigl(M_X(t_2)\bigr)^{\lambda}.
+\]
+Tomando logaritmos, obtemos a desigualdade de convexidade para $\Lambda$.
+\end{proof}
+
+A \Cref{fig:cramer-lambda} mostra a consequência geométrica. Como $\Lambda$ é
+convexa, para cada $a$ a função $t\mapsto at-\Lambda(t)$ é côncava, e portanto
+atinge o máximo em um único ponto ou em um intervalo. Quando $\Lambda$ é
+diferenciável, esse ponto é aquele em que $\Lambda'(t)=a$, isto é, aquele em
+que a reta de inclinação $a$ tangencia o gráfico. O valor máximo
+\[
+\Lambda^{*}(a)=\sup_{t}\bigl\{at-\Lambda(t)\bigr\}
+\]
+é a transformada de Legendre de $\Lambda$. No exemplo da figura,
+$\mathbb{P}(X=-1)=\mathbb{P}(X=1)=1/2$, de modo que $M_X(t)=\cosh t$ e
+$\Lambda(t)=\log\cosh t$.
+
+Essa construção é o ponto de partida da cota de Chernoff e do teorema de
+Cramér, que serão estudados na nota de leis dos grandes números. A convexidade
+é o que garante que o máximo existe e é único, e é ela que permite ler o
+expoente da decaída como uma distância entre a reta e o gráfico.
+
+\input{figuras/05-fig-06-cramer.tikz}
+
+\section{O lema de Borel-Cantelli}\label{sec:borel-cantelli}
+
+Até aqui, estimamos a probabilidade de um evento. Nesta seção, a pergunta é
+diferente: dada uma sequência de eventos $A_1,A_2,\ldots$, queremos saber se
+eles ocorrem infinitas vezes. A soma $\sum_n\mathbb{P}(A_n)$ é o número
+esperado de ocorrências, e o lema de Borel-Cantelli diz que o comportamento
+dessa série decide a questão, desde que os eventos sejam independentes na
+direção difícil.
+
+\subsection{Limites superior e inferior de eventos}\label{subsec:limsup}
+
+Para formular a pergunta, precisamos de uma noção de limite para sequências de
+eventos.
+
+\begin{definition}[Limite superior]\label{def:limsup}
+Seja $(A_n)_{n\geqslant1}$ uma sequência de eventos em um espaço de
+probabilidade $(\Omega,\mathcal{F},\mathbb{P})$. O \emph{limite superior} de
+$(A_n)$ é o evento
+\[
+\limsup_{n\to\infty}A_n
+=
+\bigcap_{n=1}^{\infty}\bigcup_{k=n}^{\infty}A_k.
+\]
+Escrevemos também $\{A_n\text{ infinitas vezes}\}$ ou, abreviadamente,
+$\{A_n\ \text{i.v.}\}$ para esse evento.
+\end{definition}
+
+A definição merece uma leitura em palavras. Um ponto $\omega$ pertence a
+$\bigcup_{k\geqslant n}A_k$ se, e somente se, $\omega$ pertence a algum $A_k$
+com $k\geqslant n$. Se $\omega$ pertence à interseção sobre $n$, então, para
+cada $n$, existe $k\geqslant n$ com $\omega\in A_k$. Isso significa que os
+índices $k$ para os quais $\omega\in A_k$ não são limitados, ou seja, $\omega$
+pertence a infinitos dos eventos $A_n$. Reciprocamente, se $\omega$ pertence a
+infinitos $A_n$, então para cada $n$ existe $k\geqslant n$ com
+$\omega\in A_k$, e $\omega$ está no limite superior. Assim
+\[
+\limsup_{n\to\infty}A_n
+=
+\{\omega\in\Omega:\omega\in A_n\text{ para infinitos índices }n\}.
+\]
+
+O limite inferior tem definição dual.
+
+\begin{definition}[Limite inferior]\label{def:liminf}
+Nas mesmas hipóteses, o \emph{limite inferior} de $(A_n)$ é o evento
+\[
+\liminf_{n\to\infty}A_n
+=
+\bigcup_{n=1}^{\infty}\bigcap_{k=n}^{\infty}A_k.
+\]
+Escrevemos também $\{A_n\text{ eventualmente}\}$.
+\end{definition}
+
+Aqui, $\omega$ pertence a $\bigcap_{k\geqslant n}A_k$ se, e somente se,
+$\omega\in A_k$ para todo $k\geqslant n$. Se $\omega$ pertence à união sobre
+$n$, então existe $n$ tal que $\omega\in A_k$ para todo $k\geqslant n$, isto é,
+$\omega$ pertence a todos os $A_n$ a partir de algum índice. Logo
+\[
+\liminf_{n\to\infty}A_n
+=
+\{\omega\in\Omega:\omega\in A_n\text{ para todo }n\text{ suficientemente grande}\}.
+\]
+
+Os dois eventos se relacionam por complementação. Como o complementar troca
+uniões por interseções e inverte o sentido das inclusões,
+\begin{equation}\label{eq:limsup-complementar}
+\Bigl(\limsup_{n\to\infty}A_n\Bigr)^c
+=
+\liminf_{n\to\infty}A_n^c.
+\end{equation}
+Além disso, todo ponto que pertence a todos os $A_n$ a partir de um índice
+pertence a infinitos deles, logo
+\[
+\liminf_{n\to\infty}A_n
+\subseteq
+\limsup_{n\to\infty}A_n.
+\]
+A inclusão pode ser estrita: no lançamento de uma moeda, o evento ``sai cara
+infinitas vezes'' contém o evento ``sai cara a partir de algum lançamento'', e a
+inclusão é estrita quase certamente.
+
+\begin{remark}\label{rem:limsup-indicadoras}
+A definição se traduz em uma identidade entre indicadoras:
+\[
+\mathds{1}_{\limsup_n A_n}
+=
+\limsup_{n\to\infty}\mathds{1}_{A_n},
+\qquad
+\mathds{1}_{\liminf_n A_n}
+=
+\liminf_{n\to\infty}\mathds{1}_{A_n}.
+\]
+Em particular, $\omega\in\limsup_n A_n$ se, e somente se,
+\[
+\sum_{n=1}^{\infty}\mathds{1}_{A_n}(\omega)=\infty.
+\]
+Essa leitura é útil porque transforma a pergunta sobre eventos em uma pergunta
+sobre séries de números não negativos.
+\end{remark}
+
+\subsection{A continuidade das medidas de probabilidade}\label{subsec:continuidade}
+
+O instrumento técnico que liga os limites de eventos às probabilidades é a
+continuidade das medidas, que já foi demonstrada na nota de propriedades de
+probabilidade. Recordamos o enunciado.
+
+\begin{theorem}[Continuidade para sequências crescentes]\label{thm:continuidade-crescente}
+Seja $(\Omega,\mathcal{F},\mathbb{P})$ um espaço de probabilidade e seja
+$(A_n)_{n\geqslant1}$ uma sequência crescente de eventos, com
+$A=\bigcup_{n\geqslant1}A_n$. Então
+\[
+\mathbb{P}(A)=\lim_{n\to\infty}\mathbb{P}(A_n).
+\]
+\end{theorem}
+
+\begin{corollary}[Continuidade para sequências decrescentes]\label{cor:continuidade-decrescente}
+Seja $(B_n)_{n\geqslant1}$ uma sequência decrescente de eventos, com
+$B=\bigcap_{n\geqslant1}B_n$. Então
+\[
+\mathbb{P}(B)=\lim_{n\to\infty}\mathbb{P}(B_n).
+\]
+\end{corollary}
+
+A prova do teorema está na nota de propriedades de probabilidade, onde a união
+é decomposta em anéis disjuntos. O corolário segue aplicando o teorema aos
+complementares, que formam uma sequência crescente de limite
+$\Omega\setminus B$.
+
+No que segue, aplicaremos o corolário à sequência
+\[
+C_n=\bigcup_{k=n}^{\infty}A_k.
+\]
+Essa sequência é decrescente, pois $C_{n+1}\subseteq C_n$, e sua interseção é
+exatamente $\limsup_n A_n$. Logo
+\begin{equation}\label{eq:limsup-continuidade}
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)
+=
+\lim_{n\to\infty}\mathbb{P}(C_n).
+\end{equation}
+A identidade \eqref{eq:limsup-continuidade} é a ponte entre o lema de
+Borel-Cantelli e a continuidade.
+
+\subsection{A desigualdade de Boole}\label{subsec:boole}
+
+Falta controlar a probabilidade de uma união enumerável. A desigualdade de
+Boole faz isso, e sua versão finita já apareceu na nota de propriedades de
+probabilidade.
+
+\begin{lemma}[Desigualdade de Boole]\label{lem:boole}
+Seja $(A_n)_{n\geqslant1}$ uma sequência de eventos. Então
+\[
+\mathbb{P}\Bigl(\bigcup_{n=1}^{\infty}A_n\Bigr)
+\leqslant
+\sum_{n=1}^{\infty}\mathbb{P}(A_n).
+\]
+\end{lemma}
+
+\begin{proof}
+Defina $B_1=A_1$ e, para $n\geqslant2$,
+\[
+B_n=A_n\setminus\bigcup_{k=1}^{n-1}A_k.
+\]
+Os eventos $B_n$ são dois a dois disjuntos e
+$\bigcup_{n\geqslant1}B_n=\bigcup_{n\geqslant1}A_n$. Além disso,
+$B_n\subseteq A_n$, logo $\mathbb{P}(B_n)\leqslant\mathbb{P}(A_n)$. Pela
+$\sigma$-aditividade,
+\[
+\mathbb{P}\Bigl(\bigcup_{n=1}^{\infty}A_n\Bigr)
+=
+\sum_{n=1}^{\infty}\mathbb{P}(B_n)
+\leqslant
+\sum_{n=1}^{\infty}\mathbb{P}(A_n).
+\]
+\end{proof}
+
+\subsection{O primeiro lema de Borel-Cantelli}\label{subsec:bc1}
+
+Com a continuidade e Boole, a primeira parte do lema é imediata.
+
+\begin{theorem}[Primeiro lema de Borel-Cantelli]\label{thm:bc1}
+Seja $(A_n)_{n\geqslant1}$ uma sequência de eventos tal que
+$\sum_{n\geqslant1}\mathbb{P}(A_n)<\infty$. Então
+\[
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)=0.
+\]
+Em outras palavras, com probabilidade $1$ ocorrem apenas finitos dos eventos
+$A_n$.
+\end{theorem}
+
+\begin{proof}
+Seja $C_n=\bigcup_{k\geqslant n}A_k$. Por \eqref{eq:limsup-continuidade},
+\[
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)
+=
+\lim_{n\to\infty}\mathbb{P}(C_n).
+\]
+Pelo \Cref{lem:boole},
+\[
+\mathbb{P}(C_n)
+\leqslant
+\sum_{k=n}^{\infty}\mathbb{P}(A_k).
+\]
+Como a série $\sum_k\mathbb{P}(A_k)$ converge, o resto
+$\sum_{k\geqslant n}\mathbb{P}(A_k)$ tende a $0$ quando $n\to\infty$. Logo
+$\mathbb{P}(C_n)\to0$ e, portanto,
+$\mathbb{P}(\limsup_n A_n)=0$.
+\end{proof}
+
+Note que a prova não usou independência. O primeiro lema vale para qualquer
+sequência de eventos. O preço é que ele só produz a conclusão $\mathbb{P}=0$;
+para concluir $\mathbb{P}=1$, é preciso independência.
+
+\subsection{O segundo lema de Borel-Cantelli}\label{subsec:bc2}
+
+A recíproca do primeiro lema é falsa em geral: se $A_n=A$ para todo $n$, com
+$0<\mathbb{P}(A)<1$, então $\sum_n\mathbb{P}(A_n)=\infty$ e
+$\limsup_n A_n=A$, cuja probabilidade não é $1$. O segundo lema mostra que a
+recíproca vale quando os eventos são independentes.
+
+Usaremos a desigualdade elementar
+\begin{equation}\label{eq:exp-ineq}
+1-x\leqslant e^{-x}
+\qquad
+\text{para }x\in\mathbb{R},
+\end{equation}
+que segue da convexidade de $x\mapsto e^x$, ou da comparação das séries de
+Taylor.
+
+\begin{theorem}[Segundo lema de Borel-Cantelli]\label{thm:bc2}
+Seja $(A_n)_{n\geqslant1}$ uma sequência de eventos independentes tal que
+$\sum_{n\geqslant1}\mathbb{P}(A_n)=\infty$. Então
+\[
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)=1.
+\]
+\end{theorem}
+
+\begin{proof}
+Seja $p_n=\mathbb{P}(A_n)$. Pela identidade \eqref{eq:limsup-complementar},
+\[
+\Bigl(\limsup_{n\to\infty}A_n\Bigr)^c
+=
+\liminf_{n\to\infty}A_n^c
+=
+\bigcup_{m=1}^{\infty}\bigcap_{n=m}^{\infty}A_n^c.
+\]
+Pela desigualdade de Boole, basta mostrar que
+$\mathbb{P}\bigl(\bigcap_{n\geqslant m}A_n^c\bigr)=0$ para cada $m$.
+
+Fixe $m$. Para $N\geqslant m$, os eventos $A_m^c,\ldots,A_N^c$ são
+independentes, logo
+\[
+\mathbb{P}\Bigl(\bigcap_{n=m}^{N}A_n^c\Bigr)
+=
+\prod_{n=m}^{N}(1-p_n)
+\leqslant
+\exp\Bigl(-\sum_{n=m}^{N}p_n\Bigr),
+\]
+onde usamos \eqref{eq:exp-ineq} em cada fator. A sequência
+$\bigcap_{n=m}^{N}A_n^c$ é decrescente em $N$, com interseção
+$\bigcap_{n\geqslant m}A_n^c$. Pelo
+\Cref{cor:continuidade-decrescente},
+\[
+\mathbb{P}\Bigl(\bigcap_{n=m}^{\infty}A_n^c\Bigr)
+=
+\lim_{N\to\infty}\mathbb{P}\Bigl(\bigcap_{n=m}^{N}A_n^c\Bigr)
+\leqslant
+\lim_{N\to\infty}\exp\Bigl(-\sum_{n=m}^{N}p_n\Bigr)
+=
+0,
+\]
+porque a série $\sum_n p_n$ diverge. Como $m$ é arbitrário, todos os eventos
+$\bigcap_{n\geqslant m}A_n^c$ têm probabilidade nula, e a união enumerável
+deles também. Logo $\mathbb{P}\bigl((\limsup_n A_n)^c\bigr)=0$, isto é,
+$\mathbb{P}(\limsup_n A_n)=1$.
+\end{proof}
+
+\begin{remark}\label{rem:bc2-independencia}
+A hipótese de independência é indispensável no segundo lema. O exemplo
+$A_n=A$, com $0<\mathbb{P}(A)<1$, mostra que sem ela a conclusão falha. Um
+segundo exemplo, que mostra que a conclusão pode falhar mesmo quando os eventos
+são distintos, é $A_n=[0,1/n]$ no espaço $([0,1],\mathcal{B}([0,1]),\lambda)$,
+onde $\lambda$ é a medida uniforme: a soma das probabilidades diverge, mas a
+interseção dos $A_n$ é $\{0\}$, de modo que $\limsup_n A_n=\{0\}$ e tem
+probabilidade nula.
+\end{remark}
+
+\subsection{A lei 0-1 de Borel}\label{subsec:lei-01}
+
+Reunindo as duas partes, obtemos um critério completo para eventos
+independentes.
+
+\begin{corollary}[Lei 0-1 de Borel]\label{cor:lei-01}
+Seja $(A_n)_{n\geqslant1}$ uma sequência de eventos independentes. Então
+\[
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)\in\{0,1\}.
+\]
+Mais precisamente, a probabilidade é $0$ se $\sum_n\mathbb{P}(A_n)<\infty$ e
+é $1$ se $\sum_n\mathbb{P}(A_n)=\infty$.
+\end{corollary}
+
+\begin{proof}
+Se a série converge, o \Cref{thm:bc1} dá probabilidade $0$. Se diverge, o
+\Cref{thm:bc2} dá probabilidade $1$.
+\end{proof}
+
+\subsection{Exemplos}\label{subsec:bc-exemplos}
+
+\begin{example}[Caras em lançamentos sucessivos]\label{ex:caras-infinitas}
+Lance uma moeda honesta infinitas vezes e seja $A_n$ o evento ``sai cara no
+lançamento $n$''. Os eventos são independentes, $\mathbb{P}(A_n)=1/2$ e
+$\sum_n\mathbb{P}(A_n)=\infty$. Pelo \Cref{thm:bc2}, saem caras infinitas vezes
+com probabilidade $1$.
+\end{example}
+
+\begin{example}[Blocos iniciais de caras]\label{ex:blocos-iniciais}
+No mesmo espaço, seja $B_n$ o evento ``os primeiros $n$ lançamentos são todos
+caras''. Então $\mathbb{P}(B_n)=2^{-n}$ e $\sum_n2^{-n}<\infty$. Pelo
+\Cref{thm:bc1}, com probabilidade $1$ apenas finitos dos $B_n$ ocorrem. Isso
+não contradiz o exemplo anterior: o que se repete infinitas vezes são caras em
+posições isoladas, não blocos de caras que começam na posição $1$.
+\end{example}
+
+\begin{example}[O macaco e a máquina de escrever]\label{ex:macaco}
+Suponha que um macaco digite, a cada instante, um caractere escolhido ao acaso
+em um alfabeto de $M$ símbolos, independentemente. Fixe um texto de $k$
+caracteres. O evento $A_n$ de que o texto apareça a partir da posição $n$ tem
+probabilidade $M^{-k}$, e os eventos $A_{1+jk}$, para $j\geqslant0$, são
+independentes, porque dependem de blocos disjuntos. A soma das probabilidades
+desses eventos diverge, logo o texto aparece infinitas vezes com probabilidade
+$1$. O primeiro lema, aplicado aos blocos iniciais, mostra que o texto não
+aparece logo no começo para sempre; o segundo mostra que ele reaparece
+infinitas vezes.
+\end{example}
+
+\subsection{Aplicação: a maior sequência de caras}\label{subsec:maior-sequencia}
+
+Considere uma moeda honesta lançada infinitas vezes e seja $L_n$ o comprimento
+da maior sequência de caras consecutivas inteiramente contida nos primeiros $n$
+lançamentos. Quanto vale $L_n$ para $n$ grande? A intuição sugere que
+sequências longas são raras, mas o número de posições onde elas podem começar
+cresce com $n$, e o equilíbrio entre os dois efeitos produz a escala
+$\log_2 n$. O lema de Borel-Cantelli determina a constante.
+
+Seja $A_i$ o evento ``sai cara no lançamento $i$''. Para $k\geqslant1$ e
+$j\geqslant1$, o evento
+\[
+B_{j,k}=A_j\cap A_{j+1}\cap\cdots\cap A_{j+k-1}
+\]
+tem probabilidade $2^{-k}$, e eventos desse tipo são independentes quando os
+blocos de índices são disjuntos.
+
+\smallskip
+\noindent\textbf{Limite superior.}
+Fixe $\varepsilon>0$ e ponha $k_n=\lceil(1+\varepsilon)\log_2 n\rceil$. Se
+$L_n\geqslant k_n$, então algum bloco de $k_n$ posições consecutivas dentro de
+$\{1,\ldots,n\}$ é todo de caras. Há no máximo $n$ posições iniciais
+possíveis, logo
+\[
+\mathbb{P}(L_n\geqslant k_n)
+\leqslant
+n\,2^{-k_n}
+\leqslant
+n\cdot n^{-(1+\varepsilon)}
+=
+n^{-\varepsilon}.
+\]
+Como $\sum_{n\geqslant1}n^{-\varepsilon}<\infty$ para $\varepsilon>0$, o
+\Cref{thm:bc1} dá
+\[
+\mathbb{P}\bigl(L_n\geqslant(1+\varepsilon)\log_2 n
+\text{ para infinitos }n\bigr)=0.
+\]
+Portanto, quase certamente, existe $N$ tal que
+$L_n<(1+\varepsilon)\log_2 n$ para todo $n\geqslant N$. Em particular,
+\[
+\limsup_{n\to\infty}\frac{L_n}{\log_2 n}\leqslant1
+\qquad
+\text{quase certamente}.
+\]
+
+\smallskip
+\noindent\textbf{Limite inferior.}
+Fixe $\varepsilon\in(0,1)$ e ponha
+$k_n=\lfloor(1-\varepsilon)\log_2 n\rfloor$. Dividimos os primeiros $n$
+lançamentos em $m_n=\lfloor n/k_n\rfloor$ blocos disjuntos de $k_n$ posições
+consecutivas. Se $L_n<k_n$, nenhum desses blocos é todo de caras. Como os
+blocos são disjuntos, os eventos correspondentes são independentes, e cada um
+tem probabilidade $2^{-k_n}$ de ser todo de caras. Logo
+\[
+\mathbb{P}(L_n<k_n)
+\leqslant
+\bigl(1-2^{-k_n}\bigr)^{m_n}
+\leqslant
+\exp\bigl(-m_n2^{-k_n}\bigr).
+\]
+Agora $2^{-k_n}\geqslant n^{-(1-\varepsilon)}$ e, para $n$ grande,
+$m_n\geqslant n/(2k_n)$. Assim
+\[
+m_n2^{-k_n}
+\geqslant
+\frac{n^{\varepsilon}}{2k_n}
+\geqslant
+\frac{n^{\varepsilon}}{2(1+\log_2 n)}
+\;\xrightarrow[n\to\infty]{}\;\infty.
+\]
+Segue que $\mathbb{P}(L_n<k_n)\leqslant\exp\bigl(-n^{\varepsilon}/(2k_n)\bigr)$,
+e a série dessas probabilidades converge, porque a exponencial decai mais
+rápido do que qualquer potência de $n$. Pelo \Cref{thm:bc1},
+\[
+\mathbb{P}\bigl(L_n<(1-\varepsilon)\log_2 n
+\text{ para infinitos }n\bigr)=0,
+\]
+isto é, quase certamente $L_n\geqslant k_n$ para todo $n$ suficientemente
+grande. Logo
+\[
+\liminf_{n\to\infty}\frac{L_n}{\log_2 n}\geqslant1
+\qquad
+\text{quase certamente}.
+\]
+
+\smallskip
+\noindent\textbf{Conclusão.}
+Reunindo os dois limites,
+\begin{equation}\label{eq:maior-sequencia}
+\frac{L_n}{\log_2 n}\;\xrightarrow[n\to\infty]{}\;1
+\qquad
+\text{quase certamente}.
+\end{equation}
+Mais precisamente, para cada $\varepsilon>0$ e quase todo $\omega$, vale
+\[
+(1-\varepsilon)\log_2 n-1\leqslant L_n\leqslant(1+\varepsilon)\log_2 n
+\]
+para todo $n$ suficientemente grande.
+
+Vale observar o papel das duas direções. O limite superior usa apenas a união
+finita sobre as posições iniciais possíveis, e é o primeiro lema que transforma
+a cota em convergência quase certa. O limite inferior usa a independência de
+blocos disjuntos para estimar a probabilidade de não haver nenhum bloco de
+caras, e depois aplica novamente o primeiro lema. A segunda parte do lema não é
+usada, o que mostra que ela não é a única forma de obter conclusões de
+probabilidade $1$.
+
+Os números tornam a escala concreta. Como $\log_2(10^6)\approx19{,}93$, em um
+milhão de lançamentos a maior sequência tem cerca de $20$ caras. Para ver $30$
+caras seguidas é preciso da ordem de $2^{30}\approx10^9$ lançamentos, e para
+$40$ caras, da ordem de $2^{40}\approx10^{12}$. A probabilidade de $20$ caras
+em $20$ lançamentos é $2^{-20}\approx9{,}5\times10^{-7}$, mas há cerca de
+$10^6$ posições onde a sequência pode começar, e o produto é da ordem de $1$.
+
+%----------------------------------------------------------------------
+\section{Exercícios propostos}\label{sec:exercicios}
+
+\begin{exercise}\label{exercise:mediana-igualdade}
+Determine quais distribuições em $[0,\infty)$, com média $\mu$, têm $2\mu$
+como mediana. Isto é, determine quando a cota da
+\Cref{prop:mediana-markov} é atingida.
+\end{exercise}
+
+\begin{exercise}\label{exercise:segunda-derivada}
+Seja $I$ um intervalo da reta e seja $f\colon I\to\mathbb{R}$ duas vezes
+diferenciável, com $f''(x)>0$ para todo $x\in I$. Mostre que $f$ é convexa em
+$I$ sem usar a \Cref{prop:caracterizacoes}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:jensen-quadrado}
+Mostre, usando a desigualdade de Jensen, que
+$\mathbb{E}[X^2]\geqslant\bigl(\mathbb{E}[X]\bigr)^2$. Identifique a função
+convexa usada e o caso de igualdade.
+\end{exercise}
+
+\begin{exercise}\label{exercise:media-harmonica}
+Sejam $x_1,\ldots,x_n>0$ e seja $\eta$ a média harmônica definida no
+\Cref{ex:media-harmonica}. Mostre que $\eta\leqslant\gamma$, onde $\gamma$ é a
+média geométrica, e determine quando vale a igualdade.
+\end{exercise}
+
+\begin{exercise}\label{exercise:chebyshev-dado}
+Use a desigualdade de Chebyshev para mostrar que, em $n$ lançamentos de um dado
+honesto, a probabilidade de o número de seis estar entre
+$\frac{1}{6}n-\sqrt n$ e $\frac{1}{6}n+\sqrt n$ é pelo menos $\frac{31}{36}$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:chebyshev-forma}
+Prove a seguinte forma alternativa da desigualdade de Chebyshev: se $X$ tem
+variância finita e $a>0$, então
+\[
+\mathbb{P}\bigl(|X-\mathbb{E}[X]|>a\bigr)
+\leqslant
+\frac{1}{a^2}\operatorname{Var}(X).
+\]
+\end{exercise}
+
+\begin{exercise}\label{exercise:lyapunov-potencia}
+Seja $p\geqslant1$. Usando a desigualdade de Jensen ou outro argumento,
+encontre o menor valor da constante $c_p$ tal que
+\[
+(a+b)^p\leqslant c_p(a^p+b^p)
+\qquad
+\text{para todos }a,b\geqslant0.
+\]
+\end{exercise}
+
+\begin{exercise}\label{exercise:bc-produto}
+Sejam $A_1,A_2,\ldots$ eventos independentes com $\mathbb{P}(A_n)=p_n$. Mostre
+que
+\[
+\mathbb{P}\Bigl(\bigcap_{n=1}^{\infty}A_n^c\Bigr)>0
+\]
+se, e somente se, $\sum_n p_n<\infty$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:bc-dois-a-dois}
+Mostre que a conclusão do \Cref{thm:bc2} continua válida se a hipótese de
+independência for substituída por independência dois a dois. Isto é, mostre
+que, se $(A_n)$ é uma sequência de eventos dois a dois independentes com
+$\sum_n\mathbb{P}(A_n)=\infty$, então
+$\mathbb{P}(\limsup_n A_n)=1$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:bc-exponencial}
+Sejam $X_1,X_2,\ldots$ variáveis aleatórias independentes com distribuição
+exponencial de parâmetro $1$ e seja $M_n=\max\{X_1,\ldots,X_n\}$. Mostre que
+\[
+\frac{M_n}{\log n}\;\xrightarrow[n\to\infty]{}\;1
+\qquad
+\text{quase certamente}.
+\]
+\end{exercise}
+
+%----------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}
