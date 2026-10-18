@@ -1,0 +1,31 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.5cm,y=1cm,>=latex,font=\small]
+  % Um valor intermediário de t, com u<v.
+  \draw[thin,->] (-0.7,0) -- (7.2,0) node[below] {$x$};
+  \draw[thick] (0,0) -- (6,0);
+  \draw[very thick,teal] (0,0) -- (2.2,0);
+  \fill (0,0) circle (1.8pt);
+  \fill (6,0) circle (1.8pt);
+  \fill[teal] (2.2,0) circle (2.2pt);
+  \node[below=5pt] at (0,0) {$u$};
+  \node[below=5pt] at (6,0) {$v$};
+  \node[below=5pt,teal] at (2.2,0) {$x_t=(1-t)u+tv$};
+
+  % As distâncias explicam o papel do parâmetro t.
+  \draw[decorate,decoration={brace,amplitude=5pt},teal]
+    (0,0.18) -- (2.2,0.18)
+    node[midway,above=7pt] {$t(v-u)$};
+  \draw[decorate,decoration={brace,amplitude=5pt}]
+    (2.2,0.18) -- (6,0.18)
+    node[midway,above=7pt] {$(1-t)(v-u)$};
+  \draw[->,teal] (0,-1.05) -- (6,-1.05)
+    node[midway,below=3pt,font=\scriptsize]
+      {$t$ cresce de $0$ a $1$};
+\end{tikzpicture}
+\caption{Para $u<v$, escrever $x_t=(1-t)u+tv=u+t(v-u)$ mostra que
+$t$ é a fração do caminho de $u$ até $v$ já percorrida. Quando $t=0$,
+temos $x_t=u$; quando $t=1$, temos $x_t=v$. Para $0<t<1$, o ponto
+fica entre os extremos; em particular, $t=1/2$ fornece o ponto médio.}
+\label{fig:combinacao-convexa}
+\end{figure}

@@ -246,47 +246,94 @@ lema de Borel-Cantelli não consta dessa referência e segue \cite{MR1155402} e
 %----------------------------------------------------------------------
 \section{Introdução}\label{sec:introducao}
 
-A média de uma variável aleatória condensa a distribuição em um único número.
-Nas notas anteriores, estudamos os momentos e as funções geradoras de momentos,
-que refinam essa descrição. Nestas notas, fazemos a pergunta inversa: o que um
-número como $\mathbb{E}[X]$, ou um punhado deles, diz sobre a distribuição de
-$X$? A primeira resposta é que a média sozinha já impede caudas muito pesadas.
-Se $X\geqslant0$ e $\mathbb{E}[X]<\infty$, a probabilidade de $X$ assumir
-valores grandes decai pelo menos como $1/t$, e essa é a desigualdade de Markov.
-Se também conhecemos a variância, a probabilidade de $X$ se afastar da média
-decai como $1/t^2$, e essa é a desigualdade de Chebyshev.
+Nas notas anteriores, estudamos a esperança, a variância e os momentos de
+uma variável aleatória, além de sua função geradora de momentos. Para calcular
+essas grandezas, partimos da distribuição da variável. Suponha agora que
+conhecemos apenas sua média e sua variância. O que podemos dizer sobre a
+probabilidade de a variável assumir valores em um dado intervalo? Em geral,
+essas informações não permitem calcular a probabilidade procurada, pois
+distribuições diferentes podem ter a mesma média e a mesma variância. Ainda
+assim, podemos usá-las para obter estimativas que valem para todas essas
+distribuições.
 
-A desigualdade de Chebyshev aplica Markov a uma função quadrática e aponta
-para um princípio geométrico geral sobre funções convexas. Se $g$ é convexa, o
-valor de $g$ na média de $X$ não excede a média dos valores de $g$, e essa é a
-desigualdade de Jensen. A convexidade organiza também a comparação entre
-momentos de ordens distintas: as normas $(\mathbb{E}|X|^r)^{1/r}$ crescem com
-$r$, e essa é a desigualdade de Lyapunov. O material de convexidade ocupa a
-maior parte da nota porque é ele que dá sentido geométrico às contas. As
-figuras que acompanham o texto mostram essa geometria em etapas: a corda acima
-do gráfico, o crescimento das inclinações secantes, a reta que apoia o gráfico
-e o centro de massa dos pontos do gráfico, além da curva das normas de
-Lyapunov e da transformada de Legendre do logaritmo da função geradora de
-momentos.
+Para obter uma primeira estimativa, vamos considerar uma variável aleatória
+$X$ não negativa e com esperança finita. Se $X$ assume valores maiores ou
+iguais a $t>0$ com probabilidade $p$, esses valores contribuem com pelo menos
+$tp$ para a esperança. Como os demais valores são não negativos, devemos ter
+$tp\leqslant\mathbb{E}[X]$. Portanto,
+$\mathbb{P}(X\geqslant t)\leqslant\mathbb{E}[X]/t$. Esta é a desigualdade
+de Markov, que estudaremos na \Cref{sec:markov-chebyshev}. Note que o argumento
+usa apenas a não negatividade de $X$ e o valor de sua esperança. Podemos,
+assim, aplicá-lo a outras variáveis não negativas, em particular ao quadrado
+do desvio de uma variável em relação à sua média.
 
-O último bloco trata de um tipo diferente de pergunta. Em vez de estimar a
-probabilidade de um evento, queremos saber se uma sequência de eventos ocorre
-infinitas vezes. A soma $\sum_n\mathbb{P}(A_n)$ é o número esperado de
-ocorrências. O lema de Borel-Cantelli diz que, quando essa soma converge, as
-ocorrências se esgotam quase certamente, e que, quando diverge e os eventos são
-independentes, elas se repetem para sempre quase certamente.
+O quadrado desse desvio tem esperança igual à variância. Aplicando Markov a
+$(X-\mathbb{E}[X])^2$, obteremos a desigualdade de Chebyshev, que permite
+estimar a probabilidade de $X$ se afastar de sua média quando a variância é
+finita. Veremos uma aplicação dessas duas desigualdades no problema dos
+aniversários. Se há $N$ dias possíveis para os aniversários, supostos
+independentes e uniformemente distribuídos, queremos saber quantas pessoas
+são necessárias para que uma coincidência se torne provável. Contando o
+número de pares que fazem aniversário no mesmo dia e calculando sua média e
+sua variância, mostraremos que a mudança de comportamento ocorre quando o
+número de pessoas é da ordem de $\sqrt N$. Esse exemplo mostra como a escolha
+da variável aleatória pode tornar úteis informações sobre apenas dois de
+seus momentos.
 
-A aplicação que encerra cada bloco foi escolhida para mostrar a desigualdade
-em ação, e não apenas como cota. No problema dos aniversários, Markov e
-Chebyshev determinam a ordem correta do número de pessoas a partir do qual uma
-coincidência se torna provável. No jogo honesto, Jensen explica por que a
-esperança do capital pode ficar constante enquanto o capital típico decai. Na
-maior sequência de caras, Borel-Cantelli determina a escala exata $\log_2 n$.
+O uso dos momentos nessas estimativas também nos leva a perguntar como
+momentos de ordens distintas se relacionam. Por exemplo, sabemos que
+$(\mathbb{E}[X])^2\leqslant\mathbb{E}[X^2]$, pois a variância é não
+negativa. Podemos interpretar essa desigualdade como uma comparação entre
+elevar a média ao quadrado e tomar a média dos quadrados. Na
+\Cref{sec:convexidade}, veremos que essa comparação se estende a uma classe
+de funções que inclui a função quadrática: as funções convexas. Para
+entender essa extensão, começaremos pela geometria de seus gráficos.
+Estudaremos as cordas e as inclinações das secantes até obter uma reta de
+suporte, isto é, uma reta que passa por um ponto do gráfico e fica abaixo
+dele. Essa reta nos permitirá demonstrar a desigualdade de Jensen,
+$g(\mathbb{E}[X])\leqslant\mathbb{E}[g(X)]$, sob as hipóteses apropriadas.
+
+Aplicando Jensen a funções potência, obteremos na \Cref{sec:lyapunov} a
+desigualdade de Lyapunov, que compara as quantidades
+$(\mathbb{E}[|X|^r])^{1/r}$ para diferentes valores de $r>0$. Em particular,
+veremos que a finitude de um momento absoluto implica a finitude dos momentos
+absolutos de ordens menores. A comparação entre a função da média e a média
+da função também será útil para estudar um jogo em que o capital é
+multiplicado, a cada rodada, por um fator aleatório de média igual a $1$.
+Embora a esperança do capital permaneça constante, mostraremos que a
+probabilidade de ele ficar abaixo de qualquer valor positivo fixado tende a
+$1$ com o número de rodadas. O logaritmo transforma os produtos em somas, e a
+desigualdade de Jensen ajuda a entender por que a esperança do logaritmo do
+capital decresce mesmo quando a esperança do capital não muda.
+
+Ao acompanhar o capital ao longo das rodadas, passamos a considerar uma
+sequência de variáveis aleatórias. Nesse tipo de situação, além de estimar
+uma probabilidade em cada etapa, podemos querer saber o que acontece ao
+longo de toda a sequência. Por exemplo, se $A_n$ é o evento de ocorrer um
+desvio na etapa $n$, será que esses desvios deixam de ocorrer a partir de
+algum momento ou continuam ocorrendo infinitas vezes? Mesmo que
+$\mathbb{P}(A_n)$ tenda a zero, essa informação, sozinha, não decide a
+questão. Precisamos levar em conta o conjunto das probabilidades e a
+dependência entre os eventos.
+
+É dessa questão que trata o lema de Borel-Cantelli, estudado na
+\Cref{sec:borel-cantelli}. Se a série $\sum_n\mathbb{P}(A_n)$ converge,
+então, com probabilidade $1$, somente um número finito dos eventos $A_n$
+ocorre. Se os eventos são independentes e a série diverge, então, com
+probabilidade $1$, infinitos deles ocorrem. Para formular e demonstrar essas
+afirmações, introduziremos os limites superior e inferior de eventos e
+recordaremos a continuidade das medidas de probabilidade. Ao final,
+aplicaremos essas ferramentas à maior sequência de caras em $n$ lançamentos
+independentes de uma moeda honesta, mostrando que seu comprimento, dividido
+por $\log_2 n$, tende a $1$ quase certamente. A demonstração partirá de
+estimativas para as probabilidades de sequências de caras muito longas ou
+muito curtas. Comecemos, portanto, pelas ferramentas que permitem obter
+estimativas de probabilidades a partir de esperanças.
 
 %----------------------------------------------------------------------
-\section{As desigualdades de Markov e Chebyshev}\label{sec:markov-chebyshev}
+\section{As Desigualdades de Markov e Chebyshev}\label{sec:markov-chebyshev}
 
-\subsection{A desigualdade de Markov}\label{subsec:markov}
+\subsection{A Desigualdade de Markov}\label{subsec:markov}
 
 A pergunta que orienta esta seção é a seguinte: se sabemos que
 $\mathbb{E}[X]$ é finito e que $X$ não assume valores negativos, o que podemos
@@ -334,7 +381,7 @@ t\,\mathbb{P}(X\geqslant t).
 \]
 Reunindo as duas desigualdades, obtemos
 $\mathbb{E}[X]\geqslant t\,\mathbb{P}(X\geqslant t)$. Como $t>0$, podemos
-dividir por $t$ e concluir \eqref{eq:markov}.
+dividir ambos lados da desigualdade por $t$ e concluir a validade de \eqref{eq:markov}.
 \end{proof}
 
 A cota é ótima no sentido de que não se pode melhorar a constante. Se $X$
@@ -344,7 +391,8 @@ $1-p$, então $\mathbb{E}[X]=pt$ e $\mathbb{P}(X\geqslant t)=p$, de modo que
 forma da cauda: duas variáveis com a mesma média podem ter caudas muito
 diferentes, e Markov dá a mesma cota para ambas.
 
-A prova não usou a distribuição de $X$, apenas a positividade e a
+A prova não usou praticamente nenhuma propriedade específica da distribuição da variável
+aleatória $X$, apenas a positividade e a
 linearidade da esperança. Por isso ela se estende sem mudança a qualquer
 potência ou função crescente de $X$. Se $g\colon[0,\infty)\to[0,\infty)$ é não
 decrescente e $g(t)>0$, então o evento $\{X\geqslant t\}$ está contido em
@@ -359,9 +407,9 @@ $\{g(X)\geqslant g(t)\}$, e a desigualdade de Markov aplicada a $g(X)$ dá
 A desigualdade de Chebyshev é o caso $g(x)=x^2$, e é essa escolha que
 introduz a variância.
 
-\subsection{A desigualdade de Chebyshev}\label{subsec:chebyshev}
+\subsection{A Desigualdade de Chebyshev}\label{subsec:chebyshev}
 
-Se $X$ tem média $\mu$ e variância finita, a variável $(X-\mu)^2$ é não
+Se $X$ tem média $\mu$ e variância finita, então a variável aleatória $(X-\mu)^2$ é não
 negativa e sua esperança é $\operatorname{Var}(X)$. Aplicando a desigualdade de
 Markov a essa variável, obtemos uma cota para a probabilidade de $X$ se
 afastar de $\mu$.
@@ -378,14 +426,13 @@ $\varepsilon>0$,
 
 \begin{proof}
 Seja $\mu=\mathbb{E}[X]$. A função $u\mapsto u^2$ é crescente em $[0,\infty)$
-e ambos os membros de $|X-\mu|\geqslant\varepsilon$ são não negativos, logo
+e ambos os membros na desigualdade $|X-\mu|\geqslant\varepsilon$ são não negativos, logo
 \[
 \{|X-\mu|\geqslant\varepsilon\}
 =
 \{(X-\mu)^2\geqslant\varepsilon^2\}.
 \]
-Aplicando o \Cref{thm:markov} à variável não negativa $(X-\mu)^2$, com nível
-$\varepsilon^2$, obtemos
+Aplicando o \Cref{thm:markov} à variável não negativa $(X-\mu)^2$, com $t=\varepsilon^2$, obtemos
 \[
 \mathbb{P}\bigl((X-\mu)^2\geqslant\varepsilon^2\bigr)
 \leqslant
@@ -414,7 +461,7 @@ A mesma prova, com $|X-\mu|^p$ no lugar de $(X-\mu)^2$, dá
 \frac{\mathbb{E}\bigl[|X-\mu|^p\bigr]}{\varepsilon^p},
 \]
 para todo $p>0$ tal que o momento exista. Quanto maior o momento disponível,
-mais rápida é a decaída da cota. A \Cref{sec:lyapunov} mostra que os momentos
+mais rápido é o decaimento na cota superior. A \Cref{sec:lyapunov} mostra que os momentos
 de ordens maiores são os mais exigentes, e que a existência deles é uma
 condição mais forte.
 
@@ -426,10 +473,11 @@ enquanto a distribuição real decai de forma gaussiana. O valor da desigualdade
 está em não exigir nada sobre a forma da distribuição.
 \end{remark}
 
-\subsection{A mediana e uma cota para a média}\label{subsec:mediana}
+\subsection{A Mediana e uma Cota para a Média}\label{subsec:mediana}
 
 A desigualdade de Markov também compara a média com a mediana, e essa
-comparação é útil porque a mediana sempre existe, mesmo quando a média não.
+comparação é útil porque a mediana sempre existe, mesmo quando a média ou valor
+esperado não está bem-definido.
 
 \begin{definition}[Mediana]\label{def:mediana}
 Seja $X$ uma variável aleatória. Um número real $m$ é uma \emph{mediana} de
@@ -444,11 +492,99 @@ função de distribuição de $X$ e defina
 \[
 m=\inf\{x\in\mathbb{R}:F(x)\geqslant1/2\}.
 \]
-Como $F$ é não decrescente e tende a $1$, o conjunto acima é não vazio, e como
-$F$ tende a $0$ em $-\infty$, ele é limitado inferiormente. A continuidade à
-direita de $F$ dá $F(m)\geqslant1/2$, isto é, $\mathbb{P}(X\leqslant m)\geqslant1/2$.
-Além disso, todo $x<m$ satisfaz $F(x)<1/2$, pela definição de ínfimo, logo
-$\mathbb{P}(X<m)\leqslant1/2$. Assim $m$ é uma mediana.
+\input{figuras/02-fig-mediana.tikz}
+Vamos justificar com cuidado por que esse ínfimo existe e por que ele
+fornece uma mediana. Para simplificar a notação, escrevemos
+\[
+S=\{x\in\mathbb{R}:F(x)\geqslant1/2\}.
+\]
+O conjunto $S$ reúne os pontos nos quais a probabilidade acumulada já
+alcançou pelo menos $1/2$. Como $F(x)$ tende a $1$ quando $x$ tende a
+$+\infty$, podemos escolher um número $b$ suficientemente grande para que
+$F(b)>1/2$. Assim, $b\in S$ e $S$ não é vazio. Na outra direção,
+$F(x)$ tende a $0$ quando $x$ tende a $-\infty$. Podemos, portanto,
+escolher um número $a$ tal que $F(a)<1/2$. Pela monotonicidade de $F$,
+\[
+x\leqslant a\quad\Longrightarrow\quad F(x)\leqslant F(a)<1/2.
+\]
+Nenhum ponto à esquerda de $a$ pertence a $S$. Logo $a$ é uma cota inferior
+de $S$, isto é, um número menor ou igual a todos os elementos de $S$.
+Como $S$ é não vazio e possui uma cota inferior, a propriedade de
+completude dos números reais garante que $m=\inf S$ é um número real.
+
+O ínfimo é a \emph{maior das cotas inferiores} de $S$. Vamos traduzir essa
+descrição em duas informações que usaremos na prova. Primeiro, como $m$ é
+uma cota inferior, todo $y\in S$ satisfaz $m\leqslant y$. Em particular,
+se $x<m$, então $x\notin S$, ou seja,
+\[
+x<m\quad\Longrightarrow\quad F(x)<1/2.
+\]
+Segundo, como $m$ é a maior cota inferior, nenhum número maior que $m$
+pode ser uma cota inferior de $S$. Assim, dado qualquer $\varepsilon>0$,
+existe algum $y\in S$ tal que
+\[
+m\leqslant y<m+\varepsilon.
+\]
+De fato, se não existisse tal $y$, todos os elementos de $S$ seriam maiores
+ou iguais a $m+\varepsilon$. Esse número seria uma cota inferior de $S$
+maior que $m$, contradizendo a escolha de $m$.
+
+Essa segunda informação permite controlar $F$ à direita de $m$. Como
+$y\in S$ e $y<m+\varepsilon$, a monotonicidade dá
+\[
+F(m+\varepsilon)\geqslant F(y)\geqslant1/2.
+\]
+Portanto, à esquerda de $m$ temos $F(x)<1/2$ e à direita temos
+$F(x)\geqslant1/2$. Falta verificar o que acontece no próprio ponto $m$.
+Essa verificação é necessária: o ínfimo de um conjunto nem sempre pertence
+ao conjunto. Por exemplo, o intervalo $(0,1)$ tem ínfimo $0$, mas não
+contém $0$.
+
+\input{figuras/02-fig-infimo-mediana.tikz}
+
+Para decidir o que acontece em $m$, vamos aproximá-lo por pontos à sua
+direita, onde já sabemos que $F$ é pelo menos $1/2$. Tomando
+$\varepsilon=1/n$, obtemos
+\[
+F(m+1/n)\geqslant1/2\qquad\text{para todo }n\geqslant1.
+\]
+Quando $n$ cresce, $m+1/n$ se aproxima de $m$ pela direita. É justamente
+para essa aproximação que podemos usar a continuidade à direita da função
+de distribuição:
+\[
+\mathbb{P}(X\leqslant m)=F(m)
+=\lim_{n\to\infty}F(m+1/n)\geqslant1/2.
+\]
+Obtivemos, assim, uma das desigualdades exigidas na definição de mediana.
+
+Para obter a outra, precisamos calcular $\mathbb{P}(X<m)$. Agora a
+aproximação deve ser feita pela esquerda, pois queremos excluir o valor
+$m$. Cada ponto $m-1/n$ é menor que $m$ e, portanto,
+\[
+\mathbb{P}(X\leqslant m-1/n)=F(m-1/n)<1/2.
+\]
+Os eventos $\{X\leqslant m-1/n\}$ crescem com $n$ e sua união é
+$\{X<m\}$. Para entender a igualdade da união, note que um valor
+estritamente menor que $m$ tem uma distância positiva até $m$.
+Quando $1/n$ fica menor que essa distância, esse valor já pertence ao
+evento $\{X\leqslant m-1/n\}$. Por outro lado, o valor $m$ não pertence
+a nenhum desses eventos. Pela continuidade da probabilidade para
+sequências crescentes, que recordaremos na \Cref{subsec:continuidade},
+\[
+\mathbb{P}(X<m)
+=\lim_{n\to\infty}\mathbb{P}(X\leqslant m-1/n)
+=\lim_{n\to\infty}F(m-1/n)\leqslant1/2.
+\]
+Note que a desigualdade no limite pode deixar de ser estrita: números
+menores que $1/2$ podem se aproximar de $1/2$. Reunindo as duas conclusões,
+\[
+\mathbb{P}(X<m)\leqslant\frac12
+\leqslant\mathbb{P}(X\leqslant m).
+\]
+Assim, o número $m$ escolhido é uma mediana de $X$. A aproximação pela
+direita garantiu que a probabilidade acumulada em $m$ já alcançou $1/2$;
+a aproximação pela esquerda garantiu que, antes de $m$, ela não ultrapassa
+$1/2$.
 
 \begin{proposition}\label{prop:mediana-markov}
 Seja $X$ uma variável aleatória não negativa com $\mathbb{E}[X]<\infty$. Se
@@ -470,45 +606,110 @@ muito à direita da média. A recíproca não vale: a média pode estar muito à
 direita da mediana, e é isso que acontece com variáveis de cauda pesada. O
 \Cref{exercise:mediana-igualdade} pede o exemplo em que a cota é atingida.
 
-\subsection{Aplicação: o limiar do problema dos aniversários}\label{subsec:aniversarios}
+\subsection{Aplicação: O Limiar do Problema dos Aniversários}\label{subsec:aniversarios}
 
 Em uma sala com $n$ pessoas, qual é a probabilidade de que duas façam
 aniversário no mesmo dia? A resposta exata depende de uma contagem, mas a
 ordem de grandeza do número de pessoas necessário para que a coincidência se
-torne provável pode ser obtida com Markov e Chebyshev, sem calcular a
-distribuição.
+torne provável pode ser obtida com as desigualdades de Markov e Chebyshev,
+sem calcular explicitamente a distribuição. Nosso objetivo será determinar
+essa escala: queremos entender como o número de pessoas precisa crescer
+quando o número $N$ de dias possíveis aumenta. Esse é um exemplo de uma
+pergunta assintótica, na qual procuramos identificar o comportamento do
+problema para valores grandes dos parâmetros.
 
 Suponha que os aniversários sejam independentes e uniformemente distribuídos
-em $N$ dias, e que $N$ seja grande. Numeramos as pessoas de $1$ a $n$ e, para
+em $N$ dias, e que $N$ seja grande. Vamos supor $n\geqslant2$.
+Para detectar uma coincidência, basta que algum par de pessoas faça
+aniversário no mesmo dia. Isso sugere contar os pares coincidentes.
+Numeramos as pessoas de $1$ a $n$ e, para
 cada par $\{i,j\}$ com $i<j$, definimos
 \[
 I_{ij}=\mathds{1}_{\{i\text{ e }j\text{ fazem aniversário no mesmo dia}\}},
 \qquad
 X=\sum_{1\leqslant i<j\leqslant n}I_{ij}.
 \]
-Assim $X$ é o número de pares coincidentes, e o evento de interesse é
-$\{X\geqslant1\}$. Cada par coincide com probabilidade $1/N$, logo
+Assim $X$ é a variável aleatória que conta o número de pares de pessoas, na sala,
+que fazem aniversário no mesmo dia. Não estamos contando pessoas: se três
+delas fazem aniversário no mesmo dia, por exemplo, elas contribuem com três
+pares para $X$. O que importa é que existe tal par se, e somente se, $X\geqslant1$. Logo o evento de interesse é
+$\{X\geqslant1\}$. Para cada par de pessoas, qualquer que seja o dia do
+aniversário da primeira, a segunda tem probabilidade $1/N$ de fazer
+aniversário nesse mesmo dia, pela independência e pela distribuição uniforme
+dos aniversários. Assim, $\mathbb{E}[I_{ij}]=1/N$ e, pela linearidade da
+esperança, somando sobre os $\binom{n}{2}$ pares, obtemos
 \[
 \mathbb{E}[X]=\binom{n}{2}\frac{1}{N}.
 \]
 Pela desigualdade de Markov,
 \begin{equation}\label{eq:aniversarios-markov}
-\mathbb{P}(X\geqslant1)\leqslant\binom{n}{2}\frac{1}{N}
+\mathbb{P}(X\geqslant1)
+\leqslant \frac{\mathbb{E}[X]}{1}
+=
+\binom{n}{2}\frac{1}{N}
+=
+\frac{n(n-1)}{2} \frac{1}{N}
 \approx\frac{n^2}{2N}.
 \end{equation}
-Portanto, se $n\ll\sqrt N$, a probabilidade de coincidência é pequena. Com
-$N=365$ e $n=23$, a cota vale $\binom{23}{2}/365=253/365\approx0{,}69$, que já
-não é informativa; a probabilidade exata é aproximadamente $0{,}51$. Markov dá
-a ordem certa, mas não a constante.
+O termo $n^2/N$ já sugere a escala $\sqrt N$: ele é pequeno quando $n$ é
+pequeno em relação a $\sqrt N$. Mais precisamente, se fazemos $N$ crescer
+e escolhemos $n=n(N)$ de modo que $n/\sqrt N\to0$, então
+\[
+\mathbb{P}(X\geqslant1)
+\leqslant\frac{n(n-1)}{2N}
+\leqslant\frac12\left(\frac{n}{\sqrt N}\right)^2
+\longrightarrow0.
+\]
+É esse o sentido da notação $n\ll\sqrt N$. Para concluir que $\sqrt N$
+é a escala da mudança de comportamento, falta estudar o outro lado:
+o que acontece quando $n$ é grande em relação a $\sqrt N$?
 
-Para o outro lado, precisamos de uma cota inferior para $\mathbb{P}(X\geqslant1)$,
-e é aqui que entra Chebyshev. As indicadoras $I_{ij}$ são duas a duas
-independentes. De fato, se os pares $\{i,j\}$ e $\{k,l\}$ compartilham um
-índice, digamos $i=k$, então ambos os eventos ocorrem se, e somente se, as
-três pessoas têm o mesmo aniversário, o que tem probabilidade $1/N^2$; se os
-pares são disjuntos, a probabilidade é $(1/N)^2$. Em ambos os casos o produto
-das probabilidades é $1/N^2$, que é o valor da probabilidade conjunta. Logo
-todas as covariâncias se anulam e
+Nesse caso, esperamos muitas coincidências, pois $\mathbb{E}[X]$ é grande.
+Uma esperança grande, sozinha, não garante que $X$ seja positivo com alta
+probabilidade: ela poderia ser sustentada por valores muito grandes e muito
+raros de $X$. Para afastar essa possibilidade, vamos calcular a variância e
+usar Chebyshev para controlar os desvios de $X$ em relação à sua média.
+
+Comecemos pela variância de cada indicadora. Como $I_{ij}$ assume apenas
+os valores $0$ e $1$, temos $I_{ij}^2=I_{ij}$ e, portanto,
+\[
+\operatorname{Var}(I_{ij})
+=\mathbb{E}[I_{ij}^2]-(\mathbb{E}[I_{ij}])^2
+=\frac1N-\frac1{N^2}
+=\frac1N\left(1-\frac1N\right).
+\]
+Para obter a variância da soma, precisamos também das covariâncias entre
+indicadoras distintas. Não podemos simplesmente supor que elas sejam
+independentes: dois pares podem compartilhar uma pessoa. Vamos verificar
+os dois casos, representados na \Cref{fig:aniversarios-pares}.
+
+\input{figuras/02-fig-aniversarios-pares.tikz}
+
+Se os pares não têm pessoas em comum, como $\{1,2\}$ e $\{3,4\}$,
+as duas coincidências dependem de grupos distintos de aniversários
+independentes. Logo
+\[
+\mathbb{P}(I_{12}=1,\,I_{34}=1)
+=\mathbb{P}(I_{12}=1)\mathbb{P}(I_{34}=1)
+=\frac1{N^2}.
+\]
+Se os pares compartilham uma pessoa, como $\{1,2\}$ e $\{1,3\}$,
+as duas coincidências ocorrem exatamente quando as três pessoas fazem
+aniversário no mesmo dia. Para cada dia fixado, essa probabilidade é
+$(1/N)^3$, pela independência dos três aniversários. Como há $N$ dias
+possíveis e esses casos são disjuntos,
+\[
+\mathbb{P}(I_{12}=1,\,I_{13}=1)
+=N\left(\frac1N\right)^3
+=\frac1{N^2}
+=\mathbb{P}(I_{12}=1)\mathbb{P}(I_{13}=1).
+\]
+Assim, nos dois casos a probabilidade conjunta é o produto das
+probabilidades. Como as variáveis são indicadoras, isso mostra que são
+duas a duas independentes. Em particular, para quaisquer dois pares
+distintos, o produto das indicadoras tem esperança $1/N^2$ e sua
+covariância é $1/N^2-(1/N)(1/N)=0$. A fórmula da variância de uma soma
+fica então reduzida à soma das variâncias:
 \[
 \operatorname{Var}(X)
 =
@@ -516,54 +717,158 @@ todas as covariâncias se anulam e
 =
 \binom{n}{2}\frac{1}{N}\Bigl(1-\frac{1}{N}\Bigr).
 \]
-Aplicando Chebyshev com $\varepsilon=\mathbb{E}[X]$,
+Vale observar que a independência é apenas duas a duas. Por exemplo,
+$I_{12}=I_{13}=1$ força $I_{23}=1$. Isso não atrapalha o cálculo da
+variância, no qual aparecem somente covariâncias entre duas variáveis.
+
+Agora queremos usar essa variância para limitar a probabilidade de não
+haver pares de pessoas fazendo aniversário no mesmo dia.
+Por questão de simplicidade denote por $\mu\equiv \mathbb{E}[X]=\binom n2/N>0$.
+Se $X=0$, então $|X-\mu|=\mu$: a ausência de coincidências corresponde
+a um desvio em relação à média de tamanho igual à própria média. Portanto,
+$\{X=0\}\subseteq\{|X-\mu|\geqslant\mu\}$. Essa inclusão indica a
+escolha $\varepsilon=\mu$ na desigualdade de Chebyshev que vale a seguinte desigualdade
 \[
 \mathbb{P}(X=0)
 \leqslant
 \mathbb{P}\bigl(|X-\mathbb{E}[X]|\geqslant\mathbb{E}[X]\bigr)
 \leqslant
-\frac{\operatorname{Var}(X)}{(\mathbb{E}[X])^2}
-=
-\frac{N-1}{\binom{n}{2}}.
+\frac{\operatorname{Var}(X)}{(\mathbb{E}[X])^2}.
 \]
-Logo
+Substituindo a média e a variância que calculamos, a razão acima fica
+\[
+\frac{\operatorname{Var}(X)}{(\mathbb{E}[X])^2}
+=\frac{\binom n2\,\frac1N\left(1-\frac1N\right)}
+       {\left(\binom n2\,\frac1N\right)^2}
+=\frac{N\left(1-\frac1N\right)}{\binom n2}
+=\frac{N-1}{\binom n2}.
+\]
+Tomando o complementar do evento $\{X=0\}$, obtemos
 \begin{equation}\label{eq:aniversarios-chebyshev}
 \mathbb{P}(X\geqslant1)\geqslant1-\frac{N-1}{\binom{n}{2}}
 \approx1-\frac{2N}{n^2}.
 \end{equation}
-Se $n\gg\sqrt N$, a probabilidade tende a $1$.
+Se $n/\sqrt N\to\infty$, então $n\to\infty$ e
+\[
+\frac{N-1}{\binom n2}
+=\frac{2(N-1)}{n(n-1)}
+\longrightarrow0.
+\]
+Logo $\mathbb{P}(X\geqslant1)\to1$. Escrevemos $n\gg\sqrt N$ para
+indicar esse regime.
 
 Reunindo \eqref{eq:aniversarios-markov} e \eqref{eq:aniversarios-chebyshev},
-vemos que o número crítico de pessoas é da ordem de $\sqrt N$. As duas cotas
-têm a mesma ordem de grandeza e nenhuma delas depende da forma exata da
-distribuição. Para $N=365$ e $n=41$, a cota \eqref{eq:aniversarios-chebyshev}
+vemos que o número de pessoas necessário para mudar o comportamento do
+problema é da ordem de $\sqrt N$. Abaixo dessa escala, no sentido
+$n/\sqrt N\to0$, a probabilidade de coincidência tende a $0$; acima dela,
+no sentido $n/\sqrt N\to\infty$, tende a $1$. Esse é o ganho de determinar
+a escala: mesmo sem uma fórmula exata, sabemos em quais regimes o evento é
+raro e em quais é muito provável. Sabemos também onde procurar uma
+transição entre os dois comportamentos, isto é, quando $n$ é comparável a
+$\sqrt N$. As estimativas ainda não descrevem precisamente essa transição,
+mas identificam a relação entre os parâmetros que governa o problema.
+
+\bigskip
+
+
+Para avaliar a precisão das cotas em um caso concreto, tome $N=365$.
+Com $n=23$, Markov fornece a cota superior
+$\binom{23}{2}/365=253/365\approx0{,}69$, enquanto a probabilidade exata é
+aproximadamente $0{,}51$. Com $n=41$, a cota inferior de
+\eqref{eq:aniversarios-chebyshev}
 dá
 \[
 \mathbb{P}(X\geqslant1)\geqslant1-\frac{364}{820}\approx0{,}556,
 \]
-enquanto a probabilidade exata é aproximadamente $0{,}903$. A cota é honesta,
-mas perde cerca de um terço do valor real.
+enquanto a probabilidade exata é aproximadamente $0{,}903$. As cotas
+localizam a escala, mas podem ser pouco precisas para valores específicos
+de $n$ e $N$.
 
-Vale registrar a fórmula exata, para comparação. A probabilidade de que todos
-os aniversários sejam distintos é
+Para comparar com as cotas, vamos obter a fórmula exata. Se os aniversários
+das primeiras $k$ pessoas são distintos, eles ocupam $k$ dos $N$ dias.
+A probabilidade de a pessoa seguinte evitar esses dias é $(N-k)/N$.
+Para multiplicar essas probabilidades condicionais, usamos a
+\emph{regra da multiplicação},
 \[
-\prod_{k=0}^{n-1}\Bigl(1-\frac{k}{N}\Bigr),
+\mathbb{P}(A\cap B)=\mathbb{P}(A)\,\mathbb{P}(B\mid A),
+\qquad \mathbb{P}(A)>0.
 \]
-e a probabilidade de ao menos uma coincidência é o complementar. Para
-$n$ pequeno em relação a $N$, o logaritmo do produto é aproximadamente
-$-n(n-1)/(2N)$, e a coincidência se torna provável quando $n(n-1)\approx2N\log2$,
-o que confirma a escala $\sqrt N$ e dá a constante correta. O que Markov e
-Chebyshev fornecem é a escala, sem a constante.
+Sua aplicação sucessiva fornece a seguinte igualdade
+\[
+\mathbb{P}\left(\bigcap_{j=1}^n A_j\right)
+=\mathbb{P}(A_1)\prod_{j=2}^n
+\mathbb{P}\left(A_j\,\middle|\,\bigcap_{i=1}^{j-1}A_i\right),
+\]
+desde que os eventos nos quais condicionamos tenham probabilidade positiva.
+Essa fórmula foi demonstrada na Proposição 7 da Subseção 2.3,
+``A Regra da Multiplicação'', das notas
+\href{https://mat.unb.br/~cioletti/ensino/independencia.pdf}{\emph{Probabilidade Condicional e
+Independência}}.
 
-\section{Convexidade e a desigualdade de Jensen}\label{sec:convexidade}
+Aqui, se $D_k$ é o evento de que os aniversários das primeiras $k$ pessoas
+são distintos, temos $D_{k+1}\subseteq D_k$. Como mencionado acima
+segue da regra da multiplicação que
+\[
+\mathbb{P}(D_{k+1})=\mathbb{P}(D_k)\mathbb{P}(D_{k+1}\mid D_k),
+\]
+com $\mathbb{P}(D_1)=1$ e
+$\mathbb{P}(D_{k+1}\mid D_k)=(N-k)/N$. Aplicando essa identidade
+sucessivamente, obtemos, para $n\leqslant N$,
+\[
+\mathbb{P}(X=0)
+=1\cdot\frac{N-1}{N}\cdot\frac{N-2}{N}\cdots\frac{N-n+1}{N}
+=\prod_{k=0}^{n-1}\Bigl(1-\frac{k}{N}\Bigr).
+\]
+Se $n>N$, necessariamente há uma coincidência. Para $n\leqslant N$, a
+probabilidade procurada é $1$ menos o produto acima.
 
-Nesta seção, estudamos a propriedade geométrica que está por trás de
-Chebyshev e de Lyapunov. A ideia central é simples: uma função convexa tem
-gráfico que se encurva para cima, de modo que o segmento que une dois de seus pontos fica acima da curva. Todas as desigualdades da seção são
-consequências dessa imagem, e as figuras foram desenhadas para tornar cada
-passo visível.
 
-\subsection{A definição e o critério da corda}\label{subsec:convexidade-definicao}
+\bigskip
+
+O produto também permite enxergar a escala $\sqrt N$ por outro caminho.
+Quando $n$ é pequeno em relação a $N$, cada $k/N$ é pequeno. Usando
+$\log(1-u)\approx-u$, obtemos
+\[
+\log\mathbb{P}(X=0)
+=\sum_{k=0}^{n-1}\log\left(1-\frac{k}{N}\right)
+\approx-\frac1N\sum_{k=0}^{n-1}k
+=-\frac{n(n-1)}{2N}.
+\]
+Assim, na região da transição,
+\[
+\mathbb{P}(X\geqslant1)
+\approx1-\exp\left(-\frac{n(n-1)}{2N}\right).
+\]
+Para essa probabilidade ficar próxima de $1/2$, devemos ter
+$\exp(-n(n-1)/(2N))\approx1/2$, ou seja,
+$n(n-1)\approx2N\log2$. Para $N$ grande, isso corresponde a
+$n\approx\sqrt{2\log2}\,\sqrt N$. A contagem exata permite, portanto,
+refinar a escala com uma constante para o nível de probabilidade $1/2$.
+Markov e Chebyshev já haviam identificado a escala $\sqrt N$ usando apenas
+a média e a variância do número de pares coincidentes.
+
+\bigskip
+
+\section{Convexidade e a Desigualdade de Jensen}\label{sec:convexidade}
+
+Na seção anterior, usamos a média e a variância para estimar probabilidades.
+Vamos agora estudar uma relação entre os próprios momentos. Já sabemos que
+$(\mathbb{E}[X])^2\leqslant\mathbb{E}[X^2]$, pois a variância é não
+negativa. Nessa desigualdade, comparamos duas operações: primeiro tomar a
+média e depois elevar ao quadrado, ou primeiro elevar ao quadrado e depois
+tomar a média. Que outras funções, no lugar do quadrado, permitem uma
+comparação semelhante?
+
+Para responder, vamos olhar para o gráfico da função quadrática. Entre dois
+pontos quaisquer de seu gráfico, a corda que os une fica acima do gráfico.
+Essa propriedade define as funções convexas, como ilustra a
+\Cref{fig:convexidade-corda}. Partindo dessa geometria, chegaremos à
+desigualdade de Jensen, que compara $g(\mathbb{E}[X])$ com
+$\mathbb{E}[g(X)]$ quando $g$ é convexa. A comparação entre momentos de
+ordens distintas, dada pela desigualdade de Lyapunov, será uma de suas
+aplicações.
+
+\subsection{Funções Convexas e Algumas de Suas Caracterizações}\label{subsec:convexidade-definicao}
 
 \begin{definition}[Função convexa]\label{def:convexa}
 Sejam $-\infty\leqslant a<b\leqslant\infty$. Uma função
@@ -575,8 +880,15 @@ para todos $t\in[0,1]$ e $u,v\in(a,b)$. Se a desigualdade é estrita sempre que
 $u\neq v$ e $t\in(0,1)$, dizemos que $g$ é \emph{estritamente convexa}.
 \end{definition}
 
-O ponto $(1-t)u+tv$ percorre o segmento entre $u$ e $v$ quando $t$ percorre
-$[0,1]$. O lado direito de \eqref{eq:convexidade} é a altura do ponto
+O argumento da função $g$ em \eqref{eq:convexidade} é ponto $(1-t)u+tv$.
+Para verificar que o lado esquerdo de \eqref{eq:convexidade} está bem-definido,
+basta observar que para qualquer valor de $t\in [0,1]$, temos que este ponto pertence
+ao intervalo fechado $[u,v]$. Mais precisamente,
+quando o parâmetro $t$ varia em $[0,1]$
+este ponto percorre todo segmento de reta entre os pontos $u$ e $v$, veja figura abaixo
+
+\input{figuras/05-fig-00-combinacao-convexa.tikz}
+O lado direito de \eqref{eq:convexidade} é a altura do ponto
 correspondente na corda que une $(u,g(u))$ e $(v,g(v))$. A definição diz,
 portanto, que a corda fica acima do gráfico. A \Cref{fig:convexidade-corda}
 mostra a situação e destaca a folga entre a corda e o gráfico.
@@ -590,33 +902,121 @@ $\lambda=1-t$. No texto usaremos $(1-t)u+tv$ para dois pontos e reservaremos a
 notação $\lambda_1,\ldots,\lambda_n$ para combinações convexas de $n$ pontos.
 \end{remark}
 
-A definição se estende a qualquer número finito de pontos. Se
-$g$ é convexa, se $x_1,\ldots,x_n\in(a,b)$ e se $\lambda_1,\ldots,\lambda_n$
-são não negativos com soma $1$, então
+A desigualdade \eqref{eq:convexidade} da \Cref{def:convexa}
+se estende a qualquer número finito de pontos. Se
+$g\colon(a,b)\to\mathbb{R}$ é uma função convexa, se $x_1,\ldots,x_n\in(a,b)$ e se $\lambda_1,\ldots,\lambda_n$
+são números reais não negativos com soma $1$, então
 \begin{equation}\label{eq:convexidade-n-pontos}
 g\Bigl(\sum_{i=1}^{n}\lambda_ix_i\Bigr)
 \leqslant
 \sum_{i=1}^{n}\lambda_ig(x_i).
 \end{equation}
-A prova é por indução em $n$. Para $n=2$ é a definição. Para $n\geqslant3$,
-se $\lambda_n<1$, escrevemos
+A definição de convexidade compara apenas dois pontos. Para usá-la em uma
+combinação de vários pontos, a ideia é agrupar alguns deles e tratar o grupo
+como um único ponto. Por exemplo, podemos escrever
 \[
-\sum_{i=1}^{n}\lambda_ix_i
-=
-(1-\lambda_n)\sum_{i=1}^{n-1}\frac{\lambda_i}{1-\lambda_n}x_i
-+\lambda_nx_n,
+\frac14x_1+\frac14x_2+\frac12x_3
+=\frac12\underbrace{\left(\frac12x_1+\frac12x_2\right)}_{y}
++\frac12x_3.
 \]
-aplicamos a definição aos dois pontos $\sum_{i<n}\frac{\lambda_i}{1-\lambda_n}x_i$
-e $x_n$, e depois aplicamos a hipótese de indução à combinação dos $n-1$
-primeiros pontos. Se $\lambda_n=1$, o resultado é imediato.
+Primeiro formamos o ponto médio $y$ de $x_1$ e $x_2$; depois tomamos o ponto
+médio de $y$ e $x_3$. Os pesos $1/4$ aparecem porque o peso $1/2$ do grupo
+é dividido igualmente entre seus dois pontos. Assim, uma combinação de três
+pontos é construída por duas combinações de dois pontos, como mostra a
+\Cref{fig:convexidade-agrupamento}.
 
-A forma \eqref{eq:convexidade-n-pontos} explica por que a média de dois pontos
-se estende a uma esperança. Uma esperança de uma variável aleatória discreta é
-uma combinação convexa de valores de $g$, e a passagem ao limite cobre as
-demais distribuições. É essa observação que torna Jensen plausível antes de
-qualquer prova.
+\input{figuras/05-fig-00-agrupamento.tikz}
 
-\subsection{As inclinações das secantes}\label{subsec:secantes}
+A convexidade pode acompanhar essas duas etapas. Aplicando a definição
+primeiro ao par $y,x_3$ e depois ao par $x_1,x_2$, obtemos
+\[
+\begin{aligned}
+g\left(\frac14x_1+\frac14x_2+\frac12x_3\right)
+&\leqslant\frac12g(y)+\frac12g(x_3)\\[2pt]
+&\leqslant\frac12\left(\frac12g(x_1)+\frac12g(x_2)\right)
+  +\frac12g(x_3)\\[2pt]
+&=\frac14g(x_1)+\frac14g(x_2)+\frac12g(x_3).
+\end{aligned}
+\]
+
+Para pesos quaisquer, usaremos a mesma ideia em uma prova por indução.
+O caso $n=2$ é a própria definição de convexidade. Suponha que a
+desigualdade já seja válida para combinações de $n-1$ pontos e consideremos
+uma combinação de $n$ pontos. Vamos agrupar os primeiros $n-1$ pontos,
+deixando $x_n$ separado. O peso total do grupo é
+\[
+\lambda_1+\cdots+\lambda_{n-1}=1-\lambda_n.
+\]
+Se $\lambda_n=1$, todos os outros pesos são zero e os dois lados de
+\eqref{eq:convexidade-n-pontos} são iguais a $g(x_n)$. Basta, portanto,
+tratar o caso $\lambda_n<1$, no qual o peso do grupo é positivo.
+
+Para representar esse grupo por uma combinação convexa, precisamos de
+pesos cuja soma seja $1$. Os pesos originais somam $1-\lambda_n$;
+dividindo cada um deles por essa soma, obtemos
+\[
+\alpha_i=\frac{\lambda_i}{1-\lambda_n},\qquad 1\leqslant i\leqslant n-1.
+\]
+Esses novos pesos são não negativos e satisfazem
+\[
+\sum_{i=1}^{n-1}\alpha_i
+=\frac{\lambda_1+\cdots+\lambda_{n-1}}{1-\lambda_n}=1.
+\]
+Podemos, assim, definir o ponto que representa o grupo por
+\[
+y=\sum_{i=1}^{n-1}\alpha_ix_i.
+\]
+Como $y$ é uma média ponderada dos primeiros $n-1$ pontos, ele fica entre
+o menor e o maior deles e, em particular, pertence a $(a,b)$. Ao atribuir
+ao grupo seu peso total $1-\lambda_n$, recuperamos os pesos originais:
+\[
+(1-\lambda_n)y+\lambda_nx_n
+=\sum_{i=1}^{n-1}(1-\lambda_n)\alpha_ix_i+\lambda_nx_n
+=\sum_{i=1}^n\lambda_ix_i.
+\]
+Agora temos uma combinação dos dois pontos $y$ e $x_n$, à qual podemos
+aplicar a definição de convexidade:
+\[
+g\left(\sum_{i=1}^n\lambda_ix_i\right)
+\leqslant(1-\lambda_n)g(y)+\lambda_ng(x_n).
+\]
+Resta estimar $g(y)$. Como $y$ é uma combinação convexa de $n-1$ pontos,
+a hipótese de indução fornece
+\[
+g(y)\leqslant\sum_{i=1}^{n-1}\alpha_i g(x_i).
+\]
+Substituindo essa estimativa na desigualdade anterior e usando
+$(1-\lambda_n)\alpha_i=\lambda_i$, concluímos que
+\[
+g\left(\sum_{i=1}^n\lambda_ix_i\right)
+\leqslant(1-\lambda_n)\sum_{i=1}^{n-1}\alpha_i g(x_i)+\lambda_ng(x_n)
+=\sum_{i=1}^n\lambda_i g(x_i).
+\]
+Isso completa o passo de indução e demonstra
+\eqref{eq:convexidade-n-pontos}.
+
+Essa desigualdade já tem uma interpretação probabilística. Se $X$ assume
+um número finito de valores $x_1,\ldots,x_n$ e
+$p_i=\mathbb{P}(X=x_i)$, então os $p_i$ são não negativos e somam $1$.
+Portanto, podemos usá-los como pesos em
+\eqref{eq:convexidade-n-pontos}, obtendo
+\[
+g\bigl(\mathbb{E}[X]\bigr)
+=g\left(\sum_{i=1}^n p_ix_i\right)
+\leqslant\sum_{i=1}^n p_i g(x_i)
+=\mathbb{E}[g(X)].
+\]
+Assim, para variáveis com um número finito de valores, a comparação entre
+a função da média e a média da função decorre diretamente da convexidade.
+Essa é a desigualdade de Jensen nesse caso particular. Para tratar também
+variáveis com infinitos valores ou com densidade, desenvolveremos a
+geometria da convexidade até obter uma reta de suporte. Ela permitirá
+demonstrar Jensen sob as hipóteses de integrabilidade da
+\Cref{subsec:jensen}, sem precisar reduzir cada distribuição a uma soma
+finita. Começaremos estudando como variam as inclinações das secantes ao
+gráfico de uma função convexa.
+
+\subsection{As Inclinações das Retas Secantes}\label{subsec:secantes}
 
 A definição é uma desigualdade entre valores. A próxima proposição a converte
 em uma desigualdade entre inclinações, que é mais fácil de usar e que produz a
@@ -694,7 +1094,7 @@ existem, são finitos, e satisfazem $L_w\leqslant R_w$. O intervalo
 $[L_w,R_w]$ é o conjunto dos coeficientes angulares admissíveis para uma reta
 que apoia o gráfico em $w$.
 
-\subsection{A reta de suporte}\label{subsec:reta-suporte}
+\subsection{A Reta de Suporte}\label{subsec:reta-suporte}
 
 A reta de suporte é a versão local da corda. Em cada ponto do gráfico, existe
 pelo menos uma reta que passa pelo ponto e deixa o gráfico inteiro de um mesmo
@@ -740,7 +1140,7 @@ duas funções são monótonas e limitadas, os supremo e ínfimo coincidem com o
 limites laterais.
 \end{remark}
 
-\subsection{Caracterizações equivalentes}\label{subsec:caracterizacoes}
+\subsection{Caracterizações Equivalentes de Convexidade}\label{subsec:caracterizacoes}
 
 Reunimos agora as três descrições da convexidade e acrescentamos a descrição
 por derivadas segunda, que é a mais usada nos exemplos.
@@ -808,7 +1208,7 @@ $(0,\infty)$. A última tem derivada segunda $1/x^2>0$ e é o exemplo que
 produz a desigualdade entre as médias geométrica e aritmética.
 \end{remark}
 
-\subsection{A desigualdade de Jensen}\label{subsec:jensen}
+\subsection{A Desigualdade de Jensen}\label{subsec:jensen}
 
 Com a reta de suporte, a prova de Jensen é curta: basta aplicar a desigualdade
 ponto a ponto e tomar esperanças.
@@ -867,7 +1267,7 @@ entre os dois lados mede, portanto, a variabilidade de $X$ vista através de
 $g$.
 \end{remark}
 
-\subsection{O caso de igualdade}\label{subsec:jensen-igualdade}
+\subsection{O Caso de Igualdade}\label{subsec:jensen-igualdade}
 
 A desigualdade de Jensen se transforma em critério quando $g$ é estritamente
 convexa. A prova é a mesma usada na caracterização dos casos extremos de
@@ -981,7 +1381,7 @@ exista, com igualdade para $t\neq0$ se, e somente se, $X$ é constante quase
 certamente.
 \end{example}
 
-\section{A desigualdade de Lyapunov}\label{sec:lyapunov}
+\section{A Desigualdade de Lyapunov}\label{sec:lyapunov}
 
 A convexidade também organiza a comparação entre momentos de ordens distintas.
 A pergunta é a seguinte: se $\mathbb{E}|X|^r$ é finito para algum $r>0$, o que
@@ -990,7 +1390,7 @@ partes. Primeiro, a finitude se propaga para baixo. Depois, as normas
 $(\mathbb{E}|X|^r)^{1/r}$ crescem com $r$. A segunda parte é a desigualdade de
 Lyapunov.
 
-\subsection{Finitude para ordens menores}\label{subsec:lyapunov-finitude}
+\subsection{Finitude para Ordens Menores}\label{subsec:lyapunov-finitude}
 
 O ponto de partida é uma desigualdade pontual entre potências.
 
@@ -1024,7 +1424,7 @@ infinito para $r\geqslant1$. E pode ser $(0,R]$, se o momento de ordem $R$ for
 finito mas os de ordem maior não forem. Em qualquer caso, a existência de um
 momento de ordem alta implica a existência de todos os momentos de ordem menor.
 
-\subsection{A desigualdade de Lyapunov}\label{subsec:lyapunov}
+\subsection{Enunciado e Prova da Desigualdade de Lyapunov}\label{subsec:lyapunov}
 
 A desigualdade de Lyapunov compara as normas em ordens diferentes. A prova é
 uma aplicação de Jensen à variável $Z^s$ e à função $y\mapsto y^{r/s}$, que é
@@ -1095,7 +1495,7 @@ assim, para desvios grandes ($t>\|X\|_r$), temos $\|X\|_r/t<1$ e, portanto,
 $(\|X\|_r/t)^r<(\|X\|_r/t)^s$ para $s<r$: o maior expoente $r$ disponível
 domina o decaimento assintótico da cota em $t$.
 
-\subsection{A curva das normas}\label{subsec:curva-normas}
+\subsection{A Curva das Normas}\label{subsec:curva-normas}
 
 O \Cref{thm:lyapunov} diz que a função $r\mapsto(\mathbb{E}|X|^r)^{1/r}$ é não
 decrescente. Há uma segunda estrutura por trás dela: o logaritmo dessa função é
@@ -1198,7 +1598,7 @@ decrescente, parte da média geométrica e tende ao supremo essencial.
 
 \input{figuras/05-fig-05-lyapunov.tikz}
 
-\subsection{A convexidade da função geradora de momentos}\label{subsec:fgm-convexa}
+\subsection{A Convexidade da Função Geradora de Momentos}\label{subsec:fgm-convexa}
 
 A mesma argumentação de Hölder se aplica à função geradora de momentos e
 produz a convexidade que está por trás das cotas exponenciais de cauda.
@@ -1247,7 +1647,7 @@ Cramér, que serão estudados na nota de leis dos grandes números. A convexidad
 é o que garante que o máximo existe e é único, e é ela que permite ler o
 expoente da decaída como uma distância entre a reta e o gráfico.
 
-\subsection{Aplicação: o jogo honesto que arruína}\label{subsec:jogo}
+\subsection{Aplicação: O Jogo Honesto que Arruína}\label{subsec:jogo}
 
 Considere o seguinte jogo. O jogador começa com capital $W_0=1$. Em cada
 rodada, o capital é multiplicado por $3/2$ ou por $1/2$, com probabilidade
@@ -1368,7 +1768,7 @@ quantidade relevante é $\mathbb{E}[\log R_1]$, e não $\mathbb{E}[R_1]$. Jensen
 diz exatamente que as duas não coincidem, e a diferença é a folga entre a média
 aritmética e a média geométrica.
 
-\section{O lema de Borel-Cantelli}\label{sec:borel-cantelli}
+\section{O Lema de Borel-Cantelli}\label{sec:borel-cantelli}
 
 Até aqui, estimamos a probabilidade de um evento. Nesta seção, a pergunta é
 diferente: dada uma sequência de eventos $A_1,A_2,\ldots$, queremos saber se
@@ -1377,7 +1777,7 @@ esperado de ocorrências, e o lema de Borel-Cantelli diz que o comportamento
 dessa série decide a questão, desde que os eventos sejam independentes na
 direção difícil.
 
-\subsection{Limites superior e inferior de eventos}\label{subsec:limsup}
+\subsection{Limites Superior e Inferior de Eventos}\label{subsec:limsup}
 
 Para formular a pergunta, precisamos de uma noção de limite para sequências de
 eventos.
@@ -1468,7 +1868,7 @@ Essa leitura é útil porque transforma a pergunta sobre eventos em uma pergunta
 sobre séries de números não negativos.
 \end{remark}
 
-\subsection{A continuidade das medidas de probabilidade}\label{subsec:continuidade}
+\subsection{A Continuidade das Medidas de Probabilidade}\label{subsec:continuidade}
 
 O instrumento técnico que liga os limites de eventos às probabilidades é a
 continuidade das medidas, que já foi demonstrada na nota de propriedades de
@@ -1510,7 +1910,7 @@ exatamente $\limsup_n A_n$. Logo
 A identidade \eqref{eq:limsup-continuidade} é a ponte entre o lema de
 Borel-Cantelli e a continuidade.
 
-\subsection{A desigualdade de Boole}\label{subsec:boole}
+\subsection{A Desigualdade de Boole}\label{subsec:boole}
 
 Falta controlar a probabilidade de uma união enumerável. A desigualdade de
 Boole faz isso, e sua versão finita já apareceu na nota de propriedades de
@@ -1543,7 +1943,7 @@ $\sigma$-aditividade,
 \]
 \end{proof}
 
-\subsection{O primeiro lema de Borel-Cantelli}\label{subsec:bc1}
+\subsection{O Primeiro Lema de Borel-Cantelli}\label{subsec:bc1}
 
 Com a continuidade e Boole, a primeira parte do lema é imediata.
 
@@ -1580,7 +1980,7 @@ Note que a prova não usou independência. O primeiro lema vale para qualquer
 sequência de eventos. O preço é que ele só produz a conclusão $\mathbb{P}=0$;
 para concluir $\mathbb{P}=1$, é preciso independência.
 
-\subsection{O segundo lema de Borel-Cantelli}\label{subsec:bc2}
+\subsection{O Segundo Lema de Borel-Cantelli}\label{subsec:bc2}
 
 A recíproca do primeiro lema é falsa em geral: se $A_n=A$ para todo $n$, com
 $0<\mathbb{P}(A)<1$, então $\sum_n\mathbb{P}(A_n)=\infty$ e
@@ -1654,7 +2054,7 @@ interseção dos $A_n$ é $\{0\}$, de modo que $\limsup_n A_n=\{0\}$ e tem
 probabilidade nula.
 \end{remark}
 
-\subsection{A lei 0-1 de Borel}\label{subsec:lei-01}
+\subsection{A Lei 0-1 de Borel}\label{subsec:lei-01}
 
 Reunindo as duas partes, obtemos um critério completo para eventos
 independentes.
@@ -1702,7 +2102,7 @@ aparece logo no começo para sempre; o segundo mostra que ele reaparece
 infinitas vezes.
 \end{example}
 
-\subsection{Aplicação: a maior sequência de caras}\label{subsec:maior-sequencia}
+\subsection{Aplicação: A Maior Sequência de Caras}\label{subsec:maior-sequencia}
 
 Considere uma moeda honesta lançada infinitas vezes e seja $L_n$ o comprimento
 da maior sequência de caras consecutivas inteiramente contida nos primeiros $n$
@@ -1820,7 +2220,7 @@ em $20$ lançamentos é $2^{-20}\approx9{,}5\times10^{-7}$, mas há cerca de
 $10^6$ posições onde a sequência pode começar, e o produto é da ordem de $1$.
 
 %----------------------------------------------------------------------
-\section{Exercícios propostos}\label{sec:exercicios}
+\section{Exercícios Propostos}\label{sec:exercicios}
 
 \begin{exercise}\label{exercise:mediana-igualdade}
 Determine quais distribuições em $[0,\infty)$, com média $\mu$, têm $2\mu$

@@ -1,0 +1,78 @@
+% Funções de distribuição discretas: mediana única e intervalo de medianas.
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\begin{tikzpicture}[x=1.35cm, y=3.6cm, font=\scriptsize]
+  % Eixos e níveis de referência.
+  \draw[-stealth] (-0.25,0) -- (4.35,0) node[below right] {$x$};
+  \draw[-stealth] (0,-0.08) -- (0,1.18) node[above left] {$F(x)$};
+  \draw[gray,dashed] (0,0.5) -- (4.1,0.5);
+  \draw[gray,dashed] (0,1) -- (4.1,1);
+  \node[left] at (0,0.5) {$\frac12$};
+  \node[left] at (0,1) {$1$};
+  \node[below left] at (0,0) {$0$};
+
+  % Massas 1/4, 1/2 e 1/4, nas abscissas 0.7, 2 e 3.3.
+  \draw[thick] (-0.25,0) -- (0.7,0);
+  \draw[thick] (0.7,0.25) -- (2,0.25);
+  \draw[thick] (2,0.75) -- (3.3,0.75);
+  \draw[thick] (3.3,1) -- (4.1,1);
+  \draw[gray,dashed] (0.7,0) -- (0.7,0.25);
+  \draw[teal,dashed] (2,0) -- (2,0.75);
+  \draw[gray,dashed] (3.3,0) -- (3.3,1);
+  \foreach \p in {(0.7,0.25),(3.3,1)}
+    \fill \p circle (1.6pt);
+  \foreach \p in {(0.7,0),(2,0.25),(3.3,0.75)}
+    \draw[teal,fill=white,thick] \p circle (1.7pt);
+  \fill[teal] (2,0.75) circle (1.7pt);
+  \node[below left] at (2,0.25) {$F(m^-)\!<\!\frac12$};
+  \node[above right] at (2,0.75) {$F(m)\!>\!\frac12$};
+
+  % A única mediana, destacada no eixo.
+  \fill[teal] (2,0) circle (2pt);
+  \node[below,teal] at (2,-0.015) {$m$};
+  \node at (2,-0.23) {(a) Mediana única};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\begin{tikzpicture}[x=1.35cm, y=3.6cm, font=\scriptsize]
+  \draw[-stealth] (-0.25,0) -- (4.35,0) node[below right] {$x$};
+  \draw[-stealth] (0,-0.08) -- (0,1.18) node[above left] {$F(x)$};
+  \draw[gray,dashed] (0,0.5) -- (4.1,0.5);
+  \draw[gray,dashed] (0,1) -- (4.1,1);
+  \node[left] at (0,0.5) {$\frac12$};
+  \node[left] at (0,1) {$1$};
+  \node[below left] at (0,0) {$0$};
+
+  % Probabilidade 1/2 em a e 1/2 em b.
+  \draw[thick] (-0.25,0) -- (1.2,0);
+  \draw[teal,thick] (1.2,0.5) -- (2.9,0.5);
+  \draw[thick] (2.9,1) -- (4.1,1);
+  \draw[gray,dashed] (1.2,0) -- (1.2,0.5);
+  \draw[gray,dashed] (2.9,0) -- (2.9,1);
+  \foreach \p in {(1.2,0),(2.9,0.5)}
+    \draw[teal,fill=white,thick] \p circle (1.7pt);
+  \fill[teal] (1.2,0.5) circle (1.7pt);
+  \fill (2.9,1) circle (1.6pt);
+
+  % O extremo b também é mediana, embora F(b)=1.
+  \draw[teal,very thick] (1.2,0) -- (2.9,0);
+  \fill[teal] (1.2,0) circle (2pt);
+  \fill[teal] (2.9,0) circle (2pt);
+  \node[below,teal] at (1.2,-0.015) {$a=m$};
+  \node[below,teal] at (2.9,-0.015) {$b$};
+  \node[above,teal] at (2.05,0.02) {medianas};
+  \node at (2,-0.23) {(b) Intervalo de medianas};
+\end{tikzpicture}
+\end{minipage}
+\caption{A mediana separa a distribuição de modo que a probabilidade de
+ficar estritamente de cada lado dela é no máximo $1/2$. À esquerda, somente
+o número $m$ satisfaz essa condição: $F(m^-)=\mathbb{P}(X<m)<1/2<F(m)$.
+À direita, $X$ assume os valores $a$ e $b$ com probabilidade $1/2$ cada,
+e todo ponto de $[a,b]$ é mediana. O extremo $b$ também está incluído,
+pois $\mathbb{P}(X<b)=1/2$, embora $F(b)=1$. A definição por ínfimo
+seleciona a menor mediana, que nesse caso é $m=a$.}
+\label{fig:mediana-unicidade}
+\end{figure}

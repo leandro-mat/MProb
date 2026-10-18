@@ -1,0 +1,25 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.4cm,y=1cm,>=latex,font=\small,
+  ponto/.style={fill=white,inner sep=4pt},
+  peso/.style={fill=white,inner sep=2pt,font=\scriptsize}]
+  \node[ponto] (x1) at (0,2) {$x_1$};
+  \node[ponto] (x2) at (3,2) {$x_2$};
+  \node[ponto] (x3) at (7,2) {$x_3$};
+  \node[ponto,text=teal] (y) at (1.5,0.5)
+    {$y=\frac12x_1+\frac12x_2$};
+  \node[ponto] (z) at (4,-1.2)
+    {$\frac12y+\frac12x_3=\frac14x_1+\frac14x_2+\frac12x_3$};
+  \draw[->,thick,teal] (x1) -- node[peso] {$\frac12$} (y);
+  \draw[->,thick,teal] (x2) -- node[peso] {$\frac12$} (y);
+  \draw[->,thick] (y) -- node[peso] {$\frac12$} (z);
+  \draw[->,thick] (x3) -- node[peso] {$\frac12$} (z);
+\end{tikzpicture}
+\caption{Uma combinação de três pontos construída em duas etapas.
+Os números nas setas são os pesos usados em cada etapa. Cada um dos
+pontos $x_1$ e $x_2$ recebe metade do peso de $y$, ficando com peso
+final $(1/2)(1/2)=1/4$. O ponto $x_3$ recebe diretamente peso $1/2$.
+O diagrama representa o agrupamento dos pontos, sem pressupor uma ordem
+entre seus valores na reta.}
+\label{fig:convexidade-agrupamento}
+\end{figure}

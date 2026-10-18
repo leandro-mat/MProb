@@ -1,0 +1,31 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  x=1cm,y=1cm,font=\small,
+  pessoa/.style={circle,draw,fill=white,minimum size=7mm,inner sep=0pt},
+  coincidencia/.style={thick,teal}]
+  % Arestas representam as coincidências exigidas por cada indicadora.
+  \node[pessoa] (a1) at (0,0) {$1$};
+  \node[pessoa] (a2) at (2,0) {$2$};
+  \node[pessoa] (a3) at (0,-1.3) {$3$};
+  \node[pessoa] (a4) at (2,-1.3) {$4$};
+  \draw[coincidencia] (a1) -- node[above] {$I_{12}=1$} (a2);
+  \draw[coincidencia] (a3) -- node[above] {$I_{34}=1$} (a4);
+  \node at (1,-2.35) {Pares sem pessoas em comum};
+
+  \node[pessoa] (b1) at (7,0.3) {$1$};
+  \node[pessoa] (b2) at (5.7,-1.3) {$2$};
+  \node[pessoa] (b3) at (8.3,-1.3) {$3$};
+  \draw[coincidencia] (b1) -- node[above left] {$I_{12}=1$} (b2);
+  \draw[coincidencia] (b1) -- node[above right] {$I_{13}=1$} (b3);
+  \draw[gray,dashed] (b2) -- node[below=7pt,font=\scriptsize,text=black!65]
+    {também $I_{23}=1$} (b3);
+  \node at (7,-2.35) {Pares com uma pessoa em comum};
+\end{tikzpicture}
+\caption{Cada círculo representa uma pessoa e cada segmento contínuo exige
+que seus extremos façam aniversário no mesmo dia. À esquerda, as duas
+coincidências envolvem quatro pessoas. À direita, exigir as duas
+coincidências faz com que as três pessoas tenham o mesmo aniversário;
+a terceira coincidência, tracejada, é uma consequência das outras duas.}
+\label{fig:aniversarios-pares}
+\end{figure}

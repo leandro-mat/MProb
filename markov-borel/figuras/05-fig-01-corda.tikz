@@ -30,18 +30,16 @@
   \fill[teal] (1.6,1.424) circle (1.5pt);
   \fill[teal] (1.6,1.908) circle (1.5pt);
   \draw[very thick, teal] (1.6,1.424) -- (1.6,1.908);
-  \draw[decorate, decoration={brace, amplitude=4pt, mirror}, teal]
-      (1.7,1.43) -- (1.7,1.90);
 
   % marcas no eixo
   \foreach \p in {0.5,1.6,2.7} \draw[thin] (\p,0) -- (\p,-0.07);
   \node[marca, below] at (0.5,-0.05) {$u$};
   \node[marca, below] at (2.7,-0.05) {$v$};
-  \node[marca, below] at (1.6,-0.05) {$x_0$};
+  \node[marca, below] at (1.6,-0.05) {$x_t$};
 \end{tikzpicture}
 \caption{A função é convexa quando a corda que une dois pontos quaisquer do
-gráfico fica acima do gráfico. O segmento vertical destacado mede a folga
-$(1-t)g(u)+tg(v)-g(x_0)$, onde
-$x_0=(1-t)u+tv$.}
+gráfico fica acima do gráfico. O segmento vertical destacado tem comprimento
+$(1-t)g(u)+tg(v)-g(x_t)$, onde o ponto
+$x_t=(1-t)u+tv$.}
 \label{fig:convexidade-corda}
 \end{figure}
