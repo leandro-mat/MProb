@@ -217,7 +217,7 @@ convexidade: o critério da corda, a monotonicidade das inclinações secantes, 
 reta de suporte e a desigualdade de Jensen, com as caracterizações
 equivalentes no caso diferenciável. Com essas ferramentas, demonstramos a
 desigualdade de Lyapunov, que compara momentos de ordens distintas, e
-descrevemos o comportamento da curva $r\mapsto(\mathbb{E}|X|^r)^{1/r}$. Por
+descrevemos o comportamento da curva $r\longmapsto(\mathbb{E}|X|^r)^{1/r}$. Por
 fim, definimos $\limsup$ e $\liminf$ de eventos, recordamos a continuidade das
 medidas de probabilidade e demonstramos as duas partes do lema de
 Borel-Cantelli, com a lei 0-1 de Borel como corolário. Três aplicações fecham
@@ -338,7 +338,7 @@ estimativas de probabilidades a partir de esperanças.
 A pergunta que orienta esta seção é a seguinte: se sabemos que
 $\mathbb{E}[X]$ é finito e que $X$ não assume valores negativos, o que podemos
 dizer sobre a probabilidade de $X$ ser grande? A cauda direita de $X$ é a
-função $t\mapsto\mathbb{P}(X\geqslant t)$, definida para $t>0$. A
+função $t\longmapsto\mathbb{P}(X\geqslant t)$, definida para $t>0$. A
 desigualdade de Markov diz que essa função não pode decair mais devagar do que
 $1/t$.
 
@@ -425,7 +425,7 @@ $\varepsilon>0$,
 \end{theorem}
 
 \begin{proof}
-Seja $\mu=\mathbb{E}[X]$. A função $u\mapsto u^2$ é crescente em $[0,\infty)$
+Seja $\mu=\mathbb{E}[X]$. A função $u\longmapsto u^2$ é crescente em $[0,\infty)$
 e ambos os membros na desigualdade $|X-\mu|\geqslant\varepsilon$ são não negativos, logo
 \[
 \{|X-\mu|\geqslant\varepsilon\}
@@ -1018,9 +1018,31 @@ gráfico de uma função convexa.
 
 \subsection{As Inclinações das Retas Secantes}\label{subsec:secantes}
 
-A definição é uma desigualdade entre valores. A próxima proposição a converte
-em uma desigualdade entre inclinações, que é mais fácil de usar e que produz a
-reta de suporte.
+Até aqui, usamos a convexidade para comparar a altura do gráfico com a
+altura de uma corda. Vamos agora examinar a inclinação das retas que passam
+por dois pontos do gráfico, chamadas de \emph{retas secantes}. Se as
+abscissas desses pontos são $u<v$, a inclinação da reta secante associada a estes pontos é
+dada por
+\[
+\frac{g(v)-g(u)}{v-u}.
+\]
+O numerador mede a variação na altura e o denominador, o deslocamento
+horizontal. Essa razão é também a taxa média de variação de $g$ entre
+$u$ e $v$.
+
+Para entender o que a convexidade diz sobre essa taxa, vamos considerar um ponto
+intermediário $w$, com $u<w<v$. Como $(w,g(w))$ fica abaixo da corda entre
+$(u,g(u))$ e $(v,g(v))$, a secante de $u$ a $w$ tem inclinação menor ou
+igual à de $u$ a $v$. Pelo mesmo motivo, a secante de $w$ a $v$ tem
+inclinação maior ou igual à de $u$ a $v$. O lema a seguir traduz essa
+observação em desigualdades, ilustradas na \Cref{fig:convexidade-secantes}.
+
+\input{figuras/05-fig-02-secantes.tikz}
+
+Essa ordem entre as inclinações será útil
+para construir uma reta que passe por $(w,g(w))$ e fique abaixo de todo
+o gráfico: sua inclinação deverá ser pelo menos tão grande quanto as das
+secantes à esquerda de $w$ e não maior que as das secantes à direita.
 
 \begin{lemma}[Monotonicidade das secantes]\label{lem:secantes}
 Seja $g\colon(a,b)\to\mathbb{R}$ convexa e sejam $u<w<v$ em $(a,b)$. Então
@@ -1034,34 +1056,50 @@ Seja $g\colon(a,b)\to\mathbb{R}$ convexa e sejam $u<w<v$ em $(a,b)$. Então
 \end{lemma}
 
 \begin{proof}
-Escrevemos $w=(1-t)u+tv$, com
+Primeiro, vamos representar o ponto $w$ como uma combinação convexa de $u$ e $v$, isto é, $w=(1-t)u+tv$, onde
 \[
 t=\frac{w-u}{v-u}\in(0,1).
 \]
 Pela convexidade,
-\[
+\begin{equation}\label{eq:secantes-convexidade}
 g(w)\leqslant(1-t)g(u)+tg(v).
-\]
-Subtraindo $g(u)$ dos dois lados e usando $1-t=(v-w)/(v-u)$,
+\end{equation}
+Subtraindo $g(u)$ dos dois lados de \eqref{eq:secantes-convexidade}, obtemos
 \[
 g(w)-g(u)
 \leqslant
 t\bigl(g(v)-g(u)\bigr),
 \]
-isto é,
+e, dividindo por $w-u>0$ e usando $t=(w-u)/(v-u)$, segue que
 \[
 \frac{g(w)-g(u)}{w-u}
 \leqslant
 \frac{g(v)-g(u)}{v-u}.
 \]
-Isso prova a primeira desigualdade. Para a segunda, subtraímos $g(v)$ da
-desigualdade de convexidade e usamos $t=(w-u)/(v-u)$:
+Isso prova a primeira desigualdade. 
+
+
+Para a segunda, queremos comparar as
+variações de $g$ entre $u$ e $v$ e entre $w$ e $v$. Por isso, subtraímos
+$g(v)$ dos dois lados de \eqref{eq:secantes-convexidade}, obtendo
 \[
 g(w)-g(v)
 \leqslant
-(1-t)\bigl(g(u)-g(v)\bigr),
+(1-t)\bigl(g(u)-g(v)\bigr).
 \]
-o que, depois de multiplicar por $-1$ e dividir por $v-w$, dá
+Multiplicando por $(-1)$, ambos os lados da desigualdade acima ficamos com 
+\[
+g(v)-g(w)
+\geqslant
+(1-t)\bigl(g(v)-g(u)\bigr)
+=\frac{v-w}{v-u}\bigl(g(v)-g(u)\bigr),
+\]
+onde na última igualdade, usamos
+\[
+1-t=1-\frac{w-u}{v-u}=\frac{v-w}{v-u}.
+\]
+Assim, ao dividir por $v-w>0$, o fator $v-w$ do lado direito se cancela,
+e obtemos a segunda desigualdade:
 \[
 \frac{g(v)-g(u)}{v-u}
 \leqslant
@@ -1069,42 +1107,106 @@ o que, depois de multiplicar por $-1$ e dividir por $v-w$, dá
 \]
 \end{proof}
 
-A \Cref{fig:convexidade-secantes} mostra as três secantes para o mesmo trio de
-pontos e destaca a ordem entre as inclinações.
-
-\input{figuras/05-fig-02-secantes.tikz}
-
-Uma consequência imediata é que, para $w$ fixo, a função
+Para $w\in(a,b)$ fixado vamos ver como variam as inclinações das secantes que
+têm uma extremidade no ponto $(w,g(w))$. À esquerda de $w$, isto é, 
+ao longo do intervalo $(a,w)$ a função
 \[
-u\mapsto\frac{g(w)-g(u)}{w-u}
+u\longmapsto\frac{g(w)-g(u)}{w-u}
 \]
-é não decrescente em $(a,w)$, e a função
+é não-decrescente. De fato, se $a<u_1<u_2<w$, a segunda
+desigualdade de \eqref{eq:secantes}, aplicada ao trio $u_1<u_2<w$, dá
 \[
-v\mapsto\frac{g(v)-g(w)}{v-w}
+\frac{g(w)-g(u_1)}{w-u_1}
+\leqslant
+\frac{g(w)-g(u_2)}{w-u_2}.
 \]
-é não decrescente em $(w,b)$. Com efeito, a primeira afirmação é exatamente
-\eqref{eq:secantes} escrita para $u<w'<w$, e a segunda para $w<v'<v$. Assim os
-dois limites laterais
+Similarmente, à direita de $w$, isto é, no intervalo $(w,b)$ a função
 \[
-L_w=\sup_{u<w}\frac{g(w)-g(u)}{w-u},
+v\longmapsto\frac{g(v)-g(w)}{v-w}
+\]
+é não-decrescente. De fato, se $w<v_1<v_2<b$, a primeira
+desigualdade de \eqref{eq:secantes}, aplicada ao trio $w<v_1<v_2$, fornece
+\[
+\frac{g(v_1)-g(w)}{v_1-w}
+\leqslant
+\frac{g(v_2)-g(w)}{v_2-w}.
+\]
+
+Agora precisamos verificar que essas inclinações não divergem quando
+as variáveis se aproximam de $w$. Para isso, usamos outra consequência
+de \eqref{eq:secantes}: toda secante à esquerda tem inclinação menor ou
+igual à de qualquer secante à direita, isto é,
+\begin{equation}\label{eq:secantes-esquerda-direita}
+\frac{g(w)-g(u)}{w-u}
+\leqslant
+\frac{g(v)-g(w)}{v-w}
+\qquad (a<u<w<v<b).
+\end{equation}
+Fixando $v=v_0\in(w,b)$, obtemos uma cota superior finita para todas as
+inclinações à esquerda. Fixando $u=u_0\in(a,w)$, obtemos uma cota inferior
+finita para todas as inclinações à direita. Portanto, os números
+\[
+L_w=\sup_{u\in(a,w)}\frac{g(w)-g(u)}{w-u},
 \qquad
-R_w=\inf_{v>w}\frac{g(v)-g(w)}{v-w}
+R_w=\inf_{v\in(w,b)}\frac{g(v)-g(w)}{v-w}
 \]
-existem, são finitos, e satisfazem $L_w\leqslant R_w$. O intervalo
-$[L_w,R_w]$ é o conjunto dos coeficientes angulares admissíveis para uma reta
-que apoia o gráfico em $w$.
+são finitos. Pela monotonicidade que acabamos de provar, eles são também
+os limites laterais
+\[
+L_w=\lim_{u\to w^-}\frac{g(w)-g(u)}{w-u},
+\qquad
+R_w=\lim_{v\to w^+}\frac{g(v)-g(w)}{v-w}.
+\]
+À esquerda, aproximar $u$ de $w$ faz as inclinações crescerem até seu
+supremo; à direita, aproximar $v$ de $w$ faz as inclinações decrescerem até
+seu ínfimo.
 
-\subsection{A Reta de Suporte}\label{subsec:reta-suporte}
+Além disso, tomando primeiro o supremo com $u\in (a,w)$ em \eqref{eq:secantes-esquerda-direita}, obtemos 
+\begin{align*}
+L_{w}\equiv 
+\sup_{u\in(a,w)}\frac{g(w)-g(u)}{w-u}
+\leqslant
+\sup_{u\in(a,w)}
+\frac{g(v)-g(w)}{v-w}
+=
+\frac{g(v)-g(w)}{v-w},
+\end{align*}
+para todo $v\in (w,b)$. 
+Tomando agora, na desigualdade acima, o ínfimo com $v\in (w,b)$ concluímos que
+\begin{align*}
+L_{w}
+=
+\inf_{v\in(w,b)} L_{w} 
+\leqslant
+\inf_{v\in(w,b)} \frac{g(v)-g(w)}{v-w}
+\equiv 
+R_{w}.
+\end{align*}
 
-A reta de suporte é a versão local da corda. Em cada ponto do gráfico, existe
-pelo menos uma reta que passa pelo ponto e deixa o gráfico inteiro de um mesmo
-lado. Essa reta substitui a tangente quando a função não é diferenciável.
+Assim, existe pelo menos um número $\alpha$ que é maior ou igual a todas
+as inclinações à esquerda e menor ou igual a todas as inclinações à
+direita. Na próxima subseção, veremos que os valores
+$\alpha\in[L_w,R_w]$ são precisamente as inclinações das retas que passam
+por $(w,g(w))$ e ficam abaixo de todo o gráfico de $g$.
 
-\begin{theorem}[Reta de suporte]\label{thm:reta-suporte}
+\subsection{A Reta Suporte}\label{subsec:reta-suporte}
+
+Seja $g\colon(a,b)\to\mathbb{R}$ uma função convexa. Uma \emph{reta de
+suporte} ao seu gráfico em $w\in(a,b)$ é uma reta que passa por
+$(w,g(w))$ e cuja altura, em cada abscissa do domínio, é menor ou igual
+à altura do gráfico. O próximo teorema mostra que a convexidade garante
+a existência de pelo menos uma reta assim em cada ponto do gráfico.
+Se além de ser uma função convexa $g$ é também diferenciável em $w$, então 
+existe uma única reta suporte nesse ponto que é a reta tangente ao gráfico neste ponto. 
+É importante observar que convexidade garante a 
+existência de uma reta suporte mesmo quando a derivada não existe. No caso de não diferenciabilidade 
+podemos ter a existência de várias retas suporte com inclinações distintas.
+
+\begin{theorem}[Reta suporte]\label{thm:reta-suporte}
 Seja $g\colon(a,b)\to\mathbb{R}$ convexa e seja $w\in(a,b)$. Então existe
 $\alpha\in\mathbb{R}$ tal que
 \begin{equation}\label{eq:reta-suporte}
-g(x)\geqslant g(w)+\alpha(x-w)
+g(w)+\alpha(x-w) \leqslant g(x)
 \qquad
 \text{para todo }x\in(a,b).
 \end{equation}
@@ -1116,8 +1218,9 @@ $\alpha\in[L_w,R_w]$. Se $x<w$, então
 \[
 \frac{g(w)-g(x)}{w-x}\leqslant L_w\leqslant\alpha,
 \]
-e multiplicando por $w-x>0$ obtemos $g(w)-g(x)\leqslant\alpha(w-x)$, que é
-\eqref{eq:reta-suporte} escrita para $x<w$. Se $x>w$, então
+e multiplicando por $w-x>0$ obtemos $g(w)-g(x)\leqslant\alpha(w-x)$, que implica
+na desigualdade \eqref{eq:reta-suporte} para $x<w$. Se $x>w$, então
+segue da definição de $R_w$ que 
 \[
 \alpha\leqslant R_w\leqslant\frac{g(x)-g(w)}{x-w},
 \]
@@ -1142,8 +1245,9 @@ limites laterais.
 
 \subsection{Caracterizações Equivalentes de Convexidade}\label{subsec:caracterizacoes}
 
-Reunimos agora as três descrições da convexidade e acrescentamos a descrição
-por derivadas segunda, que é a mais usada nos exemplos.
+Reunimos agora as três descrições equivalentes do conceito de convexidade e acrescentamos 
+a caracterização via derivada segunda para o caso de funções convexas suaves
+que aparecem frequentemente nos exemplos.
 
 \begin{proposition}\label{prop:caracterizacoes}
 Seja $g\colon(a,b)\to\mathbb{R}$. As afirmações seguintes são equivalentes.
@@ -1163,10 +1267,19 @@ Se $g$ é duas vezes continuamente diferenciável, as três são ainda equivalen
 A implicação (i)$\Rightarrow$(ii) é o \Cref{lem:secantes}, e
 (ii)$\Rightarrow$(iii) é o \Cref{thm:reta-suporte}, cuja prova usa apenas a
 existência de $L_w$ e $R_w$ e a desigualdade $L_w\leqslant R_w$, que por sua
-vez segue de (ii). Para (iii)$\Rightarrow$(i), tome $u<v$ e
-$w=(1-t)u+tv$. Aplicando \eqref{eq:reta-suporte} a $x=u$ e a $x=v$ e
-multiplicando as duas desigualdades por $1-t$ e por $t$, respectivamente,
-obtemos
+vez segue de (ii).
+
+Para provar (iii)$\Rightarrow$(i), fixe $u,v\in(a,b)$ e $t\in[0,1]$ e
+considere $w=(1-t)u+tv$. A ideia é usar a reta suporte em $w$ para comparar
+$g(w)$ com a combinação convexa $(1-t)g(u)+tg(v)$. Por (iii), existe
+$\alpha\in\mathbb{R}$ tal que
+\[
+g(u)\geqslant g(w)+\alpha(u-w)
+\quad\text{e}\quad
+g(v)\geqslant g(w)+\alpha(v-w).
+\]
+Multiplicando essas desigualdades pelos escalares não-negativos $1-t$ e $t$,
+respectivamente, e somando, obtemos
 \[
 (1-t)g(u)+tg(v)
 \geqslant
@@ -1174,18 +1287,26 @@ g(w)+\alpha\bigl((1-t)(u-w)+t(v-w)\bigr)
 =
 g(w),
 \]
-porque o termo entre parênteses é nulo. Isso é \eqref{eq:convexidade}.
+pois $(1-t)(u-w)+t(v-w)=(1-t)u+tv-w=0$, pela escolha de $w$.
+Como $w=(1-t)u+tv$, essa é precisamente a desigualdade de convexidade
+\eqref{eq:convexidade}.
 
-Suponha agora que $g$ seja duas vezes continuamente diferenciável. Se $g''\geqslant0$, então
-$g'$ é não decrescente. Pelo teorema do valor médio, a inclinação da secante
+\bigskip 
+Suponha agora que $g$ seja duas vezes continuamente diferenciável. Como
+(i), (ii) e (iii) já são equivalentes, basta provar as implicações
+(iv)$\Rightarrow$(ii) e (i)$\Rightarrow$(iv).
+
+Para provar (iv)$\Rightarrow$(ii), suponha que $g''\geqslant0$. Então
+$g'$ é não decrescente. Fixe $u<w<v$ em $(a,b)$. Pelo teorema do valor médio,
+a inclinação da secante
 sobre $[u,w]$ é $g'(\xi_1)$ para algum $\xi_1\in(u,w)$ e a inclinação sobre
 $[w,v]$ é $g'(\xi_2)$ para algum $\xi_2\in(w,v)$. Como $\xi_1<\xi_2$ e $g'$ é
-não decrescente, vale \eqref{eq:secantes}, e por (ii)$\Rightarrow$(i) a função
-é convexa.
+não decrescente, vale \eqref{eq:secantes}, o que prova (ii).
 
-Resta provar que (i) implica $g''\geqslant0$. Seja $x_0\in(a,b)$ e suponha, por
+Para provar (i)$\Rightarrow$(iv), suponha que $g$ seja convexa.
+Seja $x_0\in(a,b)$ e suponha, por
 absurdo, que $g''(x_0)<0$. Pela continuidade de $g''$, existe $h>0$ tal que
-$g''<0$ em $(x_0-h,x_0+h)$. A fórmula de Taylor com resto de Lagrange, aplicada
+$g''(\xi)<0$, para todo $\xi\in (x_0-h,x_0+h)$. A fórmula de Taylor com resto de Lagrange, aplicada
 a $x_0+h$ e a $x_0-h$, dá
 \[
 g(x_0+h)+g(x_0-h)-2g(x_0)
@@ -1201,17 +1322,19 @@ o que contradiz a convexidade no par $x_0-h<x_0+h$ com $t=1/2$.
 \end{proof}
 
 \begin{remark}\label{rem:convexidade-exemplos}
-A proposição dá um critério rápido para verificar convexidade. São convexas:
-$x\mapsto x^2$, $x\mapsto e^{tx}$ para cada $t$, $x\mapsto x^p$ em $(0,\infty)$
-para $p\geqslant1$, $x\mapsto1/x$ em $(0,\infty)$ e $x\mapsto-\log x$ em
-$(0,\infty)$. A última tem derivada segunda $1/x^2>0$ e é o exemplo que
+A proposição acima fornece um critério rápido para verificar convexidade. 
+Por exemplo, como consequência deste critério, verificamos imediatamente que são convexas as funções
+$g(x)= x^2$, $g(x)= e^{tx}$, para cada $t\in\mathbb{R}$ fixado, $g(x)= x^p$, para cada $p\geqslant1$ fixado, 
+$g(x)=1/x$ em $(0,\infty)$ e $g(x)=-\log x$ em
+$(0,\infty)$. A última tem derivada segunda $1/x^2>0$ e este é o exemplo que
 produz a desigualdade entre as médias geométrica e aritmética.
 \end{remark}
 
 \subsection{A Desigualdade de Jensen}\label{subsec:jensen}
 
-Com a reta de suporte, a prova de Jensen é curta: basta aplicar a desigualdade
-ponto a ponto e tomar esperanças.
+Usando o resultado de existência da reta suporte, 
+a prova da Desigualdade de Jensen é curta. Basta aplicar a desigualdade
+\eqref{eq:reta-suporte} ponto a ponto e tomar esperanças.
 
 \begin{theorem}[Desigualdade de Jensen]\label{thm:jensen}
 Seja $X$ uma variável aleatória assumindo valores em um intervalo
@@ -1223,9 +1346,9 @@ convexa tal que $\mathbb{E}\bigl[|g(X)|\bigr]<\infty$. Então
 \end{theorem}
 
 \begin{proof}
-Seja $\mu=\mathbb{E}[X]$. Como $X$ assume valores em $(a,b)$ e $\mu$ é uma
-média ponderada desses valores, $\mu\in(a,b)$. Pelo
-\Cref{thm:reta-suporte}, aplicado em $w=\mu$, existe $\alpha\in\mathbb{R}$ tal
+Seja $\mu=\mathbb{E}[X]$. Como $a< X< b$ temos da monotonicidade da esperança 
+que $a< \mathbb{E}[X] < b$. Logo $\mu\in (a,b)$. Aplicando o 
+\Cref{thm:reta-suporte}, com $w=\mu$, podemos afirmar que existe $\alpha\in\mathbb{R}$ tal
 que
 \[
 g(x)\geqslant g(\mu)+\alpha(x-\mu)
@@ -1238,40 +1361,64 @@ Substituindo $x$ por $X$ e tomando esperanças, obtemos
 \geqslant
 g(\mu)+\alpha\bigl(\mathbb{E}[X]-\mu\bigr)
 =
-g(\mu),
+g(\mu) = g\bigl(\mathbb{E}[X]\bigr),
 \]
-que é \eqref{eq:jensen}.
+o que prova a validade da desigualdade \eqref{eq:jensen}.
 \end{proof}
 
 A mesma demonstração se estende a qualquer intervalo $I\subseteq\mathbb{R}$
-(aberto, fechado ou semiaberto) no qual $g$ seja convexa e contínua nos
+(aberto, fechado ou semi-aberto) no qual $g$ seja convexa e contínua nos
 extremos pertencentes a $I$: se $\mu=\mathbb{E}[X]$ está no interior de $I$, a
 desigualdade \eqref{eq:reta-suporte} vale no interior e se estende aos
 extremos por continuidade; se $\mu$ coincide com um extremo de $I$, então
 $X=\mu$ quase certamente e \eqref{eq:jensen} vale com igualdade.
 
-A \Cref{fig:jensen-esperanca} interpreta a desigualdade como uma afirmação
-sobre centro de massa. Se $X$ assume dois valores $u$ e $v$, com
-probabilidades $p$ e $1-p$, então $\mathbb{E}[g(X)]$ é a média ponderada das
-alturas $g(u)$ e $g(v)$, e cai sobre a corda. O ponto do gráfico de abscissa
-$\mathbb{E}[X]$ está abaixo da corda, e a distância entre os dois é a folga de
-Jensen.
+A \Cref{fig:jensen-esperanca} interpreta a desigualdade em termos de um
+centro de massa. Suponha que $X$ assuma os valores $u$ e $v$, onde $u<v$, 
+com probabilidades $p$ e $1-p$, respectivamente, onde $0<p<1$. Atribuindo essas massas aos
+pontos $P_1=(u,g(u))$ e $P_2=(v,g(v))$, o centro de massa é
+o ponto em $\mathbb{R}^2$ dado pela expressão
+\[
+A=pP_1+(1-p)P_2
+ =\bigl(\mathbb{E}[X],\mathbb{E}[g(X)]\bigr).
+\]
+Esse ponto pertence à corda que une $P_1$ a $P_2$. Já o ponto
+$B=\bigl(\mathbb{E}[X],g(\mathbb{E}[X])\bigr)$ pertence ao gráfico de $g$
+e tem a mesma abscissa que $A$. Pela convexidade, $B$ está abaixo de $A$
+ou coincide com ele. Assim, a desigualdade de Jensen afirma que a
+diferença
+\[
+\Delta=\mathbb{E}[g(X)]-g(\mathbb{E}[X])
+\]
+é não negativa. Na figura abaixo, $\Delta$ é exatamente o comprimento do segmento de reta vertical
+que une os ponto $B$ e $A$.
 
 \input{figuras/05-fig-04-jensen.tikz}
 
 \begin{remark}\label{rem:jensen-media}
-A desigualdade de Jensen diz que a média de $g(X)$ fica acima de $g$ aplicada à
-média de $X$. A intuição é que $g$ amplifica os desvios: quando $X$ oscila, a
-média dos valores de $g$ é maior do que o valor de $g$ na média. A diferença
-entre os dois lados mede, portanto, a variabilidade de $X$ vista através de
-$g$.
+Há duas maneiras de combinar a função $g$ com a esperança: podemos aplicar
+$g$ aos valores de $X$ e depois tomar a média, obtendo $\mathbb{E}[g(X)]$,
+ou tomar primeiro a média de $X$ e depois aplicar $g$, obtendo
+$g(\mathbb{E}[X])$. Quando $g$ é convexa, a desigualdade de Jensen garante
+que o primeiro resultado é maior ou igual ao segundo.
+
+A diferença entre duas expressões que aparecem na Desigualdade de Jensen quantifica, 
+assim, o efeito de substituir $X$ por
+sua média antes de aplicar $g$. Esse efeito depende tanto da distribuição
+de $X$ quanto da função escolhida. Por exemplo, para $g(x)=x^2$, a diferença
+é exatamente a variância de $X$, quando o segundo momento é finito. Já para
+uma função afim, ela é sempre nula, mesmo que $X$ não seja constante.
 \end{remark}
 
 \subsection{O Caso de Igualdade}\label{subsec:jensen-igualdade}
 
-A desigualdade de Jensen se transforma em critério quando $g$ é estritamente
-convexa. A prova é a mesma usada na caracterização dos casos extremos de
-Cauchy-Schwarz: a folga é não negativa e tem esperança nula.
+Para descobrir quando a desigualdade de Jensen é saturada, isto é, 
+quando ocorre a igualdade, comparamos $g(X)$ com a
+reta de suporte ao gráfico de $g$ no ponto $\mu=\mathbb{E}[X]$. A diferença
+entre esses valores é sempre não negativa, e sua esperança é exatamente a
+diferença entre os dois lados de \eqref{eq:jensen}. Se $g$ é estritamente
+convexa, essa reta toca o gráfico apenas em $\mu$; assim, a igualdade só pode
+ocorrer quando $X=\mu$ quase certamente.
 
 \begin{proposition}\label{prop:jensen-igualdade}
 Nas hipóteses do \Cref{thm:jensen}, suponha que $g$ seja estritamente convexa.
@@ -1280,15 +1427,17 @@ $X=\mathbb{E}[X]$ quase certamente.
 \end{proposition}
 
 \begin{proof}
-Se $X=\mu$ quase certamente, então $\mathbb{E}[g(X)]=g(\mu)$ e a igualdade
+Se $X=\mu$ quase certamente, então $\mathbb{E}[g(X)]=g(\mu) = g\bigl(\mathbb{E}[X] \bigr)$ e a igualdade
 vale. Suponha agora que valha a igualdade. Seja $\alpha$ o coeficiente dado
 pela reta de suporte em $\mu$ e defina
 \[
 Z=g(X)-g(\mu)-\alpha(X-\mu).
 \]
-Por \eqref{eq:reta-suporte}, $Z\geqslant0$; pela igualdade em
-\eqref{eq:jensen}, $\mathbb{E}[Z]=0$. Uma variável não negativa com esperança
-nula é nula quase certamente, logo
+Por \eqref{eq:reta-suporte}, $Z\geqslant0$. Como estamos assumindo que 
+vale a igualdade $\mathbb{E}[g(X)]= g\bigl(\mathbb{E}[X] \bigr)$
+então temos que $\mathbb{E}[Z]=0$. Como mostrado anteriormente 
+sabemos que se uma variável aleatória é não-negativa e possui esperança
+nula então esta variável aleatória é nula quase certamente, logo
 \[
 g(X)=g(\mu)+\alpha(X-\mu)
 \qquad
@@ -1312,7 +1461,7 @@ Tome $g(x)=x^2$, que é estritamente convexa. O \Cref{thm:jensen} dá
 \]
 isto é, $\operatorname{Var}(X)\geqslant0$. A igualdade vale se, e somente se,
 $X$ é constante quase certamente. Esse é o mesmo conteúdo da desigualdade de
-Cauchy-Schwarz para $X$ e $1$, que já foi provada na nota de momentos por outro
+Cauchy-Schwarz para $X$ e $1$, que já foi provada nas notas sobre momentos, por outro
 argumento. Aqui ela aparece como um caso particular de convexidade.
 \end{example}
 
@@ -1321,7 +1470,8 @@ O segundo exemplo é a desigualdade entre as médias geométrica e aritmética.
 \begin{example}[Média geométrica e média aritmética]\label{ex:media-geometrica}
 A função $g(x)=-\log x$ é estritamente convexa em $(0,\infty)$, pois
 $g''(x)=1/x^2>0$. Seja $X$ uma variável aleatória positiva com
-$\mathbb{E}[X]<\infty$ e $\mathbb{E}\bigl[|\log X|\bigr]<\infty$. Jensen dá
+$\mathbb{E}[X]<\infty$ e $\mathbb{E}\bigl[|\log X|\bigr]<\infty$. 
+Então, segue da Desigualdade de Jensen que
 \begin{equation}\label{eq:jensen-log}
 \mathbb{E}[\log X]\leqslant\log\mathbb{E}[X],
 \end{equation}
@@ -1353,11 +1503,11 @@ Além disso, a igualdade vale se, e somente se, todos os $x_i$ são iguais.
 O terceiro exemplo compara a média harmônica com a geométrica.
 
 \begin{example}[Média harmônica]\label{ex:media-harmonica}
-A média harmônica dos positivos $x_1,\ldots,x_n$ é definida por
+A média harmônica de números não-nulos $x_1,\ldots,x_n$ é definida por
 \[
 \frac{1}{\eta}=\frac{1}{n}\sum_{i=1}^{n}\frac{1}{x_i}.
 \]
-Aplicando o \Cref{ex:media-geometrica} aos números $1/x_1,\ldots,1/x_n$,
+No caso em que $x_i>0$ podemos aplicar o \Cref{ex:media-geometrica} aos números $1/x_1,\ldots,1/x_n$,
 obtemos
 \[
 \Bigl(\prod_{i=1}^{n}\frac{1}{x_i}\Bigr)^{1/n}
@@ -1372,7 +1522,7 @@ O quarto exemplo conecta Jensen com a função geradora de momentos.
 
 \begin{example}[A função geradora de momentos]\label{ex:jensen-fgm}
 Para cada $t\in\mathbb{R}\setminus\{0\}$, a função $g(x)=e^{tx}$ é
-estritamente convexa (para $t=0$ é constante). Jensen dá
+estritamente convexa (para $t=0$ é constante). Portanto segue da Desigualdade de Jensen que
 \[
 \mathbb{E}\bigl[e^{tX}\bigr]\geqslant e^{t\mathbb{E}[X]},
 \]
@@ -1404,7 +1554,7 @@ Sejam $0<s\leqslant r$ e $x\in\mathbb{R}$. Então
 \begin{proof}
 Se $|x|\leqslant1$, então $|x|^s\leqslant1\leqslant1+|x|^r$. Se $|x|>1$,
 então $|x|^s\leqslant|x|^r\leqslant1+|x|^r$, porque $s\leqslant r$ e a função
-$p\mapsto |x|^p$ é crescente em $(0,\infty)$ quando $|x|>1$.
+$p\longmapsto |x|^p$ é crescente em $(0,\infty)$ quando $|x|>1$.
 \end{proof}
 
 Tomando esperanças em \eqref{eq:potencias}, obtemos
@@ -1427,15 +1577,15 @@ momento de ordem alta implica a existência de todos os momentos de ordem menor.
 \subsection{Enunciado e Prova da Desigualdade de Lyapunov}\label{subsec:lyapunov}
 
 A desigualdade de Lyapunov compara as normas em ordens diferentes. A prova é
-uma aplicação de Jensen à variável $Z^s$ e à função $y\mapsto y^{r/s}$, que é
+uma aplicação de Jensen à variável $Z^s$ e à função $y\longmapsto y^{r/s}$, que é
 convexa porque $r/s\geqslant1$.
 
 \begin{theorem}[Desigualdade de Lyapunov]\label{thm:lyapunov}
 Seja $Z$ uma variável aleatória não negativa e sejam $0<s\leqslant r$. Então
 \begin{equation}\label{eq:lyapunov}
+\bigl(\mathbb{E}[Z^s]\bigr)^{1/s}
+\leqslant 
 \bigl(\mathbb{E}[Z^r]\bigr)^{1/r}
-\geqslant
-\bigl(\mathbb{E}[Z^s]\bigr)^{1/s}.
 \end{equation}
 \end{theorem}
 
@@ -1446,18 +1596,29 @@ $\mathbb{E}[Z^s]<\infty$. Se $\mathbb{E}[Z^s]=0$, então $Z=0$ quase certamente
 e a desigualdade é trivial. Suponha $\mathbb{E}[Z^s]>0$. Seja $Y=Z^s$ e
 $g(y)=y^{r/s}$, definida para
 $y\geqslant0$. Como $r/s\geqslant1$, a função $g$ é convexa em $[0,\infty)$.
-O \Cref{thm:jensen} aplicado a $Y$ e $g$ dá
+De fato,
+\begin{align*}
+g'(y) = \frac{r}{s}\, y^{ \frac{r}{s} - 1 }
+\qquad \text{e} \qquad 
+g''(y) = \frac{r}{s} \left( \frac{r}{s}-1 \right) y^{ \frac{r}{s} - 2 }>0. 
+\end{align*}
+
+Usando a Desigualdade de Jensen para $Y$ e $g$ concluímos que
 \[
 \mathbb{E}\bigl[Z^r\bigr]
 =
 \mathbb{E}\bigl[Y^{r/s}\bigr]
+=
+\mathbb{E}\bigl[g(Y)\bigr]
 \geqslant
+g\bigl(\mathbb{E}[Y]\bigr)
+=
 \bigl(\mathbb{E}[Y]\bigr)^{r/s}
 =
 \bigl(\mathbb{E}[Z^s]\bigr)^{r/s}.
 \]
 Extraindo a raiz $r$-ésima dos dois lados, que é uma função crescente em
-$[0,\infty)$, obtemos \eqref{eq:lyapunov}.
+$[0,\infty)$, obtemos finalmente a desigualdade \eqref{eq:lyapunov}.
 \end{proof}
 
 A ordem das duas últimas subseções não é acidental. Para aplicar Jensen a
@@ -1480,24 +1641,43 @@ Em particular, $\mathbb{E}|X|\leqslant\bigl(\mathbb{E}[X^2]\bigr)^{1/2}$.
 Aplique o \Cref{thm:lyapunov} a $Z=|X|$.
 \end{proof}
 
-A desigualdade de Lyapunov esclarece o ganho obtido ao aplicar a desigualdade
-de Markov a potências de $|X|$. Para cada $s\in(0,r]$ e cada $t>0$, Markov dá
+A desigualdade de Lyapunov permite comparar as cotas obtidas aplicando a
+desigualdade de Markov a diferentes potências de $|X|$. Suponha que
+$\mathbb{E}|X|^r<\infty$, e escreva
+$\|X\|_q=(\mathbb{E}|X|^q)^{1/q}$ para $0<q\leqslant r$. Para cada
+$s\in(0,r]$ e $t>0$, a desigualdade de Markov dá
 \[
 \mathbb{P}(|X|\geqslant t)
 =
 \mathbb{P}(|X|^s\geqslant t^s)
 \leqslant
-\frac{\mathbb{E}|X|^s}{t^s}.
+\frac{\mathbb{E}|X|^s}{t^s}
+=\left(\frac{\|X\|_s}{t}\right)^s.
 \]
-Pelo \Cref{cor:lyapunov-momentos}, se denotamos
-$\|X\|_s=(\mathbb{E}|X|^s)^{1/s}$, vale $\|X\|_s\leqslant\|X\|_r$. Mesmo
-assim, para desvios grandes ($t>\|X\|_r$), temos $\|X\|_r/t<1$ e, portanto,
-$(\|X\|_r/t)^r<(\|X\|_r/t)^s$ para $s<r$: o maior expoente $r$ disponível
-domina o decaimento assintótico da cota em $t$.
+Pelo \Cref{cor:lyapunov-momentos}, $\|X\|_s\leqslant\|X\|_r$; logo, a
+cota acima também é limitada por $(\|X\|_r/t)^s$. Quando
+$t>\|X\|_r$, a razão $\|X\|_r/t$ está entre $0$ e $1$, de modo que, para
+$s<r$,
+\[
+\left(\frac{\|X\|_r}{t}\right)^r
+<
+\left(\frac{\|X\|_r}{t}\right)^s.
+\]
+Assim, entre essas cotas comparadas usando a mesma quantidade $\|X\|_r$, a
+que usa o maior expoente fornece o menor limite para desvios acima de
+$\|X\|_r$. Em particular, usando diretamente o momento de ordem $r$,
+obtemos
+\[
+\mathbb{P}(|X|\geqslant t)
+\leqslant \frac{\mathbb{E}|X|^r}{t^r},
+\]
+uma cota que decai como $t^{-r}$ quando $t\to\infty$. Portanto, quanto maior
+for a ordem do momento finito disponível, mais rápido pode ser o decaimento
+polinomial garantido para a cauda de $|X|$.
 
 \subsection{A Curva das Normas}\label{subsec:curva-normas}
 
-O \Cref{thm:lyapunov} diz que a função $r\mapsto(\mathbb{E}|X|^r)^{1/r}$ é não
+O \Cref{thm:lyapunov} diz que a função $r\longmapsto(\mathbb{E}|X|^r)^{1/r}$ é não
 decrescente. Há uma segunda estrutura por trás dela: o logaritmo dessa função é
 convexo. A prova usa a desigualdade de Hölder, que é a forma geral da
 desigualdade de Cauchy-Schwarz e que também sai da convexidade.
@@ -1511,7 +1691,7 @@ ab\leqslant\frac{a^p}{p}+\frac{b^q}{q}.
 
 \begin{proof}
 Se $a=0$ ou $b=0$, a desigualdade é imediata. Caso contrário, a função
-$t\mapsto e^t$ é convexa, logo
+$t\longmapsto e^t$ é convexa, logo
 \[
 ab=\exp\Bigl(\frac{1}{p}\log a^p+\frac{1}{q}\log b^q\Bigr)
 \leqslant
@@ -1553,7 +1733,7 @@ que é a desigualdade para $X$ e $Y$.
 
 \begin{proposition}\label{prop:log-convexa}
 Seja $X$ uma variável aleatória com $\mathbb{P}(X\neq0)>0$ e seja
-$I=\{r>0:\mathbb{E}|X|^r<\infty\}$. Então a função $r\mapsto\log\mathbb{E}|X|^r$
+$I=\{r>0:\mathbb{E}|X|^r<\infty\}$. Então a função $r\longmapsto\log\mathbb{E}|X|^r$
 é convexa em $I$.
 \end{proposition}
 
@@ -1590,76 +1770,38 @@ $X_1=|X|^{(1-t)r_1}$ e $X_2=|X|^{tr_2}$, Hölder dá
 como queríamos.
 \end{proof}
 
-A \Cref{fig:lyapunov-ordens} mostra as duas propriedades no exemplo em que $X$
-é uniforme em $[0,1]$, de modo que $\mathbb{E}|X|^r=1/(r+1)$. No painel da
-esquerda, o gráfico de $r\mapsto\log\mathbb{E}|X|^r$ é convexo e a corda fica
-acima dele. No painel da direita, $r\mapsto(\mathbb{E}|X|^r)^{1/r}$ é não
-decrescente, parte da média geométrica e tende ao supremo essencial.
-
-\input{figuras/05-fig-05-lyapunov.tikz}
-
-\subsection{A Convexidade da Função Geradora de Momentos}\label{subsec:fgm-convexa}
-
-A mesma argumentação de Hölder se aplica à função geradora de momentos e
-produz a convexidade que está por trás das cotas exponenciais de cauda.
-
-\begin{proposition}\label{prop:fgm-convexa}
-Seja $X$ uma variável aleatória e seja $J$ o conjunto dos $t\in\mathbb{R}$ para
-os quais $M_X(t)=\mathbb{E}[e^{tX}]<\infty$. Então $J$ é um intervalo e a
-função
-\[
-\Lambda(t)=\log M_X(t)
-\]
-é convexa em $J$.
-\end{proposition}
-
-\begin{proof}
-Se $t_1,t_2\in J$ e $t=(1-\lambda)t_1+\lambda t_2$ com $\lambda\in(0,1)$,
-escrevemos
-\[
-e^{tX}=\bigl(e^{t_1X}\bigr)^{1-\lambda}\bigl(e^{t_2X}\bigr)^{\lambda}.
-\]
-O \Cref{thm:holder}, com $p=1/(1-\lambda)$ e $q=1/\lambda$, dá
-\[
-M_X(t)
-\leqslant
-\bigl(M_X(t_1)\bigr)^{1-\lambda}\bigl(M_X(t_2)\bigr)^{\lambda}.
-\]
-Em particular, $M_X(t)<\infty$, de modo que $t\in J$ e $J$ é um intervalo. Tomando logaritmos, obtemos a desigualdade de convexidade para $\Lambda$.
-\end{proof}
-
-A \Cref{fig:cramer-lambda} mostra a consequência geométrica. Como $\Lambda$ é
-convexa, para cada $a$ a função $t\mapsto at-\Lambda(t)$ é côncava, e portanto
-atinge o máximo em um único ponto ou em um intervalo. Quando $\Lambda$ é
-diferenciável, esse ponto é aquele em que $\Lambda'(t)=a$, isto é, aquele em
-que a reta de inclinação $a$ tangencia o gráfico. O valor máximo
-\[
-\Lambda^{*}(a)=\sup_{t}\bigl\{at-\Lambda(t)\bigr\}
-\]
-é a transformada de Legendre de $\Lambda$. No exemplo da figura,
-$\mathbb{P}(X=-1)=\mathbb{P}(X=1)=1/2$, de modo que $M_X(t)=\cosh t$ e
-$\Lambda(t)=\log\cosh t$.
-
-\input{figuras/05-fig-06-cramer.tikz}
-
-Essa construção é o ponto de partida da cota de Chernoff e do teorema de
-Cramér, que serão estudados na nota de leis dos grandes números. A convexidade
-é o que garante que o máximo existe e é único, e é ela que permite ler o
-expoente da decaída como uma distância entre a reta e o gráfico.
-
-\subsection{Aplicação: O Jogo Honesto que Arruína}\label{subsec:jogo}
+\subsection{Aplicação: O Jogo Honesto e a Ruína}\label{subsec:jogo}
 
 Considere o seguinte jogo. O jogador começa com capital $W_0=1$. Em cada
 rodada, o capital é multiplicado por $3/2$ ou por $1/2$, com probabilidade
 $1/2$ cada, independentemente das rodadas anteriores. O jogo é honesto no
-sentido de que o retorno esperado de cada rodada é
+sentido de que a taxa de retorno esperado, em cada uma das rodadas é dada por cópias independentes da variável 
+aleatória $R_1$ cuja a distribuição é dada por 
+\begin{align*}
+\mathbb{P}\left( R_1=\frac{3}{2} \right)=\frac{1}{2} = \mathbb{P}\left( R_1=\frac{1}{2} \right)
+\end{align*} 
+e seu valor esperado é dado por
 \[
 \mathbb{E}[R_1]=\frac{1}{2}\cdot\frac{3}{2}+\frac{1}{2}\cdot\frac{1}{2}=1.
 \]
-Por independência, $\mathbb{E}[W_n]=1$ para todo $n$. A pergunta é se o
-capital típico se mantém, cresce ou decai.
 
-O capital depois de $n$ rodadas é
+Pela hipótese de independência, sabemos que taxa de retorno esperada deste jogo após $n$ rodadas
+é dada pela esperança da variável aleatória $W_n\equiv R_1\cdot R_2\cdot\ldots\cdot R_n$ que é 
+precisamente
+\begin{align*}
+\mathbb{E}[W_n]
+=  
+\mathbb{E}[R_1\cdot R_2\cdot\ldots\cdot R_n] 
+=   
+\mathbb{E}[R_1] \cdot \mathbb{E}[R_2]\cdot\ldots\cdot \mathbb{E}[R_n] 
+=
+1.
+\end{align*}
+
+A pergunta é se o
+capital típico se mantém, cresce ou decai.
+Para entender melhor este problema observe que o capital (aqui o capital inicial é de uma unidade) 
+depois de $n$ rodadas é dado por 
 \[
 W_n=R_1R_2\cdots R_n,
 \]
@@ -1690,8 +1832,9 @@ logo
 \;\xrightarrow[n\to\infty]{}\;-\infty.
 \end{equation}
 Enquanto o logaritmo da esperança do capital é zero, a esperança do logaritmo
-tende a $-\infty$. A diferença entre as duas quantidades é a folga de Jensen, e
-ela cresce linearmente em $n$.
+tende a $-\infty$. A diferença entre as duas quantidades se manifesta como
+sendo a diferença dos dois termos que aparecem na Desigualdade de Jensen. 
+Neste caso vimos que esta diferença cresce linearmente em $n$.
 
 Vale registrar a leitura pela desigualdade de Lyapunov. Como os $R_i$ são
 independentes,
@@ -1704,9 +1847,9 @@ e o \Cref{cor:lyapunov-momentos} dá
 \mathbb{E}[W_n]\leqslant\bigl(\mathbb{E}[W_n^2]\bigr)^{1/2}
 =\Bigl(\frac{5}{4}\Bigr)^{n/2}.
 \]
-A cota cresce exponencialmente, enquanto a esperança é constante. A folga entre
-as duas é a mesma assimetria que Jensen detecta, lida agora como comparação
-entre momentos de ordens distintas.
+A cota cresce exponencialmente, enquanto a esperança é constante. A distância entre
+os dois valores médios apresenta também uma certa assimetria  
+analogamente ao que vimos pela aplicação da Desigualdade de Jensen.
 
 Para transformar \eqref{eq:jogo-log} em uma afirmação sobre o capital, sem
 usar a lei dos grandes números, basta conhecer a distribuição exata. Seja
@@ -1724,15 +1867,19 @@ W_n\leqslant\frac{3^{n/2}}{2^n}
 \Bigl(\frac{\sqrt3}{2}\Bigr)^{n}.
 \]
 Como a distribuição de $K_n$ é simétrica em torno de $n/2$, o evento
-$\{K_n\leqslant n/2\}$ tem probabilidade pelo menos $1/2$. Logo
+$\{K_n\leqslant n/2\}$ tem probabilidade pelo menos $1/2$. 
+\input{figuras/05-fig-07-binomial-simetria.tikz}
+Logo
 \begin{equation}\label{eq:jogo-mediana}
 \mathbb{P}\Bigl(W_n\leqslant\Bigl(\frac{\sqrt3}{2}\Bigr)^{n}\Bigr)
 \geqslant\frac{1}{2}.
 \end{equation}
 Com probabilidade pelo menos um meio, o capital decai a uma taxa geométrica de
 $\sqrt3/2\approx0{,}866$ por rodada, isto é, pelo menos $13{,}4\%$ ao longo de
-cada rodada, em termos geométricos. O valor mais provável de $W_n$ ocorre em
-$K_n=n/2$ e vale exatamente $(\sqrt3/2)^n$.
+cada rodada, em termos geométricos. Quando $n$ é par, o valor mais provável de
+$W_n$ ocorre em $K_n=n/2$ e vale exatamente $(\sqrt3/2)^n$. Quando $n$ é
+ímpar, os dois valores mais prováveis correspondem a
+$K_n=(n-1)/2$ e $K_n=(n+1)/2$.
 
 A desigualdade de Chebyshev dá uma segunda leitura, agora sobre a
 probabilidade de o jogador terminar acima do capital inicial. O evento
@@ -1762,11 +1909,24 @@ capital mais provável é cerca de $5{,}6\%$ do inicial, enquanto a média é
 $100\%$ do inicial. A média é sustentada por uma minoria de trajetórias com
 ganhos muito grandes.
 
-A lição é que a esperança de um produto não é o produto das esperanças quando o
-que interessa é a taxa de crescimento. Para o crescimento multiplicativo, a
-quantidade relevante é $\mathbb{E}[\log R_1]$, e não $\mathbb{E}[R_1]$. Jensen
-diz exatamente que as duas não coincidem, e a diferença é a folga entre a média
-aritmética e a média geométrica.
+Como os fatores $R_1,\ldots,R_n$ são independentes, a esperança do produto é
+o produto das esperanças e, neste jogo, $\mathbb{E}[W_n]=1$. Essa quantidade
+descreve o capital médio, mas não basta para descrever como o capital evolui
+na maioria das trajetórias. Para estudar o crescimento multiplicativo típico
+é mais eficiente olhar para logaritmos  $\log W_n=\sum_{j=1}^n\log R_j$. Assim,
+$\mathbb{E}[\log R_1]$ é o incremento médio por rodada na escala logarítmica;
+como esse valor é negativo, os cálculos com a distribuição de $K_n$ acima
+mostram que o capital costuma decair, embora sua esperança permaneça igual a
+$1$. A desigualdade de Jensen expressa a diferença entre essas duas
+quantidades:
+\[
+\mathbb{E}[\log W_n]<\log\mathbb{E}[W_n]=0.
+\]
+Portanto, a esperança do capital e o crescimento na escala logarítmica dão
+informações diferentes: a esperança do capital é sustentada pelas trajetórias
+raras em que ele cresce muito, enquanto o crescimento na escala logarítmica
+registra o efeito médio dos fatores multiplicativos e, neste jogo, reflete o
+decaimento típico do capital.
 
 \section{O Lema de Borel-Cantelli}\label{sec:borel-cantelli}
 
@@ -1865,7 +2025,7 @@ Em particular, $\omega\in\limsup_n A_n$ se, e somente se,
 \sum_{n=1}^{\infty}\mathds{1}_{A_n}(\omega)=\infty.
 \]
 Essa leitura é útil porque transforma a pergunta sobre eventos em uma pergunta
-sobre séries de números não negativos.
+sobre séries de números não-negativos.
 \end{remark}
 
 \subsection{A Continuidade das Medidas de Probabilidade}\label{subsec:continuidade}
@@ -1945,7 +2105,9 @@ $\sigma$-aditividade,
 
 \subsection{O Primeiro Lema de Borel-Cantelli}\label{subsec:bc1}
 
-Com a continuidade e Boole, a primeira parte do lema é imediata.
+Vermos a seguir que a continuidade da medida e a desigualdade de Boole
+é praticamente tudo que precisamos para a prova da primeira parte do Lema
+de Borel-Cantelli.
 
 \begin{theorem}[Primeiro lema de Borel-Cantelli]\label{thm:bc1}
 Seja $(A_n)_{n\geqslant1}$ uma sequência de eventos tal que
@@ -1958,27 +2120,27 @@ $A_n$.
 \end{theorem}
 
 \begin{proof}
-Seja $C_n=\bigcup_{k\geqslant n}A_k$. Por \eqref{eq:limsup-continuidade},
+Já que a sequência de eventos $C_n\equiv \bigcup_{k\geqslant n}A_k$
+é uma sequência decrescente de eventos, segue da continuidade da medida que 
 \[
 \mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)
 =
 \lim_{n\to\infty}\mathbb{P}(C_n).
 \]
-Pelo \Cref{lem:boole},
+Portanto segue da Desigualdade de Boole \Cref{lem:boole} que
 \[
 \mathbb{P}(C_n)
 \leqslant
 \sum_{k=n}^{\infty}\mathbb{P}(A_k).
 \]
-Como a série $\sum_k\mathbb{P}(A_k)$ converge, o resto
-$\sum_{k\geqslant n}\mathbb{P}(A_k)$ tende a $0$ quando $n\to\infty$. Logo
+Como a série $\sum_k\mathbb{P}(A_k)$ converge, sua cauda
+$\sum_{k\geqslant n}\mathbb{P}(A_k)\to 0$, quando $n\to\infty$. Logo
 $\mathbb{P}(C_n)\to0$ e, portanto,
 $\mathbb{P}(\limsup_n A_n)=0$.
 \end{proof}
 
 Note que a prova não usou independência. O primeiro lema vale para qualquer
-sequência de eventos. O preço é que ele só produz a conclusão $\mathbb{P}=0$;
-para concluir $\mathbb{P}=1$, é preciso independência.
+sequência de eventos. 
 
 \subsection{O Segundo Lema de Borel-Cantelli}\label{subsec:bc2}
 
@@ -1993,7 +2155,7 @@ Usaremos a desigualdade elementar
 \qquad
 \text{para }x\in\mathbb{R},
 \end{equation}
-que segue da convexidade de $x\mapsto e^x$, ou da comparação das séries de
+que segue da convexidade de $x\longmapsto e^x$, ou da comparação das séries de
 Taylor.
 
 \begin{theorem}[Segundo lema de Borel-Cantelli]\label{thm:bc2}
@@ -2025,10 +2187,10 @@ independentes, logo
 \leqslant
 \exp\Bigl(-\sum_{n=m}^{N}p_n\Bigr),
 \]
-onde usamos \eqref{eq:exp-ineq} em cada fator. A sequência
+onde usamos a desigualdade elementar \eqref{eq:exp-ineq} em cada fator. A sequência
 $\bigcap_{n=m}^{N}A_n^c$ é decrescente em $N$, com interseção
-$\bigcap_{n\geqslant m}A_n^c$. Pelo
-\Cref{cor:continuidade-decrescente},
+$\bigcap_{n\geqslant m}A_n^c$. Pela propriedade de continuidade da medida
+\Cref{cor:continuidade-decrescente}, podemos afirmar que
 \[
 \mathbb{P}\Bigl(\bigcap_{n=m}^{\infty}A_n^c\Bigr)
 =
@@ -2038,7 +2200,8 @@ $\bigcap_{n\geqslant m}A_n^c$. Pelo
 =
 0,
 \]
-porque a série $\sum_n p_n$ diverge. Como $m$ é arbitrário, todos os eventos
+onde a última igualdade segue da hipótese da série $\sum_n p_n$ ser divergente. 
+Como $m$ é arbitrário, todos os eventos
 $\bigcap_{n\geqslant m}A_n^c$ têm probabilidade nula, e a união enumerável
 deles também. Logo $\mathbb{P}\bigl((\limsup_n A_n)^c\bigr)=0$, isto é,
 $\mathbb{P}(\limsup_n A_n)=1$.
@@ -2065,7 +2228,7 @@ Seja $(A_n)_{n\geqslant1}$ uma sequência de eventos independentes. Então
 \mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)\in\{0,1\}.
 \]
 Mais precisamente, a probabilidade é $0$ se $\sum_n\mathbb{P}(A_n)<\infty$ e
-é $1$ se $\sum_n\mathbb{P}(A_n)=\infty$.
+igual a $1$ se $\sum_n\mathbb{P}(A_n)=\infty$.
 \end{corollary}
 
 \begin{proof}
@@ -2086,28 +2249,18 @@ com probabilidade $1$.
 No mesmo espaço, seja $B_n$ o evento ``os primeiros $n$ lançamentos são todos
 caras''. Então $\mathbb{P}(B_n)=2^{-n}$ e $\sum_n2^{-n}<\infty$. Pelo
 \Cref{thm:bc1}, com probabilidade $1$ apenas finitos dos $B_n$ ocorrem. Isso
-não contradiz o exemplo anterior: o que se repete infinitas vezes são caras em
+\textbf{não} contradiz o exemplo anterior: o que se repete infinitas vezes são caras em
 posições isoladas, não blocos de caras que começam na posição $1$.
 \end{example}
 
-\begin{example}[O macaco e a máquina de escrever]\label{ex:macaco}
-Suponha que um macaco digite, a cada instante, um caractere escolhido ao acaso
-em um alfabeto de $M$ símbolos, independentemente. Fixe um texto de $k$
-caracteres. O evento $A_n$ de que o texto apareça a partir da posição $n$ tem
-probabilidade $M^{-k}$, e os eventos $A_{1+jk}$, para $j\geqslant0$, são
-independentes, porque dependem de blocos disjuntos. A soma das probabilidades
-desses eventos diverge, logo o texto aparece infinitas vezes com probabilidade
-$1$. O primeiro lema, aplicado aos blocos iniciais, mostra que o texto não
-aparece logo no começo para sempre; o segundo mostra que ele reaparece
-infinitas vezes.
-\end{example}
+
 
 \subsection{Aplicação: A Maior Sequência de Caras}\label{subsec:maior-sequencia}
 
 Considere uma moeda honesta lançada infinitas vezes e seja $L_n$ o comprimento
 da maior sequência de caras consecutivas inteiramente contida nos primeiros $n$
 lançamentos. Quanto vale $L_n$ para $n$ grande? A intuição sugere que
-sequências longas são raras, mas o número de posições onde elas podem começar
+sequências longas da mesma face são raras, entretanto o número de posições onde elas podem começar
 cresce com $n$, e o equilíbrio entre os dois efeitos produz a escala
 $\log_2 n$. O lema de Borel-Cantelli determina a constante.
 
@@ -2283,10 +2436,8 @@ constante $c_p$ tal que
 Seja $X$ uma variável aleatória limitada e defina
 $M=\inf\{c\geqslant0:\mathbb{P}(|X|\leqslant c)=1\}$. Mostre que
 \[
-\lim_{r\to\infty}\bigl(\mathbb{E}|X|^r\bigr)^{1/r}=M,
+\lim_{r\to\infty}\bigl(\mathbb{E}|X|^r\bigr)^{1/r}=M.
 \]
-justificando o limite indicado no painel direito da
-\Cref{fig:lyapunov-ordens}.
 \end{exercise}
 
 \begin{exercise}\label{exercise:bc-produto}

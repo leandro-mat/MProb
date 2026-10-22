@@ -49,10 +49,10 @@
   \node[rot, anchor=north] at (1.5,0.55) {$\alpha\in[L_w,R_w]$};
 \end{tikzpicture}
 \end{minipage}
-\caption{Toda função convexa admite em cada ponto uma reta de suporte. À
-esquerda, o caso diferenciável, em que a reta de suporte é a tangente, de
+\caption{Toda função convexa admite em cada ponto uma reta suporte. À
+esquerda, o caso diferenciável, em que a reta suporte é a tangente, de
 inclinação $\alpha=g'(w)$. À direita, uma função com bico: qualquer reta de
-inclinação $\alpha\in[L_w,R_w]$ que passa pelo bico é uma reta de suporte, e
+inclinação $\alpha\in[L_w,R_w]$ que passa pelo bico é uma reta suporte, e
 por isso a convexidade não exige derivada.}
 \label{fig:convexidade-suporte}
 \end{figure}

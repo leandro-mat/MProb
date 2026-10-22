@@ -1,0 +1,36 @@
+% Bin(11,1/2): alturas normalizadas pelo máximo 462/2048.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=0.85cm, y=3.1cm, font=\small, >=latex]
+  % Duas metades espelhadas, separadas por uma abscissa não inteira.
+  \foreach \k/\h in {0/0.002165,1/0.023810,2/0.119048,
+                     3/0.357143,4/0.714286,5/1} {
+    \filldraw[fill=teal!65, draw=teal, rounded corners=1pt]
+      ({\k-0.32},0) rectangle ({\k+0.32},\h);
+    \pgfmathsetmacro{\espelho}{11-\k}
+    \filldraw[fill=muted!20, draw=muted!65, rounded corners=1pt]
+      ({\espelho-0.32},0) rectangle ({\espelho+0.32},\h);
+  }
+
+  \draw[thin, ->, draw=muted] (-0.65,0) -- (11.85,0)
+    node[right] {$k$};
+  \foreach \k in {0,...,11} {
+    \draw[draw=muted] (\k,0) -- (\k,-0.025);
+    \node[below] at (\k,-0.025) {$\k$};
+  }
+  \draw[densely dashed, draw=muted!70] (5.5,0) -- (5.5,1.18);
+  \node[above, text=muted] at (5.5,1.18) {$\frac{n}{2}=5{,}5$};
+
+  % Cada par de barras simétricas tem a mesma massa.
+  \draw[decorate, decoration={brace, mirror, amplitude=5pt}, draw=teal]
+    (-0.32,-0.19) -- (5.32,-0.19)
+    node[midway, below=8pt, text=teal]
+      {$\mathbb{P}(K_{11}\leqslant5)=\dfrac12$};
+  \draw[decorate, decoration={brace, mirror, amplitude=5pt}, draw=muted]
+    (5.68,-0.19) -- (11.32,-0.19)
+    node[midway, below=8pt, text=muted]
+      {$\mathbb{P}(K_{11}\geqslant6)=\dfrac12$};
+\end{tikzpicture}
+\caption{Função de probabilidade de uma v.a com distribuição $\mathrm{Bin}(11,\tfrac{1}{2})$}
+\label{fig:jogo-binomial-simetria}
+\end{figure}

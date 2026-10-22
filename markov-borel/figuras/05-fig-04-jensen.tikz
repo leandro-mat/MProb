@@ -1,44 +1,54 @@
-% F4 do levantamento 05-convexidade: Jensen como centro de massa.
-% g(x) = 0,35x^2 + 0,4; u = 0,7 (massa p = 0,65), v = 2,5 (massa 1-p = 0,35).
-% mu = 1,33; g(u) = 0,5715; g(v) = 2,5875; g(mu) = 1,0191;
-% E[g(X)] = 1,2771, que coincide com a corda em x = mu.
+% Jensen como centro de massa: g(x) = 0,5x^2 + 0,35.
+% u = 0,5; v = 2,7; p = 1/2; mu = 1,6.
+% g(u) = 0,475; g(v) = 3,995; g(mu) = 1,63; E[g(X)] = 2,235.
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[x=2.1cm, y=1.35cm, >=latex,
-    rot/.style={font=\scriptsize},
-    marca/.style={font=\scriptsize, text=muted}]
+\begin{tikzpicture}[x=2.7cm, y=1.45cm, >=latex,
+    rot/.style={font=\small},
+    projecao/.style={thin, densely dashed, draw=muted!65}]
 
-  \draw[thin, ->] (-0.15,0) -- (3.15,0) node[below, font=\scriptsize] {$x$};
-  \draw[thin, ->] (0,-0.25) -- (0,3.9);
+  \coordinate (P1) at (0.5,0.475);
+  \coordinate (P2) at (2.7,3.995);
+  \coordinate (A) at (1.6,2.235);
+  \coordinate (B) at (1.6,1.63);
 
-  \draw[thick, domain=0:3, samples=120] plot (\x,{0.35*\x*\x+0.4});
-  \node[rot, anchor=west] at (2.3,3.55) {$y=g(x)$};
+  \draw[thin, ->] (-0.12,0) -- (3.25,0) node[below, rot] {$x$};
+  \draw[thin, ->] (0,-0.12) -- (0,4.9) node[left, rot] {$y$};
 
-  % corda
-  \draw[thick] (0.7,0.5715) -- (2.5,2.5875);
-  \fill (0.7,0.5715) circle (1.6pt);
-  \fill (2.5,2.5875) circle (1.6pt);
-  \node[rot, anchor=north east] at (0.66,0.55) {$P_1$};
-  \node[rot, anchor=west] at (2.6,2.52) {$P_2$};
+  % As projeções identificam as coordenadas dos dois pontos comparados.
+  \draw[projecao] (0,2.235) node[left, rot] {$\mathbb{E}[g(X)]$} -- (A);
+  \draw[projecao] (0,1.63) node[left, rot] {$g(\mathbb{E}[X])$} -- (B);
+  \draw[projecao] (1.6,0) -- (B);
+  \draw[projecao] (0.5,0) -- (P1);
+  \draw[projecao] (2.7,0) -- (P2);
+  \node[below, rot] at (0.5,0) {$u$};
+  \node[below, rot] at (1.6,0) {$\mu=\mathbb{E}[X]$};
+  \node[below, rot] at (2.7,0) {$v$};
 
-  % massas
-  \node[rot, text=muted, anchor=north west] at (0.8,0.5) {$p$};
-  \node[rot, text=muted, anchor=south east] at (2.42,2.72) {$1-p$};
+  \draw[thick, domain=0:2.98, samples=100]
+    plot (\x,{0.5*\x*\x+0.35});
+  \node[rot, anchor=west] at (2.99,4.65) {$y=g(x)$};
 
-  % ponto da corda e ponto do gráfico em x = mu
-  \fill[teal] (1.33,1.2771) circle (1.5pt);
-  \fill (1.33,1.0191) circle (1.5pt);
-  \draw[very thick, teal] (1.33,1.0191) -- (1.33,1.2771);
-  \draw[thin, dashed, muted] (1.33,0) -- (1.33,1.0191);
-  \node[marca, below] at (1.33,-0.05) {$\mathbb{E}[X]$};
+  \draw[thick, muted] (P1) -- (P2)
+    node[pos=0.73, above left, rot, text=muted] {corda};
+  \fill (P1) circle (2pt);
+  \fill (P2) circle (2pt);
+  \node[rot, anchor=south east, align=right] at (0.5,0.5)
+    {$P_1$};
+  \node[rot, anchor=north west, align=left] at (2.77,3.97)
+    {$P_2$};
 
-  % rótulo da folga, na região livre à esquerda
-  \node[rot, text=teal, anchor=north west, align=left] at (0.12,2.85)
-    {folga\\[1pt]$\mathbb{E}[g(X)]-g(\mathbb{E}[X])\geqslant 0$};
+  % A está na corda; B está no gráfico, na mesma abscissa.
+  \draw[line width=1.8pt, teal] (B) -- (A);
+  \fill[teal] (A) circle (2.5pt);
+  \draw[thick, teal, fill=white] (B) circle (2.3pt);
+  \node[rot, text=teal, above left=3pt] at (A) {$A$};
+  \node[rot, text=teal, below right=3pt] at (B) {$B$};
+  \node[rot, text=teal] at (1.74,2.08) {$\Delta$};
 \end{tikzpicture}
-\caption{A esperança de $g(X)$ é a média ponderada das alturas $g(u)$ e $g(v)$,
-com pesos $p$ e $1-p$. Ela cai sobre a corda, no ponto de abscissa
-$\mathbb{E}[X]$, e portanto acima de $g(\mathbb{E}[X])$, que é o ponto do
-próprio gráfico.}
+\caption{Interpretação geométrica de Jensen. O centro de massa $A$ das
+massas $p$ e $1-p$ está na corda; o ponto $B$ está no gráfico e tem a mesma
+abscissa $\mu=\mathbb{E}[X]$. O segmento destacado tem comprimento
+$\Delta=\mathbb{E}[g(X)]-g(\mathbb{E}[X])\geqslant0$.}
 \label{fig:jensen-esperanca}
 \end{figure}
