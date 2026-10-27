@@ -1,0 +1,1884 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazilian]{babel}     % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{lucide-icons}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Modos de Convergência de Variáveis Aleatórias},
+pdfauthor={L. Cioletti},
+pdfsubject={Convergência quase certa, em probabilidade, em média, em média quadrática e em distribuição},
+pdfkeywords={convergência quase certa, convergência em probabilidade, convergência em média quadrática, convergência em distribuição, lema de Borel-Cantelli, MAT-UnB}
+}
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheoremstyle{plainexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{plainexercise}
+\newtheorem{exercise}{Exercício}
+
+% Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
+% como nas notas anteriores.
+\newtheoremstyle{starredexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{starredexercise}
+\newtheorem{starredexercise}[exercise]{Exercício}
+\theoremstyle{definition}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\AtBeginDocument{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\vspace*{-0.8cm}
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+
+% --- TÍTULO, AUTOR E DATA ---
+\vspace*{0.3cm}
+\begin{center}
+{\LARGE\bf Modos de Convergência\\[2pt] de Variáveis Aleatórias}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Outubro de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Nestas notas, estudamos as noções de convergência para sequências de variáveis
+aleatórias. Começamos recordando os limites superior e inferior de eventos e o
+lema de Borel-Cantelli, que são a ferramenta técnica de quase todos os
+argumentos. Introduzimos então a convergência quase certa, a convergência em
+probabilidade, a convergência em média, a convergência em média quadrática e a
+convergência em distribuição, discutindo em cada caso o significado da
+definição e o papel dos quantificadores. Mostramos que a convergência em média
+quadrática implica as convergências em média, em probabilidade e em
+distribuição, que a convergência em probabilidade implica a convergência em
+distribuição e que a convergência quase certa implica a convergência em
+probabilidade. Para cada implicação, exibimos um contraexemplo que mostra por
+que a recíproca falha. Estudamos também o critério de Borel-Cantelli para a
+convergência quase certa, com uma discussão detalhada da definição por
+$\varepsilon$ e $n_0$, e o teorema da convergência dominada, que mostra como a
+convergência quase certa de uma sequência dominada implica todas as demais. O
+texto inclui exemplos e uma lista de exercícios ao final. A exposição segue de
+perto as Seções 1 e 2 do Capítulo 1 e a Seção 25 do Capítulo 5 de
+\cite{MR2893652}, as Seções 8.1, 8.2 e 8.5 do Capítulo 8 de
+\cite{GrimmettWelsh2014} e a Seção 2.3 de \cite{MR3930614}.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO
+%----------------------------------------------------------------------
+\section{Introdução}\label{sec:introducao}
+
+Nas notas anteriores, estudamos uma variável aleatória por vez. Fixado o
+espaço de probabilidade $(\Omega,\mathcal{F},\mathbb{P})$, descrevemos a
+distribuição de $X$, calculamos sua esperança, sua variância e seus momentos e
+usamos essas grandezas para estimar a probabilidade de eventos associados a
+$X$. A desigualdade de Chebyshev, por exemplo, transforma informação sobre a
+variância em uma cota para $\mathbb{P}(|X-\mathbb{E}[X]|\geqslant t)$. Em todas
+essas situações, o objeto de interesse era um único experimento aleatório.
+
+Nesta nota, o objeto de interesse passa a ser uma sequência
+$X_1,X_2,X_3,\ldots$ de variáveis aleatórias definidas no mesmo espaço de
+probabilidade. Sequências aparecem naturalmente em vários problemas. Ao lançar
+uma moeda repetidamente, podemos acompanhar a frequência relativa de caras nos
+$n$ primeiros lançamentos e perguntar se ela se estabiliza. Ao repetir um
+experimento para estimar uma média desconhecida, como na integração de Monte
+Carlo, calculamos médias de um número crescente de observações e queremos saber
+se elas se aproximam do valor procurado. Ao considerar o máximo
+$M_n=\max\{U_1,\ldots,U_n\}$ de $n$ variáveis uniformes em $(0,1)$, vemos que
+$M_n$ aumenta com $n$ e parece se aproximar de $1$. Em cada um desses exemplos,
+temos uma sequência de números aleatórios e uma pergunta do tipo: ela se
+aproxima de algum limite? Em que sentido? Com que garantia?
+
+A expressão ``em que sentido'' é o ponto central da nota, porque há várias
+respostas razoáveis e elas não são equivalentes. A resposta mais direta é
+exigir que, para cada ponto $\omega$ do espaço amostral, a sequência de números
+reais $X_n(\omega)$ convirja para $X(\omega)$ no sentido usual da análise. Essa
+é a convergência quase certa. Ela é mais forte que a convergência em
+probabilidade e que a convergência em distribuição, mas não é comparável com as
+convergências em média e em média quadrática, como veremos na
+\Cref{sec:medias}.
+Há, porém, duas dificuldades. A primeira é que a convergência pode falhar em
+um conjunto de pontos, e esse conjunto precisa ser pequeno do ponto de vista da
+medida de probabilidade, não do ponto de vista da cardinalidade. A segunda é
+que, em muitos problemas concretos, não há como controlar o comportamento
+ponto a ponto de toda a sequência: o que sabemos estimar é a probabilidade de
+que $X_n$ se afaste de $X$ em uma etapa fixada $n$. Isso sugere uma noção mais
+fraca, na qual se pede que a probabilidade de um desvio de tamanho
+$\varepsilon$ tenda a zero quando $n$ cresce. Essa é a convergência em
+probabilidade.
+
+Entre essas duas noções há um espaço intermediário, ocupado pelas
+convergências definidas por médias dos erros. Se o erro $X_n-X$ tem média
+pequena, então, por Markov, a probabilidade de que ele seja grande também é
+pequena. Assim, exigir que $\mathbb{E}|X_n-X|$ tenda a zero, a convergência em
+média, ou que $\mathbb{E}[(X_n-X)^2]$ tenda a zero, a convergência em média
+quadrática, produz noções mais fortes que a convergência em probabilidade. A
+vantagem dessas noções é que elas se reduzem a cálculos de esperança, com os
+quais já estamos habituados. A desvantagem é que a média pode ser estragada por
+poucos pontos onde o erro é enorme, mesmo que a sequência convirja em quase
+todos os pontos.
+
+Há ainda uma quarta possibilidade, que abandona a comparação entre os valores
+de $X_n$ e os de $X$ e compara apenas as distribuições. Dizemos que $X_n$
+converge em distribuição para $X$ quando as funções de distribuição
+$F_{X_n}(x)=\mathbb{P}(X_n\leqslant x)$ convergem para $F_X(x)$ em todo ponto
+$x$ em que $F_X$ é contínua. Essa noção é a mais fraca de todas e é a que
+aparece no teorema central do limite, quando afirmamos que as somas
+normalizadas têm distribuição aproximadamente normal, sem que isso signifique
+que elas se aproximem de uma variável normal específica. A convergência em
+distribuição também é a única das noções que faz sentido quando as variáveis
+$X_n$ vivem em espaços de probabilidade diferentes, ou quando a variável
+limite não está definida no mesmo espaço que as demais.
+
+O objetivo da nota é apresentar as cinco noções, compará-las e fornecer
+ferramentas para verificar convergência em problemas concretos. A
+\Cref{sec:preliminares} recorda os resultados sobre limites de eventos e o lema
+de Borel-Cantelli que serão usados repetidamente; essas ferramentas já foram
+demonstradas na nota \emph{Desigualdades de Markov e Chebyshev e o lema de
+Borel-Cantelli}, e aqui apenas as enunciamos e comentamos. Na
+\Cref{sec:quase-certa}, tratamos da convergência quase certa e discutimos com
+cuidado a definição por $\varepsilon$ e $n_0$, que costuma ser a primeira
+dificuldade real do assunto. A \Cref{sec:probabilidade} introduz a convergência
+em probabilidade e mostra que ela é consequência da convergência quase certa,
+mas não é equivalente a ela. A \Cref{sec:medias} discute as convergências em
+média e em média quadrática e as comparações entre elas. A
+\Cref{sec:distribuicao} introduz a convergência em distribuição e prova que a
+convergência em probabilidade a implica. A \Cref{sec:quadro} reúne todas as
+implicações em um diagrama, resume as definições em uma tabela e apresenta o
+teorema da convergência dominada, que mostra como a convergência quase certa,
+acompanhada de uma cota integrável, recupera todas as outras noções.
+
+Um fio condutor percorre o texto. Quase toda prova de convergência quase certa
+passa por uma estimativa da forma
+\[
+\sum_{n=1}^{\infty}\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon\bigr)<\infty,
+\]
+seguida do primeiro lema de Borel-Cantelli. O motivo é que essa série mede o
+custo total, ao longo de toda a sequência, dos desvios de tamanho
+$\varepsilon$. Se o custo total é finito, então, para quase todo $\omega$,
+apenas finitos desvios ocorrem, e a sequência converge. Esse é o conteúdo da
+\Cref{prop:criterio-bc}, que será usado na nota sobre a lei forte dos grandes
+números. Vale registrar desde já que convergência em probabilidade fornece
+apenas cotas que tendem a zero, sem que a soma convirja, e é exatamente essa
+diferença que separa as duas noções.
+
+A exposição segue de perto as Seções 1 e 2 do Capítulo 1 e a Seção 25 do
+Capítulo 5 de \cite{MR2893652}, as Seções 8.1, 8.2 e 8.5 do Capítulo 8 de
+\cite{GrimmettWelsh2014} e a Seção 2.3 de \cite{MR3930614}. Os exemplos foram
+escolhidos para que cada implicação e cada recíproca falsa tenham pelo menos um
+exemplo concreto associado.
+
+%----------------------------------------------------------------------
+\section{Preliminares: limites de eventos e Borel-Cantelli}\label{sec:preliminares}
+
+Nesta seção, recordamos os resultados sobre sequências de eventos que serão
+usados em quase todas as demonstrações. As provas estão na nota
+\emph{Desigualdades de Markov e Chebyshev e o lema de Borel-Cantelli}, onde
+também se encontra a discussão completa dos limites superior e inferior. Aqui
+repetimos os enunciados para que o texto possa ser lido de forma contínua e
+acrescentamos apenas os comentários necessários ao uso que faremos deles.
+
+\begin{definition}[Limite superior de uma sequência de eventos]\label{def:limsup}
+Seja $(A_n)_{n\geqslant1}$ uma sequência de eventos. O \emph{limite superior}
+de $(A_n)$ é o evento
+\[
+\limsup_{n\to\infty}A_n
+=
+\bigcap_{n=1}^{\infty}\bigcup_{k=n}^{\infty}A_k.
+\]
+Escrevemos também $\{A_n\text{ infinitas vezes}\}$ ou $\{A_n\ \text{i.v.}\}$
+para esse evento.
+\end{definition}
+
+Um ponto $\omega$ pertence a $\bigcup_{k\geqslant n}A_k$ quando pertence a pelo
+menos um $A_k$ com $k\geqslant n$. Dizer que $\omega$ está na interseção sobre
+todos os $n$ significa, portanto, que para cada $n$ existe um índice
+$k\geqslant n$ com $\omega\in A_k$, isto é, que os índices $k$ para os quais
+$\omega\in A_k$ não são limitados. Em palavras,
+\[
+\limsup_{n\to\infty}A_n
+=
+\{\omega\in\Omega:\omega\in A_n\text{ para infinitos índices }n\}.
+\]
+
+O limite inferior tem definição dual e corresponde a ``a partir de algum
+momento'':
+\[
+\liminf_{n\to\infty}A_n
+=
+\bigcup_{n=1}^{\infty}\bigcap_{k=n}^{\infty}A_k
+=
+\{\omega\in\Omega:\omega\in A_n\text{ para todo }n\text{ suficientemente grande}\}.
+\]
+Temos $\liminf_n A_n\subseteq\limsup_n A_n$, e o complementar troca um limite
+pelo outro:
+\[
+\Bigl(\limsup_{n\to\infty}A_n\Bigr)^c
+=
+\liminf_{n\to\infty}A_n^c.
+\]
+
+O instrumento que liga esses eventos às suas probabilidades é a continuidade da
+medida. Se $(B_n)$ é uma sequência decrescente de eventos e
+$B=\bigcap_n B_n$, então
+\begin{equation}\label{eq:continuidade}
+\mathbb{P}(B)=\lim_{n\to\infty}\mathbb{P}(B_n).
+\end{equation}
+Aplicando \eqref{eq:continuidade} à sequência decrescente
+$C_n=\bigcup_{k\geqslant n}A_k$, cuja interseção é $\limsup_n A_n$, obtemos
+\begin{equation}\label{eq:limsup-continuidade}
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)
+=
+\lim_{n\to\infty}\mathbb{P}\Bigl(\bigcup_{k=n}^{\infty}A_k\Bigr).
+\end{equation}
+A desigualdade de Boole, por sua vez, permite estimar a probabilidade de uma
+união enumerável:
+\begin{equation}\label{eq:boole}
+\mathbb{P}\Bigl(\bigcup_{n=1}^{\infty}A_n\Bigr)
+\leqslant
+\sum_{n=1}^{\infty}\mathbb{P}(A_n).
+\end{equation}
+Com \eqref{eq:limsup-continuidade} e \eqref{eq:boole}, obtemos a primeira parte
+do lema de Borel-Cantelli.
+
+\begin{theorem}[Primeiro lema de Borel-Cantelli]\label{thm:bc1}
+Seja $(A_n)_{n\geqslant1}$ uma sequência de eventos tal que
+$\sum_{n\geqslant1}\mathbb{P}(A_n)<\infty$. Então
+\[
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)=0.
+\]
+Em outras palavras, com probabilidade $1$ ocorrem apenas finitos dos eventos
+$A_n$.
+\end{theorem}
+
+\begin{proof}
+Como $C_n=\bigcup_{k\geqslant n}A_k$ é uma sequência decrescente cuja
+interseção é $\limsup_n A_n$, a continuidade da medida
+\eqref{eq:continuidade} fornece
+\[
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)
+=
+\lim_{n\to\infty}\mathbb{P}(C_n).
+\]
+Por \eqref{eq:boole},
+$\mathbb{P}(C_n)\leqslant\sum_{k\geqslant n}\mathbb{P}(A_k)$. A cauda de uma
+série convergente tende a zero, logo $\mathbb{P}(C_n)\to0$ e o resultado segue.
+\end{proof}
+
+A prova não usa independência: o primeiro lema vale para qualquer sequência de
+eventos. O segundo lema trata da recíproca, que exige independência.
+
+\begin{theorem}[Segundo lema de Borel-Cantelli]\label{thm:bc2}
+Seja $(A_n)_{n\geqslant1}$ uma sequência de eventos independentes com
+$\sum_{n\geqslant1}\mathbb{P}(A_n)=\infty$. Então
+\[
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)=1.
+\]
+\end{theorem}
+
+A prova, que está na nota citada, usa a desigualdade $1-x\leqslant e^{-x}$ para
+estimar $\mathbb{P}\bigl(\bigcap_{n=M}^{N}A_n^c\bigr)$ e depois a continuidade
+da medida. Não repetiremos o argumento porque ele não será usado diretamente
+aqui; o segundo lema aparecerá apenas em exemplos e na discussão da recíproca
+do critério de Borel-Cantelli.
+
+Encerramos a seção com uma observação sobre o uso desses resultados. O primeiro
+lema transforma uma informação sobre a \emph{soma} das probabilidades em uma
+informação sobre o \emph{conjunto} dos pontos onde os eventos ocorrem
+infinitas vezes. Essa passagem é a única maneira elementar que temos de obter
+convergência quase certa a partir de estimativas de probabilidade, e é por isso
+que a série $\sum_n\mathbb{P}(A_n)$ aparecerá tantas vezes no que segue.
+
+%----------------------------------------------------------------------
+\section{Convergência quase certa}\label{sec:quase-certa}
+
+\subsection{A definição}\label{subsec:qc-definicao}
+
+A primeira noção de convergência que estudaremos é a mais próxima da
+convergência de sequências de números reais. Fixado $\omega$, a sequência
+$X_1(\omega),X_2(\omega),\ldots$ é uma sequência de números reais, e podemos
+perguntar se ela converge no sentido usual. A convergência quase certa pede que
+isso ocorra para quase todo $\omega$.
+
+\begin{definition}[Convergência quase certa]\label{def:qc}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias definidas em um mesmo espaço de
+probabilidade $(\Omega,\mathcal{F},\mathbb{P})$. Dizemos que $(X_n)$
+\emph{converge quase certamente} para $X$ se
+\[
+\mathbb{P}\Bigl(\bigl\{\omega\in\Omega:
+\lim_{n\to\infty}X_n(\omega)=X(\omega)\bigr\}\Bigr)=1.
+\]
+Nesse caso, escrevemos $X_n\xrightarrow{\text{q.c.}}X$ ou, simplesmente,
+$X_n\to X$ quase certamente.
+\end{definition}
+
+O conjunto que aparece na definição é o conjunto dos pontos onde a sequência
+numérica converge. Denotaremos esse conjunto por
+\[
+C\equiv\Bigl\{\omega\in\Omega:\lim_{n\to\infty}X_n(\omega)=X(\omega)\Bigr\}.
+\]
+A definição pede que $C$ tenha probabilidade $1$, ou seja, que seu complementar
+tenha probabilidade zero. Os pontos de $C^c$ são os pontos onde a sequência não
+converge, e a exigência é que eles formem um conjunto pequeno do ponto de vista
+da medida $\mathbb{P}$. Note que $C^c$ pode ser não vazio e pode até ser não
+enumerável; o que a definição controla é a sua probabilidade.
+
+Antes de usar a definição, precisamos saber que $C$ é um evento, isto é, que
+$C\in\mathcal{F}$. A próxima proposição resolve essa questão e, ao mesmo tempo,
+traduz a definição em uma forma que será usada em todas as demonstrações.
+
+\subsection{O conjunto de convergência em termos de eventos}\label{subsec:qc-conjunto}
+
+\begin{proposition}[Caracterização da convergência quase certa]\label{prop:qc-caracterizacao}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias. Então
+\begin{equation}\label{eq:qc-conjunto}
+C
+=
+\bigcap_{m=1}^{\infty}\bigcup_{N=1}^{\infty}\bigcap_{n=N}^{\infty}
+\Bigl\{|X_n-X|<\frac{1}{m}\Bigr\},
+\end{equation}
+e, equivalentemente,
+\begin{equation}\label{eq:qc-limsup}
+C^c
+=
+\bigcup_{m=1}^{\infty}\limsup_{n\to\infty}
+\Bigl\{|X_n-X|\geqslant\frac{1}{m}\Bigr\}.
+\end{equation}
+Em particular, $C\in\mathcal{F}$ e
+\[
+X_n\xrightarrow{\text{q.c.}}X
+\qquad\Longleftrightarrow\qquad
+\mathbb{P}\Bigl(\limsup_{n\to\infty}\bigl\{|X_n-X|\geqslant\tfrac{1}{m}\bigr\}\Bigr)=0
+\quad\text{para todo }m\geqslant1.
+\]
+\end{proposition}
+
+\begin{proof}
+Provamos primeiro \eqref{eq:qc-conjunto}. Seja $\omega\in C$ e fixe $m\geqslant1$.
+Tomando $\varepsilon=1/m$ na definição de convergência, existe $N$ tal que
+$|X_n(\omega)-X(\omega)|<1/m$ para todo $n\geqslant N$. Logo $\omega$ pertence a
+$\bigcap_{n\geqslant N}\{|X_n-X|<1/m\}$ e, portanto, à união sobre $N$ e à
+interseção sobre $m$.
+
+Reciprocamente, suponha que $\omega$ pertence ao conjunto do lado direito de
+\eqref{eq:qc-conjunto} e seja $\varepsilon>0$. Escolha $m$ com $1/m<\varepsilon$.
+Por hipótese, existe $N$ tal que
+$|X_n(\omega)-X(\omega)|<1/m<\varepsilon$ para todo $n\geqslant N$. Como
+$\varepsilon>0$ é arbitrário, $\omega\in C$. Isso prova \eqref{eq:qc-conjunto}.
+
+A identidade \eqref{eq:qc-limsup} é a versão complementar de
+\eqref{eq:qc-conjunto}. De fato, com $A_{n,m}=\{|X_n-X|<1/m\}$, o complementar
+de $\bigcup_N\bigcap_{n\geqslant N}A_{n,m}$ é
+\[
+\bigcap_N\bigcup_{n\geqslant N}A_{n,m}^c
+=
+\limsup_{n\to\infty}A_{n,m}^c.
+\]
+Como $A_{n,m}^c=\{|X_n-X|\geqslant1/m\}$ e o
+complementar de uma interseção enumerável é a união dos complementares,
+obtemos \eqref{eq:qc-limsup}.
+
+A última afirmação segue de \eqref{eq:qc-limsup} e da subaditividade enumerável
+da probabilidade: uma união enumerável de eventos tem probabilidade zero se, e
+somente se, cada um deles tem probabilidade zero. Finalmente, como cada
+$\{|X_n-X|\geqslant1/m\}$ é um evento, o mesmo vale para o limite superior, para
+a união em $m$ e para $C$. Logo $C\in\mathcal{F}$.
+\end{proof}
+
+A proposição anterior é a chave de tudo o que segue, e vale a pena reler o seu
+enunciado em palavras. Ela diz que a convergência quase certa pode ser testada
+tolerância por tolerância: para cada $m$, consideramos o evento em que o erro
+$|X_n-X|$ é maior ou igual a $1/m$ em infinitos índices; se todos esses eventos
+têm probabilidade zero, então a convergência vale quase certamente. O ponto
+delicado é que a interseção em $m$ é enumerável, e é isso que permite usar a
+subaditividade da probabilidade. Se tivéssemos que intersectar sobre todos os
+$\varepsilon>0$ reais, o argumento não funcionaria, porque uma interseção não
+enumerável de eventos de probabilidade $1$ pode ter probabilidade menor que
+$1$. A escolha da sequência $1/m$ resolve o problema porque ela é decrescente e
+tende a zero.
+
+\subsection{A definição por $\varepsilon$ e $n_0$}\label{subsec:qc-epsilon}
+
+Nesta subseção, discutimos a definição com o cuidado que ela merece, porque é
+aqui que aparece a primeira dificuldade real do assunto. A dificuldade não está
+na matemática, mas na ordem dos quantificadores.
+
+Em análise, dizemos que $x_n\to x$ quando
+\begin{equation}\label{eq:analise}
+\text{para todo }\varepsilon>0\text{ existe }N\in\mathbb{N}
+\text{ tal que }|x_n-x|<\varepsilon\text{ para todo }n\geqslant N.
+\end{equation}
+A negação dessa afirmação é
+\begin{equation}\label{eq:analise-neg}
+\text{existe }\varepsilon>0\text{ tal que, para todo }N\in\mathbb{N},
+\text{ existe }n\geqslant N\text{ com }|x_n-x|\geqslant\varepsilon.
+\end{equation}
+O ponto importante é que, em \eqref{eq:analise}, o número $N$ pode depender de
+$\varepsilon$, e em \eqref{eq:analise-neg} o índice $n$ pode depender de $N$.
+Ao passar para variáveis aleatórias, acrescentamos uma dependência adicional:
+$N$ pode depender de $\omega$. A definição de convergência quase certa não pede
+que exista um único $N$ que sirva para todos os pontos; ela pede que, para cada
+ponto de um conjunto de probabilidade $1$, exista um $N$ próprio daquele ponto.
+
+Para ver como essa dependência se traduz em eventos, fixe $\varepsilon>0$ e
+considere o conjunto dos pontos para os quais a desigualdade
+$|X_n-X|<\varepsilon$ vale a partir de algum índice:
+\[
+B_\varepsilon
+\equiv
+\bigcup_{N=1}^{\infty}\bigcap_{n=N}^{\infty}
+\bigl\{|X_n-X|<\varepsilon\bigr\}.
+\]
+Um ponto $\omega$ pertence a $B_\varepsilon$ se, e somente se, existe $N$ tal
+que $|X_n(\omega)-X(\omega)|<\varepsilon$ para todo $n\geqslant N$. Isso é
+exatamente a afirmação ``a tolerância $\varepsilon$ é respeitada a partir de um
+certo momento'', com o momento dependendo de $\omega$. O evento $B_\varepsilon$
+é, portanto, a versão probabilística da condição que aparece em
+\eqref{eq:analise} para uma tolerância fixada.
+
+A convergência em $\omega$ exige que essa condição valha para todas as
+tolerâncias ao mesmo tempo. Assim,
+\[
+C=\bigcap_{\varepsilon>0}B_\varepsilon.
+\]
+Essa interseção não é enumerável, mas a monotonicidade de $B_\varepsilon$ em
+$\varepsilon$ permite substituí-la por uma interseção enumerável: se
+$B_{1/m}$ ocorre para todo $m$, então $B_\varepsilon$ ocorre para todo
+$\varepsilon>0$, porque basta escolher $m$ com $1/m<\varepsilon$ e usar
+$B_{1/m}\subseteq B_\varepsilon$. Logo
+\[
+C=\bigcap_{m=1}^{\infty}B_{1/m},
+\]
+que é a identidade \eqref{eq:qc-conjunto}.
+
+Resta entender por que a interseção enumerável preserva a probabilidade $1$.
+Suponha que $\mathbb{P}(B_{1/m})=1$ para todo $m$. Então
+$\mathbb{P}(B_{1/m}^c)=0$ para todo $m$ e, pela subaditividade enumerável,
+\[
+\mathbb{P}\Bigl(\bigcup_{m=1}^{\infty}B_{1/m}^c\Bigr)
+\leqslant
+\sum_{m=1}^{\infty}\mathbb{P}(B_{1/m}^c)=0.
+\]
+Tomando complementares, $\mathbb{P}(C)=1$. Esse é o único lugar em que a
+enumerabilidade é usada, e é também o lugar em que muitos argumentos informais
+erram. Não é verdade que uma interseção arbitrária de eventos de probabilidade
+$1$ tenha probabilidade $1$; é verdade para interseções enumeráveis.
+
+A negação da convergência quase certa, que será usada para construir
+contraexemplos, tem a seguinte forma. O ponto $\omega$ não pertence a $C$ se, e
+somente se, existe $m\geqslant1$ tal que, para todo $N$, existe $n\geqslant N$
+com $|X_n(\omega)-X(\omega)|\geqslant1/m$. Em símbolos,
+\[
+\omega\in C^c
+\qquad\Longleftrightarrow\qquad
+\exists\,m\geqslant1\ \ \forall N\geqslant1\ \ \exists\,n\geqslant N:
+\quad |X_n(\omega)-X(\omega)|\geqslant\frac{1}{m}.
+\]
+Essa é a versão de \eqref{eq:analise-neg} com a dependência em $\omega$
+explicitada. A diferença entre
+\[
+\forall m\ \exists N\ \forall n\geqslant N
+\qquad\text{e}\qquad
+\exists m\ \forall N\ \exists n\geqslant N
+\]
+é toda a diferença entre convergência e não convergência, e a segunda forma é
+a que devemos verificar quando queremos mostrar que uma sequência \emph{não}
+converge em um ponto. Na segunda forma, a tolerância que testemunha a falha é
+uma só, escolhida uma vez; ela não precisa funcionar para todos os $m$.
+
+Vale registrar uma consequência prática da discussão. Para provar que
+$X_n\to X$ quase certamente, é suficiente exibir, para cada $m$, um evento
+$B_m$ de probabilidade $1$ tal que, em $B_m$, a desigualdade
+$|X_n-X|<1/m$ valha para todo $n$ suficientemente grande. Em outras palavras,
+podemos trabalhar com uma tolerância de cada vez, desde que o façamos para
+todas as tolerâncias da sequência $1/m$ e que os eventos excepcionais sejam
+enumeráveis.
+
+Essa leitura também mostra o que a convergência em probabilidade não fornece.
+Ela dá, para cada tolerância fixada, a informação de que a probabilidade do
+evento ruim é pequena em cada etapa, mas não diz nada sobre a organização dos
+índices ruins ao longo do tempo. O exemplo da sequência que varre o intervalo,
+na \Cref{subsec:typewriter}, mostrará que os conjuntos ruins podem se deslocar
+indefinidamente, de modo que cada ponto seja atingido infinitas vezes ainda que
+a probabilidade de cada conjunto tenda a zero.
+
+\subsection{Primeiros exemplos}\label{subsec:qc-exemplos}
+
+\begin{example}[Convergência quase certa sem ferramentas]\label{ex:qc-translacao}
+Seja $X$ uma variável aleatória qualquer e defina $X_n=X+1/n$. Então
+$X_n\to X$ quase certamente. De fato, para todo $\omega$,
+\[
+|X_n(\omega)-X(\omega)|=\frac{1}{n}\longrightarrow0,
+\]
+de modo que $C=\Omega$ e $\mathbb{P}(C)=1$. O exemplo é trivial, mas serve para
+fixar a notação: a convergência quase certa é uma afirmação sobre a sequência
+numérica obtida em cada ponto, e não sobre a distribuição das variáveis.
+\end{example}
+
+\begin{example}[O máximo de variáveis uniformes]\label{ex:qc-maximo}
+Sejam $U_1,U_2,\ldots$ variáveis aleatórias independentes com distribuição
+uniforme em $(0,1)$ e seja $M_n=\max\{U_1,\ldots,U_n\}$. Então
+$M_n\to1$ quase certamente. Para $\varepsilon\in(0,1)$, como os
+eventos $\{U_k\leqslant1-\varepsilon\}$ são independentes e cada um tem
+probabilidade $1-\varepsilon$,
+\[
+\mathbb{P}\bigl(|M_n-1|\geqslant\varepsilon\bigr)
+=
+\mathbb{P}\bigl(M_n\leqslant1-\varepsilon\bigr)
+=
+(1-\varepsilon)^n.
+\]
+Para cada $m\geqslant2$, tome $\varepsilon=1/m$. A série geométrica
+$\sum_n(1-1/m)^n$ converge, logo o primeiro lema de Borel-Cantelli garante que
+\[
+\mathbb{P}\bigl(|M_n-1|\geqslant\tfrac{1}{m}\ \text{infinitas vezes}\bigr)=0.
+\]
+Como isso vale para cada $m$ e a união sobre $m$ é enumerável, o conjunto em que
+algum desses eventos ocorre tem probabilidade zero. Pela
+\Cref{prop:qc-caracterizacao}, $M_n\to1$ quase certamente.
+\end{example}
+
+O exemplo anterior antecipa o critério da próxima subseção: a convergência
+quase certa foi obtida a partir da somabilidade das probabilidades dos desvios.
+O cálculo de $\mathbb{P}(M_n\leqslant1-\varepsilon)$ é elementar porque as
+variáveis são independentes, e a somabilidade decorre de a probabilidade decair
+geometricamente. Nos problemas de médias, a probabilidade de um desvio decai
+apenas como $1/n$, e a série diverge; será preciso um argumento mais fino, que
+é o conteúdo da nota sobre a lei forte.
+
+\subsection{O critério de Borel-Cantelli}\label{subsec:qc-criterio}
+
+O resultado a seguir é a ferramenta padrão para provar convergência quase certa.
+Ele transforma uma estimativa sobre cada $n$ em uma conclusão sobre o
+comportamento de toda a sequência.
+
+\begin{proposition}[Critério de Borel-Cantelli]\label{prop:criterio-bc}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias. Suponha que, para todo
+$\varepsilon>0$,
+\begin{equation}\label{eq:criterio-bc}
+\sum_{n=1}^{\infty}\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon\bigr)<\infty.
+\end{equation}
+Então $X_n\to X$ quase certamente.
+\end{proposition}
+
+\begin{proof}
+Fixe $m\geqslant1$ e defina $A_{n,m}=\{|X_n-X|\geqslant1/m\}$. A hipótese,
+aplicada a $\varepsilon=1/m$, diz que $\sum_n\mathbb{P}(A_{n,m})<\infty$. Pelo
+\Cref{thm:bc1},
+\[
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_{n,m}\Bigr)=0.
+\]
+Como isso vale para cada $m$, a união enumerável
+$\bigcup_m\limsup_n A_{n,m}$ também tem probabilidade zero. Pela
+\Cref{prop:qc-caracterizacao}, esse conjunto é exatamente $C^c$. Logo
+$\mathbb{P}(C)=1$, isto é, $X_n\to X$ quase certamente.
+\end{proof}
+
+A leitura da prova esclarece o papel de cada hipótese. O primeiro lema de
+Borel-Cantelli é aplicado a uma tolerância fixa; a passagem para todas as
+tolerâncias é feita pela união enumerável em $m$; e a identificação do conjunto
+excepcional com $C^c$ é feita pela \Cref{prop:qc-caracterizacao}. Nenhuma
+hipótese de independência é usada, o que é coerente com o fato de o primeiro
+lema não exigir independência.
+
+Vale comparar \eqref{eq:criterio-bc} com a definição de convergência em
+probabilidade, que estudaremos na próxima seção. Aquela definição pede apenas
+que cada termo $\mathbb{P}(|X_n-X|\geqslant\varepsilon)$ tenda a zero. A
+hipótese \eqref{eq:criterio-bc} pede que a soma desses termos seja finita, o
+que é estritamente mais forte. A diferença é a mesma que existe entre dizer que
+uma sequência de números não negativos tende a zero e dizer que ela é somável:
+a segunda afirmação controla o conjunto dos índices, e não apenas o termo
+genérico.
+
+Na prática, raramente verificamos \eqref{eq:criterio-bc} para todos os
+$\varepsilon$. O corolário seguinte mostra que basta uma sequência de
+tolerâncias que tende a zero.
+
+\begin{corollary}[Critério com tolerâncias variáveis]\label{cor:criterio-bc-epsn}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias e seja $(\varepsilon_n)$ uma
+sequência de números positivos com $\varepsilon_n\to0$. Se
+\[
+\sum_{n=1}^{\infty}\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon_n\bigr)<\infty,
+\]
+então $X_n\to X$ quase certamente.
+\end{corollary}
+
+\begin{proof}
+Fixe $\varepsilon>0$. Como $\varepsilon_n\to0$, existe $n_0$ tal que
+$\varepsilon_n<\varepsilon$ para todo $n\geqslant n_0$. Para esses índices,
+\[
+\bigl\{|X_n-X|\geqslant\varepsilon\bigr\}
+\subseteq
+\bigl\{|X_n-X|\geqslant\varepsilon_n\bigr\},
+\]
+logo
+\[
+\sum_{n=n_0}^{\infty}\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon\bigr)
+\leqslant
+\sum_{n=n_0}^{\infty}\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon_n\bigr)
+<\infty.
+\]
+Os primeiros $n_0-1$ termos formam uma soma finita e cada um deles é no máximo
+$1$, logo a série completa $\sum_{n=1}^{\infty}$ também converge. A
+\Cref{prop:criterio-bc} conclui a prova.
+\end{proof}
+
+O corolário é a versão que aparece nas aplicações. Na prova da lei forte por
+truncamento, por exemplo, estima-se a probabilidade de um desvio de tamanho
+$\varepsilon n$, e não de tamanho $\varepsilon$ fixo; a tolerância cresce com
+$n$, e o corolário permite concluir a convergência quase certa.
+
+\subsection{O critério não é necessário}\label{subsec:qc-nao-necessario}
+
+A hipótese \eqref{eq:criterio-bc} é suficiente, mas não é necessária. O exemplo
+a seguir mostra uma sequência que converge quase certamente e para a qual a
+soma das probabilidades dos desvios diverge.
+
+\begin{example}[Convergência quase certa com série divergente]\label{ex:qc-serie-divergente}
+Seja $\Omega=(0,1]$ com a medida de Lebesgue e defina $A_n=(0,1/n)$ e
+$X_n=\mathds{1}_{A_n}$. Para cada $\omega\in(0,1]$, existe $n_0$ tal que
+$1/n<\omega$ para todo $n\geqslant n_0$; para esses índices, $\omega\notin A_n$
+e $X_n(\omega)=0$. Logo $X_n(\omega)\to0$ para todo $\omega$, e a convergência
+é quase certa (na verdade, vale em todo ponto). Por outro lado, para
+$0<\varepsilon\leqslant1$,
+\[
+\mathbb{P}\bigl(|X_n-0|\geqslant\varepsilon\bigr)=\mathbb{P}(A_n)=\frac{1}{n},
+\]
+de modo que $\sum_n\mathbb{P}(|X_n|\geqslant\varepsilon)=\infty$. A hipótese do
+critério falha, mas a conclusão vale.
+\end{example}
+
+O que distingue o exemplo anterior de uma situação em que o critério é
+necessário é a estrutura dos eventos. No exemplo, os eventos $A_n$ são
+encaixados: $A_{n+1}\subseteq A_n$. Cada ponto sai de todos os $A_n$ a partir
+de um certo índice, e a probabilidade de $A_n$ tende a zero sem que a soma
+convirja. O primeiro lema de Borel-Cantelli não se aplica porque ele é um
+critério baseado na soma, e a soma é grande justamente porque os eventos se
+repetem nos mesmos pontos. Compare com o exemplo a seguir, no qual as
+probabilidades são as mesmas, mas os eventos são independentes.
+
+\begin{example}[Desvios independentes com série divergente]\label{ex:qc-independentes}
+Seja $(A_n)$ uma sequência de eventos independentes com $\mathbb{P}(A_n)=1/n$ e
+$X_n=\mathds{1}_{A_n}$. Pelo segundo lema de Borel-Cantelli,
+$\mathbb{P}(\limsup_n A_n)=1$. Os eventos $A_n^c$ também são independentes e
+$\sum_n\mathbb{P}(A_n^c)=\infty$, já que $\mathbb{P}(A_n^c)=1-1/n$ para
+$n\geqslant2$; aplicando de novo o segundo lema,
+$\mathbb{P}(\limsup_n A_n^c)=1$. Seja $\omega$ na interseção dos dois limites
+superiores, que tem probabilidade $1$. Então $X_n(\omega)=1$ para infinitos
+índices e $X_n(\omega)=0$ para infinitos índices, de modo que a sequência não
+converge em $\omega$. Logo a probabilidade de convergência é zero.
+\end{example}
+
+Os dois exemplos têm a mesma distribuição marginal para cada $X_n$ e conduzem a
+conclusões opostas. Isso mostra que a convergência quase certa não é uma
+propriedade da coleção de distribuições individuais: ela depende da estrutura de
+dependência entre as variáveis, isto é, da distribuição conjunta da sequência.
+A convergência em distribuição, que estudaremos na \Cref{sec:distribuicao}, é
+justamente a noção que ignora essa estrutura.
+
+%----------------------------------------------------------------------
+\section{Convergência em probabilidade}\label{sec:probabilidade}
+
+\subsection{A definição}\label{subsec:prob-definicao}
+
+A convergência em probabilidade é a noção que corresponde à pergunta
+``qual é a chance de que $X_n$ se afaste de $X$ em uma etapa fixada?''. Ela não
+tenta controlar o comportamento simultâneo de todos os índices, e é justamente
+por isso que é mais fraca que a convergência quase certa.
+
+\begin{definition}[Convergência em probabilidade]\label{def:prob}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias em um mesmo espaço de
+probabilidade. Dizemos que $(X_n)$ \emph{converge em probabilidade} para $X$ se,
+para todo $\varepsilon>0$,
+\[
+\lim_{n\to\infty}\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon\bigr)=0.
+\]
+Nesse caso, escrevemos $X_n\xrightarrow{\mathbb{P}}X$.
+\end{definition}
+
+A definição é equivalente a dizer que, para todos $\varepsilon>0$ e
+$\delta>0$, existe $n_0$ tal que
+\[
+\mathbb{P}\bigl(|X_n-X|<\varepsilon\bigr)\geqslant1-\delta
+\qquad\text{para todo }n\geqslant n_0.
+\]
+Essa forma é útil quando queremos exibir $n_0$ explicitamente. A forma com o
+limite é mais compacta e será a que usaremos nas demonstrações.
+
+Duas observações sobre a definição. A primeira é que o evento cuja
+probabilidade se controla depende de $\varepsilon$, mas não de $\omega$: a
+exigência é que, em cada etapa, a probabilidade do desvio seja pequena, e não
+que o desvio seja pequeno em cada ponto. A segunda é que a escolha de
+$\geqslant$ ou $>$ no evento não altera a definição, porque
+$\{|X_n-X|\geqslant\varepsilon\}\subseteq\{|X_n-X|>\varepsilon'\}$ para todo
+$\varepsilon'<\varepsilon$. Usaremos $\geqslant$ para manter a coerência com as
+desigualdades de Markov e Chebyshev, que são enunciadas nessa forma.
+
+\subsection{Exemplos}\label{subsec:prob-exemplos}
+
+\begin{example}[Convergência em probabilidade de uma translação]\label{ex:prob-translacao}
+Seja $X$ uma variável aleatória e $X_n=X+1/n$. Para todo $\varepsilon>0$ e todo
+$n>1/\varepsilon$,
+\[
+\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon\bigr)
+=
+\mathbb{P}\Bigl(\frac{1}{n}\geqslant\varepsilon\Bigr)=0,
+\]
+logo $X_n\to X$ em probabilidade. O exemplo é o mesmo da
+\Cref{ex:qc-translacao}, e nele a convergência vale em todas as noções que
+estudaremos.
+\end{example}
+
+\begin{example}[A frequência de um resultado no dado]\label{ex:prob-binomial}
+Lancemos um dado honesto $n$ vezes e seja $N_n$ o número de vezes em que o
+resultado é $5$ ou $6$. Então $N_n\sim\mathrm{Bin}(n,1/3)$, com
+$\mathbb{E}[N_n]=n/3$ e $\operatorname{Var}(N_n)=2n/9$. Pela desigualdade de
+Chebyshev aplicada a $N_n/n$,
+\[
+\mathbb{P}\Bigl(\Bigl|\frac{N_n}{n}-\frac{1}{3}\Bigr|\geqslant\varepsilon\Bigr)
+\leqslant
+\frac{1}{\varepsilon^2}\operatorname{Var}\Bigl(\frac{N_n}{n}\Bigr)
+=
+\frac{1}{\varepsilon^2}\cdot\frac{2n/9}{n^2}
+=
+\frac{2}{9n\varepsilon^2}\longrightarrow0.
+\]
+Logo $N_n/n\to1/3$ em probabilidade. O número $1/3$ é a probabilidade de o
+resultado ser $5$ ou $6$ em um lançamento, e o exemplo é a versão mais simples
+da lei dos grandes números.
+\end{example}
+
+\subsection{Convergência quase certa implica convergência em probabilidade}
+\label{subsec:qc-implies-prob}
+
+A convergência quase certa é mais forte que a convergência em probabilidade.
+A prova é curta e usa a caracterização da \Cref{prop:qc-caracterizacao} junto
+com a continuidade da medida.
+
+\begin{proposition}\label{prop:qc-implies-prob}
+Se $X_n\to X$ quase certamente, então $X_n\to X$ em probabilidade.
+\end{proposition}
+
+\begin{proof}
+Fixe $\varepsilon>0$. Escolha $m$ com $1/m<\varepsilon$ e defina
+$A_n=\{|X_n-X|\geqslant\varepsilon\}$ e $A_{n,m}=\{|X_n-X|\geqslant1/m\}$.
+Como $A_n\subseteq A_{n,m}$, temos
+$\limsup_n A_n\subseteq\limsup_n A_{n,m}$. Pela
+\Cref{prop:qc-caracterizacao}, $\mathbb{P}(\limsup_n A_{n,m})=0$ e, portanto,
+$\mathbb{P}(\limsup_n A_n)=0$. Considere a
+sequência decrescente
+\[
+B_n=\bigcup_{k=n}^{\infty}A_k.
+\]
+Temos $A_n\subseteq B_n$ e $\bigcap_n B_n=\limsup_n A_n$. Pela continuidade da
+medida, \eqref{eq:continuidade},
+\[
+\lim_{n\to\infty}\mathbb{P}(B_n)
+=
+\mathbb{P}\Bigl(\bigcap_{n=1}^{\infty}B_n\Bigr)
+=
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)=0.
+\]
+Como $0\leqslant\mathbb{P}(A_n)\leqslant\mathbb{P}(B_n)$, segue que
+$\mathbb{P}(A_n)\to0$, isto é, $X_n\to X$ em probabilidade.
+\end{proof}
+
+Vale sublinhar a estrutura da prova, porque ela se repete. Para passar de
+``quase certamente'' para ``em probabilidade'', não comparamos $X_n$ com $X$
+diretamente. Em vez disso, usamos que a não convergência quase certa é o evento
+$\limsup_n A_n$, cuja probabilidade é zero, e que a probabilidade de $A_n$ é
+majorada pela probabilidade da cauda $B_n$, que converge para a probabilidade
+do limite superior. A continuidade da medida faz a ponte entre a informação
+sobre o limite superior e a informação sobre cada termo.
+
+\subsection{A recíproca é falsa: a sequência que varre o intervalo}
+\label{subsec:typewriter}
+
+A convergência em probabilidade não implica convergência quase certa. O
+contraexemplo padrão é uma sequência de indicadoras de intervalos que percorrem
+o intervalo $(0,1]$ em blocos de comprimento decrescente. Em cada etapa, a
+probabilidade de o indicador valer $1$ é pequena, mas cada ponto é visitado
+infinitas vezes.
+
+\begin{example}[A sequência que varre o intervalo]\label{ex:typewriter}
+Seja $\Omega=(0,1]$ com a medida de Lebesgue. Para cada $k\geqslant1$,
+particione $(0,1]$ nos intervalos
+\[
+I_{k,j}=\Bigl(\frac{j-1}{k},\frac{j}{k}\Bigr],
+\qquad j=1,\ldots,k,
+\]
+e enumere esses intervalos em blocos, pondo $I_{k,j}$ na posição
+$n(k,j)=k(k-1)/2+j$. Defina
+\[
+X_n=\mathds{1}_{I_{k,j}}
+\qquad\text{quando } n=n(k,j).
+\]
+Então $X_n\to0$ em probabilidade, mas $(X_n)$ não converge em nenhum ponto de
+$\Omega$.
+\end{example}
+
+\begin{proof}[Verificação]
+Para $n=n(k,j)$ temos $\mathbb{P}(X_n=1)=|I_{k,j}|=1/k$. Dado
+$\varepsilon\in(0,1]$,
+\[
+\mathbb{P}\bigl(|X_n-0|\geqslant\varepsilon\bigr)
+=
+\mathbb{P}(X_n=1)=\frac{1}{k}\longrightarrow0
+\qquad\text{quando } n\to\infty,
+\]
+porque $k\to\infty$ ao longo dos blocos. Logo $X_n\to0$ em probabilidade.
+
+Fixe agora $\omega\in(0,1]$. Em cada bloco $k$, o ponto $\omega$ pertence a
+exatamente um dos intervalos $I_{k,j}$, digamos $I_{k,j(k)}$, e não pertence aos
+demais. No bloco $k$, portanto, $X_n(\omega)=1$ para um índice e
+$X_n(\omega)=0$ para os outros $k-1$ índices. Como há infinitos blocos, a
+sequência $X_n(\omega)$ vale $1$ em infinitos índices e $0$ em infinitos
+índices. Uma sequência de números reais que assume os valores $0$ e $1$
+infinitas vezes não converge. Logo $(X_n(\omega))$ não converge para nenhum
+número real, e a convergência quase certa falha em todos os pontos.
+\end{proof}
+
+Vale entender por que o exemplo funciona, e não apenas verificar as contas. A
+convergência em probabilidade olha para a etapa $n$ e pergunta qual é a massa
+do conjunto onde $X_n$ é grande. No exemplo, essa massa é $1/k$, que tende a
+zero. Mas os conjuntos onde $X_n$ é grande não param de se mover: cada ponto é
+coberto uma vez em cada bloco. A convergência quase certa olha para cada ponto e
+pergunta se o conjunto dos índices em que ele é coberto é finito. No exemplo,
+esse conjunto é infinito para todos os pontos. As duas perguntas são diferentes,
+e o exemplo as separa.
+
+\begin{remark}[Subsequências]\label{rem:subsequencias}
+Embora a convergência em probabilidade não implique convergência quase certa da
+sequência inteira, ela implica a existência de uma subsequência que converge
+quase certamente. Mais precisamente, $X_n\to X$ em probabilidade se, e somente
+se, toda subsequência de $(X_n)$ possui uma subsubsequência que converge quase
+certamente para $X$.
+A implicação da esquerda para a direita se prova escolhendo índices $n_k$ com
+$\mathbb{P}(|X_{n_k}-X|\geqslant1/k)\leqslant2^{-k}$ e aplicando a
+\Cref{cor:criterio-bc-epsn}. A recíproca se prova por contraposição: se
+$X_n\not\to X$ em probabilidade, existem $\varepsilon>0$, $\delta>0$ e uma
+subsequência com $\mathbb{P}(|X_{n_k}-X|\geqslant\varepsilon)\geqslant\delta$
+para todo $k$, e nenhuma subsubsequência dessa subsequência pode convergir quase
+certamente, já que a convergência quase certa implica a convergência em
+probabilidade pela \Cref{prop:qc-implies-prob}. O exemplo da
+\Cref{ex:typewriter} mostra que a subsequência não pode ser substituída pela
+sequência inteira.
+\end{remark}
+
+%----------------------------------------------------------------------
+\section{Convergência em média e em média quadrática}\label{sec:medias}
+
+\subsection{As definições}\label{subsec:medias-definicoes}
+
+As noções desta seção substituem a pergunta ``o erro é pequeno?'' pela pergunta
+``o erro médio é pequeno?''. Elas têm a vantagem de se reduzirem a cálculos de
+esperança, que já sabemos fazer, e a desvantagem de serem sensíveis a poucos
+pontos onde o erro é grande, como veremos nos exemplos.
+
+\begin{definition}[Convergência em média]\label{def:media}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias integráveis, isto é, com
+$\mathbb{E}|X_n|<\infty$ para todo $n$ e $\mathbb{E}|X|<\infty$. Dizemos que
+$(X_n)$ \emph{converge em média} para $X$ se
+\[
+\lim_{n\to\infty}\mathbb{E}\bigl[|X_n-X|\bigr]=0.
+\]
+Nesse caso, escrevemos $X_n\xrightarrow{L^1}X$.
+\end{definition}
+
+\begin{definition}[Convergência em média quadrática]\label{def:media-quadratica}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias com $\mathbb{E}[X_n^2]<\infty$ e
+$\mathbb{E}[X^2]<\infty$. Dizemos que $(X_n)$ \emph{converge em média
+quadrática} para $X$ se
+\[
+\lim_{n\to\infty}\mathbb{E}\bigl[(X_n-X)^2\bigr]=0.
+\]
+Nesse caso, escrevemos $X_n\xrightarrow{L^2}X$.
+\end{definition}
+
+As definições pedem que os momentos envolvidos sejam finitos, pois do contrário
+as esperanças não estariam definidas. No caso da média quadrática, a
+desigualdade de Cauchy-Schwarz garante que $\mathbb{E}|X_n-X|$ também é finito,
+de modo que a convergência em média quadrática só faz sentido quando a
+convergência em média também faz.
+
+\begin{example}[Convergência em média quadrática]\label{ex:media-quadratica}
+Seja $Z_n$ uma variável aleatória com
+\[
+\mathbb{P}(Z_n=1)=\frac{1}{n},
+\qquad
+\mathbb{P}(Z_n=2)=1-\frac{1}{n}.
+\]
+Então $Z_n\to2$ em média quadrática, pois
+\[
+\mathbb{E}\bigl[(Z_n-2)^2\bigr]
+=
+(1-2)^2\cdot\frac{1}{n}+(2-2)^2\cdot\Bigl(1-\frac{1}{n}\Bigr)
+=
+\frac{1}{n}\longrightarrow0.
+\]
+O exemplo é o mesmo que aparece em Grimmett e Welsh e mostra que a convergência
+em média quadrática pode ser verificada por um cálculo direto, sem invocar
+nenhum teorema.
+\end{example}
+
+\begin{example}[A fronteira da média quadrática]\label{ex:media-quadratica-alfa}
+Seja $\alpha>0$ e defina $Z_n$ por
+\[
+\mathbb{P}(Z_n=n^\alpha)=\frac{1}{n},
+\qquad
+\mathbb{P}(Z_n=0)=1-\frac{1}{n}.
+\]
+Então
+\[
+\mathbb{E}\bigl[Z_n^2\bigr]=n^{2\alpha}\cdot\frac{1}{n}=n^{2\alpha-1},
+\]
+de modo que $Z_n\to0$ em média quadrática se, e somente se, $2\alpha-1<0$, isto
+é, $\alpha<1/2$. Por outro lado, para todo $\alpha>0$ e todo $\varepsilon>0$,
+quando $n^\alpha\geqslant\varepsilon$ temos
+\[
+\mathbb{P}\bigl(|Z_n|\geqslant\varepsilon\bigr)
+=
+\mathbb{P}(Z_n=n^\alpha)
+=
+\frac{1}{n}\longrightarrow0,
+\]
+logo $Z_n\to0$ em probabilidade para todo $\alpha>0$. Assim, para
+$1/2\leqslant\alpha<1$, a sequência converge em probabilidade e em média, mas
+não em média quadrática. O exemplo será retomado na
+\Cref{subsec:medias-contraexemplos}.
+\end{example}
+
+\subsection{As implicações}\label{subsec:medias-implicacoes}
+
+A proposição seguinte reúne as comparações entre as convergências em média, em
+média quadrática e em probabilidade. A parte relativa à distribuição será
+completada na \Cref{sec:distribuicao}, depois de introduzirmos essa noção.
+
+\begin{proposition}\label{prop:medias}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias.
+\begin{enumerate}
+\item[(a)] Se $X_n\to X$ em média quadrática, então $X_n\to X$ em média.
+\item[(b)] Se $X_n\to X$ em média quadrática, então
+$X_n\to X$ em probabilidade.
+\item[(c)] Se $X_n\to X$ em média, então $X_n\to X$ em probabilidade.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Para (a), aplicamos a desigualdade de Cauchy-Schwarz à variável $Z=X_n-X$:
+\[
+\mathbb{E}|Z|
+\leqslant
+\bigl(\mathbb{E}[Z^2]\bigr)^{1/2}.
+\]
+Se $\mathbb{E}[(X_n-X)^2]\to0$, então $\mathbb{E}|X_n-X|\to0$.
+
+Para (b), aplicamos a desigualdade de Chebyshev à mesma variável. Para
+$\varepsilon>0$,
+\[
+\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon\bigr)
+\leqslant
+\frac{1}{\varepsilon^2}\mathbb{E}\bigl[(X_n-X)^2\bigr].
+\]
+Se o lado direito tende a zero, o lado esquerdo também tende a zero, e a
+convergência em probabilidade segue.
+
+Para (c), aplicamos a desigualdade de Markov a $|X_n-X|$:
+\[
+\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon\bigr)
+\leqslant
+\frac{1}{\varepsilon}\mathbb{E}\bigl[|X_n-X|\bigr],
+\]
+e o argumento é o mesmo de (b).
+\end{proof}
+
+A proposição mostra a cadeia
+\[
+L^2\ \Longrightarrow\ L^1\ \Longrightarrow\ \mathbb{P}.
+\]
+A primeira implicação é estrita, como mostra o
+\Cref{ex:media-quadratica-alfa} com $1/2\leqslant\alpha<1$; a segunda também é
+estrita, como mostra o exemplo a seguir.
+
+\begin{remark}[Convergência em $L^p$]\label{rem:lp}
+Poderíamos definir a convergência em média de ordem $p\geqslant1$ exigindo
+$\mathbb{E}|X_n-X|^p\to0$. A desigualdade de Lyapunov, demonstrada na nota
+\emph{Desigualdades de Markov e Chebyshev e o lema de Borel-Cantelli}, diz que
+\[
+\bigl(\mathbb{E}|Z|^q\bigr)^{1/q}
+\leqslant
+\bigl(\mathbb{E}|Z|^p\bigr)^{1/p}
+\qquad\text{para }1\leqslant q\leqslant p,
+\]
+de modo que a convergência em $L^p$ implica a convergência em $L^q$ para todo
+$q\leqslant p$. A implicação (a) da \Cref{prop:medias} é o caso $p=2$, $q=1$.
+Nesta nota, tratamos apenas $p=1$ e $p=2$, que são os casos usados no curso; a
+mesma proposição vale, com a mesma prova, para qualquer $p\geqslant1$.
+\end{remark}
+
+\begin{example}[Convergência em probabilidade sem convergência em média]
+\label{ex:media-sem-quadratica}
+Seja $Z_n$ com $\mathbb{P}(Z_n=n)=1/n$ e $\mathbb{P}(Z_n=0)=1-1/n$. Então
+$Z_n\to0$ em probabilidade, pois $\mathbb{P}(|Z_n|\geqslant\varepsilon)=1/n\to0$
+para todo $\varepsilon\in(0,1]$. Além disso,
+\[
+\mathbb{E}\bigl[|Z_n|\bigr]=\frac{1}{n}\cdot n=1\longrightarrow1,
+\]
+logo $Z_n$ não converge para $0$ em média. Tampouco converge em média quadrática,
+pois $\mathbb{E}[Z_n^2]=n\to\infty$. O exemplo é o caso $\alpha=1$ do
+\Cref{ex:media-quadratica-alfa}, e mostra que a massa $1/n$ sobre o valor $n$ é
+pequena demais para afetar a probabilidade e grande demais para afetar a média.
+\end{example}
+
+\subsection{O que a média não vê}\label{subsec:medias-contraexemplos}
+
+A convergência quase certa e a convergência em média não são comparáveis. Já
+sabemos que a convergência em média implica convergência em probabilidade e,
+portanto, nada impede que ela coexista com a convergência quase certa. Mas a
+recíproca falha, e o exemplo a seguir é o mais simples possível.
+
+\begin{example}[Convergência quase certa sem convergência em média]
+\label{ex:qc-sem-media}
+Seja $\Omega=(0,1]$ com a medida de Lebesgue e defina
+\[
+X_n=n\,\mathds{1}_{(0,1/n)}.
+\]
+Para cada $\omega\in(0,1]$, existe $n_0$ tal que $1/n<\omega$ para todo
+$n\geqslant n_0$; para esses índices, $\omega\notin(0,1/n)$ e $X_n(\omega)=0$.
+Logo $X_n(\omega)\to0$ para todo $\omega$, e a convergência é quase certa. Por
+outro lado,
+\[
+\mathbb{E}|X_n|=n\cdot\frac{1}{n}=1
+\qquad\text{para todo }n,
+\]
+de modo que $X_n$ não converge para $0$ em média. Também não converge em média
+quadrática, pois $\mathbb{E}[X_n^2]=n\to\infty$. O exemplo mostra que a
+convergência quase certa não controla a magnitude do erro nos pontos onde ele é
+grande: em cada etapa, o erro vale $n$ em um conjunto de medida $1/n$.
+\end{example}
+
+O exemplo anterior é a razão pela qual o teorema da convergência dominada, que
+estudaremos na \Cref{sec:quadro}, precisa de uma hipótese adicional. A
+convergência quase certa garante que o erro tende a zero em cada ponto, mas não
+garante que o erro médio tende a zero, porque a massa de pontos com erro grande
+pode se concentrar em conjuntos cada vez menores sem que a integral diminua.
+
+\begin{example}[Convergência em média sem convergência quase certa]
+\label{ex:media-sem-qc}
+A sequência da \Cref{ex:typewriter} converge em probabilidade e também em
+média, pois
+\[
+\mathbb{E}|X_n|=\mathbb{P}(X_n=1)=\frac{1}{k}\longrightarrow0
+\]
+ao longo dos blocos. No entanto, ela não converge em nenhum ponto. Logo a
+convergência em média não implica convergência quase certa.
+\end{example}
+
+Reunindo os exemplos, obtemos o quadro seguinte, que será completado na
+\Cref{sec:distribuicao}.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Sequência & Converge em & Não converge em \\
+\midrule
+$Z_n$ do \Cref{ex:media-quadratica-alfa}, $\alpha=0{,}7$ & $\mathbb{P}$, $L^1$ & $L^2$ \\
+$n\mathds{1}_{(0,1/n)}$ & q.c., $\mathbb{P}$ & $L^1$, $L^2$ \\
+$X_n$ do \Cref{ex:typewriter} & $\mathbb{P}$, $L^1$ & q.c. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A tabela não esgota as possibilidades, mas cobre as separações que aparecem com
+mais frequência. Note que nenhuma das linhas exibe convergência em média
+quadrática sem convergência em média ou em probabilidade, o que é coerente com
+a \Cref{prop:medias}.
+
+\subsection{Um cálculo que será reutilizado}\label{subsec:medias-variancia}
+
+Terminamos a seção com o cálculo que dá origem à lei fraca dos grandes números.
+Sejam $X_1,X_2,\ldots$ variáveis aleatórias independentes com média $\mu$ e
+variância $\sigma^2<\infty$, e seja $S_n=X_1+\cdots+X_n$. Como a variância de
+uma soma de variáveis independentes é a soma das variâncias,
+\[
+\operatorname{Var}(S_n)=n\sigma^2.
+\]
+Logo
+\[
+\mathbb{E}\Bigl[\Bigl(\frac{S_n}{n}-\mu\Bigr)^2\Bigr]
+=
+\operatorname{Var}\Bigl(\frac{S_n}{n}\Bigr)
+=
+\frac{1}{n^2}\operatorname{Var}(S_n)
+=
+\frac{\sigma^2}{n}\longrightarrow0.
+\]
+Pela \Cref{prop:medias}, $S_n/n\to\mu$ em média quadrática, em média e em
+probabilidade. Esse é o conteúdo da lei fraca dos grandes números na hipótese de
+variância finita. A pergunta que a lei forte responde é se a convergência vale
+também quase certamente, e a resposta exige um argumento diferente, porque a
+cota $\sigma^2/n$ não é somável em $n$.
+
+%----------------------------------------------------------------------
+\section{Convergência em distribuição}\label{sec:distribuicao}
+
+\subsection{A definição e os pontos de continuidade}\label{subsec:dist-definicao}
+
+As noções anteriores comparam os valores de $X_n$ com os de $X$ e, por isso,
+exigem que as variáveis vivam em um mesmo espaço de probabilidade. A
+convergência em distribuição abandona essa comparação e olha apenas para as
+funções de distribuição. Ela é a noção que aparece no teorema central do
+limite, quando se diz que uma soma normalizada tem distribuição aproximadamente
+normal sem que se especifique uma variável limite no mesmo espaço.
+
+\begin{definition}[Convergência em distribuição]\label{def:dist}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias com funções de distribuição
+$F_n(x)=\mathbb{P}(X_n\leqslant x)$ e $F(x)=\mathbb{P}(X\leqslant x)$. Dizemos
+que $(X_n)$ \emph{converge em distribuição} para $X$, e escrevemos
+$X_n\Rightarrow X$, se
+\[
+\lim_{n\to\infty}F_n(x)=F(x)
+\]
+para todo $x\in\mathbb{R}$ em que $F$ é contínua.
+\end{definition}
+
+A restrição aos pontos de continuidade de $F$ não é um detalhe técnico
+dispensável. Ela é o que torna a definição estável e o que permite enunciar os
+teoremas de convergência sem hipóteses artificiais sobre as variáveis. O
+exemplo seguinte mostra o que aconteceria se exigíssemos convergência em todos
+os pontos.
+
+\begin{example}[Por que os pontos de continuidade aparecem]\label{ex:dist-continuidade}
+Seja $X\equiv0$ e $X_n=1/n$. A sequência converge para $X$ em todos os
+sentidos estudados até aqui: quase certamente, em probabilidade, em média, em
+média quadrática. As funções de distribuição são
+$F(x)=\mathds{1}_{[0,\infty)}(x)$ e $F_n(x)=\mathds{1}_{[1/n,\infty)}(x)$.
+Para $x<0$ e para $x>0$ com $n$ grande, $F_n(x)=F(x)$; mas em $x=0$ temos
+$F_n(0)=0$ para todo $n$, enquanto $F(0)=1$. A convergência pontual das funções
+de distribuição produz, no limite, a função $\mathds{1}_{(0,\infty)}$, que não é
+contínua à direita em $0$ e não é a função de distribuição de $X$. A exigência
+de convergência apenas nos pontos de continuidade de $F$ elimina o problema,
+porque nesses pontos $F$ não tem salto e o valor pontual é determinado pelos
+valores vizinhos. Note que $0$ é justamente o ponto de descontinuidade de $F$.
+\end{example}
+
+O exemplo anterior também explica por que a convergência em distribuição é uma
+propriedade da \emph{distribuição} e não das variáveis. Se $X_n\Rightarrow X$ e
+$Y_n$ tem a mesma distribuição que $X_n$ para todo $n$, então
+$Y_n\Rightarrow X$. A relação entre $X_n$ e $X$ não desempenha nenhum papel,
+apenas as funções de distribuição. Em particular, não é necessário que as
+variáveis estejam definidas no mesmo espaço de probabilidade.
+
+\subsection{Exemplos}\label{subsec:dist-exemplos}
+
+\begin{example}[Discretização da uniforme]\label{ex:dist-discretizacao}
+Para cada $n\geqslant1$, seja $X_n$ uniformemente distribuída no conjunto
+$\{0,1/n,2/n,\ldots,(n-1)/n\}$ e seja $U$ uniforme em $(0,1)$. Então
+$X_n\Rightarrow U$. De fato, para $x\in[0,1)$,
+\[
+F_n(x)=\mathbb{P}(X_n\leqslant x)
+=
+\frac{\#\{k\in\{0,\ldots,n-1\}:k/n\leqslant x\}}{n}
+=
+\frac{\lfloor nx\rfloor+1}{n}\longrightarrow x=F_U(x),
+\]
+e para $x<0$ ou $x\geqslant1$ as duas funções valem $0$ ou $1$ para todo $n$
+grande. Como $F_U$ é contínua em todos os pontos, a convergência vale em todo
+$x$. O exemplo é a versão determinística do fato de que uma amostra grande de
+uma distribuição contínua a aproxima, e é o modelo discreto da integração de
+Monte Carlo.
+\end{example}
+
+\begin{example}[Distribuição sem convergência em probabilidade]
+\label{ex:dist-sem-prob}
+Seja $U$ uma variável aleatória com $\mathbb{P}(U=-1)=\mathbb{P}(U=1)=1/2$ e
+defina
+\[
+Z_n=
+\begin{cases}
+U, & n\text{ ímpar},\\
+-U, & n\text{ par}.
+\end{cases}
+\]
+Cada $Z_n$ tem a mesma distribuição de $U$, logo $Z_n\Rightarrow U$. Por outro
+lado,
+\[
+Z_n-U=
+\begin{cases}
+0, & n\text{ ímpar},\\
+-2U, & n\text{ par},
+\end{cases}
+\]
+de modo que, para todo $m$,
+\[
+\mathbb{P}\bigl(|Z_{2m}-U|>1\bigr)=\mathbb{P}\Bigl(|U|>\frac{1}{2}\Bigr)=1.
+\]
+Assim $Z_n$ não converge para $U$ em probabilidade. O exemplo mostra que a
+convergência em distribuição não controla o erro $|Z_n-U|$: as duas variáveis
+têm sempre a mesma distribuição, mas em metade dos índices elas têm sinais
+opostos.
+\end{example}
+
+\subsection{Convergência em probabilidade implica convergência em distribuição}
+\label{subsec:prob-implies-dist}
+
+O resultado seguinte é o análogo, para a convergência em distribuição, da
+\Cref{prop:qc-implies-prob}. A prova usa um argumento de sanduíche que será
+reutilizado em outras situações.
+
+\begin{proposition}\label{prop:prob-implies-dist}
+Se $X_n\to X$ em probabilidade, então $X_n\Rightarrow X$.
+\end{proposition}
+
+\begin{proof}
+Seja $x$ um ponto de continuidade de $F$. Para $\varepsilon>0$, considere os
+eventos
+\[
+\{X\leqslant x-\varepsilon\},
+\qquad
+\{X_n\leqslant x\},
+\qquad
+\{X\leqslant x+\varepsilon\}.
+\]
+Se $X\leqslant x-\varepsilon$ e $|X_n-X|<\varepsilon$, então $X_n\leqslant x$.
+Logo
+\[
+\{X\leqslant x-\varepsilon\}\cap\{|X_n-X|<\varepsilon\}
+\subseteq
+\{X_n\leqslant x\}.
+\]
+Tomando complementares e usando a subaditividade,
+\[
+\mathbb{P}(X_n\leqslant x)
+\geqslant
+\mathbb{P}(X\leqslant x-\varepsilon)-\mathbb{P}(|X_n-X|\geqslant\varepsilon).
+\]
+Do mesmo modo, se $X_n\leqslant x$ e $|X_n-X|<\varepsilon$, então
+$X<X_n+\varepsilon\leqslant x+\varepsilon$. Logo
+\[
+\{X_n\leqslant x\}\cap\{|X_n-X|<\varepsilon\}
+\subseteq
+\{X\leqslant x+\varepsilon\},
+\]
+e portanto
+\[
+\mathbb{P}(X_n\leqslant x)
+\leqslant
+\mathbb{P}(X\leqslant x+\varepsilon)+\mathbb{P}(|X_n-X|\geqslant\varepsilon).
+\]
+Reunindo as duas desigualdades,
+\[
+F(x-\varepsilon)-\mathbb{P}(|X_n-X|\geqslant\varepsilon)
+\leqslant
+F_n(x)
+\leqslant
+F(x+\varepsilon)+\mathbb{P}(|X_n-X|\geqslant\varepsilon).
+\]
+Fazendo $n\to\infty$ e usando a hipótese de convergência em probabilidade,
+\[
+F(x-\varepsilon)
+\leqslant
+\liminf_{n\to\infty}F_n(x)
+\leqslant
+\limsup_{n\to\infty}F_n(x)
+\leqslant
+F(x+\varepsilon).
+\]
+Como $x$ é ponto de continuidade de $F$, temos $F(x-\varepsilon)\to F(x)$
+quando $\varepsilon\downarrow0$ e $F(x+\varepsilon)\to F(x)$ pela continuidade
+à direita. Logo os limites inferior e superior coincidem com $F(x)$, isto é,
+$F_n(x)\to F(x)$.
+\end{proof}
+
+\begin{corollary}[A convergência em média quadrática implica as demais]
+\label{cor:l2-dist}
+Se $X_n\to X$ em média quadrática, em média, em probabilidade ou quase
+certamente, então $X_n\Rightarrow X$.
+\end{corollary}
+
+\begin{proof}
+A convergência em média quadrática implica a convergência em média e a
+convergência em probabilidade pela \Cref{prop:medias}; a convergência em média
+implica a convergência em probabilidade pela mesma proposição; a convergência
+quase certa implica a convergência em probabilidade pela
+\Cref{prop:qc-implies-prob}. Em todos os casos, a
+\Cref{prop:prob-implies-dist} fornece a convergência em distribuição.
+\end{proof}
+
+A proposição completa a cadeia de implicações
+\[
+L^2\ \Longrightarrow\ L^1\ \Longrightarrow\ \mathbb{P}
+\ \Longrightarrow\ \text{distribuição},
+\]
+que liga as cinco noções estudadas. A
+\Cref{prop:qc-implies-prob} acrescenta a convergência quase certa no início da
+cadeia, mas apenas até a convergência em probabilidade:
+\[
+\text{q.c.}\ \Longrightarrow\ \mathbb{P}\ \Longrightarrow\ \text{distribuição}.
+\]
+
+\subsection{Quando a recíproca vale: o limite constante}\label{subsec:dist-constante}
+
+A recíproca da \Cref{prop:prob-implies-dist} é falsa, como mostra o
+\Cref{ex:dist-sem-prob}. Há, no entanto, um caso importante em que ela vale: se
+o limite é uma constante, então convergência em distribuição e convergência em
+probabilidade são equivalentes.
+
+\begin{proposition}\label{prop:dist-constante}
+Seja $c\in\mathbb{R}$. Então $X_n\Rightarrow c$ se, e somente se,
+$X_n\to c$ em probabilidade.
+\end{proposition}
+
+\begin{proof}
+A implicação de probabilidade para distribuição é a
+\Cref{prop:prob-implies-dist}. Suponha agora que $X_n\Rightarrow c$ e seja
+$\varepsilon>0$. A função de distribuição de $c$ é
+$F(x)=\mathds{1}_{[c,\infty)}(x)$, que é contínua em todo $x\neq c$. Logo
+$c-\varepsilon$ e $c+\varepsilon/2$ são pontos de continuidade de $F$ e
+\[
+\mathbb{P}\bigl(|X_n-c|\geqslant\varepsilon\bigr)
+\leqslant
+\mathbb{P}(X_n\leqslant c-\varepsilon)+\mathbb{P}\Bigl(X_n>c+\frac{\varepsilon}{2}\Bigr)
+\leqslant
+F_n(c-\varepsilon)+1-F_n\Bigl(c+\frac{\varepsilon}{2}\Bigr).
+\]
+Pela convergência em distribuição, o lado direito tende a
+$F(c-\varepsilon)+1-F(c+\varepsilon/2)=0+1-1=0$. Isto é, $X_n\to c$ em
+probabilidade.
+\end{proof}
+
+O resultado é útil porque, em muitas aplicações, o limite é uma constante
+desconhecida, como a média de uma população ou uma probabilidade, e a conclusão
+relevante é que o estimador se aproxima dela. A proposição diz que, nesse caso,
+não há perda em trabalhar com convergência em distribuição.
+
+\subsection{O que a convergência em distribuição não vê}\label{subsec:dist-oque-nao}
+
+Vale resumir o que a convergência em distribuição controla e o que ela ignora.
+Ela controla a massa que cada variável coloca em intervalos da forma
+$(-\infty,x]$, ou seja, a forma das distribuições. Ela não controla a
+dependência entre $X_n$ e $X$, como mostra o \Cref{ex:dist-sem-prob}; não
+controla os momentos, no sentido de que $X_n\Rightarrow X$ não implica
+$\mathbb{E}[X_n]\to\mathbb{E}[X]$; e não controla a probabilidade de eventos que
+dependem conjuntamente de $X_n$ e $X$.
+
+\begin{example}[Convergência em distribuição sem convergência de médias]
+\label{ex:dist-momentos}
+Seja $X\equiv0$ e $X_n=n\mathds{1}_{(0,1/n)}$, com $\Omega=(0,1]$ e medida de
+Lebesgue. Para todo $x<0$, $F_n(x)=0=F(x)$. Para $x\geqslant0$ e $n>x$,
+temos $F_n(x)=\mathbb{P}(X_n=0)=1-1/n$, que tende a $1=F(x)$; em $x=0$ o mesmo
+cálculo se aplica. Logo $X_n\Rightarrow0$. No entanto,
+$\mathbb{E}[X_n]=1$ para todo $n$, enquanto $\mathbb{E}[X]=0$. A convergência em
+distribuição não vê a massa que escapa para valores grandes em conjuntos
+pequenos.
+\end{example}
+
+O exemplo anterior é o mesmo da \Cref{ex:qc-sem-media}, lido sob outra ótica. A
+sequência converge em todos os sentidos que não envolvem a magnitude do erro e
+falha em todos os que a envolvem. A lição é que cada noção de convergência
+responde a uma pergunta diferente, e a escolha da noção deve ser feita de acordo
+com a pergunta.
+
+%----------------------------------------------------------------------
+\section{O quadro geral das implicações}\label{sec:quadro}
+
+\subsection{O diagrama}\label{subsec:diagrama}
+
+Reunimos na \Cref{fig:implicacoes} as implicações demonstradas até aqui. As
+setas contínuas valem sem hipóteses adicionais; a seta tracejada representa o
+teorema da convergência dominada, que será enunciado na
+\Cref{subsec:dominada} e que exige uma cota integrável para o módulo das
+variáveis.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  node distance=1.6cm,
+  caixa/.style={draw, rounded corners=3pt, fill=white, inner sep=6pt,
+    minimum width=1.5cm, font=\small},
+  seta/.style={-{Latex[length=2.2mm]}, semithick},
+  rotulo/.style={font=\scriptsize, fill=white, inner sep=2pt}
+]
+\node[caixa] (L2) at (0,2.8) {$L^2$};
+\node[caixa] (L1) at (3.6,2.8) {$L^1$};
+\node[caixa] (P)  at (2.4,0.2) {$\mathbb{P}$};
+\node[caixa] (D)  at (6.0,0.2) {distribuição};
+\node[caixa] (QC) at (-1.9,1.4) {q.c.};
+
+\draw[seta] (L2) -- node[rotulo, above] {Cauchy--Schwarz} (L1);
+\draw[seta] (L1) -- node[rotulo, right, pos=0.5] {Markov} (P);
+\draw[seta] (QC) -- node[rotulo, below, pos=0.55] {\Cref{prop:qc-implies-prob}} (P);
+\draw[seta] (P) -- node[rotulo, above] {\Cref{prop:prob-implies-dist}} (D);
+\draw[seta, dashed] (QC) --
+  node[rotulo, below, pos=0.3] {com dominação} (L1.south west);
+\end{tikzpicture}
+\caption{Implicações entre os modos de convergência. As setas contínuas valem
+em geral. A seta tracejada representa o teorema da convergência dominada: a
+convergência quase certa, acompanhada de uma dominância integrável, implica a
+convergência em média e, por intermédio dela, todas as demais.}
+\label{fig:implicacoes}
+\end{figure}
+
+A leitura do diagrama deve ser feita com cuidado. O fato de existir uma seta de
+$L^2$ para $L^1$ não significa que toda sequência que converge em média
+quadrática converge em média por um argumento diferente; significa que a
+implicação vale e que a prova passa por Cauchy-Schwarz. Do mesmo modo, a seta
+de $\mathbb{P}$ para distribuição tem uma prova própria, que não passa por
+média alguma. O diagrama é um resumo das relações lógicas, não um roteiro de
+demonstração.
+
+\subsection{A tabela}\label{subsec:tabela}
+
+A \Cref{tab:modos} reúne as definições, as implicações e, em cada linha, um
+exemplo que refuta uma das recíprocas.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{2.4cm}p{4.1cm}p{2.2cm}p{5.1cm}@{}}
+\toprule
+Modo & Definição & Implica & Exemplo que separa \\
+\midrule
+q.c. &
+$\mathbb{P}(X_n\to X)=1$ &
+$\mathbb{P}$, distribuição &
+\Cref{ex:typewriter}: converge em $\mathbb{P}$, não em q.c. \\
+em probabilidade &
+$\mathbb{P}(|X_n-X|\geqslant\varepsilon)\to0$ &
+distribuição &
+\Cref{ex:dist-sem-prob}: converge em distribuição, não em
+$\mathbb{P}$ \\
+em média &
+$\mathbb{E}|X_n-X|\to0$ &
+$\mathbb{P}$, distribuição &
+\Cref{ex:qc-sem-media}: converge q.c., não em média \\
+em média quadrática &
+$\mathbb{E}[(X_n-X)^2]\to0$ &
+média, $\mathbb{P}$, distribuição &
+\Cref{ex:media-quadratica-alfa} com $\alpha=0{,}7$ \\
+em distribuição &
+$F_n(x)\to F(x)$ nos pontos de continuidade &
+nenhuma das anteriores &
+\Cref{ex:dist-momentos}: as médias não convergem \\
+\bottomrule
+\end{tabular}
+\caption{Resumo dos cinco modos de convergência. A coluna ``implica'' lista
+apenas as implicações que valem sem hipóteses adicionais. A última coluna
+indica um exemplo, neste texto, que ilustra a separação entre a noção da linha
+e as demais: ele mostra uma implicação recíproca que falha.}
+\label{tab:modos}
+\end{table}
+
+Duas observações sobre a tabela. A primeira é que a coluna ``implica'' não é
+transitiva por linhas: a convergência em média quadrática implica a convergência
+em distribuição, mas a tabela registra apenas a implicação para a média e para
+a probabilidade, porque a implicação para a distribuição se obtém compondo com
+a \Cref{prop:prob-implies-dist}. A segunda é que cada exemplo da última coluna
+refuta a recíproca de alguma implicação que envolve a noção da linha, e não
+pretende esgotar as separações possíveis.
+
+\subsection{Convergência dominada: quando a convergência quase certa basta}
+\label{subsec:dominada}
+
+Falta tratar de uma situação que aparece com frequência nas aplicações. Muitas
+vezes sabemos que $X_n\to X$ quase certamente e queremos concluir que as médias
+também convergem. O \Cref{ex:qc-sem-media} mostra que isso não vale em geral: a
+convergência quase certa não controla a magnitude do erro. O teorema da
+convergência dominada dá a hipótese adicional que corrige o problema.
+
+\begin{theorem}[Convergência dominada]\label{thm:dominada}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias tais que $X_n\to X$ quase
+certamente. Suponha que exista uma variável aleatória $Y$ com
+$\mathbb{E}[Y]<\infty$ e
+\[
+|X_n|\leqslant Y
+\qquad\text{quase certamente, para todo }n.
+\]
+Então $X$ é integrável, $\mathbb{E}|X_n-X|\to0$ e, em particular,
+$\mathbb{E}[X_n]\to\mathbb{E}[X]$.
+\end{theorem}
+
+\begin{proof}
+Como $X_n\to X$ quase certamente, $|X_n-X|\to0$ quase certamente. Além disso,
+\[
+|X_n-X|\leqslant|X_n|+|X|\leqslant2Y
+\qquad\text{quase certamente,}
+\]
+sendo a última desigualdade consequência de $|X|\leqslant Y$ quase certamente
+(que se obtém passando ao limite em $|X_n|\leqslant Y$). A função $2Y$ é
+integrável e domina a sequência $|X_n-X|$. Pelo teorema da convergência
+dominada de Lebesgue (na forma para variáveis aleatórias, idêntica à enunciada
+na nota de funções de distribuição),
+\[
+\lim_{n\to\infty}\mathbb{E}|X_n-X|=\mathbb{E}\bigl[\lim_{n\to\infty}|X_n-X|\bigr]=0.
+\]
+A conclusão sobre as esperanças segue de
+$|\mathbb{E}[X_n]-\mathbb{E}[X]|\leqslant\mathbb{E}|X_n-X|$.
+\end{proof}
+
+\begin{corollary}\label{cor:dominada}
+Nas hipóteses da \Cref{thm:dominada}, a sequência converge em média, em
+probabilidade e em distribuição. Se, além disso, $\mathbb{E}[Y^2]<\infty$,
+então a convergência também vale em média quadrática.
+\end{corollary}
+
+\begin{proof}
+A convergência em média é a \Cref{thm:dominada}; a convergência em
+probabilidade segue da \Cref{prop:medias}(c) e a convergência em distribuição
+segue da \Cref{prop:prob-implies-dist}. Para a convergência em média quadrática,
+observe que $(X_n-X)^2\leqslant4Y^2$, que é integrável, e aplique novamente o
+teorema da convergência dominada.
+\end{proof}
+
+O corolário reúne as consequências da convergência dominada: quando a sequência
+é dominada por uma variável integrável, a convergência quase certa implica
+todas as demais noções. A hipótese de dominância é
+essencial: sem ela, o \Cref{ex:qc-sem-media} mostra que a convergência quase
+certa pode coexistir com a divergência das médias.
+
+\begin{example}[O máximo de uniformes converge em todos os modos]
+\label{ex:maximo-todos}
+Sejam $U_1,U_2,\ldots$ independentes e uniformes em $(0,1)$ e
+$M_n=\max\{U_1,\ldots,U_n\}$. Na \Cref{ex:qc-maximo}, mostramos que
+$M_n\to1$ quase certamente. Como $0\leqslant M_n\leqslant1$ e $1$ é
+integrável, a \Cref{thm:dominada} se aplica com $Y\equiv1$. Logo
+$M_n\to1$ em média, em probabilidade e em distribuição. Como $Y^2=1$ também é
+integrável, o \Cref{cor:dominada} garante a convergência em média quadrática.
+
+Podemos verificar o resultado por cálculo direto. Para $t\in[0,1]$,
+\[
+\mathbb{P}(M_n\leqslant t)=t^n,
+\]
+logo a densidade de $M_n$ é $nt^{n-1}$ em $(0,1)$ e
+\[
+\mathbb{E}[M_n]=\int_0^1t\cdot nt^{n-1}\,dt=\frac{n}{n+1}\longrightarrow1.
+\]
+Do mesmo modo,
+\[
+\mathbb{E}[M_n^2]=\int_0^1t^2\cdot nt^{n-1}\,dt=\frac{n}{n+2}\longrightarrow1,
+\]
+e portanto
+\[
+\mathbb{E}\bigl[(1-M_n)^2\bigr]
+=
+1-2\,\mathbb{E}[M_n]+\mathbb{E}[M_n^2]
+=
+\frac{2}{(n+1)(n+2)}\longrightarrow0.
+\]
+O exemplo é instrutivo porque a convergência em todos os modos pode ser
+verificada de duas maneiras independentes: pelo teorema da convergência
+dominada, que não usa a forma da distribuição, e pelo cálculo explícito dos
+momentos, que não usa o teorema.
+\end{example}
+
+\subsection{Leitura final}\label{subsec:leitura-final}
+
+As cinco noções não formam uma hierarquia linear, mas formam uma rede com duas
+entradas fortes, a convergência quase certa e a convergência em média
+quadrática, e uma saída fraca, a convergência em distribuição. A convergência em
+probabilidade é o ponto de encontro: ela é consequência de ambas as entradas e
+é a hipótese que basta para a convergência em distribuição. A convergência em
+distribuição é a única que não exige um espaço comum e a única que não controla
+o erro.
+
+Na prática, a escolha da noção é ditada pelo que se pode estimar. Se o problema
+fornece cotas para $\mathbb{P}(|X_n-X|\geqslant\varepsilon)$, a conclusão
+natural é a convergência em probabilidade. Se fornece cotas para
+$\mathbb{E}[(X_n-X)^2]$, a conclusão é a convergência em média quadrática, que é
+mais forte. Se fornece cotas somáveis em $n$, a conclusão é a convergência quase
+certa, pelo \Cref{prop:criterio-bc}. E se o interesse está apenas na forma
+assintótica da distribuição, como no teorema central do limite, a convergência
+em distribuição é a noção apropriada.
+
+A nota sobre a lei forte dos grandes números explora exatamente a passagem de
+cotas não somáveis para cotas somáveis. Lá, a cota de Chebyshev para a média
+empírica é da ordem de $1/n$, que tende a zero mas não é somável; elevando ao
+quadrado o erro, ou truncando as variáveis, obtém-se uma cota de ordem $1/n^2$,
+somável, e o \Cref{prop:criterio-bc} produz a convergência quase certa.
+
+%----------------------------------------------------------------------
+\section{Exercícios propostos}\label{sec:exercicios}
+
+\begin{exercise}\label{exercise:qc-propriedades}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias.
+\begin{enumerate}
+\item[(a)] Mostre que $X_n\to X$ quase certamente se, e somente se,
+$X_n-X\to0$ quase certamente.
+\item[(b)] Mostre que, se $X_n\to X$ quase certamente, então
+$|X_n|\to|X|$ quase certamente.
+\item[(c)] Mostre que, se $X_n\to X$ em probabilidade, então
+$|X_n|\to|X|$ em probabilidade.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:unicidade}
+Suponha que $X_n\to X$ quase certamente e $X_n\to Y$ quase certamente. Mostre
+que $X=Y$ quase certamente. A conclusão continua válida se a convergência for
+apenas em probabilidade? E se for apenas em distribuição?
+\end{exercise}
+
+\begin{exercise}\label{exercise:soma-prob}
+Sejam $X_n\to X$ e $Y_n\to Y$ em probabilidade. Mostre que
+$X_n+Y_n\to X+Y$ em probabilidade. \emph{Sugestão:} use a desigualdade
+$|X_n+Y_n-X-Y|\leqslant|X_n-X|+|Y_n-Y|$ e a subaditividade da probabilidade.
+\end{exercise}
+
+\begin{exercise}\label{exercise:dist-ncg}
+Seja $X$ com distribuição normal padrão e defina $X_n=(-1)^nX$. Mostre que
+$X_n\Rightarrow X$, mas $(X_n)$ não converge em probabilidade para $X$.
+Compare com o \Cref{ex:dist-sem-prob}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:deslocamento-dist}
+Sejam $X,X_1,X_2,\ldots$ variáveis aleatórias com $X_n\Rightarrow X$ e seja
+$(c_n)$ uma sequência de números reais com $c_n\to0$. Mostre que
+$X_n+c_n\Rightarrow X$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:media-variancia}
+Suponha que $X_n\to X$ em média quadrática. Mostre que
+$\mathbb{E}[X_n]\to\mathbb{E}[X]$ e
+$\operatorname{Var}(X_n)\to\operatorname{Var}(X)$. Dê um exemplo em que
+$\mathbb{E}[X_n]\to\mathbb{E}[X]$ e, no entanto, $X_n$ não converge para $X$ em
+média quadrática.
+\end{exercise}
+
+\begin{exercise}\label{exercise:bc-somavel}
+Seja $(A_n)$ uma sequência de eventos com $\mathbb{P}(A_n)=2^{-n}$. Mostre que
+\[
+\sum_{n=1}^{\infty}\mathds{1}_{A_n}(\omega)<\infty
+\qquad\text{para quase todo }\omega.
+\]
+Interprete o resultado em termos do número de eventos $A_n$ que ocorrem.
+\end{exercise}
+
+\begin{exercise}\label{exercise:frequencia-digitos}
+Seja $\Omega=\{0,1,\ldots,9\}^{\mathbb{N}}$, com a medida produto determinada
+por $\mathbb{P}(X_n=k)=1/10$, onde $X_n(\omega)=\omega_n$. Para $k$ fixo,
+defina
+\[
+F_{n,k}=\frac{1}{n}\sum_{j=1}^{n}\mathds{1}_{\{X_j=k\}}.
+\]
+\begin{enumerate}
+\item[(a)] Calcule $\mathbb{E}[F_{n,k}]$ e $\operatorname{Var}(F_{n,k})$.
+\item[(b)] Conclua que $F_{n,k}\to1/10$ em probabilidade.
+\item[(c)] Mostre que a cota obtida em (b) não é somável em $n$ e explique por
+que o critério de Borel-Cantelli não se aplica diretamente. A convergência
+quase certa será demonstrada na nota sobre a lei forte dos grandes números.
+\end{enumerate}
+\end{exercise}
+
+\begin{starredexercise}\label{exercise:metrica-prob}
+No conjunto das classes de equivalência de variáveis aleatórias, identificando
+$X$ e $Y$ quando $X=Y$ quase certamente, defina
+\[
+d(X,Y)=\mathbb{E}\bigl[\min\{1,|X-Y|\}\bigr].
+\]
+\begin{enumerate}
+\item[(a)] Mostre que $d$ está bem definida, que $d(X,Y)=d(Y,X)$ e que
+$d(X,Y)=0$ se, e somente se, $X=Y$ quase certamente.
+\item[(b)] Mostre a desigualdade triangular.
+\item[(c)] Mostre que $d(X_n,X)\to0$ se, e somente se, $X_n\to X$ em
+probabilidade.
+\end{enumerate}
+\end{starredexercise}
+
+\begin{starredexercise}\label{exercise:subsequencia-qc}
+Suponha que $X_n\to X$ em probabilidade. Construa, indutivamente, uma
+subsequência $(X_{n_k})$ tal que
+\[
+\mathbb{P}\bigl(|X_{n_k}-X|\geqslant\tfrac{1}{k}\bigr)\leqslant2^{-k}
+\qquad\text{para todo }k\geqslant1,
+\]
+e conclua que $X_{n_k}\to X$ quase certamente. Use o resultado para provar a
+implicação da esquerda para a direita no \Cref{rem:subsequencias}.
+\end{starredexercise}
+
+%----------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}
