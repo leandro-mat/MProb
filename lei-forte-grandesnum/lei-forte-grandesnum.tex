@@ -248,10 +248,11 @@ livro, as Seções 1, 2 e 6 do Capítulo 1 de \cite{MR2893652} e as Seções 8.1
 %----------------------------------------------------------------------
 \section{Introdução}\label{sec:introducao}
 
-Na nota anterior sobre modos de convergência, aprendemos a distinguir cinco
-noções de convergência para sequências de variáveis aleatórias. A lei fraca dos
-grandes números, estudada na nota sobre as desigualdades de Markov e Chebyshev,
-afirma que a média empírica $S_n/n$ converge em probabilidade para a média
+Nas notas anteriores sobre modos de convergência, aprendemos a distinguir
+cinco noções de convergência para sequências de variáveis aleatórias. A lei
+fraca dos grandes números, estudada nas notas de aula sobre as desigualdades
+de Markov e Chebyshev, afirma que a média empírica $S_n/n$ converge em
+probabilidade para a média
 $\mu$. Isso significa que, para cada $n$ grande, a probabilidade de que a
 média se afaste de $\mu$ em mais de $\varepsilon$ é pequena. A lei forte faz
 uma afirmação mais precisa: para quase todo ponto $\omega$, a sequência
@@ -267,10 +268,10 @@ a partir do qual $S_n(\omega)/n$ permanece próximo de $7/2$ para sempre. A
 segunda afirmação implica a primeira, mas não é consequência dela: há
 sequências que convergem em probabilidade e, ainda assim, oscilam infinitas
 vezes em quase todos os pontos, como a sequência que varre o intervalo
-discutida na nota anterior. A lei forte exclui esse comportamento para as
+discutida nas notas anteriores. A lei forte exclui esse comportamento para as
 médias de variáveis independentes.
 
-O exemplo que organiza toda a nota é o das frequências dos dígitos. Escolha um
+O exemplo que organiza estas notas é o das frequências dos dígitos. Escolha um
 número $\omega$ em $[0,1]$ ao acaso, com a medida uniforme, e considere sua
 expansão decimal $\omega=0{,}d_1d_2d_3\ldots$. Qual é a frequência relativa
 do dígito $7$ entre os $n$ primeiros dígitos, quando $n$ cresce? A intuição diz
@@ -285,12 +286,13 @@ $X_n(\omega)=\omega_n$ é a $n$-ésima projeção. Nesse modelo, os dígitos sã
 independentes por construção, e a frequência do dígito $k$ é a média empírica
 da sequência de indicadoras $\mathds{1}_{\{X_n=k\}}$. O problema passa a ser
 um caso particular da lei forte, e é isso que permite demonstrá-lo com as
-ferramentas desta nota.
+ferramentas destas notas.
 
 A estratégia da prova segue Durrett. Primeiro, tratamos o caso em que as
 variáveis têm quarto momento finito. Nesse caso, a desigualdade de Chebyshev
 aplicada a $S_n^4$ produz uma cota de ordem $1/n^2$, cuja soma converge, e o
-critério de Borel-Cantelli da nota anterior entrega a convergência quase certa.
+critério de Borel-Cantelli das notas anteriores entrega a convergência quase
+certa.
 O argumento é curto e resolve o exemplo dos dígitos, porque as variáveis
 indicadoras são limitadas e têm todos os momentos finitos. Depois, removemos a
 hipótese de quarto momento e tratamos o caso geral, no qual se supõe apenas
@@ -313,7 +315,8 @@ explicitar qual dessas funções cada cálculo desempenha, porque a prova é
 frequentemente apresentada como uma sequência de estimativas sem que o leitor
 veja por que cada uma foi escolhida.
 
-A nota está organizada da seguinte maneira. A \Cref{sec:preliminares} recorda
+Estas notas estão organizadas da seguinte maneira.
+A \Cref{sec:preliminares} recorda
 as ferramentas de cálculo de probabilidades que serão usadas: as desigualdades
 de Markov e Chebyshev, o lema de Borel-Cantelli e o critério de convergência
 quase certa por somabilidade. A \Cref{sec:espaco-produto} constrói o espaço
@@ -369,7 +372,7 @@ Quando as variáveis são identicamente distribuídas, com média comum $\mu$ e
 variância $\sigma^2$, temos $\bar\mu_n=\mu$ e o lado direito vale
 $\sigma^2/(n\varepsilon^2)$, que tende a zero. A cota é da ordem
 de $1/n$ e, portanto, não é somável em $n$. Essa observação é o ponto de
-partida da nota: para obter convergência quase certa, precisamos de uma cota de
+partida destas notas: para obter convergência quase certa, precisamos de uma cota de
 ordem $1/n^2$, ou de um argumento que produza somabilidade por outro caminho.
 
 \subsection{Borel-Cantelli e o critério de convergência quase certa}
@@ -382,7 +385,7 @@ eventos com $\sum_n\mathbb{P}(A_n)<\infty$, então
 \]
 isto é, com probabilidade $1$ apenas finitos dos eventos $A_n$ ocorrem.
 
-A consequência que usaremos repetidamente é o critério demonstrado na nota
+A consequência que usaremos repetidamente é o critério demonstrado nas notas
 sobre modos de convergência. Se $(X_n)$ e $X$ são variáveis aleatórias tais que,
 para todo $\varepsilon>0$,
 \begin{equation}\label{eq:criterio}
@@ -392,7 +395,7 @@ então $X_n\to X$ quase certamente. A prova combina o primeiro lema com a
 caracterização da convergência quase certa em termos de
 $\limsup_n\{|X_n-X|\geqslant1/m\}$. Na prática, basta verificar
 \eqref{eq:criterio} ao longo de uma sequência de tolerâncias
-$\varepsilon_n\to0$, como mostra o corolário correspondente daquela nota.
+$\varepsilon_n\to0$, como mostra o corolário correspondente daquelas notas.
 
 Vale ter em mente a diferença entre \eqref{eq:criterio} e a convergência em
 probabilidade. A lei fraca fornece
@@ -546,7 +549,7 @@ $1/10$, logo
 \mathbb{E}[F_{n,k}]=\frac{1}{10}
 \qquad\text{para todo }n.
 \]
-A pergunta que organiza a nota é se a frequência converge para esse valor ao
+A pergunta que organiza estas notas é se a frequência converge para esse valor ao
 longo da sequência, e em que sentido.
 
 \begin{theorem}[Teorema de Borel para a base 10]\label{thm:borel}
@@ -775,8 +778,8 @@ A cota de Chebyshev é, portanto,
 \]
 que tende a zero e dá a convergência em probabilidade, mas não é somável. É
 precisamente a passagem ao quarto momento que produz a somabilidade, como no
-\Cref{thm:quarto-momento}. Esse é o conteúdo do exercício sobre as frequências dos dígitos proposto na
-nota sobre modos de convergência.
+\Cref{thm:quarto-momento}. Esse é o conteúdo do exercício sobre as frequências
+dos dígitos proposto nas notas de aula sobre modos de convergência.
 
 O argumento acima demonstrou o \Cref{thm:borel} sem usar a hipótese de
 esperança finita, que é mais fraca que a de quarto momento. A prova vale porque
@@ -790,7 +793,7 @@ quarto momento, o argumento não se aplica, e é necessário o método da
 
 \subsection{Enunciado e visão geral}\label{subsec:etemadi-enunciado}
 
-O resultado central da nota é o seguinte teorema, devido a Etemadi. Ele
+O resultado central destas notas é o seguinte teorema, devido a Etemadi. Ele
 estabelece a lei forte na hipótese mínima sobre os momentos e necessita apenas
 da hipótese mais fraca de independência dois a dois, e não de independência
 mútua.
@@ -1466,7 +1469,7 @@ enfraquecida.
 
 \subsection{Números normais}\label{subsec:numeros-normais}
 
-Voltamos ao exemplo que motivou a nota. Seja $\omega\in[0,1]$ escolhido ao
+Voltamos ao exemplo que motivou estas notas. Seja $\omega\in[0,1]$ escolhido ao
 acaso, com a medida uniforme, e escreva sua expansão decimal
 \[
 \omega=0{,}d_1(\omega)d_2(\omega)d_3(\omega)\ldots
@@ -1497,7 +1500,7 @@ expansão decimal de $\omega$ tende a $1/10$. Em outras palavras, quase todo
 número real é simplesmente normal na base $10$.
 \end{theorem}
 
-O teorema pode ser demonstrado de duas maneiras com o material desta nota.
+O teorema pode ser demonstrado de duas maneiras com o material destas notas.
 A primeira é a da \Cref{subsec:digitos-quarta}, que usa o quarto momento das
 indicadoras e o \Cref{thm:quarto-momento}. A segunda é aplicar diretamente o
 \Cref{thm:lei-forte} às variáveis $Y_j=\mathds{1}_{\{X_j=k\}}$, que são
