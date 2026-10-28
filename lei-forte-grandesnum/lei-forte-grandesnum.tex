@@ -200,7 +200,7 @@ pdfkeywords={lei forte dos grandes números, prova de Etemadi, truncamento, lema
 % --- TÍTULO, AUTOR E DATA ---
 \vspace*{0.3cm}
 \begin{center}
-{\LARGE\bf A Lei Forte dos\\[2pt] Grandes Números}
+{\LARGE\bf A Lei Forte dos Grandes Números}
 \vspace{1cm}
 
 {\large \bf L. Cioletti}
@@ -221,8 +221,9 @@ dígitos, obtendo o teorema de Borel sobre a frequência dos dígitos. Em seguid
 apresentamos a prova de Etemadi, que estabelece a lei forte para variáveis
 independentes dois a dois e identicamente distribuídas com esperança finita,
 seguindo de perto a Seção 2.4 de \cite{MR3930614}. A prova é decomposta em
-quatro etapas: redução a variáveis não negativas, truncamento, estimativa de
-momentos e argumento de subsequência geométrica, com o controle dos valores
+etapas: redução a variáveis não negativas, truncamento e identificação das
+médias truncadas, estimativa de momentos e argumento de subsequência
+geométrica, com o controle dos valores
 intermediários feito por monotonicidade. Mostramos também que a hipótese de
 integrabilidade é necessária, exibindo o caso da distribuição de Cauchy, e
 discutimos aplicações à integração de Monte Carlo e à função de distribuição
@@ -301,7 +302,9 @@ contorna a ausência de momentos altos por meio de um truncamento e de uma
 estimativa de momentos para as variáveis truncadas. O truncamento faz com que
 cada variável seja limitada por uma escala que cresce com o índice, e a
 estimativa mostra que a soma das variâncias truncadas, dividida pelos
-quadrados dos índices, é finita. Com isso, a cota de Chebyshev volta a ser
+quadrados dos índices, é finita. A convergência das esperanças truncadas
+identifica o centro dessas somas com a média original. Com isso, a cota de
+Chebyshev volta a ser
 somável, mas apenas ao longo de uma subsequência geométrica de índices. O
 preenchimento dos índices restantes usa a monotonicidade da soma truncada, e é
 aqui que a redução a variáveis não negativas se torna necessária.
@@ -318,11 +321,13 @@ veja por que cada uma foi escolhida.
 Estas notas estão organizadas da seguinte maneira.
 A \Cref{sec:preliminares} recorda
 as ferramentas de cálculo de probabilidades que serão usadas: as desigualdades
-de Markov e Chebyshev, o lema de Borel-Cantelli e o critério de convergência
-quase certa por somabilidade. A \Cref{sec:espaco-produto} constrói o espaço
+de Markov e Chebyshev, os dois lemas de Borel-Cantelli, o critério de
+convergência quase certa por somabilidade e a representação da esperança pela
+integral da cauda. A \Cref{sec:espaco-produto} constrói o espaço
 produto e formula o problema das frequências. A \Cref{sec:quarto-momento}
 demonstra a lei forte sob a hipótese de quarto momento finito e aplica o
-resultado aos dígitos. A \Cref{sec:etemadi} apresenta a prova de Etemadi.
+resultado aos dígitos, incluindo a interpretação em termos de números reais.
+A \Cref{sec:etemadi} apresenta a prova de Etemadi.
 A \Cref{sec:reciproca} mostra que a hipótese $\mathbb{E}|X_1|<\infty$ não pode
 ser enfraquecida. A \Cref{sec:aplicacoes} reúne aplicações, e a
 \Cref{sec:exercicios} propõe exercícios.
@@ -337,11 +342,11 @@ $\{0,1,\ldots,9\}^{\mathbb{N}}$. O caso de quarto momento é o da Seção 2.3 de
 %----------------------------------------------------------------------
 \section{Preliminares}\label{sec:preliminares}
 
-Nesta seção, reunimos as ferramentas que serão usadas na prova. Todas já foram
-demonstradas nas notas anteriores; o objetivo aqui é fixar a forma exata em que
-serão aplicadas.
+Nesta seção, reunimos as ferramentas que serão usadas nas provas da lei forte
+e de sua recíproca. Recordamos as desigualdades e os lemas das notas anteriores
+e explicitamos a relação entre integrabilidade e probabilidades de cauda.
 
-\subsection{Markov, Chebyshev e a lei fraca}\label{subsec:markov-chebyshev}
+\subsection{Markov, Chebyshev e a Lei Fraca}\label{subsec:markov-chebyshev}
 
 A desigualdade de Markov diz que, para uma variável aleatória $Z\geqslant0$ e
 $a>0$,
@@ -372,63 +377,102 @@ Quando as variáveis são identicamente distribuídas, com média comum $\mu$ e
 variância $\sigma^2$, temos $\bar\mu_n=\mu$ e o lado direito vale
 $\sigma^2/(n\varepsilon^2)$, que tende a zero. A cota é da ordem
 de $1/n$ e, portanto, não é somável em $n$. Essa observação é o ponto de
-partida destas notas: para obter convergência quase certa, precisamos de uma cota de
-ordem $1/n^2$, ou de um argumento que produza somabilidade por outro caminho.
+partida destas notas: procuraremos uma cota somável, como uma de ordem
+$1/n^2$, ou produziremos somabilidade ao longo de subsequências.
 
-\subsection{Borel-Cantelli e o critério de convergência quase certa}
+\subsection{Borel-Cantelli e o Critério de Convergência Quase Certa}
 \label{subsec:bc-criterio}
 
-Recordamos o primeiro lema de Borel-Cantelli. Se $(A_n)$ é uma sequência de
-eventos com $\sum_n\mathbb{P}(A_n)<\infty$, então
+Os resultados a seguir foram discutidos nas notas \emph{Modos de Convergência
+de Sequências de Variáveis Aleatórias}. Aqui recordamos os enunciados na forma
+em que serão usados nas provas da lei forte e de sua recíproca.
+
+Para uma sequência de eventos $(A_n)$, o limite superior
+\[
+\limsup_{n\to\infty}A_n
+=\bigcap_{N=1}^{\infty}\bigcup_{n\geqslant N}A_n
+\]
+é o evento formado pelos pontos $\omega$ que pertencem a $A_n$ para infinitos
+índices $n$. Escrevemos também $\{A_n\ \text{infinitas vezes}\}$ para esse
+evento. O primeiro lema de Borel-Cantelli afirma que, se
+$\sum_n\mathbb{P}(A_n)<\infty$, então
 \[
 \mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)=0,
 \]
-isto é, com probabilidade $1$ apenas finitos dos eventos $A_n$ ocorrem.
+isto é, com probabilidade $1$ apenas finitos dos eventos $A_n$ ocorrem. Não se
+exige independência dos eventos.
 
-A consequência que usaremos repetidamente é o critério demonstrado nas notas
-sobre modos de convergência. Se $(X_n)$ e $X$ são variáveis aleatórias tais que,
-para todo $\varepsilon>0$,
+Aplicado aos eventos de desvio $\{|X_n-X|\geqslant\varepsilon\}$, o primeiro
+lema fornece o \emph{critério de Borel-Cantelli para a convergência quase
+certa}: se $X,X_1,X_2,\ldots$ são variáveis aleatórias e, para todo
+$\varepsilon>0$,
 \begin{equation}\label{eq:criterio}
 \sum_{n=1}^{\infty}\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon\bigr)<\infty,
 \end{equation}
-então $X_n\to X$ quase certamente. A prova combina o primeiro lema com a
-caracterização da convergência quase certa em termos de
-$\limsup_n\{|X_n-X|\geqslant1/m\}$. Na prática, basta verificar
-\eqref{eq:criterio} ao longo de uma sequência de tolerâncias
-$\varepsilon_n\to0$, como mostra o corolário correspondente daquelas notas.
+então $X_n\to X$ quase certamente. Para cada tolerância fixada, a somabilidade
+garante que, para quase todo $\omega$, os desvios ocorrem apenas finitas vezes:
+$|X_n(\omega)-X(\omega)|<\varepsilon$ para todo $n$ suficientemente grande.
+Esse índice pode depender de $\omega$ e de $\varepsilon$.
 
-Vale ter em mente a diferença entre \eqref{eq:criterio} e a convergência em
-probabilidade. A lei fraca fornece
-$\mathbb{P}(|S_n/n-\mu|\geqslant\varepsilon)\to0$, mas não fornece a
-somabilidade da série. É exatamente essa lacuna que a lei forte precisa
-preencher.
+Basta verificar \eqref{eq:criterio} para cada valor fixo
+$\varepsilon=1/m$, com $m\geqslant1$. A demonstração do critério e a passagem
+dessas tolerâncias a um único evento de probabilidade $1$ estão na
+Subseção~3.5, \emph{O Critério de Borel-Cantelli}, daquelas notas.
 
-\subsection{O truncamento}\label{subsec:truncamento}
+A convergência em probabilidade pede apenas que a probabilidade de cada desvio
+tenda a zero; a somabilidade em \eqref{eq:criterio} permite controlar sua
+repetição ao longo da sequência. Essa condição é suficiente para a
+convergência quase certa, mas não necessária, como mostram os exemplos da
+Subseção~3.6, \emph{O Critério Não É Necessário}, das notas citadas. Nas duas
+provas da lei forte que apresentaremos, procuraremos estimativas que permitam
+aplicar o critério.
 
-A técnica de truncamento consiste em substituir cada variável $X_k$ por uma
-versão limitada,
+Na prova da recíproca, usaremos também o segundo lema de Borel-Cantelli: se os
+eventos $A_n$ são independentes e $\sum_n\mathbb{P}(A_n)=\infty$, então
 \[
-Y_k=X_k\mathds{1}_{\{|X_k|\leqslant a_k\}},
+\mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)=1.
 \]
-com uma escala $a_k$ escolhida de modo que a diferença $X_k-Y_k$ seja não nula
-apenas para finitos índices, quase certamente. Se
-$\sum_k\mathbb{P}(|X_k|>a_k)<\infty$, o primeiro lema de Borel-Cantelli
-garante que
-$\mathbb{P}(|X_k|>a_k\ \text{infinitas vezes})=0$. Assim, para quase todo
-$\omega$, existe um último índice $K(\omega)$ em que o truncamento altera a
-variável, e a diferença entre a soma original e a soma truncada fica limitada,
-uniformemente em $n$, por uma constante que depende de $\omega$. Dividindo por
-$n$, as duas somas têm o mesmo comportamento assintótico.
+Nesse caso, quase certamente infinitos dos eventos $A_n$ ocorrem. Os dois
+lemas estão enunciados na Seção~2 das mesmas notas.
 
-Essa é a primeira etapa da prova de Etemadi, e o mesmo mecanismo aparece na
-prova da lei fraca em sua versão mais geral. A escolha natural da escala é
-$a_k=k$, porque a série $\sum_k\mathbb{P}(|X_1|>k)$ é comparável a
-$\mathbb{E}|X_1|$, que é finita por hipótese.
+\subsection{Esperança e Probabilidades de Cauda}\label{subsec:esperanca-cauda}
+
+Se $W$ é uma variável aleatória não negativa, a fórmula da esperança por
+integração da cauda afirma que
+\begin{equation}\label{eq:esperanca-cauda}
+\mathbb{E}[W]=\int_0^{\infty}\mathbb{P}(W>t)\,dt,
+\end{equation}
+com ambos os lados podendo ser infinitos. De fato,
+\[
+W(\omega)=\int_0^{\infty}\mathds{1}_{\{t<W(\omega)\}}\,dt,
+\]
+e o teorema de Tonelli permite trocar a esperança com a integral, pois o
+integrando é não negativo.
+
+Como $t\mapsto\mathbb{P}(W>t)$ é não crescente, para todo inteiro $k\geqslant0$
+temos
+\[
+\mathbb{P}(W>k+1)
+\leqslant\int_k^{k+1}\mathbb{P}(W>t)\,dt
+\leqslant\mathbb{P}(W>k).
+\]
+Somando essas desigualdades e usando \eqref{eq:esperanca-cauda}, obtemos
+\begin{equation}\label{eq:comparacao-cauda}
+\sum_{k=1}^{\infty}\mathbb{P}(W>k)
+\leqslant\mathbb{E}[W]
+\leqslant\sum_{k=0}^{\infty}\mathbb{P}(W>k).
+\end{equation}
+As séries dos extremos diferem apenas pelo termo $\mathbb{P}(W>0)\leqslant1$.
+Portanto, $\mathbb{E}[W]<\infty$ se, e somente se,
+$\sum_{k=1}^{\infty}\mathbb{P}(W>k)<\infty$. Aplicaremos essa equivalência a
+$W=|X_1|$: a integrabilidade tornará raros os truncamentos na prova de
+Etemadi, enquanto sua ausência produzirá termos grandes infinitas vezes na
+prova da recíproca.
 
 %----------------------------------------------------------------------
-\section{O espaço produto e as frequências dos dígitos}\label{sec:espaco-produto}
+\section{O Espaço Produto e as Frequências dos Dígitos}\label{sec:espaco-produto}
 
-\subsection{A construção do modelo}\label{subsec:modelo}
+\subsection{A Construção do Modelo}\label{subsec:modelo}
 
 Trabalharemos no espaço de todas as sequências infinitas de dígitos,
 \[
@@ -465,12 +509,16 @@ consistente: se um cilindro de posto $n$ é relido como cilindro de posto
 $m>n$, ele se decompõe em $10^{m-n}$ cilindros de posto $m$, e
 $10^{m-n}\cdot10^{-m}=10^{-n}$.
 
-A definição é consistente e fornece uma função aditivamente finita em
-$\mathcal{C}_0$. A aditividade enumerável em $\mathcal{C}_0$ decorre da
-compacidade do produto de alfabetos finitos: se uma sequência decrescente de
-cilindros não vazios tem interseção vazia, então algum de seus termos já é
-vazio. Com essa verificação, o teorema de extensão de Carathéodory garante que
-$\mathbb{P}$ se estende de maneira única à $\sigma$-álgebra
+Na topologia produto dos alfabetos finitos discretos, $\Omega$ é compacto.
+Cada cilindro, fechado em
+$\Omega$, é compacto; assim, todo elemento de $\mathcal{C}_0$, sendo união
+finita de cilindros, também é compacto. Se $A_n\in\mathcal{C}_0$ é uma
+sequência decrescente com $\bigcap_n A_n=\varnothing$, os $A_n$ são fechados
+e $A_1$ é compacto, logo algum $A_n$ já é vazio. Portanto,
+$\mathbb{P}(A_n)\to0$. Essa continuidade no vazio, junto com a aditividade
+finita, garante a aditividade enumerável no corpo
+$\mathcal{C}_0$. Pelo teorema de extensão de Carathéodory, $\mathbb{P}$ se
+estende de maneira única à $\sigma$-álgebra
 $\mathcal{F}=\sigma(\mathcal{C}_0)$ gerada pelos cilindros. Citamos esse
 teorema sem demonstração. O espaço
 $(\Omega,\mathcal{F},\mathbb{P})$ é o \emph{espaço produto} e $\mathbb{P}$ é a
@@ -530,10 +578,10 @@ a verificação acima é suficiente para concluir a independência de toda a
 sequência. O modelo é, portanto, o de uma sequência de sorteios independentes
 de um dígito, cada um com probabilidade $1/10$. Ele é a versão decimal do
 modelo de lançamentos de uma moeda honesta e também pode ser obtido a partir da
-expansão decimal de um ponto escolhido ao acaso em $[0,1]$, como discutiremos
-na \Cref{sec:aplicacoes}.
+expansão decimal de um ponto escolhido ao acaso em $[0,1]$, como veremos na
+\Cref{subsec:digitos-reais}.
 
-\subsection{O problema das frequências}\label{subsec:problema-frequencias}
+\subsection{O Problema das Frequências}\label{subsec:problema-frequencias}
 
 Para $n\geqslant1$ e $k\in\{0,1,\ldots,9\}$, definimos a frequência relativa do
 dígito $k$ entre os $n$ primeiros dígitos:
@@ -581,7 +629,8 @@ conjunto dos pontos simplesmente normais tem probabilidade $1$.
 
 O teorema será demonstrado duas vezes, por métodos diferentes. Na
 \Cref{sec:quarto-momento}, usamos o quarto momento das indicadoras e obtemos a
-conclusão com um argumento curto, que se aplica a qualquer sequência limitada.
+conclusão com um argumento curto para sequências independentes, identicamente
+distribuídas e limitadas.
 Na \Cref{sec:etemadi}, demonstramos a lei forte na hipótese de esperança finita
 e recuperamos o \Cref{thm:borel} como caso particular. A primeira prova é
 instrutiva porque mostra o mecanismo de Borel-Cantelli em sua forma mais
@@ -597,9 +646,9 @@ sequência e não um número. Essa é uma das razões para trabalhar no espaço
 produto: ele elimina uma complicação que é irrelevante para o problema.
 
 %----------------------------------------------------------------------
-\section{A lei forte com quarto momento}\label{sec:quarto-momento}
+\section{A Lei Forte com Quarto Momento}\label{sec:quarto-momento}
 
-\subsection{O teorema}\label{subsec:quarto-momento-teorema}
+\subsection{O Teorema}\label{subsec:quarto-momento-teorema}
 
 Começamos com o caso em que as variáveis têm quarto momento finito. A prova é
 curta e mostra, sem as complicações do truncamento, como a somabilidade da cota
@@ -718,7 +767,7 @@ A hipótese implica $\mathbb{E}[X_1^4]\leqslant M^4<\infty$, e o
 \Cref{thm:quarto-momento} se aplica.
 \end{proof}
 
-\subsection{Aplicação às frequências dos dígitos}\label{subsec:digitos-quarta}
+\subsection{Aplicação às Frequências dos Dígitos}\label{subsec:digitos-quarta}
 
 Agora combinamos o \Cref{thm:quarto-momento} com o \Cref{cor:limitadas} para
 demonstrar o \Cref{thm:borel}. Fixe
@@ -781,17 +830,56 @@ precisamente a passagem ao quarto momento que produz a somabilidade, como no
 \Cref{thm:quarto-momento}. Esse é o conteúdo do exercício sobre as frequências
 dos dígitos proposto nas notas de aula sobre modos de convergência.
 
-O argumento acima demonstrou o \Cref{thm:borel} sem usar a hipótese de
-esperança finita, que é mais fraca que a de quarto momento. A prova vale porque
-as indicadoras são limitadas. Para uma sequência geral de variáveis
-independentes e identicamente distribuídas com $\mathbb{E}|X_1|<\infty$ e sem
-quarto momento, o argumento não se aplica, e é necessário o método da
+O argumento acima demonstrou o \Cref{thm:borel} sem usar a versão geral da lei
+forte. A prova vale porque as indicadoras são limitadas. Para uma sequência
+geral de variáveis independentes e identicamente distribuídas com
+$\mathbb{E}|X_1|<\infty$ e sem quarto momento, o argumento não se aplica, e é
+necessário o método da
 \Cref{sec:etemadi}.
 
-%----------------------------------------------------------------------
-\section{A lei forte de Etemadi}\label{sec:etemadi}
+\subsection{Dos Dígitos aos Números Reais}\label{subsec:digitos-reais}
 
-\subsection{Enunciado e visão geral}\label{subsec:etemadi-enunciado}
+Para traduzir o resultado para números reais, associamos a cada $x\in[0,1)$
+sua sequência de dígitos decimais. Escolha a expansão que não termina em
+$9$'s e defina
+\[
+\Phi(x)=(d_1(x),d_2(x),\ldots)\in\Omega.
+\]
+Se $u_1,\ldots,u_n$ são os primeiros $n$ dígitos de um cilindro e
+$m=\sum_{j=1}^n u_j10^{n-j}$, então
+\[
+\Phi^{-1}\bigl(C(u_1,\ldots,u_n)\bigr)
+=\left[\frac{m}{10^n},\frac{m+1}{10^n}\right),
+\]
+que tem medida de Lebesgue $10^{-n}$. Como os cilindros geram $\mathcal{F}$,
+suas preimagens mensuráveis garantem que $\Phi$ é mensurável. A imagem da
+medida de Lebesgue por $\Phi$ coincide com a medida produto nos cilindros e,
+pela unicidade da extensão de Carathéodory, em toda $\mathcal{F}$. Portanto,
+\[
+\mathbb{P}(A)=\lambda\bigl(\Phi^{-1}(A)\bigr)
+\qquad\text{para todo }A\in\mathcal{F}.
+\]
+Usamos $[0,1)$ para evitar a representação
+decimal de $1$; incluir esse extremo não altera nenhuma afirmação quase certa,
+pois ele tem medida zero.
+
+\begin{theorem}[Borel]\label{thm:borel-reais}
+Para quase todo $x\in[0,1]$, a frequência relativa de cada dígito na expansão
+decimal de $x$ tende a $1/10$. Em outras palavras, quase todo número real é
+simplesmente normal na base $10$.
+\end{theorem}
+
+\begin{proof}
+Pela identidade de medidas acima, o resultado segue do \Cref{thm:borel} no
+espaço produto. O conjunto dos pontos com duas expansões é enumerável e tem
+medida zero, de modo que a convenção adotada para os dígitos não afeta a
+conclusão.
+\end{proof}
+
+%----------------------------------------------------------------------
+\section{A Prova de Etemadi da Lei Forte}\label{sec:etemadi}
+
+\subsection{Enunciado e Visão Geral}\label{subsec:etemadi-enunciado}
 
 O resultado central destas notas é o seguinte teorema, devido a Etemadi. Ele
 estabelece a lei forte na hipótese mínima sobre os momentos e necessita apenas
@@ -826,7 +914,8 @@ A prova tem quatro etapas, que enunciamos antes de executá-las:
 $X_n=X_n^+-X_n^-$ e tratamos cada parte separadamente.
 \item[(ii)] \emph{Truncamento.} Substituímos $X_k$ por
 $Y_k=X_k\mathds{1}_{\{|X_k|\leqslant k\}}$ e mostramos que basta provar a lei
-forte para as variáveis truncadas.
+forte para as variáveis truncadas; em seguida, identificamos o limite das
+médias de suas esperanças.
 \item[(iii)] \emph{Estimativa de momentos.} Mostramos que
 $\sum_k\operatorname{Var}(Y_k)/k^2<\infty$.
 \item[(iv)] \emph{Subsequência geométrica e monotonicidade.} Aplicamos
@@ -841,7 +930,7 @@ momentos, como comentário sobre a inspiração de Etemadi. Aqui a colocamos no
 início, porque ela é logicamente anterior e porque explica por que a
 monotonicidade estará disponível na última etapa.
 
-\subsection{Redução a variáveis não negativas}\label{subsec:reducao}
+\subsection{Redução a Variáveis Não Negativas}\label{subsec:reducao}
 
 Para $x\in\mathbb{R}$, escrevemos $x^+=\max\{x,0\}$ e $x^-=\max\{-x,0\}$, de
 modo que $x=x^+-x^-$ e $|x|=x^++x^-$. Definimos
@@ -882,7 +971,14 @@ Portanto, basta provar o teorema na hipótese adicional $X_n\geqslant0$ para
 todo $n$. Nesse caso, $\mu=\mathbb{E}[X_1]\geqslant0$ e as somas truncadas
 serão não decrescentes, o que será usado na \Cref{subsec:intermediarios}.
 
-\subsection{O truncamento}\label{subsec:lema-truncamento}
+\subsection{O Truncamento}\label{subsec:lema-truncamento}
+
+Depois da redução, podemos supor $X_k\geqslant0$. A truncagem precisa crescer
+com $k$: assim, cada variável é alterada apenas quando toma um valor grande,
+mas ainda podemos controlar a frequência dessas alterações. A integrabilidade
+e a comparação de caudas \eqref{eq:esperanca-cauda}--\eqref{eq:comparacao-cauda}
+darão uma soma finita das probabilidades de truncamento; pelo lema de
+Borel--Cantelli, quase certamente só haverá um número finito de alterações.
 
 Definimos a versão truncada de $X_k$ no nível $k$:
 \begin{equation}\label{eq:truncamento}
@@ -898,18 +994,10 @@ certamente basta provar que $T_n/n\to\mu$ quase certamente.
 \end{lemma}
 
 \begin{proof}
-Começamos por mostrar que a série das probabilidades de truncamento converge.
 Como as variáveis são identicamente distribuídas,
-$\mathbb{P}(|X_k|>k)=\mathbb{P}(|X_1|>k)$. A função
-$t\mapsto\mathbb{P}(|X_1|>t)$ é não crescente, logo, em cada intervalo
-$[k-1,k]$, ela é minorada pelo seu valor no extremo direito:
-\[
-\int_{k-1}^{k}\mathbb{P}(|X_1|>t)\,dt
-\geqslant
-\mathbb{P}(|X_1|>k).
-\]
-Somando em $k\geqslant1$ e usando o teorema de Tonelli, já que o integrando é
-não negativo,
+$\mathbb{P}(|X_k|>k)=\mathbb{P}(|X_1|>k)$. A fórmula de esperança por integração
+da cauda e a comparação \eqref{eq:comparacao-cauda} dão a seguinte estimativa
+(a soma é de termos não negativos):
 \begin{equation}\label{eq:serie-truncamento}
 \sum_{k=1}^{\infty}\mathbb{P}(|X_k|>k)
 =
@@ -919,8 +1007,7 @@ não negativo,
 =
 \mathbb{E}|X_1|.
 \end{equation}
-A última igualdade é a fórmula da esperança por integração da cauda, válida
-para variáveis não negativas. Por hipótese, o lado direito é finito.
+Por hipótese, o lado direito é finito.
 
 Seja $A_k=\{|X_k|>k\}=\{X_k\neq Y_k\}$. Por \eqref{eq:serie-truncamento} e
 pelo primeiro lema de Borel-Cantelli,
@@ -962,15 +1049,95 @@ $T_n/n\to\mu$ quase certamente, então $S_n/n\to\mu$ quase certamente.
 A cota obtida é uniforme em $n$, e é isso que permite dividir por $n$ sem
 discutir subsequências. O ponto é que $K(\omega)$ é o \emph{último} índice em
 que o truncamento interfere; depois dele, as diferenças são exatamente nulas e
-a soma parcial para de crescer. Se tivéssemos apenas uma cota que dependesse de
-$n$, o argumento não funcionaria.
+a soma parcial para de crescer. Uma cota dependente de $n$ exigiria verificar
+adicionalmente que ela tende a zero após a divisão por $n$.
 
-\subsection{A estimativa de momentos}\label{subsec:estimativa-momentos}
+\subsection{As Médias Truncadas}\label{subsec:medias-truncadas}
 
-O segundo passo é a estimativa que substitui a hipótese de quarto momento. Ela
-não controla o segundo momento de cada $Y_k$, mas a soma dos segundo momentos
-ponderada por $1/k^2$, que é a quantidade que aparecerá na aplicação de
-Chebyshev.
+Antes de estimar as flutuações de $T_n$, identificamos o limite de seu centro.
+Como já reduzimos ao caso $X_k\geqslant0$, a variável
+\[
+Z_k=X_1\mathds{1}_{\{X_1\leqslant k\}}
+\]
+cresce para $X_1$ quando $k\to\infty$. Pela convergência monótona,
+\[
+\mathbb{E}[Z_k]\longrightarrow\mathbb{E}[X_1]=\mu.
+\]
+As variáveis $Y_k=X_k\mathds{1}_{\{X_k\leqslant k\}}$ e $Z_k$ têm a mesma
+distribuição, portanto $\mathbb{E}[Y_k]=\mathbb{E}[Z_k]\to\mu$. Aplicando
+Cesàro, obtemos a convergência para todos os índices $n$:
+\begin{equation}\label{eq:cesaro}
+\frac{\mathbb{E}T_n}{n}
+=
+\frac{1}{n}\sum_{m=1}^{n}\mathbb{E}[Y_m]
+\longrightarrow\mu.
+\end{equation}
+Essa identificação vale para a sequência inteira; mais adiante, será usada
+também nos índices da subsequência geométrica.
+
+\subsection{A Estimativa de Momentos}\label{subsec:estimativa-momentos}
+
+A estimativa que substitui a hipótese de quarto momento controla a soma dos
+segundos momentos ponderada por $1/k^2$, que é a quantidade que aparecerá na
+aplicação de Chebyshev. Para obtê-la, começamos por uma cota numérica.
+
+\begin{lemma}[Cota harmônica]\label{lem:harmonica}
+Para todo $y\geqslant0$,
+\[
+2y\sum_{k>y}\frac{1}{k^2}\leqslant4.
+\]
+\end{lemma}
+
+\begin{proof}
+Começamos pela comparação com a integral. Se $m\geqslant2$, a função
+$x\mapsto x^{-2}$ é decrescente em $[m-1,\infty)$. Para $x\in[k-1,k]$ com
+$k\geqslant m$, temos $x\leqslant k$, logo $x^{-2}\geqslant k^{-2}$ e
+\[
+\frac{1}{k^2}\leqslant\int_{k-1}^{k}\frac{1}{x^2}\,dx.
+\]
+Somando em $k\geqslant m$,
+\begin{equation}\label{eq:cota-harmonica}
+\sum_{k\geqslant m}\frac{1}{k^2}
+\leqslant
+\int_{m-1}^{\infty}\frac{dx}{x^2}
+=
+\frac{1}{m-1}.
+\end{equation}
+
+Suponha primeiro $y\geqslant1$. A soma $\sum_{k>y}k^{-2}$ começa em
+$k=\lfloor y\rfloor+1\geqslant2$, de modo que \eqref{eq:cota-harmonica} se
+aplica com $m=\lfloor y\rfloor+1$:
+\[
+2y\sum_{k>y}\frac{1}{k^2}
+\leqslant
+\frac{2y}{\lfloor y\rfloor}
+\leqslant
+4,
+\]
+pois, para $y\geqslant1$, temos $y<\lfloor y\rfloor+1\leqslant2\lfloor
+y\rfloor$.
+
+Suponha agora $0\leqslant y<1$. Então todo inteiro positivo $k$ satisfaz
+$k>y$, e usamos \eqref{eq:cota-harmonica} com $m=2$:
+\[
+2y\sum_{k>y}\frac{1}{k^2}
+=
+2y\sum_{k\geqslant1}\frac{1}{k^2}
+\leqslant
+2\sum_{k\geqslant1}\frac{1}{k^2}
+=
+2\Bigl(1+\sum_{k\geqslant2}\frac{1}{k^2}\Bigr)
+\leqslant
+2(1+1)
+=
+4.
+\]
+Em ambos os casos a constante $4$ serve. A cota é grosseira, mas suficiente.
+\end{proof}
+
+Observe que a constante exata não importa: qualquer constante finita serviria,
+porque ela será multiplicada por $\mathbb{E}|X_1|$, que é finito. O que importa
+é a ordem de grandeza, isto é, o fato de a constante não depender de $y$.
 
 \begin{lemma}[Estimativa de momentos]\label{lem:momento}
 Com $Y_k$ definido em \eqref{eq:truncamento},
@@ -1038,7 +1205,7 @@ negativos,
 \Bigl\{\sum_{k>y}\frac{1}{k^2}\Bigr\}
 \,2y\,\mathbb{P}(|X_1|>y)\,dy.
 \end{align*}
-A soma entre chaves é cotada pelo \Cref{lem:harmonica} abaixo, que dá
+A soma entre chaves é cotada pelo \Cref{lem:harmonica} acima, que dá
 \[
 2y\sum_{k>y}\frac{1}{k^2}\leqslant4
 \qquad\text{para todo }y\geqslant0.
@@ -1056,66 +1223,7 @@ Logo
 onde usamos novamente a fórmula da esperança por integração da cauda.
 \end{proof}
 
-\begin{lemma}[Cota harmônica]\label{lem:harmonica}
-Para todo $y\geqslant0$,
-\[
-2y\sum_{k>y}\frac{1}{k^2}\leqslant4.
-\]
-\end{lemma}
-
-\begin{proof}
-Começamos pela comparação com a integral. Se $m\geqslant2$, a função
-$x\mapsto x^{-2}$ é decrescente em $[m-1,\infty)$. Para $x\in[k-1,k]$ com
-$k\geqslant m$, temos $x\leqslant k$, logo $x^{-2}\geqslant k^{-2}$ e
-\[
-\frac{1}{k^2}\leqslant\int_{k-1}^{k}\frac{1}{x^2}\,dx.
-\]
-Somando em $k\geqslant m$,
-\begin{equation}\label{eq:cota-harmonica}
-\sum_{k\geqslant m}\frac{1}{k^2}
-\leqslant
-\int_{m-1}^{\infty}\frac{dx}{x^2}
-=
-\frac{1}{m-1}.
-\end{equation}
-
-Suponha primeiro $y\geqslant1$. A soma $\sum_{k>y}k^{-2}$ começa em
-$k=\lfloor y\rfloor+1\geqslant2$, de modo que \eqref{eq:cota-harmonica} se
-aplica com $m=\lfloor y\rfloor+1$:
-\[
-2y\sum_{k>y}\frac{1}{k^2}
-\leqslant
-\frac{2y}{\lfloor y\rfloor}
-\leqslant
-4,
-\]
-pois, para $y\geqslant1$, temos $y<(\lfloor y\rfloor+1)\leqslant2\lfloor
-y\rfloor$.
-
-Suponha agora $0\leqslant y<1$. Então todo inteiro positivo $k$ satisfaz
-$k>y$, e usamos \eqref{eq:cota-harmonica} com $m=2$:
-\[
-2y\sum_{k>y}\frac{1}{k^2}
-=
-2y\sum_{k\geqslant1}\frac{1}{k^2}
-\leqslant
-2\sum_{k\geqslant1}\frac{1}{k^2}
-=
-2\Bigl(1+\sum_{k\geqslant2}\frac{1}{k^2}\Bigr)
-\leqslant
-2(1+1)
-=
-4.
-\]
-Em ambos os casos a constante $4$ serve. A cota é grosseira, mas suficiente.
-\end{proof}
-
-Observe que a constante exata não importa: qualquer constante finita serviria,
-porque ela será multiplicada por $\varepsilon^{-2}$ e por $\mathbb{E}|X_1|$,
-que são finitos. O que importa é a ordem de grandeza, isto é, o fato de a
-constante não depender de $k$.
-
-\subsection{O argumento de subsequência}\label{subsec:subsequencia}
+\subsection{O Argumento de Subsequência}\label{subsec:subsequencia}
 
 Suponha, como permite a \Cref{subsec:reducao}, que $X_n\geqslant0$ para todo
 $n$. Então $Y_n\geqslant0$ e $\mu=\mathbb{E}[X_1]\geqslant0$.
@@ -1125,11 +1233,11 @@ Fixamos um número $\alpha>1$ e definimos
 k(n)=\lfloor\alpha^n\rfloor,
 \qquad n\geqslant1.
 \end{equation}
-A escolha de uma progressão geométrica é o ponto central do argumento. Uma
-subsequência linear não funciona, porque o número de índices até $m$ cresce
-como $m$ e a soma das variâncias não decresce o suficiente; uma progressão
-geométrica faz com que cada índice $m$ seja coberto por pouquíssimos valores de
-$n$, e é isso que produz o fator $m^{-2}$ no cálculo abaixo.
+A escolha de uma progressão geométrica é o ponto central do argumento. Para
+cada $m$, há infinitos índices $n$ com $k(n)\geqslant m$, mas eles começam
+perto de $\log_\alpha m$ e seus pesos $k(n)^{-2}$ formam uma cauda geométrica.
+É essa soma, de ordem $m^{-2}$, que torna somável a estimativa de Chebyshev
+abaixo.
 
 Como os $Y_m$ são independentes dois a dois,
 \[
@@ -1194,34 +1302,22 @@ correspondentes a $j\geqslant1$, obtemos
 \qquad\text{quase certamente.}
 \end{equation}
 
-Falta identificar o centro $\mathbb{E}T_{k(n)}/k(n)$. Como $X_n\geqslant0$,
-as variáveis truncadas $Y_k=X_k\mathds{1}_{\{X_k\leqslant k\}}$ crescem para
-$X_k$ quando $k\to\infty$. Logo, pela convergência monótona,
+Pela convergência de Cesàro \eqref{eq:cesaro}, aplicada a $n=k(n)$,
 \[
-\mathbb{E}[Y_k]=\mathbb{E}\bigl[X_1\mathds{1}_{\{X_1\leqslant k\}}\bigr]
-\longrightarrow
-\mathbb{E}[X_1]=\mu.
+\frac{\mathbb{E}T_{k(n)}}{k(n)}\longrightarrow\mu.
 \]
-A média de Cesàro de uma sequência convergente converge para o mesmo limite,
-portanto
-\begin{equation}\label{eq:cesaro}
-\frac{\mathbb{E}T_{k(n)}}{k(n)}
-=
-\frac{1}{k(n)}\sum_{m=1}^{k(n)}\mathbb{E}[Y_m]
-\longrightarrow\mu.
-\end{equation}
-Combinando \eqref{eq:subsequencia} e \eqref{eq:cesaro},
+Combinando essa convergência e \eqref{eq:subsequencia},
 \begin{equation}\label{eq:subsequencia-final}
 \frac{T_{k(n)}}{k(n)}\longrightarrow\mu
 \qquad\text{quase certamente.}
 \end{equation}
 
-\subsection{Os valores intermediários}\label{subsec:intermediarios}
+\subsection{Os Valores Intermediários}\label{subsec:intermediarios}
 
 A \eqref{eq:subsequencia-final} dá a convergência apenas ao longo dos índices
 $k(n)$. Falta controlar os índices $m$ que ficam entre dois valores
-consecutivos da subsequência. É aqui que a hipótese $X_n\geqslant0$ entra, e
-ela entra em um único ponto: a monotonicidade.
+consecutivos da subsequência. A hipótese $X_n\geqslant0$ fornece o controle
+desses índices por meio da monotonicidade.
 
 Como $Y_k\geqslant0$, a sequência $T_m=Y_1+\cdots+Y_m$ é não decrescente em
 $m$. Seja $m$ um inteiro com
@@ -1303,25 +1399,29 @@ $S_m/m\to\mu$ quase certamente, o que conclui a prova do
 \Cref{thm:lei-forte} no caso $X_n\geqslant0$. A
 \Cref{subsec:reducao} completa o caso geral.
 
-\subsection{Observações sobre a prova}\label{subsec:observacoes-prova}
+\subsection{Observações sobre a Prova}\label{subsec:observacoes-prova}
 
 A prova está completa, mas vale destacar três pontos que costumam passar
 despercebidos na primeira leitura.
 
 O primeiro é o papel de cada hipótese. A hipótese de distribuições iguais é
-usada para substituir $\mathbb{P}(|X_k|>y)$ e $\mathbb{E}[Y_k]$ pelas
-quantidades correspondentes a $X_1$, e é ela que transforma
-$\sum_k\mathbb{E}|X_k|/k^2$ na constante $4\mathbb{E}|X_1|$. A hipótese de
-independência dois a dois é usada apenas para que a variância da soma seja a
-soma das variâncias; não é preciso mais do que isso. A hipótese
-$\mathbb{E}|X_1|<\infty$ é usada duas vezes: no truncamento, para garantir a
+usada para substituir $\mathbb{P}(|X_k|>y)$ pela cauda de $X_1$ na estimativa
+dos segundos momentos, e para identificar $\mathbb{E}[Y_k]$ com a esperança da
+truncagem correspondente de $X_1$. Junto com a fórmula de integração da cauda
+e a cota harmônica, isso produz a cota $4\mathbb{E}|X_1|$ no
+\Cref{lem:momento}. A hipótese de independência dois a dois é usada apenas
+para que a variância da soma seja a soma das variâncias; não é preciso mais do
+que isso. A hipótese
+$\mathbb{E}|X_1|<\infty$ é usada no truncamento, para garantir a
 somabilidade de \eqref{eq:serie-truncamento}, e na estimativa de momentos, para
-garantir a finitude do lado direito do \Cref{lem:momento}.
+garantir a finitude do lado direito do \Cref{lem:momento}. Ela também garante
+que as médias truncadas convergem para um centro finito em \eqref{eq:cesaro}.
 
 O segundo é o papel do parâmetro $\alpha$. Ele é arbitrário em $(1,\infty)$ e o
-argumento funciona para qualquer valor. O limite $\alpha\downarrow1$ não é uma
-passagem dentro da prova, mas um argumento final: como a cota vale para todo
-$\alpha>1$, ela vale no limite. Se tivéssemos fixado $\alpha=2$, por exemplo,
+argumento funciona para qualquer valor fixado. Como o conjunto nulo pode
+depender de $\alpha$, na conclusão intersectamos os conjuntos de probabilidade
+$1$ apenas para a sequência enumerável $\alpha_j=1+1/j$. Fazendo $j\to\infty$,
+identificamos o limite. Se tivéssemos fixado $\alpha=2$, por exemplo,
 obteríamos apenas
 \[
 \frac{\mu}{2}\leqslant\liminf\frac{T_m}{m}\leqslant\limsup\frac{T_m}{m}\leqslant2\mu,
@@ -1336,7 +1436,7 @@ necessária, e não apenas uma conveniência: sem ela, o argumento não controla
 valores intermediários.
 
 %----------------------------------------------------------------------
-\section{A recíproca: a integrabilidade é necessária}\label{sec:reciproca}
+\section{A Recíproca: A Integrabilidade É Necessária}\label{sec:reciproca}
 
 A hipótese $\mathbb{E}|X_1|<\infty$ não é uma conveniência técnica. Nesta
 seção, mostramos que, sem ela, a conclusão da lei forte falha para sequências
@@ -1356,9 +1456,8 @@ Consequentemente, se $S_n=X_1+\cdots+X_n$,
 \end{theorem}
 
 \begin{proof}
-Começamos pela comparação entre a esperança e a série das probabilidades de
-cauda. Pela fórmula da esperança por integração da cauda e pela monotonicidade
-de $t\mapsto\mathbb{P}(|X_1|>t)$,
+Aplicando a fórmula \eqref{eq:esperanca-cauda} e a comparação
+\eqref{eq:comparacao-cauda} a $W=|X_1|$, obtemos
 \begin{equation}\label{eq:cauda-serie}
 \mathbb{E}|X_1|
 =
@@ -1467,46 +1566,14 @@ enfraquecida.
 %----------------------------------------------------------------------
 \section{Aplicações}\label{sec:aplicacoes}
 
-\subsection{Números normais}\label{subsec:numeros-normais}
+\subsection{Números Normais}\label{subsec:numeros-normais}
 
-Voltamos ao exemplo que motivou estas notas. Seja $\omega\in[0,1]$ escolhido ao
-acaso, com a medida uniforme, e escreva sua expansão decimal
-\[
-\omega=0{,}d_1(\omega)d_2(\omega)d_3(\omega)\ldots
-\]
-escolhendo, em caso de ambiguidade, a expansão que não termina em $9$'s. O
-conjunto dos pontos com duas expansões é enumerável e tem medida zero, de modo
-que a escolha não afeta afirmações quase certas.
-
-A relação com o espaço produto é a seguinte. A aplicação
-\[
-\Phi(\omega)=(d_1(\omega),d_2(\omega),\ldots)
-\]
-leva $[0,1]$ em $\{0,1,\ldots,9\}^{\mathbb{N}}$. A medida produto com pesos
-$1/10$ é a imagem da medida de Lebesgue pela aplicação $\Phi$, isto é,
-\[
-\mathbb{P}(A)=\lambda\bigl(\Phi^{-1}(A)\bigr)
-\]
-para todo conjunto mensurável $A\subseteq\{0,1,\ldots,9\}^{\mathbb{N}}$; nos
-cilindros, essa identidade é exatamente a definição
-\eqref{eq:medida-produto}. Em outras palavras, os dígitos de um ponto escolhido
-ao acaso são independentes e uniformes, que é exatamente o modelo da
-\Cref{sec:espaco-produto}. O
-\Cref{thm:borel} se traduz então na seguinte afirmação sobre números reais.
-
-\begin{theorem}[Borel]\label{thm:borel-reais}
-Para quase todo $\omega\in[0,1]$, a frequência relativa de cada dígito na
-expansão decimal de $\omega$ tende a $1/10$. Em outras palavras, quase todo
-número real é simplesmente normal na base $10$.
-\end{theorem}
-
-O teorema pode ser demonstrado de duas maneiras com o material destas notas.
-A primeira é a da \Cref{subsec:digitos-quarta}, que usa o quarto momento das
-indicadoras e o \Cref{thm:quarto-momento}. A segunda é aplicar diretamente o
-\Cref{thm:lei-forte} às variáveis $Y_j=\mathds{1}_{\{X_j=k\}}$, que são
-independentes, identicamente distribuídas, limitadas e com esperança $1/10$.
-A segunda prova é mais curta, e a primeira tem a vantagem de não usar a versão
-geral da lei forte.
+Pelo \Cref{thm:borel-reais}, já deduzido da identificação entre o espaço
+produto e os dígitos decimais na \Cref{subsec:digitos-reais}, quase todo número
+é simplesmente normal na base $10$. A prova pelo quarto momento está na
+\Cref{subsec:digitos-quarta}; uma segunda prova aplica
+diretamente a lei forte geral às indicadoras dos dígitos, que são independentes,
+identicamente distribuídas e limitadas.
 
 O mesmo argumento se aplica a blocos de dígitos. Se $w=w_1\ldots w_\ell$ é uma
 palavra de comprimento $\ell$ sobre o alfabeto $\{0,\ldots,9\}$, defina
@@ -1551,11 +1618,14 @@ quase toda realização da sequência, e não apenas em probabilidade. A versão
 quantitativa, que permite estimar o erro para um $n$ finito, usa a variância de
 $f(U_1)$ e a desigualdade de Chebyshev, ou o teorema central do limite.
 
-O exemplo dos dígitos é um caso particular de \eqref{eq:monte-carlo}, com
-$f=\mathds{1}_{[k/10,(k+1)/10)}$. A integral vale $1/10$, e a média empírica é a
-frequência do dígito $k$.
+Tomando $f=\mathds{1}_{[k/10,(k+1)/10)}$, a indicadora aplicada a cada $U_i$
+registra se o primeiro dígito decimal da $i$-ésima amostra é $k$. A média
+empírica é, portanto, a frequência desse dígito entre as amostras, e a integral
+vale $1/10$. Esses indicadores têm a mesma distribuição conjunta que os
+indicadores dos dígitos sucessivos de um único número uniforme em $[0,1]$:
+ambas as sequências são independentes e Bernoulli$(1/10)$.
 
-\subsection{A função de distribuição empírica}\label{subsec:empirica}
+\subsection{A Função de Distribuição Empírica}\label{subsec:empirica}
 
 Sejam $X_1,X_2,\ldots$ independentes e identicamente distribuídas com função de
 distribuição $F$. Para cada $x\in\mathbb{R}$, a variável
@@ -1569,29 +1639,42 @@ F_n(x)\equiv\frac{1}{n}\sum_{i=1}^{n}\mathds{1}_{\{X_i\leqslant x\}}
 para cada $x$ fixado. A função $F_n$ é a \emph{função de distribuição empírica}
 e $F_n(x)$ é a frequência observada de valores menores ou iguais a $x$.
 
-A convergência pontual vale para cada $x$, mas o conjunto nulo em que ela falha
-depende de $x$. Como o conjunto dos racionais é enumerável, a interseção dos
-conjuntos de convergência sobre $x\in\mathbb{Q}$ tem probabilidade $1$, e nela
-$F_n(q)\to F(q)$ para todo racional $q$. Um argumento de intercalação com uma
-malha finita, usando a monotonicidade de $F_n$ e de $F$, transporta a
-convergência para todos os $x$ simultaneamente. No caso em que $F$ é contínua,
-basta escolher, para cada $\varepsilon>0$, pontos
-$x_0<x_1<\cdots<x_k$ com $F(x_j)-F(x_{j-1})<\varepsilon$ e controlar os pontos
-intermediários pela monotonicidade; obtém-se então
+A afirmação acima é pontual: para cada $x$ fixado, vale quase certamente, mas
+isso, por si só, não fornece um único evento de probabilidade $1$ que sirva para
+todos os $x$. Primeiro suponha que $F$ seja contínua. Como $\mathbb{Q}$ é
+enumerável, há um evento de probabilidade $1$ no qual $F_n(q)\to F(q)$ para
+todo racional $q$. Fixado $\varepsilon>0$, escolha uma malha finita racional
+$q_1<\cdots<q_m$ que cubra a parte central da distribuição, com as massas
+entre pontos consecutivos menores que $\varepsilon$ e com as duas caudas
+menores que $\varepsilon$. Para $q_j\leqslant x\leqslant q_{j+1}$, a
+monotonicidade dá, em ambas as direções,
+\[
+|F_n(x)-F(x)|\leqslant
+\max_{1\leqslant j\leqslant m}|F_n(q_j)-F(q_j)|+\varepsilon,
+\]
+e os mesmos controles valem nas caudas. Como a malha é finita, o máximo dos
+erros nos seus pontos tende a zero. Aplicando o argumento a uma sequência
+enumerável de $\varepsilon$ que tende a zero, obtemos
 \[
 \sup_{x\in\mathbb{R}}\bigl|F_n(x)-F(x)\bigr|\longrightarrow0
 \qquad\text{quase certamente.}
 \]
-Esse é o teorema de Glivenko-Cantelli no caso contínuo. Quando $F$ tem átomos,
-os saltos precisam ser tratados separadamente, e o resultado continua válido; a
-prova está no \Cref{exercise:glivenko}, no caso contínuo, e a última parte do
-exercício discute o que muda na presença de átomos.
+Esse é o teorema de Glivenko-Cantelli no caso contínuo. Se $F$ tem átomos, a
+mesma intercalação por racionais garante a convergência nos pontos de
+continuidade, mas não nos saltos: a monotonicidade não determina o valor no
+ponto de salto a partir apenas dos valores nos racionais. Os átomos formam um
+conjunto enumerável, e a convergência em cada posição atômica também vale quase
+certamente pela lei forte. Para obter a extensão uniforme, separam-se os
+finitos átomos de massa maior que uma tolerância fixada e refinam-se os
+intervalos entre eles até que as variações restantes de $F$ sejam pequenas; a
+última parte do \Cref{exercise:glivenko} detalha essa ideia.
 
 %----------------------------------------------------------------------
-\section{Exercícios propostos}\label{sec:exercicios}
+\section{Exercícios Propostos}\label{sec:exercicios}
 
 \begin{exercise}\label{exercise:cauda-serie}
-Seja $X$ uma variável aleatória. Mostre que
+Seja $X$ uma variável aleatória. Dê uma demonstração alternativa da comparação
+\eqref{eq:comparacao-cauda}, aplicada a $W=|X|$:
 \[
 \sum_{k=1}^{\infty}\mathbb{P}(|X|>k)
 \leqslant
@@ -1600,17 +1683,19 @@ Seja $X$ uma variável aleatória. Mostre que
 \sum_{k=0}^{\infty}\mathbb{P}(|X|>k),
 \]
 e conclua que a série $\sum_k\mathbb{P}(|X|>k)$ converge se, e somente se,
-$\mathbb{E}|X|<\infty$. \emph{Sugestão:} compare cada termo da série com a
-integral de $\mathbb{P}(|X|>t)$ no intervalo $[k,k+1]$.
+$\mathbb{E}|X|<\infty$. \emph{Sugestão:} compare pontualmente $|X|$ com as
+somas $\sum_{k=1}^{\infty}\mathds{1}_{\{|X|>k\}}$ e
+$\sum_{k=0}^{\infty}\mathds{1}_{\{|X|>k\}}$ e tome esperanças.
 \end{exercise}
 
 \begin{exercise}\label{exercise:bernoulli-l4}
 Sejam $X_1,X_2,\ldots$ independentes com $\mathbb{P}(X_i=1)=p$ e
 $\mathbb{P}(X_i=0)=1-p$, e $S_n=X_1+\cdots+X_n$.
 \begin{enumerate}
-\item[(a)] Calcule $\mathbb{E}[S_n^4]$ em função de $n$ e de $p$, e verifique
-que ele é da ordem de $n^2$.
-\item[(b)] Use a desigualdade de Chebyshev de quarta ordem para mostrar que
+\item[(a)] Calcule $\mathbb{E}[(S_n-np)^4]$ em função de $n$ e de $p$ e mostre
+que ela é $O(n^2)$. Mais precisamente, para $0<p<1$, mostre que é da ordem de
+$n^2$; trate também os casos degenerados $p=0$ e $p=1$.
+\item[(b)] Aplique a desigualdade de Markov a $|S_n-np|^4$ para mostrar que
 $\mathbb{P}(|S_n/n-p|\geqslant\varepsilon)\leqslant C/(n^2\varepsilon^4)$ e
 conclua a convergência quase certa.
 \end{enumerate}
@@ -1657,8 +1742,9 @@ Seja $X$ com densidade $f(x)=x^{-2}$ para $x\geqslant1$ e $f(x)=0$ para $x<1$.
 \begin{enumerate}
 \item[(a)] Mostre que $\mathbb{E}|X|=\infty$ e que
 $\mathbb{P}(X>t)=1/t$ para $t\geqslant1$.
-\item[(b)] Conclua que, para variáveis independentes com essa distribuição,
-$S_n/n$ não converge quase certamente.
+\item[(b)] Conclua, usando o exercício anterior, que, para variáveis
+independentes com essa distribuição, $S_n/n$ não converge quase certamente
+para um limite finito.
 \item[(c)] Mostre que $\mathbb{P}(|X_n|\geqslant n\ \text{infinitas vezes})=1$,
 usando diretamente o segundo lema de Borel-Cantelli.
 \end{enumerate}
@@ -1678,18 +1764,27 @@ distribuição $F$ contínua, e seja $F_n$ a função de distribuição empíric
 \item[(a)] Mostre que, para cada $x$, $F_n(x)\to F(x)$ quase certamente.
 \item[(b)] Mostre que, quase certamente, $F_n(q)\to F(q)$ simultaneamente para
 todo racional $q$.
-\item[(c)] Dado $\varepsilon>0$, use a continuidade de $F$ para escolher pontos
-$-\infty=x_0<x_1<\cdots<x_k=+\infty$ tais que
-$F(x_j)-F(x_{j-1})<\varepsilon$ para todo $j$. Usando a monotonicidade de
-$F_n$ e de $F$, mostre que
+\item[(c)] Para cada $\varepsilon>0$, escolha um número finito de pontos
+racionais $x_1<\cdots<x_k$ que cubra a parte central da distribuição, de modo
+que as variações de $F$ entre pontos consecutivos e nas duas caudas sejam
+menores que $\varepsilon$. Considere também os extremos $x_0=-\infty$ e
+$x_{k+1}=+\infty$, convencionando $F_n(-\infty)=F(-\infty)=0$ e
+$F_n(+\infty)=F(+\infty)=1$. Usando a monotonicidade de $F_n$ e de $F$, mostre
+que
 \[
 \sup_{x\in\mathbb{R}}|F_n(x)-F(x)|\leqslant
-\max_{1\leqslant j\leqslant k}|F_n(x_j)-F(x_j)|+\varepsilon
+\max_{0\leqslant j\leqslant k+1}|F_n(x_j)-F(x_j)|+\varepsilon
 \]
 e conclua o teorema de Glivenko-Cantelli no caso contínuo.
-\item[(d)] Explique por que a escolha dos pontos $x_j$ em (c) pode falhar
-quando $F$ tem um átomo de massa maior que $\varepsilon$, e como tratar os
-átomos separadamente.
+\item[(d)] Agora suponha que $F$ possa ter átomos. Explique por que a malha de
+(c), com variações menores que $\varepsilon$, pode não existir. Mostre que a
+convergência vale simultaneamente em cada ponto atômico (há no máximo
+enumeravelmente muitos) e também para os limites à esquerda nesses pontos.
+Descreva como isolar os finitos átomos de massa maior que $\varepsilon$, usando
+pontos de continuidade imediatamente antes e depois de cada um; nos intervalos
+restantes, refine a partição para que cada incremento de $F$ seja, por exemplo,
+no máximo $2\varepsilon$. Use a monotonicidade e o controle nos pontos da
+partição para obter a convergência uniforme.
 \end{enumerate}
 \end{starredexercise}
 
