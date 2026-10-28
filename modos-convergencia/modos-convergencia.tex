@@ -212,25 +212,39 @@ pdfkeywords={convergência quase certa, convergência em probabilidade, converg�
 
 % --- RESUMO (ABSTRACT) ---
 \begin{abstract}
-Nestas notas, estudamos as noções de convergência para sequências de variáveis
-aleatórias. Começamos recordando os limites superior e inferior de eventos e o
-lema de Borel-Cantelli, que são a ferramenta técnica de quase todos os
-argumentos. Introduzimos então a convergência quase certa, a convergência em
-probabilidade, a convergência em média, a convergência em média quadrática e a
-convergência em distribuição, discutindo em cada caso o significado da
-definição e o papel dos quantificadores. Mostramos que a convergência em média
-quadrática implica as convergências em média, em probabilidade e em
-distribuição, que a convergência em probabilidade implica a convergência em
-distribuição e que a convergência quase certa implica a convergência em
-probabilidade. Para cada implicação, exibimos um contraexemplo que mostra por
-que a recíproca falha. Estudamos também o critério de Borel-Cantelli para a
-convergência quase certa, com uma discussão detalhada da definição por
-$\varepsilon$ e $n_0$, e o teorema da convergência dominada, que mostra como a
-convergência quase certa, sob hipóteses adequadas de dominação, permite deduzir
-as demais. O texto inclui exemplos e uma lista de exercícios ao final. A exposição segue de
-perto as Seções 1 e 2 do Capítulo 1 e a Seção 25 do Capítulo 5 de
-\cite{MR2893652}, as Seções 8.1, 8.2 e 8.5 do Capítulo 8 de
-\cite{GrimmettWelsh2014} e a Seção 2.3 de \cite{MR3930614}.
+Nestas notas, estudamos as noções de convergência quase certa, em
+probabilidade, em média, em média quadrática e em distribuição para sequências
+de variáveis aleatórias. Começamos recordando os limites superior e inferior de
+eventos e o lema de Borel-Cantelli. Introduzimos a convergência quase certa,
+caracterizamos o conjunto de convergência em termos dos limites superiores dos
+eventos $\{|X_n-X|\geqslant 1/m\}$ e discutimos o papel dos quantificadores e
+da enumerabilidade nessa definição. Demonstramos o critério de Borel-Cantelli
+para a convergência quase certa a partir da condição
+$\sum_{n\geqslant1}\mathbb{P}(|X_n-X|\geqslant\varepsilon)<\infty$, ilustramos
+seu uso com o máximo de variáveis uniformes independentes e mostramos, por meio
+de exemplos, que essa condição é suficiente, mas não necessária. Em seguida,
+definimos a convergência em probabilidade, usamos a continuidade da medida para
+provar que ela decorre da convergência quase certa e exibimos, como
+contraexemplo para a recíproca, a sequência de indicadoras de intervalos que
+varre $(0,1]$ em blocos de comprimento decrescente. Depois, estudamos as
+convergências em média e em média quadrática e usamos as desigualdades de
+Cauchy-Schwarz, Markov e Chebyshev para mostrar que a convergência em média
+quadrática implica a convergência em média e que esta implica a convergência em
+probabilidade. Apresentamos contraexemplos para as recíprocas e para mostrar
+que a convergência quase certa não é comparável, em geral, com as convergências
+em média e em média quadrática, e aplicamos a convergência em média quadrática
+às médias amostrais para obter a Lei Fraca dos Grandes Números sob a hipótese de
+variância finita. Introduzimos ainda a convergência em distribuição por meio da
+convergência das funções de distribuição nos pontos de continuidade da
+distribuição limite, provamos que ela é consequência da convergência em
+probabilidade e mostramos que a recíproca vale quando o limite é constante. Por
+fim, reunimos as implicações em um diagrama, enunciamos o teorema da
+convergência dominada sem demonstração e o usamos para deduzir as convergências
+em média e em média quadrática a partir da convergência quase certa sob
+hipóteses adequadas de dominação. O texto inclui exemplos e uma lista de
+exercícios ao final. A exposição segue de perto as Seções 1 e 2 do Capítulo 1 e
+a Seção 25 do Capítulo 5 de \cite{MR2893652}, as Seções 8.1, 8.2 e 8.5 do
+Capítulo 8 de \cite{GrimmettWelsh2014} e a Seção 2.3 de \cite{MR3930614}.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -1442,7 +1456,7 @@ pois $\mathbb{E}[Z_n^2]=n\to\infty$. O exemplo é o caso $\alpha=1$ do
 pelo valor $n$ mantém a esperança igual a $1$.
 \end{example}
 
-\subsection{O que a Média Não Enxerga}\label{subsec:medias-contraexemplos}
+\subsection{O que a Convergência em Média Ignora}\label{subsec:medias-contraexemplos}
 
 A convergência quase certa e a convergência em média, em geral, não são comparáveis. Já
 sabemos que a convergência em média implica convergência em probabilidade e,
@@ -1470,7 +1484,7 @@ grande: em cada etapa, o erro vale $n$ em um conjunto de medida $1/n$.
 \end{example}
 
 O exemplo anterior é a razão pela qual o teorema da convergência dominada, que
-estudaremos na \Cref{sec:quadro}, precisa de uma hipótese adicional. A
+enunciaremos na \Cref{sec:quadro}, precisa de uma hipótese adicional. A
 convergência quase certa garante que o erro tende a zero em cada ponto, mas não
 garante que o erro médio tende a zero, porque a massa de pontos com erro grande
 pode se concentrar em conjuntos cada vez menores sem que a integral diminua.
@@ -1502,7 +1516,7 @@ $n\mathds{1}_{(0,1/n)}$ & q.c., $\mathbb{P}$ & $L^1$, $L^2$ \\
 $X_n$ do \Cref{ex:typewriter} & $\mathbb{P}$, $L^1$, $L^2$ & q.c. \\
 \bottomrule
 \end{tabular}
-\caption{Comparação entre os modos de convergência nos exemplos desta subseção.}
+\caption{Comparação entre os modos de convergência.}
 \label{tab:contraexemplos-media}
 \end{table}
 
@@ -2039,7 +2053,7 @@ decomposição.
   (4.7,1.3) -- (4.7,-1.4);
 \draw[teal!50, densely dashed, line width=0.5pt]
   (9.5,0) -- (9.5,-1.4);
-\draw[<->, black!50, line width=0.55pt] (0.3,0) -- (12.1,0);
+\draw[->, black!50, line width=0.55pt] (0.3,0) -- (12.1,0);
 \node[right=3pt] at (12.1,0) {$\mathbb{R}$};
 \foreach \ponto in {4.7,7.1,9.5} {
   \draw[black!65, line width=0.55pt]
@@ -2051,8 +2065,8 @@ decomposição.
 \node[below=6pt, fill=white, inner sep=2pt] at (9.5,0)
   {$c+\dfrac{\varepsilon}{2}$};
 \fill[black!8, rounded corners=1pt]
-  (0.5,1.18) rectangle (4.7,1.42);
-\draw[<-, black!65, line width=1.4pt] (0.4,1.3) -- (4.7,1.3);
+  (0.4,1.18) rectangle (4.7,1.42);
+\draw[black!65, line width=1.4pt] (0.4,1.3) -- (4.7,1.3);
 \fill[black!65] (4.7,1.3) circle[radius=2.4pt];
 \node[above=8pt] at (2.55,1.3)
   {$\left\{X_n\leqslant c-\dfrac{\varepsilon}{2}\right\}$};
@@ -2111,7 +2125,7 @@ complementar,
 \leqslant\mathbb{P}(A_n^c)=1-\mathbb{P}(A_n).
 \]
 Como $\mathbb{P}(A_n)\to1$, o lado direito tende a zero. Pelo teorema do
-confronto, $\mathbb{P}(|X_n-c|\geqslant\varepsilon)\to0$.
+confronto, concluímos que $\mathbb{P}(|X_n-c|\geqslant\varepsilon)\to0$.
 Como $\varepsilon>0$ foi arbitrário, isso prova que $X_n\to c$ em
 probabilidade.
 \end{proof}
