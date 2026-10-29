@@ -858,14 +858,19 @@ precisaremos de técnicas analíticas mais profundas, como o método de Etemadi
 que apresentaremos na \Cref{sec:etemadi}.
 \end{remark}
 
-\begin{corollary}[Variáveis limitadas]\label{cor:limitadas}
-Se $(X_n)$ é independente e identicamente distribuída com $|X_n|\leqslant M$
-quase certamente, então $S_n/n\to\mathbb{E}[X_1]$ quase certamente.
+\begin{corollary}[Variáveis aleatórias limitadas]\label{cor:limitadas}
+Se $(X_n)$ é uma sequência de variáveis aleatórias
+independente e identicamente distribuída com $|X_n|\leqslant M$
+quase certamente, e $\mu=\mathbb{E}[X_1]$, então
+\begin{align*}
+\frac{S_n}{n} \xrightarrow[\ n\to\infty \ ] \,  \mu, \qquad \text{quase certamente.}
+\end{align*}
 \end{corollary}
 
 \begin{proof}
-A hipótese implica $\mathbb{E}[X_1^4]\leqslant M^4<\infty$, e o
-\Cref{thm:quarto-momento} se aplica.
+A hipótese de limitação implica imediatamente $\mathbb{E}[X_1^4]\leqslant M^4<\infty$.
+Como as demais hipóteses do
+\Cref{thm:quarto-momento} também são satisfeitas o resultado segue.
 \end{proof}
 
 \subsection{Aplicação às Frequências dos Dígitos}\label{subsec:digitos-quarta}
@@ -941,29 +946,213 @@ para tratar esse caso, usaremos o método da
 
 \subsection{Dos Dígitos aos Números Reais}\label{subsec:digitos-reais}
 
-Para traduzir o resultado para números reais, associamos a cada $x\in[0,1)$
-sua sequência de dígitos decimais. Escolha a expansão que não termina em
-$9$'s e defina
+Na subseção anterior, demonstramos que uma sequência de dígitos sorteados de
+forma independente, com os dez dígitos equiprováveis, tem, quase certamente,
+frequência $1/10$ para cada dígito. Queremos agora obter uma afirmação sobre
+os dígitos de um número real escolhido ao acaso. Para isso, precisamos
+justificar a ligação entre os dois experimentos: sortear os dígitos e
+escolher um ponto do intervalo.
+
+A ligação vem da seguinte observação: \emph{fixar os primeiros $n$
+dígitos decimais de um número equivale a localizá-lo em um intervalo de
+comprimento $10^{-n}$}. Vamos primeiro entender essa observação. Em seguida,
+usaremos comprimentos de intervalos para verificar a independência dos
+dígitos e aplicar a lei forte.
+
+\subsubsection{Um número escolhido uniformemente}
+
+Denotaremos por $\lambda$ a medida de Lebesgue, que associa a cada intervalo
+seu comprimento. Como $\lambda([0,1))=1$, sua restrição a $[0,1)$ é uma medida
+de probabilidade. Escolher um ponto uniformemente nesse intervalo significa
+justamente usar essa probabilidade: a chance de o ponto escolhido pertencer
+a $[a,b)\subseteq[0,1)$ é
 \[
-\Phi(x)=(d_1(x),d_2(x),\ldots)\in\Omega.
+\lambda([a,b))=b-a.
 \]
-Se $u_1,\ldots,u_n$ são os primeiros $n$ dígitos de um cilindro e
-$m=\sum_{j=1}^n u_j10^{n-j}$, então
+Trabalharemos primeiro em $[0,1)$; ao final, incluiremos o extremo $1$.
+
+Para cada $x\in[0,1)$, escrevemos
 \[
-\Phi^{-1}\bigl(C(u_1,\ldots,u_n)\bigr)
-=\left[\frac{m}{10^n},\frac{m+1}{10^n}\right),
+x=0{,}d_1(x)d_2(x)d_3(x)\ldots
+=\sum_{j=1}^{\infty}\frac{d_j(x)}{10^j},
+\qquad d_j(x)\in\{0,1,\ldots,9\}.
 \]
-que tem medida de Lebesgue $10^{-n}$. Como os cilindros geram $\mathcal{F}$,
-suas preimagens mensuráveis garantem que $\Phi$ é mensurável. A imagem da
-medida de Lebesgue por $\Phi$ coincide com a medida produto nos cilindros e,
-pela unicidade da extensão de Carathéodory, em toda $\mathcal{F}$. Portanto,
+Aqui, $d_j(x)$ é o dígito que ocupa a $j$-ésima posição depois da vírgula.
+Adotamos sempre a expansão que não tem uma cauda infinita de noves. Por
+exemplo, entre as duas representações
 \[
-\mathbb{P}(A)=\lambda\bigl(\Phi^{-1}(A)\bigr)
-\qquad\text{para todo }A\in\mathcal{F}.
+0{,}37000\ldots=0{,}36999\ldots,
 \]
-Usamos $[0,1)$ para evitar a representação
-decimal de $1$; incluir esse extremo não altera nenhuma afirmação quase certa,
-pois ele tem medida zero.
+usaremos a primeira. Essa convenção determina os dígitos de cada ponto sem
+ambiguidade.
+
+\subsubsection{Dígitos prescritos e intervalos decimais}
+
+Comecemos com o primeiro dígito. Dividindo $[0,1)$ em dez intervalos de mesmo
+comprimento, obtemos
+\[
+\left[0,\frac{1}{10}\right),\quad
+\left[\frac{1}{10},\frac{2}{10}\right),\quad\ldots,\quad
+\left[\frac{9}{10},1\right).
+\]
+Esses intervalos correspondem, nessa ordem, aos dez valores possíveis de
+$d_1(x)$. Em particular, $d_1(x)=3$ se, e somente se,
+$x\in\left[\frac{3}{10},\frac{4}{10}\right)$. Para determinar o segundo dígito, dividimos cada um
+desses intervalos em dez partes iguais, e repetimos o procedimento para os
+dígitos seguintes. Por exemplo,
+\begin{gather*}
+\{x:d_1(x)=3\}
+=\left[\frac{3}{10},\frac{4}{10}\right),\\[0.4cm]
+\{x:d_1(x)=3,\ d_2(x)=7\}
+=\left[\frac{37}{100},\frac{38}{100}\right),\\[0.4cm]
+\{x:d_1(x)=3,\ d_2(x)=7,\ d_3(x)=2\}
+=\left[\frac{372}{1000},\frac{373}{1000}\right).
+\end{gather*}
+Cada novo dígito especificado reduz o comprimento do intervalo por um fator
+$10$, como ilustra a \Cref{fig:intervalos-decimais}. Os extremos esquerdos
+estão incluídos e os direitos estão excluídos por causa da convenção adotada:
+por exemplo, $0{,}38=0{,}38000\ldots$ tem segundo dígito $8$ e, portanto, não
+pertence ao intervalo dos números que começam por $0{,}37$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.04cm,y=1cm]
+  % Em cada linha, o intervalo da linha anterior é ampliado e dividido em dez.
+  \foreach \y/\indice in {0/3,-1.8/7,-3.6/2} {
+    \fill[border!35] (0,\y) rectangle (10,{\y+0.4});
+    \fill[teal!20] (\indice,\y) rectangle ({\indice+1},{\y+0.4});
+    \draw[muted,thin] (0,\y) rectangle (10,{\y+0.4});
+    \foreach \k in {1,...,9} {
+      \draw[muted,thin] (\k,\y) -- (\k,{\y+0.4});
+    }
+    \foreach \k in {0,...,9} {
+      \ifnum\k=\indice\relax
+        \node[teal!70!black,font=\small\bfseries]
+          at ({\k+0.5},{\y+0.2}) {\k};
+      \else
+        \node[muted,font=\small] at ({\k+0.5},{\y+0.2}) {\k};
+      \fi
+    }
+    \fill[teal] (\indice,\y) circle (1.7pt);
+    \draw[teal,fill=white,line width=0.8pt]
+      ({\indice+1},\y) circle (1.7pt);
+  }
+
+  % Os rótulos abaixo de cada linha são os valores dos pontos do intervalo.
+  \node[below,font=\small] at (0,0) {$0$};
+  \node[below,font=\small] at (10,0) {$1$};
+  \node[below,font=\small,teal!70!black] at (3,0) {$0{,}3$};
+  \node[below,font=\small,teal!70!black] at (4,0) {$0{,}4$};
+  \node[right,align=left,font=\small] at (10.65,0.2)
+    {$d_1=3$\\comprimento $10^{-1}$};
+
+  \draw[muted!65,dashed] (3,-0.5) -- (0,-1.25);
+  \draw[muted!65,dashed] (4,-0.5) -- (10,-1.25);
+  \node[below,font=\small] at (0,-1.8) {$0{,}3$};
+  \node[below,font=\small] at (10,-1.8) {$0{,}4$};
+  \node[below,font=\small,teal!70!black] at (7,-1.8) {$0{,}37$};
+  \node[below,font=\small,teal!70!black] at (8,-1.8) {$0{,}38$};
+  \node[right,align=left,font=\small] at (10.65,-1.6)
+    {$d_1=3,\ d_2=7$\\comprimento $10^{-2}$};
+
+  \draw[muted!65,dashed] (7,-2.3) -- (0,-3.05);
+  \draw[muted!65,dashed] (8,-2.3) -- (10,-3.05);
+  \node[below,font=\small] at (0,-3.6) {$0{,}37$};
+  \node[below,font=\small] at (10,-3.6) {$0{,}38$};
+  \node[below,font=\small,teal!70!black] at (2,-3.6) {$0{,}372$};
+  \node[below,font=\small,teal!70!black] at (3,-3.6) {$0{,}373$};
+  \node[right,align=left,font=\small] at (10.65,-3.4)
+    {$d_1=3,\ d_2=7,\ d_3=2$\\comprimento $10^{-3}$};
+\end{tikzpicture}
+\caption{As linhas usam escalas distintas: o intervalo destacado em cada
+linha é ampliado na seguinte. Os números nas dez partes indicam o próximo
+dígito; os pontos cheios e vazios indicam se os extremos estão incluídos ou excluídos.}
+\label{fig:intervalos-decimais}
+\end{figure}
+
+O mesmo raciocínio vale para quaisquer dígitos $u_1,\ldots,u_n$. O número
+\[
+a=\frac{u_1}{10}+\frac{u_2}{10^2}+\cdots+\frac{u_n}{10^n}
+\]
+é o extremo esquerdo do intervalo correspondente. Como fizemos $n$ divisões
+sucessivas em dez partes iguais, esse intervalo tem comprimento $10^{-n}$.
+Portanto,
+\begin{equation}\label{eq:intervalo-decimal}
+I(u_1,\ldots,u_n)
+\equiv\{x\in[0,1):d_1(x)=u_1,\ldots,d_n(x)=u_n\}
+=[a,a+10^{-n}).
+\end{equation}
+Em particular,
+\begin{equation}\label{eq:probabilidade-digitos-reais}
+\lambda\bigl(I(u_1,\ldots,u_n)\bigr)=10^{-n}
+=\mathbb{P}\bigl(C(u_1,\ldots,u_n)\bigr).
+\end{equation}
+Assim, uma condição sobre os primeiros dígitos tem a mesma probabilidade nos
+dois experimentos: no espaço de sequências, ela determina um cilindro; no
+intervalo $[0,1)$, ela determina um intervalo decimal.
+
+\subsubsection{Da independência à frequência dos dígitos}
+
+Para aplicar a lei forte às funções $d_j$, precisamos verificar que elas são
+variáveis aleatórias independentes e identicamente distribuídas. A
+aleatoriedade está na escolha de $x$: depois de escolhido o ponto, todos os
+seus dígitos ficam determinados. A igualdade
+\eqref{eq:probabilidade-digitos-reais} já trata dos primeiros $n$ dígitos.
+A independência exige também considerar posições que não sejam consecutivas.
+Podemos fazer isso deixando livres os dígitos das posições não especificadas.
+
+\begin{lemma}[Os dígitos de um ponto uniforme]\label{lem:digitos-uniformes}
+No intervalo $[0,1)$ com a probabilidade $\lambda$, as funções $d_1,d_2,\ldots$
+são variáveis aleatórias independentes e identicamente distribuídas, com
+\[
+\lambda\bigl(\{x:d_j(x)=k\}\bigr)=\frac{1}{10}
+\qquad\text{para todo }j\geqslant1\text{ e }k\in\{0,1,\ldots,9\}.
+\]
+\end{lemma}
+
+\begin{proof}
+Vejamos primeiro um exemplo com uma posição livre. A condição
+$d_1(x)=3$, $d_3(x)=2$ permite que o segundo dígito seja qualquer um dos dez
+dígitos. Logo, o evento correspondente é a união disjunta dos dez intervalos
+\[
+I(3,0,2),\quad I(3,1,2),\quad\ldots,\quad I(3,9,2).
+\]
+Cada um tem comprimento $10^{-3}$. A probabilidade dessa união é, portanto,
+$10\cdot10^{-3}=10^{-2}$.
+
+Em geral, fixamos $r$ posições $1\leqslant n_1<\cdots<n_r$ e os valores dos
+dígitos nessas posições, digamos $k_1,\ldots,k_r$. Agora, damos uma atenção especial para a última
+posição especificada, $N=n_r$. Entre as primeiras $N$ posições, há $r$
+fixadas e $N-r$ livres. Como cada posição livre admite dez escolhas, há
+$10^{N-r}$ sequências de $N$ dígitos compatíveis com as condições. Cada uma
+determina um intervalo de comprimento $10^{-N}$, e esses intervalos são
+disjuntos. Somando seus comprimentos, obtemos
+\begin{equation}\label{eq:independencia-digitos-reais}
+\lambda\bigl(\{x:d_{n_1}(x)=k_1,\ldots,d_{n_r}(x)=k_r\}\bigr)
+=10^{N-r}\cdot10^{-N}=10^{-r}.
+\end{equation}
+Essa descrição mostra também que os eventos considerados são mensuráveis,
+pois são uniões finitas de intervalos. Em particular, cada $d_j$ é uma
+variável aleatória, já que assume apenas dez valores e cada conjunto
+$\{x:d_j(x)=k\}$ é mensurável.
+
+Tomando $r=1$ em \eqref{eq:independencia-digitos-reais}, vemos que cada
+$d_j$ tem distribuição uniforme em $\{0,1,\ldots,9\}$. Para $r$ qualquer, a
+mesma igualdade fornece
+\[
+\lambda\bigl(\{d_{n_1}=k_1,\ldots,d_{n_r}=k_r\}\bigr)
+=\prod_{i=1}^{r}\lambda\bigl(\{d_{n_i}=k_i\}\bigr).
+\]
+Como cada $d_j$ assume um número finito de valores, a fatoração para conjuntos
+de valores se obtém somando essas igualdades. Isso prova a independência.
+\end{proof}
+
+O lema justifica o uso do modelo de sorteios independentes para estudar os
+dígitos de um ponto uniforme. Agora podemos repetir a aplicação da lei forte
+feita na subseção anterior, usando a medida $\lambda$ como probabilidade.
+Nesse espaço, dizer que uma propriedade vale \emph{quase certamente} significa
+que o conjunto dos pontos onde ela falha tem medida de Lebesgue zero. É
+exatamente esse o sentido de dizer que ela vale para \emph{quase todo} ponto.
 
 \begin{theorem}[Borel]\label{thm:borel-reais}
 Para quase todo $x\in[0,1]$, a frequência relativa de cada dígito na expansão
@@ -972,14 +1161,46 @@ simplesmente normal na base $10$.
 \end{theorem}
 
 \begin{proof}
-Pela identidade de medidas acima, o resultado segue do \Cref{thm:borel} no
-espaço produto. O conjunto dos pontos com duas expansões é enumerável e tem
-medida zero, de modo que a convenção adotada para os dígitos não afeta a
-conclusão.
-Aplicando o resultado à parte fracionária $x-\lfloor x\rfloor$ e tomando as
-translações inteiras do conjunto excepcional em $[0,1)$, obtemos a afirmação
-em $\mathbb{R}$, pois uma união enumerável de conjuntos de medida de Lebesgue
-nula tem medida nula.
+Fixe um dígito $k\in\{0,1,\ldots,9\}$. Para contar suas ocorrências,
+definimos, no espaço $[0,1)$,
+\[
+Z_j(x)=\mathds{1}_{\{d_j=k\}}(x)
+=\begin{cases}
+1,&\text{se }d_j(x)=k,\\
+0,&\text{se }d_j(x)\neq k.
+\end{cases}
+\]
+Pelo \Cref{lem:digitos-uniformes}, as variáveis $Z_j$ são independentes e
+identicamente distribuídas. Além disso, são limitadas por $1$ e têm esperança
+\[
+\int_{[0,1)}Z_j(x)\,d\lambda(x)
+=\lambda\bigl(\{x:d_j(x)=k\}\bigr)=\frac{1}{10}.
+\]
+O \Cref{cor:limitadas} se aplica e fornece
+\[
+\frac{\#\{1\leqslant j\leqslant n:d_j(x)=k\}}{n}
+=\frac{1}{n}\sum_{j=1}^{n}Z_j(x)
+\longrightarrow\frac{1}{10}
+\qquad\text{para $\lambda$-quase todo }x\in[0,1).
+\]
+O numerador conta quantas vezes o dígito $k$ aparece nas primeiras $n$
+posições; portanto, a razão é precisamente sua frequência relativa.
+
+Para cada $k$, o conjunto excepcional tem medida zero. A união desses dez
+conjuntos também tem medida zero, de modo que, fora dela, as dez frequências
+convergem simultaneamente para $1/10$. Incluir o ponto $1$ não altera a
+afirmação, pois $\lambda(\{1\})=0$. A escolha entre as duas expansões dos
+decimais finitos tampouco afeta o resultado: os pontos que admitem duas
+expansões formam um conjunto enumerável e, por isso, de medida zero.
+
+Finalmente, para um número real $x$, consideramos os dígitos de sua parte
+fracionária $x-\lfloor x\rfloor\in[0,1)$. Se $N\subseteq[0,1)$ é o conjunto
+excepcional obtido acima, o conjunto excepcional em toda a reta é
+\[
+\bigcup_{m\in\mathbb{Z}}(m+N).
+\]
+Cada translação $m+N$ tem medida zero, e a união é enumerável. Isso prova a
+afirmação em $\mathbb{R}$.
 \end{proof}
 
 %----------------------------------------------------------------------
@@ -1002,12 +1223,67 @@ $\mu=\mathbb{E}[X_i]$ e $S_n=X_1+\cdots+X_n$. Então
 \]
 \end{theorem}
 
-Antes de entrar na prova, vale entender como ela amplia o resultado anterior. O
-\Cref{thm:quarto-momento} exige $\mathbb{E}[X_1^4]<\infty$, e há distribuições
-com esperança finita e quarto momento infinito, como a lei de potência
-$\mathbb{P}(|X_1|>t)=t^{-3/2}$ para $t$ grande. Para essas distribuições, a cota
-de Markov com a quarta potência não está disponível, e o argumento da seção
-anterior não se aplica. A prova de Etemadi substitui o quarto momento por uma
+Antes de apresentar os detalhes da prova, vale entender como ela amplia o
+resultado anterior. O \Cref{thm:quarto-momento} exige
+$\mathbb{E}[X_1^4]<\infty$, enquanto o \Cref{thm:lei-forte} requer apenas
+$\mathbb{E}[|X_1|]<\infty$. Para ver concretamente a diferença entre essas
+hipóteses, considere uma variável aleatória $X_1$ com densidade
+\[
+f(x)=\begin{cases}
+\dfrac{3}{2x^{5/2}},&\text{se }x\geqslant1,\\[0.5cm]
+0,&\text{se }x<1.
+\end{cases}
+\]
+Essa é a distribuição de Pareto com escala $1$ e parâmetro de forma $3/2$,
+que estudaremos na \Cref{subsec:pareto}. Abaixo mostramos o esboço do gráfico desta função densidade na
+\Cref{fig:densidade-pareto-exemplo}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.45cm,y=2.8cm]
+  \draw[thin,-stealth] (-0.7,0) -- (6.5,0) node[below right] {$x$};
+  \draw[thin,-stealth] (0,-0.08) -- (0,1.8) node[left] {$f(x)$};
+  \node[below left,font=\small] at (0,0) {$0$};
+  \foreach \x in {1,...,6} {
+    \draw[thin] (\x,0.02) -- (\x,-0.02)
+      node[below=2pt,font=\small] {$\x$};
+  }
+  \draw[gray!65,thin,dashed] (0,1.5) -- (1,1.5);
+  \draw[gray!65,thin,dashed] (1,0) -- (1,1.5);
+  \node[left,font=\small] at (0,1.5) {$\frac{3}{2}$};
+
+  % Os dois ramos são desenhados separadamente para representar o salto em 1.
+  \draw[teal,thick] (-0.7,0) -- (1,0);
+  \draw[teal,thick,domain=1:6.2,samples=180,smooth]
+    plot (\x,{3/(2*\x^2.5)});
+  \draw[teal,fill=white,line width=0.8pt] (1,0) circle (1.7pt);
+  \fill[teal] (1,1.5) circle (1.7pt);
+  \node[font=\small,anchor=west] at (2.2,0.95)
+    {$f(x)=\dfrac{3}{2x^{5/2}},\quad x\geqslant1$};
+\end{tikzpicture}
+\caption{Densidade de Pareto com escala $1$ e parâmetro de forma $3/2$.}
+\label{fig:densidade-pareto-exemplo}
+\end{figure}
+
+Como $X_1\geqslant1$ quase certamente,
+o cálculo dos dois momentos fornece
+\begin{gather*}
+\mathbb{E}[|X_1|]
+=\int_1^{\infty}x\,\frac{3}{2x^{5/2}}\,dx
+=\frac{3}{2}\int_1^{\infty}x^{-3/2}\,dx=3<\infty,\\[0.4cm]
+\mathbb{E}[X_1^4]
+=\int_1^{\infty}x^4\,\frac{3}{2x^{5/2}}\,dx
+=\frac{3}{2}\int_1^{\infty}x^{3/2}\,dx=\infty.
+\end{gather*}
+Portanto, para uma sequência independente e identicamente distribuída com
+essa distribuição, o \Cref{thm:lei-forte} garante a convergência quase certa
+das médias amostrais para $3$, embora a hipótese do
+\Cref{thm:quarto-momento} não seja satisfeita.
+
+
+\bigskip
+
+A prova de Etemadi substitui o quarto momento por uma
 estimativa de momentos das variáveis truncadas, cujo nível de truncamento
 cresce com o índice. Com apenas a integrabilidade, não temos garantia de que a
 cota de Chebyshev seja somável em todos os índices. A estimativa abaixo
@@ -1031,11 +1307,12 @@ Borel-Cantelli, e usamos a monotonicidade da soma truncada para controlar os
 índices intermediários.
 \end{enumerate}
 
-A ordem em que as etapas aparecem no livro de Durrett é ligeiramente diferente:
-a redução a variáveis não negativas é apresentada depois das estimativas de
-momentos, como comentário sobre a inspiração de Etemadi. Aqui a colocamos no
-início, porque ela é logicamente anterior e porque explica por que a
-monotonicidade estará disponível na última etapa.
+No livro de Durrett, a redução a variáveis não negativas aparece depois das
+estimativas de momentos. Nestas notas, apresentamos essa redução primeiro
+para destacar a propriedade que será usada na etapa final: as somas parciais
+de variáveis não negativas são não decrescentes. Essa monotonicidade permitirá
+estender a convergência das médias, obtida na subsequência geométrica,
+a todos os índices.
 
 \subsection{Redução a Variáveis Não Negativas}\label{subsec:reducao}
 
@@ -1060,7 +1337,7 @@ negativas. Aplicando-o a cada família, obtemos, quase certamente,
 \]
 Os dois conjuntos de convergência têm probabilidade $1$, logo a interseção
 também tem probabilidade $1$. Em cada ponto dessa interseção, subtraindo as
-duas convergências,
+os dois limites, obtemos
 \[
 \frac{S_n}{n}
 =
@@ -1074,38 +1351,62 @@ duas convergências,
 =
 \mu.
 \]
-Portanto, basta provar o teorema na hipótese adicional $X_n\geqslant0$ para
+Portanto, basta provar o teorema sob a hipótese adicional $X_n\geqslant0$ para
 todo $n$. Nesse caso, $\mu=\mathbb{E}[X_1]\geqslant0$ e as somas truncadas
 serão não decrescentes, o que será usado na \Cref{subsec:intermediarios}.
 
 \subsection{O Truncamento}\label{subsec:lema-truncamento}
 
-Depois da redução, podemos supor $X_k\geqslant0$. O nível de truncamento
-precisa crescer com $k$: assim, cada variável é alterada apenas quando toma
-um valor grande, mas ainda podemos controlar a frequência dessas alterações.
-Escolhemos o nível $k$ porque a integrabilidade controla precisamente a soma
-das caudas $\sum_k\mathbb{P}(|X_1|>k)$, pela comparação
-\eqref{eq:comparacao-cauda}, enquanto o truncamento garante segundos momentos
-finitos. Pelo lema de Borel-Cantelli, quase certamente só haverá um número
-finito de alterações.
-
-Definimos a versão truncada de $X_k$ no nível $k$:
+Pelo argumento dado acima, podemos supor que $X_k\geqslant0$ para
+todo $k$. É claro que a hipótese de integrabilidade não é suficiente para garantir que essas variáveis
+tenham segundo momento finito, uma condição necessária para obter uma cota
+finita pela desigualdade de Chebyshev. Por isto vamos substituir cada v.a.
+$X_k$ por uma variável aleatória limitada que será denotada por $Y_k$
+que é definida a partir de um truncamento de $X_k$ e as somas
+parciais destas novas variáveis serão denotadas por $T_n$. Mais precisamente, definimos
 \begin{equation}\label{eq:truncamento}
-Y_k=X_k\mathds{1}_{\{|X_k|\leqslant k\}},
+Y_k\equiv X_k\cdot \mathds{1}_{\{|X_k|\leqslant k\}},
 \qquad
-T_n=Y_1+\cdots+Y_n.
+T_n\equiv Y_1+\cdots+Y_n.
 \end{equation}
-Temos $0\leqslant Y_k\leqslant k$, portanto cada $Y_k$ tem segundo momento
-finito. Além disso, as variáveis $Y_k$ permanecem independentes dois a dois,
-pois cada uma é uma função boreliana da respectiva variável $X_k$.
-O primeiro lema diz que podemos trabalhar com $T_n$ em vez de $S_n$.
+Assim, $Y_k$ coincide com $X_k$ ao longo de $\{X_k\leqslant k\}$ e vale zero
+no evento $\{X_k>k\}$. Como $0\leqslant Y_k\leqslant k$, temos
+$\mathbb{E}[Y_k^2]\leqslant k^2<\infty$. A independência dois a dois também
+é preservada, pois cada $Y_k$ é uma função boreliana da respectiva variável
+$X_k$. Como o nível de truncamento varia com $k$, as variáveis $Y_k$ não
+são, em geral, identicamente distribuídas.
+
+A escolha do nível $k$ é motivado pelo critério de comparação
+\eqref{eq:comparacao-cauda} que está relacionado a integrabilidade de $X_1$ via a convergência
+da série $\sum_{k=1}^{\infty}\mathbb{P}(X_1>k)$. Como $X_k$ e $X_1$ têm a
+mesma distribuição, temos
+\[
+\mathbb{P}(X_k\neq Y_k)
+=\mathbb{P}(X_k>k)
+=\mathbb{P}(X_1>k).
+\]
+O primeiro lema de Borel-Cantelli
+permitirá mostrar que, quase certamente, o truncamento modifica apenas um
+número finito de termos. A contribuição dessas modificações para a
+diferença entre as médias tende a zero, como afirma o lema.
 
 \begin{lemma}[Truncamento]\label{lem:truncamento}
-Nas hipóteses do \Cref{thm:lei-forte}, para provar que $S_n/n\to\mu$ quase
-certamente basta provar que $T_n/n\to\mu$ quase certamente.
+Assuma que são válidas as hipóteses do \Cref{thm:lei-forte} e sejam $Y_k$ e $T_n$ as variáveis aleatórias
+definidos em \eqref{eq:truncamento}. Então
+\[
+\frac{S_n-T_n}{n}\longrightarrow0
+\qquad\text{quase certamente.}
+\]
+Em particular, $S_n/n\to\mu$ quase certamente se, e somente se,
+$T_n/n\to\mu$ quase certamente.
 \end{lemma}
 
 \begin{proof}
+Vamos mostrar que, quase certamente, o truncamento altera apenas um número
+finito de termos. Os eventos correspondentes são
+\[
+A_k\equiv\{X_k\neq Y_k\}=\{|X_k|>k\}.
+\]
 Como as variáveis são identicamente distribuídas,
 $\mathbb{P}(|X_k|>k)=\mathbb{P}(|X_1|>k)$. A fórmula de esperança por integração
 da cauda e a comparação \eqref{eq:comparacao-cauda} dão a seguinte estimativa
@@ -1121,8 +1422,7 @@ da cauda e a comparação \eqref{eq:comparacao-cauda} dão a seguinte estimativa
 \end{equation}
 Por hipótese, o lado direito é finito.
 
-Seja $A_k=\{|X_k|>k\}=\{X_k\neq Y_k\}$. Por \eqref{eq:serie-truncamento} e
-pelo primeiro lema de Borel-Cantelli,
+Por \eqref{eq:serie-truncamento} e pelo primeiro lema de Borel-Cantelli,
 \[
 \mathbb{P}\bigl(\limsup_{k\to\infty}A_k\bigr)=0.
 \]
@@ -1154,8 +1454,9 @@ Dividindo por $n$,
 \leqslant
 \frac{R(\omega)}{n}\longrightarrow0.
 \]
-Assim, $S_n/n$ e $T_n/n$ têm o mesmo limite quase certamente. Se
-$T_n/n\to\mu$ quase certamente, então $S_n/n\to\mu$ quase certamente.
+Isso prova que $(S_n-T_n)/n\to0$ quase certamente. Consequentemente,
+$S_n/n\to\mu$ quase certamente se, e somente se, $T_n/n\to\mu$ quase
+certamente.
 \end{proof}
 
 A cota obtida é uniforme em $n$, e é isso que permite dividir por $n$ sem
@@ -1166,18 +1467,66 @@ adicionalmente que ela tende a zero após a divisão por $n$.
 
 \subsection{As Médias Truncadas}\label{subsec:medias-truncadas}
 
-Antes de estimar as flutuações de $T_n$, identificamos o limite de seu centro.
+Antes de estimar as flutuações de $T_n$, identificamos o limite de suas médias.
 Como já reduzimos ao caso $X_k\geqslant0$, a variável
 \[
 Z_k=X_1\mathds{1}_{\{X_1\leqslant k\}}
 \]
-cresce para $X_1$ quando $k\to\infty$. Pela convergência monótona,
+cresce para $X_1$ quando $k\to\infty$. Pelo Teorema da Convergência Monótona,
 \[
 \mathbb{E}[Z_k]\longrightarrow\mathbb{E}[X_1]=\mu.
 \]
-As variáveis $Y_k=X_k\mathds{1}_{\{X_k\leqslant k\}}$ e $Z_k$ têm a mesma
-distribuição, portanto $\mathbb{E}[Y_k]=\mathbb{E}[Z_k]\to\mu$. Aplicando
-Cesàro, obtemos a convergência para todos os índices $n$:
+Para transferir essa convergência para as esperanças de $Y_k$, vamos mostrar
+que, para cada $k$ fixado, as variáveis
+\[
+Y_k=X_k\mathds{1}_{\{X_k\leqslant k\}}
+\qquad\text{e}\qquad
+Z_k=X_1\mathds{1}_{\{X_1\leqslant k\}}
+\]
+têm a mesma distribuição. Nas duas definições, usamos o mesmo nível de
+truncamento $k$. Assim, aplicamos a mesma regra a $X_k$ e a $X_1$, que têm a
+mesma distribuição. Para verificar que $Y_k$ e $Z_k$ também têm a mesma
+distribuição, basta comparar suas funções de distribuição.
+
+Como $0\leqslant Y_k\leqslant k$ e $0\leqslant Z_k\leqslant k$, para $t<0$
+temos $\mathbb{P}(Y_k\leqslant t)=\mathbb{P}(Z_k\leqslant t)=0$, e para
+$t\geqslant k$ essas duas probabilidades são iguais a $1$.
+Resta considerar $0\leqslant t<k$. Nesse caso, $Y_k\leqslant t$ ocorre
+quando $X_k\leqslant t$ ou quando $X_k>k$, pois, nesta última situação,
+o truncamento atribui a $Y_k$ o valor zero. Portanto,
+\[
+\{Y_k\leqslant t\}
+=\{X_k\leqslant t\}\cup\{X_k>k\}.
+\]
+Os dois eventos à direita são disjuntos, e a mesma decomposição vale para
+$Z_k$, substituindo $X_k$ por $X_1$. Como $X_k$ e $X_1$ têm a mesma
+distribuição, obtemos
+\begin{align*}
+\mathbb{P}(Y_k\leqslant t)
+&=\mathbb{P}(X_k\leqslant t)+\mathbb{P}(X_k>k)
+\\[0.3cm]
+&=\mathbb{P}(X_1\leqslant t)+\mathbb{P}(X_1>k)
+\\[0.3cm]
+&=\mathbb{P}(Z_k\leqslant t).
+\end{align*}
+Assim, as funções de distribuição de $Y_k$ e $Z_k$ coincidem em todo
+$t\in\mathbb{R}$, o que prova a igualdade em distribuição. Como essas
+variáveis são limitadas, suas esperanças são finitas e iguais. Logo,
+\[
+\mathbb{E}[Y_k]=\mathbb{E}[Z_k]\longrightarrow\mu.
+\]
+Usaremos agora a seguinte propriedade das sequências numéricas: se
+$a_m\to a$, então suas médias aritméticas também convergem para $a$, isto é,
+\[
+\frac{a_1+\cdots+a_n}{n}\longrightarrow a.
+\]
+Essa propriedade é conhecida como convergência de Cesàro. A ideia é que a
+contribuição de um número finito de termos iniciais para a média tende a zero
+após a divisão por $n$; a partir de certo índice, todos os demais termos
+estão tão próximos de $a$ quanto quisermos.
+
+Aplicamos essa propriedade à sequência $a_m=\mathbb{E}[Y_m]$, cujo limite
+é $\mu$. Pela linearidade da esperança, obtemos
 \begin{equation}\label{eq:cesaro}
 \frac{\mathbb{E}[T_n]}{n}
 =
@@ -1189,17 +1538,73 @@ também nos índices da subsequência geométrica.
 
 \subsection{A Estimativa de Momentos}\label{subsec:estimativa-momentos}
 
-A estimativa que substitui a hipótese de quarto momento controla a soma dos
-segundos momentos ponderada por $1/k^2$, que é a quantidade que aparecerá na
-aplicação de Chebyshev. A tentativa direta $Y_k^2\leqslant k|X_k|$ fornece
-apenas
+Na subseção anterior, mostramos que $\mathbb{E}[T_n]/n\to\mu$.
+Resta controlar a diferença entre a média truncada $T_n/n$ e sua esperança,
+isto é, provar que $(T_n-\mathbb{E}[T_n])/n\to0$ quase certamente.
+Como os $Y_k$ têm segundo momento finito e são independentes dois a dois,
+a variância de $T_n$ é a soma das variâncias dos seus termos. Portanto,
+para todo $\varepsilon>0$, a desigualdade de Chebyshev fornece
 \[
-\frac{\mathbb{E}[Y_k^2]}{k^2}\leqslant\frac{\mathbb{E}[|X_1|]}{k},
+\mathbb{P}\left(
+\left|\frac{T_n-\mathbb{E}[T_n]}{n}\right|>\varepsilon
+\right)
+\leqslant
+\frac{1}{\varepsilon^2n^2}
+\sum_{k=1}^{n}\operatorname{Var}(Y_k).
 \]
-uma cota que não garante somabilidade. Para obter uma estimativa melhor,
-representaremos os segundos momentos pela mesma função de cauda e usaremos
-Tonelli para somar em $k$ antes de estimar a integral. Isso fará aparecer o
-fator $2y\sum_{k>y}k^{-2}$, que vamos controlar primeiro.
+
+Para aplicar Borel-Cantelli, precisaremos obter uma soma finita dessas
+probabilidades. Na \Cref{subsec:subsequencia}, faremos essa soma ao longo de
+índices geométricos e mostraremos que a contribuição total de cada
+$\operatorname{Var}(Y_k)$ é limitada por uma constante vezes
+$\operatorname{Var}(Y_k)/k^2$. Como
+$\operatorname{Var}(Y_k)\leqslant\mathbb{E}[Y_k^2]$, será suficiente provar
+que
+\[
+\sum_{k=1}^{\infty}\frac{\mathbb{E}[Y_k^2]}{k^2}<\infty.
+\]
+Este é o objetivo desta subseção: obter a convergência dessa série usando
+apenas a hipótese $\mathbb{E}[|X_1|]<\infty$.
+
+Uma primeira tentativa seria usar $Y_k^2\leqslant k|X_k|$. Como os $X_k$
+têm a mesma distribuição, isso daria
+\[
+\frac{\mathbb{E}[Y_k^2]}{k^2}
+\leqslant\frac{\mathbb{E}[|X_k|]}{k}
+=\frac{\mathbb{E}[|X_1|]}{k}.
+\]
+A série harmônica diverge, de modo que essa cota não permite, em geral,
+concluir a convergência da série desejada. Em vez de estimar separadamente
+cada segundo momento por essa desigualdade, vamos conservar a restrição
+imposta pelo truncamento ao somar em $k$.
+
+Para isso, usaremos a identidade $w^2=\int_0^{|w|}2y\,dy$. Tomando
+esperanças e aplicando Tonelli, podemos escrever cada segundo momento como
+uma integral das probabilidades $\mathbb{P}(|Y_k|>y)$. O truncamento fornece
+duas informações: essa probabilidade é zero para $y\geqslant k$ e, para
+$0\leqslant y<k$, ela é limitada por $\mathbb{P}(|X_1|>y)$, pois
+$|Y_k|\leqslant|X_k|$ e os $X_k$ têm a mesma distribuição.
+
+Fixado um nível $y\geqslant0$, somente os índices $k>y$ podem, portanto,
+contribuir para a integral. Como todos os integrandos são não negativos,
+Tonelli permite trocar a ordem da soma e da integral. A soma dos
+coeficientes $1/k^2$ fica, então, restrita aos índices $k>y$, e obtemos
+\[
+\sum_{k=1}^{\infty}\frac{\mathbb{E}[Y_k^2]}{k^2}
+\leqslant
+\int_0^{\infty}
+\left(2y\sum_{k>y}\frac{1}{k^2}\right)
+\mathbb{P}(|X_1|>y)\,dy.
+\]
+Assim surge o fator $2y\sum_{k>y}k^{-2}$. Se ele for limitado por uma
+constante $C$ que não dependa de $y$, o lado direito será limitado por
+$C\mathbb{E}[|X_1|]$, pela fórmula da esperança por integração da cauda.
+Para encontrar essa cota, compararemos a cauda da série com a integral de
+$t^{-2}$. A igualdade $\int_y^{\infty}t^{-2}\,dt=1/y$, para $y>0$, sugere
+buscar uma cota para a soma proporcional a $1/y$. Multiplicando por $2y$,
+obtemos uma constante independente de $y$. O primeiro lema estabelece uma
+cota uniforme para o fator da integral; o segundo a utiliza para provar
+a estimativa de momentos.
 
 \begin{lemma}[Cota para a cauda de $\sum k^{-2}$]\label{lem:harmonica}
 Para todo $y\geqslant0$,
@@ -1571,7 +1976,7 @@ de $T_m$ quanto os sinais necessários às comparações dos denominadores em
 controle dos valores intermediários usado neste argumento.
 
 %----------------------------------------------------------------------
-\section{A Recíproca: A Integrabilidade É Necessária}\label{sec:reciproca}
+\section{A Recíproca: A Integrabilidade é Necessária}\label{sec:reciproca}
 
 A hipótese $\mathbb{E}[|X_1|]<\infty$ não é uma conveniência técnica. Nesta
 seção, mostramos que, sem ela, a conclusão da lei forte falha para sequências
@@ -1710,8 +2115,8 @@ convergência quase certa das médias a um limite finito.
 \subsection{Números Normais}\label{subsec:numeros-normais}
 
 Pelo \Cref{thm:borel-reais}, deduzido na \Cref{subsec:digitos-reais} a partir do
-espaço produto e da versão de quarto momento, quase todo número real é
-simplesmente normal na base $10$. O argumento se estende naturalmente a blocos
+modelo de dígitos independentes e da versão de quarto momento, quase todo
+número real é simplesmente normal na base $10$. O argumento se estende naturalmente a blocos
 de dígitos. Se $u=u_1\ldots u_\ell$ é uma palavra de comprimento $\ell\geqslant1$
 sobre o alfabeto $\{0,\ldots,9\}$, defina
 \[
