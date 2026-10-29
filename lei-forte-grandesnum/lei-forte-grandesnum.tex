@@ -494,8 +494,10 @@ $|X_n(\omega)-X(\omega)|<\varepsilon$ para todo $n$ suficientemente grande.
 Esse índice pode depender de $\omega$ e de $\varepsilon$.
 
 Na verdade, basta verificar \eqref{eq:criterio} para cada valor fixo
-$\varepsilon=1/m$, com $m\geqslant1$. A demonstração deste critério foi apresentada
-nas notas de aula anterior. 
+$\varepsilon=1/m$, com $m\geqslant1$. A demonstração detalhada desse critério
+foi apresentada na Proposição 8 da Subseção~3.5 das notas de aula
+\href{https://mat.unb.br/~cioletti/ensino/modos-convergencia.pdf}{\emph{Modos de Convergência
+de Sequências de Variáveis Aleatórias}}. 
 
 A convergência em probabilidade pede apenas que a probabilidade de cada desvio
 tenda a zero; a somabilidade em \eqref{eq:criterio} permite controlar sua
@@ -769,7 +771,8 @@ $S_n'/n\to0$ é equivalente a $S_n/n\to\mu$; além disso, as variáveis $X_i'$
 continuam independentes, identicamente distribuídas e com quarto momento
 finito.
 
-Suponha então $\mu=0$. Expandindo o quarto momento da soma,
+Suponha então $\mu=0$. Expandindo o quarto momento da soma e usando a propriedade
+de linearidade da esperança ficamos com 
 \begin{equation}\label{eq:expansao-quarta}
 \mathbb{E}[S_n^4]
 =
@@ -829,13 +832,8 @@ Somando em $n$,
 <
 \infty.
 \end{equation}
-Pelo primeiro lema de Borel-Cantelli,
-\[
-\mathbb{P}\bigl(|S_n|\geqslant\varepsilon n\ \text{infinitas vezes}\bigr)=0.
-\]
-Tomando $\varepsilon=1/m$ e intersectando sobre $m$, obtemos
-$\mathbb{P}(|S_n|\geqslant n/m\ \text{i.v. para algum }m)=0$, isto é,
-$S_n/n\to0$ quase certamente.
+Como essa série converge para todo $\varepsilon>0$, segue diretamente do critério de
+Borel-Cantelli (\Cref{subsec:bc-criterio}) que $S_n/n\to0$ quase certamente.
 \end{proof}
 
 A estimativa \eqref{eq:serie-quarta} realiza o objetivo anunciado: a
