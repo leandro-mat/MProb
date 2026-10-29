@@ -831,14 +831,32 @@ Como essa série converge para todo $\varepsilon>0$, segue diretamente do crité
 Borel-Cantelli (\Cref{subsec:bc-criterio}) que $S_n/n\to0$ quase certamente.
 \end{proof}
 
-A estimativa \eqref{eq:serie-quarta} realiza o objetivo anunciado: a
-centralização e a independência reduzem o crescimento do quarto momento da
-soma a $n^2$, produzindo a cota somável após a divisão por $n^4$. Argumentos mais
-refinados, que não desenvolveremos aqui, produzem cotas análogas de ordem
-$n^{-p/2}$ sob a hipótese $\mathbb{E}[|X_1|^p]<\infty$ com $p>2$, e permitem
-concluir a lei forte nesse caso. O caso $p=2$ é o caso crítico, no qual a cota
-de Chebyshev é da ordem de $1/n$ quando $\sigma^2>0$; nesse caso, sua aplicação
-direta seguida de Borel-Cantelli não conclui a convergência quase certa.
+\begin{remark}[Por que o quarto momento?]\label{rem:por-que-quarto-momento}
+Poderíamos indagar se a mesma demonstração elementar funcionaria assumindo
+apenas a existência de momentos de ordem inferior, como o terceiro momento
+($\mathbb{E}[|X_1|^3]<\infty$). A resposta é negativa, e a estratégia empregada
+quebra por duas razões estruturais:
+\begin{enumerate}
+\item[(i)] \textbf{Paridade da potência e não negatividade:} a função $x\mapsto x^4$
+é par e não negativa, o que permitiu transformar diretamente o evento de desvio
+$\{|S_n|\geqslant\varepsilon n\}$ em $\{S_n^4\geqslant\varepsilon^4 n^4\}$ e
+aplicar a desigualdade de Markov à variável não negativa $S_n^4$. Com o terceiro
+momento, a variável $S_n^3$ assume valores negativos, e para aplicar Markov
+seríamos forçados a considerar a variável não negativa $|S_n|^3$.
+\item[(ii)] \textbf{Álgebra da independência:} para calcular $\mathbb{E}[S_n^4]$,
+expandimos a potência polinomialmente e usamos que a independência anula todas
+as parcelas com índices ímpares isolados. Em contrapartida, a expressão
+$|S_n|^3=|\sum_{i=1}^n X_i|^3$ não admite expansão em produtos algébricos simples
+das variáveis $X_i$, destruindo o mecanismo combinatório elementar que zerou a
+maioria dos termos cruzados.
+\end{enumerate}
+Portanto, o expoente $p=4$ é o menor inteiro par em que esse método algébrico
+direto produz uma cota somável (de ordem $1/n^2$). Para $p=2$, a cota de
+Chebyshev decai com taxa $1/n$ e não é somável. Já para contornar a exigência de
+momentos superiores e alcançar a hipótese ótima $\mathbb{E}[|X_1|]<\infty$,
+precisaremos de técnicas analíticas mais profundas, como o método de Etemadi
+que apresentaremos na \Cref{sec:etemadi}.
+\end{remark}
 
 \begin{corollary}[Variáveis limitadas]\label{cor:limitadas}
 Se $(X_n)$ é independente e identicamente distribuída com $|X_n|\leqslant M$
