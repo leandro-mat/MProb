@@ -228,8 +228,9 @@ geométrica, com o controle dos valores
 intermediários feito por monotonicidade. Mostramos também que a hipótese de
 integrabilidade é necessária no caso independente e identicamente distribuído,
 exibindo o caso da distribuição de Cauchy, e
-discutimos aplicações à integração de Monte Carlo e à função de distribuição
-empírica. O texto inclui exemplos e uma lista de exercícios ao final. A
+discutimos aplicações à integração de Monte Carlo, à função de distribuição
+empírica e a distribuições de cauda pesada (família de Pareto). O texto inclui
+exemplos e uma lista de exercícios ao final. A
 exposição segue de perto a Seção 2.4 de \cite{MR3930614}, a Seção 2.3 do mesmo
 livro, as Seções 1, 2 e 6 do Capítulo 1 de \cite{MR2893652} e as Seções 8.1 e
 8.2 do Capítulo 8 de \cite{GrimmettWelsh2014}.
@@ -694,15 +695,17 @@ de todos os blocos, e não apenas a de um dígito isolado. O \Cref{thm:borel} af
 conjunto dos pontos simplesmente normais tem probabilidade $1$.
 \end{definition}
 
-O teorema será demonstrado duas vezes, por métodos diferentes. Na
-\Cref{sec:quarto-momento}, usamos o quarto momento das indicadoras e obtemos a
-conclusão com um argumento curto para sequências independentes, identicamente
-distribuídas e limitadas.
-Na \Cref{sec:etemadi}, demonstramos a lei forte na hipótese de esperança finita
-e recuperamos o \Cref{thm:borel} como caso particular. A primeira prova é
-instrutiva porque mostra o mecanismo de Borel-Cantelli em sua forma mais
-transparente; a segunda trata o caso em que a hipótese de quarto momento não
-está disponível.
+O \Cref{thm:borel} decorre naturalmente da Lei Forte dos Grandes Números. Na
+\Cref{sec:quarto-momento}, demonstramos a lei forte sob a hipótese de quarto
+momento finito, o que fornece uma prova curta e transparente para sequências de
+variáveis limitadas, como é o caso das indicadoras dos dígitos.
+No entanto, a exigência de momentos de ordem quatro é bastante restritiva. Na
+\Cref{sec:etemadi}, apresentamos a demonstração da lei forte geral sob a
+hipótese mínima de primeiro momento finito ($\mathbb{E}[|X_1|]<\infty$), devida a
+Etemadi. Mais adiante, na \Cref{sec:aplicacoes}, exploramos a força dessa
+generalidade ao estudar distribuições de cauda pesada, como a distribuição de
+Pareto com expoente em $(1,2]$, cujas médias amostrais convergem quase
+certamente embora todos os momentos de ordem superior sejam infinitos.
 
 Antes de prosseguir, vale registrar uma sutileza do modelo. A expansão decimal
 de um número real não é única: $0{,}4999\ldots=0{,}5000\ldots$. O conjunto dos
@@ -1671,15 +1674,11 @@ convergência quase certa das médias a um limite finito.
 
 \subsection{Números Normais}\label{subsec:numeros-normais}
 
-Pelo \Cref{thm:borel-reais}, já deduzido da identificação entre o espaço
-produto e os dígitos decimais na \Cref{subsec:digitos-reais}, quase todo número
-é simplesmente normal na base $10$. A prova pelo quarto momento está na
-\Cref{subsec:digitos-quarta}; uma segunda prova aplica
-diretamente a lei forte geral às indicadoras dos dígitos, que são independentes,
-identicamente distribuídas e limitadas.
-
-O mesmo argumento se aplica a blocos de dígitos. Se $w=w_1\ldots w_\ell$ é uma
-palavra de comprimento $\ell\geqslant1$ sobre o alfabeto $\{0,\ldots,9\}$, defina
+Pelo \Cref{thm:borel-reais}, deduzido na \Cref{subsec:digitos-reais} a partir do
+espaço produto e da versão de quarto momento, quase todo número real é
+simplesmente normal na base $10$. O argumento se estende naturalmente a blocos
+de dígitos. Se $w=w_1\ldots w_\ell$ é uma palavra de comprimento $\ell\geqslant1$
+sobre o alfabeto $\{0,\ldots,9\}$, defina
 \[
 Z_j^{(w)}=\mathds{1}_{\{X_j=w_1,\ldots,X_{j+\ell-1}=w_\ell\}}.
 \]
@@ -1787,6 +1786,81 @@ $F_n(a-)$ para $F(a-)$ em cada átomo $a$. Para obter a extensão uniforme,
 separam-se os finitos átomos de massa maior que uma tolerância fixada e refinam-se os
 intervalos entre eles até que as variações restantes de $F$ sejam pequenas; a
 última parte do \Cref{exercise:glivenko} detalha essa ideia.
+
+\subsection{Distribuições de Cauda Pesada: A Família de Pareto}\label{subsec:pareto}
+
+Um dos aspectos mais marcantes do \Cref{thm:lei-forte} é que ele exige apenas a
+finitude do primeiro momento ($\mathbb{E}[|X_1|]<\infty$), dispensando
+completamente a existência de variância ou de momentos de ordem superior. Para
+compreender o alcance dessa generalidade, é instrutivo examinar situações em que
+a média teórica existe, mas as flutuações ao redor dela são dominadas por caudas
+pesadas.
+
+Um modelo clássico com esse comportamento é a \emph{distribuição de Pareto}.
+Sejam $\alpha>0$ e $x_0>0$. Uma variável aleatória contínua $X$ tem distribuição
+de Pareto com parâmetro de forma $\alpha$ e escala $x_0$ se sua densidade é dada
+por
+\begin{equation}\label{eq:densidade-pareto}
+f(x)=
+\begin{cases}
+\dfrac{\alpha x_0^\alpha}{x^{\alpha+1}}, & \text{para } x\geqslant x_0,\\[6pt]
+0, & \text{para } x<x_0.
+\end{cases}
+\end{equation}
+Para fixar ideias e simplificar a álgebra, fixemos a escala $x_0=1$. A
+probabilidade de cauda decai como uma lei de potência:
+\[
+\mathbb{P}(X>t)=\int_t^{\infty}\frac{\alpha}{x^{\alpha+1}}\,dx=\frac{1}{t^\alpha},
+\qquad t\geqslant1.
+\]
+Calculando os momentos de ordem $p>0$, temos
+\[
+\mathbb{E}[X^p]=\int_1^{\infty}x^p\frac{\alpha}{x^{\alpha+1}}\,dx
+=\alpha\int_1^{\infty}x^{p-\alpha-1}\,dx,
+\]
+integral que converge se, e somente se, $p<\alpha$.
+
+Consideremos agora o regime $1<\alpha\leqslant2$, tomando por exemplo
+$\alpha=3/2$. Nesse caso:
+\begin{enumerate}
+\item[(i)] O primeiro momento é finito:
+\[
+\mathbb{E}[X_1]=\frac{\alpha}{\alpha-1}=\frac{3/2}{1/2}=3<\infty;
+\]
+\item[(ii)] O segundo momento diverge:
+\[
+\mathbb{E}[X_1^2]=\frac{3}{2}\int_1^{\infty}x^{2-5/2}\,dx
+=\frac{3}{2}\int_1^{\infty}\frac{1}{\sqrt{x}}\,dx=\infty,
+\]
+e, consequentemente, $\operatorname{Var}(X_1)=\infty$ e $\mathbb{E}[X_1^4]=\infty$.
+\end{enumerate}
+
+Essa classe de distribuições desempenha um papel fundamental em finanças,
+ciência de redes e teoria do risco, modelando fenômenos sujeitos a eventos
+extremos (como grandes sinistros em companhias de seguros, distribuições de renda
+ou volumes de tráfego de dados na internet).
+
+Suponha agora que $X_1,X_2,\ldots$ sejam variáveis aleatórias independentes com
+essa distribuição e denote por $S_n=X_1+\cdots+X_n$ a soma acumulada. O que
+podemos afirmar sobre o comportamento assintótico da média empírica $S_n/n$?
+\begin{itemize}
+\item \textbf{A abordagem pelo quarto momento (\Cref{thm:quarto-momento}) não se
+aplica:} como $\mathbb{E}[X_1^4]=\infty$, a estimativa via $(S_n-n\mu)^4$ sequer
+está bem definida;
+\item \textbf{A abordagem de Chebyshev e a Lei Fraca elementar falham:}
+como $\operatorname{Var}(X_1)=\infty$, a desigualdade de Chebyshev não fornece
+nenhum controle útil para $\mathbb{P}(|S_n/n-3|\geqslant\varepsilon)$;
+\item \textbf{A Lei Forte de Etemadi (\Cref{thm:lei-forte}) aplica-se
+plenamente:} como as variáveis são independentes e $\mathbb{E}[|X_1|]=3<\infty$,
+o teorema garante que
+\begin{equation}\label{eq:convergencia-pareto}
+\frac{S_n}{n}\longrightarrow 3
+\qquad\text{quase certamente.}
+\end{equation}
+\end{itemize}
+Esse exemplo ilustra de forma nítida o poder da demonstração de Etemadi: a
+convergência quase certa prevalece mesmo quando as observações individuais
+produzem flutuações e saltos de variância infinita.
 
 %----------------------------------------------------------------------
 \section{Exercícios Propostos}\label{sec:exercicios}
