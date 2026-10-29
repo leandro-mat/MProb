@@ -683,17 +683,28 @@ probabilidade: a interseção de dez eventos de probabilidade $1$ tem
 probabilidade $1$. Registramos o resultado como um único teorema porque é assim
 que ele é usado.
 
-\begin{definition}[Números simplesmente normais e normais]\label{def:normal}
-Um ponto $\omega\in\Omega$ é \emph{simplesmente normal na base 10} se
-$\nu_{n,k}(\omega)\to1/10$ para todo $k\in\{0,1,\ldots,9\}$. Dizemos que
-$\omega$ é \emph{normal na base 10} se para toda palavra finita
-$w=w_1\ldots w_\ell$ de dígitos, com $\ell\geqslant1$, a frequência assintótica
-de $w$ nas posições consecutivas de $\omega$ é $10^{-\ell}$. Contamos todas as
-posições iniciais possíveis, permitindo ocorrências sobrepostas.
-A normalidade na base 10 exige mais do que a simples: ela controla a frequência
-de todos os blocos, e não apenas a de um dígito isolado. O \Cref{thm:borel} afirma que o
-conjunto dos pontos simplesmente normais tem probabilidade $1$.
+\begin{definition}[Sequências simplesmente normais e normais]\label{def:normal}
+Um ponto $\omega\in\Omega$ é dito \emph{simplesmente normal na base $10$} se,
+para todo $k\in\{0,1,\ldots,9\}$,
+\[
+\lim_{n\to\infty}\nu_{n,k}(\omega)=\frac{1}{10}.
+\]
+Dizemos que $\omega$ é \emph{normal na base $10$} se, para toda palavra finita
+$w=w_1\ldots w_\ell$ de dígitos com $\ell\geqslant1$, a frequência assintótica
+de ocorrências do bloco $w$ nas posições consecutivas de $\omega$ é igual a
+$10^{-\ell}$.
 \end{definition}
+
+Na definição de normalidade, todas as posições iniciais são levadas em conta,
+permitindo ocorrências sobrepostas do bloco $w$. Enquanto a normalidade simples
+garante apenas o equilíbrio assintótico de cada dígito isolado, a normalidade
+plena impõe que qualquer sequência finita de dígitos ocorra exatamente com a
+frequência ditada pela probabilidade uniforme.
+
+Com essa terminologia, o \Cref{thm:borel} afirma precisamente que o conjunto dos
+pontos simplesmente normais na base $10$ tem probabilidade plena: com
+probabilidade $1$, uma sequência sorteada ao acaso satisfaz essa propriedade de
+equidistribuição.
 
 O \Cref{thm:borel} decorre naturalmente da Lei Forte dos Grandes Números. Na
 \Cref{sec:quarto-momento}, demonstramos a lei forte sob a hipótese de quarto
