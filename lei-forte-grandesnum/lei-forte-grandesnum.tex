@@ -481,23 +481,16 @@ Note que este resultado não exige a independência dos eventos.
 \medskip 
 
 Aplicado aos eventos de desvio $\{|X_n-X|\geqslant\varepsilon\}$, o 
-lema fornece o \emph{critério de Borel-Cantelli para a convergência quase
-certa} cujo enunciado é o seguinte. Se $X,X_1,X_2,\ldots$ são variáveis aleatórias e, para todo
+primeiro lema fornece o \emph{critério de Borel-Cantelli para a convergência quase
+certa}: se $X,X_1,X_2,\ldots$ são variáveis aleatórias e, para todo
 $\varepsilon>0$,
 \begin{equation}\label{eq:criterio}
 \sum_{n=1}^{\infty}\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon\bigr)<\infty,
 \end{equation}
-então $X_n\to X$ quase certamente. Para cada tolerância fixada, a somabilidade
-garante que, para quase todo $\omega$, os desvios ocorrem apenas finitas vezes. Mais precisamente,
-temos que
-$|X_n(\omega)-X(\omega)|<\varepsilon$ para todo $n$ suficientemente grande.
-Esse índice pode depender de $\omega$ e de $\varepsilon$.
-
-Na verdade, basta verificar \eqref{eq:criterio} para cada valor fixo
-$\varepsilon=1/m$, com $m\geqslant1$. A demonstração detalhada desse critério
+então $X_n\to X$ quase certamente. A demonstração detalhada desse critério
 foi apresentada na Proposição 8 da Subseção~3.5 das notas de aula
 \href{https://mat.unb.br/~cioletti/ensino/modos-convergencia.pdf}{\emph{Modos de Convergência
-de Sequências de Variáveis Aleatórias}}. 
+de Sequências de Variáveis Aleatórias}}.
 
 A convergência em probabilidade pede apenas que a probabilidade de cada desvio
 tenda a zero; a somabilidade em \eqref{eq:criterio} permite controlar sua
