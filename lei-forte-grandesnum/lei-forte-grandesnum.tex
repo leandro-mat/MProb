@@ -731,13 +731,26 @@ produto: ele elimina uma complicação que é irrelevante para o problema.
 
 \subsection{Enunciado e Prova do Teorema}\label{subsec:quarto-momento-teorema}
 
-Começamos com o caso em que as variáveis têm quarto momento finito. A prova é
-curta e mostra, sem as complicações do truncamento, como uma cota somável para
-as probabilidades de desvio produz convergência quase certa. A estimativa de
-segunda ordem fornece uma cota proporcional a $1/n$, não somável quando a
-variância é positiva, e por isso não permite aplicar diretamente o critério
-de Borel-Cantelli. Buscaremos, pelo quarto momento da soma centrada, uma cota
-proporcional a $1/n^2$, cuja soma é finita.
+Iniciamos nosso estudo da Lei Forte dos Grandes Números analisando o caso em que
+as variáveis aleatórias possuem quarto momento finito. Essa demonstração é
+particularmente instrutiva porque ilustra, em sua forma mais transparente e sem
+as dificuldades técnicas de truncamento, como o critério de Borel-Cantelli
+transforma estimativas de momentos em convergência quase certa.
+
+Para compreender a estratégia que adotaremos, recordemos a dificuldade central
+encontrada na \Cref{subsec:markov-chebyshev}: ao tentar estimar as probabilidades
+de desvio pela desigualdade de Chebyshev (que se baseia no segundo momento e na
+variância), obtivemos uma cota proporcional a $1/n$. Como a série harmônica
+$\sum_{n=1}^\infty 1/n$ diverge, essa cota baseada no segundo momento não
+permite aplicar diretamente o primeiro lema de Borel-Cantelli.
+
+A ideia fundamental para contornar essa limitação consiste em explorar momentos
+superiores. Aplicando a desigualdade de Markov à quarta potência do desvio,
+$(S_n-n\mu)^4$, mostraremos que a esperança correspondente cresce apenas com
+$n^2$. Dividindo por $n^4$, obteremos para a probabilidade de desvio uma cota
+superior proporcional a $1/n^2$. Como a série $\sum_{n=1}^\infty 1/n^2$
+converge, o critério de Borel-Cantelli garantirá de imediato que os desvios
+ocorrem apenas um número finito de vezes, entregando a convergência quase certa.
 
 \begin{theorem}[Lei forte com quarto momento]\label{thm:quarto-momento}
 Sejam $X_1,X_2,\ldots$ variáveis aleatórias independentes e identicamente
