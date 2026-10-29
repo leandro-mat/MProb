@@ -44,3 +44,6 @@ arquivos-aux/template-notas.pdf
 
 # Saídas de subagentes (arquivos de comunicação, nunca versionar)
 agent-output/
+
+# Pasta local de listas de exercícios (temporária, não versionar)
+listas/
