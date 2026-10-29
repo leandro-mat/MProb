@@ -373,39 +373,87 @@ e explicitamos a relação entre integrabilidade e probabilidades de cauda.
 
 \subsection{Desigualdades de Markov e Chebyshev e a Lei Fraca}\label{subsec:markov-chebyshev}
 
-A desigualdade de Markov diz que, para uma variável aleatória $Z\geqslant0$ e
-$a>0$,
+As desigualdades de Markov e Chebyshev, estudadas em notas de aula anteriores,
+constituem o ponto de partida natural para estimar probabilidades de cauda e
+desvios a partir de momentos. A pergunta fundamental que orienta essas
+estimativas é simples: conhecendo apenas a esperança ou a variância de uma
+variável aleatória, o que podemos garantir sobre a probabilidade de ela assumir
+valores excessivamente grandes ou afastar-se de sua média?
+
+A resposta mais elementar é dada pela desigualdade de Markov: se $Z$ é uma
+variável aleatória não negativa e $a>0$, então
 \begin{equation}\label{eq:markov}
 \mathbb{P}(Z\geqslant a)\leqslant\frac{\mathbb{E}[Z]}{a}.
 \end{equation}
-Se $X$ tem segundo momento finito, isto é, $\mathbb{E}[X^2]<\infty$, e
-$\varepsilon>0$, aplicamos \eqref{eq:markov} a $Z=(X-\mathbb{E}[X])^2$ e
-$a=\varepsilon^2$ para obter a desigualdade de Chebyshev:
+A intuição por trás de \eqref{eq:markov} é imediata: se a probabilidade de $Z$
+superar um patamar $a$ fosse estritamente maior que $\mathbb{E}[Z]/a$, a
+contribuição desse evento já excederia a própria média global de $Z$, o que é
+impossível.
+
+Quando dispomos de mais informação sobre a distribuição, como o segundo momento
+finito, podemos refinar substancialmente o controle das flutuações. Seja $X$
+uma variável aleatória com $\mathbb{E}[X^2]<\infty$. Fixado $\varepsilon>0$,
+a função quadrática nos permite transformar o evento de desvio
+$\{|X-\mathbb{E}[X]|\geqslant\varepsilon\}$ na condição equivalente
+$\{(X-\mathbb{E}[X])^2\geqslant\varepsilon^2\}$. Aplicando a desigualdade de
+Markov \eqref{eq:markov} à variável não negativa $Z=(X-\mathbb{E}[X])^2$ com o
+patamar $a=\varepsilon^2$, obtemos a desigualdade de Chebyshev:
 \begin{equation}\label{eq:chebyshev}
 \mathbb{P}\bigl(|X-\mathbb{E}[X]|\geqslant\varepsilon\bigr)
 \leqslant
 \frac{\operatorname{Var}(X)}{\varepsilon^2}.
 \end{equation}
-No caso de uma soma $S_n=X_1+\cdots+X_n$ de variáveis dois-a-dois independentes e 
-com variância finita,
+A desigualdade \eqref{eq:chebyshev} mostra com clareza como a variância mede a
+concentração de $X$ em torno de sua esperança: quanto menor a dispersão, menor
+a probabilidade de observarmos desvios de ordem $\varepsilon$.
+
+Vejamos agora como essa estimativa se comporta ao avaliarmos o comportamento das
+médias amostrais. Considere uma sequência de variáveis aleatórias $X_1,X_2,\ldots$
+com variâncias finitas e suponha que sejam duas a duas independentes. Definindo a
+soma parcial $S_n=X_1+\cdots+X_n$, a independência aos pares assegura que as
+covariâncias se anulam, de modo que a variância da soma se reduz à soma das
+variâncias:
 \[
-\operatorname{Var}(S_n)=\sum_{k=1}^{n}\operatorname{Var}(X_k),
+\operatorname{Var}(S_n)=\sum_{k=1}^{n}\operatorname{Var}(X_k).
 \]
-e \eqref{eq:chebyshev} fornece a estimativa
+Consequentemente, a variância da média amostral $S_n/n$ decai com o quadrado de
+$n$ no denominador:
+\[
+\operatorname{Var}\Bigl(\frac{S_n}{n}\Bigr)
+=
+\frac{1}{n^2}\sum_{k=1}^{n}\operatorname{Var}(X_k).
+\]
+Aplicando a desigualdade de Chebyshev \eqref{eq:chebyshev} à variável $S_n/n$,
+obtemos, para cada $\varepsilon>0$, a estimativa
 \begin{equation}\label{eq:lei-fraca}
 \mathbb{P}\Bigl(\Bigl|\frac{S_n}{n}-\bar\mu_n\Bigr|\geqslant\varepsilon\Bigr)
 \leqslant
 \frac{1}{\varepsilon^2}\operatorname{Var}\Bigl(\frac{S_n}{n}\Bigr),
-\qquad
+\qquad\text{onde}\qquad
 \bar\mu_n=\frac{1}{n}\sum_{k=1}^{n}\mathbb{E}[X_k].
 \end{equation}
-Quando as variáveis são identicamente distribuídas, com média comum $\mu$ e
-variância $\sigma^2$, temos $\bar\mu_n=\mu$ e o lado direito vale
-$\sigma^2/(n\varepsilon^2)$, que tende a zero e prova a lei fraca nesse caso.
-Se $\sigma^2>0$, a cota é da ordem de $1/n$ e, portanto, não é somável em $n$.
-Essa observação é o ponto de
-partida destas notas: procuraremos uma cota somável, como uma de ordem
-$1/n^2$, ou produziremos somabilidade ao longo de subsequências.
+No cenário particular em que as variáveis são identicamente distribuídas, com
+média comum $\mu$ e variância finita $\sigma^2$, temos $\bar\mu_n=\mu$ e o lado
+direito de \eqref{eq:lei-fraca} assume a forma explícita
+\[
+\mathbb{P}\Bigl(\Bigl|\frac{S_n}{n}-\mu\Bigr|\geqslant\varepsilon\Bigr)
+\leqslant
+\frac{\sigma^2}{n\varepsilon^2}.
+\]
+Como essa cota tende a zero quando $n\to\infty$, concluímos que a média amostral
+$S_n/n$ converge em probabilidade para a média teórica $\mu$. Esse resultado é
+precisamente a Lei Fraca dos Grandes Números sob a hipótese de variância finita.
+
+No entanto, há uma limitação crucial nessa estimativa que motiva todo o estudo
+que faremos a seguir. Sempre que $\sigma^2>0$, a cota superior fornecida por
+Chebyshev decai apenas com taxa $1/n$. Como a série harmônica $\sum_{n=1}^\infty 1/n$
+diverge, essas probabilidades de desvio não são somáveis em $n$. Isso nos impede
+de usar diretamente o primeiro lema de Borel-Cantelli para deduzir que a
+convergência ocorre quase certamente. Essa constatação é a motivação central
+destas notas de aula: para demonstrar a Lei Forte dos Grandes Números, precisaremos
+ou de momentos superiores que produzam cotas somáveis (como $1/n^2$), ou de
+estratégias mais refinadas que explorem truncamentos e subsequências ao longo
+das quais a somabilidade possa ser recuperada.
 
 \subsection{Borel-Cantelli e o Critério de Convergência Quase Certa}
 \label{subsec:bc-criterio}
@@ -420,37 +468,39 @@ Para uma sequência de eventos $(A_n)$, o limite superior
 =\bigcap_{N=1}^{\infty}\bigcup_{n\geqslant N}A_n
 \]
 é o evento formado pelos pontos $\omega$ que pertencem a $A_n$ para infinitos
-índices $n$. Escrevemos também $\{A_n\ \text{infinitas vezes}\}$ para esse
+índices $n$. Escrevemos também $\{A_n\ \text{i.v.}\}$ para esse
 evento. O primeiro lema de Borel-Cantelli afirma que, se
 $\sum_n\mathbb{P}(A_n)<\infty$, então
 \[
 \mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)=0,
 \]
-isto é, com probabilidade $1$ apenas finitos dos eventos $A_n$ ocorrem. Não se
-exige independência dos eventos.
+isto é, com probabilidade um apenas finitos dos eventos $A_n$ ocorrem. 
+Note que este resultado não exige a independência dos eventos.
 
-Aplicado aos eventos de desvio $\{|X_n-X|\geqslant\varepsilon\}$, o primeiro
+\medskip 
+
+Aplicado aos eventos de desvio $\{|X_n-X|\geqslant\varepsilon\}$, o 
 lema fornece o \emph{critério de Borel-Cantelli para a convergência quase
-certa}: se $X,X_1,X_2,\ldots$ são variáveis aleatórias e, para todo
+certa} cujo enunciado é o seguinte. Se $X,X_1,X_2,\ldots$ são variáveis aleatórias e, para todo
 $\varepsilon>0$,
 \begin{equation}\label{eq:criterio}
 \sum_{n=1}^{\infty}\mathbb{P}\bigl(|X_n-X|\geqslant\varepsilon\bigr)<\infty,
 \end{equation}
 então $X_n\to X$ quase certamente. Para cada tolerância fixada, a somabilidade
-garante que, para quase todo $\omega$, os desvios ocorrem apenas finitas vezes:
+garante que, para quase todo $\omega$, os desvios ocorrem apenas finitas vezes. Mais precisamente,
+temos que
 $|X_n(\omega)-X(\omega)|<\varepsilon$ para todo $n$ suficientemente grande.
 Esse índice pode depender de $\omega$ e de $\varepsilon$.
 
-Basta verificar \eqref{eq:criterio} para cada valor fixo
-$\varepsilon=1/m$, com $m\geqslant1$. A demonstração do critério e a passagem
-dessas tolerâncias a um único evento de probabilidade $1$ estão na
-Subseção~3.5, \emph{O Critério de Borel-Cantelli}, daquelas notas.
+Na verdade, basta verificar \eqref{eq:criterio} para cada valor fixo
+$\varepsilon=1/m$, com $m\geqslant1$. A demonstração deste critério foi apresentada
+nas notas de aula anterior. 
 
 A convergência em probabilidade pede apenas que a probabilidade de cada desvio
 tenda a zero; a somabilidade em \eqref{eq:criterio} permite controlar sua
 repetição ao longo da sequência. Essa condição é suficiente para a
 convergência quase certa, mas não necessária, como mostram os exemplos da
-Subseção~3.6, \emph{O Critério Não É Necessário}, das notas citadas. Nas duas
+Subseção~3.6, \emph{O Critério não é Necessário}, das notas anteriores. Nas duas
 provas da lei forte que apresentaremos, procuraremos estimativas que permitam
 aplicar o critério.
 
@@ -460,7 +510,7 @@ eventos $A_n$ são independentes e $\sum_n\mathbb{P}(A_n)=\infty$, então
 \mathbb{P}\Bigl(\limsup_{n\to\infty}A_n\Bigr)=1.
 \]
 Nesse caso, quase certamente infinitos dos eventos $A_n$ ocorrem. Os dois
-lemas estão enunciados na Seção~2 das mesmas notas.
+lemas estão enunciados na Seção~2 das notas anteriores.
 
 \subsection{Esperança e Probabilidades de Cauda}\label{subsec:esperanca-cauda}
 
@@ -471,7 +521,7 @@ integração da cauda afirma que
 \end{equation}
 com ambos os lados podendo ser infinitos. De fato,
 \[
-W(\omega)=\int_0^{\infty}\mathds{1}_{\{t<W(\omega)\}}\,dt,
+W(\omega)=\int_0^{\infty}\mathds{1}_{(0,W(\omega))}(t)\,dt,
 \]
 e o teorema de Tonelli permite trocar a esperança com a integral, pois o
 integrando é não negativo.
@@ -492,7 +542,8 @@ Somando essas desigualdades e usando \eqref{eq:esperanca-cauda}, obtemos
 As séries dos extremos diferem apenas pelo termo $\mathbb{P}(W>0)\leqslant1$.
 Portanto, $\mathbb{E}[W]<\infty$ se, e somente se,
 $\sum_{k=1}^{\infty}\mathbb{P}(W>k)<\infty$. Aplicaremos essa equivalência a
-$W=|X_1|$: a integrabilidade tornará raros os truncamentos na prova de
+variável aleatória
+$W \equiv |X_1|$. A integrabilidade tornará raros os truncamentos na prova de
 Etemadi, enquanto sua ausência produzirá termos grandes infinitas vezes na
 prova da recíproca.
 
@@ -508,54 +559,38 @@ Trabalharemos no espaço de todas as sequências infinitas de dígitos,
 \bigl\{\omega=(\omega_1,\omega_2,\omega_3,\ldots):
 \omega_n\in\{0,1,\ldots,9\}\text{ para todo }n\bigr\}.
 \]
-As projeções coordenadas são
+As funções $X_n:\Omega\to \mathbb{R}$ dadas por 
 \[
 X_n(\omega)=\omega_n,
-\qquad n\geqslant1.
+\qquad n\geqslant1,
 \]
-Um \emph{cilindro de posto $n$} é um conjunto obtido fixando as $n$ primeiras
+podem ser pensadas como variáveis aleatórias sobre o espaço mensurável $(\Omega,\mathcal{F})$, 
+onde $\mathcal{F}$ é a menor $\sigma$-álgebra, onde para todo $n\in\mathbb{N}$, 
+cada função $X_n$ é mensurável. 
+
+
+Um \emph{cilindro de posto $n$} é um subconjunto de $\Omega$ obtido fixando as $n$ primeiras
 coordenadas:
 \[
 C(u_1,\ldots,u_n)
 =
 \bigl\{\omega\in\Omega:X_1(\omega)=u_1,\ldots,X_n(\omega)=u_n\bigr\},
 \]
-com $u_1,\ldots,u_n\in\{0,1,\ldots,9\}$. O conjunto $\mathcal{C}_0$ das uniões
-finitas de cilindros é um corpo de conjuntos: o complementar de um cilindro é
-uma união finita de cilindros de mesmo posto, e a união de dois cilindros de
-postos diferentes pode ser reescrita como união de cilindros do maior posto.
+com $u_1,\ldots,u_n\in\{0,1,\ldots,9\}$. É claro pela definição de $\mathcal{F}$
+que qualquer cilindro da forma $C(u_1,\ldots,u_n)\in \mathcal{F}$. Basta
+observar que este cilindro corresponde ao evento 
+\begin{align*}
+\{X_1=u_1\}\cap \ldots\cap \{X_n=u_n\}\in\mathcal{F}.
+\end{align*}
 
-A medida de probabilidade que nos interessa é definida nos cilindros por
+A medida de probabilidade $\mathbb{P}$ que nos interessa sobre $(\Omega,\mathcal{F})$ 
+é a única medida de probabilidade definida sobre o espaço mensurável $(\Omega,\mathcal{F})$ 
+satisfazendo a seguinte propriedade
 \begin{equation}\label{eq:medida-produto}
 \mathbb{P}\bigl(C(u_1,\ldots,u_n)\bigr)=\frac{1}{10^n}
 =
-\prod_{j=1}^{n}\frac{1}{10},
+\prod_{j=1}^{n}\frac{1}{10}
 \end{equation}
-e estendida por aditividade finita a $\mathcal{C}_0$. A definição é
-consistente: se um cilindro de posto $n$ é relido como cilindro de posto
-$m>n$, ele se decompõe em $10^{m-n}$ cilindros de posto $m$, e
-$10^{m-n}\cdot10^{-m}=10^{-n}$.
-
-A consistência garante a aditividade finita; para aplicar o teorema de
-extensão de Carathéodory, falta verificar a aditividade enumerável.
-Para isso, usaremos a compacidade de $\Omega$ na topologia produto dos
-alfabetos finitos discretos, um resultado que citamos sem demonstração.
-Cada cilindro, fechado em
-$\Omega$, é compacto; assim, todo elemento de $\mathcal{C}_0$, sendo união
-finita de cilindros, também é compacto. Se $A_n\in\mathcal{C}_0$ é uma
-sequência decrescente com $\bigcap_n A_n=\varnothing$, os $A_n$ são fechados
-e $A_1$ é compacto, logo algum $A_n$ já é vazio. Portanto,
-$\mathbb{P}(A_n)\to0$. Essa continuidade no vazio, junto com a aditividade
-finita, garante a aditividade enumerável no corpo
-$\mathcal{C}_0$. Pelo teorema de extensão de Carathéodory, $\mathbb{P}$ se
-estende de maneira única à $\sigma$-álgebra
-$\mathcal{F}=\sigma(\mathcal{C}_0)$ gerada pelos cilindros. Citamos esse
-teorema sem demonstração. O espaço
-$(\Omega,\mathcal{F},\mathbb{P})$ é o \emph{espaço produto} e $\mathbb{P}$ é a
-\emph{medida produto} determinada pelas probabilidades $1/10$ em cada dígito.
-Do ponto de vista do curso, o que importa é que a construção produz um espaço
-de probabilidade no qual os dígitos são independentes e uniformes, como
-mostramos a seguir.
 
 \begin{proposition}\label{prop:marginais}
 Para todo $n\geqslant1$ e todo $k\in\{0,1,\ldots,9\}$,
@@ -605,9 +640,9 @@ e a última expressão é o produto das probabilidades marginais pela
 
 Cada evento $\{X_n\in B\}$, com $B\subseteq\{0,1,\ldots,9\}$, é uma união
 finita disjunta de eventos $\{X_n=k\}$. Somando a fatoração demonstrada acima,
-obtemos a independência para subconjuntos arbitrários do alfabeto e, portanto,
+obtemos a independência para subconjuntos arbitrários e, portanto,
 para toda a sequência. O modelo é o de uma sequência de sorteios independentes
-de um dígito, cada um com probabilidade $1/10$. Ele é a versão decimal do
+de um dígito, cada um com probabilidade $1/10$. Ele é a versão de dez alternativas do
 modelo de lançamentos de uma moeda honesta e também pode ser obtido a partir da
 expansão decimal de um ponto escolhido ao acaso em $[0,1]$, como veremos na
 \Cref{subsec:digitos-reais}.
@@ -617,15 +652,15 @@ expansão decimal de um ponto escolhido ao acaso em $[0,1]$, como veremos na
 Para $n\geqslant1$ e $k\in\{0,1,\ldots,9\}$, definimos a frequência relativa do
 dígito $k$ entre os $n$ primeiros dígitos:
 \begin{equation}\label{eq:frequencia}
-F_{n,k}(\omega)
+\nu_{n,k}(\omega)
 =
-\frac{1}{n}\sum_{j=1}^{n}\mathds{1}_{\{X_j(\omega)=k\}}.
+\frac{1}{n}\sum_{j=1}^{n}\mathds{1}_{\{X_j=k\}}(\omega).
 \end{equation}
-A variável $F_{n,k}$ é a proporção das $n$ primeiras posições ocupadas pelo
+A variável $\nu_{n,k}$ é a proporção das $n$ primeiras posições ocupadas pelo
 dígito $k$. Pela \Cref{prop:marginais}, cada indicadora tem esperança
 $1/10$, logo
 \[
-\mathbb{E}[F_{n,k}]=\frac{1}{10}
+\mathbb{E}[\nu_{n,k}]=\frac{1}{10}
 \qquad\text{para todo }n.
 \]
 A pergunta que organiza estas notas é se a frequência converge para esse valor ao
@@ -634,7 +669,7 @@ longo da sequência, e em que sentido.
 \begin{theorem}[Teorema de Borel para a base 10]\label{thm:borel}
 Para cada $k\in\{0,1,\ldots,9\}$,
 \[
-\lim_{n\to\infty}F_{n,k}(\omega)=\frac{1}{10}
+\lim_{n\to\infty}\nu_{n,k}(\omega)=\frac{1}{10}
 \qquad\text{para quase todo }\omega\in\Omega.
 \]
 Além disso, a interseção dos conjuntos de convergência sobre os dez valores de
@@ -649,7 +684,7 @@ que ele é usado.
 
 \begin{definition}[Números simplesmente normais e normais]\label{def:normal}
 Um ponto $\omega\in\Omega$ é \emph{simplesmente normal na base 10} se
-$F_{n,k}(\omega)\to1/10$ para todo $k\in\{0,1,\ldots,9\}$. Dizemos que
+$\nu_{n,k}(\omega)\to1/10$ para todo $k\in\{0,1,\ldots,9\}$. Dizemos que
 $\omega$ é \emph{normal na base 10} se para toda palavra finita
 $w=w_1\ldots w_\ell$ de dígitos, com $\ell\geqslant1$, a frequência assintótica
 de $w$ nas posições consecutivas de $\omega$ é $10^{-\ell}$. Contamos todas as
@@ -824,10 +859,10 @@ Mas
 =
 \frac{1}{n}\sum_{j=1}^{n}\mathds{1}_{\{X_j=k\}}-\frac{1}{10}
 =
-F_{n,k}-\frac{1}{10},
+\nu_{n,k}-\frac{1}{10},
 \]
 logo \eqref{eq:digitos-media} é exatamente a afirmação
-$F_{n,k}\to1/10$ quase certamente. Como $k$ é arbitrário e a interseção sobre
+$\nu_{n,k}\to1/10$ quase certamente. Como $k$ é arbitrário e a interseção sobre
 os dez valores é enumerável, o \Cref{thm:borel} segue.
 
 Vale registrar o cálculo explícito da variância, porque ele mostra por que a
@@ -850,7 +885,7 @@ Como as $Y_j$ são independentes,
 \]
 A cota de Chebyshev é, portanto,
 \[
-\mathbb{P}\bigl(|F_{n,k}-\tfrac{1}{10}|\geqslant\varepsilon\bigr)
+\mathbb{P}\bigl(|\nu_{n,k}-\tfrac{1}{10}|\geqslant\varepsilon\bigr)
 \leqslant
 \frac{9}{100n\varepsilon^2},
 \]
