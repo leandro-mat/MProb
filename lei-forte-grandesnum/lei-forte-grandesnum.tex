@@ -809,6 +809,8 @@ Observe que $C$ não depende de $n$.
 Fixe $\varepsilon>0$. Aplicamos agora a desigualdade de Markov à variável
 não negativa $S_n^4$, com nível $\varepsilon^4n^4$:
 \[
+\mathbb{P}\Bigl(\Bigl|\frac{S_n}{n}\Bigr|\geqslant\varepsilon\Bigr)
+=
 \mathbb{P}\bigl(|S_n|\geqslant\varepsilon n\bigr)
 =
 \mathbb{P}\bigl(S_n^4\geqslant\varepsilon^4n^4\bigr)
@@ -819,7 +821,7 @@ não negativa $S_n^4$, com nível $\varepsilon^4n^4$:
 \]
 Somando em $n$,
 \begin{equation}\label{eq:serie-quarta}
-\sum_{n=1}^{\infty}\mathbb{P}\bigl(|S_n|\geqslant\varepsilon n\bigr)
+\sum_{n=1}^{\infty}\mathbb{P}\Bigl(\Bigl|\frac{S_n}{n}-0\Bigr|\geqslant\varepsilon\Bigr)
 \leqslant
 \frac{C}{\varepsilon^4}\sum_{n=1}^{\infty}\frac{1}{n^2}
 <
