@@ -690,13 +690,13 @@ para todo $k\in\{0,1,\ldots,9\}$,
 \lim_{n\to\infty}\nu_{n,k}(\omega)=\frac{1}{10}.
 \]
 Dizemos que $\omega$ é \emph{normal na base $10$} se, para toda palavra finita
-$w=w_1\ldots w_\ell$ de dígitos com $\ell\geqslant1$, a frequência assintótica
-de ocorrências do bloco $w$ nas posições consecutivas de $\omega$ é igual a
+$u=u_1\ldots u_\ell$ de dígitos com $\ell\geqslant1$, a frequência assintótica
+de ocorrências do bloco $u$ nas posições consecutivas de $\omega$ é igual a
 $10^{-\ell}$.
 \end{definition}
 
 Na definição de normalidade, todas as posições iniciais são levadas em conta,
-permitindo ocorrências sobrepostas do bloco $w$. Enquanto a normalidade simples
+permitindo ocorrências sobrepostas do bloco $u$. Enquanto a normalidade simples
 garante apenas o equilíbrio assintótico de cada dígito isolado, a normalidade
 plena impõe que qualquer sequência finita de dígitos ocorra exatamente com a
 frequência ditada pela probabilidade uniforme.
@@ -1688,21 +1688,21 @@ convergência quase certa das médias a um limite finito.
 Pelo \Cref{thm:borel-reais}, deduzido na \Cref{subsec:digitos-reais} a partir do
 espaço produto e da versão de quarto momento, quase todo número real é
 simplesmente normal na base $10$. O argumento se estende naturalmente a blocos
-de dígitos. Se $w=w_1\ldots w_\ell$ é uma palavra de comprimento $\ell\geqslant1$
+de dígitos. Se $u=u_1\ldots u_\ell$ é uma palavra de comprimento $\ell\geqslant1$
 sobre o alfabeto $\{0,\ldots,9\}$, defina
 \[
-Z_j^{(w)}=\mathds{1}_{\{X_j=w_1,\ldots,X_{j+\ell-1}=w_\ell\}}.
+Z_j^{(u)}=\mathds{1}_{\{X_j=u_1,\ldots,X_{j+\ell-1}=u_\ell\}}.
 \]
-As variáveis $Z_j^{(w)}$ não são, em geral, independentes. A soma
-$\sum_{j=1}^{n}Z_j^{(w)}$ conta as ocorrências de $w$ com posições iniciais
+As variáveis $Z_j^{(u)}$ não são, em geral, independentes. A soma
+$\sum_{j=1}^{n}Z_j^{(u)}$ conta as ocorrências de $u$ com posições iniciais
 $1,\ldots,n$, e a média correspondente dá sua frequência. A lei forte para
 blocos disjuntos, aplicada às indicadoras dos
 eventos
 \[
-\{X_{1+k\ell}=w_1,\ldots,X_{\ell+k\ell}=w_\ell\},
+\{X_{1+k\ell}=u_1,\ldots,X_{\ell+k\ell}=u_\ell\},
 \qquad k\geqslant0,
 \]
-mostra que a frequência de $w$ nas posições $1,1+\ell,1+2\ell,\ldots$ tende a
+mostra que a frequência de $u$ nas posições $1,1+\ell,1+2\ell,\ldots$ tende a
 $10^{-\ell}$ quase certamente. Repetimos o argumento nas $\ell$ classes de
 índices módulo $\ell$ e recompomos a frequência total como a média ponderada
 das frequências em cada classe, cujos pesos tendem a $1/\ell$.
@@ -1907,11 +1907,11 @@ conclua a convergência quase certa.
 
 \begin{exercise}\label{exercise:palavras}
 No espaço $\Omega=\{0,1,\ldots,9\}^{\mathbb{N}}$ com a medida produto uniforme,
-seja $w=w_1\ldots w_\ell$ uma palavra de comprimento $\ell\geqslant1$. Defina
+seja $u=u_1\ldots u_\ell$ uma palavra de comprimento $\ell\geqslant1$. Defina
 \[
-N_n(w)=\#\{1\leqslant j\leqslant n-\ell+1:X_j=w_1,\ldots,X_{j+\ell-1}=w_\ell\}.
+N_n(u)=\#\{1\leqslant j\leqslant n-\ell+1:X_j=u_1,\ldots,X_{j+\ell-1}=u_\ell\}.
 \]
-Mostre que $N_n(w)/n\to10^{-\ell}$ quase certamente. \emph{Sugestão:} considere
+Mostre que $N_n(u)/n\to10^{-\ell}$ quase certamente. \emph{Sugestão:} considere
 primeiro as posições $j=1,1+\ell,1+2\ell,\ldots$ e depois intercale as $\ell$
 progressões aritméticas de razão $\ell$.
 \end{exercise}
