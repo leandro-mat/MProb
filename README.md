@@ -45,9 +45,12 @@ da figura do cabeçalho e do `.bib`.
 
 [![Compilar LaTeX](https://github.com/leandro-mat/MProb/actions/workflows/compilar.yml/badge.svg)](https://github.com/leandro-mat/MProb/actions)
 
-Os PDFs são **compilados automaticamente pelo GitHub Actions** a cada alteração
-nos arquivos `.tex` ou `.bib` (badge de status acima). Não é preciso compilar
-nem subir o PDF manualmente — a própria CI atualiza os PDFs no repositório.
+Os PDFs são **compilados automaticamente pelo GitHub Actions** nos envios à
+`main` e nos pull requests que alteram arquivos `.tex` ou `.bib`.
+Em **Actions → Compilar LaTeX**, cada execução disponibiliza um arquivo
+`notas-pdf-<commit>` com os PDFs gerados, para download e revisão.
+A publicação dos PDFs no repositório e na homepage é feita pelo professor
+após essa revisão; a automação tem somente permissão de leitura no repositório.
 
 Compilação manual (opcional), dentro da subpasta da nota:
 
@@ -63,9 +66,9 @@ Links diretos de download (funcionam sem conta no GitHub):
 
 - [Supremos, ínfimos e completude da reta](https://github.com/leandro-mat/MProb/raw/main/sup-inf/sup-inf.pdf)
 
-Para adicionar uma nova nota, basta criar a subpasta com o `.tex` principal
-(e os capítulos) e enviar para o `main` — o GitHub Actions compila e o link
-aparece aqui.
+Para adicionar novas notas de aula, crie a subpasta com o `.tex` principal
+(e os capítulos). Após a revisão, inclua o PDF aprovado no repositório e
+adicione seu link à lista acima.
 
 ## Colaborações e Correções
 

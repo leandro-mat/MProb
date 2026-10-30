@@ -7,48 +7,68 @@ on:
       - '**/*.tex'
       - '**/*.bib'
       - '.github/workflows/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.tex'
+      - '**/*.bib'
+      - '.github/workflows/**'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: compilar-latex-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   compilar:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout do repositório
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Descobrir documentos principais
         id: notas
         run: |
-          docs=""
+          docs=()
+          pdfs=()
           while IFS= read -r dir; do
             base="$(basename "$dir")"
-            [ -f "$dir/$base.tex" ] && docs="$docs $dir/$base.tex"
+            if [ -f "$dir/$base.tex" ]; then
+              docs+=("$dir/$base.tex")
+              pdfs+=("$dir/$base.pdf")
+            fi
           done < <(find . -mindepth 1 -maxdepth 1 -type d \
             -not -path './.git*' \
             -not -path '*/arquivos-aux*' | sort)
-          docs="${docs# }"
-          echo "docs=$docs"
-          echo "docs=$docs" >> "$GITHUB_OUTPUT"
+          if [ "${#docs[@]}" -eq 0 ]; then
+            echo "::error::Nenhum documento principal foi encontrado."
+            exit 1
+          fi
+          printf 'Documentos encontrados: %s\n' "${#docs[@]}"
+          {
+            echo 'docs<<DOCUMENTOS'
+            printf '%s\n' "${docs[@]}"
+            echo 'DOCUMENTOS'
+            echo 'pdfs<<PDFS'
+            printf '%s\n' "${pdfs[@]}"
+            echo 'PDFS'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Compilar notas de aula
-        if: steps.notas.outputs.docs != ''
         uses: xu-cheng/latex-action@v4
         with:
           root_file: ${{ steps.notas.outputs.docs }}
           work_in_root_file_dir: true
           args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
 
-      - name: Commit dos PDFs compilados
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add '*.pdf'
-          if git diff --cached --quiet; then
-            echo "Nenhuma mudança nos PDFs — nada a commitar."
-          else
-            git commit -m "Atualiza PDFs compilados pelas Actions [skip ci]"
-            git push
-          fi
+      - name: Disponibilizar PDFs para revisão
+        uses: actions/upload-artifact@v7
+        with:
+          name: notas-pdf-${{ github.sha }}
+          path: ${{ steps.notas.outputs.pdfs }}
+          if-no-files-found: error
