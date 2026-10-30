@@ -211,29 +211,22 @@ pdfkeywords={lei forte dos grandes números, prova de Etemadi, truncamento, lema
 
 % --- RESUMO (ABSTRACT) ---
 \begin{abstract}
-Nestas notas, estudamos a lei forte dos grandes números. O fio condutor é o
-exemplo das frequências dos dígitos de um número em $[0,1]$, modelado no espaço
-produto $\{0,1,\ldots,9\}^{\mathbb{N}}$ com a medida produto uniforme, cujas
-marginais satisfazem $\mathbb{P}(X_n=k)=1/10$. Mostramos primeiro a lei forte
-sob a hipótese de quarto momento finito, pelo argumento clássico que combina
-a desigualdade de Markov com o lema de Borel-Cantelli, e aplicamos o resultado
-ao exemplo dos dígitos, obtendo o teorema de Borel sobre a frequência dos
-dígitos. Em seguida,
-apresentamos a prova de Etemadi, que estabelece a lei forte para variáveis
-independentes dois a dois e identicamente distribuídas com esperança finita.
-A prova é decomposta em etapas: redução a variáveis não negativas,
-truncamento e identificação das
-médias truncadas, estimativa de momentos e argumento de subsequência
-geométrica, com o controle dos valores
-intermediários feito por monotonicidade. Mostramos também que a hipótese de
-integrabilidade é necessária no caso independente e identicamente distribuído,
-exibindo o caso da distribuição de Cauchy, e
-discutimos aplicações à integração de Monte Carlo, à função de distribuição
-empírica e a distribuições de cauda pesada (família de Pareto). O texto inclui
-exemplos e uma lista de exercícios ao final. A
-exposição segue de perto a Seção 2.4 de \cite{MR3930614}, a Seção 2.3 do mesmo
-livro, as Seções 1, 2 e 6 do Capítulo 1 de \cite{MR2893652} e as Seções 8.1 e
-8.2 do Capítulo 8 de \cite{GrimmettWelsh2014}.
+Nestas notas, estudamos a Lei Forte dos Grandes Números e suas aplicações.
+Apresentamos inicialmente uma demonstração para variáveis aleatórias
+independentes e identicamente distribuídas com quarto momento finito,
+baseada na desigualdade de Markov e no critério de Borel-Cantelli. Em
+seguida, demonstramos a versão de Etemadi para variáveis integráveis,
+identicamente distribuídas e independentes dois a dois. Mostramos também
+que, no caso independente e identicamente distribuído, a integrabilidade
+é necessária para a convergência quase certa das médias a um limite finito.
+Analisamos o comportamento das médias amostrais de variáveis independentes
+com distribuição de Cauchy. A família de Pareto exemplifica a aplicação
+da Lei Forte a sequências de variáveis integráveis com variância infinita.
+Entre as aplicações, incluímos a normalidade dos números reais, a integração de Monte Carlo e a
+convergência da função de distribuição empírica. As notas contêm exemplos
+e exercícios propostos. A exposição segue as Seções 2.3 e 2.4 de
+\cite{MR3930614}, as Seções 1, 2 e 6 do Capítulo 1 de \cite{MR2893652}
+e as Seções 8.1 e 8.2 do Capítulo 8 de \cite{GrimmettWelsh2014}.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -1541,72 +1534,32 @@ também nos índices da subsequência geométrica.
 Na subseção anterior, mostramos que $\mathbb{E}[T_n]/n\to\mu$.
 Resta controlar a diferença entre a média truncada $T_n/n$ e sua esperança,
 isto é, provar que $(T_n-\mathbb{E}[T_n])/n\to0$ quase certamente.
-Como os $Y_k$ têm segundo momento finito e são independentes dois a dois,
+Como as variáveis aleatórias $Y_k$ têm segundo momento finito e são duas-a-duas independentes,
 a variância de $T_n$ é a soma das variâncias dos seus termos. Portanto,
 para todo $\varepsilon>0$, a desigualdade de Chebyshev fornece
-\[
+\begin{align}\label{eq-aux1}
 \mathbb{P}\left(
 \left|\frac{T_n-\mathbb{E}[T_n]}{n}\right|>\varepsilon
 \right)
 \leqslant
 \frac{1}{\varepsilon^2n^2}
 \sum_{k=1}^{n}\operatorname{Var}(Y_k).
-\]
+\end{align}
+A expressão acima sugere que a prova do teorema poderia
+ser finalizada se fosse possível aplicar o critério de Borel-Cantelli.
+O problema é justamente encontrar uma cota superior somável para a expressão que
+aparece no lado direito da desigualdade \eqref{eq-aux1}.
+A grande ideia de Etemadi foi perceber dois fatos fundamentais: que a convergência quase certa da sequência
+\begin{align}\label{eq-aux2}
+\frac{T_{k(n)}}{k(n)},
+\end{align}
+onde $k(n)$ é uma sequência apropriada de índices, implica na convergência quase certa
+de toda a sequência $T_n/n$ e; que a convergência quase certa da sequência \eqref{eq-aux2} poderia
+ser obtida por \eqref{eq-aux1}, escolhendo $k(n)$ apropriadamente.
 
-Para aplicar Borel-Cantelli, precisaremos obter uma soma finita dessas
-probabilidades. Na \Cref{subsec:subsequencia}, faremos essa soma ao longo de
-índices geométricos e mostraremos que a contribuição total de cada
-$\operatorname{Var}(Y_k)$ é limitada por uma constante vezes
-$\operatorname{Var}(Y_k)/k^2$. Como
-$\operatorname{Var}(Y_k)\leqslant\mathbb{E}[Y_k^2]$, será suficiente provar
-que
-\[
-\sum_{k=1}^{\infty}\frac{\mathbb{E}[Y_k^2]}{k^2}<\infty.
-\]
-Este é o objetivo desta subseção: obter a convergência dessa série usando
-apenas a hipótese $\mathbb{E}[|X_1|]<\infty$.
+Antes de desenvolver a ideia de Etemadi precisamos de alguns lemas técnicos.
 
-Uma primeira tentativa seria usar $Y_k^2\leqslant k|X_k|$. Como os $X_k$
-têm a mesma distribuição, isso daria
-\[
-\frac{\mathbb{E}[Y_k^2]}{k^2}
-\leqslant\frac{\mathbb{E}[|X_k|]}{k}
-=\frac{\mathbb{E}[|X_1|]}{k}.
-\]
-A série harmônica diverge, de modo que essa cota não permite, em geral,
-concluir a convergência da série desejada. Em vez de estimar separadamente
-cada segundo momento por essa desigualdade, vamos conservar a restrição
-imposta pelo truncamento ao somar em $k$.
-
-Para isso, usaremos a identidade $w^2=\int_0^{|w|}2y\,dy$. Tomando
-esperanças e aplicando Tonelli, podemos escrever cada segundo momento como
-uma integral das probabilidades $\mathbb{P}(|Y_k|>y)$. O truncamento fornece
-duas informações: essa probabilidade é zero para $y\geqslant k$ e, para
-$0\leqslant y<k$, ela é limitada por $\mathbb{P}(|X_1|>y)$, pois
-$|Y_k|\leqslant|X_k|$ e os $X_k$ têm a mesma distribuição.
-
-Fixado um nível $y\geqslant0$, somente os índices $k>y$ podem, portanto,
-contribuir para a integral. Como todos os integrandos são não negativos,
-Tonelli permite trocar a ordem da soma e da integral. A soma dos
-coeficientes $1/k^2$ fica, então, restrita aos índices $k>y$, e obtemos
-\[
-\sum_{k=1}^{\infty}\frac{\mathbb{E}[Y_k^2]}{k^2}
-\leqslant
-\int_0^{\infty}
-\left(2y\sum_{k>y}\frac{1}{k^2}\right)
-\mathbb{P}(|X_1|>y)\,dy.
-\]
-Assim surge o fator $2y\sum_{k>y}k^{-2}$. Se ele for limitado por uma
-constante $C$ que não dependa de $y$, o lado direito será limitado por
-$C\mathbb{E}[|X_1|]$, pela fórmula da esperança por integração da cauda.
-Para encontrar essa cota, compararemos a cauda da série com a integral de
-$t^{-2}$. A igualdade $\int_y^{\infty}t^{-2}\,dt=1/y$, para $y>0$, sugere
-buscar uma cota para a soma proporcional a $1/y$. Multiplicando por $2y$,
-obtemos uma constante independente de $y$. O primeiro lema estabelece uma
-cota uniforme para o fator da integral; o segundo a utiliza para provar
-a estimativa de momentos.
-
-\begin{lemma}[Cota para a cauda de $\sum k^{-2}$]\label{lem:harmonica}
+\begin{lemma}\label{lem:harmonica}
 Para todo $y\geqslant0$,
 \[
 2y\sum_{k>y}\frac{1}{k^2}\leqslant4.
@@ -1629,11 +1582,14 @@ Somando em $k\geqslant m$,
 \frac{1}{m-1}.
 \end{equation}
 
-Suponha primeiro $y\geqslant1$. A soma $\sum_{k>y}k^{-2}$ começa em
+O restante da prova é divido em dois casos. Suponha inicialmente que $y\geqslant1$.
+Neste caso, a soma $\sum_{k>y}k^{-2}$ começa em
 $k=\lfloor y\rfloor+1\geqslant2$, de modo que \eqref{eq:cota-harmonica} se
-aplica com $m=\lfloor y\rfloor+1$:
+aplica com $m=\lfloor y\rfloor+1$, fornecendo a seguinte desigualdade
 \[
 2y\sum_{k>y}\frac{1}{k^2}
+=
+2y\sum_{k=\lfloor y\rfloor+1}^{\infty}\frac{1}{k^2}
 \leqslant
 \frac{2y}{\lfloor y\rfloor}
 \leqslant
@@ -1642,8 +1598,9 @@ aplica com $m=\lfloor y\rfloor+1$:
 pois, para $y\geqslant1$, temos $y<\lfloor y\rfloor+1\leqslant2\lfloor
 y\rfloor$.
 
-Suponha agora $0\leqslant y<1$. Então todo inteiro positivo $k$ satisfaz
-$k>y$, e usamos \eqref{eq:cota-harmonica} com $m=2$:
+Para finalizar resta obter a desigualdade para o caso $0\leqslant y<1$.
+Neste caso, temos que todo inteiro positivo $k$ satisfaz
+$k>y$, e portanto segue de uma aplicação diretta de \eqref{eq:cota-harmonica} com $m=2$ que
 \[
 2y\sum_{k>y}\frac{1}{k^2}
 =
@@ -1665,38 +1622,29 @@ porque ela será multiplicada por $\mathbb{E}[|X_1|]$, que é finito. O que impo
 é a ordem de grandeza, isto é, o fato de a constante não depender de $y$.
 
 \begin{lemma}[Estimativa de momentos]\label{lem:momento}
-Com $Y_k$ definido em \eqref{eq:truncamento},
-\[
+Se $Y_k$, para cada $k\in\mathbb{N}$, é a variável aleatória definida em \eqref{eq:truncamento},
+então
+\begin{align}\label{eq-aux3}
 \sum_{k=1}^{\infty}\frac{\operatorname{Var}(Y_k)}{k^2}
 \leqslant
 4\,\mathbb{E}[|X_1|]
 <
 \infty.
-\]
+\end{align}
 \end{lemma}
 
 \begin{proof}
 Como $\operatorname{Var}(Y_k)=\mathbb{E}[Y_k^2]-(\mathbb{E}[Y_k])^2\leqslant
-\mathbb{E}[Y_k^2]$, basta cotar a soma dos segundos momentos.
-
-Usamos a representação do segundo momento por integração de camadas. Para
+\mathbb{E}[Y_k^2]$, basta cotar a soma dos segundos momentos e
+para estimar $\mathbb{E}[Y_k^2]$, vamos usar a representação do segundo momento mostrada abaixo. Para
 qualquer variável $W$ com $\mathbb{E}[W^2]<\infty$,
 \begin{equation}\label{eq:camadas}
 \mathbb{E}[W^2]
 =
 \int_0^{\infty}2y\,\mathbb{P}(|W|>y)\,dy.
 \end{equation}
-De fato, pelo teorema de Tonelli aplicado ao integrando não negativo
-$2y\mathds{1}_{\{y<|W|\}}$,
-\[
-\mathbb{E}\Bigl[\int_0^{\infty}2y\mathds{1}_{\{y<|W|\}}\,dy\Bigr]
-=
-\int_0^{\infty}2y\,\mathbb{P}(|W|>y)\,dy,
-\]
-e a integral interna vale
-$\int_0^{|W|}2y\,dy=|W|^2$.
 
-Aplicamos \eqref{eq:camadas} a $W=Y_k$. Como $|Y_k|\leqslant k$, temos
+Como $|Y_k|\leqslant k$, temos
 $\mathbb{P}(|Y_k|>y)=0$ para $y\geqslant k$. Para $0\leqslant y<k$, o evento
 $\{|Y_k|>y\}$ está contido em $\{|X_k|>y\}$, pois $|Y_k|\leqslant|X_k|$. Logo
 \[
@@ -1704,16 +1652,17 @@ $\{|Y_k|>y\}$ está contido em $\{|X_k|>y\}$, pois $|Y_k|\leqslant|X_k|$. Logo
 =
 \mathds{1}_{\{y<k\}}\,\mathbb{P}(|X_1|>y),
 \]
-onde a igualdade usa a hipótese de distribuições iguais. Portanto
+onde na última igualdade usamos que $(X_n)_{n\in\mathbb{N}}$ é uma sequência de v.a.'s identicamente distribuídas.
+Portanto
 \begin{equation}\label{eq:cota-Yk}
 \mathbb{E}[Y_k^2]
 \leqslant
 \int_0^{k}2y\,\mathbb{P}(|X_1|>y)\,dy.
 \end{equation}
 
-Substituindo \eqref{eq:cota-Yk} na soma e trocando a ordem de soma e integral,
+Substituindo \eqref{eq:cota-Yk} na soma \eqref{eq-aux3} e trocando a ordem de soma e integral,
 o que é permitido pelo teorema de Tonelli porque todos os termos são não
-negativos,
+negativos, obtemos a seguinte estimativa
 \begin{align*}
 \sum_{k=1}^{\infty}\frac{\mathbb{E}[Y_k^2]}{k^2}
 &\leqslant
@@ -1730,13 +1679,15 @@ negativos,
 \Bigl\{\sum_{k>y}\frac{1}{k^2}\Bigr\}
 \,2y\,\mathbb{P}(|X_1|>y)\,dy.
 \end{align*}
-A soma entre chaves é cotada pelo \Cref{lem:harmonica} acima, que dá
+A soma entre chaves é cotada pelo \Cref{lem:harmonica}
 \[
 2y\sum_{k>y}\frac{1}{k^2}\leqslant4
 \qquad\text{para todo }y\geqslant0.
 \]
-Logo
+Logo concluímos das desigualdades acima que
 \[
+\sum_{k=1}^{\infty}\frac{\operatorname{Var}(Y_k)}{k^2}
+\leqslant
 \sum_{k=1}^{\infty}\frac{\mathbb{E}[Y_k^2]}{k^2}
 \leqslant
 \int_0^{\infty}4\,\mathbb{P}(|X_1|>y)\,dy
@@ -1745,7 +1696,8 @@ Logo
 <
 \infty,
 \]
-onde usamos novamente a fórmula da esperança por integração da cauda.
+onde na última igualdade usamos novamente a fórmula da esperança por integração da cauda
+e a hipótese de finitude da esperança de $|X_1|$ e com isto encerramos a prova do lema.
 \end{proof}
 
 \subsection{O Argumento de Subsequência}\label{subsec:subsequencia}
@@ -1753,44 +1705,90 @@ onde usamos novamente a fórmula da esperança por integração da cauda.
 Suponha, como permite a \Cref{subsec:reducao}, que $X_n\geqslant0$ para todo
 $n$. Então $Y_n\geqslant0$ e $\mu=\mathbb{E}[X_1]\geqslant0$.
 
-Fixamos um número $\alpha>1$ e definimos
+Seja $\alpha>1$ fixo, porém arbitrário. Defina
 \begin{equation}\label{eq:kn}
 k(n)=\lfloor\alpha^n\rfloor,
 \qquad n\geqslant1.
 \end{equation}
 A sequência $k(n)$ é não decrescente e tende a infinito, podendo repetir
-termos iniciais. Ao somar Chebyshev em todos os índices $r$, cada
-$\operatorname{Var}(Y_m)$ receberia o peso $\sum_{r\geqslant m}r^{-2}$, da
-ordem de $m^{-1}$, enquanto o \Cref{lem:momento} controla pesos $m^{-2}$.
-Os índices geométricos produzem justamente pesos dessa ordem: para cada $m$,
-a soma dos pesos $k(n)^{-2}$ com $k(n)\geqslant m$ é dominada por uma cauda
-geométrica e tem uma cota proporcional a $m^{-2}$, como veremos abaixo.
+alguns termos iniciais.
 
-Como os $Y_m$ são independentes dois a dois,
+Queremos aplicar o primeiro lema de Borel-Cantelli às médias truncadas nesses
+índices. Para isso, precisamos mostrar que as probabilidades de desvio
+obtidas pela desigualdade de Chebyshev têm soma finita. Mais precisamente,
+provaremos que, para cada $\varepsilon>0$,
+\[
+\sum_{n=1}^{\infty}
+\mathbb{P}\bigl(|T_{k(n)}-\mathbb{E}[T_{k(n)}]|\geqslant\varepsilon k(n)\bigr)
+\leqslant
+C_{\alpha,\varepsilon}
+\sum_{m=1}^{\infty}\frac{\operatorname{Var}(Y_m)}{m^2},
+\]
+onde $C_{\alpha,\varepsilon}$ é uma constante finita que depende apenas de
+$\alpha$ e de $\varepsilon$. O \Cref{lem:momento} garante que a série do
+lado direito converge. Essa estimativa fornecerá, portanto, a somabilidade
+necessária para aplicar Borel-Cantelli.
+
+A escolha dos índices geométricos permite obter essa estimativa porque
+$k(n)\geqslant\alpha^n/2$ e, consequentemente,
+$k(n)^{-2}\leqslant4\alpha^{-2n}$. Os termos $\alpha^{-2n}$ formam uma
+progressão geométrica de razão $\alpha^{-2}<1$, cujas somas podemos calcular
+explicitamente. No argumento abaixo, usaremos essa comparação depois de
+trocar a ordem das somas, para obter a série
+$\sum_{m=1}^{\infty}\operatorname{Var}(Y_m)/m^2$ que aparece no lado direito.
+
+
+\bigskip
+
+
+Como os $Y_m$ são v.a.'s duas-a-duas independentes, então
 \[
 \operatorname{Var}(T_{k(n)})
 =
 \sum_{m=1}^{k(n)}\operatorname{Var}(Y_m).
 \]
-Fixe $\varepsilon>0$. Aplicando Chebyshev com nível $\varepsilon k(n)$,
+Pela Desigualdade de Chebyshev sabemos que para cada $\varepsilon>0$ fixado temos
 \[
-\mathbb{P}\bigl(|T_{k(n)}-\mathbb{E}[T_{k(n)}]|>\varepsilon k(n)\bigr)
+\mathbb{P}\bigl(|T_{k(n)}-\mathbb{E}[T_{k(n)}]|\geqslant\varepsilon k(n)\bigr)
 \leqslant
 \frac{\operatorname{Var}(T_{k(n)})}{\varepsilon^2k(n)^2}
 =
-\frac{1}{\varepsilon^2}\sum_{m=1}^{k(n)}
-\frac{\operatorname{Var}(Y_m)}{k(n)^2}.
+\frac{1}{\varepsilon^2 k(n)^2}\sum_{m=1}^{k(n)} \operatorname{Var}(Y_m).
 \]
-Somando em $n$ e trocando as somas, novamente por Tonelli,
-\begin{equation}\label{eq:troca-somas}
+Próximo passo é somar ambos os lados da desigualdade acima sobre $n\geqslant1$. O lado direito
+passa a ser uma soma dupla, onde para cada $n\in\mathbb{N}$, somamos os termos com
+$1\leqslant m\leqslant k(n)$.
+
+Para inverter a ordem das somas, fixemos agora $m\geqslant1$. A parcela
+$\operatorname{Var}(Y_m)/k(n)^2$ aparece precisamente para os índices $n$
+que satisfazem $k(n)\geqslant m$. Assim, podemos somar primeiro sobre esses
+índices e depois sobre todos os $m\geqslant1$. Como todos os termos são não
+negativos, o teorema de Tonelli permite essa troca mesmo antes de sabermos
+se a soma é finita. Obtemos
+\begin{align}
 \sum_{n=1}^{\infty}
-\mathbb{P}\bigl(|T_{k(n)}-\mathbb{E}[T_{k(n)}]|>\varepsilon k(n)\bigr)
-\leqslant
+\mathbb{P}\bigl(|T_{k(n)}-\mathbb{E}[T_{k(n)}]|\geqslant\varepsilon k(n)\bigr)
+&\leqslant
+\frac{1}{\varepsilon^2}
+\sum_{n=1}^{\infty}\sum_{m=1}^{k(n)}
+\frac{\operatorname{Var}(Y_m)}{k(n)^2}
+\notag\\[0.4cm]
+&=
+\frac{1}{\varepsilon^2}
+\sum_{m=1}^{\infty}
+\sum_{\substack{n\geqslant1\\k(n)\geqslant m}}
+\frac{\operatorname{Var}(Y_m)}{k(n)^2}
+\notag\\[0.4cm]
+&=
 \frac{1}{\varepsilon^2}
 \sum_{m=1}^{\infty}\operatorname{Var}(Y_m)
-\sum_{n:\,k(n)\geqslant m}\frac{1}{k(n)^2}.
-\end{equation}
-Vamos dominar a soma interna por uma cauda geométrica. Como
+\sum_{\substack{n\geqslant1\\k(n)\geqslant m}}\frac{1}{k(n)^2}.
+\label{eq:troca-somas}
+\end{align}
+Na última igualdade, colocamos $\operatorname{Var}(Y_m)$ em evidência na
+soma em $n$, pois essa variância não depende de $n$.
+
+Próximo passo é dominar a soma interna pela cauda de uma série geométrica. Como
 $k(n)=\lfloor\alpha^n\rfloor\geqslant\alpha^n/2$ para $n\geqslant1$, temos
 $k(n)^{-2}\leqslant4\alpha^{-2n}$. Defina
 \[
@@ -1813,7 +1811,7 @@ Substituindo \eqref{eq:cauda-geometrica} em \eqref{eq:troca-somas} e usando o
 \Cref{lem:momento},
 \begin{equation}\label{eq:serie-Chebyshev}
 \sum_{n=1}^{\infty}
-\mathbb{P}\bigl(|T_{k(n)}-\mathbb{E}[T_{k(n)}]|>\varepsilon k(n)\bigr)
+\mathbb{P}\bigl(|T_{k(n)}-\mathbb{E}[T_{k(n)}]|\geqslant\varepsilon k(n)\bigr)
 \leqslant
 \frac{4}{\varepsilon^2(1-\alpha^{-2})}
 \sum_{m=1}^{\infty}\frac{\operatorname{Var}(Y_m)}{m^2}
@@ -1822,24 +1820,37 @@ Substituindo \eqref{eq:cauda-geometrica} em \eqref{eq:troca-somas} e usando o
 <
 \infty.
 \end{equation}
-Pelo primeiro lema de Borel-Cantelli, para cada $\varepsilon>0$ fixado vale,
-quase certamente,
+Como $k(n)\geqslant1$, a estimativa \eqref{eq:serie-Chebyshev} mostra que,
+para todo $\varepsilon>0$,
 \[
-|T_{k(n)}-\mathbb{E}[T_{k(n)}]|\leqslant\varepsilon k(n)
-\qquad\text{para todo }n\text{ suficientemente grande.}
+\sum_{n=1}^{\infty}
+\mathbb{P}\left(
+\left|\frac{T_{k(n)}-\mathbb{E}[T_{k(n)}]}{k(n)}\right|
+\geqslant\varepsilon
+\right)<\infty.
 \]
-Tomando $\varepsilon=1/j$ e intersectando os conjuntos de probabilidade $1$
-correspondentes a $j\geqslant1$, obtemos
+Está, portanto, verificada a hipótese do critério de Borel-Cantelli para a
+convergência quase certa, recordado na \Cref{subsec:bc-criterio}. Aplicando
+esse critério à sequência dos desvios normalizados, obtemos
 \begin{equation}\label{eq:subsequencia}
 \frac{T_{k(n)}-\mathbb{E}[T_{k(n)}]}{k(n)}\longrightarrow0
 \qquad\text{quase certamente.}
 \end{equation}
 
-Pela convergência de Cesàro \eqref{eq:cesaro}, aplicada a $n=k(n)$,
+Além disso, em \eqref{eq:cesaro} já mostramos que a sequência numérica
+$\mathbb{E}[T_m]/m$ converge para $\mu$. Como $k(n)\to\infty$, essa
+convergência também vale ao longo dos índices $k(n)$:
 \[
 \frac{\mathbb{E}[T_{k(n)}]}{k(n)}\longrightarrow\mu.
 \]
-Combinando essa convergência e \eqref{eq:subsequencia},
+Para concluir, decompomos a média truncada em duas parcelas:
+\[
+\frac{T_{k(n)}}{k(n)}
+=\frac{T_{k(n)}-\mathbb{E}[T_{k(n)}]}{k(n)}
++\frac{\mathbb{E}[T_{k(n)}]}{k(n)}.
+\]
+A primeira tende a zero quase certamente, por \eqref{eq:subsequencia}, e a
+segunda tende a $\mu$. Portanto,
 \begin{equation}\label{eq:subsequencia-final}
 \frac{T_{k(n)}}{k(n)}\longrightarrow\mu
 \qquad\text{quase certamente.}
@@ -1847,18 +1858,19 @@ Combinando essa convergência e \eqref{eq:subsequencia},
 
 \subsection{Os Valores Intermediários}\label{subsec:intermediarios}
 
-A \eqref{eq:subsequencia-final} dá a convergência apenas ao longo dos índices
-$k(n)$. Falta controlar os índices $m$ que ficam entre dois valores
-consecutivos da subsequência. A hipótese $X_n\geqslant0$ fornece o controle
-desses índices por meio da monotonicidade.
+O limite quase certo garantido por \eqref{eq:subsequencia-final} fornece
+a convergência apenas ao longo dos índices $k(n)$.
+Para completar a prova falta controlar os índices $m$ que ficam entre dois valores
+consecutivos da sequência $k(n)$. A hipótese $X_n\geqslant0$ será a chave para fazer o controle
+da sequência ao longo desses índices, por meio de um argumento de monotonicidade.
 
-Como $Y_k\geqslant0$, a sequência $T_m=Y_1+\cdots+Y_m$ é não decrescente em
-$m$. Seja $m$ um inteiro com
+Já que $Y_k\geqslant0$, então podemos afirmar que a sequência $T_m=Y_1+\cdots+Y_m$ é não decrescente em
+$m$. Seja $m$ um inteiro positivo satisfazendo
 \[
 k(n)\leqslant m<k(n+1).
 \]
 Pela monotonicidade, $T_{k(n)}\leqslant T_m\leqslant T_{k(n+1)}$. Usando
-também a não negatividade das somas para comparar os denominadores, obtemos
+também a não negatividade das variáveis aleatórias $T_n$'s e as desigualdades acima, obtemos
 \[
 \frac{T_{k(n)}}{k(n+1)}
 \leqslant
@@ -1878,35 +1890,100 @@ isto é,
 \leqslant
 \frac{T_{k(n+1)}}{k(n)}.
 \end{equation}
-Os índices nas extremidades foram escolhidos para que as razões envolvam
-apenas quantidades que já sabemos convergir. De fato, por
-\eqref{eq:subsequencia-final},
+Para usar \eqref{eq:sanduiche}, precisamos calcular os limites de seus dois
+extremos. Em cada um deles, multiplicaremos e dividiremos pelo índice da
+soma que aparece no numerador. Assim, faremos aparecer as médias cuja
+convergência já conhecemos, acompanhadas de razões entre índices
+consecutivos.
+
+Comecemos por essas razões. Pela definição da parte inteira,
+$0\leqslant\alpha^n-k(n)<1$. Dividindo por $\alpha^n$ e fazendo
+$n\to\infty$, obtemos $k(n)/\alpha^n\to1$. Consequentemente,
 \[
+\frac{k(n+1)}{k(n)}
+=
+\frac{k(n+1)}{\alpha^{n+1}}\cdot\alpha\cdot\frac{\alpha^n}{k(n)}
+\longrightarrow\alpha,
+\]
+e a razão inversa tende a $\alpha^{-1}$.
+
+No que segue trabalhamos no evento de probabilidade $1$ em que vale
+\eqref{eq:subsequencia-final}. Nesse evento,
+\begin{gather*}
 \frac{T_{k(n)}}{k(n+1)}
 =
 \frac{T_{k(n)}}{k(n)}\cdot\frac{k(n)}{k(n+1)}
 \longrightarrow
 \frac{\mu}{\alpha},
-\]
-e
-\[
+\\[0.4cm]
 \frac{T_{k(n+1)}}{k(n)}
 =
 \frac{T_{k(n+1)}}{k(n+1)}\cdot\frac{k(n+1)}{k(n)}
 \longrightarrow
-\alpha\mu,
-\]
-porque $k(n)/\alpha^n\to1$, pela definição da parte inteira, e portanto
-$k(n+1)/k(n)\to\alpha$ e $k(n)/k(n+1)\to\alpha^{-1}$.
+\alpha\mu.
+\end{gather*}
 
-Para cada inteiro $m\geqslant k(1)$, definimos explicitamente
+Na desigualdade \eqref{eq:sanduiche}, as duas cotas dependem apenas de $n$.
+Assim, elas controlam de uma só vez todas as médias $T_m/m$ com
+$k(n)\leqslant m<k(n+1)$. Vamos usar esse controle em cada intervalo para
+obter uma estimativa válida para todos os índices suficientemente grandes.
+A \Cref{fig:blocos-geometricos} ilustra como os intervalos se sucedem.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+  % As distâncias são esquemáticas; importa a cobertura dos índices.
+  \fill[teal!12] (0.4,-0.12) rectangle (3.2,0.12);
+  \fill[teal!22] (3.2,-0.12) rectangle (7,0.12);
+  \fill[teal!12] (7,-0.12) rectangle (11.5,0.12);
+  \draw[->,thin] (0,0) -- (12.6,0);
+
+  \foreach \x/\rotulo in {0.4/N,3.2/{N+1},7/{N+2},11.5/{N+3}} {
+    \draw[thin] (\x,-0.18) -- (\x,0.18);
+    \node[below=6pt,font=\small] at (\x,0) {$k(\rotulo)$};
+  }
+  \fill[teal] (5.1,0) circle (2pt);
+  \node[above=4pt,teal!70!black] at (5.1,0) {$m$};
+
+  \draw[muted,thin,decorate,decoration={brace,amplitude=4pt}]
+    (0.4,0.65) -- (3.2,0.65)
+    node[midway,above=6pt,font=\small] {$n=N$};
+  \draw[muted,thin,decorate,decoration={brace,amplitude=4pt}]
+    (3.2,0.65) -- (7,0.65)
+    node[midway,above=6pt,font=\small] {$n=N+1$};
+  \draw[muted,thin,decorate,decoration={brace,amplitude=4pt}]
+    (7,0.65) -- (11.5,0.65)
+    node[midway,above=6pt,font=\small] {$n=N+2$};
+  \node[font=\small] at (12.1,0.65) {$\cdots$};
+\end{tikzpicture}
+\caption{Os intervalos $\left[k(n),k(n+1)\right)$, com $n\geqslant N$,
+cobrem todos os inteiros $m\geqslant k(N)$. Em cada intervalo, a desigualdade
+\eqref{eq:sanduiche} controla todas as médias $T_m/m$ pelas mesmas duas
+cotas. O desenho é esquemático.}
+\label{fig:blocos-geometricos}
+\end{figure}
+
+Fixemos $\delta>0$. Pelos dois limites que acabamos de obter, existe $N$
+tal que, para todo $n\geqslant N$,
 \[
-n(m)=\max\{n\geqslant1:k(n)\leqslant m\}.
+\frac{\mu}{\alpha}-\delta
+\leqslant\frac{T_{k(n)}}{k(n+1)}
+\qquad\text{e}\qquad
+\frac{T_{k(n+1)}}{k(n)}\leqslant\alpha\mu+\delta.
 \]
-O conjunto é não vazio e finito; pela maximalidade,
-$k(n(m))\leqslant m<k(n(m)+1)$, e, para todo $N\geqslant1$, se
-$m\geqslant k(N)$, então $n(m)\geqslant N$, o que prova $n(m)\to\infty$.
-Tomando os limites em \eqref{eq:sanduiche} ao longo de tais $m$, obtemos
+Combinando essas cotas com \eqref{eq:sanduiche}, obtemos
+\[
+\frac{\mu}{\alpha}-\delta
+\leqslant\frac{T_m}{m}\leqslant\alpha\mu+\delta
+\qquad\text{se }k(n)\leqslant m<k(n+1),\quad n\geqslant N.
+\]
+Como $k(n)\to\infty$, esses intervalos cobrem todos os inteiros
+$m\geqslant k(N)$. Portanto, a estimativa acima vale para todo
+$m\geqslant k(N)$.
+
+Uma vez que $\delta>0$ é arbitrário, o limite inferior das médias é pelo
+menos $\mu/\alpha$, e o limite superior é no máximo $\alpha\mu$. Concluímos,
+no evento de probabilidade $1$ em que estamos trabalhando, que
 \begin{equation}\label{eq:limites-alfa}
 \frac{\mu}{\alpha}
 \leqslant
@@ -1917,13 +1994,23 @@ Tomando os limites em \eqref{eq:sanduiche} ao longo de tais $m$, obtemos
 \alpha\mu.
 \end{equation}
 
-A desigualdade \eqref{eq:limites-alfa} vale para cada $\alpha>1$ fixado, mas o
-conjunto nulo em que ela pode falhar depende de $\alpha$. Para passar a todos
-os $\alpha$ ao mesmo tempo, tomamos a sequência enumerável
-$\alpha_j=1+1/j$ e intersectamos os conjuntos de probabilidade $1$
-correspondentes. A interseção é um evento de probabilidade $1$, e nela
-\eqref{eq:limites-alfa} vale para todo $j$. Fazendo $j\to\infty$, os extremos
-$\mu/\alpha_j$ e $\alpha_j\mu$ tendem a $\mu$, e portanto
+Para concluir que o limite é $\mu$, precisamos aproximar as duas cotas de
+\eqref{eq:limites-alfa} desse mesmo valor. Isso sugere escolher $\alpha$
+cada vez mais próximo de $1$, o que podemos fazer porque o argumento vale
+para qualquer $\alpha>1$.
+
+Precisamos, porém, que as desigualdades usadas nessa passagem valham no
+mesmo evento de probabilidade $1$. Para cada $\alpha$ fixado, obtivemos um
+evento com essa propriedade, que pode depender de $\alpha$. Basta então
+escolher uma sequência enumerável de parâmetros que tenda a $1$:
+\[
+\alpha_j=1+\frac{1}{j},\qquad j\geqslant1.
+\]
+A interseção dos eventos de probabilidade $1$ correspondentes a esses
+parâmetros também tem probabilidade $1$. Nessa interseção,
+\eqref{eq:limites-alfa} vale simultaneamente com $\alpha=\alpha_j$ para
+todo $j\geqslant1$. Podemos, portanto, fazer $j\to\infty$ nas duas cotas.
+Como $\mu/\alpha_j\to\mu$ e $\alpha_j\mu\to\mu$, obtemos
 \[
 \mu
 \leqslant
@@ -1933,10 +2020,11 @@ $\mu/\alpha_j$ e $\alpha_j\mu$ tendem a $\mu$, e portanto
 \leqslant
 \mu.
 \]
-Logo $T_m/m\to\mu$ quase certamente. Pelo \Cref{lem:truncamento},
-$S_m/m\to\mu$ quase certamente, o que conclui a prova do
-\Cref{thm:lei-forte} no caso $X_n\geqslant0$. A
-\Cref{subsec:reducao} completa o caso geral.
+Os limites inferior e superior são, assim, iguais a $\mu$, o que prova que
+$T_m/m\to\mu$ quase certamente. Pelo \Cref{lem:truncamento}, as médias
+originais $S_m/m$ também convergem quase certamente para $\mu$. Isso conclui
+a prova do \Cref{thm:lei-forte} para variáveis não negativas; a redução da
+\Cref{subsec:reducao} fornece o caso geral.
 
 \subsection{Observações sobre a Prova}\label{subsec:observacoes-prova}
 
@@ -1971,8 +2059,7 @@ que, quando $\mu>0$, ainda não identifica o limite.
 
 O terceiro é o papel da não negatividade. Ela garante tanto a monotonicidade
 de $T_m$ quanto os sinais necessários às comparações dos denominadores em
-\eqref{eq:sanduiche}. Sem $Y_k\geqslant0$, essas desigualdades podem falhar.
-É por isso que fazemos a redução a variáveis não negativas: ela fornece o
+\eqref{eq:sanduiche}. Sem $Y_k\geqslant0$, essas desigualdades podem falhar e não teríamos o
 controle dos valores intermediários usado neste argumento.
 
 %----------------------------------------------------------------------
@@ -2053,11 +2140,12 @@ $\{|X_n|\geqslant n\ \text{infinitas vezes}\}$. Por \eqref{eq:io-recorde}, esse
 último conjunto tem probabilidade $1$, e a conclusão segue.
 \end{proof}
 
-A intuição do argumento é simples: se a média $S_n/n$ converge para um limite
-finito, então $X_{n+1}/(n+1)$ precisa tender a zero. Um termo com módulo pelo
-menos igual ao índice impede que essa razão seja pequena. Mas, sem
-integrabilidade, quase certamente os termos individuais têm módulo pelo menos
-igual ao índice infinitas vezes.
+A ideia do argumento é identificar uma condição necessária para a
+convergência das médias: se $S_n/n$ converge para um limite finito, então
+$X_n/n\to0$. Sem integrabilidade, porém, quase certamente
+$|X_n|\geqslant n$ para infinitos índices $n$. Assim, $|X_n|/n$ é pelo menos
+$1$ infinitas vezes, o que impede essa razão de tender a zero. Portanto, as
+médias também não podem convergir para um limite finito.
 
 \begin{example}[A distribuição de Cauchy]\label{ex:cauchy}
 Sejam $X_1,X_2,\ldots$ independentes com a distribuição de Cauchy padrão, cuja
@@ -2080,16 +2168,8 @@ de modo que o \Cref{thm:reciproca} se aplica: $S_n/n$ não converge quase
 certamente.
 
 Por outro lado, a média de variáveis de Cauchy independentes também é de
-Cauchy. De fato, a função característica da Cauchy padrão é
-$\varphi(t)=e^{-|t|}$, logo a de $S_n/n$ é
-\[
-\Bigl(\varphi\Bigl(\frac{t}{n}\Bigr)\Bigr)^n
-=
-\bigl(e^{-|t|/n}\bigr)^n
-=
-e^{-|t|},
-\]
-que é novamente a função característica da Cauchy padrão. Assim, $S_n/n$ tem
+Cauchy. Este fato será provado mais a frente quando introduzirmos a função característica.
+De qualquer forma usando este resultado podemos afirmar que $S_n/n$ tem
 exatamente a mesma distribuição para todo $n$ e, em particular,
 $S_n/n\Rightarrow X_1$. O exemplo mostra que a convergência em distribuição
 pode valer trivialmente enquanto a convergência quase certa falha, e que a
@@ -2097,7 +2177,7 @@ hipótese de integrabilidade é indispensável para a lei forte.
 \end{example}
 
 No exemplo da Cauchy, a média também não converge em probabilidade para
-nenhuma constante $c\in\mathbb{R}$: para todo $\varepsilon>0$,
+nenhuma constante $c\in\mathbb{R}$ já que para todo $\varepsilon>0$,
 \[
 \mathbb{P}(|S_n/n-c|\geqslant\varepsilon)
 =\mathbb{P}(|X_1-c|\geqslant\varepsilon)>0,
@@ -2114,35 +2194,228 @@ convergência quase certa das médias a um limite finito.
 
 \subsection{Números Normais}\label{subsec:numeros-normais}
 
-Pelo \Cref{thm:borel-reais}, deduzido na \Cref{subsec:digitos-reais} a partir do
-modelo de dígitos independentes e da versão de quarto momento, quase todo
-número real é simplesmente normal na base $10$. O argumento se estende naturalmente a blocos
-de dígitos. Se $u=u_1\ldots u_\ell$ é uma palavra de comprimento $\ell\geqslant1$
-sobre o alfabeto $\{0,\ldots,9\}$, defina
+O \Cref{thm:borel-reais} mostra que, para quase todo número real, cada
+dígito decimal tem frequência assintótica $1/10$. Podemos perguntar também
+pelas frequências de pares, trincas e blocos mais longos. Por exemplo, será
+que os blocos $00$ e $37$ têm, cada um, frequência $1/100$?
+
+O equilíbrio dos dígitos isolados não basta para responder a essa pergunta.
+Considere o número
 \[
-Z_j^{(u)}=\mathds{1}_{\{X_j=u_1,\ldots,X_{j+\ell-1}=u_\ell\}}.
+x=0{,}0123456789\,0123456789\,0123456789\ldots.
 \]
-As variáveis $Z_j^{(u)}$ não são, em geral, independentes. A soma
-$\sum_{j=1}^{n}Z_j^{(u)}$ conta as ocorrências de $u$ com posições iniciais
-$1,\ldots,n$, e a média correspondente dá sua frequência. A lei forte para
-blocos disjuntos, aplicada às indicadoras dos
-eventos
+Cada dígito aparece uma vez a cada dez posições, mas o bloco $00$ nunca
+aparece. Esse número é simplesmente normal na base $10$, mas não é normal.
+A normalidade, definida na \Cref{def:normal}, exige que \emph{toda} palavra
+finita $u$ de comprimento $\ell$ tenha frequência $10^{-\ell}$. Vamos mostrar
+que quase todo número real satisfaz essa propriedade.
+
+\subsubsection{Contar as ocorrências de uma palavra}
+
+Retomemos o espaço $[0,1)$ com a probabilidade de Lebesgue $\lambda$ e os
+dígitos $d_j(x)$ da expansão decimal de $x$, com a convenção da
+\Cref{subsec:digitos-reais}. Pelo \Cref{lem:digitos-uniformes}, essas
+variáveis são independentes e uniformes em $\{0,\ldots,9\}$.
+
+Fixemos uma palavra $u=u_1\ldots u_\ell$ de comprimento $\ell\geqslant1$.
+Para registrar se ela aparece a partir da posição $j$, definimos
 \[
-\{X_{1+k\ell}=u_1,\ldots,X_{\ell+k\ell}=u_\ell\},
-\qquad k\geqslant0,
+Z_j^{(u)}(x)
+=\mathds{1}_{\{d_j=u_1,\ldots,d_{j+\ell-1}=u_\ell\}}(x).
 \]
-mostra que a frequência de $u$ nas posições $1,1+\ell,1+2\ell,\ldots$ tende a
-$10^{-\ell}$ quase certamente. Repetimos o argumento nas $\ell$ classes de
-índices módulo $\ell$ e recompomos a frequência total como a média ponderada
-das frequências em cada classe, cujos pesos tendem a $1/\ell$.
-A contagem com posições iniciais até $n$ difere da contagem do
-\Cref{exercise:palavras} em no máximo $\ell-1$ ocorrências, o que não altera
-o limite. Como as palavras finitas formam um conjunto enumerável, concluímos
-que quase todo número real é normal na base 10. Um número real é chamado
-\emph{completamente normal} quando é normal em toda base inteira
-$b\geqslant2$. Repetindo o argumento em cada base e tomando a interseção
-enumerável dos conjuntos de medida de Lebesgue plena correspondentes,
-concluímos que quase todo número real é completamente normal.
+Assim, $Z_j^{(u)}(x)=1$ quando o bloco que começa em $j$ é $u$, e vale $0$
+caso contrário. A frequência de ocorrências entre as $n$ primeiras
+posições de início é, portanto,
+\[
+F_n^{(u)}(x)=\frac{1}{n}\sum_{j=1}^{n}Z_j^{(u)}(x).
+\]
+Contamos todas as posições de início, inclusive as que produzem ocorrências
+sobrepostas. Por exemplo, o bloco $00$ aparece duas vezes em $000$, com
+inícios na primeira e na segunda posições.
+
+Pela independência dos dígitos, a probabilidade de encontrar $u$ em qualquer
+posição fixada é
+\[
+\lambda\bigl(Z_j^{(u)}=1\bigr)
+=\prod_{i=1}^{\ell}\lambda\bigl(d_{j+i-1}=u_i\bigr)
+=\left(\frac{1}{10}\right)^\ell
+=10^{-\ell}.
+\]
+Queremos mostrar que a frequência observada $F_n^{(u)}$ converge quase
+certamente para essa probabilidade.
+
+\subsubsection{Separar os blocos para obter independência}
+
+Uma tentativa seria aplicar a lei forte diretamente à sequência
+$(Z_j^{(u)})$. A dificuldade é que blocos com posições iniciais próximas
+usam alguns dos mesmos dígitos. Por exemplo, se $u=372$, a condição
+$Z_1^{(u)}=1$ exige $d_2=7$, enquanto $Z_2^{(u)}=1$ exige $d_2=3$.
+Esses dois eventos têm probabilidade positiva, mas não podem ocorrer
+simultaneamente. Logo, as indicadoras não são independentes.
+
+A sobreposição sugere como proceder: separar as posições iniciais de modo
+que os blocos examinados usem posições disjuntas da expansão decimal. Para palavras
+de comprimento $3$, os blocos que começam em $1,4,7,\ldots$ examinam,
+respectivamente,
+\[
+(d_1,d_2,d_3),\qquad(d_4,d_5,d_6),\qquad(d_7,d_8,d_9),\qquad\ldots.
+\]
+Como os dígitos são independentes e nenhum deles é usado em dois desses
+blocos, as indicadoras correspondentes são independentes. Podemos fazer
+o mesmo com os inícios $2,5,8,\ldots$ e com os inícios $3,6,9,\ldots$.
+Esses três grupos, reunidos, incluem todas as posições de início, como
+mostra a \Cref{fig:blocos-normais}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=0.88cm,y=1cm]
+  % As colunas mantêm a mesma posição decimal em todas as linhas.
+  \node[anchor=west,font=\small\bfseries] at (-2.3,0.85)
+    {Testes em posições consecutivas};
+  \foreach \y/\inicio in {0/1,-0.75/2} {
+    \node[anchor=east,font=\small] at (-0.2,\y) {início $\inicio$};
+    \foreach \j in {1,...,4} {
+      \draw[muted!35,thin] ({\j-1},{\y-0.24}) rectangle (\j,{\y+0.24});
+      \node[muted!65,font=\small] at ({\j-0.5},\y) {$d_{\j}$};
+    }
+    \fill[teal!16] ({\inicio-1},{\y-0.24})
+      rectangle ({\inicio+2},{\y+0.24});
+    \foreach \s in {0,1,2} {
+      \pgfmathtruncatemacro{\j}{\inicio+\s}
+      \draw[muted!40,thin] ({\j-1},{\y-0.24}) rectangle (\j,{\y+0.24});
+      \node[font=\small] at ({\j-0.5},\y) {$d_{\j}$};
+    }
+    \draw[teal,thin] ({\inicio-0.97},{\y-0.27})
+      rectangle ({\inicio+1.97},{\y+0.27});
+  }
+  \foreach \x in {1.5,2.5} {
+    \draw[teal!70,dashed,thin] (\x,-0.28) -- (\x,-0.47);
+  }
+  \node[anchor=west,align=left,font=\small,text width=5.3cm]
+    at (5,-0.35)
+    {Os dois testes usam os dígitos $d_2$ e $d_3$.\\
+     A sobreposição pode produzir dependência.};
+
+  \node[anchor=west,font=\small\bfseries] at (-2.3,-1.7)
+    {Testes separados em três grupos};
+  \foreach \r in {1,2,3} {
+    \pgfmathsetmacro{\y}{-2.45-0.85*(\r-1)}
+    \pgfmathtruncatemacro{\segundo}{\r+3}
+    \pgfmathtruncatemacro{\terceiro}{\r+6}
+    \node[anchor=east,font=\small] at (-0.2,\y)
+      {inícios $\r,\segundo,\terceiro,\ldots$};
+    \foreach \j in {1,...,11} {
+      \node[muted!55,font=\small] at ({\j-0.5},\y) {$d_{\j}$};
+    }
+    \foreach \k in {0,1,2} {
+      \pgfmathtruncatemacro{\inicio}{\r+3*\k}
+      \fill[teal!16] ({\inicio-1},{\y-0.24})
+        rectangle ({\inicio+2},{\y+0.24});
+      \foreach \s in {0,1,2} {
+        \pgfmathtruncatemacro{\j}{\inicio+\s}
+        \draw[muted!40,thin] ({\j-1},{\y-0.24}) rectangle (\j,{\y+0.24});
+        \node[font=\small] at ({\j-0.5},\y) {$d_{\j}$};
+      }
+      \draw[teal,thin] ({\inicio-0.97},{\y-0.27})
+        rectangle ({\inicio+1.97},{\y+0.27});
+    }
+    \node[font=\small] at (11.5,\y) {$\cdots$};
+  }
+\end{tikzpicture}
+\caption{Cada retângulo destacado representa um bloco de três dígitos
+examinado na procura de uma palavra fixada. Acima, os testes compartilham
+dígitos. Abaixo, os blocos de uma mesma linha usam posições disjuntas,
+o que garante a independência das indicadoras nessa linha. As três linhas
+incluem, juntas, todas as posições de início.}
+\label{fig:blocos-normais}
+\end{figure}
+
+Para uma palavra de comprimento $\ell$, fazemos a mesma separação em
+$\ell$ grupos. Fixado $r\in\{1,\ldots,\ell\}$, consideramos as posições
+\[
+r,\quad r+\ell,\quad r+2\ell,\quad\ldots.
+\]
+As indicadoras $Z_r^{(u)},Z_{r+\ell}^{(u)},Z_{r+2\ell}^{(u)},\ldots$ são
+independentes, têm a mesma distribuição de Bernoulli com parâmetro
+$10^{-\ell}$ e são limitadas por $1$. Pelo \Cref{cor:limitadas},
+\[
+\frac{1}{q}\sum_{k=0}^{q-1}Z_{r+k\ell}^{(u)}
+\longrightarrow10^{-\ell}
+\qquad\text{quase certamente.}
+\]
+Aplicamos esse argumento a cada um dos $\ell$ grupos. A interseção dos
+$\ell$ eventos de probabilidade $1$ também tem probabilidade $1$; nela,
+todas essas frequências convergem simultaneamente.
+
+\subsubsection{Reunir as frequências dos grupos}
+
+\begin{samepage}
+Vamos primeiro contar as ocorrências com início nas primeiras $q\ell$
+posições. Entre elas, há exatamente $q$ posições de cada grupo. Portanto,
+a frequência total é a média aritmética das $\ell$ frequências que acabamos
+de estudar:
+\[
+F_{q\ell}^{(u)}
+=\frac{1}{\ell}\sum_{r=1}^{\ell}
+\left(\frac{1}{q}\sum_{k=0}^{q-1}Z_{r+k\ell}^{(u)}\right)
+\longrightarrow
+\frac{1}{\ell}\sum_{r=1}^{\ell}10^{-\ell}
+=10^{-\ell}.
+\]
+\end{samepage}
+Essa identidade explica como a separação em grupos preserva a contagem de
+todas as ocorrências, inclusive as sobrepostas.
+
+Para tratar todos os $n\geqslant\ell$, escrevemos
+$n=q\ell+s$, com $0\leqslant s<\ell$. Além das primeiras $q\ell$ posições,
+restam apenas $s$ posições a examinar. Assim,
+\[
+F_n^{(u)}
+=\frac{q\ell}{n}\,F_{q\ell}^{(u)}
++\frac{1}{n}\sum_{j=q\ell+1}^{n}Z_j^{(u)}.
+\]
+A última parcela está entre $0$ e $(\ell-1)/n$, pois cada indicadora vale
+no máximo $1$. Como $n-q\ell=s$ permanece limitado, temos $q\to\infty$ e
+$q\ell/n\to1$ quando $n\to\infty$. Obtemos, portanto,
+\begin{equation}\label{eq:frequencia-palavra}
+F_n^{(u)}\longrightarrow10^{-\ell}
+\qquad\text{quase certamente.}
+\end{equation}
+
+Se exigirmos que cada ocorrência esteja inteiramente contida nos primeiros
+$n$ dígitos, como no \Cref{exercise:palavras}, basta excluir os inícios
+posteriores à posição $n-\ell+1$. São no máximo $\ell-1$ ocorrências a
+menos, de modo que a diferença entre as duas frequências é no máximo
+$(\ell-1)/n$ e tende a zero. As duas maneiras de contar fornecem o mesmo
+limite.
+
+\subsubsection{Todas as palavras e todas as bases}
+
+Até aqui, fixamos uma palavra $u$. Para cada comprimento $\ell$, existem
+apenas $10^\ell$ palavras, de modo que a família de todas as palavras
+finitas é enumerável. Para cada uma delas, \eqref{eq:frequencia-palavra}
+falha apenas em um conjunto de medida zero. A união desses conjuntos
+excepcionais também tem medida zero. Fora dela, todas as palavras têm,
+simultaneamente, a frequência exigida pela normalidade.
+
+Concluímos que quase todo $x\in[0,1)$ é normal na base $10$. Como na
+\Cref{subsec:digitos-reais}, o resultado se estende a $\mathbb{R}$ por
+translações inteiras: os dígitos considerados são os da parte fracionária,
+e as translações do conjunto excepcional ainda formam uma união
+enumerável de conjuntos de medida zero.
+
+Por fim, a escolha da base $10$ não foi essencial. Em uma base inteira
+$b\geqslant2$, dividimos o intervalo em $b$ partes iguais a cada etapa.
+Os dígitos são então independentes e uniformes em $\{0,\ldots,b-1\}$, e
+a probabilidade de uma palavra de comprimento $\ell$ é $b^{-\ell}$.
+O mesmo argumento mostra que quase todo número real é normal nessa base.
+
+Um número é chamado \emph{completamente normal} quando é normal em toda
+base inteira $b\geqslant2$. Para cada base, acabamos de obter um conjunto
+excepcional de medida zero. Como há apenas uma quantidade enumerável de
+bases inteiras, a união desses conjuntos também tem medida zero.
+Fora dela, a normalidade vale em todas as bases simultaneamente. Portanto,
+quase todo número real é completamente normal.
 
 \subsection{Integração de Monte Carlo}\label{subsec:monte-carlo}
 
