@@ -1244,20 +1244,32 @@ absolutamente convergente e as duas ordens de integração coincidem.
 
 \smallskip
 \noindent\textbf{Etapa 3: redução a senos.}
-Integrando primeiro em $t$, o numerador se reescreve como
-$\frac{e^{it(x-a)}-e^{it(x-b)}}{it}$. Para $\theta$ fixo, a fórmula de Euler e
-as paridades $\cos(-\theta t)=\cos(\theta t)$ e
-$\sin(-\theta t)=-\sin(\theta t)$ dão
+Integrando primeiro em $t$, o integrando de \eqref{eq:inversao}, sem o fator
+$1/2\pi$, tem numerador $e^{it(x-a)}-e^{it(x-b)}$. Escrevendo
+$e^{i\theta t}=\cos(\theta t)+i\sin(\theta t)$ e usando as paridades
+$\cos(-\theta t)=\cos(\theta t)$ e $\sin(-\theta t)=-\sin(\theta t)$, obtemos,
+para $t\neq0$,
 \[
-\frac{e^{i\theta t}}{it}=\frac{\cos(\theta t)}{it}+\frac{\sin(\theta t)}{t},
+\frac{e^{it(x-a)}-e^{it(x-b)}}{it}
+=
+\frac{\cos\bigl(t(x-a)\bigr)-\cos\bigl(t(x-b)\bigr)}{it}
++
+\frac{\sin\bigl(t(x-a)\bigr)-\sin\bigl(t(x-b)\bigr)}{t}.
 \]
-e o primeiro termo é ímpar em $t$, pois o cosseno é par e $1/t$ é ímpar. As
-contribuições desse termo sobre $[-T,0)$ e sobre $(0,T]$ se cancelam
-exatamente, e a decomposição é legítima porque o integrando completo é
-limitado: ele é igual a $\int_0^\theta e^{ity}\,dy$. Sobra
-$\sin(\theta t)/t$, que é par, e assim
-$\int_{-T}^{T}\frac{e^{i\theta t}}{it}\,dt=\int_{-T}^{T}\frac{\sin(\theta t)}{t}\,dt$;
-tomando $\theta=x-a$ e $\theta=x-b$, obtemos
+O primeiro quociente é uma função ímpar de $t$: o numerador é uma diferença de
+cossenos, logo é $O(t^2)$ perto de $t=0$, e o quociente se estende
+continuamente à origem com valor $0$. Sendo limitado e ímpar, suas contribuições
+sobre $[-T,0)$ e sobre $(0,T]$ se cancelam exatamente. O segundo quociente é par
+em $t$ e contínuo na origem, onde vale $(x-a)-(x-b)=b-a$. Como o integrando
+original é limitado, essa decomposição é legítima, e resulta
+\[
+\int_{-T}^{T}\frac{e^{it(x-a)}-e^{it(x-b)}}{it}\,dt
+=
+\int_{-T}^{T}\frac{\sin\bigl(t(x-a)\bigr)}{t}\,dt
+-
+\int_{-T}^{T}\frac{\sin\bigl(t(x-b)\bigr)}{t}\,dt .
+\]
+Obtemos então
 \begin{equation}\label{eq:IT}
 I_T=\int_{\mathbb{R}}\Bigl\{
 \int_{-T}^{T}\frac{\sin\bigl(t(x-a)\bigr)}{t}\,dt
@@ -1325,7 +1337,7 @@ $|\operatorname{sgn}\theta|\leqslant1$,
 \bigl|R(x-a,T)-R(x-b,T)\bigr|\leqslant4M .
 \]
 Aqui $M$ é finito porque $S$ é contínua em $[0,\infty)$ (o quociente
-$\sin x/x$ se estende continuamente a $x=0$ com valor $1$ ) e tem limite
+$\sin x/x$ se estende continuamente a $x=0$ com valor $1$) e tem limite
 finito $\frac{\pi}{2}$ no infinito, e uma função contínua em $[0,\infty)$ com
 limite finito no infinito é limitada. A constante $4M$ é integrável com
 relação a $\mu$, que é medida de probabilidade.
@@ -1359,15 +1371,19 @@ que é exatamente \eqref{eq:inversao}.
 \end{proof}
 
 \medskip
-O \Cref{thm:inversao} mostra que $\varphi$ determina $\mu$ por completo. De
-fato, escolhendo $a$ e $b$ fora do conjunto enumerável dos átomos de $\mu$, o
-lado direito de \eqref{eq:inversao} é apenas $\mu\bigl((a,b)\bigr)$, de modo
-que $\varphi$ determina a massa de todo intervalo aberto com extremos fora de
-um conjunto enumerável; como os intervalos geram a $\sigma$ -álgebra de Borel
-e duas medidas de probabilidade que coincidem em um $\pi$ -sistema gerador
-coincidem em toda a $\sigma$ -álgebra, $\mu$ fica univocamente determinada. Em
-particular, duas variáveis aleatórias com a mesma função característica têm a
-mesma distribuição.
+O \Cref{thm:inversao} mostra que $\varphi$ determina $\mu$ por completo. Sejam
+$\mu$ e $\nu$ duas medidas de probabilidade com a mesma função característica.
+O conjunto dos átomos de uma medida de probabilidade é enumerável, pois cada
+átomo tem massa positiva e a soma de todas as massas é $1$; logo a união dos
+conjuntos de átomos de $\mu$ e de $\nu$ é enumerável. Escolha $a<b$ fora dessa
+união. Então os extremos não carregam massa para nenhuma das duas medidas, e a
+fórmula de inversão \eqref{eq:inversao} dá
+$\mu\bigl((a,b)\bigr)=\nu\bigl((a,b)\bigr)$, porque o valor do limite é o mesmo
+para as duas. Os intervalos abertos com extremos fora de um conjunto enumerável
+formam um $\pi$-sistema que gera a $\sigma$-álgebra de Borel, e duas medidas de
+probabilidade que coincidem em um $\pi$-sistema gerador coincidem em toda a
+$\sigma$-álgebra. Logo $\mu=\nu$. Em particular, duas variáveis aleatórias com a
+mesma função característica têm a mesma distribuição.
 
 Vale também ler \eqref{eq:inversao} como uma média ponderada: o lado esquerdo
 integra $\varphi(t)$ contra o peso $\frac{e^{-ita}-e^{-itb}}{2\pi i t}$, que
@@ -1510,13 +1526,13 @@ simétricos. A mesma cota produz ainda a estimativa
 
 Essa desigualdade já mostra que $\mu$ não tem massas pontuais. Com efeito,
 fixe $a$ e tome uma sequência $b_n\downarrow a$. O lado esquerdo tende a
-$\mu(\{a\})$, porque $\mu(a,b_n)\to\mu(\varnothing)=0$, por continuidade
-monotônica da medida, e $\mu(\{a,b_n\})=\mu(\{a\})+\mu(\{b_n\})$, com
-$\mu(\{b_n\})\to 0$: os pontos $b_n$ são dois a dois distintos, de modo que as
-massas $\mu(\{b_n\})$ são os termos de uma série convergente, pois sua soma é
-limitada por $1$. O lado direito tende a $0$, pois $b_n-a\to 0$ e a integral
-de $|\varphi|$ é finita. Logo $\mu(\{a\})=0$; como $a$ é arbitrário, $\mu$ não
-tem massas pontuais.
+$\tfrac12\mu(\{a\})$: de fato, $\mu(a,b_n)\to\mu(\varnothing)=0$, por
+continuidade monotônica da medida, e
+$\mu(\{a,b_n\})=\mu(\{a\})+\mu(\{b_n\})$, em que $\mu(\{b_n\})\to0$ porque os
+$b_n$ são dois a dois distintos e a soma de todas as massas pontuais é no máximo
+$1$. O lado direito tende a $0$, pois $b_n-a\to 0$ e a integral de
+$|\varphi|$ é finita. Logo $\tfrac12\mu(\{a\})\leqslant0$, isto é,
+$\mu(\{a\})=0$; como $a$ é arbitrário, $\mu$ não tem massas pontuais.
 
 Podemos agora calcular a medida de um intervalo qualquer pela fórmula de
 inversão. Como não há massas pontuais, o termo de correção em
@@ -1832,7 +1848,7 @@ $\mu_n([-2/u,2/u])\geqslant1-\varepsilon$ para todo $n\geqslant N$. Para os
 finitos índices $n<N$, cada medida $\mu_n$ é de probabilidade, de modo que
 existe $M\geqslant 2/u$ com $\mu_n([-M,M])\geqslant1-\varepsilon$ para todo
 $n<N$ (aumentando $M$ se necessário, já que $\mu_n([-M,M])\to1$ quando
-$M\to\infty$ ). Concluímos que a sequência $\mu_n$ é justa.
+$M\to\infty$). Concluímos que a sequência $\mu_n$ é justa.
 
 \smallskip
 \noindent\textbf{Etapa 5 (identificação do limite).}
@@ -2073,7 +2089,7 @@ Toda a dificuldade está agora na integral do lado direito, que é o resto.
 \medskip
 \textbf{Segunda etapa: a cota boa para $|x|$ pequeno.} Como $|i^{n+1}|=1$ e
 $|e^{is}|\leqslant1$, e mudando a variável para $u=|s|$ (o que também cobre
-$x<0$ ),
+$x<0$),
 \[
 \Bigl|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds\Bigr|\leqslant\frac{1}{n!}\int_{0}^{|x|}(|x|-u)^{n}du=\frac{|x|^{n+1}}{(n+1)!} .
 \]
@@ -2614,15 +2630,21 @@ Basta notar que $e^{itS_n/n}\to e^{ita}$ em probabilidade e que
 $\bigl|e^{itS_n/n}\bigr|\leqslant1$, de modo que a convergência também se dá em
 $L^1$.
 
-\item[(iii)] Use o item~(ii) e a continuidade uniforme do item~(d) do
-\Cref{thm:propriedades-fc} para mostrar que $(\varphi(h)-1)/h\to ia$ quando
-$h\to0$ pelos reais positivos.
-\emph{Sugestão:} fixe $t>0$ e, para $h>0$ pequeno, ponha
-$n=\lfloor t/h\rfloor$, de modo que $nh\to t$ e $n\,|h-t/n|\to0$. Pelo item~(ii),
-$\varphi(t/n)^n\to e^{iat}$; pela continuidade uniforme, $\varphi(h)^n$ tem o
-mesmo limite, pois as duas potências diferem por no máximo $n$ vezes o módulo do
-incremento de $\varphi$ em $|h-t/n|$. Logo $n(\varphi(h)-1)\to iat$ e, dividindo
-por $nh\to t$, obtém-se $(\varphi(h)-1)/h\to ia$.
+\item[(iii)] Use o item~(ii) e a convergência uniforme sobre compactos do
+\Cref{exercise:equicontinuidade}(ii) para mostrar que $(\varphi(h)-1)/h\to ia$
+quando $h\to0$ pelos reais positivos.
+\emph{Sugestão:} ponha $\psi_n(s)\equiv\varphi(s/n)^n$, a função característica
+de $S_n/n$. Pelo item~(ii), $\psi_n(s)\to e^{ias}$ para cada $s$, e o limite é
+contínuo; logo o \Cref{exercise:equicontinuidade}(ii) dá convergência uniforme
+sobre compactos. Fixe $\tau>0$ pequeno, com $|a|\tau<\pi/2$ e $\varphi(u)\neq0$
+para $|u|\leqslant\tau$, de modo que o logaritmo principal esteja definido. Da
+convergência uniforme em $[-\tau,\tau]$ segue que
+$n\log\varphi(s/n)=\log\psi_n(s)\to ias$ uniformemente nesse intervalo; como
+$\log(1+z)=z+O(z^2)$ quando $z\to0$, obtemos
+$n\bigl(\varphi(s/n)-1\bigr)\to ias$ uniformemente em $|s|\leqslant\tau$. Tome
+agora $h\downarrow0$ e ponha $n=\lfloor\tau/h\rfloor$, de modo que
+$s_n\equiv nh\to\tau$ e $h=s_n/n$. Então $n\bigl(\varphi(h)-1\bigr)\to ia\tau$ e,
+dividindo por $nh\to\tau$, concluímos que $(\varphi(h)-1)/h\to ia$.
 \end{enumerate}
 Conclua que a lei fraca dos grandes números vale se, e somente se, $\varphi'(0)$
 existe, e que nesse caso $\varphi'(0)=ia$.\footnote{%
@@ -2689,15 +2711,32 @@ $c=-\frac{1}{2}\mathbb{E}[X^2]$.
 \begin{exercise}[Convergência para zero]\label{exercise:convergencia-para-zero}
 Sejam $Y_1,Y_2,\dots$ variáveis aleatórias com funções características
 $\varphi_n$. Mostre que $Y_n\Rightarrow0$ se, e somente se, existe $\delta>0$
-tal que $\varphi_n(t)\to1$ para todo $t$ com $|t|\leqslant\delta$. Sugestão:
-numa das direções use o \Cref{thm:continuidade}; na outra, suponha a
-convergência apenas em $[-\delta,\delta]$ e aplique a cota de concentração
-\eqref{eq:cota-concentracao}, que dá, com $\eta=2/\delta$,
+tal que $\varphi_n(t)\to1$ para todo $t$ com $|t|\leqslant\delta$.
+
+\emph{Sugestão:} numa das direções use o \Cref{thm:continuidade}. Na outra,
+suponha a convergência apenas em $[-\delta,\delta]$. A cota de concentração
+\eqref{eq:cota-concentracao} com $u=\delta$ dá
 \[
-  \mathbb{P}(|Y_n|>\eta)\leqslant\frac{1}{\delta}\int_{-\delta}^{\delta}\bigl(1-\operatorname{Re}\varphi_n(t)\bigr)\,dt\longrightarrow0
-  \qquad\text{quando }n\to\infty .
+\mathbb{P}\bigl(|Y_n|>2/\delta\bigr)
+\leqslant\frac{1}{\delta}\int_{-\delta}^{\delta}
+\bigl(1-\operatorname{Re}\varphi_n(t)\bigr)\,dt\longrightarrow0
+\qquad\text{quando }n\to\infty ,
 \]
-Logo $Y_n\to0$ em probabilidade, e portanto em distribuição.
+e um único limiar não basta para a convergência em probabilidade. O que se
+obtém daí é a justeza: a mesma cota vale para todo limiar maior que $2/\delta$
+e, para os finitos índices iniciais, basta aumentar o limiar; logo, para cada
+$\varepsilon>0$ existe $M$ com $\mathbb{P}(|Y_n|>M)\leqslant\varepsilon$ para
+todo $n$. Seja então $\mu_{n(k)}\Rightarrow\nu$ uma subsequência convergente.
+Pelo \Cref{thm:continuidade}, $\varphi_\nu(t)=1$ para todo $t$ com
+$|t|\leqslant\delta$, isto é,
+$\int\bigl(1-\cos(tx)\bigr)\,d\nu(x)=0$. Fixado $t\neq0$, o conjunto
+$\{x:\cos(tx)=1\}=\{2\pi k/t:k\in\mathbb{Z}\}$ é enumerável, de modo que $\nu$
+está concentrada nele. Tomando dois valores $t_1,t_2$ desse intervalo cuja razão
+é irracional, as duas concentrações só podem ocorrer na interseção dos dois
+conjuntos, que é $\{0\}$; logo $\nu=\delta_0$. Todas as subsequências
+convergentes têm, portanto, o mesmo limite, e o argumento de subsequências da
+prova do \Cref{thm:continuidade} dá $Y_n\Rightarrow0$, o que equivale a
+$Y_n\to0$ em probabilidade.
 \end{exercise}
 
 \begin{exercise}[Séries que convergem em distribuição]\label{exercise:serie-converge-dist}
