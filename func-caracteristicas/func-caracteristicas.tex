@@ -310,14 +310,16 @@ pode consultá-la à medida que as referências apareçam no texto.
 
 \subsection{Variáveis aleatórias complexas}\label{subsec:va-complexas}
 
-Como visto na seção anterior $\varphi_{X}$ assume valores complexos, logo o primeiro passo 
-é definir precisamente o que significa tomar a esperança de uma variável aleatória complexa.
+Como visto na seção anterior a função $\varphi_{X}$ assume valores complexos e 
+assim por questão de conveniência e simplicidade
+vale a pena definir o que é uma variável aleatória complexa 
+e o como fico a extensão do conceito de esperança neste contexto.
 
 \begin{definition}\label{def:va-complexa}
 Dizemos que $Z:\Omega\to\mathbb{C}$ é uma \emph{variável aleatória complexa} se
 $Z=X+iY$, onde $X$ e $Y$ são variáveis aleatórias reais. Nesse caso, definimos
 \[
-\mathbb{E}[Z] = \mathbb{E}[X]+i\,\mathbb{E}[Y],
+\mathbb{E}[Z] \equiv  \mathbb{E}[X]+i\,\mathbb{E}[Y],
 \]
 sempre que $\mathbb{E}\bigl[|X|\bigr]<\infty$ e $\mathbb{E}\bigl[|Y|\bigr]<\infty$.
 \end{definition}
@@ -326,19 +328,18 @@ Escrevemos também $\operatorname{Re}Z=X$ e $\operatorname{Im}Z=Y$ para a parte
 real e a parte imaginária de $Z$, e $\overline{Z}=X-iY$ para o conjugado.
 Recorde que $|Z|=\sqrt{X^2+Y^2}$.
 
-A definição é coerente porque as desigualdades
+Usando a identificação natural do plano complexo com o espaço euclidiano $\mathbb{R}^2$
+podemos notar imediatamente que valem as seguintes desigualdades
 \[
 |X|\leqslant |Z|\leqslant |X|+|Y|,
 \qquad
-|Y|\leqslant |Z|\leqslant |X|+|Y|
+|Y|\leqslant |Z|\leqslant |X|+|Y|.
 \]
-mostram que $Z$ é integrável se, e somente se, suas partes real e imaginária o
+Observe que segue destas desigualdades que $Z$ é integrável se, e somente se, suas partes real e imaginária o
 são. Em particular, $e^{itX}$ é integrável para todo $t$, pois
-$\bigl|e^{itX}\bigr|=1$. Temos ainda as propriedades usuais: a esperança é
+$|e^{itX}|=1$. Temos ainda as propriedades usuais: a esperança é
 linear sobre $\mathbb{C}$, comuta com a conjugação, isto é,
-$\overline{\mathbb{E}[Z]}=\mathbb{E}\bigl[\overline{Z}\bigr]$, e satisfaz a
-desigualdade triangular. Registramos esta última separadamente, pois ela será
-usada na prova das propriedades das funções características.
+$\overline{\mathbb{E}[Z]}=\mathbb{E}\bigl[\overline{Z}\bigr]$  e vale o seguinte lema.
 
 \begin{lemma}\label{lem:esperanca-modulo}
 Se $Z$ é uma variável aleatória complexa integrável, então
@@ -350,18 +351,23 @@ Se $Z$ é uma variável aleatória complexa integrável, então
 \begin{proof}
 Se $\mathbb{E}[Z]=0$, a desigualdade é imediata. Suponha $\mathbb{E}[Z]\neq0$.
 Como $\overline{\mathbb{E}[Z]}$ é uma constante complexa, a linearidade da
-esperança permite introduzi-la na esperança:
+esperança permite introduzi-la na esperança e concluir que
 \[
 \bigl|\mathbb{E}[Z]\bigr|^2
 =\mathbb{E}[Z]\,\overline{\mathbb{E}[Z]}
 =\mathbb{E}\bigl[Z\,\overline{\mathbb{E}[Z]}\bigr].
 \]
-O número $\mathbb{E}\bigl[Z\,\overline{\mathbb{E}[Z]}\bigr]$ é real, pois é
-igual a $\bigl|\mathbb{E}[Z]\bigr|^2$. Tomando partes reais e usando
-$\operatorname{Re}\zeta\leqslant|\zeta|$ para todo $\zeta\in\mathbb{C}$,
+Da igualdade acima segue que o número $\mathbb{E}\bigl[Z\,\overline{\mathbb{E}[Z]}\bigr]$ é 
+um número real, pois é igual a $\bigl|\mathbb{E}[Z]\bigr|^2$. Desta observação e da desigualdade
+$\operatorname{Re}z\leqslant|z|$, para todo $z\in\mathbb{C}$, concluímos que
 \[
-\bigl|\mathbb{E}[Z]\bigr|^2
-=\mathbb{E}\bigl[\operatorname{Re}\bigl(Z\,\overline{\mathbb{E}[Z]}\bigr)\bigr]
+\bigl|\mathbb{E}[Z]\bigr|^2 
+=
+\operatorname{Re}\bigl(\bigl|\mathbb{E}[Z]\bigr|^2 \bigr)
+=
+\operatorname{Re}\bigl( \mathbb{E}\bigl[Z\,\overline{\mathbb{E}[Z]}\bigr]\bigr)
+=
+\mathbb{E}\bigl[\operatorname{Re}\bigl(Z\,\overline{\mathbb{E}[Z]}\bigr)\bigr]
 \leqslant\mathbb{E}\bigl[\bigl|Z\,\overline{\mathbb{E}[Z]}\bigr|\bigr]
 =\bigl|\mathbb{E}[Z]\bigr|\,\mathbb{E}\bigl[|Z|\bigr].
 \]
@@ -488,18 +494,18 @@ integral imprópria
 \[
 \int_0^\infty \frac{\sin x}{x}\,dx
 \]
-conhecida como integral de Dirichlet. Na verdade,
-além de depender do valor desta integral a prova da fórmula da inversão
-usa argumentos semelhantes aos empregados para realizar o cálculo da integral de Dirichlet
-e por isto vamos dedicar uma seção inteira aos detalhes de como
-esta conta pode ser feita. 
+conhecida como integral de Dirichlet. Mais ainda, ela depende de argumentos
+semelhantes aos empregados no cálculo da integral de Dirichlet. Por isso,
+vamos apresentar em detalhes como fazer o cálculo desta integral imprópria. 
+A ideia é que este cálculo sirva de modelo mais simples para
+as questões de convergência e de limitação da prova da fórmula de inversão.
 
-Vale a pena mencionar que existem outras maneiras de calcular a 
-integral de Dirichlet, como, por exemplo, por meio do 
-Teorema dos Resíduos da Análise Complexa. A rota que vamos seguir aqui
-foi escolhida porque ela apresenta em um contexto mais simples 
-as questões de convergência e de limitação que aparecem na prova da fórmula de inversão.
-
+Vale lembrar que existem outras maneiras mais simples e curtas de calcular a integral de Dirichlet,
+como, por exemplo, por meio do Teorema dos Resíduos da Análise Complexa. A
+rota que seguimos neste texto foi escolhida por permitir apresentar
+em contexto mais elementar vários dos argumentos
+empregados na prova da fórmula de inversão que é um resultado muito mais profundo
+e sofisticado.
 
 \begin{lemma}[Integral de Dirichlet]\label{lem:dirichlet}
 \[
@@ -508,11 +514,12 @@ as questões de convergência e de limitação que aparecem na prova da fórmula
 \end{lemma}
 
 \begin{proof}
-Primeiro observamos que não há dificuldade na origem. A função
-$x\mapsto(\sin x)/x$ é contínua em $(0,\infty)$ e, pelo limite fundamental
+Primeiro observamos que embora a integral acima seja imprópria na origem, neste
+ponto não há muitas dificuldades, já que a função
+$x\longmapsto(\sin x)/x$ é contínua em $(0,\infty)$ e, pelo limite fundamental
 $\lim_{x\to0}(\sin x)/x=1$, pode ser estendida continuamente a $x=0$ com o
-valor $1$. A dificuldade está no comportamento no infinito. Embora o
-integrando tenda a zero, ele decai apenas como $1/x$, e a integral do seu
+valor $1$. A dificuldade está no comportamento no infinito. O problema aqui é que apesar do
+integrando tender a zero, ele decai apenas com taxa $1/x$, e a integral do seu
 módulo diverge. De fato, para cada inteiro $k\geqslant0$,
 \[
 \int_{k\pi}^{(k+1)\pi}\frac{|\sin x|}{x}\,dx
@@ -526,25 +533,25 @@ isso ocorrerá pelo cancelamento entre os intervalos em que $\sin x$ é
 positivo e aqueles em que ele é negativo. Temos, assim, duas tarefas:
 mostrar que o limite existe e calcular o seu valor.
 
-A prova trata essas tarefas separadamente. Na Etapa 1, mostramos que a
-integral imprópria converge e denotamos seu valor por $L$. A ferramenta é a
+A prova trata essas tarefas separadamente. No que vamos chamar de Etapa 1, mostramos que a
+integral imprópria converge e denotamos seu valor por $L$. A ferramenta principal nesta etapa é a
 integração por partes, que transforma a oscilação do seno em um integrando
 com decaimento mais rápido. Nas Etapas 2 e 3, calculamos $L$ com o auxílio de
-um parâmetro $\varepsilon>0$. Introduzimos uma versão regularizada da
+um parâmetro $\varepsilon>0$. A ideia é introduzir uma versão regularizada da
 integral, denotada por $h(\varepsilon)$, cuja derivada é uma integral
-elementar, e depois mostramos que $h(\varepsilon)\to L$ quando
+elementar, e depois mostrar que $h(\varepsilon)\to L$, quando
 $\varepsilon\to0$.
 
 \smallskip
 \noindent\textbf{Etapa 1: a integral imprópria converge.}
 A integração por partes é útil aqui porque derivar $1/x$ produz $-1/x^2$,
 que decai mais rapidamente, enquanto uma primitiva de $\sin x$ permanece
-limitada. Escolhemos a primitiva $1-\cos x$, e não $-\cos x$, para que ela se
+limitada. Na integração por partes, também vamos escolher 
+a primitiva $1-\cos x$, e não $-\cos x$, para que ela se
 anule em $x=0$. Isso fará com que o termo de fronteira na origem não
 contribua.
-
-Para $0<\eta<T$, a integração por partes com $u=1/x$ e $dv=\sin x\,dx$
-fornece
+Mais precisamente, para $0<\eta<T$, a integração por partes com $u=1/x$ e $dv=\sin x\,dx$,
+fornece a seguinte igualdade
 \[
 \int_\eta^T\frac{\sin x}{x}\,dx
 =
@@ -571,8 +578,8 @@ quando $T\to\infty$. Como também $(1-\cos T)/T\to0$, concluímos que o limite
 L=\lim_{T\to\infty}\int_0^T\frac{\sin x}{x}\,dx
 =\int_0^\infty\frac{1-\cos x}{x^2}\,dx
 \]
-existe. A segunda igualdade reescreve $L$ como uma integral absolutamente
-convergente, mas ainda não fornece o seu valor numérico.
+existe. Note que embora segunda igualdade reescreva $L$ como uma integral absolutamente
+convergente, esta representação ainda não fornece o seu valor numérico.
 
 \smallskip
 \noindent\textbf{Etapa 2: uma versão com decaimento exponencial.}
@@ -588,20 +595,19 @@ tem exatamente essa propriedade: para $x>0$,
 -e^{-\varepsilon x}\sin x .
 \]
 Além disso, quando $\varepsilon=0$, esse fator vale $1$, e recuperamos
-formalmente a integral original. A passagem $\varepsilon\to0$ será
-justificada posteriormente na Etapa 3. Neste momento vamos trabalhar com
-$\varepsilon>0$.
-
-Considere a função auxiliar 
+formalmente a integral original. Estas observações motivam a considerar a 
+seguinte função auxiliar 
 \[
 h(\varepsilon)\equiv \int_0^\infty e^{-\varepsilon x}\,\frac{\sin x}{x}\,dx .
 \]
-A integral converge absolutamente. De fato, $|\sin x|\leqslant x$ para
+Primeiro observamos que a integral que define $h(\varepsilon)$ 
+converge absolutamente para cada $\varepsilon>0$ fixado. 
+De fato, $|\sin x|\leqslant x$ para
 $x\geqslant0$, logo $|(\sin x)/x|\leqslant1$, para $x>0$ e desta observação segue que
 \[
 \left|e^{-\varepsilon x}\frac{\sin x}{x}\right|
-\leqslant e^{-\varepsilon x},
-\qquad
+\leqslant e^{-\varepsilon x}
+\qquad \text{e}\qquad 
 \int_0^\infty e^{-\varepsilon x}\,dx=\frac{1}{\varepsilon}<\infty .
 \]
 O fator exponencial, portanto, torna a integral mais fácil de controlar,
@@ -654,11 +660,11 @@ du=\cos x\,dx,
 \qquad
 v=-\frac{e^{-\varepsilon x}}{\varepsilon}.
 \]
-Pela fórmula $\int u\,dv=uv-\int v\,du$, obtemos
+Pela fórmula de integração por partes obtemos
 \begin{align*}
 \int_0^R e^{-\varepsilon x}\sin x\,dx
 &=
-\left[-\frac{e^{-\varepsilon x}\sin x}{\varepsilon}\right]_0^R
+\left.-\frac{e^{-\varepsilon x}\sin x}{\varepsilon}\right|_0^R
 +\frac{1}{\varepsilon}\int_0^R e^{-\varepsilon x}\cos x\,dx
 \\[0.2cm]
 &=
@@ -666,14 +672,14 @@ Pela fórmula $\int u\,dv=uv-\int v\,du$, obtemos
 +\frac{1}{\varepsilon}\int_0^R e^{-\varepsilon x}\cos x\,dx .
 \end{align*}
 Na última igualdade, usamos $\sin0=0$, de modo que apenas o extremo $x=R$
-contribui para o termo de fronteira. Agora,
+contribui para o termo de fronteira. Já que
 \[
 \left|-\frac{e^{-\varepsilon R}\sin R}{\varepsilon}\right|
 \leqslant\frac{e^{-\varepsilon R}}{\varepsilon}
-\longrightarrow0
-\qquad\text{quando }R\to\infty .
+\longrightarrow0, 
+\qquad\text{quando }R\to\infty,
 \]
-Portanto, passando ao limite $R\to\infty$, encontramos
+concluímos que
 \begin{equation}\label{eq:dirichlet-partes-1}
 I(\varepsilon)
 =
@@ -693,21 +699,19 @@ du=-\sin x\,dx,
 \qquad
 v=-\frac{e^{-\varepsilon x}}{\varepsilon}.
 \]
-Novamente pela fórmula $\int u\,dv=uv-\int v\,du$,
+Novamente pela fórmula de integração por partes, temos
 \begin{align*}
 \int_0^R e^{-\varepsilon x}\cos x\,dx
 &=
-\left[-\frac{e^{-\varepsilon x}\cos x}{\varepsilon}\right]_0^R
+\left.-\frac{e^{-\varepsilon x}\cos x}{\varepsilon}\right|_0^R
 -\frac{1}{\varepsilon}\int_0^R e^{-\varepsilon x}\sin x\,dx
 \\[0.2cm]
 &=
 \frac{1-e^{-\varepsilon R}\cos R}{\varepsilon}
 -\frac{1}{\varepsilon}\int_0^R e^{-\varepsilon x}\sin x\,dx .
 \end{align*}
-Para obter a última linha, avaliamos o termo de fronteira nos dois extremos:
-em $x=R$, ele vale $-e^{-\varepsilon R}\cos R/\varepsilon$; em $x=0$, vale
-$-1/\varepsilon$, que entra com sinal negativo na avaliação do colchete e
-produz a parcela $1/\varepsilon$. Como
+
+Como
 $e^{-\varepsilon R}\cos R\to0$ quando $R\to\infty$, segue que
 \begin{equation}\label{eq:dirichlet-partes-2}
 \int_0^\infty e^{-\varepsilon x}\cos x\,dx
@@ -716,10 +720,10 @@ $e^{-\varepsilon R}\cos R\to0$ quando $R\to\infty$, segue que
 \end{equation}
 
 \smallskip
-A segunda integração por partes faz reaparecer a integral $I(\varepsilon)$
-que queríamos calcular. Isso permite obter uma equação algébrica para ela.
-Substituindo \eqref{eq:dirichlet-partes-2} em
-\eqref{eq:dirichlet-partes-1}, obtemos
+Observe que esta segunda integração por partes fez reaparecer a integral $I(\varepsilon)$
+que queríamos calcular. Isso permite obter uma equação algébrica para esta quantidade e
+substituindo \eqref{eq:dirichlet-partes-2} em
+\eqref{eq:dirichlet-partes-1} verificar que
 \[
 I(\varepsilon)
 =
@@ -741,14 +745,15 @@ e dividir por $1+\varepsilon^2$, obtendo
 \[
 I(\varepsilon)=\frac{1}{1+\varepsilon^2}.
 \]
+
 Finalmente, como $h'(\varepsilon)=-I(\varepsilon)$, concluímos que
 \[
 h'(\varepsilon)=-\frac{1}{1+\varepsilon^2}.
 \]
 
-Para recuperar $h$ a partir de $h'$, precisamos determinar uma constante de
-integração. Fazemos isso examinando o comportamento de $h(\varepsilon)$
-quando $\varepsilon\to\infty$. Usando novamente $|(\sin x)/x|\leqslant1$,
+Para recuperar $h$ a partir de $h'$ basta aplicar o Teorema Fundamental do Cálculo
+e determinar a constante de integração. Para isso basta analisar o comportamento de $h(\varepsilon)$,
+quando $\varepsilon\to\infty$. Usando novamente $|(\sin x)/x|\leqslant1$, temos que
 \[
 |h(\varepsilon)|
 \leqslant
@@ -898,21 +903,23 @@ Logo $e^{itX}$ é limitada e, portanto, integrável. Além disso, a \Cref{def:va
 nos diz que basta calcular as esperanças das partes real e imaginária,
 que são as variáveis aleatórias limitadas $\cos tX$ e $\sin tX$.
 
-A fórmula de Euler permite reescrever a definição de modo inteiramente real.
-Como $e^{itX} = \cos tX + i\sin tX$, a definição de esperança de uma variável
-aleatória complexa dá
+A fórmula de Euler permite reescrever a função característica em termos da esperança de
+duas variáveis aleatórias reais.
+Como $e^{itX} = \cos tX + i\sin tX$, segue da definição de esperança de uma variável
+aleatória complexa que
 \begin{equation}\label{eq:fc-partes}
   \varphi_{X}(t) \;=\; \mathbb{E}\bigl[\cos tX\bigr] + i\,\mathbb{E}\bigl[\sin tX\bigr],
   \qquad t\in\mathbb{R},
 \end{equation}
-e, separando as partes de $\varphi_{X}(t)$, obtemos
+ou equivalentemente,
 \[
   \operatorname{Re}\varphi_{X}(t) \;=\; \mathbb{E}\bigl[\cos tX\bigr]
   \qquad\text{e}\qquad
   \operatorname{Im}\varphi_{X}(t) \;=\; \mathbb{E}\bigl[\sin tX\bigr].
 \]
-Assim, $\operatorname{Re}\varphi_{X}$ e $\operatorname{Im}\varphi_{X}$ são funções
-reais de variável real, e conhecer $\varphi_{X}$ equivale a conhecer esse par de
+Assim, as funções $t\longmapsto \operatorname{Re}\varphi_{X}(t)$ e 
+$t\longmapsto \operatorname{Im}\varphi_{X}(t)$ são funções
+reais de uma variável real, e consequentemente conhecer $\varphi_{X}$ equivale a conhecer esse par de
 funções reais. Em particular, $\varphi_{X}(0) = \mathbb{E}[1] = 1$. Aplicando
 ainda o \Cref{lem:esperanca-modulo} a $e^{itX}$ e usando que o seu módulo é
 sempre igual a $1$, segue que
@@ -924,10 +931,10 @@ sempre igual a $1$, segue que
 \medskip
 
 Vale a pena registrar desde já o que se ganha e o que se perde com essa
-definição, porque a comparação com a função geradora de momentos orienta toda
-a exposição. O que se ganha é a universalidade: $\varphi_{X}$ existe para toda
-variável aleatória $X$, sem que se exija que algum momento exista, e o seu
-domínio é sempre a reta real inteira. Recorde que a função geradora de
+definição em comparação com a função geradora de momentos. 
+O que se ganha é a universalidade: $\varphi_{X}$ existe para toda
+variável aleatória $X$, sem que se exija nada sobre os momentos da variável aleatória $X$ 
+e além do mais, o seu domínio é sempre toda a reta real. Recorde que a função geradora de
 momentos exige $\mathbb{E}[e^{sX}]<\infty$ para algum $s\neq 0$, condição que
 pode falhar até para distribuições com todos os momentos finitos. O que se
 perde é a simplicidade dos valores: $\varphi_{X}(t)$ é em geral um número
@@ -936,15 +943,13 @@ monotonicidade nem interpretar $\varphi_{X}(t)$ como uma massa ou um peso. A
 informação sobre a distribuição de $X$ fica codificada em $\varphi_{X}$ de uma
 forma menos direta, mas, como veremos, sem perda alguma.
 
-\subsection{As propriedades básicas}\label{subsec:fc-propriedades}
+\subsection{Algumas Propriedades Elementares}\label{subsec:fc-propriedades}
 
 As cinco propriedades da função característica reunidas abaixo
 decorrem diretamente da definição e serão usadas em praticamente todos os
-argumentos das próximas seções. Nesta ordem, elas registram a normalização na origem, a
-simetria hermitiana, a limitação ao disco unitário, a regularidade da função e o
-seu comportamento sob transformações afins.
+argumentos das próximas seções. 
 
-\begin{theorem}[Propriedades básicas da função característica]\label{thm:propriedades-fc}
+\begin{theorem}\label{thm:propriedades-fc}
 Seja $X$ uma variável aleatória real, com função característica $\varphi_X$. Para
 todos $t,h,a,b\in\mathbb{R}$ valem:
 \begin{enumerate}[label=(\alph*)]
@@ -958,52 +963,43 @@ Em particular, a função $\varphi_X$ é uniformemente contínua em $\mathbb{R}$
 \end{theorem}
 
 \begin{proof}
-Os itens (a) e (b) são consequências imediatas da definição e da estrutura
-de $\mathbb{E}[\,\cdot\,]$ para variáveis aleatórias complexas, descrita em
-\Cref{def:va-complexa}.
 
 \begin{enumerate}[label=(\alph*)]
-\item Como $e^{i0X}=1$, temos $\varphi_X(0)=\mathbb{E}[1]=1$. A função está, portanto,
-normalizada na origem.
+\item Como $e^{i0X}=1$, temos $\varphi_X(0)=\mathbb{E}[1]=1$. 
 
-\item Escrevendo $\varphi_X$ em partes real e imaginária, como em
-\Cref{def:va-complexa}, e usando a paridade do cosseno e a imparidade do seno,
+\item Escrevendo $\varphi_X$ em partes real e imaginária, como na
+\Cref{def:va-complexa}, e usando as propriedades de paridade das funções seno e cosseno temos
 \[
 \varphi_X(-t)=\mathbb{E}\bigl[\cos(-tX)\bigr]+i\,\mathbb{E}\bigl[\sin(-tX)\bigr]
 =\mathbb{E}\bigl[\cos(tX)\bigr]-i\,\mathbb{E}\bigl[\sin(tX)\bigr]
 =\overline{\varphi_X(t)}.
 \]
-Equivalentemente, $e^{-itX}=\overline{e^{itX}}$ e a conjugação comuta com a
-esperança, por atuar separadamente nas partes real e imaginária. A propriedade
-diz que $\varphi_X$ é hermitiana; em particular, se $\varphi_X$ assume apenas
-valores reais, então ela é uma função par.
 
-\item A desigualdade é a do módulo da esperança, enunciada e provada em
-\Cref{lem:esperanca-modulo}: $|\mathbb{E}[Z]|\leqslant\mathbb{E}\bigl[|Z|\bigr]$
-para toda variável aleatória complexa integrável $Z$. Tomando $Z=e^{itX}$ e
-lembrando que $|e^{itX}|=1$, obtemos
+\item Aplicando o \Cref{lem:esperanca-modulo}: $|\mathbb{E}[Z]|\leqslant\mathbb{E}\bigl[|Z|\bigr]$
+com $Z=e^{itX}$ e lembrando que $|e^{itX}|=1$, obtemos
 \[
 |\varphi_X(t)|=\bigl|\mathbb{E}\bigl[e^{itX}\bigr]\bigr|
 \leqslant\mathbb{E}\bigl[|e^{itX}|\bigr]=1,
 \]
 de modo que a imagem de $\varphi_X$ está contida no disco unitário fechado.
 
-\item Pela linearidade da esperança e novamente por \Cref{lem:esperanca-modulo},
+\item Pela linearidade da esperança e novamente pelo \Cref{lem:esperanca-modulo}, temos
 \[
 \begin{aligned}
 \bigl|\varphi_X(t+h)-\varphi_X(t)\bigr|
 &=\bigl|\mathbb{E}\bigl[e^{i(t+h)X}-e^{itX}\bigr]\bigr|
-\leqslant\mathbb{E}\bigl[\bigl|e^{i(t+h)X}-e^{itX}\bigr|\bigr]\\
+\leqslant\mathbb{E}\bigl[\bigl|e^{i(t+h)X}-e^{itX}\bigr|\bigr]
+\\[0.3cm]
 &=\mathbb{E}\bigl[\bigl|e^{itX}\bigl(e^{ihX}-1\bigr)\bigr|\bigr]
 =\mathbb{E}\bigl[|e^{ihX}-1|\bigr],
 \end{aligned}
 \]
-pois $|e^{itX}|=1$. O ponto essencial é que o lado direito não depende de $t$.
-Mostremos que ele tende a $0$ quando $h\to0$. O integrando
-$Y_h\equiv|e^{ihX}-1|=2\bigl|\sin(hX/2)\bigr|$ é limitado por $2$ e tende a $0$
-pontualmente, pela continuidade do seno e porque $hX(\omega)\to0$ para cada
-$\omega$. Pelo teorema da convergência dominada, cujo majorante é a constante
-$2$, segue que $\mathbb{E}\bigl[|e^{ihX}-1|\bigr]\to0$.
+pois $|e^{itX}|=1$. Para mostrar que $t\longmapsto \varphi_{X}(t)$ é uniformemente 
+contínua em toda reta, o ponto essencial é que o lado direito da desigualdade acima não depende de $t$.
+Para mostrar que esta expressão tende a $0$ quando $h\to0$ consideramos a variável aleatória
+$Y_h\equiv|e^{ihX}-1|=2\bigl|\sin(hX/2)\bigr|$. Note que esta variável aleatória
+complexa é limitada por $2$ e tende a $0$ pontualmente, pela continuidade do seno e porque $hX(\omega)\to0$, para cada
+$\omega$. Logo, segue do Teorema da Convergência Dominada que $\mathbb{E}\bigl[|e^{ihX}-1|\bigr]\to0$.
 
 Como esse majorante independe de $t$, a mesma cota vale em toda a reta. Dado
 $\varepsilon>0$, escolha $\delta>0$ tal que
@@ -1029,7 +1025,7 @@ aleatória com parâmetros normalizados.
 \end{enumerate}
 \end{proof}
 
-\subsection{Somas de variáveis aleatórias independentes}\label{subsec:fc-soma}
+\subsection{Somas de Variáveis Aleatórias Independentes}\label{subsec:fc-soma}
 
 A razão principal para introduzir funções características é o resultado a seguir:
 ele converte somas de variáveis aleatórias independentes em produtos de funções.
@@ -1038,7 +1034,7 @@ sempre que a independência estiver presente, podemos trocar o problema analíti
 de calcular uma convolução pelo problema algébrico de multiplicar funções
 conhecidas.
 
-\begin{theorem}[Função característica de uma soma de independentes]\label{thm:fc-soma-independentes}
+\begin{theorem}\label{thm:fc-soma-independentes}
 Sejam $X_1$ e $X_2$ variáveis aleatórias independentes, com funções
 características
 \[
@@ -1055,7 +1051,7 @@ Então $X_1 + X_2$ tem função característica $\varphi_1(t)\varphi_2(t)$, isto
 Fixemos $t \in \mathbb{R}$. O argumento se organiza em três etapas.
 
 \smallskip
-\noindent\textbf{Etapa 1: fatoração da exponencial.}
+
 Pela propriedade básica da exponencial
 complexa, $e^{a+b} = e^{a}e^{b}$ para quaisquer $a,b \in \mathbb{C}$. Tomando
 $a = itX_1$ e $b = itX_2$, obtemos a identidade pontual
@@ -1065,13 +1061,12 @@ e^{it(X_1+X_2)} = e^{itX_1}e^{itX_2},
 válida em todos os pontos do espaço de probabilidade.
 
 \smallskip
-\noindent\textbf{Etapa 2: fatoração da esperança.}
-As variáveis aleatórias $e^{itX_1}$ e
-$e^{itX_2}$ são integráveis, pois $\bigl|e^{itX_j}\bigr| = 1$ e portanto
-$\mathbb{E}\bigl[\bigl|e^{itX_j}\bigr|\bigr] = 1 < \infty$. Elas também são
+
+As variáveis aleatórias $e^{itX_j}$, com $j=1,2$, são integráveis, já que $|e^{itX_j}| = 1$ e portanto
+$\mathbb{E}[|e^{itX_j}|] = 1 < \infty$. Elas também são
 independentes: cada uma é uma função mensurável de $X_j$, e funções mensuráveis
 de variáveis aleatórias independentes, consideradas em pares, continuam
-independentes, como registramos ao estudar independência. Sendo assim, vale a
+independentes. Sendo assim, vale a
 regra do produto para esperanças de variáveis independentes e integráveis,
 \[
 \mathbb{E}\big[e^{itX_1}e^{itX_2}\big]
@@ -1079,15 +1074,16 @@ regra do produto para esperanças de variáveis independentes e integráveis,
 \]
 
 \smallskip
-\noindent\textbf{Etapa 3: conclusão.}
-Juntando as duas etapas e as definições de $\varphi_1$ e $\varphi_2$,
+
+Juntando as observações acima e usando as definições de $\varphi_1$ e $\varphi_2$,
+temos
 \[
 \mathbb{E}\big[e^{it(X_1+X_2)}\big]
 = \mathbb{E}\big[e^{itX_1}e^{itX_2}\big]
 = \mathbb{E}\big[e^{itX_1}\big]\,\mathbb{E}\big[e^{itX_2}\big]
 = \varphi_1(t)\,\varphi_2(t).
 \]
-Como $t \in \mathbb{R}$ era arbitrário, isso é precisamente o enunciado.
+Como $t \in \mathbb{R}$ era arbitrário a prova do teorema está completa.
 \end{proof}
 
 O resultado se estende sem esforço a qualquer número finito de parcelas.
@@ -1113,12 +1109,11 @@ $X_1,\dots,X_{n-1}$), e obtemos
 \section{Exemplos}\label{sec:exemplos}
 
 Vamos agora calcular a função característica das distribuições mais usadas no
-curso. Em todos os exemplos, o cálculo se reduz a uma integral ou a uma série
-que envolve a exponencial complexa.
+curso. 
 
 \subsection{Dois exemplos discretos}\label{subsec:exemplos-discretos}
 
-Começamos pelos dois exemplos discretos mais simples: uma variável aleatória
+Vamos começar por dois exemplos discretos bem simples: uma variável aleatória
 com distribuição de Rademacher e uma variável aleatória com distribuição de
 Poisson. 
 
@@ -1128,8 +1123,7 @@ que $X$ assuma apenas os valores $1$ e $-1$, com função de probabilidade dada 
 $\mathbb{P}(X=1)=\mathbb{P}(X=-1)=\tfrac12$. Como
 $\operatorname{Im}X=\{1,-1\}$ é finito, a esperança da variável aleatória
 complexa $e^{itX}$ é uma soma finita. Pela definição de função característica e
-pela fórmula para a esperança de uma função de uma variável aleatória discreta,
-vista nas notas de aula sobre esperança, cada valor de $X$ entra com peso
+pela fórmula para a esperança de uma função de uma variável aleatória discreta, temos
 $\tfrac12$:
 \begin{align*}
 \varphi_X(t)
@@ -1147,7 +1141,7 @@ $e^{-it}=\cos t-i\sin t$. Os senos se cancelam e os cossenos se somam, logo
 
 É importante registrar três fatos que podem ser observados neste exemplo. 
 Primeiro, a verificação da validade do item (a) do
-\Cref{thm:propriedades-fc}: em $t=0$ obtemos $\varphi_X(0)=\cos 0=1$, como deve
+\Cref{thm:propriedades-fc}: em $t=0$, temos $\varphi_X(0)=\cos 0=1$, como deve
 ser. Segundo, $\varphi_X$ é real e par, o que reflete a simetria da distribuição:
 trocar $X$ por $-X$ não altera a lei e corresponde a trocar $t$ por $-t$ dentro
 da exponencial. Esse ponto será retomado no \Cref{cor:fc-real}, onde veremos que
@@ -1168,19 +1162,20 @@ Essa convergência é suficiente para fatorar a constante $e^{-\lambda}$ e
 identificar a soma com a série da exponencial sem nos preocuparmos com a ordem
 dos termos.
 
-Como $|e^{itk}|=1$ para todo $k$ e todo $t$, a série dos módulos é
+Como $|e^{itk}|=1$ para todo $k$ e todo $t$, a série dos módulos é limitada por
 \begin{align*}
 \sum_{k=0}^{\infty}
 \Bigl|e^{-\lambda}\,\frac{\lambda^{k}e^{itk}}{k!}\Bigr|
 &= e^{-\lambda}\sum_{k=0}^{\infty}\frac{\lambda^{k}}{k!}
 = e^{-\lambda}e^{\lambda}=1<\infty.
 \end{align*}
-O mesmo majorante mostra que a convergência é uniforme em $t$, pois não depende
-de $t$. Para o cálculo abaixo, porém, basta a convergência absoluta.
+Esta desigualdade mostra que a convergência da série é uniforme em $t$. 
+Para o cálculo abaixo, porém, basta saber que a série acima converge absolutamente.
 
-Agora podemos somar termo a termo. A observação central é que
-$e^{itk}=(e^{it})^{k}$: isso permite acoplar o fator oscilante $e^{itk}$ ao peso
-de Poisson $\lambda^{k}/k!$ e reconhecer uma única série exponencial. De fato,
+Com a questão da convergência absoluta resolvida, podemos manipular 
+livremente a série que aparece abaixo. Já que
+$e^{itk}=(e^{it})^{k}$ podemos acoplar o fator oscilante $e^{itk}$ ao peso
+de Poisson $\lambda^{k}/k!$ e concluir que
 \begin{align*}
 \varphi_X(t)
 &= \sum_{k=0}^{\infty} e^{itk}\,\mathbb{P}(X=k)
@@ -1189,12 +1184,10 @@ de Poisson $\lambda^{k}/k!$ e reconhecer uma única série exponencial. De fato,
 \\[0.3cm]
 &= e^{-\lambda}\exp\bigl(\lambda e^{it}\bigr)
 \\[0.3cm]
-&= \exp\bigl(\lambda(e^{it}-1)\bigr),
+&= \exp\bigl(\lambda(e^{it}-1)\bigr).
 \end{align*}
-pois $\sum_{k\geqslant 0}z^{k}/k!=e^{z}$ para todo $z\in\mathbb{C}$, e
-$z=\lambda e^{it}$ é apenas um número complexo fixo.
 
-A verificação do item (a) do \Cref{thm:propriedades-fc} é imediata: em $t=0$
+Neste caso a verificação do item (a) do \Cref{thm:propriedades-fc} é imediata, já que em $t=0$
 temos 
 \[ 
 \varphi_X(0)=\exp\bigl(\lambda(1-1)\bigr)=1.
@@ -1219,25 +1212,27 @@ que não se anula para todo $t$.
 \begin{example}[Distribuição normal padrão]\label{ex:normal}
 Seja $Z$ uma variável aleatória com distribuição normal padrão, isto é, com
 densidade $f(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}$, $x\in\mathbb{R}$. Vamos mostrar que a
-função característica de $Z$ é
+função característica de $Z$ é dada por
 \[
 \varphi(t)=\mathbb{E}\bigl[e^{itZ}\bigr]
-=\int_{-\infty}^{\infty}e^{itx}\,\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx
-=e^{-t^2/2}, \qquad t\in\mathbb{R}.
+=
+\frac{1}{\sqrt{2\pi}}
+\int_{-\infty}^{\infty}e^{itx}\,e^{-x^2/2}\,dx
+=e^{-t^2/2}, \qquad \forall t\in\mathbb{R}.
 \]
 
-Apresentamos dois argumentos para esse cálculo. O primeiro, que chamamos de
-\emph{prova heurística}, completa um quadrado no expoente e desloca o contorno
-de integração no plano complexo: ele identifica o valor correto supondo
-legítima uma manipulação que não justificamos aqui, e por isso não é uma prova.
-O segundo, a \emph{prova formal}, verifica o mesmo resultado por um caminho que
-não depende daquela manipulação, ainda que informe pouco sobre a origem do
-valor encontrado.
+Apresentamos dois argumentos para esse cálculo. O primeiro é apenas
+de natureza heurística ele é um bom dispositivo para identificar o valor correto de
+uma certa integral. Entrenta, usando um pouco de Análise Complexa: Fórmula Integral de Cauchy
+e deformação de contornos é possível torná-lo em uma prova da identidade. 
+O segundo, argumento demonstra o resultado por um caminho completamente diferente relacionando o 
+valor da integral a um problema de valor inicial.
 \end{example}
 
-\begin{proof}[Prova heurística]
-Começamos por reunir o integrando em um único exponencial,
-$e^{itx}e^{-x^2/2}=e^{-(x^2/2-itx)}$, e completamos o quadrado no expoente.
+\begin{proof}[Argumento heurístico]
+Primeiro passo é reescrever o integrando em uma única exponencial,
+$$e^{itx}e^{- \frac{x^2}{2}  }=e^{-(\frac{x^2}{2} -itx)}.$$ 
+Em seguida, completamos o quadrado no expoente.
 Como $(x-it)^2=x^2-2itx-t^2$, dividindo por $2$ e reorganizando os termos
 obtemos a identidade
 \[
@@ -1247,7 +1242,9 @@ Substituindo essa expressão na integral e usando a propriedade
 $e^{a+b}=e^ae^b$ da exponencial, segue que
 \begin{align*}
 \varphi(t)
-&=\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}
+&=
+\frac{1}{\sqrt{2\pi}}
+\int_{-\infty}^{\infty}
 \exp\biggl(-\frac{(x-it)^2}{2}-\frac{t^2}{2}\biggr)\,dx
 \\[0.3cm]
 &=e^{-t^2/2}\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}
@@ -1255,36 +1252,30 @@ $e^{a+b}=e^ae^b$ da exponencial, segue que
 \end{align*}
 pois o fator $e^{-t^2/2}$ não depende de $x$ e pode sair da integral.
 
-A integral que resta é a integral sobre toda a reta da densidade de uma normal
-com média $it$ e variância $1$. Se a média fosse um número real $a$, essa
-integral valeria $1$, pela normalização da densidade normal. O argumento
-consiste em estender essa identidade de $a$ real para o parâmetro complexo
-$a=it$ por continuação analítica: com o deslocamento $x\mapsto x+it$, a
-integração passa a ser feita ao longo da reta $\operatorname{Im}z=t$ e o valor
-da integral é preservado. Esse é o passo que tomamos como legítimo sem
-demonstrar, pois justificá-lo exigiria controlar o decaimento do integrando no
-infinito e invocar a invariância da integral por deformação do contorno
-(teorema de Cauchy). Por isso o argumento apenas identifica o valor correto da
-função característica, e a verificação fica para a prova seguinte.
+A integral que resta é a integral sobre toda a reta da densidade de uma ``normal''
+com ``média $it$'' e variância $1$. Se a média fosse um número real $a$, essa
+integral valeria $1$, pela normalização da densidade da normal. 
 \end{proof}
 
 \begin{proof}[Prova formal]
-Primeiro usamos a paridade para eliminar a parte imaginária. Escrevendo
-$e^{itx}=\cos(tx)+i\sin(tx)$, a função
+Primeiro usar um argumento de paridade para eliminar a parte imaginária. Escrevendo
+$e^{itx}=\cos(tx)+i\sin(tx)$ e usando que a função
 $x\mapsto\sin(tx)\frac{1}{\sqrt{2\pi}}e^{-x^2/2}$ é ímpar e integrável em
-$\mathbb{R}$, logo sua integral se anula e
+$\mathbb{R}$ concluímos que 
 \[
 \varphi(t)=\int_{-\infty}^{\infty}\cos(tx)\,\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx
 =\mathbb{E}\bigl[\cos(tZ)\bigr].
 \]
-O integrando agora é real, e a majoração a seguir mostra que é legítimo derivar
-dentro da esperança.
+O integrando agora é real, e a majoração a seguir mostra que é legítimo trocar a ordem
+da esperança e da derivação com respeito a $t$.
 
-Para $t$ fixo, a derivada em $t$ do integrando é
+\bigskip 
+
+De fato, note que para cada $t$ fixado, a derivada em $t$ do integrando é
 $-x\sin(tx)\frac{1}{\sqrt{2\pi}}e^{-x^2/2}$, cujo módulo é dominado por
 $|x|\frac{1}{\sqrt{2\pi}}e^{-x^2/2}$. Como
 \[
-\int_{-\infty}^{\infty}|x|\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx=\mathbb{E}|Z|<\infty,
+\int_{-\infty}^{\infty}|x|\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx=\mathbb{E}\bigl[|Z|\bigr]<\infty,
 \]
 a hipótese (iii) está satisfeita com $Y=|Z|$, pois
 $\bigl|\partial_t\cos(tZ)\bigr|=|Z|\,|\sin(tZ)|\leqslant|Z|$, e a majorante
@@ -1311,7 +1302,7 @@ intervalo $[-R,R]$ e fazendo $R\to\infty$,
 &=-\int_{-\infty}^{\infty}t\cos(tx)\,\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx
 =-t\,\varphi(t),
 \end{align*}
-porque o termo de fronteira se anula, já que $e^{-x^2/2}\to 0$ quando
+porque o termo de fronteira se anula, já que $e^{-x^2/2}\to 0$, quando
 $|x|\to\infty$ enquanto $|\sin(tx)|\leqslant 1$, e a última integral é
 exatamente a expressão de $\varphi(t)$ obtida acima.
 
@@ -1326,7 +1317,7 @@ logo $\varphi(t)e^{t^2/2}$ é constante em $\mathbb{R}$. Avaliando em $t=0$ e
 lembrando que $\varphi(0)=\int_{-\infty}^{\infty}f(x)\,dx=1$, porque $f$ é
 densidade, concluímos que essa constante vale $1$, isto é,
 $\varphi(t)e^{t^2/2}=1$ para todo $t$ e, portanto,
-$\varphi(t)=e^{-t^2/2}$, como queríamos.
+$\varphi(t)=e^{-t^2/2}$, como queríamos demonstrar.
 \end{proof}
 
 \medskip
@@ -1351,21 +1342,20 @@ frequentemente daremos a função característica apenas para um membro
 conveniente da família, deixando os demais parâmetros para uma conta como a
 acima.
 
-\subsection{Três exemplos com densidade}\label{subsec:exemplos-continuos}
+\subsection{Quatro exemplos com densidade}\label{subsec:exemplos-continuos}
 
 Nos dois primeiros exemplos desta subseção, a densidade é nula fora de um
 intervalo limitado; por isso, as integrais que definem a função característica
-se reduzem a integrais sobre intervalos finitos. No terceiro exemplo, o suporte
-é ilimitado, mas o decaimento exponencial da densidade garante a convergência
-da integral imprópria. Cada exemplo explora uma estrutura diferente: integração
-direta, convolução e decaimento exponencial.
+se reduzem a integrais sobre intervalos finitos. Nos outros dois, o suporte é
+ilimitado, mas o decaimento exponencial da densidade garante a convergência das
+integrais impróprias. Os cálculos usam integração direta, convolução e simetria.
 
 \begin{example}[Distribuição uniforme]\label{ex:uniforme}
 Seja $X$ uma variável aleatória com densidade
 $f(x)=\frac{1}{b-a}\mathds{1}_{(a,b)}(x)$, com $-\infty<a<b<\infty$. Vamos
 mostrar que
 \[
-\varphi_X(t)=\frac{e^{itb}-e^{ita}}{it\,(b-a)}, \qquad
+\varphi_X(t)=\frac{1}{(b-a)}\frac{e^{itb}-e^{ita}}{it}, \qquad
 t\in\mathbb{R}\setminus\{0\},
 \]
 e que $\varphi_X(0)=1$.
@@ -1402,7 +1392,7 @@ $e^{itc}-e^{-itc}=2i\sin(ct)$ e o denominador é $2ict$. Assim,
 \[
 \varphi_X(t)=\frac{\sin(ct)}{ct}, \qquad t\neq0,
 \]
-com $\varphi_X(0)=1$; para $c=1$, isso dá $\sin t/t$. Vale comparar com
+com $\varphi_X(0)=1$. Para $c=1$, isso dá $\sin t/t$. Vale comparar com
 \Cref{ex:rademacher}. Se $R$ tem distribuição de Rademacher, então
 $\varphi_R(t)=\cos t$, pois a média de $e^{itx}$ é tomada apenas sobre os
 pontos $-1$ e $1$. Aqui a média é tomada sobre todo o intervalo $(-c,c)$, o
@@ -1502,49 +1492,7 @@ A fórmula vale para todo $t$ real, sem necessidade de extensão por continuidad
 porque $1-it$ nunca se anula. Em particular, $\varphi_X(0)=1$.
 \end{proof}
 
-\subsection{Misturas convexas}\label{subsec:misturas}
-
-Vamos registrar uma operação simples sobre distribuições que preserva a boa
-comportabilidade da função característica. Sejam $F_1,\dots,F_n$ funções de
-distribuição e $\lambda_1,\dots,\lambda_n\geqslant0$ com soma $1$. A função
-\[
-  F(x) \;=\; \sum_{i=1}^{n}\lambda_i F_i(x), \qquad x\in\mathbb{R},
-\]
-é novamente uma função de distribuição, e $F$, ou a medida
-$\mu=\sum_i\lambda_i\mu_i$ a ela associada, é a \emph{mistura convexa} de
-$F_1,\dots,F_n$ com pesos $\lambda_1,\dots,\lambda_n$. Em termos
-probabilísticos, sorteamos um índice $I$ com $\mathbb{P}(I=i)=\lambda_i$ e
-observamos uma variável cuja lei, dado $\{I=i\}$, é $F_i$.
-
-O resultado a seguir diz que a função característica da mistura é a mistura
-das funções características com os mesmos pesos, como era de esperar: a
-função característica é a integral de $x\mapsto e^{itx}$ contra a medida e a
-integral é linear na medida, de modo que ao misturar as medidas as integrais
-se misturam com os mesmos pesos.
-
-\begin{lemma}[Misturas convexas]\label{lem:mistura}
-Sejam $F_1,\dots,F_n$ funções de distribuição com funções características
-$\varphi_1,\dots,\varphi_n$ e sejam $\lambda_1,\dots,\lambda_n\geqslant0$ com
-$\lambda_1+\cdots+\lambda_n=1$. Então $\sum_{i=1}^{n}\lambda_iF_i$ tem função
-característica $\sum_{i=1}^{n}\lambda_i\varphi_i$.
-\end{lemma}
-
-\begin{proof}
-Seja $\mu=\sum_{i=1}^{n}\lambda_i\mu_i$ a medida da mistura, de modo que
-$F(x)=\mu((-\infty,x])$. A integral contra uma soma de medidas se decompõe
-como a soma das integrais, $\int f\,d(\mu+\nu)=\int f\,d\mu+\int f\,d\nu$, e
-o mesmo vale para múltiplos não negativos; iterando para os $n$ termos da
-mistura, obtemos, para todo $t\in\mathbb{R}$,
-\[
-  \varphi(t) = \int e^{itx}\,d\mu(x)
-  = \sum_{i=1}^{n}\lambda_i\int e^{itx}\,d\mu_i(x)
-  = \sum_{i=1}^{n}\lambda_i\,\varphi_i(t).
-\]
-\end{proof}
-
-Em particular, o conjunto das funções características é convexo. O exemplo
-seguinte mostra que essa observação elementar já produz uma função
-característica pouco óbvia a partir da densidade.
+\medskip
 
 \begin{example}[Exponencial bilateral]\label{ex:exponencial-bilateral}
 A distribuição com densidade $f(x)=\tfrac12e^{-|x|}$, $x\in\mathbb{R}$,
@@ -1556,275 +1504,311 @@ função característica
 \end{example}
 
 \begin{proof}
-Seja $X$ exponencial de parâmetro $1$, com densidade $e^{-x}$ em
-$(0,\infty)$, e sejam $F_1$ a lei de $X$ e $F_2$ a lei de $-X$. Com
-$\lambda_1=\lambda_2=\tfrac12$, a mistura $\tfrac12F_1+\tfrac12F_2$ tem
-densidade $\tfrac12e^{-|x|}$: para $x>0$ ela vale $\tfrac12e^{-x}$ e, para
-$x<0$, $\tfrac12e^{x}$, pois a densidade de $-X$ em $x$ é a de $X$ em $-x$.
-Logo podemos aplicar \Cref{lem:mistura}. Por \Cref{ex:exponencial},
-$\varphi_1(t)=1/(1-it)$ e, pelo item (b) de \Cref{thm:propriedades-fc}, a
-função característica de $-X$ se obtém trocando $t$ por $-t$, de modo que
-$\varphi_2(t)=\varphi_1(-t)=1/(1+it)$. Assim,
+Como a expressão de $f$ muda em $x=0$, começamos separando a integral nesse
+ponto. Para $t\in\mathbb{R}$, a definição de função característica dá
 \[
-  \varphi(t) = \tfrac12\varphi_1(t)+\tfrac12\varphi_2(t)
-  = \frac{1}{2(1-it)}+\frac{1}{2(1+it)}
-  = \frac{(1+it)+(1-it)}{2(1-it)(1+it)}
-  = \frac{1}{1+t^2}.
+  \varphi(t)
+  = \frac12\int_{-\infty}^{0} e^{itx}e^{x}\,dx
+    + \frac12\int_{0}^{\infty} e^{itx}e^{-x}\,dx.
 \]
+As integrais convergem absolutamente, pois $|e^{itx}|=1$ e $e^{-|x|}$ é
+integrável em $\mathbb{R}$. Na primeira integral, fazemos a mudança de
+variável $u=-x$. Assim, usando $e^{itu}+e^{-itu}=2\cos(tu)$, obtemos
+\[
+  \varphi(t)
+  = \frac12\int_{0}^{\infty}\bigl(e^{-itu}+e^{itu}\bigr)e^{-u}\,du
+  = \int_{0}^{\infty}e^{-u}\cos(tu)\,du.
+\]
+Para calcular a última integral, aproveitamos o cálculo do
+\Cref{ex:exponencial}. Como $e^{-u}\cos(tu)$ é a parte real de
+$e^{(it-1)u}$, temos
+\[
+  \varphi(t)
+  = \operatorname{Re}\int_{0}^{\infty}e^{(it-1)u}\,du
+  = \operatorname{Re}\frac{1}{1-it}
+  = \operatorname{Re}\frac{1+it}{1+t^{2}}
+  = \frac{1}{1+t^{2}}.
+\]
+O cancelamento das partes imaginárias reflete a simetria da densidade, e a
+função característica encontrada é real e par. Em particular, $\varphi(0)=1$.
 \end{proof}
-
-Vale confrontar o resultado com a simetria da densidade: como $f(-x)=f(x)$,
-a distribuição é simétrica em torno da origem e a função característica
-obtida é real e par. De fato, as partes imaginárias vindas de $x$ e de $-x$
-se cancelam duas a duas, restando apenas $\int\cos(tx)\,f(x)\,dx$.
 
 \section{A Fórmula de Inversão}\label{sec:inversao}
 
-Nos exemplos da seção anterior, partimos da distribuição e calculamos a função
-característica. A pergunta natural é se esse procedimento pode ser invertido,
-isto é, se a função característica determina a distribuição e, em caso
-afirmativo, como recuperá-la. A resposta é afirmativa, e a fórmula que faz a
-recuperação é o conteúdo desta seção.
+Nos exemplos da seção anterior, partimos da distribuição de uma variável
+aleatória e calculamos sua função característica. Vamos agora percorrer o
+caminho inverso: dada a função característica de $X$, queremos recuperar
+probabilidades associadas a $X$ e, com elas, sua função de distribuição.
 
-\subsection{O teorema de inversão}\label{subsec:teorema-inversao}
+\subsection{O Teorema de Inversão}\label{subsec:teorema-inversao}
 
-A questão que se coloca agora é se a função característica determina a
-distribuição. O resultado a seguir responde afirmativamente e fornece uma
-fórmula que recupera a massa de intervalos a partir de $\varphi$; dele
-dependem o critério de continuidade e a fórmula da densidade, adiante.
+A fórmula a seguir recupera a probabilidade de um intervalo, com uma correção
+nos extremos quando eles têm probabilidade positiva.
 
 \begin{theorem}[Fórmula de inversão]\label{thm:inversao}
-Seja $\mu$ uma medida de probabilidade em $\mathbb{R}$ e seja
-$\varphi(t)=\int_{\mathbb{R}}e^{itx}\,\mu(dx)$ sua função característica. Se
-$a<b$, então
+Seja $X$ uma variável aleatória real com função característica $\varphi_X$.
+Então, para quaisquer $a<b$,
 \begin{equation}\label{eq:inversao}
-\lim_{T\to\infty}\frac{1}{2\pi}\int_{-T}^{T}\frac{e^{-ita}-e^{-itb}}{it}\,\varphi(t)\,dt
-=\mu\bigl((a,b)\bigr)+\tfrac12\,\mu\bigl(\{a,b\}\bigr).
+\lim_{T\to\infty}\frac{1}{2\pi}
+\int_{-T}^{T}\frac{e^{-ita}-e^{-itb}}{it}\,\varphi_X(t)\,dt
+=
+\mathbb{P}(a<X<b)
++\frac12\,\mathbb{P}(X=a)
++\frac12\,\mathbb{P}(X=b).
 \end{equation}
 \end{theorem}
 
-Escrevemos $\mu(a,b)$ como abreviação de $\mu\bigl((a,b)\bigr)$. O lado
-direito de \eqref{eq:inversao} atribui a cada extremo metade de sua massa;
-quando $\mu$ não tem átomos em $a$ nem em $b$, ele se reduz a
-$\mu\bigl((a,b)\bigr)$.
+O quociente no integrando tem uma descontinuidade apenas aparente em $t=0$:
+seu limite nesse ponto é $b-a$, como veremos na prova. Assim, a integral sobre
+$[-T,T]$ está bem definida. O teorema afirma, em particular, que o limite
+dessas integrais existe.
 
-\begin{remark}[A existência do limite faz parte da conclusão]\label{rem:inversao-limite}
-O enunciado não supõe que o limite exista: a existência é parte da conclusão.
-Isso merece atenção porque o integrando de \eqref{eq:inversao} não é, em
-geral, absolutamente integrável em $\mathbb{R}$, de modo que o limite só tem
-sentido como limite de truncamentos \emph{simétricos}, por cancelamento.
 
-Para ver isso no caso mais simples, tome $\mu=\delta_0$, a massa unitária em $0$. Então
-$\varphi(t)\equiv1$ e, com $a=-1$ e $b=1$, o integrando de \eqref{eq:inversao} vale
+\medskip 
+
+Seja $F_X(x)=\mathbb{P}(X\leqslant x)$ a função de distribuição de $X$.
+Para interpretar o resultado em termos de $F_X$, recorde que
+$F_X(x^-)=\mathbb{P}(X<x)$ e que
+$\mathbb{P}(X=x)=F_X(x)-F_X(x^-)$. Definindo
 \[
-\frac{e^{it}-e^{-it}}{it}=\frac{2i\sin t}{it}=\frac{2\sin t}{t},
+F_X^*(x)\equiv\frac{F_X(x^-)+F_X(x)}{2},
 \]
-que decai como $1/t$ e cujo módulo não é integrável: em $[k\pi,(k+1)\pi]$
-temos $\int_{k\pi}^{(k+1)\pi}|\sin t|\,dt=2$ e
-$1/t\geqslant1/\bigl((k+1)\pi\bigr)$, donde
-$\int_1^\infty\frac{|\sin t|}{t}\,dt\geqslant\frac{2}{\pi}\sum_{k\geqslant1}\frac{1}{k+1}=\infty$,
-pela divergência da série harmônica. A integral imprópria converge apenas pela
-compensação entre as partes positiva e negativa, e é ela que exige o corte
-simétrico em $[-T,T]$. A fórmula, porém, vale: aqui
-$S(T)=\int_0^T\frac{\sin t}{t}\,dt$ satisfaz
-$\int_{-T}^{T}\frac{2\sin t}{t}\,dt=4S(T)\to2\pi$, e o lado esquerdo de
-\eqref{eq:inversao} tende a $1$, o valor de
-$\mu\bigl((-1,1)\bigr)+\tfrac12\mu\bigl(\{-1,1\}\bigr)$.
-\end{remark}
+e usando $\mathbb{P}(a<X<b)=F_X(b^-)-F_X(a)$, podemos escrever o lado direito
+de \eqref{eq:inversao} como $F_X^*(b)-F_X^*(a)$. Se $F_X$ é contínua em $a$
+e $b$, as probabilidades dos dois extremos são nulas, e o lado direito de 
+\eqref{eq:inversao} se reduz a
+\[
+\mathbb{P}(a<X\leqslant b)=F_X(b)-F_X(a).
+\]
 
 \begin{proof}
-A prova usa três ingredientes: uma identidade que controla o integrando perto
-de $t=0$ e autoriza trocar a ordem das integrais, uma redução a funções do
-tipo $\sin(\theta t)/t$ e o limite de Dirichlet do
-\Cref{lem:dirichlet}. Indicamos o papel de cada etapa.
+A ideia é escrever a integral em \eqref{eq:inversao} como a esperança de uma
+função de $X$. Vamos calcular o limite dessa função para cada valor possível
+de $X$ e, depois, passar o limite para dentro da esperança.
 
-\smallskip
-\noindent\textbf{Etapa 1: a expressão como integral dupla.}
-Denotamos por $I_T$ a integral de \eqref{eq:inversao} sem o fator $1/2\pi$.
-Substituindo a definição de $\varphi$,
+Antes disso, recordemos uma consequência da convergência quase certa que
+usaremos duas vezes. Se $Y_n\to Y$ quase certamente e $|Y_n|\leqslant M$
+para uma constante $M$, então $\mathbb{E}[Y_n]\to\mathbb{E}[Y]$. De fato,
+$|Y|\leqslant M$ quase certamente e, para todo $\varepsilon>0$,
 \[
-I_T=\int_{-T}^{T}\frac{e^{-ita}-e^{-itb}}{it}\,\varphi(t)\,dt
-=\int_{-T}^{T}\int_{\mathbb{R}}\frac{e^{-ita}-e^{-itb}}{it}\,e^{itx}\,\mu(dx)\,dt ,
+\mathbb{E}\bigl[|Y_n-Y|\bigr]
+\leqslant
+\varepsilon+2M\,\mathbb{P}\bigl(|Y_n-Y|>\varepsilon\bigr).
 \]
-e a meta é integrar primeiro em $t$, para que o integrando externo seja uma
-função de $x$ cujo limite possamos calcular ponto a ponto.
+A probabilidade à direita tende a $0$, pois a convergência quase certa
+implica convergência em probabilidade. Como $\varepsilon$ é arbitrário,
+$\mathbb{E}[|Y_n-Y|]\to0$ e, pela desigualdade para o módulo da esperança,
+$\mathbb{E}[Y_n]\to\mathbb{E}[Y]$. O mesmo argumento vale para variáveis
+complexas limitadas. Aqui usamos as propriedades de linearidade e
+monotonicidade da esperança para variáveis aleatórias limitadas.
 
-\smallskip
-\noindent\textbf{Etapa 2: o integrando é limitado, logo vale Fubini.}
-O denominador $it$ sugere um problema em $t=0$, mas a dificuldade é apenas
-aparente: para $t\neq0$, ao integrar a exponencial complexa e usar
-$|e^{-ity}|=1$, obtemos
+Comecemos pelo quociente que aparece na fórmula. Para $t\neq0$,
 \[
-\frac{e^{-ita}-e^{-itb}}{it}=\int_{a}^{b}e^{-ity}\,dy
-\qquad\text{e}\qquad
-\Bigl|\frac{e^{-ita}-e^{-itb}}{it}\Bigr|\leqslant\int_{a}^{b}dy=b-a .
+\frac{e^{-ita}-e^{-itb}}{it}=\int_a^b e^{-ity}\,dy.
 \]
-A identidade mostra também que o quociente tem limite $b-a$ quando $t\to0$, de
-modo que o integrando se estende continuamente à origem e a cota vale em toda
-a reta.
+A expressão à direita vale $b-a$ em $t=0$ e é contínua em $t$. Definindo
+$k(t)$ por essa integral, obtemos uma função contínua que coincide com o
+quociente para $t\neq0$. Além disso, para todo $t\in\mathbb{R}$,
+\[
+|k(t)|\leqslant\int_a^b|e^{-ity}|\,dy=b-a.
+\]
 
-Essa é exatamente a informação que legitima o teorema de Fubini: o produto
-$[-T,T]\times\mathbb{R}$ tem medida finita para $dt\otimes\mu$, pois $T$ é
-finito e $\mu$ é medida de probabilidade, e o integrando, multiplicado por
-$|e^{itx}|=1$, é limitado por $b-a$ nesse produto. Logo a integral dupla é
-absolutamente convergente e as duas ordens de integração coincidem.
-
-\smallskip
-\noindent\textbf{Etapa 3: redução a senos.}
-Integrando primeiro em $t$, o integrando de \eqref{eq:inversao}, sem o fator
-$1/2\pi$, tem numerador $e^{it(x-a)}-e^{it(x-b)}$. Escrevendo
-$e^{i\theta t}=\cos(\theta t)+i\sin(\theta t)$ e usando as paridades
-$\cos(-\theta t)=\cos(\theta t)$ e $\sin(-\theta t)=-\sin(\theta t)$, obtemos,
-para $t\neq0$,
+Para $T>0$, definimos
 \[
-\frac{e^{it(x-a)}-e^{it(x-b)}}{it}
-=
-\frac{\cos\bigl(t(x-a)\bigr)-\cos\bigl(t(x-b)\bigr)}{it}
-+
-\frac{\sin\bigl(t(x-a)\bigr)-\sin\bigl(t(x-b)\bigr)}{t}.
+K_T(x)\equiv\frac{1}{2\pi}\int_{-T}^{T}k(t)e^{itx}\,dt,
+\qquad x\in\mathbb{R}.
 \]
-O primeiro quociente é uma função ímpar de $t$: o numerador é uma diferença de
-cossenos, logo é $O(t^2)$ perto de $t=0$, e o quociente se estende
-continuamente à origem com valor $0$. Sendo limitado e ímpar, suas contribuições
-sobre $[-T,0)$ e sobre $(0,T]$ se cancelam exatamente. O segundo quociente é par
-em $t$ e contínuo na origem, onde vale $(x-a)-(x-b)=b-a$. Como o integrando
-original é limitado, essa decomposição é legítima, e resulta
-\[
-\int_{-T}^{T}\frac{e^{it(x-a)}-e^{it(x-b)}}{it}\,dt
-=
-\int_{-T}^{T}\frac{\sin\bigl(t(x-a)\bigr)}{t}\,dt
--
-\int_{-T}^{T}\frac{\sin\bigl(t(x-b)\bigr)}{t}\,dt .
-\]
-Obtemos então
+Como $\varphi_X(t)=\mathbb{E}[e^{itX}]$, queremos trocar a esperança com a
+integral em $t$. Para justificar essa troca, aproximamos a integral por somas
+de Riemann. Para cada valor de $X$, o integrando é contínuo em $t$, e as
+somas são limitadas em módulo por $T(b-a)/\pi$. Pela propriedade de
+convergência de variáveis limitadas que acabamos de recordar, podemos passar
+o limite das somas para dentro da esperança. A linearidade da esperança e a
+continuidade de $\varphi_X$ dão, portanto,
 \begin{equation}\label{eq:IT}
-I_T=\int_{\mathbb{R}}\Bigl\{
+\frac{1}{2\pi}\int_{-T}^{T}k(t)\varphi_X(t)\,dt
+=\mathbb{E}\bigl[K_T(X)\bigr].
+\end{equation}
+
+Vamos agora calcular $K_T(x)$. Para $t\neq0$, temos
+\[
+k(t)e^{itx}
+=\frac{e^{it(x-a)}-e^{it(x-b)}}{it}.
+\]
+Ao separar as partes real e imaginária, a parte que contém os cossenos é
+ímpar em $t$ e se cancela na integral sobre $[-T,T]$. Resta
+\[
+K_T(x)
+=\frac{1}{2\pi}\int_{-T}^{T}
+\frac{\sin\bigl(t(x-a)\bigr)-\sin\bigl(t(x-b)\bigr)}{t}\,dt.
+\]
+Os quocientes se estendem continuamente a $t=0$.
+
+Para usar a integral de Dirichlet, definimos
+\[
+S(u)\equiv\int_0^u\frac{\sin v}{v}\,dv,
+\qquad u\in\mathbb{R},
+\]
+com $\sin v/v=1$ em $v=0$. O integrando é par, logo $S$ é ímpar. Pelo
+\Cref{lem:dirichlet}, $S(u)\to\pi/2$ quando $u\to+\infty$. Já que esta função é ímpar,
+$S(u)\to-\pi/2$ quando $u\to-\infty$. Além disso, $S$ é contínua e tem
+limites finitos nos dois extremos da reta, de modo que existe uma constante
+$M<\infty$, satisfazendo $|S(u)|\leqslant M$, para todo $u\in\mathbb{R}$.
+
+Para $\theta\neq0$, o integrando $\sin(\theta t)/t$ é par em $t$. Assim,
+fazendo a mudança de variável $v=\theta t$, com $t=v/\theta$ e
+$dt=dv/\theta$, obtemos
+\begin{equation}\label{eq:RT}
+\begin{aligned}
+\int_{-T}^{T}\frac{\sin(\theta t)}{t}\,dt
+&=2\int_0^T\frac{\sin(\theta t)}{t}\,dt
+\\[0.3cm]
+&=2\int_0^{T\theta}\frac{\sin v}{v/\theta}\,\frac{dv}{\theta}
+\\[0.3cm]
+&=2\int_0^{T\theta}\frac{\sin v}{v}\,dv
+=2S(T\theta).
+\end{aligned}
+\end{equation}
+
+Observe que se $\theta<0$, então o limite superior $T\theta$ é negativo, e mesmo assim a mudança de
+variável continua válida com os limites de integração na ordem indicada.
+Para $\theta=0$, ambos os lados de \eqref{eq:RT} são nulos.
+
+Aplicando \eqref{eq:RT} com $\theta=x-a$ e $\theta=x-b$, temos
+\begin{align*}
+K_T(x)
+&=\frac{1}{2\pi}\left[
 \int_{-T}^{T}\frac{\sin\bigl(t(x-a)\bigr)}{t}\,dt
 -\int_{-T}^{T}\frac{\sin\bigl(t(x-b)\bigr)}{t}\,dt
-\Bigr\}\mu(dx).
-\end{equation}
+\right]
+\\[0.3cm]
+&=\frac{1}{2\pi}\bigl[2S\bigl(T(x-a)\bigr)-2S\bigl(T(x-b)\bigr)\bigr]
+\\[0.3cm]
+&=\frac{1}{\pi}\bigl[S\bigl(T(x-a)\bigr)-S\bigl(T(x-b)\bigr)\bigr].
+\end{align*}
 
-\smallskip
-\noindent\textbf{Etapa 4: isolar a dependência em $\theta$.}
-Em \eqref{eq:IT} a variável $x$ aparece somente através das diferenças $x-a$ e
-$x-b$. Definimos, para $\theta\in\mathbb{R}$ e $T>0$,
-\[
-R(\theta,T)\equiv\int_{-T}^{T}\frac{\sin(\theta t)}{t}\,dt,
-\qquad\text{donde}\qquad
-I_T=\int_{\mathbb{R}}\bigl\{R(x-a,T)-R(x-b,T)\bigr\}\,\mu(dx).
-\]
+Para calcular o limite, observamos os sinais de $x-a$ e $x-b$. Se $x$ está
+fora de $[a,b]$, esses sinais são iguais; se $a<x<b$, são opostos. Nos
+extremos, um dos termos contém $S(0)=0$. Usando os limites de $S$, obtemos
+\begin{align*}
+x<a:\quad
+\lim_{T\to\infty}K_T(x)
+&=\frac{1}{\pi}\left(-\frac{\pi}{2}-\left(-\frac{\pi}{2}\right)\right)=0,
+\\[0.3cm]
+x=a:\quad
+\lim_{T\to\infty}K_T(a)
+&=\frac{1}{\pi}\left(0-\left(-\frac{\pi}{2}\right)\right)=\frac12,
+\\[0.3cm]
+a<x<b:\quad
+\lim_{T\to\infty}K_T(x)
+&=\frac{1}{\pi}\left(\frac{\pi}{2}-\left(-\frac{\pi}{2}\right)\right)=1,
+\\[0.3cm]
+x=b:\quad
+\lim_{T\to\infty}K_T(b)
+&=\frac{1}{\pi}\left(\frac{\pi}{2}-0\right)=\frac12,
+\\[0.3cm]
+x>b:\quad
+\lim_{T\to\infty}K_T(x)
+&=\frac{1}{\pi}\left(\frac{\pi}{2}-\frac{\pi}{2}\right)=0.
+\end{align*}
 
-\smallskip
-\noindent\textbf{Etapa 5: relação com o truncamento de Dirichlet.}
-Seja $S(T)\equiv\int_{0}^{T}\frac{\sin x}{x}\,dx$, o truncamento da integral
-de Dirichlet. Para $\theta>0$ o integrando de $R(\theta,T)$ é par em $t$,
-donde $R(\theta,T)=2\int_{0}^{T}\frac{\sin(\theta t)}{t}\,dt$, e a mudança de
-variável $t=x/\theta$, com $dt=dx/\theta$, fornece
-\[
-R(\theta,T)=2\int_{0}^{T\theta}\frac{\sin x}{x/\theta}\,\frac{dx}{\theta}
-=2\int_{0}^{T\theta}\frac{\sin x}{x}\,dx=2S(T\theta).
-\]
-Para $\theta<0$, a relação $\sin(\theta t)=-\sin\bigl(|\theta|t\bigr)$ dá
-$R(\theta,T)=-R\bigl(|\theta|,T\bigr)$. Introduzindo a função sinal, com
-$\operatorname{sgn}\theta=1$ se $\theta>0$, $\operatorname{sgn}\theta=-1$ se
-$\theta<0$ e $\operatorname{sgn}\theta=0$ se $\theta=0$, as duas fórmulas se
-reúnem em
-\begin{equation}\label{eq:RT}
-R(\theta,T)=2\,(\operatorname{sgn}\theta)\,S\bigl(T|\theta|\bigr),
-\qquad \theta\in\mathbb{R},
-\end{equation}
-igualdade que também vale para $\theta=0$, caso em que ambos os lados são nulos.
+Além disso, a desigualdade triangular e a cota $|S(u)|\leqslant M$ dão
+\begin{align*}
+|K_T(x)|
+&=\frac{1}{\pi}\left|S\bigl(T(x-a)\bigr)-S\bigl(T(x-b)\bigr)\right|
+\\[0.3cm]
+&\leqslant\frac{1}{\pi}\left(
+\left|S\bigl(T(x-a)\bigr)\right|
++\left|S\bigl(T(x-b)\bigr)\right|\right)
+\leqslant\frac{2M}{\pi},
+\qquad x\in\mathbb{R},\ T>0.
+\end{align*}
 
-\smallskip
-\noindent\textbf{Etapa 6: limite pontual.}
-Pelo \Cref{lem:dirichlet}, $S(T)\to\frac{\pi}{2}$ quando $T\to\infty$. Se
-$\theta\neq0$, então $T|\theta|\to\infty$ e \eqref{eq:RT} dá
-$R(\theta,T)\to\pi\operatorname{sgn}\theta$; para $\theta=0$ temos $R(0,T)=0$,
-de modo que a conclusão vale em toda a reta. Com $\theta=x-a$ e $\theta=x-b$,
+Seja $(T_n)$ uma sequência arbitrária de números positivos com $T_n\to\infty$.
+Pelos limites calculados acima,
 \[
-\lim_{T\to\infty}\bigl\{R(x-a,T)-R(x-b,T)\bigr\}
-=\begin{cases}
-2\pi, & a<x<b,\\[0.2cm]
-\pi, & x=a\ \text{ou}\ x=b,\\[0.2cm]
-0, & x<a\ \text{ou}\ x>b.
-\end{cases}
+K_{T_n}(X)\longrightarrow
+\mathds{1}_{\{a<X<b\}}
++\tfrac12\mathds{1}_{\{X=a\}}
++\tfrac12\mathds{1}_{\{X=b\}}.
 \]
-De fato, se $a<x<b$ os sinais são opostos, $\operatorname{sgn}(x-a)=1$ e
-$\operatorname{sgn}(x-b)=-1$, e a diferença vale $2\pi$; se $x$ é um dos
-extremos, um sinal se anula e o outro vale $\pm1$, donde $\pi$; se $x$ está
-fora de $[a,b]$, os sinais coincidem e a diferença é nula.
-
-\smallskip
-\noindent\textbf{Etapa 7: passagem do limite para dentro da integral.}
-A cota que permite trocar limite e integral vem de \eqref{eq:RT} e não depende de $x$: como
-$|\operatorname{sgn}\theta|\leqslant1$,
-\[
-|R(\theta,T)|\leqslant2\sup_{y\geqslant0}|S(y)|\equiv2M<\infty,
-\qquad\text{logo}\qquad
-\bigl|R(x-a,T)-R(x-b,T)\bigr|\leqslant4M .
-\]
-Aqui $M$ é finito porque $S$ é contínua em $[0,\infty)$ (o quociente
-$\sin x/x$ se estende continuamente a $x=0$ com valor $1$) e tem limite
-finito $\frac{\pi}{2}$ no infinito, e uma função contínua em $[0,\infty)$ com
-limite finito no infinito é limitada. A constante $4M$ é integrável com
-relação a $\mu$, que é medida de probabilidade.
-
-Podemos então aplicar o teorema da convergência dominada. Ao longo de uma sucessão arbitrária
-$T_n\to\infty$,
-\[
-I_{T_n}\longrightarrow
-\pi\int_{\mathbb{R}}\bigl\{\operatorname{sgn}(x-a)-\operatorname{sgn}(x-b)\bigr\}\,\mu(dx),
-\]
-e, como o valor não depende da sucessão escolhida, o critério de subsequências
-para convergência de números reais garante a convergência de $I_T$. Resta
-identificar a integral. Como
-\[
-\tfrac12\bigl\{\operatorname{sgn}(x-a)-\operatorname{sgn}(x-b)\bigr\}
-=\begin{cases}
-1, & a<x<b,\\[0.2cm]
-\tfrac12, & x=a\ \text{ou}\ x=b,\\[0.2cm]
-0, & x<a\ \text{ou}\ x>b,
-\end{cases}
-\]
-a função vale $1$ no intervalo aberto, $\tfrac12$ em cada extremo e $0$ fora
-de $[a,b]$. Integrando contra $\mu$ e dividindo a expressão anterior por
-$2\pi$,
-\[
-\frac{1}{2\pi}\,I_T\longrightarrow
-\int_{\mathbb{R}}\tfrac12\bigl\{\operatorname{sgn}(x-a)-\operatorname{sgn}(x-b)\bigr\}\,\mu(dx)
-=\mu\bigl((a,b)\bigr)+\tfrac12\,\mu\bigl(\{a,b\}\bigr),
-\]
-que é exatamente \eqref{eq:inversao}.
+As variáveis $K_{T_n}(X)$ são limitadas pela mesma constante $2M/\pi$.
+Aplicando a convergência de variáveis limitadas e usando \eqref{eq:IT},
+obtemos
+\begin{align*}
+\lim_{n\to\infty}\frac{1}{2\pi}
+\int_{-T_n}^{T_n}k(t)\varphi_X(t)\,dt
+&=\lim_{n\to\infty}\mathbb{E}\bigl[K_{T_n}(X)\bigr]
+\\[0.3cm]
+&=\mathbb{E}\left[
+\mathds{1}_{\{a<X<b\}}
++\tfrac12\mathds{1}_{\{X=a\}}
++\tfrac12\mathds{1}_{\{X=b\}}
+\right]
+\\[0.3cm]
+&=\mathbb{P}(a<X<b)
++\tfrac12\mathbb{P}(X=a)
++\tfrac12\mathbb{P}(X=b).
+\end{align*}
+Na última igualdade, usamos a linearidade da esperança e
+$\mathbb{E}[\mathds{1}_A]=\mathbb{P}(A)$. Como a sequência $T_n\to\infty$
+é arbitrária, o limite em \eqref{eq:inversao} existe e tem o valor anunciado.
 \end{proof}
 
+\begin{remark}[O truncamento simétrico]\label{rem:inversao-limite}
+A integral em \eqref{eq:inversao} é tomada sobre $[-T,T]$. Para ver por que
+essa escolha merece atenção, considere $X=0$ quase certamente, $a=0$ e $b=1$.
+Então $\varphi_X(t)=1$. Já o termo que aparece na integral é da forma
+\[
+\frac{1-e^{-it}}{it}
+=\frac{\sin t}{t}-i\,\frac{1-\cos t}{t}
+\qquad \forall t\in \mathbb{R}\setminus \{0\}.
+\]
+A parte imaginária é ímpar e se cancela no intervalo simétrico. Pela integral
+de Dirichlet, o lado esquerdo de \eqref{eq:inversao} tende a
+\[
+\frac{1}{2\pi}\,2\int_0^\infty\frac{\sin t}{t}\,dt=\frac12,
+\]
+que coincide com $\tfrac12\mathbb{P}(X=0)$.
+
+Por outro lado, a integral da parte imaginária sobre $(0,T]$ não tem limite
+finito. De fato,
+\[
+\int_1^T\frac{1-\cos t}{t}\,dt
+=\log T-\int_1^T\frac{\cos t}{t}\,dt\longrightarrow\infty,
+\]
+pois a última integral converge, como se vê por integração por partes.
+Assim, neste exemplo, o cancelamento entre os dois lados da origem é
+necessário para o limite da fórmula.
+\end{remark}
+
 \medskip
-O \Cref{thm:inversao} mostra que $\varphi$ determina $\mu$ por completo. Sejam
-$\mu$ e $\nu$ duas medidas de probabilidade com a mesma função característica.
-O conjunto dos átomos de uma medida de probabilidade é enumerável, pois cada
-átomo tem massa positiva e a soma de todas as massas é $1$; logo a união dos
-conjuntos de átomos de $\mu$ e de $\nu$ é enumerável. Escolha $a<b$ fora dessa
-união. Então os extremos não carregam massa para nenhuma das duas medidas, e a
-fórmula de inversão \eqref{eq:inversao} dá
-$\mu\bigl((a,b)\bigr)=\nu\bigl((a,b)\bigr)$, porque o valor do limite é o mesmo
-para as duas. Os intervalos abertos com extremos fora de um conjunto enumerável
-formam um $\pi$-sistema que gera a $\sigma$-álgebra de Borel, e duas medidas de
-probabilidade que coincidem em um $\pi$-sistema gerador coincidem em toda a
-$\sigma$-álgebra. Logo $\mu=\nu$. Em particular, duas variáveis aleatórias com a
-mesma função característica têm a mesma distribuição.
 
-Vale também ler \eqref{eq:inversao} como uma média ponderada: o lado esquerdo
-integra $\varphi(t)$ contra o peso $\frac{e^{-ita}-e^{-itb}}{2\pi i t}$, que
-depende apenas do intervalo $(a,b)$, e o resultado é a massa que $\mu$ atribui
-a esse intervalo. O fator $1/t$ explica por que o limite em $T$ é delicado: o
-decaimento lento do peso impede integrabilidade absoluta e faz da
-integrabilidade de $\varphi$ uma hipótese genuinamente restritiva, sob a qual
-obteremos, na próxima subseção, a densidade associada a $\varphi$.
+A fórmula de inversão mostra que a função característica determina a função
+de distribuição. De fato, suponha que $X$ e $Y$ tenham a mesma função
+característica. Para quaisquer $a<b$, a fórmula dá
+\[
+F_X^*(b)-F_X^*(a)=F_Y^*(b)-F_Y^*(a).
+\]
+Quando $a\to-\infty$, tanto $F_X^*(a)$ quanto $F_Y^*(a)$ tendem a zero, pois
+$0\leqslant F_X^*(a)\leqslant F_X(a)$, e o mesmo vale para $Y$. Logo
+$F_X^*(b)=F_Y^*(b)$ para todo $b$.
 
-\subsection{Duas consequências imediatas}\label{subsec:consequencias-inversao}
+Resta recuperar $F_X$ a partir de $F_X^*$. Se $y>x$, a monotonicidade de
+$F_X$ dá
+\[
+F_X(x)\leqslant F_X(y^-)\leqslant F_X^*(y)\leqslant F_X(y).
+\]
+Fazendo $y\downarrow x$ e usando a continuidade à direita, obtemos
+$F_X^*(y)\to F_X(x)$. O mesmo vale para $Y$, portanto $F_X=F_Y$. Concluímos
+que duas variáveis aleatórias com a mesma função característica têm a mesma
+distribuição.
+
+\subsection{Duas Consequências Imediatas}\label{subsec:consequencias-inversao}
 
 A fórmula de inversão tem duas consequências imediatas, que provamos a seguir:
-uma condição de simetria em termos de $\varphi_X$ e a estabilidade das normais
-centradas sob convolução.
+uma propriedade de simetria em termos de $\varphi_X$ e a distribuição da soma
+de variáveis normais centradas independentes.
 
 \begin{corollary}[Função característica real]\label{cor:fc-real}
 Se $\varphi_X$ assume apenas valores reais, então $X$ e $-X$ têm a mesma distribuição.
@@ -1837,8 +1821,8 @@ Calculemos a função característica de $-X$. Por definição,
   = \mathbb{E}\bigl[e^{-itX}\bigr], \qquad t \in \mathbb{R}.
 \]
 Como $e^{-i\theta} = \overline{e^{i\theta}}$ para todo $\theta$ real,
-o integrando é o conjugado de $e^{itX}$ ponto a ponto; tomando esperanças
-(calculadas parte real e parte imaginária a parte) obtemos
+a variável $e^{-itX}$ é o conjugado de $e^{itX}$. Tomando as esperanças das
+partes real e imaginária, obtemos
 \[
   \varphi_{-X}(t) = \overline{\mathbb{E}\bigl[e^{itX}\bigr]}
   = \overline{\varphi_X(t)},
@@ -1869,7 +1853,8 @@ $e^{a}e^{b} = e^{a+b}$,
 \]
 Pelo \Cref{ex:normal}, o membro direito é a função característica de uma
 variável $Y$ normal de média $0$ e variância $\sigma_1^2+\sigma_2^2$; como
-$\varphi_{X_1+X_2}=\varphi_Y$, a unicidade do \Cref{thm:inversao} dá $X_1+X_2\overset{d}{=}Y$.
+$\varphi_{X_1+X_2}=\varphi_Y$, a unicidade do \Cref{thm:inversao} 
+garante que $X_1+X_2\overset{d}{=}Y$.
 \end{proof}
 
 \medskip
@@ -1888,123 +1873,148 @@ troca essa integral por uma multiplicação de exponenciais: a independência vi
 produto e a unicidade da inversão converte identidades entre funções em
 identidades entre distribuições. Esse é o mecanismo dos teoremas limites.
 
-\subsection{O caso integrável}\label{subsec:caso-integravel}
+\subsection{O Caso Integrável}\label{subsec:caso-integravel}
 
-A fórmula de inversão fica bem mais simples quando $\varphi$ é integrável:
-nesse caso o limite em $T$ pode ser passado para dentro da integral, e a
-medida passa a ser descrita por uma integral sem limite. Veremos que isso só
-acontece quando a medida subjacente é regular, pois a integrabilidade de
-$\varphi$ é uma hipótese forte e obriga $\mu$ a ter densidade.
+A fórmula de inversão toma uma forma mais simples quando
+$\int_{\mathbb{R}}|\varphi_X(t)|\,dt<\infty$. Nesse caso, veremos que $X$
+possui uma densidade, que também pode ser recuperada a partir de $\varphi_X$.
+As integrais sobre toda a reta nesta subseção são integrais impróprias do
+cálculo.
 
-\begin{theorem}[Densidade quando $\varphi$ é integrável]\label{thm:densidade-fc-integravel}
-Seja $\mu$ uma probabilidade em $\mathbb{R}$, com função característica $\varphi$. Se
+\begin{theorem}[Densidade quando $\varphi_X$ é integrável]\label{thm:densidade-fc-integravel}
+Seja $X$ uma variável aleatória com função característica $\varphi_X$. Se
 \[
-\int_{-\infty}^{\infty} |\varphi(t)|\,dt<\infty,
+\int_{-\infty}^{\infty}|\varphi_X(t)|\,dt<\infty,
 \]
-então $\mu$ tem densidade $f$ contínua e limitada, dada por
+então $X$ possui uma densidade contínua e limitada $f$, dada por
 \[
-f(y)=\frac{1}{2\pi}\int_{-\infty}^{\infty} e^{-ity}\varphi(t)\,dt,
+f(y)=\frac{1}{2\pi}\int_{-\infty}^{\infty}
+e^{-ity}\varphi_X(t)\,dt,
 \qquad y\in\mathbb{R}.
 \]
-Mais precisamente, para todos $x\in\mathbb{R}$ e $h>0$ vale
-$\mu\big((x,x+h]\big)=\int_{x}^{x+h} f(y)\,dy$.
+Em particular, para todos $a<b$,
+\[
+\mathbb{P}(a<X\leqslant b)=F_X(b)-F_X(a)=\int_a^b f(y)\,dy.
+\]
 \end{theorem}
 
 \begin{proof}
-A ideia vale a pena ser isolada antes das contas. Na fórmula de inversão,
-\Cref{thm:inversao}, aparece o núcleo $\frac{e^{-ita}-e^{-itb}}{it}$
-multiplicado por $\varphi(t)$; esse núcleo é limitado por $b-a$, de modo que o
-produto é dominado por uma função integrável em $t$, independente de $T$. Logo
-a integral truncada converge absolutamente, e o limite em $T$ pode ser passado
-para dentro da integral pelo teorema da convergência dominada. É exatamente
-esse passo que torna a fórmula explícita.
+A ideia é usar a integrabilidade de $\varphi_X$ para substituir o limite no
+\Cref{thm:inversao} por uma integral sobre toda a reta. Primeiro mostraremos
+que $X$ não tem probabilidade positiva em nenhum ponto. Em seguida,
+escreveremos a probabilidade de um intervalo como a integral da função $f$
+do enunciado.
 
-Comecemos pela cota do núcleo. Escrevendo o quociente como uma integral e majorando em módulo,
+Como vimos na prova da fórmula de inversão, vale a seguinte desigualdade
 \begin{equation}\label{eq:cota-nucleo-inversao}
 \left|\frac{e^{-ita}-e^{-itb}}{it}\right|
-=\left|\int_{a}^{b} e^{-ity}\,dy\right|
-\leqslant |b-a|,
-\qquad a<b .
+=\left|\int_a^b e^{-ity}\,dy\right|
+\leqslant b-a,
+\qquad a<b.
 \end{equation}
-A primeira igualdade é imediata: como $\frac{d}{dy}e^{-ity}=-it\,e^{-ity}$, o
-teorema fundamental do cálculo dá
-$\int_{a}^{b} e^{-ity}\,dy=\frac{e^{-ita}-e^{-itb}}{it}$, e a desigualdade
-segue de $|e^{-ity}|=1$ e do comprimento do intervalo, o que controla o núcleo
-inclusive perto de $t=0$.
+Além do mais, a função que aparece dentro do valor absoluto 
+a esquerda da desigualdade acima pode ser estendida por
+continuidade ao valor $b-a$, quando $t=0$. 
 
-Suponha agora $\int|\varphi(t)|\,dt<\infty$ e tome $a<b$. Por
-\eqref{eq:cota-nucleo-inversao}, o integrando
-$\frac{e^{-ita}-e^{-itb}}{it}\varphi(t)$ é dominado, em módulo, por
-$(b-a)|\varphi(t)|$, que é integrável e não depende de $T$. Em particular a
-integral imprópria converge absolutamente, e o limite em $T$ que aparece em
-\Cref{thm:inversao} pode ser passado para dentro da integral pelo teorema da
-convergência dominada. Obtemos assim, sem nenhum limite residual,
+O módulo do integrando em
+\eqref{eq:inversao} é, portanto, limitado por
+$(b-a)|\varphi_X(t)|$. Como essa função é integrável, a integral imprópria
+sobre toda a reta converge absolutamente. A fórmula de inversão fica
 \begin{equation}\label{eq:inversao-integravel}
-\mu(a,b)+\tfrac{1}{2}\mu(\{a,b\})
-=\frac{1}{2\pi}\int_{-\infty}^{\infty}
-\frac{e^{-ita}-e^{-itb}}{it}\,\varphi(t)\,dt ,
+\mathbb{P}(a<X<b)
++\frac12\,\mathbb{P}(X=a)
++\frac12\,\mathbb{P}(X=b)
+=
+\frac{1}{2\pi}\int_{-\infty}^{\infty}
+\frac{e^{-ita}-e^{-itb}}{it}\,\varphi_X(t)\,dt.
 \end{equation}
-com a integral sobre toda a reta, e não apenas como limite de truncamentos
-simétricos. A mesma cota produz ainda a estimativa
+Pela mesma cota, se
 \[
-\mu(a,b)+\tfrac{1}{2}\mu(\{a,b\})
-\leqslant \frac{b-a}{2\pi}\int_{-\infty}^{\infty}|\varphi(t)|\,dt .
+C\equiv\frac{1}{2\pi}\int_{-\infty}^{\infty}|\varphi_X(t)|\,dt,
 \]
+então, para quaisquer $a<b$,
+\[
+\frac12\,\mathbb{P}(X=a)
+\leqslant
+\mathbb{P}(a<X<b)
++\frac12\,\mathbb{P}(X=a)
++\frac12\,\mathbb{P}(X=b)
+\leqslant C(b-a).
+\]
+Fixado $a$, fazemos $b\downarrow a$ e concluímos que
+$\mathbb{P}(X=a)=0$. Como $a$ é arbitrário, $F_X$ é contínua em toda a reta.
 
-Essa desigualdade já mostra que $\mu$ não tem massas pontuais. Com efeito,
-fixe $a$ e tome uma sequência $b_n\downarrow a$. O lado esquerdo tende a
-$\tfrac12\mu(\{a\})$: de fato, $\mu(a,b_n)\to\mu(\varnothing)=0$, por
-continuidade monotônica da medida, e
-$\mu(\{a,b_n\})=\mu(\{a\})+\mu(\{b_n\})$, em que $\mu(\{b_n\})\to0$ porque os
-$b_n$ são dois a dois distintos e a soma de todas as massas pontuais é no máximo
-$1$. O lado direito tende a $0$, pois $b_n-a\to 0$ e a integral de
-$|\varphi|$ é finita. Logo $\tfrac12\mu(\{a\})\leqslant0$, isto é,
-$\mu(\{a\})=0$; como $a$ é arbitrário, $\mu$ não tem massas pontuais.
+Definimos agora a função proposta no enunciado por
+\[
+f(y)\equiv\frac{1}{2\pi}\int_{-\infty}^{\infty}
+e^{-ity}\varphi_X(t)\,dt.
+\]
+A integral converge absolutamente e $|f(y)|\leqslant C$ para todo $y$.
+Para verificar a continuidade de $f$, considere primeiro as integrais
+truncadas
+\[
+f_T(y)\equiv\frac{1}{2\pi}\int_{-T}^{T}e^{-ity}\varphi_X(t)\,dt.
+\]
+Para cada $T$, a função $f_T$ é contínua, pois o integrando é contínuo em
+$(t,y)$ e o intervalo de integração é limitado. Além disso,
+\[
+|f(y)-f_T(y)|
+\leqslant\frac{1}{2\pi}
+\left(\int_{-\infty}^{-T}|\varphi_X(t)|\,dt
++\int_T^{\infty}|\varphi_X(t)|\,dt\right),
+\]
+e o lado direito tende a zero quando $T\to\infty$, independentemente de $y$.
+Logo $f_T\to f$ uniformemente, e $f$ é contínua. A função $f$ também é
+real: pela identidade $\varphi_X(-t)=\overline{\varphi_X(t)}$, as
+contribuições de $t$ e $-t$ em cada integral truncada são conjugadas.
 
-Podemos agora calcular a medida de um intervalo qualquer pela fórmula de
-inversão. Como não há massas pontuais, o termo de correção em
-\eqref{eq:inversao-integravel} se anula, e para $a=x$ e $b=x+h$ obtemos
+Vamos relacionar $f$ com as probabilidades de $X$. Como o integrando é
+contínuo no retângulo limitado $[-T,T]\times[a,b]$, podemos trocar a ordem
+das duas integrais usuais e escrever
 \begin{align*}
-\mu(x,x+h)
-&=\frac{1}{2\pi}\int_{-\infty}^{\infty}
-\frac{e^{-itx}-e^{-it(x+h)}}{it}\,\varphi(t)\,dt \\
-&=\frac{1}{2\pi}\int_{-\infty}^{\infty}
-\left(\int_{x}^{x+h} e^{-ity}\,dy\right)\varphi(t)\,dt
-=\int_{x}^{x+h}
-\left(\frac{1}{2\pi}\int_{-\infty}^{\infty} e^{-ity}\varphi(t)\,dt\right)dy ,
+\int_a^b f_T(y)\,dy
+&=\frac{1}{2\pi}\int_{-T}^{T}
+\left(\int_a^b e^{-ity}\,dy\right)\varphi_X(t)\,dt\\[0.3cm]
+&=\frac{1}{2\pi}\int_{-T}^{T}
+\frac{e^{-ita}-e^{-itb}}{it}\,\varphi_X(t)\,dt.
 \end{align*}
-onde a segunda linha usa outra vez a representação do núcleo como integral e a
-última é o teorema de Fubini. A troca de ordem está justificada: o integrando
-$\left|e^{-ity}\varphi(t)\right|=|\varphi(t)|$ é integrável em $t$ sobre toda
-a reta, enquanto $y$ percorre o intervalo compacto $[x,x+h]$, de modo que a
-integral dupla do módulo vale $h\int|\varphi(t)|\,dt<\infty$.
+Quando $T\to\infty$, a convergência uniforme de $f_T$ assegura que
+$\int_a^b f_T(y)\,dy\to\int_a^b f(y)\,dy$. Pelo
+\Cref{thm:inversao} e pela ausência de átomos, o lado
+direito converge para $\mathbb{P}(a<X\leqslant b)$. Portanto,
+\[
+\mathbb{P}(a<X\leqslant b)=\int_a^b f(y)\,dy.
+\]
 
-A última expressão diz que, definindo
+Como $f$ é contínua e sua integral sobre qualquer intervalo é não negativa,
+temos $f(y)\geqslant0$ para todo $y$. De fato, se $f$ fosse negativa em um
+ponto, pela continuidade ela seria negativa em um intervalo ao redor desse
+ponto, e sua integral sobre o intervalo também seria negativa. 
+
+Por fim, para
+$a<x$,
 \[
-f(y)\equiv\frac{1}{2\pi}\int_{-\infty}^{\infty} e^{-ity}\varphi(t)\,dt,
+F_X(x)-F_X(a)=\int_a^x f(y)\,dy.
 \]
-temos $\mu(x,x+h)=\int_{x}^{x+h} f(y)\,dy$ para todos $x$ e $h>0$. Como os
-extremos têm massa nula, a escolha entre intervalo aberto e fechado é
-indiferente, e $f$ é uma densidade de $\mu$. Resta ver que $f$ é contínua e
-limitada. A limitação é imediata, pois
-\[
-|f(y)|\leqslant \frac{1}{2\pi}\int_{-\infty}^{\infty}|\varphi(t)|\,dt<\infty
-\]
-para todo $y$. Para a continuidade, tome $y_n\to y$. Então
-$e^{-ity_n}\varphi(t)\to e^{-ity}\varphi(t)$ para cada $t$, e
-$\left|e^{-ity_n}\varphi(t)\right|=|\varphi(t)|$ é um dominador integrável,
-independente de $n$. O teorema da convergência dominada dá $f(y_n)\to f(y)$, e
-a prova está completa.
+Fazendo $a\to-\infty$ e usando $F_X(a)\to0$, obtemos
+$F_X(x)=\int_{-\infty}^x f(y)\,dy$. Quando $x\to\infty$, essa integral tende
+a $1$, pois $F_X(x)\to1$. Logo $f$ é uma densidade de $X$.
 \end{proof}
 
-O resultado mostra que há um compromisso entre o comportamento de $\varphi$ no
-infinito e a regularidade de $\mu$: quanto mais rapidamente $\varphi$ decai,
-mais suave é a densidade $f$, já que as derivadas de $f$ correspondem a
-integrais de $t^k\varphi(t)$, que convergem justamente quando $\varphi$ decai
-rápido. A recíproca, porém, não vale: a distribuição de Cauchy, tratada em
-\Cref{ex:cauchy}, tem densidade, mas sua função característica não é
-integrável, e a medida só é recuperada por um limite em $T$, como discutimos
-em \Cref{rem:inversao-limite}.
+Se já conhecemos uma densidade contínua $g$ de $X$, então ela coincide em
+todos os pontos com a densidade $f$ fornecida pelo teorema. De fato, $f$ e
+$g$ têm a mesma integral sobre cada intervalo; como ambas são contínuas,
+isso só é possível quando $f=g$ em toda a reta. Usaremos essa observação nos
+exemplos seguintes.
+
+A hipótese de integrabilidade de $\varphi_X$ é suficiente para a existência de
+densidade, mas não é necessária. No \Cref{ex:exponencial}, por exemplo, $X$
+tem densidade e
+\[
+|\varphi_X(t)|=\frac{1}{\sqrt{1+t^2}},
+\]
+cuja integral sobre $\mathbb{R}$ diverge por comparação com $1/|t|$ quando
+$|t|$ é grande.
 
 \subsection{Duas funções características obtidas por inversão}\label{subsec:exemplos-inversao}
 
@@ -2032,8 +2042,8 @@ $\varphi_{\triangle}(s)=2(1-\cos s)/s^{2}$ para $s\neq0$, com
 $\varphi_{\triangle}(0)=1$. Ela é integrável: perto da origem é contínua com limite
 $1$, pois $1-\cos s\sim s^{2}/2$, e para $|s|\geqslant1$ vale
 $\bigl|\varphi_{\triangle}(s)\bigr|\leqslant4/s^{2}$. As hipóteses do
-\Cref{thm:densidade-fc-integravel} estão satisfeitas, e a densidade triangular admite,
-para todo $y\in\mathbb{R}$, a representação
+\Cref{thm:densidade-fc-integravel} estão satisfeitas. Como a densidade triangular é
+contínua, a observação após o teorema dá, para todo $y\in\mathbb{R}$,
 \[
 f_{\triangle}(y)
 =\frac{1}{2\pi}\int_{\mathbb{R}}\frac{2\,(1-\cos s)}{s^{2}}\,e^{-isy}\,ds
@@ -2080,9 +2090,9 @@ probabilidade, e a função característica correspondente é
 No \Cref{ex:exponencial-bilateral} obtivemos
 $\varphi_{L}(s)=1/(1+s^{2})$, onde o índice lembra o nome de Laplace, que é
 integrável: é contínua e limitada em $[-1,1]$ e, para $|s|\geqslant1$, vale
-$\varphi_{L}(s)\leqslant1/s^{2}$. Pelo \Cref{thm:densidade-fc-integravel}, a densidade
-da exponencial bilateral é dada pela integral de inversão, e multiplicar a identidade
-por $2$ fornece
+$\varphi_{L}(s)\leqslant1/s^{2}$. Como a densidade da exponencial bilateral é contínua, o
+\Cref{thm:densidade-fc-integravel} fornece sua expressão em cada ponto. Multiplicando
+a identidade por $2$, obtemos
 \begin{align*}
 \frac{1}{2\pi}\int_{\mathbb{R}}\frac{1}{1+s^{2}}\,e^{-isy}\,ds
 &=\tfrac12\,e^{-|y|},
@@ -2104,7 +2114,7 @@ em particular $\varphi(0)=1$.
 \end{proof}
 
 A distribuição de Cauchy é o exemplo clássico de distribuição sem média:
-$\mathbb{E}\bigl[|X|\bigr]=\frac{2}{\pi}\int_{0}^{\infty}x/(1+x^{2})\,dx=\infty$,
+$\mathbb{E}[|X|]=\frac{2}{\pi}\int_{0}^{\infty}x/(1+x^{2})\,dx=\infty$,
 pois a primitiva do integrando é $\tfrac12\log(1+x^{2})$, que diverge. Isso se reflete
 em $t=0$: a função $\varphi(t)=e^{-|t|}$ é derivável em todo $t\neq0$, com
 $\varphi'(t)=-\operatorname{sgn}(t)\,e^{-|t|}$, mas não é derivável em $t=0$, onde as
@@ -2119,330 +2129,562 @@ de primeiro momento finito nessas distribuições; voltaremos a essa relação n
 
 \section{Convergência Fraca e o Teorema de Continuidade}\label{sec:continuidade}
 
-Recorde, das notas de aula sobre modos de convergência, que uma sequência de
-variáveis aleatórias $X_n$ converge em distribuição para $X$, e escrevemos
-$X_n\Rightarrow X$, quando
-$\mathbb{P}(X_n\leqslant x)\to\mathbb{P}(X\leqslant x)$ em todo ponto $x$ em
-que a função de distribuição de $X$ é contínua. A mesma noção se formula
-diretamente para medidas de probabilidade: dizemos que $\mu_n$ converge
-fracamente para $\mu$, e escrevemos $\mu_n\Rightarrow\mu$, quando
-$\int f\,d\mu_n\to\int f\,d\mu$ para toda função $f$ limitada e contínua. As
-duas formulações são equivalentes, e é esta última que usaremos aqui. A
-equivalência é o teorema de Portmanteau; o sentido que mais empregaremos, de que
-a convergência das funções de distribuição acarreta a convergência das
-integrais de funções limitadas e contínuas, prova-se aproximando essas funções
-por combinações lineares de funções escada e usando que os pontos de
-descontinuidade da função de distribuição limite formam um conjunto enumerável.
-
-O passo seguinte em direção ao teorema central do limite é relacionar a
-convergência das funções características com a convergência fraca das medidas.
-O resultado que faz essa ponte, conhecido como teorema de continuidade, mostra
-que a aplicação que associa a cada medida de probabilidade a sua função
-característica é contínua nos dois sentidos, desde que o limite das funções
-características seja contínuo na origem.
-
-Antes de enunciá-lo, recordamos a noção de que precisaremos na prova. Dizemos
-que uma sequência $(\mu_n)_{n\geqslant1}$ de medidas de probabilidade em
-$\mathbb{R}$ é \emph{justa} (do inglês \emph{tight}) se, para todo
-$\varepsilon>0$, existe $M>0$ tal que
+Nas notas de aula sobre modos de convergência, vimos que $X_n$ converge em
+distribuição para $X$, e escrevemos $X_n\Rightarrow X$, quando
 \[
-  \mu_n\bigl([-M,M]\bigr)\geqslant 1-\varepsilon
-  \qquad\text{para todo } n\geqslant1.
+F_n(x)=\mathbb{P}(X_n\leqslant x)
+\longrightarrow
+F(x)=\mathbb{P}(X\leqslant x)
 \]
-Em palavras, uma sequência é justa quando nenhuma de suas medidas escapa para o infinito:
-toda a massa fica contida em um intervalo fixo, a menos de $\varepsilon$, uniformemente em $n$.
+em todo ponto $x$ em que $F$ é contínua. As variáveis não precisam estar
+definidas no mesmo espaço de probabilidade: essa convergência depende apenas
+de suas funções de distribuição.
+
+Vamos relacionar a convergência em distribuição com a convergência das
+funções características. Para o sentido mais delicado, precisaremos controlar
+a probabilidade de as variáveis assumirem valores muito distantes da origem.
+
+Dizemos que uma sequência $(X_n)_{n\geqslant1}$ é \emph{condensada} se, para
+todo $\varepsilon>0$, existe $M>0$ tal que
+\[
+\mathbb{P}(|X_n|>M)<\varepsilon
+\qquad\text{para todo }n\geqslant1.
+\]
+Em outras palavras, dado $\varepsilon>0$, podemos escolher um único intervalo
+$[-M,M]$ que contenha $X_n$ com probabilidade maior que $1-\varepsilon$ para
+todos os índices $n$.
 
 \begin{theorem}[Teorema de continuidade]\label{thm:continuidade}
-Sejam $\mu_n$, $1\leqslant n\leqslant\infty$, medidas de probabilidade em
-$\mathbb{R}$ e denote por $\varphi_n$ a função característica de $\mu_n$, isto
-é,
-\[
-  \varphi_n(t)=\int e^{itx}\,\mu_n(dx),
-  \qquad t\in\mathbb{R}.
-\]
+Sejam $X_1,X_2,\ldots$ variáveis aleatórias reais, e seja $\varphi_n$ a função
+característica de $X_n$.
 
-\noindent (i) Se $\mu_n\Rightarrow\mu_\infty$, então $\varphi_n(t)\to\varphi_\infty(t)$ para todo $t\in\mathbb{R}$.
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item Se $X_n\Rightarrow X$, então
+$\varphi_n(t)\to\varphi_X(t)$ para todo $t\in\mathbb{R}$.
 
-\smallskip
-\noindent (ii) Se $\varphi_n(t)$ converge pontualmente para um limite $\varphi(t)$ que é contínuo em $0$, então a sequência de distribuições $\mu_n$ é justa
-e converge fracamente para a medida $\mu$ cuja função característica é $\varphi$.
+\item Se $\varphi_n(t)\to\varphi(t)$ para todo $t\in\mathbb{R}$ e
+$\varphi$ é contínua em $0$, então existe uma variável aleatória $X$ tal que
+$X_n\Rightarrow X$ e $\varphi=\varphi_X$. Além disso, $(X_n)$ é condensada.
+\end{enumerate}
 \end{theorem}
 
+Na prova, usaremos dois fatos sobre convergência em distribuição. O primeiro
+permite passar das funções de distribuição às esperanças de funções limitadas
+e contínuas. O segundo mostra que uma sequência condensada possui uma
+subsequência convergente em distribuição.
+
+\begin{lemma}[Esperanças e convergência em distribuição]\label{lem:dist-esperancas-limitadas}
+Se $X_n\Rightarrow X$ e $h:\mathbb{R}\to\mathbb{C}$ é contínua e limitada,
+então
+\[
+\mathbb{E}[h(X_n)]\longrightarrow\mathbb{E}[h(X)].
+\]
+\end{lemma}
+
 \begin{proof}
-O item (i) é o sentido fácil, e nele fica claro que a convergência fraca é uma
-noção mais forte do que a convergência pontual das funções características. De
-fato, fixemos $t\in\mathbb{R}$. A função $x\mapsto e^{itx}$ é limitada, pois
-$|e^{itx}|=1$ para todo $x$, e é contínua, pois é a composta da aplicação
-linear $x\mapsto tx$ com a exponencial complexa. Pela caracterização da
-convergência fraca em termos de funções limitadas e contínuas,
-$\mu_n\Rightarrow\mu_\infty$ implica
-\[
-  \int e^{itx}\,\mu_n(dx)\longrightarrow\int e^{itx}\,\mu_\infty(dx),
-\]
-ou seja, $\varphi_n(t)\to\varphi_\infty(t)$, como queríamos.
+A ideia é aproximar $h$ por uma função constante em cada intervalo de uma
+partição. Nesses intervalos, as probabilidades podem ser escritas por meio
+das funções de distribuição.
 
-Passemos ao item (ii). Nosso primeiro objetivo é provar que a sequência é justa.
-Começamos com um cálculo que pode parecer misterioso, mas que se revelará muito útil:
-trata-se de integrar $1-e^{itx}$ em $t$ sobre um intervalo simétrico.
+Sejam $F_n$ e $F$ as funções de distribuição de $X_n$ e $X$, e seja $B$
+uma constante com $|h(x)|\leqslant B$ para todo $x$. Dado $\varepsilon>0$,
+escolhemos $R>0$ de modo que $-R$ e $R$ sejam pontos de continuidade de $F$ e
+\[
+\mathbb{P}(|X|\geqslant R)<\varepsilon.
+\]
+Essa escolha é possível porque as caudas de $X$ tendem a zero e $F$ tem no
+máximo uma quantidade enumerável de pontos de descontinuidade. De fato, cada
+descontinuidade é um salto de tamanho $\mathbb{P}(X=x)>0$, e para cada inteiro
+$m\geqslant1$ há apenas uma quantidade finita de saltos de tamanho pelo menos
+$1/m$.
+
+Como $h$ é uniformemente contínua em $[-R,R]$, podemos escolher uma partição
+\[
+-R=x_0<x_1<\cdots<x_m=R
+\]
+cujos pontos sejam de continuidade de $F$ e tal que
+$|h(x)-h(y)|<\varepsilon$ sempre que $x$ e $y$ pertencem ao mesmo intervalo
+$(x_{j-1},x_j]$. Definimos
+\[
+g(x)\equiv\sum_{j=1}^{m}h(x_j)\mathds{1}_{(x_{j-1},x_j]}(x).
+\]
+Fora de $(-R,R]$, temos $g(x)=0$. Assim,
+\begin{align*}
+\bigl|\mathbb{E}[h(X_n)]-\mathbb{E}[g(X_n)]\bigr|
+&\leqslant\mathbb{E}\bigl[|h(X_n)-g(X_n)|\bigr]\\[0.3cm]
+&\leqslant\varepsilon+B\,\mathbb{P}\bigl(X_n\notin(-R,R]\bigr).
+\end{align*}
+A mesma estimativa vale para $X$. Além disso,
+\begin{align*}
+\mathbb{E}[g(X_n)]
+&=\sum_{j=1}^{m}h(x_j)\,
+\mathbb{P}(x_{j-1}<X_n\leqslant x_j)\\[0.3cm]
+&=\sum_{j=1}^{m}h(x_j)\bigl(F_n(x_j)-F_n(x_{j-1})\bigr)\\[0.3cm]
+&\longrightarrow
+\sum_{j=1}^{m}h(x_j)\bigl(F(x_j)-F(x_{j-1})\bigr)
+=\mathbb{E}[g(X)].
+\end{align*}
+A convergência vale porque todos os extremos da partição são pontos de
+continuidade de $F$.
+
+Por fim, a probabilidade de ficar fora de $(-R,R]$ também converge:
+\[
+\mathbb{P}\bigl(X_n\notin(-R,R]\bigr)
+=F_n(-R)+1-F_n(R)
+\longrightarrow
+F(-R)+1-F(R)
+\leqslant\mathbb{P}(|X|\geqslant R)<\varepsilon.
+\]
+Combinando as estimativas,
+\[
+\limsup_{n\to\infty}
+\bigl|\mathbb{E}[h(X_n)]-\mathbb{E}[h(X)]\bigr|
+\leqslant2\varepsilon+2B\varepsilon.
+\]
+Como $\varepsilon>0$ é arbitrário, a prova está completa.
+\end{proof}
+
+\begin{lemma}[Seleção de uma subsequência]\label{lem:selecao-condensada}
+Toda sequência condensada $(X_n)$ possui uma subsequência que converge em
+distribuição para alguma variável aleatória real.
+\end{lemma}
+
+\begin{proof}
+Vamos construir primeiro uma candidata à função de distribuição limite.
+Escreva $F_n(x)=\mathbb{P}(X_n\leqslant x)$ e enumere os racionais como
+$q_1,q_2,\ldots$. Como $0\leqslant F_n(q_1)\leqslant1$, podemos escolher uma
+subsequência ao longo da qual $F_n(q_1)$ converge. Dessa subsequência,
+escolhemos outra ao longo da qual $F_n(q_2)$ converge, e assim por diante.
+
+Tomando o $k$-ésimo termo da $k$-ésima subsequência, obtemos uma subsequência
+$(X_{n_k})$ tal que, para cada $q\in\mathbb{Q}$, existe o limite
+\[
+G(q)\equiv\lim_{k\to\infty}F_{n_k}(q).
+\]
+A função $G$ é não decrescente nos racionais. Para estendê-la à reta,
+definimos
+\[
+F(x)\equiv\inf_{\substack{q\in\mathbb{Q}\\q>x}}G(q),
+\qquad x\in\mathbb{R}.
+\]
+A função $F$ é não decrescente e contínua à direita. Para verificar a
+continuidade, dado $\varepsilon>0$, escolha $q>x$ racional com
+$G(q)<F(x)+\varepsilon$. Se $x<y<q$, então
+\[
+F(x)\leqslant F(y)\leqslant G(q)<F(x)+\varepsilon.
+\]
+
+A condensação garante que $F$ tem os limites necessários em $-\infty$ e
+$+\infty$. Dado $\varepsilon>0$, escolha $M$ com
+$\mathbb{P}(|X_n|>M)<\varepsilon$ para todo $n$. Se $q<-M$ é racional,
+$F_n(q)\leqslant\mathbb{P}(|X_n|>M)<\varepsilon$, logo $G(q)\leqslant\varepsilon$.
+Se $q>M$ é racional, $F_n(q)\geqslant1-\varepsilon$, logo
+$G(q)\geqslant1-\varepsilon$. Se $x<-M$, podemos escolher um racional $q$
+com $x<q<-M$ e, portanto, $F(x)\leqslant G(q)\leqslant\varepsilon$. Se
+$x>M$, todos os racionais $q>x$ satisfazem $G(q)\geqslant1-\varepsilon$, de
+modo que $F(x)\geqslant1-\varepsilon$. Como $\varepsilon$ é arbitrário,
+concluímos que
+\[
+\lim_{x\to-\infty}F(x)=0
+\qquad\text{e}\qquad
+\lim_{x\to\infty}F(x)=1.
+\]
+Pela caracterização das funções de distribuição apresentada nas notas de aula
+sobre esse assunto, existe uma variável aleatória $X$ com função de
+distribuição $F$.
+
+Resta verificar que $X_{n_k}\Rightarrow X$. Seja $x$ um ponto de continuidade
+de $F$ e tomemos $r<p<x<q$, com $p$ e $q$ racionais. Pela monotonicidade,
+\[
+F(r)\leqslant G(p)
+\leqslant\liminf_{k\to\infty}F_{n_k}(x)
+\leqslant\limsup_{k\to\infty}F_{n_k}(x)
+\leqslant G(q)\leqslant F(q).
+\]
+As desigualdades das extremidades seguem da definição de $F$: como $p>r$,
+temos $F(r)\leqslant G(p)$, e, como $G$ é não decrescente,
+$G(q)\leqslant F(q)$. Fazendo $r\uparrow x$ e $q\downarrow x$, concluímos,
+pela continuidade de $F$ em $x$, que $F_{n_k}(x)\to F(x)$. Portanto
+$X_{n_k}\Rightarrow X$.
+\end{proof}
+
+\begin{proof}[Prova do \Cref{thm:continuidade}]
+Para o item (i), fixamos $t\in\mathbb{R}$ e aplicamos o
+\Cref{lem:dist-esperancas-limitadas} à função contínua e limitada
+$h(x)=e^{itx}$. Obtemos
+\[
+\varphi_n(t)=\mathbb{E}[e^{itX_n}]
+\longrightarrow
+\mathbb{E}[e^{itX}]=\varphi_X(t).
+\]
+
+Passemos ao item (ii). A prova tem duas partes: primeiro mostraremos que
+$(X_n)$ é condensada; depois identificaremos o limite de suas subsequências
+convergentes.
 
 \smallskip
-\noindent\textbf{Etapa 1 (o cálculo da cauda).}
-Sejam $u>0$ e $x\in\mathbb{R}$. Separando a exponencial em parte real e parte imaginária,
+\noindent\textbf{Uma cota para as caudas.}
+Começamos com uma variável aleatória real $Y$ qualquer, de função
+característica $\psi$. A ideia é usar os valores de $\psi$ perto de $0$ para
+controlar a probabilidade de $|Y|$ ser grande.
+
+Para $u>0$ e $x\neq0$, a paridade do cosseno dá
+\begin{align*}
+\frac{1}{u}\int_{-u}^{u}\bigl(1-\cos(tx)\bigr)\,dt
+&=2-\frac{1}{u}\left[\frac{\sin(tx)}{x}\right]_{-u}^{u}\\[0.3cm]
+&=2\left(1-\frac{\sin(ux)}{ux}\right).
+\end{align*}
+A identidade também vale em $x=0$, tomando $\sin(ux)/(ux)=1$ nesse ponto.
+Substituindo $x$ por $Y$ e passando a esperança pela integral, obtemos
+\begin{equation}\label{eq:continuidade-cauda-identidade}
+\frac{1}{u}\int_{-u}^{u}
+\bigl(1-\operatorname{Re}\psi(t)\bigr)\,dt
+=2\mathbb{E}\left[1-\frac{\sin(uY)}{uY}\right].
+\end{equation}
+A troca é justificada por somas de Riemann, como na prova do
+\Cref{thm:inversao}: para cada valor de $Y$, o integrando é contínuo em $t$,
+e todas as somas são limitadas em módulo por uma constante. A convergência
+de variáveis limitadas permite então passar o limite para dentro da esperança.
+
+Para comparar o lado direito com uma probabilidade, usamos que
+$|\sin v|\leqslant|v|$ para todo $v$. De fato, se $v\geqslant0$,
 \[
-  \int_{-u}^{u}\bigl(1-e^{itx}\bigr)\,dt
-  =2u-\int_{-u}^{u}\cos(tx)\,dt-i\int_{-u}^{u}\sin(tx)\,dt .
+|\sin v|=\left|\int_0^v\cos s\,ds\right|
+\leqslant\int_0^v|\cos s|\,ds\leqslant v,
 \]
-A última integral se anula porque $t\mapsto\sin(tx)$ é uma função ímpar
-integrada em um intervalo simétrico. Já para a primeira, como a primitiva de
-$\cos(tx)$ em $t$ é $\sin(tx)/x$ quando $x\neq0$,
+e, para $v<0$, a desigualdade segue da imparidade do seno. Logo
+$1-\sin v/v\geqslant0$, com o valor $0$ em $v=0$. Além disso, se
+$|v|\geqslant2$, então
 \[
-  \int_{-u}^{u}\cos(tx)\,dt
-  =\frac{\sin(tx)}{x}\Big|_{t=-u}^{t=u}
-  =\frac{2\sin(ux)}{x},
+\frac{\sin v}{v}\leqslant\frac{1}{|v|}\leqslant\frac12,
+\qquad\text{e, portanto,}\qquad
+2\left(1-\frac{\sin v}{v}\right)\geqslant1.
 \]
-e a mesma expressão vale para $x=0$ por continuidade, já que $2\sin(ux)/x\to2u$ quando $x\to0$.
-Obtemos assim
+Tomando $v=uY$, concluímos que
 \[
-  \int_{-u}^{u}\bigl(1-e^{itx}\bigr)\,dt
-  =2u-\frac{2\sin(ux)}{x},
-  \qquad x\in\mathbb{R}.
+\mathds{1}_{\{|Y|\geqslant2/u\}}
+\leqslant2\left(1-\frac{\sin(uY)}{uY}\right).
 \]
+Tomando esperanças e usando \eqref{eq:continuidade-cauda-identidade}, obtemos
+a cota
+\begin{equation}\label{eq:cota-concentracao}
+\mathbb{P}(|Y|\geqslant2/u)
+\leqslant
+\frac{1}{u}\int_{-u}^{u}
+\bigl(1-\operatorname{Re}\psi(t)\bigr)\,dt.
+\end{equation}
 
 \smallskip
-\noindent\textbf{Etapa 2 (integrar em $\mu_n$).}
-Dividindo a identidade da Etapa 1 por $u$ e integrando em $x$ com respeito a
-$\mu_n(dx)$, obtemos
+\noindent\textbf{A sequência é condensada.}
+Por hipótese, $\varphi_n(t)\to\varphi(t)$ para todo $t$. Como
+$\varphi_n(0)=1$, temos $\varphi(0)=1$. Fixado $\varepsilon>0$, a
+continuidade de $\varphi$ em $0$ permite escolher $u>0$ tal que
 \[
-  \frac{1}{u}\int_{-u}^{u}\bigl(1-\varphi_n(t)\bigr)\,dt
-  =2\int\Bigl(1-\frac{\sin(ux)}{ux}\Bigr)\,\mu_n(dx),
+0\leqslant1-\operatorname{Re}\varphi(t)<\frac{\varepsilon}{4},
+\qquad |t|\leqslant u.
 \]
-onde usamos o teorema de Fubini no lado esquerdo. O uso de Fubini é legítimo
-porque o integrando $(t,x)\mapsto1-e^{itx}$ é limitado por $2$ e a medida
-produto $dt\otimes\mu_n$ é finita em $[-u,u]\times\mathbb{R}$. Observe ainda
-que o lado esquerdo é real, pois $\varphi_n(-t)=\overline{\varphi_n(t)}$, de
-modo que a parte imaginária de $\varphi_n$ é ímpar e se cancela na integral
-sobre o intervalo simétrico.
+A desigualdade à esquerda segue de $|\varphi(t)|\leqslant1$, obtida passando
+ao limite em $|\varphi_n(t)|\leqslant1$.
 
-\smallskip
-\noindent\textbf{Etapa 3 (uma cota para o integrando).}
-Para limitar o lado direito, usamos a desigualdade elementar
-$|\sin y|\leqslant|y|$ para todo $y\in\mathbb{R}$. De fato, se $y\geqslant0$,
+Para usar essa informação na cota \eqref{eq:cota-concentracao}, precisamos
+passar ao limite nas integrais das funções $\varphi_n$. Considere uma
+variável auxiliar $U$, uniforme em $[-u,u]$, e defina
 \[
-  |\sin y|=\Bigl|\int_{0}^{y}\cos z\,dz\Bigr|\leqslant\int_{0}^{y}|\cos z|\,dz\leqslant y,
+W_n=1-\operatorname{Re}\varphi_n(U),
+\qquad
+W=1-\operatorname{Re}\varphi(U).
 \]
-e para $y<0$ usamos a paridade de ambos os lados. Com $y=ux$ segue que
-$\bigl|\sin(ux)/(ux)\bigr|\leqslant1$ e, em particular,
-$1-\sin(ux)/(ux)\geqslant0$. Mais ainda, quando $|x|\geqslant 2/u$ temos
-$|ux|\geqslant2$ e, usando $|\sin(ux)|\leqslant1$,
+Não precisamos supor qualquer relação entre $U$ e as variáveis $X_n$, pois
+as funções $\varphi_n$ são determinísticas. Como cada $\varphi_n$ é contínua,
+$W_n$ é uma variável aleatória; seu limite pontual $W$ também é uma variável
+aleatória. A convergência pontual de $\varphi_n$ dá $W_n\to W$; além disso,
+$0\leqslant W_n\leqslant2$ e $0\leqslant W\leqslant\varepsilon/4$. Como $U$
+tem densidade $1/(2u)$ em $[-u,u]$, a fórmula da esperança e a convergência
+de variáveis limitadas fornecem
 \[
-  1-\frac{\sin(ux)}{ux}
-  \ \geqslant\ 1-\frac{1}{|ux|}.
-\]
-Descartando a integral sobre o intervalo $(-2/u,2/u)$, onde o integrando é apenas não negativo,
-e aplicando a cota anterior no resto,
-\[
-  2\int\Bigl(1-\frac{\sin(ux)}{ux}\Bigr)\mu_n(dx)
-  \ \geqslant\ 2\int_{\{|x|\geqslant 2/u\}}\Bigl(1-\frac{1}{|ux|}\Bigr)\mu_n(dx)
-  \ \geqslant\ \mu_n\bigl(\{x:|x|>2/u\}\bigr),
-\]
-sendo a última desigualdade consequência de $|ux|\geqslant2$, que dá
-$2\bigl(1-1/|ux|\bigr)\geqslant1$.
-
-\smallskip
-\noindent\textbf{Etapa 4 (justeza).}
-Como $\varphi$ é contínua em $0$ e $\varphi(0)=\lim_n\varphi_n(0)=1$, temos
-$\varphi(t)\to1$ quando $t\to0$, e portanto
-\[
-  \frac{1}{u}\int_{-u}^{u}\bigl(1-\varphi(t)\bigr)\,dt\ \longrightarrow\ 0
-  \qquad\text{quando } u\to0 .
-\]
-Fixado $\varepsilon>0$, escolhemos $u>0$ de modo que essa integral seja menor
-que $\varepsilon$. Por outro lado, $\varphi_n(t)\to\varphi(t)$ para cada $t$ e
-$|1-\varphi_n(t)|\leqslant2$, de modo que o teorema da convergência dominada,
-aplicado na variável $t$ ao intervalo limitado $[-u,u]$, garante
-\[
-  \frac{1}{u}\int_{-u}^{u}\bigl(1-\varphi_n(t)\bigr)\,dt
-  \ \longrightarrow\ \frac{1}{u}\int_{-u}^{u}\bigl(1-\varphi(t)\bigr)\,dt
-  \ <\ \varepsilon .
+\frac{1}{u}\int_{-u}^{u}
+\bigl(1-\operatorname{Re}\varphi_n(t)\bigr)\,dt
+=2\mathbb{E}[W_n]
+\longrightarrow2\mathbb{E}[W]\leqslant\frac{\varepsilon}{2}.
 \]
 Logo existe $N$ tal que, para todo $n\geqslant N$,
 \[
-  \varepsilon\ \geqslant\ \frac{1}{u}\int_{-u}^{u}\bigl(1-\varphi_n(t)\bigr)\,dt
-  \ \geqslant\ \mu_n\bigl(\{x:|x|>2/u\}\bigr),
+\mathbb{P}(|X_n|\geqslant2/u)
+\leqslant
+\frac{1}{u}\int_{-u}^{u}
+\bigl(1-\operatorname{Re}\varphi_n(t)\bigr)\,dt
+<\varepsilon.
 \]
-combinando a Etapa 2 com a cota da Etapa 3. Assim
-$\mu_n([-2/u,2/u])\geqslant1-\varepsilon$ para todo $n\geqslant N$. Para os
-finitos índices $n<N$, cada medida $\mu_n$ é de probabilidade, de modo que
-existe $M\geqslant 2/u$ com $\mu_n([-M,M])\geqslant1-\varepsilon$ para todo
-$n<N$ (aumentando $M$ se necessário, já que $\mu_n([-M,M])\to1$ quando
-$M\to\infty$). Concluímos que a sequência $\mu_n$ é justa.
+Para cada um dos índices $n<N$, podemos aumentar o limite $2/u$ até que a
+probabilidade de $|X_n|$ ultrapassá-lo seja menor que $\varepsilon$. Como há
+apenas um número finito desses índices, um mesmo $M$ serve para todos. Assim,
+\[
+\mathbb{P}(|X_n|>M)<\varepsilon
+\qquad\text{para todo }n,
+\]
+e $(X_n)$ é condensada.
 
 \smallskip
-\noindent\textbf{Etapa 5 (identificação do limite).}
-Falta mostrar que a sequência inteira converge, e não apenas uma subsequência.
-Suponha que $\mu_{n(k)}\Rightarrow\mu$ para alguma subsequência. Pelo item
-(i), já provado, a medida limite $\mu$ tem função característica $\varphi$; em
-particular, o limite fraco de qualquer subsequência convergente é sempre a
-mesma medida $\mu$. Por outro lado, a justeza garante que toda subsequência
-possui uma subsubsequência que converge fracamente para alguma medida de
-probabilidade. Esse é o teorema de Prokhorov no caso da reta: ele se obtém
-aplicando o argumento diagonal de Cantor às funções de distribuição restritas
-aos racionais e estendendo o limite por monotonicidade, e é a justeza que
-impede a massa de escapar e garante que o limite seja ainda uma medida de
-probabilidade. Seja agora $f$ limitada e
-contínua. Aplicando o raciocínio anterior à sequência de números reais
-$\int f\,d\mu_n$, obtemos que toda subsequência de
-$\bigl(\int f\,d\mu_n\bigr)_{n\geqslant1}$ tem uma subsubsequência que
-converge para $\int f\,d\mu$. Pelo critério de subsequências para sequências
-de números reais, a sequência inteira converge para esse limite, isto é,
+\noindent\textbf{Identificação do limite.}
+Pelo \Cref{lem:selecao-condensada}, existe uma subsequência
+$X_{n_k}\Rightarrow X$ para alguma variável aleatória $X$. Pelo item (i),
 \[
-  \int f\,d\mu_n\ \longrightarrow\ \int f\,d\mu .
+\varphi_{n_k}(t)\longrightarrow\varphi_X(t)
+\qquad\text{para todo }t\in\mathbb{R}.
 \]
-Como isso vale para toda função $f$ limitada e contínua, a caracterização da
-convergência fraca em termos de funções limitadas e contínuas dá
-$\mu_n\Rightarrow\mu$, o que conclui a prova.
+Mas, pela hipótese do item (ii), o mesmo limite é $\varphi(t)$. Logo
+$\varphi=\varphi_X$.
+
+Toda subsequência de $(X_n)$ continua sendo condensada, portanto possui uma
+subsequência convergente em distribuição. O argumento anterior mostra que
+qualquer limite assim obtido tem função característica $\varphi$. Pela
+unicidade do \Cref{thm:inversao}, todos esses limites têm a mesma função de
+distribuição $F_X$.
+
+Resta mostrar que a sequência inteira converge. Se isso não ocorresse,
+existiriam um ponto de continuidade $x$ de $F_X$, um número $\eta>0$ e uma
+subsequência $(X_{n_j})$ com
+\[
+\bigl|\mathbb{P}(X_{n_j}\leqslant x)-F_X(x)\bigr|\geqslant\eta
+\qquad\text{para todo }j.
+\]
+Essa subsequência possui, porém, uma subsequência convergente em distribuição
+para uma variável com função de distribuição $F_X$. No ponto de continuidade
+$x$, suas funções de distribuição devem convergir para $F_X(x)$, o que
+contradiz a desigualdade. Portanto $X_n\Rightarrow X$.
 \end{proof}
 
 \begin{remark}[Por que a continuidade em $0$ é necessária]\label{rem:continuidade-origem}
-A hipótese de continuidade do limite na origem não é um detalhe técnico.
-Considere $\mu_n$ a distribuição normal de média $0$ e variância $n$.
-A função característica correspondente é
+Seja $Z$ uma variável normal padrão e considere $X_n=\sqrt{n}\,Z$. Então
+$X_n$ tem distribuição normal de média $0$ e variância $n$, com função
+característica
 \[
-  \varphi_n(t)=e^{-nt^2/2},
-  \qquad t\in\mathbb{R}.
+\varphi_n(t)=e^{-nt^2/2},\qquad t\in\mathbb{R}.
 \]
-Para $t\neq0$ fixo, o expoente $-nt^2/2\to-\infty$, de modo que $\varphi_n(t)\to0$;
-já para $t=0$ temos $\varphi_n(0)=1$ para todo $n$.
-Portanto o limite pontual existe e é
+Para $t\neq0$, temos $e^{-nt^2/2}\to0$, enquanto $\varphi_n(0)=1$ para todo
+$n$. O limite pontual é
 \[
-  \varphi(t)=
-  \begin{cases}
-    1, & t=0,\\
-    0, & t\neq0,
-  \end{cases}
+\varphi(t)=
+\begin{cases}
+1, & t=0,\\[0.2cm]
+0, & t\neq0,
+\end{cases}
 \]
-que não é contínuo em $0$.
+que não é contínuo na origem e, portanto, não pode ser uma função
+característica.
 
-Vejamos que, de fato, as medidas não convergem fracamente. Escrevendo $\mu_n$
-como a distribuição de $\sqrt{n}\,Z$, com $Z$ normal padrão, para cada
-$x\in\mathbb{R}$ fixo temos
+Nesse exemplo, a falta de continuidade acompanha a dispersão das variáveis.
+Para qualquer $M>0$,
 \[
-  \mu_n\bigl((-\infty,x]\bigr)
-  =\mathbb{P}\bigl(Z\leqslant x/\sqrt{n}\bigr)
-  \ \longrightarrow\ \mathbb{P}(Z\leqslant0)=\tfrac12,
+\mathbb{P}(|X_n|\leqslant M)
+=\mathbb{P}\left(|Z|\leqslant\frac{M}{\sqrt n}\right)
+\longrightarrow\mathbb{P}(Z=0)=0.
 \]
-já que $x/\sqrt{n}\to0$ e a distribuição de $Z$ é contínua. Assim as funções
-de distribuição convergem pontualmente para a função constante $\tfrac12$, que
-não é função de distribuição de nenhuma medida de probabilidade. Pelo item (i)
-do \Cref{thm:continuidade}, se houvesse convergência fraca, o limite teria
-função característica contínua em toda a reta, e em particular em $0$; como o
-limite pontual acima não é contínuo em $0$, a convergência fraca não pode
-ocorrer. A continuidade na origem é, portanto, exatamente a hipótese que
-impede a massa de "escapar para o infinito" sem que isso se manifeste no
-limite pontual das funções características.
+Assim, $(X_n)$ não é condensada. Além disso, não pode convergir em
+distribuição: pelo item (i) do \Cref{thm:continuidade}, a função característica
+de um limite teria de coincidir com $\varphi$, mas toda função característica
+é contínua em $0$.
 \end{remark}
 
 \section{Momentos e Derivadas}\label{sec:momentos}
 
-Nas notas de aula sobre funções geradoras de momentos, vimos que derivar $M_X$
-na origem produz os momentos de $X$. Para a função característica, o mesmo
-fenômeno ocorre com derivadas em relação a $t$, mas há uma diferença essencial:
-como $|e^{itX}|=1$, as derivadas de $\varphi$ estão ligadas ao decaimento da
-medida no infinito e não à existência de uma vizinhança onde a exponencial real
-seja integrável. Esta seção torna essa relação precisa nos dois sentidos.
+Nas notas de aula sobre momentos e funções geradoras de momentos, vimos que as
+esperanças das potências de $X$ podem ser recuperadas a partir das derivadas de
+$M_X$ na origem, quando a função geradora existe em uma vizinhança de $0$.
+Vamos investigar uma relação semelhante para a função característica
+\[
+\varphi(t)=\mathbb{E}[e^{itX}].
+\]
 
-\subsection{Derivadas, momentos e o decaimento da medida}\label{subsec:momentos-derivadas}
+A função característica está definida para todo $t\in\mathbb{R}$, pois
+$|e^{itX}|=1$. Isso não garante, por si só, que ela seja derivável. Por
+exemplo, no \Cref{ex:cauchy} encontramos uma variável sem primeiro momento
+finito cuja função característica é $e^{-|t|}$, que não é derivável em
+$t=0$.
 
-Na prova do \Cref{thm:continuidade} obtivemos, para todo $u>0$, a cota
-\begin{equation}\label{eq:cota-concentracao}
-\mu\bigl\{x:|x|>2/u\bigr\}
+Para entender o papel dos momentos, observamos que, ao derivar a exponencial
+em relação a $t$, aparece um fator $X$:
+\[
+\frac{d}{dt}e^{itX}=iX e^{itX},
+\qquad
+\left|\frac{d}{dt}e^{itX}\right|=|X|.
+\]
+Assim, para justificar a passagem da derivada para dentro da esperança, uma
+hipótese natural é que $\mathbb{E}[|X|]<\infty$. O resultado abaixo mostra
+como o mesmo raciocínio se estende às derivadas de ordem superior.
+
+\subsection{Derivadas, momentos e o decaimento das caudas}\label{subsec:momentos-derivadas}
+
+Na prova do \Cref{thm:continuidade}, obtivemos uma cota que relaciona a função
+característica às probabilidades de valores grandes de $|X|$: para $u>0$,
+\[
+\mathbb{P}(|X|\geqslant2/u)
 \leqslant
-u^{-1}\int_{-u}^{u}\bigl(1-\varphi(t)\bigr)\,dt .
-\end{equation}
-Ela diz que o comportamento de $\varphi$ perto da origem controla a cauda de
-$\mu$: se $\varphi\equiv1$ em $[-u,u]$, o lado direito se anula, logo $\mu$ não
-carrega massa em $\{x:|x|>2/u\}$; em geral, quanto menor for $1-\varphi$ em média
-nesse intervalo, menor pode ser a massa de $\mu$ longe de $0$.
+\frac{1}{u}\int_{-u}^{u}
+\bigl(1-\operatorname{Re}\varphi(t)\bigr)\,dt.
+\]
+Essa é a cota \eqref{eq:cota-concentracao}, escrita para a variável $X$. Ela
+mostra que, quando a parte real de $\varphi$ está próxima de $1$ perto da
+origem, a probabilidade de $|X|$ ser grande é pequena.
 
-Há uma sutileza complexa em \eqref{eq:cota-concentracao}: o lado esquerdo é
-real, enquanto $\varphi$ assume valores em $\mathbb{C}$. A parte imaginária não
-atrapalha, porque não contribui para a integral. De fato, pelo item (b) de
-\Cref{thm:propriedades-fc}, $\operatorname{Im}\varphi$ é ímpar, logo
-$\int_{-u}^{u}\operatorname{Im}\varphi(t)\,dt=0$ por simetria do intervalo.
-Portanto
-$\int_{-u}^{u}\bigl(1-\varphi(t)\bigr)\,dt=\int_{-u}^{u}\bigl(1-\operatorname{Re}\varphi(t)\bigr)\,dt$,
-que é real e não negativo, pois $\operatorname{Re}\varphi(t)\leqslant1$ pela
-desigualdade $|\varphi(t)|\leqslant1$.
+Os momentos também controlam essas probabilidades. De fato, se
+$\mathbb{E}[|X|^n]<\infty$ para algum inteiro $n\geqslant1$, então, para
+$r>0$,
+\[
+\mathds{1}_{\{|X|\geqslant r\}}\leqslant\frac{|X|^n}{r^n}.
+\]
+Tomando esperanças, obtemos
+\[
+\mathbb{P}(|X|\geqslant r)
+\leqslant\frac{\mathbb{E}[|X|^n]}{r^n}.
+\]
+Vamos agora mostrar outra relação entre momentos e função característica:
+quando o momento absoluto de ordem $n$ é finito, podemos derivar
+$\varphi$ até a ordem $n$ e calcular suas derivadas por meio de esperanças.
 
 \begin{theorem}[Derivadas da função característica]
 \label{thm:derivadas-momentos}
-Se $\int|x|^n\,\mu(dx)<\infty$ para algum $n\geqslant1$, então $\varphi$ tem
-derivada contínua de ordem $n$ em $\mathbb{R}$, dada por
-\begin{equation*}
-\varphi^{(n)}(t)=\int (ix)^n e^{itx}\,\mu(dx)
-\qquad\text{para todo } t\in\mathbb{R}.
-\end{equation*}
+Seja $X$ uma variável aleatória com função característica $\varphi$.
+Se $\mathbb{E}[|X|^n]<\infty$ para algum inteiro $n\geqslant1$, então, para
+cada inteiro $k$ com $1\leqslant k\leqslant n$, a derivada $\varphi^{(k)}$
+existe, é contínua em $\mathbb{R}$ e satisfaz
+\[
+\varphi^{(k)}(t)
+=\mathbb{E}\bigl[(iX)^k e^{itX}\bigr],
+\qquad t\in\mathbb{R}.
+\]
 \end{theorem}
 
 \begin{proof}
-Seja $X$ uma variável aleatória com distribuição $\mu$, de modo que
+Vamos derivar a esperança uma vez de cada vez. Para aplicar o
+\Cref{thm:derivacao-integral}, precisamos verificar que as variáveis obtidas
+e as derivadas dos integrandos são integráveis.
+
+Primeiro, a hipótese de momento absoluto de ordem $n$ garante os momentos
+absolutos de ordens menores. Com efeito, se $1\leqslant j\leqslant n$, então
 \[
-\varphi(t)=\mathbb{E}\bigl[e^{itX}\bigr].
+|x|^j\leqslant1+|x|^n,\qquad x\in\mathbb{R}.
 \]
-Provamos por indução sobre $k$ a afirmação de que, para cada
-$k\in\{0,1,\ldots,n\}$, $\varphi$ tem derivada contínua de ordem $k$ dada por
-$\varphi^{(k)}(t)=\mathbb{E}\bigl[(iX)^k e^{itX}\bigr]$. O caso $k=0$ é a própria
-definição de $\varphi$.
+Para $|x|\leqslant1$, temos $|x|^j\leqslant1$; para $|x|>1$, temos
+$|x|^j\leqslant|x|^n$. Logo
+\[
+\mathbb{E}[|X|^j]\leqslant1+\mathbb{E}[|X|^n]<\infty,
+\qquad 1\leqslant j\leqslant n.
+\]
 
-Suponha a afirmação válida para algum $k<n$ e escreva
-$\varphi^{(k)}(t)=\mathbb{E}\bigl[g(t,X)\bigr]$ com $g(t,x)\equiv(ix)^k e^{itx}$. Para
-cada $t$ fixado, a variável aleatória $g(t,X)$ é integrável, pois
-$|g(t,X)|=|X|^k$ e $\mathbb{E}|X|^k<\infty$, enquanto a derivada em $t$ de
-$g(t,X)$ é $\partial_t g(t,X)=(iX)^{k+1}e^{itX}$, de módulo $|X|^{k+1}$.
+Comecemos pela primeira derivada. Para cada $t$, a variável $e^{itX}$ é
+integrável, pois tem módulo $1$. Além disso,
+\[
+\frac{\partial}{\partial t}e^{itX}=iX e^{itX},
+\qquad
+\bigl|iX e^{itX}\bigr|=|X|.
+\]
+Como $\mathbb{E}[|X|]<\infty$, o \Cref{thm:derivacao-integral} permite
+trocar a derivada com a esperança:
+\[
+\varphi'(t)
+=\frac{d}{dt}\mathbb{E}[e^{itX}]
+=\mathbb{E}[iX e^{itX}],
+\qquad t\in\mathbb{R}.
+\]
 
-O ponto que faz a indução funcionar é a majoração $|x|^k\leqslant1+|x|^n$
-sempre que $k\leqslant n$: de fato, se $|x|\leqslant1$ então
-$|x|^k\leqslant1$, e se $|x|>1$ então $|x|^k\leqslant|x|^n$. Assim a única
-hipótese global, $\mathbb{E}|X|^n<\infty$, garante que $\mathbb{E}|X|^j<\infty$
-para todos os expoentes $j\leqslant n$; em particular, $|X|^{k+1}$ é uma
-majorante integrável, independente de $t$, para a derivada de $g(t,X)$.
-Podemos então aplicar o \Cref{thm:derivacao-integral} e concluir que
-$\varphi^{(k)}$ é derivável, com
-$(\varphi^{(k)})'(t)=\mathbb{E}\bigl[(iX)^{k+1}e^{itX}\bigr]$.
+Suponha agora que, para algum $k<n$, já tenhamos obtido
+\[
+\varphi^{(k)}(t)=\mathbb{E}\bigl[(iX)^k e^{itX}\bigr].
+\]
+Para derivar mais uma vez, tomamos $g(t,x)=(ix)^k e^{itx}$. Então
+\[
+\frac{\partial g}{\partial t}(t,X)
+=(iX)^{k+1}e^{itX},
+\qquad
+\left|\frac{\partial g}{\partial t}(t,X)\right|
+=|X|^{k+1}.
+\]
+A variável $g(t,X)$ é integrável, pois seu módulo é $|X|^k$, e a derivada é
+majorada pela variável integrável $|X|^{k+1}$. Aplicando novamente o
+\Cref{thm:derivacao-integral}, concluímos que
+\[
+\varphi^{(k+1)}(t)
+=\frac{d}{dt}\mathbb{E}\bigl[(iX)^k e^{itX}\bigr]
+=\mathbb{E}\bigl[(iX)^{k+1}e^{itX}\bigr].
+\]
+A indução fornece, portanto, a fórmula para todas as ordens de $1$ a $n$.
 
-Por fim, a continuidade dessa derivada segue da convergência dominada: a
-função $t\mapsto (iX)^{k+1}e^{itX}$ é contínua para quase todo $\omega$ e tem
-módulo dominado por $|X|^{k+1}$, que é integrável. Isso encerra o passo de
-indução e a prova.
+Resta verificar a continuidade. Fixe $k\in\{1,\ldots,n\}$ e tome uma
+sequência $t_m\to t$. Para cada resultado do experimento,
+\[
+(iX)^k e^{it_mX}\longrightarrow(iX)^k e^{itX},
+\qquad
+\bigl|(iX)^k e^{it_mX}\bigr|=|X|^k.
+\]
+Como $\mathbb{E}[|X|^k]<\infty$, a convergência dominada, aplicada às partes
+real e imaginária, dá
+\[
+\varphi^{(k)}(t_m)
+=\mathbb{E}\bigl[(iX)^k e^{it_mX}\bigr]
+\longrightarrow
+\mathbb{E}\bigl[(iX)^k e^{itX}\bigr]
+=\varphi^{(k)}(t).
+\]
+Logo $\varphi^{(k)}$ é contínua para cada $k\leqslant n$.
 \end{proof}
 
-Se $\mathbb{E}|X|^n<\infty$, então $\varphi$ é $n$ vezes derivável em $0$ e
+Tomando $t=0$ no teorema e usando $e^0=1$, obtemos
 \[
-\varphi^{(n)}(0)=\int (ix)^n\,\mu(dx)=\mathbb{E}\bigl[(iX)^n\bigr].
+\varphi^{(k)}(0)=i^k\,\mathbb{E}[X^k],
+\qquad 1\leqslant k\leqslant n.
 \]
-Em particular, $\varphi'(0)=i\,\mathbb{E}[X]$ e
-$\varphi''(0)=i^2\,\mathbb{E}[X^2]=-\,\mathbb{E}[X^2]$.
-As derivadas de $\varphi$ na origem codificam, portanto, os momentos de $X$,
-com um fator $i$ por ordem de derivação. Esse é o análogo exato da fórmula para
-a função geradora de momentos; a diferença, já comentada na abertura desta
-seção, é que $|e^{itx}|=1$, e nenhuma vizinhança de integrabilidade da
-exponencial real é necessária.
+Em particular, se $\mathbb{E}[|X|]<\infty$, então
+\[
+\varphi'(0)=i\,\mathbb{E}[X].
+\]
+Se $\mathbb{E}[X^2]<\infty$, temos também
+\[
+\varphi''(0)=i^2\,\mathbb{E}[X^2]=-\mathbb{E}[X^2].
+\]
+Nesse caso, a média é $\mathbb{E}[X]=-i\varphi'(0)$, e a variância é
+\[
+\begin{aligned}
+\operatorname{Var}(X)
+&=\mathbb{E}[X^2]-\bigl(\mathbb{E}[X]\bigr)^2
+\\[0.3cm]
+&=-\varphi''(0)-\bigl(-i\varphi'(0)\bigr)^2
+=-\varphi''(0)+\bigl(\varphi'(0)\bigr)^2.
+\end{aligned}
+\]
 
-Com as derivadas em mãos, obtemos a expansão de Taylor formal de $\varphi$ na
-origem: se $\mathbb{E}|X|^n<\infty$, então
-\begin{equation*}
-\varphi(t)=\sum_{m=0}^{n}\frac{\mathbb{E}\bigl[(itX)^m\bigr]}{m!}+o(t^n),
-\qquad\text{quando } t\to0 .
-\end{equation*}
-Aqui $o(t^n)$ designa uma função $g$ tal que $g(t)/t^n\to0$ quando $t\to0$, de
-modo que o erro da aproximação polinomial é de ordem menor que $t^n$. A
-expansão é apenas a fórmula de Taylor com resto de Peano aplicada a $\varphi$,
-usando $\varphi^{(m)}(0)=\mathbb{E}[(iX)^m]$ para $m\leqslant n$.
+Por exemplo, no \Cref{ex:rademacher} vimos que uma variável $R$ que assume
+$-1$ e $1$ com probabilidades iguais tem função característica
+$\varphi_R(t)=\cos t$. Como $\varphi_R'(0)=0$ e
+$\varphi_R''(0)=-1$, as fórmulas dão
+\[
+\mathbb{E}[R]=0,
+\qquad
+\mathbb{E}[R^2]=1,
+\]
+em acordo com o cálculo direto a partir da distribuição de $R$.
 
-O símbolo $o(t^n)$ não quantifica esse resto, e para os argumentos de
-convergência que faremos adiante precisamos de uma cota uniforme em uma classe
-de medidas. É o que a próxima subseção faz, e é o ingrediente que permitirá
-demonstrar o teorema central do limite por meio de funções características.
+A existência das derivadas também permite aproximar $\varphi$ perto da origem.
+Se $\mathbb{E}[|X|^n]<\infty$, aplicamos a fórmula de Taylor às partes real e
+imaginária de $\varphi$ e substituímos as derivadas pelos momentos:
+\[
+\varphi(t)
+=1+\sum_{k=1}^{n}\frac{(it)^k}{k!}\,\mathbb{E}[X^k]
++o(t^n),
+\qquad t\to0.
+\]
+Aqui $o(t^n)$ representa um resto cujo quociente por $t^n$ tende a zero
+quando $t\to0$. Em particular, se $\mathbb{E}[X^2]<\infty$,
+\[
+\varphi(t)
+=1+it\,\mathbb{E}[X]
+-\frac{t^2}{2}\,\mathbb{E}[X^2]+o(t^2).
+\]
+Para essa conclusão, não precisamos supor que o terceiro momento seja finito.
+
+Na próxima subseção, obteremos uma cota explícita para o resto da expansão da
+exponencial. Ela permitirá estimar o erro antes de tomar a esperança e será
+útil no estudo de somas de variáveis aleatórias.
 
 \subsection{Uma cota para o resto de Taylor}\label{subsec:resto-taylor}
 
@@ -2732,18 +2974,18 @@ e $|\varphi|^2$ também são funções características.
 \emph{Sugestão:} em cada caso, exiba uma variável aleatória cuja função
 característica seja a função pedida, trabalhando com cópias independentes de uma
 variável aleatória $X$ de função característica $\varphi$ e, no primeiro caso,
-com um sinal aleatório independente, usando a independência para fatorar as
-esperanças.
+com um sinal de Rademacher independente de $X$, usando a independência para
+fatorar as esperanças.
 \end{exercise}
 
 \begin{exercise}[Inversão para massas pontuais]\label{exercise:massa-pontual}
-Seja $X$ uma variável aleatória com função característica $\varphi$ e
-distribuição $\mu$.
+Seja $X$ uma variável aleatória com função característica $\varphi$.
 \begin{enumerate}
 \item[(i)] Imitando a prova do \Cref{thm:inversao}, mostre que, para todo
 $a\in\mathbb{R}$,
 \[
-\mu(\{a\}) = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}e^{-ita}\,\varphi(t)\,dt .
+\mathbb{P}(X=a)
+=\lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}e^{-ita}\,\varphi(t)\,dt .
 \]
 
 \item[(ii)] Suponha que $\mathbb{P}(X\in h\mathbb{Z})=1$ para algum $h>0$.
@@ -2773,47 +3015,46 @@ período. Em (iii), aplique (ii) a $Y=X-b$ e reúna os fatores exponenciais.
 
 \begin{exercise}[Média quadrática da função característica]%
 \label{exercise:media-quadrado}
-Sejam $X$ e $Y$ independentes, ambas com função característica $\varphi$ e
-distribuição $\mu$. Aplicando o \Cref{exercise:massa-pontual} à variável
-aleatória $X-Y$, conclua que
+Sejam $X$ e $Y$ independentes, ambas com função característica $\varphi$.
+Aplicando o \Cref{exercise:massa-pontual} à variável aleatória $X-Y$, conclua que
 \[
 \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}|\varphi(t)|^2\,dt
 = \mathbb{P}(X-Y=0)
-= \sum_{x}\mu(\{x\})^2 .
+= \sum_{x}\mathbb{P}(X=x)^2 .
 \]
-No último passo, use a expressão de $\mathbb{P}(X=Y)$ em termos das massas
-pontuais, vista nas notas de aula sobre variáveis aleatórias discretas, e a
-independência de $X$ e $Y$.
+A soma se estende aos valores $x$ com $\mathbb{P}(X=x)>0$, que são no máximo
+enumeráveis. No último passo, use a independência de $X$ e $Y$ para expressar
+$\mathbb{P}(X=Y)$ em termos dessas probabilidades pontuais.
 \end{exercise}
 
 \begin{remark}\label{rem:sem-massa-pontual}
 A conclusão do \Cref{exercise:media-quadrado} implica que, se
-$\varphi(t)\to 0$ quando $t\to\infty$, então $\mu$ não tem massas pontuais. De
-fato, nesse caso o integrando tende a zero em cada ponto e é limitado por $1$,
-de modo que a média em $[-T,T]$ também tende a zero; como
-$\sum_{x}\mu(\{x\})^2=0$ e todas as parcelas são não negativas, cada massa
-pontual se anula.
+$\varphi(t)\to0$ quando $t\to\infty$, então $\mathbb{P}(X=x)=0$ para todo
+$x\in\mathbb{R}$. De fato, nesse caso $|\varphi(t)|^2\to0$ quando
+$|t|\to\infty$, pois $\varphi(-t)=\overline{\varphi(t)}$. Como o integrando é
+limitado por $1$, sua média em $[-T,T]$ também tende a zero. Logo
+$\sum_x\mathbb{P}(X=x)^2=0$ e cada parcela se anula.
 
 O \Cref{exercise:cantor} mostra que a recíproca é falsa: uma distribuição pode
 não ter massas pontuais e, ainda assim, sua função característica não tender a
-zero no infinito. No sentido oposto, o lema de Riemann--Lebesgue afirma que, se
-$f\in L^1(\mathbb{R})$, então $\int_{\mathbb{R}}f(x)e^{itx}\,dx\to 0$ quando
-$|t|\to\infty$; em particular, se $\mu$ tem densidade $f$, então
+zero no infinito. Por outro lado, um resultado conhecido como lema de
+Riemann--Lebesgue garante que, se $X$ tem densidade $f$, então
 $\varphi(t)=\int_{\mathbb{R}}f(x)e^{itx}\,dx$ tende a zero quando
 $|t|\to\infty$.
 \end{remark}
 
 \begin{exercise}[Densidade com função característica não integrável]%
 \label{exercise:densidade-integral-divergente}
-Dê um exemplo de medida de probabilidade $\mu$ que tenha densidade mas para a
-qual
+Dê um exemplo de variável aleatória $X$ que tenha densidade e cuja função
+característica $\varphi$ satisfaça
 \[
 \int_{-\infty}^{\infty}|\varphi(t)|\,dt = \infty .
 \]
 \emph{Sugestão}: dois dos exemplos anteriores, a saber, o do
-\Cref{ex:uniforme} e o do \Cref{ex:exponencial}, têm essa propriedade. Em cada
-caso, determine o comportamento de $|\varphi(t)|$ para $|t|$ grande, compare-o
-com $1/|t|$ e conclua que a integral diverge.
+\Cref{ex:uniforme} e o do \Cref{ex:exponencial}, têm essa propriedade. Para a
+exponencial, compare $|\varphi(t)|$ com $1/|t|$ quando $|t|$ é grande. Para a
+uniforme em $(-1,1)$, examine os intervalos em que $|\sin t|$ está afastado de
+zero.
 \end{exercise}
 
 \begin{exercise}[Soma de variáveis uniformes independentes]%
@@ -2993,47 +3234,64 @@ compare os coeficientes das duas expressões de $\varphi$. Para os momentos
 \end{exercise}
 
 \begin{exercise}[Equicontinuidade das funções características]\label{exercise:equicontinuidade}
-Dizemos que uma família de medidas de probabilidade $\{\mu_i, i\in I\}$ é \emph{justa} se
+Dizemos que uma família de variáveis aleatórias $\{X_i:i\in I\}$ é
+\emph{condensada} se, para todo $\varepsilon>0$, existe $M>0$ tal que
 \[
-  \sup_{i\in I}\mu_i\bigl([-M,M]^c\bigr)\longrightarrow0 \qquad\text{quando } M\to\infty .
+\mathbb{P}(|X_i|>M)<\varepsilon
+\qquad\text{para todo }i\in I.
 \]
-Denotando por $\varphi_i$ a função característica de $\mu_i$, dizemos que a
-família $\{\varphi_i, i\in I\}$ é \emph{equicontínua} se, para todo
-$\varepsilon>0$, existir $\delta>0$ tal que $|h|<\delta$ implica
-$\bigl|\varphi_i(t+h)-\varphi_i(t)\bigr|<\varepsilon$ para todos $i\in I$ e
+Denotando por $\varphi_i$ a função característica de $X_i$, dizemos que a
+família $\{\varphi_i:i\in I\}$ é \emph{equicontínua} se, para todo
+$\varepsilon>0$, existe $\delta>0$ tal que $|h|<\delta$ implica
+$|\varphi_i(t+h)-\varphi_i(t)|<\varepsilon$ para todos $i\in I$ e
 $t\in\mathbb{R}$.
 
 \begin{enumerate}
-  \item[(i)] Suponha que $\{\mu_i, i\in I\}$ seja justa e mostre que $\{\varphi_i, i\in I\}$ é equicontínua. Pelo item~(d) do \Cref{thm:propriedades-fc},
-$\bigl|\varphi_i(t+h)-\varphi_i(t)\bigr|\leqslant\int|e^{ihy}-1|\,d\mu_i(y)$;
-a cota do resto de Taylor \eqref{eq:cota-resto-taylor} com $n=0$, isto é,
-$|e^{i\theta}-1|\leqslant|\theta|\wedge2$, aplicada a $\theta=hy$, dá então
-  \[
-    \bigl|\varphi_i(t+h)-\varphi_i(t)\bigr|\leqslant\int\bigl(|hy|\wedge2\bigr)\,d\mu_i(y).
-  \]
-Decomponha a integral em $\{|y|\leqslant M\}$, onde $|hy|\wedge2\leqslant|h|M$,
-e em $\{|y|>M\}$, onde $|hy|\wedge2\leqslant2$; o segundo pedaço fica limitado
-por $2\mu_i([-M,M]^c)$, uniformemente em $i$ pela justeza. Escolha $M$ e, em
-seguida, $\delta$ em função de $\varepsilon$.
+\item[(i)] Suponha que $\{X_i:i\in I\}$ seja condensada e mostre que
+$\{\varphi_i:i\in I\}$ é equicontínua.
 
-  \item[(ii)] Suponha que $\mu_n\Rightarrow\mu_\infty$ e denote por $\varphi_\infty$ a função característica de $\mu_\infty$. A família
-$\{\mu_n: n\in\mathbb{N}\}\cup\{\mu_\infty\}$ é justa (uma sequência
-fracamente convergente é justa, e o limite também), logo o item~(i) se aplica
-a ela; além disso, pelo \Cref{thm:continuidade},
-$\varphi_n(t)\to\varphi_\infty(t)$ para todo $t$. Conclua que
-$\varphi_n\to\varphi_\infty$ uniformemente sobre os compactos: dado um
-compacto, cubra-o por um número finito de intervalos de raio $\delta$
-centrados em $t_1,\dots,t_k$ e, para $t$ no intervalo de centro $t_j$, escreva
-  \[
-    \bigl|\varphi_n(t)-\varphi_\infty(t)\bigr|\leqslant\bigl|\varphi_n(t)-\varphi_n(t_j)\bigr|+\bigl|\varphi_n(t_j)-\varphi_\infty(t_j)\bigr|+\bigl|\varphi_\infty(t_j)-\varphi_\infty(t)\bigr|,
-  \]
-usando a equicontinuidade na primeira e na terceira parcelas e a convergência
-pontual nos pontos $t_j$ na parcela do meio. Argumente diretamente, sem
-invocar o teorema de Arzelà--Ascoli.
+\emph{Sugestão:} pelo item~(d) do \Cref{thm:propriedades-fc},
+\[
+|\varphi_i(t+h)-\varphi_i(t)|
+\leqslant\mathbb{E}\bigl[|e^{ihX_i}-1|\bigr].
+\]
+Use $|e^{i\theta}-1|\leqslant|\theta|\wedge2$, obtida em
+\eqref{eq:cota-resto-taylor}, para mostrar que, para todo $M>0$,
+\[
+|\varphi_i(t+h)-\varphi_i(t)|
+\leqslant |h|M+2\mathbb{P}(|X_i|>M).
+\]
+Escolha primeiro $M$ e depois $\delta$ em função de $\varepsilon$.
 
-  \item[(iii)] Dê um exemplo em que $\mu_n\Rightarrow\mu_\infty$, mas $\varphi_n$ não converge para $\varphi_\infty$ uniformemente em $\mathbb{R}$.
-(Sugestão: tome para $\mu_n$ a massa unitária concentrada no ponto $1/n$ e
-note que $\sup_{t\in\mathbb{R}}|e^{it/n}-1|=2$.)
+\item[(ii)] Suponha que $X_n\Rightarrow X_\infty$ e denote por
+$\varphi_\infty$ a função característica de $X_\infty$. Mostre que a
+família $\{X_n:n\in\mathbb{N}\}\cup\{X_\infty\}$ é condensada e conclua que
+$\varphi_n\to\varphi_\infty$ uniformemente sobre cada intervalo limitado.
+
+\emph{Sugestão:} para obter a condensação, escolha $M$ de modo que $-M$ e $M$
+sejam pontos de continuidade de $F_{X_\infty}$ e que
+$\mathbb{P}(|X_\infty|\geqslant M)$ seja pequena. Use a convergência das
+funções de distribuição e, depois, aumente $M$ para incluir os finitos
+índices iniciais. Aplique o item~(i) e o \Cref{thm:continuidade}. Dado um
+intervalo limitado, cubra-o por um número finito de intervalos de raio
+$\delta$, centrados em $t_1,\ldots,t_k$, e escreva
+\[
+\begin{aligned}
+|\varphi_n(t)-\varphi_\infty(t)|
+&\leqslant|\varphi_n(t)-\varphi_n(t_j)|
++|\varphi_n(t_j)-\varphi_\infty(t_j)|\\
+&\quad+|\varphi_\infty(t_j)-\varphi_\infty(t)|.
+\end{aligned}
+\]
+Use a equicontinuidade na primeira e na terceira parcelas e a convergência
+pontual em $t_j$ na parcela do meio.
+
+\item[(iii)] Dê um exemplo em que $X_n\Rightarrow X_\infty$, mas
+$\varphi_n$ não converge para $\varphi_\infty$ uniformemente em
+$\mathbb{R}$.
+
+\emph{Sugestão:} tome $X_n\equiv1/n$ e $X_\infty\equiv0$ e observe que
+$\sup_{t\in\mathbb{R}}|e^{it/n}-1|=2$.
 \end{enumerate}
 \end{exercise}
 
@@ -3141,33 +3399,45 @@ $c=-\frac{1}{2}\mathbb{E}[X^2]$.
 \end{exercise}
 
 \begin{exercise}[Convergência para zero]\label{exercise:convergencia-para-zero}
-Sejam $Y_1,Y_2,\dots$ variáveis aleatórias com funções características
+Sejam $Y_1,Y_2,\ldots$ variáveis aleatórias com funções características
 $\varphi_n$. Mostre que $Y_n\Rightarrow0$ se, e somente se, existe $\delta>0$
 tal que $\varphi_n(t)\to1$ para todo $t$ com $|t|\leqslant\delta$.
 
-\emph{Sugestão:} numa das direções use o \Cref{thm:continuidade}. Na outra,
-suponha a convergência apenas em $[-\delta,\delta]$. A cota de concentração
-\eqref{eq:cota-concentracao} com $u=\delta$ dá
+\emph{Sugestão:} numa das direções, use o \Cref{thm:continuidade}. Na outra,
+suponha a convergência apenas em $[-\delta,\delta]$. Pela cota
+\eqref{eq:cota-concentracao}, com $u=\delta$,
 \[
-\mathbb{P}\bigl(|Y_n|>2/\delta\bigr)
+\mathbb{P}\bigl(|Y_n|\geqslant2/\delta\bigr)
 \leqslant\frac{1}{\delta}\int_{-\delta}^{\delta}
-\bigl(1-\operatorname{Re}\varphi_n(t)\bigr)\,dt\longrightarrow0
-\qquad\text{quando }n\to\infty ,
+\bigl(1-\operatorname{Re}\varphi_n(t)\bigr)\,dt
+\longrightarrow0.
 \]
-e um único limiar não basta para a convergência em probabilidade. O que se
-obtém daí é a justeza: a mesma cota vale para todo limiar maior que $2/\delta$
-e, para os finitos índices iniciais, basta aumentar o limiar; logo, para cada
-$\varepsilon>0$ existe $M$ com $\mathbb{P}(|Y_n|>M)\leqslant\varepsilon$ para
-todo $n$. Seja então $\mu_{n(k)}\Rightarrow\nu$ uma subsequência convergente.
-Pelo \Cref{thm:continuidade}, $\varphi_\nu(t)=1$ para todo $t$ com
-$|t|\leqslant\delta$, isto é,
-$\int\bigl(1-\cos(tx)\bigr)\,d\nu(x)=0$. Fixado $t\neq0$, o conjunto
-$\{x:\cos(tx)=1\}=\{2\pi k/t:k\in\mathbb{Z}\}$ é enumerável, de modo que $\nu$
-está concentrada nele. Tomando dois valores $t_1,t_2$ desse intervalo cuja razão
-é irracional, as duas concentrações só podem ocorrer na interseção dos dois
-conjuntos, que é $\{0\}$; logo $\nu=\delta_0$. Todas as subsequências
-convergentes têm, portanto, o mesmo limite, e o argumento de subsequências da
-prova do \Cref{thm:continuidade} dá $Y_n\Rightarrow0$, o que equivale a
+Para justificar o limite da integral, use uma variável uniforme em
+$[-\delta,\delta]$ e a convergência de variáveis limitadas, como na prova do
+\Cref{thm:continuidade}.
+
+O controle em um único limiar, por si só, não mostra que $Y_n\to0$ em
+probabilidade. Ele mostra, porém, que $(Y_n)$ é condensada: para os índices
+suficientemente grandes, a probabilidade acima é pequena; para os finitos
+índices restantes, basta aumentar o limiar.
+
+Considere uma subsequência convergente em distribuição,
+$Y_{n_k}\Rightarrow Y$. Pelo \Cref{thm:continuidade}, a função característica
+de $Y$ satisfaz $\varphi_Y(t)=1$ para $|t|\leqslant\delta$. Logo, para cada
+um desses valores de $t$,
+\[
+\mathbb{E}\bigl[1-\cos(tY)\bigr]=1-\operatorname{Re}\varphi_Y(t)=0.
+\]
+Como a variável dentro da esperança é não negativa, $\cos(tY)=1$ quase
+certamente. Escolha dois valores não nulos $t_1,t_2\in[-\delta,\delta]$ cuja
+razão seja irracional. Os conjuntos
+$\{2\pi k/t_1:k\in\mathbb{Z}\}$ e $\{2\pi k/t_2:k\in\mathbb{Z}\}$ têm apenas
+$0$ em comum; portanto $Y=0$ quase certamente.
+
+Pelo \Cref{lem:selecao-condensada}, toda subsequência de $(Y_n)$ possui uma
+subsequência convergente em distribuição. O argumento anterior mostra que
+seu limite tem a distribuição da constante $0$. Como na prova do
+\Cref{thm:continuidade}, conclua que $Y_n\Rightarrow0$ e, portanto,
 $Y_n\to0$ em probabilidade.
 \end{exercise}
 
