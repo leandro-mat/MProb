@@ -486,10 +486,20 @@ $t\in I$ e quase todo $x\in(a,b)$.
 A prova da fórmula de inversão, na \Cref{sec:inversao}, depende do valor da
 integral imprópria
 \[
-\int_0^\infty \frac{\sin x}{x}\,dx .
+\int_0^\infty \frac{\sin x}{x}\,dx
 \]
-Esse é um fato clássico de cálculo, mas como todos os seus passos serão usados
-na prova do teorema, registramos o enunciado e a demonstração.
+conhecida como integral de Dirichlet. Na verdade,
+além de depender do valor desta integral a prova da fórmula da inversão
+usa argumentos semelhantes aos empregados para realizar o cálculo da integral de Dirichlet
+e por isto vamos dedicar uma seção inteira aos detalhes de como
+esta conta pode ser feita. 
+
+Vale a pena mencionar que existem outras maneiras de calcular a 
+integral de Dirichlet, como, por exemplo, por meio do 
+Teorema dos Resíduos da Análise Complexa. A rota que vamos seguir aqui
+foi escolhida porque ela apresenta em um contexto mais simples 
+as questões de convergência e de limitação que aparecem na prova da fórmula de inversão.
+
 
 \begin{lemma}[Integral de Dirichlet]\label{lem:dirichlet}
 \[
@@ -798,21 +808,23 @@ segue da definição de $h(\varepsilon)$ e da igualdade acima que
 \[
 h(\varepsilon)=\varepsilon\int_0^\infty e^{-\varepsilon x}F(x)\,dx .
 \]
-Essa fórmula tem uma interpretação que orienta o restante do argumento:
-$h(\varepsilon)$ é uma média ponderada dos valores de $F(x)$, com pesos
+Desta igualdade podemos interpretar $h(\varepsilon)$ como uma média ponderada dos valores de $F(x)$ pelos pesos
 $\varepsilon e^{-\varepsilon x}$, cuja integral total é
-\[
+\begin{align}\label{eq-pesos1}
 \int_0^\infty\varepsilon e^{-\varepsilon x}\,dx=1 .
+\end{align}
+Para ver que essa média ponderada converge para $L$, note que para cada $M>0$ fixado a
+contribuição dos pesos ao longo do intervalo $(0,M)$ é dada por
+\[
+\int_0^M\varepsilon e^{-\varepsilon x}\,dx=1-e^{-\varepsilon M},
 \]
-Quando $\varepsilon$ diminui, os pesos se concentram em valores cada vez
-maiores de $x$. Mais precisamente, para cada $M>0$ fixo, a massa atribuída
-a $(0,M)$ é $1-e^{-\varepsilon M}$, que tende a $0$. Como $F(x)$ se aproxima
-de $L$ para $x$ grande, esperamos que a média ponderada se aproxime de $L$.
-Vamos transformar essa intuição em uma estimativa.
+que tende a $0$ quando $\varepsilon\to0^+$. Portanto, à medida
+que $\varepsilon$ tende a zero, a contribuição dos valores de $F$ em
+intervalos limitados torna-se desprezível. Mas, por outro lado, os valores de $F(x)$
+para $x$ grande ficam arbitrariamente próximos de $L$. Esta observação é formalizada abaixo. 
 
-Fixe $\delta>0$. Como $F(x)\to L$, escolha $M>0$ tal que
-$|F(x)-L|\leqslant\delta$ para todo $x\geqslant M$. Usando que os pesos têm
-integral total $1$, podemos escrever
+Fixe $\delta>0$. Como $F(x)\to L$, quando $x\to\infty$, então podemos escolher $M>0$ tal que
+$|F(x)-L|\leqslant\delta$, para todo $x\geqslant M$. Usando a igualdade \eqref{eq-pesos1} temos
 \[
 L=\varepsilon\int_0^\infty e^{-\varepsilon x}L\,dx
 \]
