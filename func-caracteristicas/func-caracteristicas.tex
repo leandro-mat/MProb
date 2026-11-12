@@ -80,9 +80,9 @@ citecolor={red}, urlcolor={blue!80!black}]{hyperref}
 \hypersetup{
 pdftitle={Funções Características}, pdfauthor={L. Cioletti},
 pdfsubject={Função característica, fórmula de inversão, teorema da
-continuidade de Lévy, momentos e derivadas}, pdfkeywords={função característica,
+continuidade de Lévy}, pdfkeywords={função característica,
 fórmula de inversão, convergência fraca, teorema da continuidade de Lévy,
-momentos, MAT-UnB} }
+MAT-UnB} }
 
 % --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
 \usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
@@ -216,9 +216,8 @@ mostramos que ela determina completamente a distribuição de $X$. Demonstramos
 as propriedades elementares
 das funções características, a fórmula de inversão e o teorema da
 continuidade de Lévy, que relaciona a convergência fraca de distribuições com a
-convergência pontual das funções características correspondentes. Estudamos
-também a relação entre o comportamento de $\varphi_{X}$ na origem e os momentos de
-$X$. Calculamos explicitamente a função característica das
+convergência pontual das funções características correspondentes. Calculamos
+explicitamente a função característica das
 principais distribuições que aparecerão ao longo do curso. Estas notas incluem também 
 uma lista de exercícios. A exposição segue de perto a Seção 3.3 do Capítulo 3 da referência
 \cite{MR3930614}.
@@ -277,13 +276,12 @@ fato de permitirmos que a função $\varphi_{X}$ assuma valores no plano complex
 
 
 O objetivo destas notas é desenvolver a teoria básica das funções
-características em três frentes. Primeiro, mostramos que $\varphi_{X}$ determina completamente a
+características em duas frentes. Primeiro, mostramos que $\varphi_{X}$ determina completamente a
 distribuição de $X$ por meio da chamada fórmula de inversão.
 Em seguida, relacionamos a convergência em distribuição de uma sequência 
 de variáveis aleatórias com a convergência pontual da sequência de suas
 respectivas funções características, o que fornece uma das ferramentas mais eficientes para provar
-teoremas de convergência. Por fim, estudamos a relação entre o comportamento de
-$\varphi_{X}$ em uma vizinhança da origem e os momentos de $X$.
+teoremas de convergência.
 
 Estas notas estão organizadas da seguinte maneira. 
 A \Cref{sec:preliminares} reúne os fatos auxiliares
@@ -293,8 +291,7 @@ integral de Dirichlet, usados no restante do texto. A
 \Cref{sec:exemplos} calcula a função característica das principais
 distribuições do curso. A \Cref{sec:inversao} é dedicada à fórmula de inversão e
 a suas consequências. A \Cref{sec:continuidade} contém o teorema da
-continuidade de Lévy, e a \Cref{sec:momentos} trata da relação entre derivadas na
-origem e momentos. Os exercícios propostos estão reunidos na
+continuidade de Lévy. Os exercícios propostos estão reunidos na
 \Cref{sec:exercicios}.
 
 Os resultados destas notas pressupõem os conceitos e as técnicas desenvolvidos
@@ -2126,8 +2123,7 @@ módulo também não é derivável na origem: $|\varphi_X(t)|=e^{-|t|}$ tem o me
 Em ambos os exemplos as densidades são simétricas e as funções características
 resultantes são reais e pares, como previsto no \Cref{cor:fc-real}. Além disso,
 nenhuma das duas funções características é derivável em $t=0$, o que é coerente com a ausência
-de primeiro momento finito nessas distribuições; voltaremos a essa relação na
-\Cref{sec:momentos}.
+de primeiro momento finito nessas distribuições.
 
 \section{O Teorema da Continuidade de~Lévy}\label{sec:continuidade}
 
@@ -2142,9 +2138,40 @@ em todo ponto $x$ em que $F$ é contínua. As variáveis não precisam estar
 definidas no mesmo espaço de probabilidade: essa convergência depende apenas
 de suas funções de distribuição.
 
-Vamos relacionar a convergência em distribuição com a convergência das
-funções características. Para o sentido mais delicado, precisaremos controlar
-a probabilidade de as variáveis assumirem valores muito distantes da origem.
+
+Na \Cref{sec:inversao}, vimos que a função característica determina unicamente a
+distribuição de uma variável aleatória: $F_X=F_Y$ se, e somente se,
+$\varphi_X(t)=\varphi_Y(t)$ para todo $t\in\mathbb{R}$. O objetivo desta seção é
+mostrar que essa correspondência também é compatível com a passagem ao limite.
+Mais precisamente, queremos responder a duas perguntas complementares:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item Se $X_n\Rightarrow X$, podemos concluir que
+$\varphi_{X_n}(t)\to\varphi_X(t)$ para todo $t\in\mathbb{R}$?
+\item Reciprocamente, se para todo $t\in\mathbb{R}$ a sequência
+$\varphi_{X_n}(t)$ converge para uma função $\varphi(t)$, sob quais condições
+podemos garantir que existe uma variável aleatória $X$ tal que $X_n\Rightarrow X$
+e $\varphi_X=\varphi$?
+\end{enumerate}
+
+A primeira pergunta tem uma resposta direta: como
+$\varphi_{X_n}(t)=\mathbb{E}[e^{itX_n}]$ é a esperança de uma função contínua e
+limitada de $X_n$, veremos que a convergência das funções de distribuição
+implica a convergência dessas esperanças.
+
+A segunda pergunta é a mais importante nas aplicações, pois calcular funções
+características de somas de variáveis independentes é muito mais simples do que
+calcular suas funções de distribuição. Ela é, contudo, mais delicada. Quando
+tentamos construir uma distribuição limite a partir da sequência $(F_n)$, surge
+um obstáculo natural: parte da massa de probabilidade de $X_n$ poderia escapar
+para $\pm\infty$ à medida que $n$ cresce (pense, por exemplo, na sequência
+determinística $X_n=n$, em que $F_n(x)\to0$ para todo $x\in\mathbb{R}$, e a
+função limite identicamente nula não é função de distribuição de nenhuma variável
+aleatória).
+
+Para impedir que a probabilidade escape para o infinito, precisamos garantir que
+toda a sequência $(X_n)$ permaneça concentrada, com probabilidade arbitrariamente
+próxima de $1$, dentro de um mesmo intervalo limitado $[-M,M]$. Essa propriedade
+uniforme de controle das caudas motiva a definição a seguir.
 
 \begin{definition}[Sequência condensada]\label{def:sequencia-condensada}
 Dizemos que uma sequência de variáveis aleatórias $(X_n)_{n\geqslant1}$ é
@@ -2161,27 +2188,16 @@ todos os índices $n$. Esse tipo de sequência é conhecido também na literatur
 como ``\emph{tight}''. Alguns autores traduzem essa expressão para o português
 como ``sequência apertada'' ou ``sequência justa''.
 
-\begin{theorem}[Teorema da Continuidade de Lévy]\label{thm:continuidade}
-Sejam $X_1,X_2,\ldots$ variáveis aleatórias reais, e denote por
-$\varphi_{X_n}$ a função característica de $X_n$, para cada $n$.
 
-\begin{enumerate}[label=\textup{(\roman*)}]
-\item Se $X_n\Rightarrow X$, então
-$\varphi_{X_n}(t)\to\varphi_X(t)$ para todo $t\in\mathbb{R}$.
+\bigskip 
 
-\item Se $\varphi_{X_n}(t)\to\varphi(t)$ para todo $t\in\mathbb{R}$, para uma
-função $\varphi$ contínua em $0$, então existe uma variável aleatória $X$ tal que
-$X_n\Rightarrow X$ e $\varphi=\varphi_X$. Além disso, $(X_n)$ é condensada.
-\end{enumerate}
-\end{theorem}
-
-No item (ii), $\varphi$ é inicialmente apenas uma função limite. Uma das conclusões
-do teorema é que esta função limite é função característica de alguma variável aleatória.
-
-Na prova, usaremos dois fatos sobre convergência em distribuição. O primeiro
-permite passar das funções de distribuição às esperanças de funções limitadas
-e contínuas. O segundo mostra que uma sequência condensada possui uma
-subsequência convergente em distribuição.
+Antes de enunciar e demonstrar o resultado principal desta seção, estabelecemos
+três lemas auxiliares. O primeiro permite passar da convergência das funções de
+distribuição à convergência das esperanças de funções contínuas e limitadas. O
+segundo mostra que toda sequência condensada possui uma subsequência que
+converge em distribuição. O terceiro fornece uma estimativa para as caudas de
+uma variável aleatória em termos do comportamento de sua função característica
+próximo da origem.
 
 \begin{lemma}[Esperanças e convergência em distribuição]\label{lem:dist-esperancas-limitadas}
 Se $X_n\Rightarrow X$ e $h:\mathbb{R}\to\mathbb{C}$ é contínua e limitada,
@@ -2192,10 +2208,45 @@ então
 \end{lemma}
 
 \begin{proof}
-A ideia é aproximar $h$ por uma função constante em cada intervalo de uma
-partição, como ilustra a \Cref{fig:aprox-funcao-escada-esperanca}. 
+Antes de iniciar a aproximação, recordamos o sentido da esperança neste
+enunciado. Nas notas de aula sobre funções geradoras de momentos, usamos a
+fórmula de cauda para definir a esperança de uma variável aleatória não
+negativa $Y$:
+\[
+\mathbb{E}[Y]=\int_0^\infty\mathbb{P}(Y>t)\,dt.
+\]
+Para uma variável real $Y$ de sinal qualquer, escrevemos
+$Y^+=\max\{Y,0\}$ e $Y^-=\max\{-Y,0\}$, e definimos
+$\mathbb{E}[Y]=\mathbb{E}[Y^+]-\mathbb{E}[Y^-]$ quando as duas esperanças
+são finitas. Em particular, se $|Y|\leqslant C$, essas esperanças são
+finitas, pois as probabilidades nas integrais de cauda se anulam para
+$t\geqslant C$. Pela mesma razão, $\mathbb{E}[|Y|]\leqslant C$, de modo que
+$Y$ é integrável. Essa definição não exige que $Y$ seja discreta ou tenha
+densidade.
 
-\begin{figure}[H]
+Para um evento $A$, temos $\{\mathds{1}_A>t\}=A$ se $0\leqslant t<1$ e
+$\{\mathds{1}_A>t\}=\varnothing$ se $t\geqslant1$. Logo, a fórmula de cauda dá
+\[
+\mathbb{E}[\mathds{1}_A]
+=\int_0^\infty\mathbb{P}(\mathds{1}_A>t)\,dt
+=\int_0^1\mathbb{P}(A)\,dt
+=\mathbb{P}(A).
+\]
+Também usaremos a monotonicidade e a linearidade da esperança para variáveis
+integráveis. A monotonicidade decorre da comparação das probabilidades nas
+integrais de cauda; a linearidade no caso geral foi admitida nas notas citadas.
+
+Vamos primeiro demonstrar o resultado para $h:\mathbb{R}\to\mathbb{R}$.
+Fixe $\varepsilon>0$ e seja $B$ uma constante com $|h(x)|\leqslant B$ para
+todo $x$. A ideia é aproximar $h$ por uma função escada $g$, constante em
+cada intervalo de uma partição de $[-R,R]$, como na
+\Cref{fig:aprox-funcao-escada-esperanca}. A esperança de $g(X_n)$ será uma
+soma de probabilidades de intervalos, que podemos calcular usando as funções
+de distribuição de $X_n$. Escolheremos $R$ e a partição de modo que
+$|h(x)-g(x)|<\varepsilon$ em $(-R,R]$ e que $X$ e, para $n$ suficientemente
+grande, $X_n$ estejam nesse intervalo com probabilidade próxima de $1$.
+
+\begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
   x=1.2cm, y=1.2cm,
@@ -2334,70 +2385,197 @@ partição, como ilustra a \Cref{fig:aprox-funcao-escada-esperanca}.
       {Partição de $[-R, R]$};
 
 \end{tikzpicture}
-\caption{Aproximação da função contínua e limitada $h$ pela função escada $g$ na partição de $[-R, R]$. Em cada degrau $(x_{j-1}, x_j]$, a função $g$ vale a constante $h(x_j)$, com extremidade esquerda aberta e direita fechada, o que garante $|h(x)-g(x)|<\varepsilon$. Fora de $(-R, R]$, a função $g$ se anula e o erro pontual é majorado por $B$. 
-A probabilidade acumulada nas caudas é estritamente menor do que $\varepsilon$.}
+\caption{Aproximação da função contínua e limitada $h$ pela função escada $g$ na partição de $[-R, R]$. Em cada degrau $(x_{j-1}, x_j]$, a função $g$ vale a constante $h(x_j)$, com extremidade esquerda aberta e direita fechada, o que garante $|h(x)-g(x)|<\varepsilon$. Fora de $(-R, R]$, a função $g$ se anula e o erro pontual é majorado por $B$.
+A probabilidade de $X$ ficar fora desse intervalo é menor que $\varepsilon$.}
 \label{fig:aprox-funcao-escada-esperanca}
 \end{figure}
 
-Nesses intervalos, as probabilidades podem ser escritas por meio
-das funções de distribuição.
+Sejam $F_n$ e $F$ as funções de distribuição de $X_n$ e $X$. Se as variáveis
+estão definidas em espaços de probabilidade diferentes, as probabilidades e
+esperanças são tomadas no espaço correspondente a cada variável.
 
-Sejam $F_n$ e $F$ as funções de distribuição de $X_n$ e $X$, e seja $B$
-uma constante com $|h(x)|\leqslant B$ para todo $x$. Dado $\varepsilon>0$,
-escolhemos $R>0$ de modo que $-R$ e $R$ sejam pontos de continuidade de $F$ e
+Escolhemos $R>0$ de modo que $-R$ e $R$ sejam pontos de continuidade de $F$ e
 \[
 \mathbb{P}(|X|\geqslant R)<\varepsilon.
 \]
-Essa escolha é possível porque as caudas de $X$ tendem a zero e $F$ tem no
+As probabilidades $\mathbb{P}(|X|\geqslant r)$ tendem a zero quando
+$r\to\infty$, pela continuidade da probabilidade. Além disso, $F$ tem no
 máximo uma quantidade enumerável de pontos de descontinuidade. De fato, cada
 descontinuidade é um salto de tamanho $\mathbb{P}(X=x)>0$, e para cada inteiro
-$m\geqslant1$ há apenas uma quantidade finita de saltos de tamanho pelo menos
-$1/m$.
+$k\geqslant1$ há apenas uma quantidade finita de saltos de tamanho pelo menos
+$1/k$. O conjunto dos valores $r>0$ para os quais $r$ ou $-r$ é um ponto de
+descontinuidade de $F$ também é enumerável. Como todo intervalo não trivial
+contém pontos fora desse conjunto, podemos escolher $R$ suficientemente
+grande com as propriedades desejadas.
 
-Como $h$ é uniformemente contínua em $[-R,R]$, podemos escolher uma partição
+Como $h$ é uniformemente contínua em $[-R,R]$, existe $\delta>0$ tal que
+$|h(x)-h(y)|<\varepsilon$ sempre que $x,y\in[-R,R]$ e $|x-y|<\delta$.
+Como os pontos de continuidade de $F$ são densos em $\mathbb{R}$, podemos
+escolher uma partição de $[-R,R]$ cujos extremos sejam pontos de continuidade
+de $F$ e cujos intervalos tenham comprimento menor que $\delta$. Escrevemos
+seus pontos como
 \[
--R=x_0<x_1<\cdots<x_m=R
+-R=x_0<x_1<\cdots<x_m=R.
 \]
-cujos pontos sejam de continuidade de $F$ e tal que
-$|h(x)-h(y)|<\varepsilon$ sempre que $x$ e $y$ pertencem ao mesmo intervalo
-$(x_{j-1},x_j]$. Definimos
+Definimos a função escada por
 \[
 g(x)\equiv\sum_{j=1}^{m}h(x_j)\mathds{1}_{(x_{j-1},x_j]}(x).
 \]
-Fora de $(-R,R]$, temos $g(x)=0$. Assim,
+Em $(-R,R]$, todo ponto $x$ pertence a um único intervalo $(x_{j-1},x_j]$,
+no qual $g(x)=h(x_j)$ e $|h(x)-g(x)|<\varepsilon$. Fora de $(-R,R]$, temos
+$g(x)=0$ e $|h(x)-g(x)|=|h(x)|\leqslant B$. Logo, para todo $x\in\mathbb{R}$,
+\[
+|h(x)-g(x)|
+\leqslant\varepsilon\,\mathds{1}_{(-R,R]}(x)
++B\,\mathds{1}_{\mathbb{R}\setminus(-R,R]}(x)
+\leqslant\varepsilon+B\,\mathds{1}_{\mathbb{R}\setminus(-R,R]}(x).
+\]
+A continuidade de $h$ e a expressão de $g$ mostram que ambas são
+Borel-mensuráveis. Como também são limitadas, $h(Y)$, $g(Y)$ e
+$h(Y)-g(Y)$ são variáveis aleatórias integráveis, tanto para $Y=X_n$ como
+para $Y=X$. Aplicando a desigualdade acima a $X_n$ e usando o
+\Cref{lem:esperanca-modulo}, a monotonicidade, a linearidade e a identidade
+$\mathbb{E}[\mathds{1}_A]=\mathbb{P}(A)$, obtemos
 \begin{align*}
 \bigl|\mathbb{E}[h(X_n)]-\mathbb{E}[g(X_n)]\bigr|
 &\leqslant\mathbb{E}\bigl[|h(X_n)-g(X_n)|\bigr]\\[0.3cm]
 &\leqslant\varepsilon+B\,\mathbb{P}\bigl(X_n\notin(-R,R]\bigr).
 \end{align*}
-A mesma estimativa vale para $X$. Além disso,
+A mesma estimativa vale para $X$. Como
+\[
+\{X\notin(-R,R]\}=\{X\leqslant -R\}\cup\{X>R\}
+\subseteq\{|X|\geqslant R\},
+\]
+a escolha de $R$ fornece
+\begin{equation}\label{eq:erro-aprox-X}
+\bigl|\mathbb{E}[h(X)]-\mathbb{E}[g(X)]\bigr|
+\leqslant\varepsilon+B\,\mathbb{P}\bigl(X\notin(-R,R]\bigr)
+\leqslant\varepsilon+B\,\mathbb{P}(|X|\geqslant R)
+<(1+B)\varepsilon.
+\end{equation}
+
+Para calcular a esperança de $g(X_n)$, usamos sua expressão como soma finita
+de indicadoras. Pela linearidade e pela relação
+$\mathbb{P}(a<X_n\leqslant b)=F_n(b)-F_n(a)$, estabelecida nas notas de aula
+sobre funções de distribuição, temos
 \begin{align*}
 \mathbb{E}[g(X_n)]
 &=\sum_{j=1}^{m}h(x_j)\,
 \mathbb{P}(x_{j-1}<X_n\leqslant x_j)\\[0.3cm]
-&=\sum_{j=1}^{m}h(x_j)\bigl(F_n(x_j)-F_n(x_{j-1})\bigr)\\[0.3cm]
-&\longrightarrow
-\sum_{j=1}^{m}h(x_j)\bigl(F(x_j)-F(x_{j-1})\bigr)
-=\mathbb{E}[g(X)].
+&=\sum_{j=1}^{m}h(x_j)\bigl(F_n(x_j)-F_n(x_{j-1})\bigr).
 \end{align*}
-A convergência vale porque todos os extremos da partição são pontos de
-continuidade de $F$.
+Como todos os extremos $x_0,x_1,\ldots,x_m$ da partição são pontos de
+continuidade de $F$, a hipótese $X_n\Rightarrow X$ garante que
+$F_n(x_j)\to F(x_j)$ para cada $j=0,1,\ldots,m$. Pelas propriedades algébricas
+de limites de sequências, a soma finita acima converge para
+\[
+\sum_{j=1}^{m}h(x_j)\bigl(F(x_j)-F(x_{j-1})\bigr).
+\]
+Para identificar essa soma com $\mathbb{E}[g(X)]$, substituímos $X$ na
+definição de $g$:
+\[
+g(X)=\sum_{j=1}^{m}h(x_j)\,
+\mathds{1}_{\{x_{j-1}<X\leqslant x_j\}}.
+\]
+Pela linearidade da esperança e pela identidade para indicadoras que
+recordamos no início da prova, temos
+\begin{align*}
+\mathbb{E}[g(X)]
+&=\sum_{j=1}^{m}h(x_j)\,
+\mathbb{E}\bigl[\mathds{1}_{\{x_{j-1}<X\leqslant x_j\}}\bigr]\\[0.3cm]
+&=\sum_{j=1}^{m}h(x_j)\,
+\mathbb{P}(x_{j-1}<X\leqslant x_j)\\[0.3cm]
+&=\sum_{j=1}^{m}h(x_j)\bigl(F(x_j)-F(x_{j-1})\bigr).
+\end{align*}
+Na última igualdade, usamos que
+$\mathbb{P}(x_{j-1}<X\leqslant x_j)=F(x_j)-F(x_{j-1})$.
+Portanto, $\mathbb{E}[g(X_n)]\to\mathbb{E}[g(X)]$.
 
-Por fim, a probabilidade de ficar fora de $(-R,R]$ também converge:
+Pela definição de limite de sequência, existe $N_1\in\mathbb{N}$ tal que
+\begin{equation}\label{eq:erro-g-Xn-X}
+\bigl|\mathbb{E}[g(X_n)]-\mathbb{E}[g(X)]\bigr|<\varepsilon
+\qquad\text{para todo }n\geqslant N_1.
+\end{equation}
+
+Por fim, o evento $\{X_n\notin(-R,R]\}$ é a união disjunta de
+$\{X_n\leqslant -R\}$ e $\{X_n>R\}$. Pela aditividade de $\mathbb{P}$ e por
+$\mathbb{P}(X_n>R)=1-F_n(R)$, segue que
 \[
 \mathbb{P}\bigl(X_n\notin(-R,R]\bigr)
-=F_n(-R)+1-F_n(R)
-\longrightarrow
-F(-R)+1-F(R)
-\leqslant\mathbb{P}(|X|\geqslant R)<\varepsilon.
+=\mathbb{P}(X_n\leqslant -R)+\mathbb{P}(X_n>R)
+=F_n(-R)+1-F_n(R).
 \]
-Combinando as estimativas,
+Como $-R$ e $R$ são pontos de continuidade de $F$, a hipótese
+$X_n\Rightarrow X$ garante que $F_n(-R)\to F(-R)$ e $F_n(R)\to F(R)$.
+Pelas regras de limites de sequências, segue que
 \[
-\limsup_{n\to\infty}
-\bigl|\mathbb{E}[h(X_n)]-\mathbb{E}[h(X)]\bigr|
-\leqslant2\varepsilon+2B\varepsilon.
+\lim_{n\to\infty}\bigl(F_n(-R)+1-F_n(R)\bigr)
+=F(-R)+1-F(R).
 \]
-Como $\varepsilon>0$ é arbitrário, a prova está completa.
+Como a expressão dentro do limite é igual a
+$\mathbb{P}\bigl(X_n\notin(-R,R]\bigr)$ para cada $n$, essa sequência de
+probabilidades também converge e
+\[
+\lim_{n\to\infty}\mathbb{P}\bigl(X_n\notin(-R,R]\bigr)
+=F(-R)+1-F(R).
+\]
+Para identificar esse limite, usamos a mesma decomposição de eventos para
+$X$. A escolha de $R$ garante, então, que
+\begin{align*}
+F(-R)+1-F(R)
+&=\mathbb{P}(X\leqslant -R)+\mathbb{P}(X>R)
+\\[0.2cm]
+&=\mathbb{P}\bigl(X\notin(-R,R]\bigr)
+\leqslant\mathbb{P}(|X|\geqslant R)
+\\[0.2cm]
+&<\varepsilon.
+\end{align*}
+Como o limite $F(-R)+1-F(R)$ é estritamente menor que $\varepsilon$, tomando a
+tolerância positiva $\eta\equiv\varepsilon-\bigl(F(-R)+1-F(R)\bigr)>0$ na
+definição de convergência de sequência, obtemos $N_2\in\mathbb{N}$ tal que
+\[
+\mathbb{P}\bigl(X_n\notin(-R,R]\bigr)<\varepsilon
+\qquad\text{para todo }n\geqslant N_2.
+\]
+Logo, para todo $n\geqslant N_2$,
+\begin{align}\label{eq:erro-aprox-Xn}
+\bigl|\mathbb{E}[h(X_n)]-\mathbb{E}[g(X_n)]\bigr|
+&\leqslant\varepsilon+B\,\mathbb{P}\bigl(X_n\notin(-R,R]\bigr)
+\nonumber\\[0.2cm]
+&<(1+B)\varepsilon.
+\end{align}
+
+Seja $N=\max\{N_1,N_2\}$. Para todo $n\geqslant N$, a desigualdade triangular e
+as estimativas \eqref{eq:erro-aprox-X}, \eqref{eq:erro-g-Xn-X} e
+\eqref{eq:erro-aprox-Xn} fornecem
+\begin{align*}
+\bigl|\mathbb{E}[h(X_n)]-\mathbb{E}[h(X)]\bigr|
+&\leqslant
+\bigl|\mathbb{E}[h(X_n)]-\mathbb{E}[g(X_n)]\bigr|
++\bigl|\mathbb{E}[g(X_n)]-\mathbb{E}[g(X)]\bigr|
+\\[0.4cm]
+&\qquad+\bigl|\mathbb{E}[g(X)]-\mathbb{E}[h(X)]\bigr|\\[0.4cm]
+&<(1+B)\varepsilon+\varepsilon+(1+B)\varepsilon\\[0.4cm]
+&=(3+2B)\varepsilon.
+\end{align*}
+Como $B$ não depende de $\varepsilon$, dada uma tolerância $\alpha>0$, basta
+tomar $\varepsilon=\alpha/(3+2B)$ para concluir que
+$\mathbb{E}[h(X_n)]\to\mathbb{E}[h(X)]$ no caso real.
+
+Por fim, se $h:\mathbb{R}\to\mathbb{C}$, suas partes real e imaginária são
+funções reais contínuas e limitadas. Aplicando a cada uma delas o resultado
+que acabamos de demonstrar, obtemos a convergência das esperanças das partes
+real e imaginária. Pela definição de esperança complexa da
+\Cref{def:va-complexa} e pelas propriedades dos limites, concluímos que
+\begin{align*}
+\lim_{n\to\infty}\mathbb{E}[h(X_n)]
+&=\lim_{n\to\infty}\mathbb{E}[\operatorname{Re}h(X_n)]
++i\lim_{n\to\infty}\mathbb{E}[\operatorname{Im}h(X_n)]\\[0.3cm]
+&=
+\mathbb{E}[\operatorname{Re}h(X)]
++i\,\mathbb{E}[\operatorname{Im}h(X)]\\[0.3cm]
+&=\mathbb{E}[h(X)].
+\end{align*}
 \end{proof}
 
 \begin{lemma}[Seleção de uma subsequência]\label{lem:selecao-condensada}
@@ -2406,85 +2584,262 @@ distribuição para alguma variável aleatória real.
 \end{lemma}
 
 \begin{proof}
-Vamos construir primeiro uma candidata à função de distribuição limite.
-Escreva $F_n(x)=\mathbb{P}(X_n\leqslant x)$ e enumere os racionais como
-$q_1,q_2,\ldots$. Como $0\leqslant F_n(q_1)\leqslant1$, podemos escolher uma
-subsequência ao longo da qual $F_n(q_1)$ converge. Dessa subsequência,
-escolhemos outra ao longo da qual $F_n(q_2)$ converge, e assim por diante.
+Primeiro escolheremos uma subsequência cujas funções de distribuição
+convergem em todos os racionais. A partir desses limites, construiremos uma
+candidata para a função de distribuição limite. Em seguida, usaremos a
+condensação para verificar seus limites no infinito e mostraremos que a
+subsequência escolhida converge em distribuição.
 
-Tomando o $k$-ésimo termo da $k$-ésima subsequência, obtemos uma subsequência
-$(X_{n_k})$ tal que, para cada $q\in\mathbb{Q}$, existe o limite
+\smallskip
+\noindent\textbf{1. Convergência nos racionais.}
+Escreva $F_n(x)=\mathbb{P}(X_n\leqslant x)$ e enumere os racionais como
+$q_1,q_2,\ldots$. Como a sequência $(F_n(q_1))$ está contida em $[0,1]$, o
+Teorema de Bolzano--Weierstrass permite escolher um conjunto infinito de
+índices $I_1\subseteq\mathbb{N}$ tal que $F_n(q_1)$ converge quando $n$
+percorre $I_1$ em ordem crescente. Aplicando o mesmo argumento à sequência
+de valores $F_n(q_2)$ com $n\in I_1$, obtemos um conjunto infinito
+$I_2\subseteq I_1$ ao longo do qual esses valores convergem. A convergência
+em $q_1$ é preservada, pois restringimos os índices a um subconjunto de $I_1$,
+como ilustra a \Cref{fig:selecao-indices-racionais}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  x=0.62cm, y=1cm,
+  font=\small,
+  reta/.style={-{Stealth[length=2mm]}, draw=black!65, semithick}
+]
+\draw[reta] (0.3,1.6) -- (13.6,1.6);
+\draw[reta] (0.3,0) -- (13.6,0);
+\node[left] at (0.1,1.6) {$I_1$};
+\node[left] at (0.1,0) {$I_2$};
+
+% As linhas pontilhadas ligam os índices preservados na segunda escolha.
+\foreach \indice in {2,5,8,12} {
+  \draw[teal!65, densely dashed] (\indice,1.52) -- (\indice,0.08);
+}
+\foreach \indice in {1,4,7,10} {
+  \fill[black!60] (\indice,1.6) circle (2.2pt);
+}
+\foreach \indice in {2,5,8,12} {
+  \fill[teal] (\indice,1.6) circle (2.2pt);
+  \fill[teal] (\indice,0) circle (2.2pt);
+}
+\foreach \indice in {1,2,4,5,7,8,10,12} {
+  \node[above=3pt, font=\scriptsize] at (\indice,1.6) {$\indice$};
+}
+\foreach \indice in {2,5,8,12} {
+  \node[below=3pt, font=\scriptsize] at (\indice,0) {$\indice$};
+}
+\node[above=2pt] at (13,1.6) {$\cdots$};
+\node[below=2pt] at (13,0) {$\cdots$};
+
+\node[anchor=west, align=left] at (14,1.6)
+  {$F_n(q_1)$ converge};
+\node[anchor=west, align=left] at (14,0)
+  {$F_n(q_1)$ e $F_n(q_2)$\\convergem};
+\end{tikzpicture}
+\caption{Exemplo esquemático de duas escolhas de índices. As linhas
+pontilhadas ligam os índices de $I_2$ aos mesmos índices em $I_1$. Os números
+são ilustrativos: ambos os conjuntos são infinitos, mas apenas alguns de seus
+índices estão representados.}
+\label{fig:selecao-indices-racionais}
+\end{figure}
+
+Repetindo o procedimento, obtemos conjuntos infinitos de índices encaixados:
 \[
-G(q)\equiv\lim_{k\to\infty}F_{n_k}(q).
+I_1\supseteq I_2\supseteq I_3\supseteq\cdots.
 \]
-A função $G$ é não decrescente nos racionais. Para estendê-la à reta,
-definimos
+Para cada $j$, a sequência de valores $F_n(q_j)$ converge quando $n$
+percorre $I_j$ em ordem crescente.
+
+Vamos escolher uma única sequência crescente de índices a partir desses
+conjuntos. Tome $n_1\in I_1$. Como $I_2$ é um conjunto infinito de números
+naturais, ele contém índices maiores que $n_1$. Escolhemos um deles e o
+denotamos por $n_2$; assim,
+\[
+n_2\in I_2\subseteq I_1,
+\qquad
+n_2>n_1.
+\]
+Continuando da mesma maneira, para cada $k\geqslant3$, depois de escolher
+$n_{k-1}$, escolhemos $n_k\in I_k$ tal que $n_k>n_{k-1}$. Essa escolha é
+possível porque cada $I_k$ é infinito e, portanto, contém números
+arbitrariamente grandes. Este método é conhecido como método da diagonal de Cantor.
+
+Fixado $j$, o encaixe dos conjuntos garante que $I_k\subseteq I_j$ para
+$k\geqslant j$. Logo,
+\[
+n_k\in I_j\qquad\text{para todo }k\geqslant j.
+\]
+Como os índices $n_k$ são crescentes, os valores $F_{n_k}(q_j)$ formam, a
+partir de $k=j$, uma subsequência convergente dos valores com índices em
+$I_j$. Portanto, $(F_{n_k}(q_j))$ converge. Como todo racional aparece na
+lista, podemos definir
+\[
+G(q)\equiv\lim_{k\to\infty}F_{n_k}(q),\qquad q\in\mathbb{Q}.
+\]
+Passando ao limite nas desigualdades satisfeitas pelas funções $F_{n_k}$,
+vemos que $G$ toma valores em $[0,1]$ e é não decrescente nos racionais:
+\[
+0\leqslant G(p)\leqslant G(q)\leqslant1
+\qquad\text{se }p,q\in\mathbb{Q}\text{ e }p\leqslant q.
+\]
+
+\smallskip
+\noindent\textbf{2. Construção da função candidata.}
+Os limites acima estão definidos apenas nos racionais. Para construir uma
+função na reta que seja contínua à direita, usamos os valores de $G$ à
+direita de cada ponto e definimos
 \[
 F(x)\equiv\inf_{\substack{q\in\mathbb{Q}\\q>x}}G(q),
 \qquad x\in\mathbb{R}.
 \]
-A função $F$ é não decrescente e contínua à direita. Para verificar a
-continuidade, dado $\varepsilon>0$, escolha $q>x$ racional com
-$G(q)<F(x)+\varepsilon$. Se $x<y<q$, então
+Esse ínfimo existe, pois há racionais maiores que $x$ e todos os valores de
+$G$ pertencem a $[0,1]$. Em particular, $0\leqslant F(x)\leqslant1$.
+Se $x<y$, o conjunto dos racionais maiores que $y$ está contido no conjunto
+dos racionais maiores que $x$. Portanto, ao tomar os ínfimos, obtemos
 \[
-F(x)\leqslant F(y)\leqslant G(q)<F(x)+\varepsilon.
+F(x)\leqslant F(y).
+\]
+Logo, $F$ é não decrescente.
+
+Em geral, $F$ não precisa coincidir com $G$ nos racionais. Por exemplo, se
+$X_n\equiv1/n$, então $F_n(0)=0$, enquanto, para cada racional $q>0$,
+$F_n(q)=1$ para $n$ suficientemente grande. Nesse caso, $G(0)=0$, mas
+$G(q)=1$ para todo racional $q>0$ e, portanto, $F(0)=1$.
+
+Vamos verificar a \emph{semicontinuidade superior} de $F$: dado um ponto $x$
+e uma tolerância $\varepsilon>0$, queremos mostrar que
+$F(y)<F(x)+\varepsilon$ quando $y$ está suficientemente próximo de $x$.
+Pela definição de ínfimo, existe um racional $q>x$ tal que
+\[
+G(q)<F(x)+\varepsilon.
+\]
+Sempre que $y<q$, esse mesmo racional pertence ao conjunto usado para
+definir $F(y)$. Consequentemente,
+\[
+F(y)\leqslant G(q)<F(x)+\varepsilon,\qquad y<q.
+\]
+Tomando $\delta=q-x>0$, essa desigualdade vale em particular quando
+$|y-x|<\delta$, o que demonstra a semicontinuidade superior em $x$.
+
+Para obter a continuidade à direita, usamos também que $F$ é não
+decrescente. Se $x<y<x+\delta$, temos
+\[
+0\leqslant F(y)-F(x)<\varepsilon.
+\]
+Como $\varepsilon>0$ é arbitrário, concluímos que
+\[
+\lim_{y\downarrow x}F(y)=F(x).
+\]
+O ponto $x$ é arbitrário, portanto $F$ é contínua à direita. Ela pode, ainda
+assim, ter descontinuidades à esquerda.
+
+\smallskip
+\noindent\textbf{3. Os limites no infinito.}
+A condensação impedirá que a probabilidade escape para o infinito. Dado
+$\varepsilon>0$, existe $M>0$ tal que
+\[
+\mathbb{P}(|X_n|>M)<\varepsilon
+\qquad\text{para todo }n\in\mathbb{N}.
+\]
+Se $q<-M$ é racional, então $\{X_n\leqslant q\}\subseteq\{|X_n|>M\}$ e
+\[
+F_n(q)\leqslant\mathbb{P}(|X_n|>M)<\varepsilon.
+\]
+Se $q>M$ é racional, temos $\{X_n>q\}\subseteq\{|X_n|>M\}$ e
+\[
+1-F_n(q)=\mathbb{P}(X_n>q)
+\leqslant\mathbb{P}(|X_n|>M)<\varepsilon.
+\]
+Essas desigualdades valem para todo $n$. Em particular, podemos passar ao
+limite ao longo da subsequência $(n_k)$ e obter
+\[
+G(q)\leqslant\varepsilon\quad(q\in\mathbb{Q},\ q<-M),
+\qquad
+G(q)\geqslant1-\varepsilon\quad(q\in\mathbb{Q},\ q>M).
 \]
 
-A condensação garante que $F$ tem os limites necessários em $-\infty$ e
-$+\infty$. Dado $\varepsilon>0$, escolha $M$ com
-$\mathbb{P}(|X_n|>M)<\varepsilon$ para todo $n$. Se $q<-M$ é racional,
-$F_n(q)\leqslant\mathbb{P}(|X_n|>M)<\varepsilon$, logo $G(q)\leqslant\varepsilon$.
-Se $q>M$ é racional, $F_n(q)\geqslant1-\varepsilon$, logo
-$G(q)\geqslant1-\varepsilon$. Se $x<-M$, podemos escolher um racional $q$
-com $x<q<-M$ e, portanto, $F(x)\leqslant G(q)\leqslant\varepsilon$. Se
-$x>M$, todos os racionais $q>x$ satisfazem $G(q)\geqslant1-\varepsilon$, de
-modo que $F(x)\geqslant1-\varepsilon$. Como $\varepsilon$ é arbitrário,
-concluímos que
+Se $x<-M$, podemos escolher um racional $q$ com $x<q<-M$. Pela definição de
+$F$, segue que $F(x)\leqslant G(q)\leqslant\varepsilon$. Se $x>M$, todos os
+racionais $q>x$ satisfazem $G(q)\geqslant1-\varepsilon$, de modo que
+$F(x)\geqslant1-\varepsilon$. Assim,
+\[
+0\leqslant F(x)\leqslant\varepsilon\quad(x<-M),
+\qquad
+1-\varepsilon\leqslant F(x)\leqslant1\quad(x>M).
+\]
+Como $\varepsilon>0$ é arbitrário, concluímos que
 \[
 \lim_{x\to-\infty}F(x)=0
 \qquad\text{e}\qquad
 \lim_{x\to\infty}F(x)=1.
 \]
-Pela caracterização das funções de distribuição apresentada nas notas de aula
-sobre esse assunto, existe uma variável aleatória $X$ com função de
-distribuição $F$.
-
-Resta verificar que $X_{n_k}\Rightarrow X$. Seja $x$ um ponto de continuidade
-de $F$ e tomemos $r<p<x<q$, com $p$ e $q$ racionais. Pela monotonicidade,
-\[
-F(r)\leqslant G(p)
-\leqslant\liminf_{k\to\infty}F_{n_k}(x)
-\leqslant\limsup_{k\to\infty}F_{n_k}(x)
-\leqslant G(q)\leqslant F(q).
-\]
-As desigualdades das extremidades seguem da definição de $F$: como $p>r$,
-temos $F(r)\leqslant G(p)$, e, como $G$ é não decrescente,
-$G(q)\leqslant F(q)$. Fazendo $r\uparrow x$ e $q\downarrow x$, concluímos,
-pela continuidade de $F$ em $x$, que $F_{n_k}(x)\to F(x)$. Portanto
-$X_{n_k}\Rightarrow X$.
-\end{proof}
-
-\begin{proof}[Prova do \Cref{thm:continuidade}]
-Para o item (i), fixamos $t\in\mathbb{R}$ e aplicamos o
-\Cref{lem:dist-esperancas-limitadas} à função contínua e limitada
-$h(x)=e^{itx}$. Obtemos
-\[
-\varphi_{X_n}(t)=\mathbb{E}[e^{itX_n}]
-\longrightarrow
-\mathbb{E}[e^{itX}]=\varphi_X(t).
-\]
-
-Passemos ao item (ii). A prova tem duas partes: primeiro mostraremos que
-$(X_n)$ é condensada; depois identificaremos o limite de suas subsequências
-convergentes.
+Agora sabemos que $F$ é não decrescente, contínua à direita e possui esses
+limites. Pela caracterização das funções de distribuição apresentada nas
+notas de aula sobre esse assunto, existe uma variável aleatória real $X$ cuja
+função de distribuição é $F$.
 
 \smallskip
-\noindent\textbf{Uma cota para as caudas.}
-Começamos com uma variável aleatória real $Y$ qualquer, de função
-característica $\varphi_Y$. A ideia é usar os valores de $\varphi_Y$ perto de $0$ para
-controlar a probabilidade de $|Y|$ ser grande.
+\noindent\textbf{4. Convergência em distribuição.}
+Resta mostrar que $F_{n_k}(x)\to F(x)$ em cada ponto de continuidade $x$ de
+$F$. Para relacionar os limites $G$ com $F$, observamos duas desigualdades.
+Se $r<p$ e $p$ é racional, a definição de ínfimo dá $F(r)\leqslant G(p)$.
+Além disso, para cada racional $q$, a monotonicidade de $G$ garante que
+$G(q)\leqslant G(s)$ para todo racional $s>q$. Tomando o ínfimo desses
+valores, obtemos $G(q)\leqslant F(q)$.
 
-Para $u>0$ e $x\neq0$, a paridade do cosseno dá
+Fixe um ponto de continuidade $x$ de $F$ e uma tolerância $\varepsilon>0$.
+Pela continuidade, existe $\delta>0$ tal que
+\[
+|F(y)-F(x)|<\frac{\varepsilon}{2}
+\qquad\text{sempre que }|y-x|<\delta.
+\]
+Escolha $r=x-\delta/2$ e, pela densidade dos racionais, escolha
+$p,q\in\mathbb{Q}$ tais que $r<p<x<q<x+\delta$. As desigualdades anteriores
+fornecem
+\[
+F(x)-\frac{\varepsilon}{2}<F(r)\leqslant G(p),
+\qquad
+G(q)\leqslant F(q)<F(x)+\frac{\varepsilon}{2}.
+\]
+Como $F_{n_k}(p)\to G(p)$ e $F_{n_k}(q)\to G(q)$, existe $K$ tal que, para
+todo $k\geqslant K$,
+\[
+|F_{n_k}(p)-G(p)|<\frac{\varepsilon}{2},
+\qquad
+|F_{n_k}(q)-G(q)|<\frac{\varepsilon}{2}.
+\]
+Combinando essas estimativas com a monotonicidade de $F_{n_k}$, obtemos, para
+todo $k\geqslant K$,
+\[
+F(x)-\varepsilon<F_{n_k}(p)\leqslant F_{n_k}(x)
+\leqslant F_{n_k}(q)<F(x)+\varepsilon.
+\]
+Como $\varepsilon>0$ é arbitrário, segue que
+\[
+\lim_{k\to\infty}F_{n_k}(x)=F(x).
+\]
+Isso vale em todo ponto de continuidade de $F$. Pela definição de convergência
+em distribuição, concluímos que $X_{n_k}\Rightarrow X$.
+\end{proof}
+
+\begin{lemma}[Cota para as caudas]\label{lem:cota-cauda-fc}
+Seja $Y$ uma variável aleatória real com função característica $\varphi_Y$.
+Para todo $u>0$, vale a desigualdade
+\begin{equation}\label{eq:cota-concentracao}
+\mathbb{P}(|Y|\geqslant2/u)
+\leqslant
+\frac{1}{u}\int_{-u}^{u}
+\bigl(1-\operatorname{Re}\varphi_Y(t)\bigr)\,dt.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+A ideia é usar os valores de $\varphi_Y$ perto de $0$ para controlar a
+probabilidade de $|Y|$ ser grande. Para $u>0$ e $x\neq0$, a paridade do
+cosseno dá
 \begin{align*}
 \frac{1}{u}\int_{-u}^{u}\bigl(1-\cos(tx)\bigr)\,dt
 &=2-\frac{1}{u}\left.\frac{\sin(tx)}{x}\right|_{-u}^{u}\\[0.3cm]
@@ -2522,16 +2877,42 @@ Tomando $v=uY$, concluímos que
 \leqslant2\left(1-\frac{\sin(uY)}{uY}\right).
 \]
 Tomando esperanças e usando \eqref{eq:continuidade-cauda-identidade}, obtemos
-a cota
-\begin{equation}\label{eq:cota-concentracao}
-\mathbb{P}(|Y|\geqslant2/u)
-\leqslant
-\frac{1}{u}\int_{-u}^{u}
-\bigl(1-\operatorname{Re}\varphi_Y(t)\bigr)\,dt.
-\end{equation}
+a desigualdade \eqref{eq:cota-concentracao}.
+\end{proof}
 
-\smallskip
-\noindent\textbf{A sequência é condensada.}
+Estamos prontos para enunciar e demonstrar o resultado principal desta seção.
+
+\begin{theorem}[Teorema da Continuidade de Lévy]\label{thm:continuidade}
+Sejam $X_1,X_2,\ldots$ variáveis aleatórias reais, e denote por
+$\varphi_{X_n}$ a função característica de $X_n$, para cada $n$.
+
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item Se $X_n\Rightarrow X$, então
+$\varphi_{X_n}(t)\to\varphi_X(t)$ para todo $t\in\mathbb{R}$.
+
+\item Se $\varphi_{X_n}(t)\to\varphi(t)$ para todo $t\in\mathbb{R}$, para uma
+função $\varphi$ contínua em $0$, então existe uma variável aleatória $X$ tal que
+$X_n\Rightarrow X$ e $\varphi=\varphi_X$. Além disso, $(X_n)$ é condensada.
+\end{enumerate}
+\end{theorem}
+
+No item (ii), $\varphi$ é inicialmente apenas uma função limite. Uma das conclusões
+do teorema é que esta função limite é função característica de alguma variável aleatória.
+
+\begin{proof}
+Para o item (i), fixamos $t\in\mathbb{R}$ e aplicamos o
+\Cref{lem:dist-esperancas-limitadas} à função contínua e limitada
+$h(x)=e^{itx}$. Obtemos
+\[
+\varphi_{X_n}(t)=\mathbb{E}[e^{itX_n}]
+\longrightarrow
+\mathbb{E}[e^{itX}]=\varphi_X(t).
+\]
+
+Passemos ao item (ii). A prova tem duas partes: primeiro mostraremos que
+$(X_n)$ é condensada; depois identificaremos o limite de suas subsequências
+convergentes.
+
 Por hipótese, $\varphi_{X_n}(t)\to\varphi(t)$ para todo $t$. Como
 $\varphi_{X_n}(0)=1$, temos $\varphi(0)=1$. Fixado $\varepsilon>0$, a
 continuidade de $\varphi$ em $0$ permite escolher $u>0$ tal que
@@ -2542,9 +2923,10 @@ continuidade de $\varphi$ em $0$ permite escolher $u>0$ tal que
 A desigualdade à esquerda segue de $|\varphi(t)|\leqslant1$, obtida passando
 ao limite em $|\varphi_{X_n}(t)|\leqslant1$.
 
-Para usar essa informação na cota \eqref{eq:cota-concentracao}, precisamos
-passar ao limite nas integrais das funções $\varphi_{X_n}$. Considere uma
-variável auxiliar $U$, uniforme em $[-u,u]$, e defina
+Para usar essa informação na cota \eqref{eq:cota-concentracao} do
+\Cref{lem:cota-cauda-fc}, precisamos passar ao limite nas integrais das funções
+$\varphi_{X_n}$. Considere uma variável auxiliar $U$, uniforme em $[-u,u]$, e
+defina
 \[
 W_n=1-\operatorname{Re}\varphi_{X_n}(U),
 \qquad
@@ -2563,7 +2945,7 @@ de variáveis limitadas fornecem
 =2\mathbb{E}[W_n]
 \longrightarrow2\mathbb{E}[W]\leqslant\frac{\varepsilon}{2}.
 \]
-Logo existe $N$ tal que, para todo $n\geqslant N$,
+Pelo \Cref{lem:cota-cauda-fc}, existe $N$ tal que, para todo $n\geqslant N$,
 \[
 \mathbb{P}(|X_n|\geqslant2/u)
 \leqslant
@@ -2580,10 +2962,9 @@ apenas um número finito desses índices, um mesmo $M$ serve para todos. Assim,
 \]
 e $(X_n)$ é condensada.
 
-\smallskip
-\noindent\textbf{Identificação do limite.}
-Pelo \Cref{lem:selecao-condensada}, existe uma subsequência
-$X_{n_k}\Rightarrow X$ para alguma variável aleatória $X$. Pelo item (i),
+Passamos agora à identificação do limite. Pelo \Cref{lem:selecao-condensada},
+existe uma subsequência $X_{n_k}\Rightarrow X$ para alguma variável aleatória
+$X$. Pelo item (i),
 \[
 \varphi_{X_{n_k}}(t)\longrightarrow\varphi_X(t)
 \qquad\text{para todo }t\in\mathbb{R}.
@@ -2641,483 +3022,6 @@ distribuição: pelo item (i) do \Cref{thm:continuidade}, a função caracterís
 de um limite teria de coincidir com $\varphi$, mas toda função característica
 é contínua em $0$.
 \end{remark}
-
-\section{Momentos e Derivadas}\label{sec:momentos}
-
-Seja $X$ uma variável aleatória real. Nas notas de aula sobre momentos e funções
-geradoras de momentos, vimos que as esperanças das potências de $X$ podem ser
-recuperadas a partir das derivadas de
-$M_X$ na origem, quando a função geradora existe em uma vizinhança de $0$.
-Vamos investigar uma relação semelhante para a função característica
-\[
-\varphi_X(t)=\mathbb{E}[e^{itX}].
-\]
-
-A função característica está definida para todo $t\in\mathbb{R}$, pois
-$|e^{itX}|=1$. Isso não garante, por si só, que ela seja derivável. Por
-exemplo, no \Cref{ex:cauchy} encontramos uma variável sem primeiro momento
-finito cuja função característica é $e^{-|t|}$, que não é derivável em
-$t=0$.
-
-Para entender o papel dos momentos, observamos que, ao derivar a exponencial
-em relação a $t$, aparece um fator $X$:
-\[
-\frac{d}{dt}e^{itX}=iX e^{itX},
-\qquad
-\left|\frac{d}{dt}e^{itX}\right|=|X|.
-\]
-Assim, para justificar a passagem da derivada para dentro da esperança, uma
-hipótese natural é que $\mathbb{E}[|X|]<\infty$. O resultado abaixo mostra
-como o mesmo raciocínio se estende às derivadas de ordem superior.
-
-\subsection{Derivadas, momentos e o decaimento das caudas}\label{subsec:momentos-derivadas}
-
-Na prova do \Cref{thm:continuidade}, obtivemos uma cota que relaciona a função
-característica às probabilidades de valores grandes de $|X|$: para $u>0$,
-\[
-\mathbb{P}(|X|\geqslant2/u)
-\leqslant
-\frac{1}{u}\int_{-u}^{u}
-\bigl(1-\operatorname{Re}\varphi_X(t)\bigr)\,dt.
-\]
-Essa é a cota \eqref{eq:cota-concentracao}, escrita para a variável $X$. Ela
-mostra que, quando a parte real de $\varphi_X$ está próxima de $1$ perto da
-origem, a probabilidade de $|X|$ ser grande é pequena.
-
-Os momentos também controlam essas probabilidades. De fato, se
-$\mathbb{E}[|X|^n]<\infty$ para algum inteiro $n\geqslant1$, então, para
-$r>0$,
-\[
-\mathds{1}_{\{|X|\geqslant r\}}\leqslant\frac{|X|^n}{r^n}.
-\]
-Tomando esperanças, obtemos
-\[
-\mathbb{P}(|X|\geqslant r)
-\leqslant\frac{\mathbb{E}[|X|^n]}{r^n}.
-\]
-Vamos agora mostrar outra relação entre momentos e função característica:
-quando o momento absoluto de ordem $n$ é finito, podemos derivar
-$\varphi_X$ até a ordem $n$ e calcular suas derivadas por meio de esperanças.
-
-\begin{theorem}[Derivadas da função característica]
-\label{thm:derivadas-momentos}
-Seja $X$ uma variável aleatória com função característica $\varphi_X$.
-Se $\mathbb{E}[|X|^n]<\infty$ para algum inteiro $n\geqslant1$, então, para
-cada inteiro $k$ com $1\leqslant k\leqslant n$, a derivada $\varphi_X^{(k)}$
-existe, é contínua em $\mathbb{R}$ e satisfaz
-\[
-\varphi_X^{(k)}(t)
-=\mathbb{E}\bigl[(iX)^k e^{itX}\bigr],
-\qquad t\in\mathbb{R}.
-\]
-\end{theorem}
-
-\begin{proof}
-Vamos derivar a esperança uma vez de cada vez. Para aplicar o
-\Cref{thm:derivacao-integral}, precisamos verificar que as variáveis obtidas
-e as derivadas dos integrandos são integráveis.
-
-Primeiro, a hipótese de momento absoluto de ordem $n$ garante os momentos
-absolutos de ordens menores. Com efeito, se $1\leqslant j\leqslant n$, então
-\[
-|x|^j\leqslant1+|x|^n,\qquad x\in\mathbb{R}.
-\]
-Para $|x|\leqslant1$, temos $|x|^j\leqslant1$; para $|x|>1$, temos
-$|x|^j\leqslant|x|^n$. Logo
-\[
-\mathbb{E}[|X|^j]\leqslant1+\mathbb{E}[|X|^n]<\infty,
-\qquad 1\leqslant j\leqslant n.
-\]
-
-Comecemos pela primeira derivada. Para cada $t$, a variável $e^{itX}$ é
-integrável, pois tem módulo $1$. Além disso,
-\[
-\frac{\partial}{\partial t}e^{itX}=iX e^{itX},
-\qquad
-\bigl|iX e^{itX}\bigr|=|X|.
-\]
-Como $\mathbb{E}[|X|]<\infty$, o \Cref{thm:derivacao-integral} permite
-trocar a derivada com a esperança:
-\[
-\varphi_X'(t)
-=\frac{d}{dt}\mathbb{E}[e^{itX}]
-=\mathbb{E}[iX e^{itX}],
-\qquad t\in\mathbb{R}.
-\]
-
-Suponha agora que, para algum $k<n$, já tenhamos obtido
-\[
-\varphi_X^{(k)}(t)=\mathbb{E}\bigl[(iX)^k e^{itX}\bigr].
-\]
-Para derivar mais uma vez, tomamos $g(t,x)=(ix)^k e^{itx}$. Então
-\[
-\frac{\partial g}{\partial t}(t,X)
-=(iX)^{k+1}e^{itX},
-\qquad
-\left|\frac{\partial g}{\partial t}(t,X)\right|
-=|X|^{k+1}.
-\]
-A variável $g(t,X)$ é integrável, pois seu módulo é $|X|^k$, e a derivada é
-majorada pela variável integrável $|X|^{k+1}$. Aplicando novamente o
-\Cref{thm:derivacao-integral}, concluímos que
-\[
-\varphi_X^{(k+1)}(t)
-=\frac{d}{dt}\mathbb{E}\bigl[(iX)^k e^{itX}\bigr]
-=\mathbb{E}\bigl[(iX)^{k+1}e^{itX}\bigr].
-\]
-A indução fornece, portanto, a fórmula para todas as ordens de $1$ a $n$.
-
-Resta verificar a continuidade. Fixe $k\in\{1,\ldots,n\}$ e tome uma
-sequência $t_m\to t$. Para cada resultado do experimento,
-\[
-(iX)^k e^{it_mX}\longrightarrow(iX)^k e^{itX},
-\qquad
-\bigl|(iX)^k e^{it_mX}\bigr|=|X|^k.
-\]
-Como $\mathbb{E}[|X|^k]<\infty$, a convergência dominada, aplicada às partes
-real e imaginária, dá
-\[
-\varphi_X^{(k)}(t_m)
-=\mathbb{E}\bigl[(iX)^k e^{it_mX}\bigr]
-\longrightarrow
-\mathbb{E}\bigl[(iX)^k e^{itX}\bigr]
-=\varphi_X^{(k)}(t).
-\]
-Logo $\varphi_X^{(k)}$ é contínua para cada $k\leqslant n$.
-\end{proof}
-
-Tomando $t=0$ no teorema e usando $e^0=1$, obtemos
-\[
-\varphi_X^{(k)}(0)=i^k\,\mathbb{E}[X^k],
-\qquad 1\leqslant k\leqslant n.
-\]
-Em particular, se $\mathbb{E}[|X|]<\infty$, então
-\[
-\varphi_X'(0)=i\,\mathbb{E}[X].
-\]
-Se $\mathbb{E}[X^2]<\infty$, temos também
-\[
-\varphi_X''(0)=i^2\,\mathbb{E}[X^2]=-\mathbb{E}[X^2].
-\]
-Nesse caso, a média é $\mathbb{E}[X]=-i\varphi_X'(0)$, e a variância é
-\[
-\begin{aligned}
-\operatorname{Var}(X)
-&=\mathbb{E}[X^2]-\bigl(\mathbb{E}[X]\bigr)^2
-\\[0.3cm]
-&=-\varphi_X''(0)-\bigl(-i\varphi_X'(0)\bigr)^2
-=-\varphi_X''(0)+\bigl(\varphi_X'(0)\bigr)^2.
-\end{aligned}
-\]
-
-Por exemplo, no \Cref{ex:rademacher} vimos que uma variável $R$ que assume
-$-1$ e $1$ com probabilidades iguais tem função característica
-$\varphi_R(t)=\cos t$. Como $\varphi_R'(0)=0$ e
-$\varphi_R''(0)=-1$, as fórmulas dão
-\[
-\mathbb{E}[R]=0,
-\qquad
-\mathbb{E}[R^2]=1,
-\]
-em acordo com o cálculo direto a partir da distribuição de $R$.
-
-A existência das derivadas também permite aproximar $\varphi_X$ perto da origem.
-Se $\mathbb{E}[|X|^n]<\infty$, aplicamos a fórmula de Taylor às partes real e
-imaginária de $\varphi_X$ e substituímos as derivadas pelos momentos:
-\[
-\varphi_X(t)
-=1+\sum_{k=1}^{n}\frac{(it)^k}{k!}\,\mathbb{E}[X^k]
-+o(t^n),
-\qquad t\to0.
-\]
-Aqui $o(t^n)$ representa um resto cujo quociente por $t^n$ tende a zero
-quando $t\to0$. Em particular, se $\mathbb{E}[X^2]<\infty$,
-\[
-\varphi_X(t)
-=1+it\,\mathbb{E}[X]
--\frac{t^2}{2}\,\mathbb{E}[X^2]+o(t^2).
-\]
-Para essa conclusão, não precisamos supor que o terceiro momento seja finito.
-
-Na próxima subseção, obteremos uma cota explícita para o resto da expansão da
-exponencial. Ela permitirá estimar o erro antes de tomar a esperança e será
-útil no estudo de somas de variáveis aleatórias.
-
-\subsection{Uma cota para o resto de Taylor}\label{subsec:resto-taylor}
-
-Em \Cref{thm:derivadas-momentos} vimos que as derivadas de $\varphi_X$ na
-origem são os momentos de $X$. Para transformar essa informação em uma expansão
-de Taylor, porém, não basta conhecer as derivadas: é preciso saber quão grande
-é o erro cometido ao truncar a série. A cota a seguir resolve essa questão; ela
-é uma afirmação puramente analítica, sobre a exponencial complexa, e por isso
-vem antes de qualquer hipótese sobre $X$.
-
-\begin{lemma}[Cota para o resto de Taylor]\label{lem:resto-taylor}
-Para todo inteiro $n\geqslant0$ e todo $x\in\mathbb{R}$,
-\[
-\Bigl|e^{ix}-\sum_{m=0}^{n}\frac{(ix)^m}{m!}\Bigr|\leqslant\min\Bigl(\frac{|x|^{n+1}}{(n+1)!},\,\frac{2|x|^{n}}{n!}\Bigr).
-\]
-Quando $n=0$ a soma se reduz a $1$ e o segundo membro do mínimo deve ser lido
-como $2$, de modo que a cota diz simplesmente $|e^{ix}-1|\leqslant\min(|x|,2)$.
-\end{lemma}
-
-Vale entender, antes da prova, por que o enunciado traz um mínimo de duas cotas.
-O primeiro membro, $|x|^{n+1}/(n+1)!$, é a ordem de grandeza usual do resto de
-Taylor de $e^{ix}$: ele descreve o erro como se descreveria o de uma série de
-potências comum e é a cota adequada quando $|x|$ é pequeno. O segundo membro,
-$2|x|^{n}/n!$, é pior por um fator da ordem de $|x|$ nessa região, mas cresce
-como $|x|^{n}$ e não como $|x|^{n+1}$, sendo portanto o adequado para $|x|$
-grande. É essa segunda cota, e não a primeira, que permitirá provar o teorema
-central do limite sem supor o terceiro momento finito: ela exige apenas o
-controle de $n$ momentos. Como as duas estimativas valem simultaneamente, vale
-a menor delas.
-
-\begin{proof}
-A prova tem três etapas: obter uma identidade integral exata para o resto,
-cotá-la de duas maneiras, cada uma eficiente em uma região, e tomar o mínimo.
-
-\medskip
-\textbf{Primeira etapa: a identidade do resto.}
-Integrando por partes com $u=e^{is}$ e $dv=(x-s)^{n}ds$, de modo que
-$du=ie^{is}ds$ e $v=-(x-s)^{n+1}/(n+1)$, obtemos
-\[
-\int_{0}^{x}(x-s)^{n}e^{is}ds=\Bigl[-\frac{(x-s)^{n+1}}{n+1}e^{is}\Bigr]_{s=0}^{s=x}+\frac{i}{n+1}\int_{0}^{x}(x-s)^{n+1}e^{is}ds .
-\]
-O termo de fronteira se anula em $s=x$, porque $(x-x)^{n+1}=0$, e vale
-$-x^{n+1}/(n+1)$ em $s=0$; logo o colchete é $x^{n+1}/(n+1)$ e
-\[
-\int_{0}^{x}(x-s)^{n}e^{is}ds=\frac{x^{n+1}}{n+1}+\frac{i}{n+1}\int_{0}^{x}(x-s)^{n+1}e^{is}ds .
-\]
-A conta vale também para $x<0$: a integral é orientada e o teorema fundamental
-do cálculo continua valendo nos extremos.
-
-Para $n=0$ a identidade diz que $\int_{0}^{x}e^{is}ds=x+i\int_{0}^{x}(x-s)e^{is}ds$,
-e o lado esquerdo é $(e^{ix}-1)/i$; multiplicando por $i$ e isolando $e^{ix}$,
-\[
-e^{ix}=1+ix+i^{2}\int_{0}^{x}(x-s)e^{is}ds ,
-\]
-que é o desenvolvimento de Taylor de ordem $1$ com resto integral: o
-coeficiente de $x^{2}$ na série é $i^{2}/2!$, e a integração de $(x-s)$ produz
-o $2$ que falta. Usando o caso $n=1$ e substituindo o valor da integral,
-\[
-e^{ix}=1+ix+\frac{i^{2}x^{2}}{2}+\frac{i^{3}}{2}\int_{0}^{x}(x-s)^{2}e^{is}ds .
-\]
-O padrão está claro. Se valer
-\[
-e^{ix}-\sum_{m=0}^{n}\frac{(ix)^{m}}{m!}=\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds
-\]
-para um certo $n$, então a identidade aplicada ao lado direito fornece
-\[
-\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds=\frac{i^{n+1}x^{n+1}}{(n+1)!}+\frac{i^{n+2}}{(n+1)!}\int_{0}^{x}(x-s)^{n+1}e^{is}ds ,
-\]
-já que $n!\,(n+1)=(n+1)!$. Isso é a mesma fórmula com $n$ trocado por $n+1$,
-o que conclui a indução. Portanto, para todo $n\geqslant0$,
-\[
-e^{ix}-\sum_{m=0}^{n}\frac{(ix)^{m}}{m!}=\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds .
-\]
-Toda a dificuldade está agora na integral do lado direito, que é o resto.
-
-\medskip
-\textbf{Segunda etapa: a cota boa para $|x|$ pequeno.} Como $|i^{n+1}|=1$ e
-$|e^{is}|\leqslant1$, e mudando a variável para $u=|s|$ (o que também cobre
-$x<0$),
-\[
-\Bigl|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds\Bigr|\leqslant\frac{1}{n!}\int_{0}^{|x|}(|x|-u)^{n}du=\frac{|x|^{n+1}}{(n+1)!} .
-\]
-O denominador vem daí: o $n!$ já estava na fórmula e a integral de $(x-s)^{n}$
-em $(0,x)$ acrescenta o fator $n+1$. Esta é a cota do cálculo diferencial usual,
-ótima para $|x|$ pequeno.
-
-\medskip
-\textbf{Terceira etapa: a cota boa para $|x|$ grande.}
-Suponha $n\geqslant1$ e integre por partes outra vez, com $dv=(x-s)^{n-1}ds$:
-\begin{align*}
-\int_{0}^{x}(x-s)^{n-1}e^{is}ds
-&=\frac{x^{n}}{n}+\frac{i}{n}\int_{0}^{x}(x-s)^{n}e^{is}ds ,
-\\[0.3cm]
-\frac{i}{n}\int_{0}^{x}(x-s)^{n}e^{is}ds
-&=-\frac{x^{n}}{n}+\int_{0}^{x}(x-s)^{n-1}e^{is}ds .
-\end{align*}
-O ponto decisivo é que o termo de fronteira é ele próprio uma integral da
-mesma família, $x^{n}/n=\int_{0}^{x}(x-s)^{n-1}ds$; substituindo, os dois
-pedaços se fundem em uma única integral,
-\[
-\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds=\frac{i^{n}}{(n-1)!}\int_{0}^{x}(x-s)^{n-1}\bigl(e^{is}-1\bigr)ds ,
-\]
-pois $\frac{i^{n}}{(n-1)!}\cdot\frac{i}{n}=\frac{i^{n+1}}{n!}$. É aqui que a
-subtração de $1$ faz o seu trabalho: sem ela teríamos duas parcelas, uma do
-termo de fronteira e outra da integral, e ao cotá-las separadamente voltaríamos
-à ordem de grandeza $|x|^{n+1}$. Com o $-1$ dentro do parêntese resta uma só
-integral, cujo integrando é uniformemente limitado, já que
-$|e^{is}-1|\leqslant|e^{is}|+1\leqslant2$ para todo $s$. Essa limitação não
-depende de $|x|$, e é isso que permite conservar o fator $|x|^{n}$:
-\[
-\Bigl|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds\Bigr|\leqslant\frac{2}{(n-1)!}\int_{0}^{|x|}(|x|-u)^{n-1}du=\frac{2|x|^{n}}{n!} .
-\]
-
-\medskip
-\textbf{O caso $n=0$ e a conclusão.}
-Para $n=0$ a segunda etapa já dá $|e^{ix}-1|\leqslant|x|$ e a terceira não se
-aplica, pois divide por $n$; a segunda cota do mínimo é então $2$, que é a
-estimativa trivial $|e^{ix}-1|\leqslant2$. Assim o enunciado vale para todo
-$n\geqslant0$: para $n\geqslant1$ porque as duas últimas etapas fornecem ambas
-as cotas, e vale a menor; para $n=0$ pela observação anterior.
-\end{proof}
-
-A transposição para funções características é imediata. Se
-$\mathbb{E}|X|^{n}<\infty$, então
-\[
-\min\bigl(|tX|^{n+1},2|tX|^{n}\bigr)\leqslant2|t|^{n}|X|^{n},
-\]
-e o lado direito dessa desigualdade é integrável. Assim todos os termos abaixo
-são finitos. Aplicando o lema a $x=tX$ e tomando esperanças, obtemos, para todo
-$t\in\mathbb{R}$,
-\begin{equation}\label{eq:cota-resto-taylor}
-\begin{aligned}
-\Bigl|\mathbb{E}\bigl[e^{itX}\bigr]
--\sum_{m=0}^{n}\mathbb{E}\Bigl[\frac{(itX)^{m}}{m!}\Bigr]\Bigr|
-&\leqslant\mathbb{E}\Bigl[\Bigl|e^{itX}
--\sum_{m=0}^{n}\frac{(itX)^{m}}{m!}\Bigr|\Bigr]
-\\[0.3cm]
-&\leqslant\mathbb{E}\Bigl[\min\bigl(|tX|^{n+1},\,2|tX|^{n}\bigr)\Bigr].
-\end{aligned}
-\end{equation}
-Primeiro o módulo entra na esperança, pela desigualdade triangular
-(equivalentemente, pela desigualdade de Jensen aplicada a $|\cdot|$); depois se
-usa a cota pontual do lema. Os denominadores foram descartados porque
-$(n+1)!\geqslant1$ e $n!\geqslant1$, de modo que retirá-los só aumenta o lado
-direito.
-
-A cota \eqref{eq:cota-resto-taylor} vale para todo $t$ real, sem restrição de
-tamanho, mas o interesse é o comportamento quando $t\to0$, e aí as duas
-parcelas do mínimo competem: se $\mathbb{E}|X|^{n+1}<\infty$, a primeira dá
-$O(|t|^{n+1})$; se dispomos apenas de $\mathbb{E}|X|^{n}<\infty$, a segunda dá
-$O(|t|^{n})$. Em \Cref{thm:taylor-segunda-ordem} usaremos $n=2$: a primeira
-alternativa exigiria o terceiro momento finito, e é a segunda que permite obter
-a expansão de segunda ordem da função característica sob a hipótese de variância
-finita apenas. Em resumo, o resto de Taylor de ordem $n$ é $O(|t|^{n+1})$ se
-existirem $n+1$ momentos e $O(|t|^{n})$ se existirem apenas $n$.
-
-\subsection{A expansão de segunda ordem e sua recíproca}\label{subsec:segunda-ordem}
-
-O caso especial $n=2$ da cota \eqref{eq:cota-resto-taylor} será útil adiante, quando
-tratarmos de somas de variáveis independentes. Com $n=2$, o polinômio de Taylor de
-$\varphi_X$ na origem é
-\[
-1+it\,\mathbb{E}[X]+\frac{(it)^2}{2}\,\mathbb{E}[X^2]=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\,\mathbb{E}[X^2],
-\]
-e o resto é majorado por $\mathbb{E}\bigl[\min\bigl(|tX|^3,2|tX|^2\bigr)\bigr]$. Como
-$\mathbb{E}|X|^2<\infty$ implica $\mathbb{E}|X|<\infty$, os dois coeficientes são finitos.
-
-\begin{theorem}[Expansão de segunda ordem]\label{thm:taylor-segunda-ordem}
-Seja $X$ uma variável aleatória com função característica $\varphi_X$.
-Se $\mathbb{E}|X|^2<\infty$, então
-\[
-\varphi_X(t)=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\,\mathbb{E}[X^2]+o(t^2),\qquad t\to0.
-\]
-\end{theorem}
-
-\begin{proof}
-Seja $R_2(t)\equiv\varphi_X(t)-1-it\,\mathbb{E}[X]+\tfrac{t^2}{2}\mathbb{E}[X^2]$ o resto, de
-modo que, por \eqref{eq:cota-resto-taylor},
-$|R_2(t)|\leqslant\mathbb{E}\bigl[\min\bigl(|tX|^3,2|tX|^2\bigr)\bigr]$. Vamos isolar o fator
-$t^2$ dentro da esperança, para que a divisão por $t^2$ apareça explicitamente. Como
-$|tx|^3=t^2|t||x|^3$ e $2|tx|^2=2t^2|x|^2$, dividindo ambos os lados por $t^2>0$ obtemos
-\begin{equation}\label{eq:resto-dividido}
-\frac{|R_2(t)|}{t^2}\leqslant\mathbb{E}\bigl[\min\bigl(|t|\,|X|^3,2|X|^2\bigr)\bigr].
-\end{equation}
-Basta mostrar que o lado direito tende a zero, o que é a afirmação $R_2(t)=o(t^2)$. Ponha
-$Y_t\equiv\min\bigl(|t||X|^3,2|X|^2\bigr)$. Temos $0\leqslant Y_t\leqslant2|X|^2$, e
-$2|X|^2$ é integrável por hipótese, logo $(Y_t)$ tem dominante integrável que não depende de
-$t$. Para a convergência pontual, fixe $\omega$ com $|X(\omega)|<\infty$, o que vale quase
-certamente porque $\mathbb{E}|X|^2$ é finito; quando $t\to0$, o primeiro argumento do mínimo
-tende a $0$ e o segundo é a constante $2|X(\omega)|^2$, de sorte que $Y_t(\omega)\to0$. Pelo
-teorema da convergência dominada, $\mathbb{E}[Y_t]\to0$; como $|R_2(t)|/t^2\geqslant0$, segue
-de \eqref{eq:resto-dividido} que
-\[
-0\leqslant\limsup_{t\to0}\frac{|R_2(t)|}{t^2}\leqslant\lim_{t\to0}\mathbb{E}[Y_t]=0,
-\]
-isto é, $|R_2(t)|/t^2\to0$ e portanto $R_2(t)=o(t^2)$.
-\end{proof}
-
-\begin{remark}[Por que a cota com o mínimo]\label{rem:cota-minimo}
-O ponto da cota \eqref{eq:cota-resto-taylor}, que envolve o mínimo de dois termos em vez do
-primeiro termo que resultaria de uma aplicação ingênua da série de Taylor, é que assim a
-conclusão de \Cref{thm:taylor-segunda-ordem} vale sob a hipótese $\mathbb{E}|X|^2<\infty$,
-sem exigir $\mathbb{E}|X|^3<\infty$.
-
-A cota ingênua para $n=2$, $\bigl|e^{ix}-1-ix+x^2/2\bigr|\leqslant|x|^3/3!$, majora o resto
-por $\tfrac{1}{6}|t|^3\,\mathbb{E}|X|^3$ e, após a divisão por $t^2$, deixa
-$\tfrac{1}{6}|t|\,\mathbb{E}|X|^3$, que só tende a zero se o terceiro momento absoluto for
-finito.
-
-O mínimo contorna essa exigência porque trata de modo diferente as duas regiões
-determinadas por $|tX|$. Se $|tX|\leqslant2$, então $|tX|^3\leqslant2|tX|^2$ e o mínimo é o
-termo cúbico, o termo fino, útil justamente onde $|tX|$ é pequeno; como ele carrega o fator
-adicional $|t|$, decai quando $t\to0$, mesmo que $\mathbb{E}|X|^3$ seja infinito. Se
-$|tX|>2$, o mínimo é $2|tX|^2$, que não envolve $|X|^3$: nessa região, onde valores grandes
-de $|X|$ custariam integrabilidade, a cota é proporcional a $t^2|X|^2$, e o fator $t^2$ já
-está fora da esperança, pronto para ser cancelado na divisão. Em suma, o fator extra $|t|$
-da parte cúbica absorve o que seria uma potência maior de $|X|$, e a parte limitada fica
-controlada por $|X|^2$.
-\end{remark}
-
-O próximo resultado mostra que a existência da segunda derivada de $\varphi_X$ na origem
-implica a existência do segundo momento, isto é, ele é a recíproca de
-\Cref{thm:taylor-segunda-ordem}. Como $\varphi_X$ assume valores complexos, a derivada deve
-ser entendida no sentido da diferença segunda simétrica, expressão que aparece na hipótese.
-
-\begin{theorem}[Segundo momento e diferença segunda]\label{thm:segundo-momento-finito}
-Seja $X$ uma variável aleatória com função característica $\varphi_X$. Se
-\[
-\limsup_{h\downarrow0}\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}>-\infty,
-\]
-então $\mathbb{E}|X|^2<\infty$.
-\end{theorem}
-
-\begin{proof}
-Seja $F$ a função de distribuição de $X$, de modo que $\varphi_X(t)=\int e^{itx}\,dF(x)$. Pela
-linearidade da integral, aplicada ao integrando limitado,
-\[
-\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}=\int_{\mathbb{R}}\frac{e^{ihx}-2+e^{-ihx}}{h^2}\,dF(x).
-\]
-Como $e^{ihx}+e^{-ihx}=2\cos(hx)$, o integrando vale
-\begin{equation}\label{eq:integrando-segunda-diferenca}
-\frac{e^{ihx}-2+e^{-ihx}}{h^2}=-\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\leqslant0,
-\end{equation}
-pois $1-\cos(hx)\geqslant0$; e o limite fundamental $\lim_{u\to0}(1-\cos u)/u^2=1/2$, com
-$u=hx$, mostra que $2\bigl(1-\cos(hx)\bigr)/h^2\to x^2$ quando $h\to0$, para cada $x$ fixado.
-
-O sinal em \eqref{eq:integrando-segunda-diferenca} é o que autoriza usar o lema de Fatou na
-forma que fornece cota inferior, pois Fatou se aplica a funções não negativas: se
-$g_h\geqslant0$, então $\int\liminf_{h\to0}g_h\,dF\leqslant\liminf_{h\to0}\int g_h\,dF$.
-Aplicado diretamente ao integrando negativo, o lema daria a desigualdade no sentido oposto,
-inútil aqui. Tomando então $g_h(x)\equiv2\bigl(1-\cos(hx)\bigr)/h^2\geqslant0$, o simétrico
-do integrando original, e lembrando que $2\varphi_X(0)=2$ e que
-$\varphi_X(h)+\varphi_X(-h)=2\int\cos(hx)\,dF(x)$, obtemos
-\begin{align*}
-\int_{\mathbb{R}}x^2\,dF(x)
-&= \int_{\mathbb{R}}\lim_{h\to0}\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\,dF(x)
-\\[0.3cm]
-&\leqslant \liminf_{h\to0}\int_{\mathbb{R}}\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\,dF(x)
-\\[0.3cm]
-&= \liminf_{h\to0}\frac{2\varphi_X(0)-\varphi_X(h)-\varphi_X(-h)}{h^2}
-\\[0.3cm]
-&= -\limsup_{h\to0}\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}<\infty,
-\end{align*}
-sendo a última desigualdade exatamente a hipótese. Como $x\mapsto x^2$ é não
-negativa, a integral $\int x^2\,dF(x)$ é o segundo momento $\mathbb{E}[X^2]$, e
-a cadeia mostra que esse número é finito, ou seja, que
-$\mathbb{E}|X|^2<\infty$.
-\end{proof}
-
-Combinando \Cref{thm:taylor-segunda-ordem} e \Cref{thm:segundo-momento-finito}, a finitude
-do segundo momento é equivalente à existência da segunda derivada de $\varphi_X$ na origem, no
-sentido da diferença segunda simétrica. Se $\mathbb{E}|X|^2<\infty$, a expansão de segunda
-ordem diz que $\bigl(\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)\bigr)/h^2$ converge para
-$-\mathbb{E}[X^2]$; reciprocamente, a hipótese de \Cref{thm:segundo-momento-finito} garante
-o segundo momento finito. Note que não se pede a existência do limite, apenas que o limite
-superior não seja $-\infty$.
 
 \section{Exercícios Propostos}\label{sec:exercicios}
 
@@ -3368,92 +3272,6 @@ $\tfrac12\bigl(1+e^{2it/3^{j}}\bigr)=e^{it/3^{j}}\cos(t/3^{j})$; use
 $\sum_{j\geqslant1}3^{-j}=1/2$ para recolher as exponenciais. Na recorrência,
 note que $e^{i3^{k}\pi}\cos(3^{k}\pi)=1$ para todo $k\geqslant1$.
 \end{exercise}
-
-\begin{exercise}[Momentos da normal padrão]
-\label{exercise:momentos-normal}
-Seja $X$ uma variável aleatória com distribuição normal padrão. Use
-\Cref{thm:derivadas-momentos} e o desenvolvimento em série de potências de
-$e^{-t^{2}/2}$ para mostrar que, para todo $n\geqslant1$,
-\[
-  \mathbb{E}\bigl[X^{2n}\bigr]=\frac{(2n)!}{2^{n}\,n!}
-  =(2n-1)(2n-3)\cdots3\cdot1\equiv(2n-1)!!,
-\]
-onde $(2n-1)!!$ é, por definição, o produto dos inteiros positivos ímpares que
-não excedem $2n-1$, com a convenção $(-1)!!=1$. Em particular,
-$\mathbb{E}[X^{2}]=1$ e $\mathbb{E}[X^{4}]=3$. Mostre também que os momentos de
-ordem ímpar se anulam, por simetria da distribuição:
-$\mathbb{E}[X^{2n-1}]=0$ para $n\geqslant1$.
-
-\emph{Sugestão:} a função característica da normal padrão é
-$\varphi_X(t)=e^{-t^{2}/2}=\sum_{n\geqslant0}\frac{(-1)^{n}}{2^{n}n!}t^{2n}$, e
-\Cref{thm:derivadas-momentos} dá
-$\varphi_X^{(2n)}(0)=i^{2n}\mathbb{E}[X^{2n}]=(-1)^{n}\mathbb{E}[X^{2n}]$;
-compare os coeficientes das duas expressões de $\varphi_X$. Para os momentos
-ímpares, use $X\overset{d}{=}-X$.
-\end{exercise}
-
-\begin{exercise}[Equicontinuidade das funções características]\label{exercise:equicontinuidade}
-Dizemos que uma família de variáveis aleatórias $\{X_i:i\in I\}$ é
-\emph{condensada} se, para todo $\varepsilon>0$, existe $M>0$ tal que
-\[
-\mathbb{P}(|X_i|>M)<\varepsilon
-\qquad\text{para todo }i\in I.
-\]
-Denotando por $\varphi_{X_i}$ a função característica de $X_i$, dizemos que a
-família $\{\varphi_{X_i}:i\in I\}$ é \emph{equicontínua} se, para todo
-$\varepsilon>0$, existe $\delta>0$ tal que $|h|<\delta$ implica
-$|\varphi_{X_i}(t+h)-\varphi_{X_i}(t)|<\varepsilon$ para todos $i\in I$ e
-$t\in\mathbb{R}$.
-
-\begin{enumerate}
-\item[(i)] Suponha que $\{X_i:i\in I\}$ seja condensada e mostre que
-$\{\varphi_{X_i}:i\in I\}$ é equicontínua.
-
-\emph{Sugestão:} pelo item~(d) do \Cref{thm:propriedades-fc},
-\[
-|\varphi_{X_i}(t+h)-\varphi_{X_i}(t)|
-\leqslant\mathbb{E}\bigl[|e^{ihX_i}-1|\bigr].
-\]
-Use $|e^{i\theta}-1|\leqslant|\theta|\wedge2$, obtida em
-\eqref{eq:cota-resto-taylor}, para mostrar que, para todo $M>0$,
-\[
-|\varphi_{X_i}(t+h)-\varphi_{X_i}(t)|
-\leqslant |h|M+2\mathbb{P}(|X_i|>M).
-\]
-Escolha primeiro $M$ e depois $\delta$ em função de $\varepsilon$.
-
-\item[(ii)] Suponha que $X_n\Rightarrow X_\infty$ e denote por
-$\varphi_{X_\infty}$ a função característica de $X_\infty$. Mostre que a
-família $\{X_n:n\in\mathbb{N}\}\cup\{X_\infty\}$ é condensada e conclua que
-$\varphi_{X_n}\to\varphi_{X_\infty}$ uniformemente sobre cada intervalo limitado.
-
-\emph{Sugestão:} para obter a condensação, escolha $M$ de modo que $-M$ e $M$
-sejam pontos de continuidade de $F_{X_\infty}$ e que
-$\mathbb{P}(|X_\infty|\geqslant M)$ seja pequena. Use a convergência das
-funções de distribuição e, depois, aumente $M$ para incluir os finitos
-índices iniciais. Aplique o item~(i) e o \Cref{thm:continuidade}. Dado um
-intervalo limitado, cubra-o por um número finito de intervalos de raio
-$\delta$, centrados em $t_1,\ldots,t_k$, e escreva
-\[
-\begin{aligned}
-|\varphi_{X_n}(t)-\varphi_{X_\infty}(t)|
-&\leqslant|\varphi_{X_n}(t)-\varphi_{X_n}(t_j)|
-+|\varphi_{X_n}(t_j)-\varphi_{X_\infty}(t_j)|\\
-&\quad+|\varphi_{X_\infty}(t_j)-\varphi_{X_\infty}(t)|.
-\end{aligned}
-\]
-Use a equicontinuidade na primeira e na terceira parcelas e a convergência
-pontual em $t_j$ na parcela do meio.
-
-\item[(iii)] Dê um exemplo em que $X_n\Rightarrow X_\infty$, mas
-$\varphi_{X_n}$ não converge para $\varphi_{X_\infty}$ uniformemente em
-$\mathbb{R}$.
-
-\emph{Sugestão:} tome $X_n\equiv1/n$ e $X_\infty\equiv0$ e observe que
-$\sup_{t\in\mathbb{R}}|e^{it/n}-1|=2$.
-\end{enumerate}
-\end{exercise}
-
 \begin{exercise}[Lei fraca e existência de $\varphi_{X_1}'(0)$]\label{exercise:pitman}
 Sejam $X_1,X_2,\dots$ independentes e identicamente distribuídas, com função
 característica $\varphi_{X_1}$, e $S_n=X_1+\cdots+X_n$.
@@ -3479,13 +3297,15 @@ Basta notar que $e^{itS_n/n}\to e^{ita}$ em probabilidade e que
 $\bigl|e^{itS_n/n}\bigr|\leqslant1$, de modo que a convergência também se dá em
 $L^1$.
 
-\item[(iii)] Use o item~(ii) e a convergência uniforme sobre compactos do
-\Cref{exercise:equicontinuidade}(ii) para mostrar que $(\varphi_{X_1}(h)-1)/h\to ia$
+\item[(iii)] Use o item~(ii) e a convergência uniforme sobre compactos
+estabelecida no exercício sobre equicontinuidade das funções características,
+nas notas de aula sobre o Teorema do Limite Central, para mostrar que
+$(\varphi_{X_1}(h)-1)/h\to ia$
 quando $h\to0$ pelos reais positivos.
 \emph{Sugestão:} pela independência, a função característica de $S_n/n$ é
 $\varphi_{S_n/n}(s)=\varphi_{X_1}(s/n)^n$. Pelo item~(ii),
 $\varphi_{S_n/n}(s)\to e^{ias}$ para cada $s$, e o limite é
-contínuo; logo o \Cref{exercise:equicontinuidade}(ii) dá convergência uniforme
+contínuo; logo aquele exercício dá convergência uniforme
 sobre compactos. Fixe $\tau>0$ pequeno, com $|a|\tau<\pi/2$ e $\varphi_{X_1}(u)\neq0$
 para $|u|\leqslant\tau$, de modo que o logaritmo principal esteja definido. Da
 convergência uniforme em $[-\tau,\tau]$ segue que
@@ -3534,33 +3354,6 @@ Com a mudança de variáveis $x=|y|t$ em
 $\int_0^\infty\frac{1-\cos(ty)}{\pi t^2}\,dt$ obtém-se $\frac{|y|}{2}$, e o
 teorema de Tonelli, já que o integrando é não negativo, conclui a troca das
 integrais.
-\end{exercise}
-
-\begin{exercise}[Segunda derivada nula na origem]\label{exercise:segunda-derivada-nula}
-Seja $X$ uma variável aleatória com função de distribuição $F_X$ e função
-característica $\varphi_X$. Suponha que
-\[
-  \lim_{t\downarrow0}\frac{\varphi_X(t)-1}{t^2}=c>-\infty .
-\]
-Mostre que $\mathbb{E}[X]=0$ e que $\mathbb{E}|X|^2=-2c<\infty$. Em
-particular, se $\varphi_X(t)=1+o(t^2)$ quando $t\to0$, então $\varphi_X(t)\equiv1$
-e $X=0$ quase certamente.
-
-\emph{Sugestão:} da hipótese segue que
-$\bigl(1-\operatorname{Re}\varphi_X(t)\bigr)/t^2\leqslant C$ para
-$t\in(0,\delta]$. Ora,
-\[
-\frac{1-\operatorname{Re}\varphi_X(t)}{t^2}
-=\int_{\mathbb{R}}\frac{1-\cos(tx)}{t^2}\,dF_X(x),
-\]
-e o integrando é não negativo e converge para $x^2/2$ quando $t\downarrow0$,
-para cada $x$ fixado. Aplicando o lema de Fatou ao longo de uma sequência
-$t_k\downarrow0$ e depois o teorema da convergência monótona, obtemos
-$\mathbb{E}[X^2]\leqslant2C<\infty$. Com o segundo momento finito, a expansão
-de segunda ordem de \Cref{thm:taylor-segunda-ordem} dá
-$\varphi_X(t)=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\mathbb{E}[X^2]+o(t^2)$; divida
-por $t^2$ e faça $t\downarrow0$ para concluir que $\mathbb{E}[X]=0$ e que
-$c=-\frac{1}{2}\mathbb{E}[X^2]$.
 \end{exercise}
 
 \begin{exercise}[Convergência para zero]\label{exercise:convergencia-para-zero}

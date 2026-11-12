@@ -1,0 +1,988 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazilian]{babel}     % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{lucide-icons}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Teorema do Limite Central}, pdfauthor={L. Cioletti},
+pdfsubject={Teorema do Limite Central, funções características, momentos e
+resto de Taylor}, pdfkeywords={teorema do limite central, funções
+características, momentos, resto de Taylor, MAT-UnB} }
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+\newtheoremstyle{plainexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{plainexercise}
+\newtheorem{exercise}{Exercício}
+
+% Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
+% como nas notas anteriores.
+\newtheoremstyle{starredexercise}
+  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{starredexercise}
+\newtheorem{starredexercise}[exercise]{Exercício}
+\theoremstyle{definition}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\AtBeginDocument{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\vspace*{-0.8cm}
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+% --- TÍTULO, AUTOR E DATA ---
+\vspace*{0.3cm}
+\begin{center}
+{\LARGE\bf Teorema do Limite Central}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Novembro de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+% TODO: reescrever o resumo quando o texto destas notas for redigido. Ele deve
+% dizer o que as notas introduzem, quais resultados demonstram, quais exemplos
+% desenvolvem e de quais referências a exposição parte, encerrando com a
+% remissão à seção correspondente de \cite{MR3930614}.
+\begin{abstract}
+Estas notas serão dedicadas ao Teorema do Limite Central e às ferramentas
+analíticas empregadas em sua demonstração. O texto está em preparação. Por
+enquanto, reunimos aqui, provisoriamente, os enunciados das notas de aula sobre
+funções características usados no texto e o material sobre momentos, derivadas
+da função característica e cotas para o resto de Taylor, transferido daquelas
+notas, que servirá de base para a demonstração do teorema.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\ 
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% CONTEÚDO PROVISÓRIO
+%----------------------------------------------------------------------
+% As duas seções a seguir são provisórias.
+%
+% A Seção 1 reúne enunciados copiados de
+% func-caracteristicas/func-caracteristicas.tex em 12 de novembro de 2026, para
+% que estas notas possam, no futuro, ser lidas como texto autônomo. As
+% demonstrações permanecem nas notas de aula sobre funções características e
+% serão incorporadas quando a apresentação final for definida.
+%
+% A Seção 2 é o excedente daquelas notas, transferido na mesma data. Ela
+% permanece aqui até ser reorganizada e integrada ao texto sobre o Teorema do
+% Limite Central.
+
+\section{Enunciados auxiliares}\label{sec:auxiliares}
+
+Esta seção reúne, para comodidade do leitor, os enunciados dos resultados das
+notas de aula sobre funções características que serão usados no texto. As
+demonstrações estão naquelas notas e serão incorporadas quando estas notas forem
+organizadas como texto autônomo.
+
+\subsection{Definições}\label{subsec:aux-definicoes}
+
+\begin{definition}[Função característica]\label{def:func-caracteristica}
+Seja $X$ uma variável aleatória real. A \emph{função característica} de $X$ é a função
+$\varphi_{X}\colon\mathbb{R}\to\mathbb{C}$ dada por
+\[
+  \varphi_{X}(t) \;=\; \mathbb{E}\bigl[e^{itX}\bigr],
+  \qquad \forall t\in\mathbb{R}.
+\]
+\end{definition}
+
+\begin{definition}[Convergência em distribuição]\label{def:convergencia-distribuicao}
+Dizemos que uma sequência $(X_n)_{n\geqslant1}$ de variáveis aleatórias converge
+em distribuição para uma variável aleatória $X$, e escrevemos $X_n\Rightarrow X$,
+se
+\[
+F_{X_n}(x)=\mathbb{P}(X_n\leqslant x)
+\longrightarrow
+F_X(x)=\mathbb{P}(X\leqslant x)
+\]
+em todo ponto $x\in\mathbb{R}$ em que a função de distribuição $F_X$ é contínua.
+\end{definition}
+
+\begin{definition}[Sequência condensada]\label{def:sequencia-condensada}
+Dizemos que uma sequência de variáveis aleatórias $(X_n)_{n\geqslant1}$ é
+\emph{condensada} se, para todo $\varepsilon>0$, existe $M>0$ tal que
+\[
+\mathbb{P}(|X_n|>M)<\varepsilon
+\qquad\text{para todo }n\geqslant1.
+\]
+\end{definition}
+
+\subsection{Resultados}\label{subsec:aux-resultados}
+
+\begin{theorem}\label{thm:propriedades-fc}
+Seja $X$ uma variável aleatória real, com função característica $\varphi_X$. Para
+todos $t,h,a,b\in\mathbb{R}$ valem:
+\begin{enumerate}[label=(\alph*)]
+\item $\varphi_X(0)=1$;
+\item $\varphi_X(-t)=\overline{\varphi_X(t)}$;
+\item $|\varphi_X(t)|=\bigl|\mathbb{E}[e^{itX}]\bigr|\leqslant\mathbb{E}\bigl[|e^{itX}|\bigr]=1$;
+\item $|\varphi_X(t+h)-\varphi_X(t)|\leqslant\mathbb{E}\bigl[|e^{ihX}-1|\bigr]$.
+Em particular, a função $\varphi_X$ é uniformemente contínua em $\mathbb{R}$;
+\item $\mathbb{E}\bigl[e^{it(aX+b)}\bigr]=e^{itb}\varphi_X(at)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Derivação dentro da esperança]\label{thm:derivacao-integral}
+Sejam $I\subseteq\mathbb{R}$ um intervalo aberto, $X$ uma variável aleatória
+real e $g:I\times\mathbb{R}\to\mathbb{C}$. Suponha que:
+\begin{enumerate}
+\item[(i)] para cada $t\in I$, a variável aleatória $g(t,X)$ é integrável;
+\item[(ii)] para quase todo $\omega\in\Omega$, a função
+$t\mapsto g(t,X(\omega))$ é derivável em $I$;
+\item[(iii)] existe uma variável aleatória integrável $Y$ tal que, quase
+certamente,
+\[
+\left| \frac{\partial}{\partial t}\, g(t,X)\right|\leqslant Y,
+\qquad \forall t\in I.
+\]
+\end{enumerate}
+Então $F(t)=\mathbb{E}\bigl[g(t,X)\bigr]$ é derivável em $I$ e
+\[
+F'(t)
+=
+\frac{d}{dt} \mathbb{E}\left[\, g(t,X)\right]
+=
+\mathbb{E}\left[ \frac{\partial}{\partial t}\, g(t,X)\right]
+\qquad \forall t\in I.
+\]
+\end{theorem}
+
+\begin{lemma}[Cota para as caudas]\label{lem:cota-cauda-fc}
+Seja $Y$ uma variável aleatória real com função característica $\varphi_Y$.
+Para todo $u>0$, vale a desigualdade
+\begin{equation}\label{eq:cota-concentracao}
+\mathbb{P}(|Y|\geqslant2/u)
+\leqslant
+\frac{1}{u}\int_{-u}^{u}
+\bigl(1-\operatorname{Re}\varphi_Y(t)\bigr)\,dt.
+\end{equation}
+\end{lemma}
+
+\begin{theorem}[Teorema da Continuidade de Lévy]\label{thm:continuidade}
+Sejam $X_1,X_2,\ldots$ variáveis aleatórias reais, e denote por
+$\varphi_{X_n}$ a função característica de $X_n$, para cada $n$.
+
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item Se $X_n\Rightarrow X$, então
+$\varphi_{X_n}(t)\to\varphi_X(t)$ para todo $t\in\mathbb{R}$.
+
+\item Se $\varphi_{X_n}(t)\to\varphi(t)$ para todo $t\in\mathbb{R}$, para uma
+função $\varphi$ contínua em $0$, então existe uma variável aleatória $X$ tal que
+$X_n\Rightarrow X$ e $\varphi=\varphi_X$. Além disso, $(X_n)$ é condensada.
+\end{enumerate}
+\end{theorem}
+
+No item (ii) do teorema, $\varphi$ é inicialmente apenas uma função
+limite. Uma das conclusões do teorema é que essa função limite é função
+característica de alguma variável aleatória.
+
+\subsection{Exemplos}\label{subsec:aux-exemplos}
+
+\begin{example}[Distribuição de Rademacher]\label{ex:rademacher}
+Seja $X$ uma variável aleatória com distribuição de Rademacher, isto é, suponha
+que $X$ assuma apenas os valores $1$ e $-1$, com função de probabilidade dada por
+$\mathbb{P}(X=1)=\mathbb{P}(X=-1)=\tfrac12$. Então
+\[
+\varphi_X(t)=\frac{e^{it}+e^{-it}}{2}=\cos t, \qquad t\in\mathbb{R}.
+\]
+\end{example}
+
+\begin{example}[Distribuição de Cauchy]\label{ex:cauchy}
+A função $f(x)=1/\bigl(\pi(1+x^{2})\bigr)$, $x\in\mathbb{R}$, é uma densidade de
+probabilidade. Se $X$ tem densidade $f$, sua função característica é
+\[
+\varphi_X(t)=e^{-|t|}, \qquad t\in\mathbb{R}.
+\]
+Além disso, $\mathbb{E}\bigl[|X|\bigr]=\infty$.
+\end{example}
+
+%----------------------------------------------------------------------
+% SEÇÃO TRANSFERIDA
+%----------------------------------------------------------------------
+\section{Momentos e Derivadas}\label{sec:momentos}
+
+Seja $X$ uma variável aleatória real. Nas notas de aula sobre momentos e funções
+geradoras de momentos, vimos que as esperanças das potências de $X$ podem ser
+recuperadas a partir das derivadas de
+$M_X$ na origem, quando a função geradora existe em uma vizinhança de $0$.
+Vamos investigar uma relação semelhante para a função característica
+\[
+\varphi_X(t)=\mathbb{E}[e^{itX}].
+\]
+
+A função característica está definida para todo $t\in\mathbb{R}$, pois
+$|e^{itX}|=1$. Isso não garante, por si só, que ela seja derivável. Por
+exemplo, no \Cref{ex:cauchy} encontramos uma variável sem primeiro momento
+finito cuja função característica é $e^{-|t|}$, que não é derivável em
+$t=0$.
+
+Para entender o papel dos momentos, observamos que, ao derivar a exponencial
+em relação a $t$, aparece um fator $X$:
+\[
+\frac{d}{dt}e^{itX}=iX e^{itX},
+\qquad
+\left|\frac{d}{dt}e^{itX}\right|=|X|.
+\]
+Assim, para justificar a passagem da derivada para dentro da esperança, uma
+hipótese natural é que $\mathbb{E}[|X|]<\infty$. O resultado abaixo mostra
+como o mesmo raciocínio se estende às derivadas de ordem superior.
+
+\subsection{Derivadas, momentos e o decaimento das caudas}\label{subsec:momentos-derivadas}
+
+O \Cref{lem:cota-cauda-fc} fornece uma cota que relaciona a função
+característica às probabilidades de valores grandes de $|X|$: para $u>0$,
+\[
+\mathbb{P}(|X|\geqslant2/u)
+\leqslant
+\frac{1}{u}\int_{-u}^{u}
+\bigl(1-\operatorname{Re}\varphi_X(t)\bigr)\,dt.
+\]
+Essa é a cota \eqref{eq:cota-concentracao}, escrita para a variável $X$. Ela
+mostra que, quando a parte real de $\varphi_X$ está próxima de $1$ perto da
+origem, a probabilidade de $|X|$ ser grande é pequena.
+
+Os momentos também controlam essas probabilidades. De fato, se
+$\mathbb{E}[|X|^n]<\infty$ para algum inteiro $n\geqslant1$, então, para
+$r>0$,
+\[
+\mathds{1}_{\{|X|\geqslant r\}}\leqslant\frac{|X|^n}{r^n}.
+\]
+Tomando esperanças, obtemos
+\[
+\mathbb{P}(|X|\geqslant r)
+\leqslant\frac{\mathbb{E}[|X|^n]}{r^n}.
+\]
+Vamos agora mostrar outra relação entre momentos e função característica:
+quando o momento absoluto de ordem $n$ é finito, podemos derivar
+$\varphi_X$ até a ordem $n$ e calcular suas derivadas por meio de esperanças.
+
+\begin{theorem}[Derivadas da função característica]
+\label{thm:derivadas-momentos}
+Seja $X$ uma variável aleatória com função característica $\varphi_X$.
+Se $\mathbb{E}[|X|^n]<\infty$ para algum inteiro $n\geqslant1$, então, para
+cada inteiro $k$ com $1\leqslant k\leqslant n$, a derivada $\varphi_X^{(k)}$
+existe, é contínua em $\mathbb{R}$ e satisfaz
+\[
+\varphi_X^{(k)}(t)
+=\mathbb{E}\bigl[(iX)^k e^{itX}\bigr],
+\qquad t\in\mathbb{R}.
+\]
+\end{theorem}
+
+\begin{proof}
+Vamos derivar a esperança uma vez de cada vez. Para aplicar o
+\Cref{thm:derivacao-integral}, precisamos verificar que as variáveis obtidas
+e as derivadas dos integrandos são integráveis.
+
+Primeiro, a hipótese de momento absoluto de ordem $n$ garante os momentos
+absolutos de ordens menores. Com efeito, se $1\leqslant j\leqslant n$, então
+\[
+|x|^j\leqslant1+|x|^n,\qquad x\in\mathbb{R}.
+\]
+Para $|x|\leqslant1$, temos $|x|^j\leqslant1$; para $|x|>1$, temos
+$|x|^j\leqslant|x|^n$. Logo
+\[
+\mathbb{E}[|X|^j]\leqslant1+\mathbb{E}[|X|^n]<\infty,
+\qquad 1\leqslant j\leqslant n.
+\]
+
+Comecemos pela primeira derivada. Para cada $t$, a variável $e^{itX}$ é
+integrável, pois tem módulo $1$. Além disso,
+\[
+\frac{\partial}{\partial t}e^{itX}=iX e^{itX},
+\qquad
+\bigl|iX e^{itX}\bigr|=|X|.
+\]
+Como $\mathbb{E}[|X|]<\infty$, o \Cref{thm:derivacao-integral} permite
+trocar a derivada com a esperança:
+\[
+\varphi_X'(t)
+=\frac{d}{dt}\mathbb{E}[e^{itX}]
+=\mathbb{E}[iX e^{itX}],
+\qquad t\in\mathbb{R}.
+\]
+
+Suponha agora que, para algum $k<n$, já tenhamos obtido
+\[
+\varphi_X^{(k)}(t)=\mathbb{E}\bigl[(iX)^k e^{itX}\bigr].
+\]
+Para derivar mais uma vez, tomamos $g(t,x)=(ix)^k e^{itx}$. Então
+\[
+\frac{\partial g}{\partial t}(t,X)
+=(iX)^{k+1}e^{itX},
+\qquad
+\left|\frac{\partial g}{\partial t}(t,X)\right|
+=|X|^{k+1}.
+\]
+A variável $g(t,X)$ é integrável, pois seu módulo é $|X|^k$, e a derivada é
+majorada pela variável integrável $|X|^{k+1}$. Aplicando novamente o
+\Cref{thm:derivacao-integral}, concluímos que
+\[
+\varphi_X^{(k+1)}(t)
+=\frac{d}{dt}\mathbb{E}\bigl[(iX)^k e^{itX}\bigr]
+=\mathbb{E}\bigl[(iX)^{k+1}e^{itX}\bigr].
+\]
+A indução fornece, portanto, a fórmula para todas as ordens de $1$ a $n$.
+
+Resta verificar a continuidade. Fixe $k\in\{1,\ldots,n\}$ e tome uma
+sequência $t_m\to t$. Para cada resultado do experimento,
+\[
+(iX)^k e^{it_mX}\longrightarrow(iX)^k e^{itX},
+\qquad
+\bigl|(iX)^k e^{it_mX}\bigr|=|X|^k.
+\]
+Como $\mathbb{E}[|X|^k]<\infty$, a convergência dominada, aplicada às partes
+real e imaginária, dá
+\[
+\varphi_X^{(k)}(t_m)
+=\mathbb{E}\bigl[(iX)^k e^{it_mX}\bigr]
+\longrightarrow
+\mathbb{E}\bigl[(iX)^k e^{itX}\bigr]
+=\varphi_X^{(k)}(t).
+\]
+Logo $\varphi_X^{(k)}$ é contínua para cada $k\leqslant n$.
+\end{proof}
+
+Tomando $t=0$ no teorema e usando $e^0=1$, obtemos
+\[
+\varphi_X^{(k)}(0)=i^k\,\mathbb{E}[X^k],
+\qquad 1\leqslant k\leqslant n.
+\]
+Em particular, se $\mathbb{E}[|X|]<\infty$, então
+\[
+\varphi_X'(0)=i\,\mathbb{E}[X].
+\]
+Se $\mathbb{E}[X^2]<\infty$, temos também
+\[
+\varphi_X''(0)=i^2\,\mathbb{E}[X^2]=-\mathbb{E}[X^2].
+\]
+Nesse caso, a média é $\mathbb{E}[X]=-i\varphi_X'(0)$, e a variância é
+\[
+\begin{aligned}
+\operatorname{Var}(X)
+&=\mathbb{E}[X^2]-\bigl(\mathbb{E}[X]\bigr)^2
+\\[0.3cm]
+&=-\varphi_X''(0)-\bigl(-i\varphi_X'(0)\bigr)^2
+=-\varphi_X''(0)+\bigl(\varphi_X'(0)\bigr)^2.
+\end{aligned}
+\]
+
+Por exemplo, no \Cref{ex:rademacher} vimos que uma variável $R$ que assume
+$-1$ e $1$ com probabilidades iguais tem função característica
+$\varphi_R(t)=\cos t$. Como $\varphi_R'(0)=0$ e
+$\varphi_R''(0)=-1$, as fórmulas dão
+\[
+\mathbb{E}[R]=0,
+\qquad
+\mathbb{E}[R^2]=1,
+\]
+em acordo com o cálculo direto a partir da distribuição de $R$.
+
+A existência das derivadas também permite aproximar $\varphi_X$ perto da origem.
+Se $\mathbb{E}[|X|^n]<\infty$, aplicamos a fórmula de Taylor às partes real e
+imaginária de $\varphi_X$ e substituímos as derivadas pelos momentos:
+\[
+\varphi_X(t)
+=1+\sum_{k=1}^{n}\frac{(it)^k}{k!}\,\mathbb{E}[X^k]
++o(t^n),
+\qquad t\to0.
+\]
+Aqui $o(t^n)$ representa um resto cujo quociente por $t^n$ tende a zero
+quando $t\to0$. Em particular, se $\mathbb{E}[X^2]<\infty$,
+\[
+\varphi_X(t)
+=1+it\,\mathbb{E}[X]
+-\frac{t^2}{2}\,\mathbb{E}[X^2]+o(t^2).
+\]
+Para essa conclusão, não precisamos supor que o terceiro momento seja finito.
+
+Na próxima subseção, obteremos uma cota explícita para o resto da expansão da
+exponencial. Ela permitirá estimar o erro antes de tomar a esperança e será
+útil no estudo de somas de variáveis aleatórias.
+
+\subsection{Uma cota para o resto de Taylor}\label{subsec:resto-taylor}
+
+No \Cref{thm:derivadas-momentos} vimos que as derivadas de $\varphi_X$ na
+origem são os momentos de $X$. Para transformar essa informação em uma expansão
+de Taylor, porém, não basta conhecer as derivadas: é preciso saber quão grande
+é o erro cometido ao truncar a série. A cota a seguir resolve essa questão; ela
+é uma afirmação puramente analítica, sobre a exponencial complexa, e por isso
+vem antes de qualquer hipótese sobre $X$.
+
+\begin{lemma}[Cota para o resto de Taylor]\label{lem:resto-taylor}
+Para todo inteiro $n\geqslant0$ e todo $x\in\mathbb{R}$,
+\[
+\Bigl|e^{ix}-\sum_{m=0}^{n}\frac{(ix)^m}{m!}\Bigr|\leqslant\min\Bigl(\frac{|x|^{n+1}}{(n+1)!},\,\frac{2|x|^{n}}{n!}\Bigr).
+\]
+Quando $n=0$ a soma se reduz a $1$ e o segundo membro do mínimo deve ser lido
+como $2$, de modo que a cota diz simplesmente $|e^{ix}-1|\leqslant\min(|x|,2)$.
+\end{lemma}
+
+Vale entender, antes da prova, por que o enunciado traz um mínimo de duas cotas.
+O primeiro membro, $|x|^{n+1}/(n+1)!$, é a ordem de grandeza usual do resto de
+Taylor de $e^{ix}$: ele descreve o erro como se descreveria o de uma série de
+potências comum e é a cota adequada quando $|x|$ é pequeno. O segundo membro,
+$2|x|^{n}/n!$, é pior por um fator da ordem de $|x|$ nessa região, mas cresce
+como $|x|^{n}$ e não como $|x|^{n+1}$, sendo portanto o adequado para $|x|$
+grande. É essa segunda cota, e não a primeira, que permitirá provar o teorema
+central do limite sem supor o terceiro momento finito: ela exige apenas o
+controle de $n$ momentos. Como as duas estimativas valem simultaneamente, vale
+a menor delas.
+
+\begin{proof}
+A prova tem três etapas: obter uma identidade integral exata para o resto,
+cotá-la de duas maneiras, cada uma eficiente em uma região, e tomar o mínimo.
+
+\medskip
+\textbf{Primeira etapa: a identidade do resto.}
+Integrando por partes com $u=e^{is}$ e $dv=(x-s)^{n}ds$, de modo que
+$du=ie^{is}ds$ e $v=-(x-s)^{n+1}/(n+1)$, obtemos
+\[
+\int_{0}^{x}(x-s)^{n}e^{is}ds=\Bigl[-\frac{(x-s)^{n+1}}{n+1}e^{is}\Bigr]_{s=0}^{s=x}+\frac{i}{n+1}\int_{0}^{x}(x-s)^{n+1}e^{is}ds .
+\]
+O termo de fronteira se anula em $s=x$, porque $(x-x)^{n+1}=0$, e vale
+$-x^{n+1}/(n+1)$ em $s=0$; logo o colchete é $x^{n+1}/(n+1)$ e
+\[
+\int_{0}^{x}(x-s)^{n}e^{is}ds=\frac{x^{n+1}}{n+1}+\frac{i}{n+1}\int_{0}^{x}(x-s)^{n+1}e^{is}ds .
+\]
+A conta vale também para $x<0$: a integral é orientada e o teorema fundamental
+do cálculo continua valendo nos extremos.
+
+Para $n=0$ a identidade diz que $\int_{0}^{x}e^{is}ds=x+i\int_{0}^{x}(x-s)e^{is}ds$,
+e o lado esquerdo é $(e^{ix}-1)/i$; multiplicando por $i$ e isolando $e^{ix}$,
+\[
+e^{ix}=1+ix+i^{2}\int_{0}^{x}(x-s)e^{is}ds ,
+\]
+que é o desenvolvimento de Taylor de ordem $1$ com resto integral: o
+coeficiente de $x^{2}$ na série é $i^{2}/2!$, e a integração de $(x-s)$ produz
+o $2$ que falta. Usando o caso $n=1$ e substituindo o valor da integral,
+\[
+e^{ix}=1+ix+\frac{i^{2}x^{2}}{2}+\frac{i^{3}}{2}\int_{0}^{x}(x-s)^{2}e^{is}ds .
+\]
+O padrão está claro. Se valer
+\[
+e^{ix}-\sum_{m=0}^{n}\frac{(ix)^{m}}{m!}=\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds
+\]
+para um certo $n$, então a identidade aplicada ao lado direito fornece
+\[
+\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds=\frac{i^{n+1}x^{n+1}}{(n+1)!}+\frac{i^{n+2}}{(n+1)!}\int_{0}^{x}(x-s)^{n+1}e^{is}ds ,
+\]
+já que $n!\,(n+1)=(n+1)!$. Isso é a mesma fórmula com $n$ trocado por $n+1$,
+o que conclui a indução. Portanto, para todo $n\geqslant0$,
+\[
+e^{ix}-\sum_{m=0}^{n}\frac{(ix)^{m}}{m!}=\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds .
+\]
+Toda a dificuldade está agora na integral do lado direito, que é o resto.
+
+\medskip
+\textbf{Segunda etapa: a cota boa para $|x|$ pequeno.} Como $|i^{n+1}|=1$ e
+$|e^{is}|\leqslant1$, e mudando a variável para $u=|s|$ (o que também cobre
+$x<0$),
+\[
+\Bigl|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds\Bigr|\leqslant\frac{1}{n!}\int_{0}^{|x|}(|x|-u)^{n}du=\frac{|x|^{n+1}}{(n+1)!} .
+\]
+O denominador vem daí: o $n!$ já estava na fórmula e a integral de $(x-s)^{n}$
+em $(0,x)$ acrescenta o fator $n+1$. Esta é a cota do cálculo diferencial usual,
+ótima para $|x|$ pequeno.
+
+\medskip
+\textbf{Terceira etapa: a cota boa para $|x|$ grande.}
+Suponha $n\geqslant1$ e integre por partes outra vez, com $dv=(x-s)^{n-1}ds$:
+\begin{align*}
+\int_{0}^{x}(x-s)^{n-1}e^{is}ds
+&=\frac{x^{n}}{n}+\frac{i}{n}\int_{0}^{x}(x-s)^{n}e^{is}ds ,
+\\[0.3cm]
+\frac{i}{n}\int_{0}^{x}(x-s)^{n}e^{is}ds
+&=-\frac{x^{n}}{n}+\int_{0}^{x}(x-s)^{n-1}e^{is}ds .
+\end{align*}
+O ponto decisivo é que o termo de fronteira é ele próprio uma integral da
+mesma família, $x^{n}/n=\int_{0}^{x}(x-s)^{n-1}ds$; substituindo, os dois
+pedaços se fundem em uma única integral,
+\[
+\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds=\frac{i^{n}}{(n-1)!}\int_{0}^{x}(x-s)^{n-1}\bigl(e^{is}-1\bigr)ds ,
+\]
+pois $\frac{i^{n}}{(n-1)!}\cdot\frac{i}{n}=\frac{i^{n+1}}{n!}$. É aqui que a
+subtração de $1$ faz o seu trabalho: sem ela teríamos duas parcelas, uma do
+termo de fronteira e outra da integral, e ao cotá-las separadamente voltaríamos
+à ordem de grandeza $|x|^{n+1}$. Com o $-1$ dentro do parêntese resta uma só
+integral, cujo integrando é uniformemente limitado, já que
+$|e^{is}-1|\leqslant|e^{is}|+1\leqslant2$ para todo $s$. Essa limitação não
+depende de $|x|$, e é isso que permite conservar o fator $|x|^{n}$:
+\[
+\Bigl|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds\Bigr|\leqslant\frac{2}{(n-1)!}\int_{0}^{|x|}(|x|-u)^{n-1}du=\frac{2|x|^{n}}{n!} .
+\]
+
+\medskip
+\textbf{O caso $n=0$ e a conclusão.}
+Para $n=0$ a segunda etapa já dá $|e^{ix}-1|\leqslant|x|$ e a terceira não se
+aplica, pois divide por $n$; a segunda cota do mínimo é então $2$, que é a
+estimativa trivial $|e^{ix}-1|\leqslant2$. Assim o enunciado vale para todo
+$n\geqslant0$: para $n\geqslant1$ porque as duas últimas etapas fornecem ambas
+as cotas, e vale a menor; para $n=0$ pela observação anterior.
+\end{proof}
+
+A transposição para funções características é imediata. Se
+$\mathbb{E}|X|^{n}<\infty$, então
+\[
+\min\bigl(|tX|^{n+1},2|tX|^{n}\bigr)\leqslant2|t|^{n}|X|^{n},
+\]
+e o lado direito dessa desigualdade é integrável. Assim todos os termos abaixo
+são finitos. Aplicando o lema a $x=tX$ e tomando esperanças, obtemos, para todo
+$t\in\mathbb{R}$,
+\begin{equation}\label{eq:cota-resto-taylor}
+\begin{aligned}
+\Bigl|\mathbb{E}\bigl[e^{itX}\bigr]
+-\sum_{m=0}^{n}\mathbb{E}\Bigl[\frac{(itX)^{m}}{m!}\Bigr]\Bigr|
+&\leqslant\mathbb{E}\Bigl[\Bigl|e^{itX}
+-\sum_{m=0}^{n}\frac{(itX)^{m}}{m!}\Bigr|\Bigr]
+\\[0.3cm]
+&\leqslant\mathbb{E}\Bigl[\min\bigl(|tX|^{n+1},\,2|tX|^{n}\bigr)\Bigr].
+\end{aligned}
+\end{equation}
+Primeiro o módulo entra na esperança, pela desigualdade triangular
+(equivalentemente, pela desigualdade de Jensen aplicada a $|\cdot|$); depois se
+usa a cota pontual do lema. Os denominadores foram descartados porque
+$(n+1)!\geqslant1$ e $n!\geqslant1$, de modo que retirá-los só aumenta o lado
+direito.
+
+A cota \eqref{eq:cota-resto-taylor} vale para todo $t$ real, sem restrição de
+tamanho, mas o interesse é o comportamento quando $t\to0$, e aí as duas
+parcelas do mínimo competem: se $\mathbb{E}|X|^{n+1}<\infty$, a primeira dá
+$O(|t|^{n+1})$; se dispomos apenas de $\mathbb{E}|X|^{n}<\infty$, a segunda dá
+$O(|t|^{n})$. No \Cref{thm:taylor-segunda-ordem} usaremos $n=2$: a primeira
+alternativa exigiria o terceiro momento finito, e é a segunda que permite obter
+a expansão de segunda ordem da função característica sob a hipótese de variância
+finita apenas. Em resumo, o resto de Taylor de ordem $n$ é $O(|t|^{n+1})$ se
+existirem $n+1$ momentos e $O(|t|^{n})$ se existirem apenas $n$.
+
+\subsection{A expansão de segunda ordem e sua recíproca}\label{subsec:segunda-ordem}
+
+O caso especial $n=2$ da cota \eqref{eq:cota-resto-taylor} será útil adiante, quando
+tratarmos de somas de variáveis independentes. Com $n=2$, o polinômio de Taylor de
+$\varphi_X$ na origem é
+\[
+1+it\,\mathbb{E}[X]+\frac{(it)^2}{2}\,\mathbb{E}[X^2]=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\,\mathbb{E}[X^2],
+\]
+e o resto é majorado por $\mathbb{E}\bigl[\min\bigl(|tX|^3,2|tX|^2\bigr)\bigr]$. Como
+$\mathbb{E}|X|^2<\infty$ implica $\mathbb{E}|X|<\infty$, os dois coeficientes são finitos.
+
+\begin{theorem}[Expansão de segunda ordem]\label{thm:taylor-segunda-ordem}
+Seja $X$ uma variável aleatória com função característica $\varphi_X$.
+Se $\mathbb{E}|X|^2<\infty$, então
+\[
+\varphi_X(t)=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\,\mathbb{E}[X^2]+o(t^2),\qquad t\to0.
+\]
+\end{theorem}
+
+\begin{proof}
+Seja $R_2(t)\equiv\varphi_X(t)-1-it\,\mathbb{E}[X]+\tfrac{t^2}{2}\mathbb{E}[X^2]$ o resto, de
+modo que, por \eqref{eq:cota-resto-taylor},
+$|R_2(t)|\leqslant\mathbb{E}\bigl[\min\bigl(|tX|^3,2|tX|^2\bigr)\bigr]$. Vamos isolar o fator
+$t^2$ dentro da esperança, para que a divisão por $t^2$ apareça explicitamente. Como
+$|tx|^3=t^2|t||x|^3$ e $2|tx|^2=2t^2|x|^2$, dividindo ambos os lados por $t^2>0$ obtemos
+\begin{equation}\label{eq:resto-dividido}
+\frac{|R_2(t)|}{t^2}\leqslant\mathbb{E}\bigl[\min\bigl(|t|\,|X|^3,2|X|^2\bigr)\bigr].
+\end{equation}
+Basta mostrar que o lado direito tende a zero, o que é a afirmação $R_2(t)=o(t^2)$. Ponha
+$Y_t\equiv\min\bigl(|t||X|^3,2|X|^2\bigr)$. Temos $0\leqslant Y_t\leqslant2|X|^2$, e
+$2|X|^2$ é integrável por hipótese, logo $(Y_t)$ tem dominante integrável que não depende de
+$t$. Para a convergência pontual, fixe $\omega$ com $|X(\omega)|<\infty$, o que vale quase
+certamente porque $\mathbb{E}|X|^2$ é finito; quando $t\to0$, o primeiro argumento do mínimo
+tende a $0$ e o segundo é a constante $2|X(\omega)|^2$, de sorte que $Y_t(\omega)\to0$. Pelo
+teorema da convergência dominada, $\mathbb{E}[Y_t]\to0$; como $|R_2(t)|/t^2\geqslant0$, segue
+de \eqref{eq:resto-dividido} que
+\[
+0\leqslant\limsup_{t\to0}\frac{|R_2(t)|}{t^2}\leqslant\lim_{t\to0}\mathbb{E}[Y_t]=0,
+\]
+isto é, $|R_2(t)|/t^2\to0$ e portanto $R_2(t)=o(t^2)$.
+\end{proof}
+
+\begin{remark}[Por que a cota com o mínimo]\label{rem:cota-minimo}
+O ponto da cota \eqref{eq:cota-resto-taylor}, que envolve o mínimo de dois termos em vez do
+primeiro termo que resultaria de uma aplicação ingênua da série de Taylor, é que assim a
+conclusão de \Cref{thm:taylor-segunda-ordem} vale sob a hipótese $\mathbb{E}|X|^2<\infty$,
+sem exigir $\mathbb{E}|X|^3<\infty$.
+
+A cota ingênua para $n=2$, $\bigl|e^{ix}-1-ix+x^2/2\bigr|\leqslant|x|^3/3!$, majora o resto
+por $\tfrac{1}{6}|t|^3\,\mathbb{E}|X|^3$ e, após a divisão por $t^2$, deixa
+$\tfrac{1}{6}|t|\,\mathbb{E}|X|^3$, que só tende a zero se o terceiro momento absoluto for
+finito.
+
+O mínimo contorna essa exigência porque trata de modo diferente as duas regiões
+determinadas por $|tX|$. Se $|tX|\leqslant2$, então $|tX|^3\leqslant2|tX|^2$ e o mínimo é o
+termo cúbico, o termo fino, útil justamente onde $|tX|$ é pequeno; como ele carrega o fator
+adicional $|t|$, decai quando $t\to0$, mesmo que $\mathbb{E}|X|^3$ seja infinito. Se
+$|tX|>2$, o mínimo é $2|tX|^2$, que não envolve $|X|^3$: nessa região, onde valores grandes
+de $|X|$ custariam integrabilidade, a cota é proporcional a $t^2|X|^2$, e o fator $t^2$ já
+está fora da esperança, pronto para ser cancelado na divisão. Em suma, o fator extra $|t|$
+da parte cúbica absorve o que seria uma potência maior de $|X|$, e a parte limitada fica
+controlada por $|X|^2$.
+\end{remark}
+
+O próximo resultado mostra que a existência da segunda derivada de $\varphi_X$ na origem
+implica a existência do segundo momento, isto é, ele é a recíproca de
+\Cref{thm:taylor-segunda-ordem}. Como $\varphi_X$ assume valores complexos, a derivada deve
+ser entendida no sentido da diferença segunda simétrica, expressão que aparece na hipótese.
+
+\begin{theorem}[Segundo momento e diferença segunda]\label{thm:segundo-momento-finito}
+Seja $X$ uma variável aleatória com função característica $\varphi_X$. Se
+\[
+\limsup_{h\downarrow0}\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}>-\infty,
+\]
+então $\mathbb{E}|X|^2<\infty$.
+\end{theorem}
+
+\begin{proof}
+Seja $F$ a função de distribuição de $X$, de modo que $\varphi_X(t)=\int e^{itx}\,dF(x)$. Pela
+linearidade da integral, aplicada ao integrando limitado,
+\[
+\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}=\int_{\mathbb{R}}\frac{e^{ihx}-2+e^{-ihx}}{h^2}\,dF(x).
+\]
+Como $e^{ihx}+e^{-ihx}=2\cos(hx)$, o integrando vale
+\begin{equation}\label{eq:integrando-segunda-diferenca}
+\frac{e^{ihx}-2+e^{-ihx}}{h^2}=-\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\leqslant0,
+\end{equation}
+pois $1-\cos(hx)\geqslant0$; e o limite fundamental $\lim_{u\to0}(1-\cos u)/u^2=1/2$, com
+$u=hx$, mostra que $2\bigl(1-\cos(hx)\bigr)/h^2\to x^2$ quando $h\to0$, para cada $x$ fixado.
+
+O sinal em \eqref{eq:integrando-segunda-diferenca} é o que autoriza usar o lema de Fatou na
+forma que fornece cota inferior, pois Fatou se aplica a funções não negativas: se
+$g_h\geqslant0$, então $\int\liminf_{h\to0}g_h\,dF\leqslant\liminf_{h\to0}\int g_h\,dF$.
+Aplicado diretamente ao integrando negativo, o lema daria a desigualdade no sentido oposto,
+inútil aqui. Tomando então $g_h(x)\equiv2\bigl(1-\cos(hx)\bigr)/h^2\geqslant0$, o simétrico
+do integrando original, e lembrando que $2\varphi_X(0)=2$ e que
+$\varphi_X(h)+\varphi_X(-h)=2\int\cos(hx)\,dF(x)$, obtemos
+\begin{align*}
+\int_{\mathbb{R}}x^2\,dF(x)
+&= \int_{\mathbb{R}}\lim_{h\to0}\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\,dF(x)
+\\[0.3cm]
+&\leqslant \liminf_{h\to0}\int_{\mathbb{R}}\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\,dF(x)
+\\[0.3cm]
+&= \liminf_{h\to0}\frac{2\varphi_X(0)-\varphi_X(h)-\varphi_X(-h)}{h^2}
+\\[0.3cm]
+&= -\limsup_{h\to0}\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}<\infty,
+\end{align*}
+sendo a última desigualdade exatamente a hipótese. Como $x\mapsto x^2$ é não
+negativa, a integral $\int x^2\,dF(x)$ é o segundo momento $\mathbb{E}[X^2]$, e
+a cadeia mostra que esse número é finito, ou seja, que
+$\mathbb{E}|X|^2<\infty$.
+\end{proof}
+
+Combinando \Cref{thm:taylor-segunda-ordem} e \Cref{thm:segundo-momento-finito}, a finitude
+do segundo momento é equivalente à existência da segunda derivada de $\varphi_X$ na origem, no
+sentido da diferença segunda simétrica. Se $\mathbb{E}|X|^2<\infty$, a expansão de segunda
+ordem diz que $\bigl(\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)\bigr)/h^2$ converge para
+$-\mathbb{E}[X^2]$; reciprocamente, a hipótese de \Cref{thm:segundo-momento-finito} garante
+o segundo momento finito. Note que não se pede a existência do limite, apenas que o limite
+superior não seja $-\infty$.
+
+
+\section{Exercícios Propostos}\label{sec:exercicios}
+
+Os exercícios a seguir dependem do conteúdo da seção anterior. Eles serão
+reorganizados quando o texto destas notas for redigido.
+
+\begin{exercise}[Momentos da normal padrão]
+\label{exercise:momentos-normal}
+Seja $X$ uma variável aleatória com distribuição normal padrão. Use
+\Cref{thm:derivadas-momentos} e o desenvolvimento em série de potências de
+$e^{-t^{2}/2}$ para mostrar que, para todo $n\geqslant1$,
+\[
+  \mathbb{E}\bigl[X^{2n}\bigr]=\frac{(2n)!}{2^{n}\,n!}
+  =(2n-1)(2n-3)\cdots3\cdot1\equiv(2n-1)!!,
+\]
+onde $(2n-1)!!$ é, por definição, o produto dos inteiros positivos ímpares que
+não excedem $2n-1$, com a convenção $(-1)!!=1$. Em particular,
+$\mathbb{E}[X^{2}]=1$ e $\mathbb{E}[X^{4}]=3$. Mostre também que os momentos de
+ordem ímpar se anulam, por simetria da distribuição:
+$\mathbb{E}[X^{2n-1}]=0$ para $n\geqslant1$.
+
+\emph{Sugestão:} a função característica da normal padrão é
+$\varphi_X(t)=e^{-t^{2}/2}=\sum_{n\geqslant0}\frac{(-1)^{n}}{2^{n}n!}t^{2n}$, e
+\Cref{thm:derivadas-momentos} dá
+$\varphi_X^{(2n)}(0)=i^{2n}\mathbb{E}[X^{2n}]=(-1)^{n}\mathbb{E}[X^{2n}]$;
+compare os coeficientes das duas expressões de $\varphi_X$. Para os momentos
+ímpares, use $X\overset{d}{=}-X$.
+\end{exercise}
+
+\begin{exercise}[Equicontinuidade das funções características]\label{exercise:equicontinuidade}
+Dizemos que uma família de variáveis aleatórias $\{X_i:i\in I\}$ é
+\emph{condensada} se, para todo $\varepsilon>0$, existe $M>0$ tal que
+\[
+\mathbb{P}(|X_i|>M)<\varepsilon
+\qquad\text{para todo }i\in I.
+\]
+Denotando por $\varphi_{X_i}$ a função característica de $X_i$, dizemos que a
+família $\{\varphi_{X_i}:i\in I\}$ é \emph{equicontínua} se, para todo
+$\varepsilon>0$, existe $\delta>0$ tal que $|h|<\delta$ implica
+$|\varphi_{X_i}(t+h)-\varphi_{X_i}(t)|<\varepsilon$ para todos $i\in I$ e
+$t\in\mathbb{R}$.
+
+\begin{enumerate}
+\item[(i)] Suponha que $\{X_i:i\in I\}$ seja condensada e mostre que
+$\{\varphi_{X_i}:i\in I\}$ é equicontínua.
+
+\emph{Sugestão:} pelo item~(d) do \Cref{thm:propriedades-fc},
+\[
+|\varphi_{X_i}(t+h)-\varphi_{X_i}(t)|
+\leqslant\mathbb{E}\bigl[|e^{ihX_i}-1|\bigr].
+\]
+Use $|e^{i\theta}-1|\leqslant|\theta|\wedge2$, obtida em
+\eqref{eq:cota-resto-taylor}, para mostrar que, para todo $M>0$,
+\[
+|\varphi_{X_i}(t+h)-\varphi_{X_i}(t)|
+\leqslant |h|M+2\mathbb{P}(|X_i|>M).
+\]
+Escolha primeiro $M$ e depois $\delta$ em função de $\varepsilon$.
+
+\item[(ii)] Suponha que $X_n\Rightarrow X_\infty$ e denote por
+$\varphi_{X_\infty}$ a função característica de $X_\infty$. Mostre que a
+família $\{X_n:n\in\mathbb{N}\}\cup\{X_\infty\}$ é condensada e conclua que
+$\varphi_{X_n}\to\varphi_{X_\infty}$ uniformemente sobre cada intervalo limitado.
+
+\emph{Sugestão:} para obter a condensação, escolha $M$ de modo que $-M$ e $M$
+sejam pontos de continuidade de $F_{X_\infty}$ e que
+$\mathbb{P}(|X_\infty|\geqslant M)$ seja pequena. Use a convergência das
+funções de distribuição e, depois, aumente $M$ para incluir os finitos
+índices iniciais. Aplique o item~(i) e o \Cref{thm:continuidade}. Dado um
+intervalo limitado, cubra-o por um número finito de intervalos de raio
+$\delta$, centrados em $t_1,\ldots,t_k$, e escreva
+\[
+\begin{aligned}
+|\varphi_{X_n}(t)-\varphi_{X_\infty}(t)|
+&\leqslant|\varphi_{X_n}(t)-\varphi_{X_n}(t_j)|
++|\varphi_{X_n}(t_j)-\varphi_{X_\infty}(t_j)|\\
+&\quad+|\varphi_{X_\infty}(t_j)-\varphi_{X_\infty}(t)|.
+\end{aligned}
+\]
+Use a equicontinuidade na primeira e na terceira parcelas e a convergência
+pontual em $t_j$ na parcela do meio.
+
+\item[(iii)] Dê um exemplo em que $X_n\Rightarrow X_\infty$, mas
+$\varphi_{X_n}$ não converge para $\varphi_{X_\infty}$ uniformemente em
+$\mathbb{R}$.
+
+\emph{Sugestão:} tome $X_n\equiv1/n$ e $X_\infty\equiv0$ e observe que
+$\sup_{t\in\mathbb{R}}|e^{it/n}-1|=2$.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Segunda derivada nula na origem]\label{exercise:segunda-derivada-nula}
+Seja $X$ uma variável aleatória com função de distribuição $F_X$ e função
+característica $\varphi_X$. Suponha que
+\[
+  \lim_{t\downarrow0}\frac{\varphi_X(t)-1}{t^2}=c>-\infty .
+\]
+Mostre que $\mathbb{E}[X]=0$ e que $\mathbb{E}|X|^2=-2c<\infty$. Em
+particular, se $\varphi_X(t)=1+o(t^2)$ quando $t\to0$, então $\varphi_X(t)\equiv1$
+e $X=0$ quase certamente.
+
+\emph{Sugestão:} da hipótese segue que
+$\bigl(1-\operatorname{Re}\varphi_X(t)\bigr)/t^2\leqslant C$ para
+$t\in(0,\delta]$. Ora,
+\[
+\frac{1-\operatorname{Re}\varphi_X(t)}{t^2}
+=\int_{\mathbb{R}}\frac{1-\cos(tx)}{t^2}\,dF_X(x),
+\]
+e o integrando é não negativo e converge para $x^2/2$ quando $t\downarrow0$,
+para cada $x$ fixado. Aplicando o lema de Fatou ao longo de uma sequência
+$t_k\downarrow0$ e depois o teorema da convergência monótona, obtemos
+$\mathbb{E}[X^2]\leqslant2C<\infty$. Com o segundo momento finito, a expansão
+de segunda ordem de \Cref{thm:taylor-segunda-ordem} dá
+$\varphi_X(t)=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\mathbb{E}[X^2]+o(t^2)$; divida
+por $t^2$ e faça $t\downarrow0$ para concluir que $\mathbb{E}[X]=0$ e que
+$c=-\frac{1}{2}\mathbb{E}[X^2]$.
+\end{exercise}
+
+%----------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------
+% Enquanto o texto não tem \cite, as duas referências básicas entram na lista
+% por \nocite. Ao redigir o texto, substitua esta linha pelas citações que
+% forem efetivamente usadas.
+\nocite{GrimmettWelsh2014,MR3930614}
+
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}
