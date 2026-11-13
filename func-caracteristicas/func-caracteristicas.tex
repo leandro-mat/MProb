@@ -124,8 +124,10 @@ MAT-UnB} }
 \newtheorem{remark}[remark]{Observação}
 \aliascntresetthe{remark}
 
+% O primeiro argumento é o espaço acima do ambiente. Acrescentamos 0,4 cm ao
+% valor usual de 3pt para separar melhor os exercícios.
 \newtheoremstyle{plainexercise}
-  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {14.4pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
   {\thmnumber{#2}\thmnote{ #3}}
 \theoremstyle{plainexercise}
 \newtheorem{exercise}{Exercício}
@@ -133,7 +135,7 @@ MAT-UnB} }
 % Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
 % como nas notas anteriores.
 \newtheoremstyle{starredexercise}
-  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {14.4pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
   {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
 \theoremstyle{starredexercise}
 \newtheorem{starredexercise}[exercise]{Exercício}
@@ -2424,12 +2426,14 @@ g(x)\equiv\sum_{j=1}^{m}h(x_j)\mathds{1}_{(x_{j-1},x_j]}(x).
 Em $(-R,R]$, todo ponto $x$ pertence a um único intervalo $(x_{j-1},x_j]$,
 no qual $g(x)=h(x_j)$ e $|h(x)-g(x)|<\varepsilon$. Fora de $(-R,R]$, temos
 $g(x)=0$ e $|h(x)-g(x)|=|h(x)|\leqslant B$. Logo, para todo $x\in\mathbb{R}$,
-\[
+\begin{align*}
 |h(x)-g(x)|
-\leqslant\varepsilon\,\mathds{1}_{(-R,R]}(x)
-+B\,\mathds{1}_{\mathbb{R}\setminus(-R,R]}(x)
-\leqslant\varepsilon+B\,\mathds{1}_{\mathbb{R}\setminus(-R,R]}(x).
-\]
+&\leqslant
+\varepsilon\,\mathds{1}_{(-R,R]}(x) +B\,\mathds{1}_{\mathbb{R}\setminus(-R,R]}(x)
+\\[0.3cm]
+&\leqslant
+\varepsilon+B\,\mathds{1}_{\mathbb{R}\setminus(-R,R]}(x).
+\end{align*}
 A continuidade de $h$ e a expressão de $g$ mostram que ambas são
 Borel-mensuráveis. Como também são limitadas, $h(Y)$, $g(Y)$ e
 $h(Y)-g(Y)$ são variáveis aleatórias integráveis, tanto para $Y=X_n$ como
@@ -2619,11 +2623,11 @@ como ilustra a \Cref{fig:selecao-indices-racionais}.
   \draw[teal!65, densely dashed] (\indice,1.52) -- (\indice,0.08);
 }
 \foreach \indice in {1,4,7,10} {
-  \fill[black!60] (\indice,1.6) circle (2.2pt);
+  \fill[black] (\indice,1.6) circle (2.2pt);
 }
 \foreach \indice in {2,5,8,12} {
-  \fill[teal] (\indice,1.6) circle (2.2pt);
-  \fill[teal] (\indice,0) circle (2.2pt);
+  \fill[red] (\indice,1.6) circle (2.2pt);
+  \fill[red] (\indice,0) circle (2.2pt);
 }
 \foreach \indice in {1,2,4,5,7,8,10,12} {
   \node[above=3pt, font=\scriptsize] at (\indice,1.6) {$\indice$};
@@ -2704,10 +2708,14 @@ F(x)\leqslant F(y).
 \]
 Logo, $F$ é não decrescente.
 
+\bigskip 
+
 Em geral, $F$ não precisa coincidir com $G$ nos racionais. Por exemplo, se
 $X_n\equiv1/n$, então $F_n(0)=0$, enquanto, para cada racional $q>0$,
 $F_n(q)=1$ para $n$ suficientemente grande. Nesse caso, $G(0)=0$, mas
 $G(q)=1$ para todo racional $q>0$ e, portanto, $F(0)=1$.
+
+\bigskip 
 
 Vamos verificar a \emph{semicontinuidade superior} de $F$: dado um ponto $x$
 e uma tolerância $\varepsilon>0$, queremos mostrar que
@@ -2797,39 +2805,116 @@ Pela continuidade, existe $\delta>0$ tal que
 \qquad\text{sempre que }|y-x|<\delta.
 \]
 Escolha $r=x-\delta/2$ e, pela densidade dos racionais, escolha
-$p,q\in\mathbb{Q}$ tais que $r<p<x<q<x+\delta$. As desigualdades anteriores
-fornecem
+$p,q\in\mathbb{Q}$ tais que $r<p<x<q<x+\delta$.
+
+\begin{center}
+\begin{tikzpicture}[
+  x=1cm, y=1cm,
+  font=\small,
+  reta/.style={-{Stealth[length=2mm]}, draw=black!65, semithick}
+]
+\draw[reta] (-4.3,0) -- (4.3,0);
+
+% A distância de r a x é metade da distância de x a cada extremo.
+\foreach \posicao in {-3.6,-1.8,0,3.6} {
+  \fill[black] (\posicao,0) circle (2.2pt);
+}
+\foreach \posicao in {-0.8,1.7} {
+  \fill[red] (\posicao,0) circle (2.2pt);
+}
+
+\node[below=5pt] at (-3.6,0) {$x-\delta$};
+\node[above=5pt] at (-1.8,0) {$r=x-\delta/2$};
+\node[below=5pt] at (-0.8,0) {$p$};
+\node[below=5pt] at (0,0) {$x$};
+\node[below=5pt] at (1.7,0) {$q$};
+\node[below=5pt] at (3.6,0) {$x+\delta$};
+\end{tikzpicture}
+\end{center}
+Como $|r-x|=\delta/2<\delta$ e $|q-x|=q-x<\delta$, podemos aplicar a
+estimativa de continuidade nos pontos $r$ e $q$:
+\begin{align}\label{des-aux-func-car-1}
+|F(r)-F(x)|<\frac{\varepsilon}{2},
+\qquad
+|F(q)-F(x)|<\frac{\varepsilon}{2}.
+\end{align}
+Da primeira desigualdade concluímos que
+\begin{align*}
+-\frac{\varepsilon}{2} < F(r)-F(x) <\frac{\varepsilon}{2}
+\quad \Longrightarrow \quad
+F(x)-\frac{\varepsilon}{2}<F(r).
+\end{align*}
+Analogamente, segue da segunda de \eqref{des-aux-func-car-1} que
+$F(q)<F(x)+\varepsilon/2$.
+
+Queremos mostrar que $F_{n_k}(x)$ fica entre $F(x)-\varepsilon$ e
+$F(x)+\varepsilon$ quando $k$ é suficientemente grande. Como $p<x<q$ e
+cada função de distribuição $F_{n_k}$ é não decrescente, temos
+\[
+F_{n_k}(p)\leqslant F_{n_k}(x)\leqslant F_{n_k}(q).
+\]
+Assim, basta mostrar que $F_{n_k}(p)>F(x)-\varepsilon$ e que
+$F_{n_k}(q)<F(x)+\varepsilon$.
+
+Para estimar esses valores, usamos primeiro as comparações com $G$.
+Como $r<p$ e $p$ é racional, temos $F(r)\leqslant G(p)$; como $q$ é
+racional, temos $G(q)\leqslant F(q)$. Juntando essas comparações às
+estimativas de continuidade, obtemos
 \[
 F(x)-\frac{\varepsilon}{2}<F(r)\leqslant G(p),
 \qquad
 G(q)\leqslant F(q)<F(x)+\frac{\varepsilon}{2}.
 \]
-Como $F_{n_k}(p)\to G(p)$ e $F_{n_k}(q)\to G(q)$, existe $K$ tal que, para
-todo $k\geqslant K$,
-\[
-|F_{n_k}(p)-G(p)|<\frac{\varepsilon}{2},
-\qquad
-|F_{n_k}(q)-G(q)|<\frac{\varepsilon}{2}.
-\]
-Combinando essas estimativas com a monotonicidade de $F_{n_k}$, obtemos, para
-todo $k\geqslant K$,
+Agora usamos a convergência nos racionais $p$ e $q$. Como
+$F_{n_k}(p)\to G(p)$ e $F_{n_k}(q)\to G(q)$, podemos escolher um índice
+$K$ a partir do qual os dois erros são menores que $\varepsilon/2$.
+Em particular, para todo $k\geqslant K$,
+\begin{align*}
+|F_{n_k}(p)-G(p)|<\frac{\varepsilon}{2}
+&\quad\Longrightarrow\quad
+F_{n_k}(p)>G(p)-\frac{\varepsilon}{2},\\[0.2cm]
+|F_{n_k}(q)-G(q)|<\frac{\varepsilon}{2}
+&\quad\Longrightarrow\quad
+F_{n_k}(q)<G(q)+\frac{\varepsilon}{2}.
+\end{align*}
+Para a cota inferior, usamos a primeira dessas estimativas e a desigualdade
+$G(p)>F(x)-\varepsilon/2$:
+\begin{align*}
+F_{n_k}(p)
+&>G(p)-\frac{\varepsilon}{2}\\[0.2cm]
+&>\left(F(x)-\frac{\varepsilon}{2}\right)-\frac{\varepsilon}{2}
+=F(x)-\varepsilon.
+\end{align*}
+Para a cota superior, usamos a segunda estimativa e a desigualdade
+$G(q)<F(x)+\varepsilon/2$:
+\begin{align*}
+F_{n_k}(q)
+&<G(q)+\frac{\varepsilon}{2}\\[0.2cm]
+&<\left(F(x)+\frac{\varepsilon}{2}\right)+\frac{\varepsilon}{2}
+=F(x)+\varepsilon.
+\end{align*}
+Voltando à comparação entre os valores em $p$, $x$ e $q$, concluímos que,
+para todo $k\geqslant K$,
 \[
 F(x)-\varepsilon<F_{n_k}(p)\leqslant F_{n_k}(x)
 \leqslant F_{n_k}(q)<F(x)+\varepsilon.
 \]
-Como $\varepsilon>0$ é arbitrário, segue que
+Em particular, $|F_{n_k}(x)-F(x)|<\varepsilon$ para todo $k\geqslant K$.
+Como isso vale para cada $\varepsilon>0$, provamos que
 \[
 \lim_{k\to\infty}F_{n_k}(x)=F(x).
 \]
-Isso vale em todo ponto de continuidade de $F$. Pela definição de convergência
-em distribuição, concluímos que $X_{n_k}\Rightarrow X$.
+O ponto $x$ foi escolhido arbitrariamente entre os pontos de continuidade
+de $F$. Portanto, essa convergência vale em todos esses pontos, que é
+precisamente a condição da definição de convergência em distribuição.
+Concluímos, assim, que $X_{n_k}\Rightarrow X$.
 \end{proof}
 
 \begin{lemma}[Cota para as caudas]\label{lem:cota-cauda-fc}
 Seja $Y$ uma variável aleatória real com função característica $\varphi_Y$.
 Para todo $u>0$, vale a desigualdade
 \begin{equation}\label{eq:cota-concentracao}
-\mathbb{P}(|Y|\geqslant2/u)
+\mathbb{P}\left( |Y| \geqslant  \frac{2}{u} \right)
 \leqslant
 \frac{1}{u}\int_{-u}^{u}
 \bigl(1-\operatorname{Re}\varphi_Y(t)\bigr)\,dt.
@@ -2838,8 +2923,8 @@ Para todo $u>0$, vale a desigualdade
 
 \begin{proof}
 A ideia é usar os valores de $\varphi_Y$ perto de $0$ para controlar a
-probabilidade de $|Y|$ ser grande. Para $u>0$ e $x\neq0$, a paridade do
-cosseno dá
+probabilidade de $|Y|$ ser grande. Para $u>0$ e $x\neq0$, integrando
+diretamente, obtemos
 \begin{align*}
 \frac{1}{u}\int_{-u}^{u}\bigl(1-\cos(tx)\bigr)\,dt
 &=2-\frac{1}{u}\left.\frac{\sin(tx)}{x}\right|_{-u}^{u}\\[0.3cm]
@@ -2863,21 +2948,63 @@ $|\sin v|\leqslant|v|$ para todo $v$. De fato, se $v\geqslant0$,
 |\sin v|=\left|\int_0^v\cos s\,ds\right|
 \leqslant\int_0^v|\cos s|\,ds\leqslant v,
 \]
-e, para $v<0$, a desigualdade segue da imparidade do seno. Logo
-$1-\sin v/v\geqslant0$, com o valor $0$ em $v=0$. Além disso, se
-$|v|\geqslant2$, então
+e, para $v<0$, a desigualdade segue do fato de a função seno ser ímpar.
+Logo, para $v\neq0$,
 \[
-\frac{\sin v}{v}\leqslant\frac{1}{|v|}\leqslant\frac12,
-\qquad\text{e, portanto,}\qquad
-2\left(1-\frac{\sin v}{v}\right)\geqslant1.
+\frac{\sin v}{v}
+\leqslant\frac{|\sin v|}{|v|}
+\leqslant1
+\quad\Longrightarrow\quad
+1-\frac{\sin v}{v}\geqslant0.
 \]
-Tomando $v=uY$, concluímos que
+Em $v=0$, mantemos a convenção $\sin v/v=1$, de modo que a expressão
+$1-\sin v/v$ vale $0$. Assim, ela é não negativa para todo $v$.
+
+Quando $|v|\geqslant2$, usamos também $|\sin v|\leqslant1$ para obter
+uma cota melhor:
+\begin{align*}
+\frac{\sin v}{v}
+\leqslant\frac{|\sin v|}{|v|}
+\leqslant\frac{1}{|v|}
+\leqslant\frac12
+&\quad\Longrightarrow\quad
+1-\frac{\sin v}{v}
+\geqslant1-\frac12=\frac12
+\\[0.5cm]
+&\quad\Longrightarrow\quad
+2\left(1-\frac{\sin v}{v}\right)
+\geqslant2\cdot\frac12=1.
+\end{align*}
+Agora tomamos $v=uY$. Como $u>0$, as seguintes desigualdades são equivalentes
+\[
+|uY|\geqslant2
+\quad\Longleftrightarrow\quad
+|Y|\geqslant\frac{2}{u}.
+\]
+As estimativas acima mostram que $2(1-\sin(uY)/(uY))$ é sempre não
+negativo e vale pelo menos $1$ quando $|Y|\geqslant2/u$. Essas são as
+duas propriedades de que precisamos para comparar essa expressão com a
+indicadora de $\{|Y|\geqslant2/u\}$: quando o evento ocorre, a indicadora
+vale $1$ e a expressão é pelo menos $1$; quando ele não ocorre, a
+indicadora vale $0$ e a expressão continua não negativa. Assim,
 \[
 \mathds{1}_{\{|Y|\geqslant2/u\}}
 \leqslant2\left(1-\frac{\sin(uY)}{uY}\right).
 \]
-Tomando esperanças e usando \eqref{eq:continuidade-cauda-identidade}, obtemos
-a desigualdade \eqref{eq:cota-concentracao}.
+A esperança dessa indicadora é justamente a probabilidade que queremos
+estimar. Por isso, tomamos esperanças dos dois lados da comparação acima.
+Pela monotonicidade da esperança, obtemos
+\begin{align*}
+\mathbb{P}\left(|Y|\geqslant\frac{2}{u}\right)
+&=\mathbb{E}\left[\mathds{1}_{\{|Y|\geqslant2/u\}}\right]
+\\[0.2cm]
+&\leqslant2\mathbb{E}\left[1-\frac{\sin(uY)}{uY}\right]
+\\[0.2cm]
+&=\frac{1}{u}\int_{-u}^{u}
+\bigl(1-\operatorname{Re}\varphi_Y(t)\bigr)\,dt.
+\end{align*}
+Na última igualdade, usamos \eqref{eq:continuidade-cauda-identidade}.
+Isso prova a desigualdade \eqref{eq:cota-concentracao}.
 \end{proof}
 
 Estamos prontos para enunciar e demonstrar o resultado principal desta seção.
@@ -2909,13 +3036,15 @@ $h(x)=e^{itx}$. Obtemos
 \mathbb{E}[e^{itX}]=\varphi_X(t).
 \]
 
-Passemos ao item (ii). A prova tem duas partes: primeiro mostraremos que
+\bigskip
+
+Vamos agora provar a validade da afirmação do item (ii). A prova tem duas partes: primeiro mostraremos que
 $(X_n)$ é condensada; depois identificaremos o limite de suas subsequências
 convergentes.
 
 Por hipótese, $\varphi_{X_n}(t)\to\varphi(t)$ para todo $t$. Como
 $\varphi_{X_n}(0)=1$, temos $\varphi(0)=1$. Fixado $\varepsilon>0$, a
-continuidade de $\varphi$ em $0$ permite escolher $u>0$ tal que
+continuidade de $\varphi$ em $t=0$, permite escolher $u>0$ tal que
 \[
 0\leqslant1-\operatorname{Re}\varphi(t)<\frac{\varepsilon}{4},
 \qquad |t|\leqslant u.
@@ -2924,9 +3053,10 @@ A desigualdade à esquerda segue de $|\varphi(t)|\leqslant1$, obtida passando
 ao limite em $|\varphi_{X_n}(t)|\leqslant1$.
 
 Para usar essa informação na cota \eqref{eq:cota-concentracao} do
-\Cref{lem:cota-cauda-fc}, precisamos passar ao limite nas integrais das funções
-$\varphi_{X_n}$. Considere uma variável auxiliar $U$, uniforme em $[-u,u]$, e
-defina
+\Cref{lem:cota-cauda-fc}, vamos mostrar que a integral de
+$1-\operatorname{Re}\varphi_{X_n}$ em $[-u,u]$ converge para a integral de
+$1-\operatorname{Re}\varphi$ no mesmo intervalo. Para isso, considere uma
+variável auxiliar $U$, uniforme em $[-u,u]$, e defina
 \[
 W_n=1-\operatorname{Re}\varphi_{X_n}(U),
 \qquad
@@ -2935,7 +3065,8 @@ W=1-\operatorname{Re}\varphi(U).
 Não precisamos supor qualquer relação entre $U$ e as variáveis $X_n$, pois
 as funções $\varphi_{X_n}$ são determinísticas. Como cada $\varphi_{X_n}$ é contínua,
 $W_n$ é uma variável aleatória; seu limite pontual $W$ também é uma variável
-aleatória. A convergência pontual de $\varphi_{X_n}$ dá $W_n\to W$; além disso,
+aleatória. A convergência pontual de $\varphi_{X_n}$ implica $W_n\to W$,
+quando $n\to\infty$, quase certamente. Além disso,
 $0\leqslant W_n\leqslant2$ e $0\leqslant W\leqslant\varepsilon/4$. Como $U$
 tem densidade $1/(2u)$ em $[-u,u]$, a fórmula da esperança e a convergência
 de variáveis limitadas fornecem
@@ -2945,22 +3076,62 @@ de variáveis limitadas fornecem
 =2\mathbb{E}[W_n]
 \longrightarrow2\mathbb{E}[W]\leqslant\frac{\varepsilon}{2}.
 \]
-Pelo \Cref{lem:cota-cauda-fc}, existe $N$ tal que, para todo $n\geqslant N$,
+Pela convergência acima, cujo limite é no máximo $\varepsilon/2$, existe
+$N\geqslant2$ tal que a integral normalizada é menor que $\varepsilon$ para
+todo $n\geqslant N$. Aplicando o \Cref{lem:cota-cauda-fc}, obtemos
 \[
 \mathbb{P}(|X_n|\geqslant2/u)
 \leqslant
 \frac{1}{u}\int_{-u}^{u}
 \bigl(1-\operatorname{Re}\varphi_{X_n}(t)\bigr)\,dt
-<\varepsilon.
+<\varepsilon,
+\qquad n\geqslant N.
 \]
-Para cada um dos índices $n<N$, podemos aumentar o limite $2/u$ até que a
-probabilidade de $|X_n|$ ultrapassá-lo seja menor que $\varepsilon$. Como há
-apenas um número finito desses índices, um mesmo $M$ serve para todos. Assim,
+
+Essa estimativa controla todos os índices $n\geqslant N$ com o mesmo limiar
+$2/u$. Para incluir os primeiros $N-1$ índices, manteremos $\varepsilon$,
+$u$ e $N$ fixos e escolheremos um limiar $M\geqslant2/u$. Aumentar o limiar
+só pode diminuir a probabilidade da cauda: se $M\geqslant2/u$, então
 \[
-\mathbb{P}(|X_n|>M)<\varepsilon
-\qquad\text{para todo }n,
+\{|X_n|>M\}\subseteq\{|X_n|\geqslant2/u\}.
 \]
-e $(X_n)$ é condensada.
+Pela monotonicidade da probabilidade, a cota por $\varepsilon$ já obtida
+para $n\geqslant N$ continua válida com esse limiar maior.
+
+Para cada índice fixo $n<N$, usamos agora o fato de $X_n$ ser uma variável
+aleatória real, que implica
+\[
+\mathbb{P}(|X_n|>r)\longrightarrow0
+\qquad\text{quando }r\to\infty.
+\]
+De fato, os eventos $\{|X_n|>k\}$, com $k$ inteiro positivo, decrescem para
+o conjunto vazio; pela continuidade da probabilidade para eventos
+decrescentes, suas probabilidades tendem a zero. Assim, para o mesmo
+$\varepsilon>0$ fixado no início, podemos escolher, para cada
+$n=1,\ldots,N-1$, um número $M_n>0$ tal que
+\[
+\mathbb{P}(|X_n|>M_n)<\varepsilon.
+\]
+Como há apenas um número finito desses índices, podemos tomar
+\[
+M=\max\left\{\frac{2}{u},M_1,\ldots,M_{N-1}\right\}.
+\]
+Essa escolha reúne os dois controles: para os primeiros índices, temos
+$M\geqslant M_n$; para os demais, temos $M\geqslant2/u$. Portanto,
+\begin{align*}
+\mathbb{P}(|X_n|>M)
+\leqslant\mathbb{P}(|X_n|>M_n)<\varepsilon,
+\qquad 1\leqslant n<N
+\end{align*}
+e também temos 
+\begin{align*}
+\mathbb{P}(|X_n|>M)
+\leqslant\mathbb{P}(|X_n|\geqslant2/u)<\varepsilon,
+\qquad n\geqslant N.
+\end{align*}
+O número $M$ pode depender de $\varepsilon$, mas é o mesmo para todos os
+índices $n$. Como $\varepsilon>0$ é arbitrário, podemos concluir que que $(X_n)$ é
+uma sequência de variáveis aleatórias condensada, segundo a \Cref{def:sequencia-condensada}.
 
 Passamos agora à identificação do limite. Pelo \Cref{lem:selecao-condensada},
 existe uma subsequência $X_{n_k}\Rightarrow X$ para alguma variável aleatória
@@ -2972,8 +3143,9 @@ $X$. Pelo item (i),
 Mas, pela hipótese do item (ii), o mesmo limite é $\varphi(t)$. Logo
 $\varphi=\varphi_X$.
 
-Toda subsequência de $(X_n)$ continua sendo condensada, portanto possui uma
-subsequência convergente em distribuição. O argumento anterior mostra que
+Note que qualquer subsequência de $(X_n)$ é também uma sequência condensada, 
+portanto qualquer subsequência possui uma sub-subsequência convergente em distribuição. 
+O argumento anterior mostra que
 qualquer limite assim obtido tem função característica $\varphi_X$. Pela
 unicidade do \Cref{thm:inversao}, todos esses limites têm a mesma função de
 distribuição $F_X$.
@@ -3023,23 +3195,200 @@ de um limite teria de coincidir com $\varphi$, mas toda função característica
 é contínua em $0$.
 \end{remark}
 
-\section{Exercícios Propostos}\label{sec:exercicios}
+\section{Exercícios propostos}\label{sec:exercicios}
 
-Os exercícios a seguir acompanham as seções anteriores na mesma ordem em que
-aparecem no texto.
+\begin{exercise}\label{exercise:gw-7-95}
+Seja $X\sim\mathrm{Bin}(n,p)$, com $n\geqslant1$ e $0\leqslant p\leqslant1$, e
+escreva $q=1-p$. Mostre que
+\[
+\varphi_X(t)=\bigl(q+pe^{it}\bigr)^{n}, \qquad t\in\mathbb{R}.
+\]
+Verifique ainda que $\varphi_X(0)=1$ e que $|\varphi_X(t)|\leqslant1$ para todo
+$t$. Por fim, obtenha o mesmo resultado sem expandir o binômio, escrevendo $X$
+como soma de $n$ variáveis de Bernoulli independentes e usando o
+\Cref{thm:fc-soma-independentes}.
+\end{exercise}
 
-\begin{exercise}[Parte real e módulo ao quadrado de uma função característica]%
-\label{exercise:parte-real-modulo}
+\begin{exercise}\label{exercise:gw-7-96}
+Neste exercício, o cálculo é feito primeiro para a uniforme em $(0,1)$ e
+depois transferido para um intervalo qualquer por transformação afim.
+\begin{enumerate}[label=(\alph*)]
+\item Seja $U$ uniforme em $(0,1)$. Mostre que
+\[
+\varphi_U(t)=\frac{e^{it}-1}{it}, \qquad t\neq0,
+\]
+e que $\varphi_U(0)=1$.
+
+\item Seja $X$ uniforme em $(a,b)$, com $a<b$. Escrevendo
+$X=a+(b-a)U$, use o item (e) do \Cref{thm:propriedades-fc} para obter
+$\varphi_X$ a partir de $\varphi_U$ e conclua que
+\[
+\varphi_X(t)=\frac{e^{itb}-e^{ita}}{it(b-a)}, \qquad t\neq0.
+\]
+
+\item Seja $X$ uniforme em $(-b,b)$, com $b>0$. Conclua que
+\[
+\varphi_X(t)=\frac{\sin(bt)}{bt}, \qquad t\neq0,
+\]
+e observe que, nesse caso, $\varphi_X$ é real, como exige a simetria da
+distribuição em torno de $0$.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-7-97}
+Seja $X\sim\mathrm{Gama}(w,\lambda)$, com $w>0$ e $\lambda>0$, cuja densidade
+é
+\[
+f_X(x)=\frac{\lambda^{w}}{\Gamma(w)}\,x^{w-1}e^{-\lambda x},
+\qquad x>0,
+\]
+e $f_X(x)=0$ para $x\leqslant0$. Mostre que
+\[
+\varphi_X(t)=\Bigl(\frac{\lambda}{\lambda-it}\Bigr)^{w},
+\qquad t\in\mathbb{R},
+\]
+com a potência complexa tomada no ramo principal do logaritmo, que está bem
+definido porque $\operatorname{Re}(\lambda-it)=\lambda>0$.
+
+\noindent\textbf{Sugestão:} como $\mathbb{E}|X|=w/\lambda<\infty$, o
+\Cref{thm:derivacao-integral} permite derivar $\varphi_X$ dentro da esperança.
+Escreva
+\[
+\varphi_X(t)=\frac{\lambda^{w}}{\Gamma(w)}\,I_w(t),
+\qquad
+I_w(t)=\int_0^{\infty}x^{w-1}e^{-(\lambda-it)x}\,dx .
+\]
+A integração por partes fornece
+\[
+I_{w+1}(t)=\frac{w}{\lambda-it}\,I_w(t).
+\]
+Combinando as duas identidades,
+\[
+\varphi_X'(t)=i\,\mathbb{E}\bigl[Xe^{itX}\bigr]
+=\frac{iw}{\lambda-it}\,\varphi_X(t).
+\]
+Resolvendo essa equação diferencial com a condição inicial $\varphi_X(0)=1$,
+obtém-se a fórmula enunciada. O caso $w=1$ e $\lambda=1$ recupera o
+\Cref{ex:exponencial}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:uniforme-discreta-geometrica}
+Calcule a função característica nos dois casos a seguir.
+\begin{enumerate}[label=(\alph*)]
+\item Seja $X$ uniforme no conjunto $\{0,1,\ldots,n\}$, isto é,
+$\mathbb{P}(X=k)=1/(n+1)$ para $k=0,1,\ldots,n$. Mostre que
+\[
+\varphi_X(t)=\frac{1}{n+1}\sum_{k=0}^{n}e^{itk}
+=\frac{e^{int/2}}{n+1}\,
+\frac{\sin\bigl((n+1)t/2\bigr)}{\sin(t/2)},
+\qquad t\notin2\pi\mathbb{Z},
+\]
+e que $\varphi_X(t)=1$ para $t\in2\pi\mathbb{Z}$.
+
+\item Seja $Y$ geométrica de parâmetro $p$, com $0<p\leqslant1$, de modo que
+$\mathbb{P}(Y=k)=q^{k-1}p$ para $k\geqslant1$, onde $q=1-p$. Mostre que
+\[
+\varphi_Y(t)=\frac{pe^{it}}{1-qe^{it}}, \qquad t\in\mathbb{R}.
+\]
+\end{enumerate}
+
+\noindent\textbf{Sugestão:} em (a), some a progressão geométrica de razão $e^{it}$ e use a
+identidade
+\[
+1-e^{i\theta}=-2ie^{i\theta/2}\sin(\theta/2).
+\]
+Em (b), use a série geométrica de razão $qe^{it}$, cujo módulo é menor que $1$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:ross-7-51}
+Sejam $X_1,\ldots,X_n$ independentes, cada uma com densidade exponencial de
+parâmetro $\lambda>0$, isto é, $f(x)=\lambda e^{-\lambda x}$ para $x>0$.
+Mostre, usando funções características, que $X_1+\cdots+X_n$ tem densidade
+gama de parâmetros $n$ e $\lambda$:
+\[
+f(x)=\frac{\lambda^{n}}{(n-1)!}\,x^{n-1}e^{-\lambda x},
+\qquad x>0,
+\]
+e $f(x)=0$ para $x\leqslant0$.
+
+\noindent\textbf{Sugestão:} combine o \Cref{thm:fc-soma-independentes}, o
+\Cref{ex:exponencial} e o \Cref{exercise:gw-7-97} com $w=n$, lembrando que
+$\Gamma(n)=(n-1)!$. Para obter a função característica da exponencial de
+parâmetro $\lambda$ a partir do \Cref{ex:exponencial}, use o item (e) do
+\Cref{thm:propriedades-fc}. A conclusão segue da unicidade do
+\Cref{thm:inversao}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:soma-normais-geral}
+Sejam $X$ e $Y$ independentes, com $X$ normal de média $\mu_1$ e variância
+$\sigma_1^2$ e $Y$ normal de média $\mu_2$ e variância $\sigma_2^2$. Mostre
+que $X+Y$ é normal de média $\mu_1+\mu_2$ e variância
+$\sigma_1^2+\sigma_2^2$. Este exercício generaliza o
+\Cref{cor:soma-normais}, que trata do caso de médias nulas.
+
+\noindent\textbf{Sugestão:} obtenha a função característica de uma normal com média $\mu$
+e variância $\sigma^2$ a partir do \Cref{ex:normal} e do item (e) do
+\Cref{thm:propriedades-fc}. Em seguida, multiplique as funções características
+de $X$ e de $Y$ e use a unicidade do \Cref{thm:inversao}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:aditividade-poisson-binomial}
+Suponha que $\lambda,\mu>0$, que $n,m\geqslant1$ sejam inteiros e que
+$0\leqslant p\leqslant1$. Sejam $X\sim\mathrm{Poisson}(\lambda)$ e
+$Y\sim\mathrm{Poisson}(\mu)$ independentes. Mostre, usando funções
+características, que $X+Y\sim\mathrm{Poisson}(\lambda+\mu)$. Em seguida,
+considere $X\sim\mathrm{Bin}(n,p)$ e $Y\sim\mathrm{Bin}(m,p)$ independentes e
+mostre, pelo mesmo método, que $X+Y\sim\mathrm{Bin}(n+m,p)$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-7-98}
+Sejam $X$ e $Y$ independentes e identicamente distribuídas. Mostre que
+\[
+\varphi_{X-Y}(t)=\bigl|\varphi_X(t)\bigr|^{2}, \qquad t\in\mathbb{R}.
+\]
+Conclua que $\varphi_{X-Y}$ é uma função real e que $X-Y$ e $Y-X$ têm a mesma
+distribuição.
+\end{exercise}
+
+\begin{exercise}\label{exercise:binomial-poisson-fc}
+Fixe $\lambda>0$. Para cada inteiro $n>\lambda$, seja
+$Z_n\sim\mathrm{Bin}(n,\lambda/n)$. Mostre, usando funções características e o
+\Cref{thm:continuidade}, que $Z_n$ converge em distribuição para a
+distribuição de Poisson de parâmetro $\lambda$.
+
+\noindent\textbf{Sugestão:} pelo \Cref{exercise:gw-7-95},
+\[
+\varphi_{Z_n}(t)
+=\Bigl(1-\frac{\lambda}{n}+\frac{\lambda}{n}e^{it}\Bigr)^{n}
+=\Bigl(1+\frac{\lambda(e^{it}-1)}{n}\Bigr)^{n}
+\longrightarrow
+\exp\bigl(\lambda(e^{it}-1)\bigr).
+\]
+O limite é a função característica calculada no \Cref{ex:poisson} e é contínuo
+em $0$; aplique o item (ii) do \Cref{thm:continuidade}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-8-51}
+Suponha que $X_n\Rightarrow X$ e sejam $a,b\in\mathbb{R}$. Mostre, usando
+funções características, que $aX_n+b\Rightarrow aX+b$.
+\end{exercise}
+
+\medskip
+
+Os exercícios seguintes, todos assinalados com estrela, são mais exigentes e
+podem ser deixados para um segundo momento.
+
+\begin{starredexercise}\label{exercise:parte-real-modulo}
 Seja $X$ uma variável aleatória com função característica $\varphi_X$. Mostre que
 $\operatorname{Re}\varphi_X$ e $|\varphi_X|^2$ também são funções características.
 
-\emph{Sugestão:} em cada caso, exiba uma variável aleatória cuja função
+\noindent\textbf{Sugestão:} em cada caso, exiba uma variável aleatória cuja função
 característica seja a função pedida, trabalhando com cópias independentes de $X$
 e, no primeiro caso, com um sinal de Rademacher independente de $X$. Use a
 independência para fatorar as esperanças.
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[Inversão para massas pontuais]\label{exercise:massa-pontual}
+\begin{starredexercise}\label{exercise:massa-pontual}
 Seja $X$ uma variável aleatória com função característica $\varphi_X$.
 \begin{enumerate}
 \item[(i)] Imitando a prova do \Cref{thm:inversao}, mostre que, para todo
@@ -3066,16 +3415,15 @@ $\mathbb{P}(X\in b+h\mathbb{Z})=1$, a fórmula de inversão de (ii) continua
 válida, na mesma forma, para $x\in b+h\mathbb{Z}$.
 \end{enumerate}
 
-\emph{Sugestão}: em (i), troque esperança e integral como na prova do
+\noindent\textbf{Sugestão:} em (i), troque esperança e integral como na prova do
 \Cref{thm:inversao} e examine o limite do núcleo que aparece quando
 $T\to\infty$. Em (ii), use que $e^{2\pi iX/h}=1$ quase certamente para obter a
 periodicidade e, depois, escreva o limite de (i) como uma média de Cesàro de uma
 função periódica de período $2\pi/h$, que converge para a média sobre um
 período. Em (iii), aplique (ii) a $Y=X-b$ e reúna os fatores exponenciais.
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[Média quadrática da função característica]%
-\label{exercise:media-quadrado}
+\begin{starredexercise}\label{exercise:media-quadrado}
 Sejam $X$ e $Y$ independentes e com a mesma distribuição, de modo que
 $\varphi_X=\varphi_Y$.
 Aplicando o \Cref{exercise:massa-pontual} à variável aleatória $X-Y$, conclua que
@@ -3087,7 +3435,7 @@ Aplicando o \Cref{exercise:massa-pontual} à variável aleatória $X-Y$, conclua
 A soma se estende aos valores $x$ com $\mathbb{P}(X=x)>0$, que são no máximo
 enumeráveis. No último passo, use a independência de $X$ e $Y$ para expressar
 $\mathbb{P}(X=Y)$ em termos dessas probabilidades pontuais.
-\end{exercise}
+\end{starredexercise}
 
 \begin{remark}\label{rem:sem-massa-pontual}
 Seja $X$ uma variável aleatória com função característica $\varphi_X$.
@@ -3106,22 +3454,20 @@ $\varphi_X(t)=\int_{\mathbb{R}}f(x)e^{itx}\,dx$ tende a zero quando
 $|t|\to\infty$.
 \end{remark}
 
-\begin{exercise}[Densidade com função característica não integrável]%
-\label{exercise:densidade-integral-divergente}
+\begin{starredexercise}\label{exercise:densidade-integral-divergente}
 Dê um exemplo de variável aleatória $X$ que tenha densidade e cuja função
 característica $\varphi_X$ satisfaça
 \[
 \int_{-\infty}^{\infty}|\varphi_X(t)|\,dt = \infty .
 \]
-\emph{Sugestão}: dois dos exemplos anteriores, a saber, o do
+\noindent\textbf{Sugestão:} dois dos exemplos anteriores, a saber, o do
 \Cref{ex:uniforme} e o do \Cref{ex:exponencial}, têm essa propriedade. Para a
 exponencial, compare $|\varphi_X(t)|$ com $1/|t|$ quando $|t|$ é grande. Para a
 uniforme em $(-1,1)$, examine os intervalos em que $|\sin t|$ está afastado de
 zero.
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[Soma de variáveis uniformes independentes]%
-\label{exercise:soma-uniformes}
+\begin{starredexercise}\label{exercise:soma-uniformes}
 Suponha que $X_1,\ldots,X_n$ sejam independentes e uniformemente distribuídas no
 intervalo $(-1,1)$. Mostre que, para $n\geqslant 2$, a soma
 $X_1+\cdots+X_n$ tem densidade
@@ -3132,27 +3478,25 @@ f(x) = \frac{1}{\pi}\int_{0}^{\infty}\Bigl(\frac{\sin t}{t}\Bigr)^{n}
 Embora não seja evidente a partir da fórmula, $f$ é um polinômio em cada
 intervalo $(k,k+1)$ com $k\in\mathbb{Z}$ e se anula fora de $[-n,n]$.
 
-\emph{Sugestão}: obtenha a função característica da soma com o
+\noindent\textbf{Sugestão:} obtenha a função característica da soma com o
 \Cref{thm:fc-soma-independentes}, aplique a fórmula de inversão na forma do
 \Cref{thm:densidade-fc-integravel}, explorando a paridade do integrando, e, para
 a afirmação final, lembre que a densidade da soma é a convolução de $n$
 densidades uniformes, logo é polinomial por partes em cada intervalo unitário.
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[Médias de variáveis com distribuição de Cauchy]%
-\label{exercise:cauchy-media}
+\begin{starredexercise}\label{exercise:cauchy-media}
 Use o resultado do \Cref{ex:cauchy} para concluir que, se $X_1,X_2,\ldots$ são
 independentes e têm distribuição de Cauchy, então, para todo $n\geqslant 1$, a
 média $(X_1+\cdots+X_n)/n$ tem a mesma distribuição que $X_1$.
 
-\emph{Sugestão}: calcule a função característica da média usando a
+\noindent\textbf{Sugestão:} calcule a função característica da média usando a
 independência e compare-a com a função característica de $X_1$; duas variáveis
 aleatórias com a mesma função característica têm a mesma distribuição, pela
 fórmula de inversão (\Cref{thm:inversao}).
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[Variâncias de normais convergentes]
-\label{exercise:normal-variancia}
+\begin{starredexercise}\label{exercise:normal-variancia}
 Suponha que $X_n\Rightarrow X$ e que, para cada $n\geqslant1$, $X_n$ tenha
 distribuição normal de média $0$ e variância $\sigma_n^2$, com
 $0\leqslant\sigma_n^2<\infty$. Mostre que existe $\sigma^2\in[0,\infty)$ tal que
@@ -3161,7 +3505,7 @@ distribuição degenerada em $0$, que interpretamos como a normal de variância
 $0$. Nada se supõe de antemão sobre a convergência da sequência numérica
 $(\sigma_n^2)$, nem sobre a natureza da distribuição limite.
 
-\emph{Sugestão:} por \Cref{thm:continuidade},
+\noindent\textbf{Sugestão:} por \Cref{thm:continuidade},
 $e^{-\sigma_n^2t^2/2}=\varphi_{X_n}(t)\to\varphi_X(t)$ para cada
 $t\in\mathbb{R}$. Tome uma subsequência com
 $\sigma_{n_k}^2\to\sigma^2\in[0,\infty]$, com a convenção $e^{-\infty}=0$; ao
@@ -3171,10 +3515,9 @@ $\varphi_X(0)=1$ e a continuidade de $\varphi_X$ na origem. Logo
 $\sigma^2<\infty$ e o limite não depende da subsequência escolhida; pelo
 critério de subsequências para convergência de números reais,
 $\sigma_n^2\to\sigma^2$.
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[Somas de pares independentes convergentes]
-\label{exercise:soma-independentes-convergencia}
+\begin{starredexercise}\label{exercise:soma-independentes-convergencia}
 Para cada $n\in\{1,2,\dots\}\cup\{\infty\}$, suponha que $X_n$ e $Y_n$ sejam
 independentes, isto é, que o par $(X_n,Y_n)$ seja formado por variáveis
 independentes; o mesmo vale para o par limite. Não se supõe independência entre
@@ -3182,7 +3525,7 @@ variáveis de índices diferentes. Suponha ainda que $X_n\Rightarrow X_\infty$ e
 $Y_n\Rightarrow Y_\infty$. Mostre que
 $X_n+Y_n\Rightarrow X_\infty+Y_\infty$.
 
-\emph{Sugestão:} pela independência dentro de cada par e por
+\noindent\textbf{Sugestão:} pela independência dentro de cada par e por
 \Cref{thm:fc-soma-independentes},
 \[
 \varphi_{X_n+Y_n}(t)=\varphi_{X_n}(t)\,\varphi_{Y_n}(t),
@@ -3192,10 +3535,9 @@ para todo $n$, inclusive $n=\infty$. Por \Cref{thm:continuidade} aplicado às
 duas sequências, o produto converge para $\varphi_{X_\infty}(t)\varphi_{Y_\infty}(t)$,
 que é a função característica de $X_\infty+Y_\infty$ e é contínua em $0$. Use
 \Cref{thm:continuidade} na direção contrária.
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[Função característica de um produto infinito]
-\label{exercise:produto-infinito-qc}
+\begin{starredexercise}\label{exercise:produto-infinito-qc}
 Sejam $X_1,X_2,\dots$ variáveis aleatórias independentes, $S_n=X_1+\cdots+X_n$
 e $\varphi_{X_j}$ a função característica de $X_j$. Suponha que $S_n\to S_\infty$
 quase certamente. Mostre que
@@ -3207,16 +3549,15 @@ onde o produto infinito é, por definição, o limite dos produtos parciais
 $\prod_{j=1}^{n}\varphi_{X_j}(t)$, cuja existência é parte da conclusão. Nenhuma
 hipótese de integrabilidade é feita sobre as $X_j$.
 
-\emph{Sugestão:} a convergência quase certa implica convergência em
+\noindent\textbf{Sugestão:} a convergência quase certa implica convergência em
 distribuição, como vimos nas notas de aula sobre modos de convergência; logo
 $S_n\Rightarrow S_\infty$ e, por \Cref{thm:continuidade},
 $\varphi_{S_n}(t)\to\varphi_{S_\infty}(t)$ para todo $t$. Pela independência,
 uma indução sobre $n$ a partir de \Cref{thm:fc-soma-independentes} dá
 $\varphi_{S_n}(t)=\varphi_{X_1}(t)\cdots\varphi_{X_n}(t)$, e basta identificar o limite.
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[O produto de cossenos]
-\label{exercise:produto-cossenos}
+\begin{starredexercise}\label{exercise:produto-cossenos}
 Iterando a identidade $\sin t=2\sin(t/2)\cos(t/2)$ obtemos
 \[
   \frac{\sin t}{t}=\prod_{m=1}^{\infty}\cos\!\left(\frac{t}{2^{m}}\right),
@@ -3240,10 +3581,9 @@ $Y_m=2^{-m}(2U_m-1)$ com $U_m$ de Bernoulli simétrica, a soma coincide em
 distribuição com $2U-1$, onde $U=\sum_{m\geqslant1}U_m2^{-m}$ é uniforme em
 $[0,1]$, por ser a série dos dígitos da expansão binária. A unicidade da função
 característica, dada por \Cref{thm:inversao}, fecha o argumento.
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[A distribuição de Cantor]
-\label{exercise:cantor}
+\begin{starredexercise}\label{exercise:cantor}
 Sejam $X_1,X_2,\dots$ independentes, cada uma assumindo os valores $0$ e $1$
 com probabilidade $1/2$. Defina
 \[
@@ -3265,14 +3605,14 @@ $\varphi_X$ assume o mesmo valor nos pontos $t=3^{k}\pi$, isto é,
 $\varphi_X(3^{k}\pi)=\varphi_X(\pi)$ para todo $k=0,1,2,\dots$. Interprete esse fato
 à luz do decaimento das funções características de distribuições com densidade.
 
-\emph{Sugestão:} cada parcela $2X_j/3^{j}$ assume $0$ e $2/3^{j}$ com
+\noindent\textbf{Sugestão:} cada parcela $2X_j/3^{j}$ assume $0$ e $2/3^{j}$ com
 probabilidade $1/2$ e tem função característica
 $\tfrac12\bigl(1+e^{2it/3^{j}}\bigr)=e^{it/3^{j}}\cos(t/3^{j})$; use
 \Cref{exercise:produto-infinito-qc} para o produto infinito e
 $\sum_{j\geqslant1}3^{-j}=1/2$ para recolher as exponenciais. Na recorrência,
 note que $e^{i3^{k}\pi}\cos(3^{k}\pi)=1$ para todo $k\geqslant1$.
-\end{exercise}
-\begin{exercise}[Lei fraca e existência de $\varphi_{X_1}'(0)$]\label{exercise:pitman}
+\end{starredexercise}
+\begin{starredexercise}\label{exercise:pitman}
 Sejam $X_1,X_2,\dots$ independentes e identicamente distribuídas, com função
 característica $\varphi_{X_1}$, e $S_n=X_1+\cdots+X_n$.
 \begin{enumerate}
@@ -3302,7 +3642,7 @@ estabelecida no exercício sobre equicontinuidade das funções características
 nas notas de aula sobre o Teorema do Limite Central, para mostrar que
 $(\varphi_{X_1}(h)-1)/h\to ia$
 quando $h\to0$ pelos reais positivos.
-\emph{Sugestão:} pela independência, a função característica de $S_n/n$ é
+\noindent\textbf{Sugestão:} pela independência, a função característica de $S_n/n$ é
 $\varphi_{S_n/n}(s)=\varphi_{X_1}(s/n)^n$. Pelo item~(ii),
 $\varphi_{S_n/n}(s)\to e^{ias}$ para cada $s$, e o limite é
 contínuo; logo aquele exercício dá convergência uniforme
@@ -3320,7 +3660,7 @@ Conclua que a lei fraca dos grandes números vale se, e somente se, $\varphi_{X_
 existe, e que nesse caso $\varphi_{X_1}'(0)=ia$.\footnote{%
 O resultado deve-se a E.~J.~G.~Pitman (1956); a necessidade de demonstrar o
 item~(iii) foi observada por John Walsh.}
-\end{exercise}
+\end{starredexercise}
 
 \begin{remark}
 Combinando o exercício anterior com o exemplo clássico de uma variável
@@ -3334,13 +3674,13 @@ $\varphi_X(t)-1=O\bigl(t^2\log(1/|t|)\bigr)$ quando $t\to0$, de modo que
 $(\varphi_X(t)-1)/t\to0$ e $\varphi_X'(0)=0$ existe.
 \end{remark}
 
-\begin{exercise}[Identidade para o primeiro momento]\label{exercise:primeiro-momento}
+\begin{starredexercise}\label{exercise:primeiro-momento}
 Seja $X$ uma variável aleatória com função de distribuição $F_X$ e função
 característica $\varphi_X$. Mostre que
 \[
   2\int_0^\infty\frac{1-\operatorname{Re}\varphi_X(t)}{\pi t^2}\,dt=\int|y|\,dF_X(y),
 \]
-com a igualdade entendida em $[0,+\infty]$. Sugestão: escreva
+com a igualdade entendida em $[0,+\infty]$. \textbf{Sugestão:} escreva
 \[
 1-\operatorname{Re}\varphi_X(t)
 =\int\bigl(1-\cos(ty)\bigr)\,dF_X(y)
@@ -3354,14 +3694,14 @@ Com a mudança de variáveis $x=|y|t$ em
 $\int_0^\infty\frac{1-\cos(ty)}{\pi t^2}\,dt$ obtém-se $\frac{|y|}{2}$, e o
 teorema de Tonelli, já que o integrando é não negativo, conclui a troca das
 integrais.
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[Convergência para zero]\label{exercise:convergencia-para-zero}
+\begin{starredexercise}\label{exercise:convergencia-para-zero}
 Sejam $Y_1,Y_2,\ldots$ variáveis aleatórias com funções características
 $\varphi_{Y_n}$. Mostre que $Y_n\Rightarrow0$ se, e somente se, existe $\delta>0$
 tal que $\varphi_{Y_n}(t)\to1$ para todo $t$ com $|t|\leqslant\delta$.
 
-\emph{Sugestão:} numa das direções, use o \Cref{thm:continuidade}. Na outra,
+\noindent\textbf{Sugestão:} numa das direções, use o \Cref{thm:continuidade}. Na outra,
 suponha a convergência apenas em $[-\delta,\delta]$. Pela cota
 \eqref{eq:cota-concentracao}, com $u=\delta$,
 \[
@@ -3397,15 +3737,15 @@ subsequência convergente em distribuição. O argumento anterior mostra que
 seu limite tem a distribuição da constante $0$. Como na prova do
 \Cref{thm:continuidade}, conclua que $Y_n\Rightarrow0$ e, portanto,
 $Y_n\to0$ em probabilidade.
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[Séries que convergem em distribuição]\label{exercise:serie-converge-dist}
+\begin{starredexercise}\label{exercise:serie-converge-dist}
 Sejam $X_1,X_2,\dots$ independentes e $S_n=\sum_{m\leqslant n}X_m$. Mostre
 que, se $(S_n)$ converge em distribuição, então $(S_n)$ converge em
 probabilidade. Conclua, a partir do teorema de equivalência de P.~Lévy para
 somas de variáveis independentes, que $(S_n)$ converge quase certamente.
 
-\emph{Sugestão:} se $\varphi_{X_k}$ é a função característica de $X_k$, o incremento
+\noindent\textbf{Sugestão:} se $\varphi_{X_k}$ é a função característica de $X_k$, o incremento
 $S_m-S_n=\sum_{n<k\leqslant m}X_k$, para $m>n$, é soma de variáveis
 independentes, logo
 \[
@@ -3430,7 +3770,7 @@ probabilidade, é o teorema de equivalência de Lévy: para somas de variáveis
 independentes, a convergência em probabilidade acarreta a convergência quase
 certa. Sua prova se apoia na desigualdade maximal de Lévy e não será
 desenvolvida nestas notas.
-\end{exercise}
+\end{starredexercise}
 
 %----------------------------------------------------------------------
 % BIBLIOGRAFIA
