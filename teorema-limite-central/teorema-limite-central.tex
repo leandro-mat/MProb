@@ -209,17 +209,18 @@ características, momentos, resto de Taylor, MAT-UnB} }
 \end{center}
 
 % --- RESUMO (ABSTRACT) ---
-% TODO: reescrever o resumo quando o texto destas notas for redigido. Ele deve
-% dizer o que as notas introduzem, quais resultados demonstram, quais exemplos
-% desenvolvem e de quais referências a exposição parte, encerrando com a
-% remissão à seção correspondente de \cite{MR3930614}.
 \begin{abstract}
-Estas notas serão dedicadas ao Teorema do Limite Central e às ferramentas
-analíticas empregadas em sua demonstração. O texto está em preparação. Por
-enquanto, reunimos aqui, provisoriamente, os enunciados das notas de aula sobre
-funções características usados no texto e o material sobre momentos, derivadas
-da função característica e cotas para o resto de Taylor, transferido daquelas
-notas, que servirá de base para a demonstração do teorema.
+Nestas notas, demonstramos o Teorema do Limite Central para sequências de
+variáveis aleatórias independentes e identicamente distribuídas, com
+variância positiva e finita. A prova usa funções características, o
+Teorema da Continuidade de Lévy e um limite exponencial complexo.
+Relacionamos os momentos às derivadas da função característica e
+obtemos uma expansão de segunda ordem cujo resto é controlado sem
+supor a existência do terceiro momento. Estudamos também uma recíproca
+que caracteriza a finitude do segundo momento por diferenças segundas
+na origem e apresentamos exercícios sobre esses resultados.
+A exposição parte dos manuscritos de aula e do Capítulo 3 de
+\cite{MR3930614}.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -234,26 +235,54 @@ notas, que servirá de base para a demonstração do teorema.
 }
 
 %----------------------------------------------------------------------
-% CONTEÚDO PROVISÓRIO
+% CONTEÚDO
 %----------------------------------------------------------------------
-% As duas seções a seguir são provisórias.
-%
-% A Seção 1 reúne enunciados copiados de
-% func-caracteristicas/func-caracteristicas.tex em 12 de novembro de 2026, para
-% que estas notas possam, no futuro, ser lidas como texto autônomo. As
-% demonstrações permanecem nas notas de aula sobre funções características e
-% serão incorporadas quando a apresentação final for definida.
-%
-% A Seção 2 é o excedente daquelas notas, transferido na mesma data. Ela
-% permanece aqui até ser reorganizada e integrada ao texto sobre o Teorema do
-% Limite Central.
+\section{Introdução}\label{sec:introducao}
 
-\section{Enunciados auxiliares}\label{sec:auxiliares}
+Nas notas de aula sobre funções características, vimos que a independência
+transforma a função característica de uma soma em um produto. O Teorema da
+Continuidade de Lévy permite, então, estudar a convergência em distribuição
+dessas somas por meio da convergência de suas funções características.
+Vamos aplicar esse método à demonstração do Teorema do Limite Central.
 
-Esta seção reúne, para comodidade do leitor, os enunciados dos resultados das
-notas de aula sobre funções características que serão usados no texto. As
-demonstrações estão naquelas notas e serão incorporadas quando estas notas forem
-organizadas como texto autônomo.
+Sejam $X_1,X_2,\ldots$ variáveis aleatórias independentes e identicamente
+distribuídas, com média $\mu$ e variância $\sigma^2\in(0,\infty)$.
+A Lei dos Grandes Números descreve a aproximação de
+$S_n/n$ por $\mu$, onde $S_n=X_1+\cdots+X_n$.
+O Teorema do Limite Central descreve as flutuações de $S_n$ em torno de
+$n\mu$, quando medidas na escala $\sigma\sqrt{n}$. Mais precisamente,
+mostraremos que
+\[
+\frac{S_n-n\mu}{\sigma\sqrt{n}}\Rightarrow Z,
+\]
+onde $Z$ tem distribuição normal padrão. Assim, para quaisquer
+$a,b\in\mathbb{R}$ com $a<b$,
+\[
+\mathbb{P}\left(
+a\leqslant\frac{S_n-n\mu}{\sigma\sqrt{n}}\leqslant b
+\right)
+\longrightarrow
+\frac{1}{\sqrt{2\pi}}\int_a^b e^{-x^2/2}\,dx.
+\]
+A continuidade da função de distribuição normal permitirá passar da
+convergência em distribuição a essa formulação por intervalos.
+
+A demonstração segue a sequência dos manuscritos de aula. Primeiro,
+recordamos na \Cref{sec:auxiliares} os resultados sobre funções
+características que serão usados. Na \Cref{sec:preliminares-complexos},
+provamos o limite exponencial complexo
+$(1+c_n/n)^n\to e^c$ quando $c_n\to c$.
+A \Cref{sec:momentos} relaciona momentos e derivadas e estabelece uma
+expansão de segunda ordem com controle do resto sob a hipótese de segundo
+momento finito. Na \Cref{sec:tlc}, combinamos esses resultados para provar
+o Teorema do Limite Central. Os exercícios estão reunidos na
+\Cref{sec:exercicios}.
+
+\section{Funções características e convergência em distribuição}\label{sec:auxiliares}
+
+Recordamos as definições e os resultados das notas de aula sobre funções
+características que serão usados adiante. As demonstrações e os cálculos das
+funções características dos exemplos encontram-se naquelas notas.
 
 \subsection{Definições}\label{subsec:aux-definicoes}
 
@@ -267,6 +296,7 @@ $\varphi_{X}\colon\mathbb{R}\to\mathbb{C}$ dada por
 \end{definition}
 
 \begin{definition}[Convergência em distribuição]\label{def:convergencia-distribuicao}
+\label{def:man-conv-dist}
 Dizemos que uma sequência $(X_n)_{n\geqslant1}$ de variáveis aleatórias converge
 em distribuição para uma variável aleatória $X$, e escrevemos $X_n\Rightarrow X$,
 se
@@ -300,6 +330,21 @@ todos $t,h,a,b\in\mathbb{R}$ valem:
 Em particular, a função $\varphi_X$ é uniformemente contínua em $\mathbb{R}$;
 \item $\mathbb{E}\bigl[e^{it(aX+b)}\bigr]=e^{itb}\varphi_X(at)$.
 \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Função característica de uma soma independente]
+\label{thm:fc-soma-independentes}
+Sejam $X_1,\ldots,X_n$ variáveis aleatórias independentes. Então
+\[
+\varphi_{X_1+\cdots+X_n}(t)
+=\prod_{j=1}^n\varphi_{X_j}(t),
+\qquad t\in\mathbb{R}.
+\]
+Em particular, se elas têm a mesma distribuição,
+\[
+\varphi_{X_1+\cdots+X_n}(t)
+=\bigl(\varphi_{X_1}(t)\bigr)^n.
+\]
 \end{theorem}
 
 \begin{theorem}[Derivação dentro da esperança]\label{thm:derivacao-integral}
@@ -376,10 +421,145 @@ probabilidade. Se $X$ tem densidade $f$, sua função característica é
 Além disso, $\mathbb{E}\bigl[|X|\bigr]=\infty$.
 \end{example}
 
-%----------------------------------------------------------------------
-% SEÇÃO TRANSFERIDA
-%----------------------------------------------------------------------
-\section{Momentos e Derivadas}\label{sec:momentos}
+\begin{example}[Distribuição normal padrão]\label{ex:normal}
+Seja $Z$ uma variável aleatória com distribuição normal padrão, isto é,
+com densidade
+\[
+f_Z(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2},
+\qquad x\in\mathbb{R}.
+\]
+Nas notas de aula sobre funções características, calculamos
+\[
+\varphi_Z(t)=e^{-t^2/2},
+\qquad t\in\mathbb{R}.
+\]
+Essa será a função limite que identificaremos na demonstração do
+Teorema do Limite Central.
+\end{example}
+
+\section{Preliminares de análise complexa}\label{sec:preliminares-complexos}
+
+Na prova do Teorema do Limite Central, a função característica da soma
+normalizada terá a forma $(1+c_n/n)^n$, com $c_n$ complexo e convergente.
+Vamos provar o limite dessa expressão comparando cada fator $1+c_n/n$
+com $e^{c_n/n}$. Para controlar o erro do produto, começamos pelo
+seguinte lema.
+
+\begin{lemma}[Diferença de produtos]\label{lem:man-diferenca-produtos}
+Sejam $n\geqslant1$ um inteiro e $R>0$. Considere números complexos
+$z_1,\ldots,z_n$ e $w_1,\ldots,w_n$ tais que
+$|z_j|\leqslant R$ e $|w_j|\leqslant R$ para todo $j=1,\ldots,n$. Então
+\[
+\left|\prod_{j=1}^{n}z_j - \prod_{j=1}^{n}w_j\right|
+\leqslant R^{n-1}\sum_{k=1}^{n}|z_k-w_k|.
+\]
+\end{lemma}
+
+\begin{proof}
+A prova será feita por indução. No caso $n=1$ temos
+\[
+|z_1-w_1|\leqslant R^{0}|z_1-w_1|,
+\]
+que é verdadeiro para quaisquer $z_1,w_1\in\mathbb{C}$ com $|z_1|,|w_1|\leqslant R$.
+Suponha que a desigualdade seja válida para $m\geqslant 1$. Sejam
+$z_1,\ldots,z_{m+1},w_1,\ldots,w_{m+1}\in\mathbb{C}$ com módulo menor ou igual a $R$.
+Então
+\begin{align*}
+\left|\prod_{j=1}^{m+1}z_j - \prod_{j=1}^{m+1}w_j\right|
+&= \left|z_1\prod_{j=2}^{m+1}z_j - w_1\prod_{j=2}^{m+1}w_j\right| \\
+&\leqslant \left|z_1\prod_{j=2}^{m+1}z_j - z_1\prod_{j=2}^{m+1}w_j\right|
++ \left|z_1\prod_{j=2}^{m+1}w_j - w_1\prod_{j=2}^{m+1}w_j\right| \\
+&= |z_1|\left|\prod_{j=2}^{m+1}z_j - \prod_{j=2}^{m+1}w_j\right|
++ \left|\prod_{j=2}^{m+1}w_j\right||z_1-w_1| \\
+&\leqslant R\left|\prod_{j=2}^{m+1}z_j - \prod_{j=2}^{m+1}w_j\right| + R^{m}|z_1-w_1| \\
+&\leqslant R\cdot R^{m-1}\sum_{j=2}^{m+1}|z_j-w_j| + R^{m}|z_1-w_1|
+\qquad\text{(hipótese de indução)} \\
+&= R^{m}\sum_{j=1}^{m+1}|z_j-w_j|,
+\end{align*}
+o que prova o lema.
+\end{proof}
+
+Para comparar os fatores $1+c_n/n$ e $e^{c_n/n}$, precisamos de uma
+cota para o erro da aproximação de $e^b$ por $1+b$. O próximo lema
+mostra que esse erro é de ordem $|b|^2$ quando $|b|\leqslant1$.
+
+\begin{lemma}[Erro da aproximação exponencial]\label{lem:man-exp-quadratica}
+Se $b\in\mathbb{C}$ e $|b|\leqslant 1$, então
+\[
+\bigl|e^{b}-(1+b)\bigr|\leqslant |b|^{2}.
+\]
+\end{lemma}
+
+\begin{proof}
+Temos
+\[
+e^{b}-(1+b)=\frac{b^{2}}{2!}+\frac{b^{3}}{3!}+\frac{b^{4}}{4!}+\cdots.
+\]
+Usando a desigualdade triangular e a hipótese $|b|\leqslant 1$, obtemos a
+seguinte estimativa:
+\begin{align*}
+\bigl|e^{b}-(1+b)\bigr|
+&\leqslant \frac{|b|^{2}}{2!}+\frac{|b|^{3}}{3!}+\frac{|b|^{4}}{4!}+\cdots \\
+&\leqslant \left(\frac{1}{2!}+\frac{1}{3!}+\frac{1}{4!}+\cdots\right)|b|^{2} \\
+&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{2}{3!}+\frac{2}{4!}+\cdots\right) \\
+&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{1}{3}+\frac{1}{4\cdot 3}+\frac{1}{5\cdot 4\cdot 3}+\cdots\right) \\
+&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{1}{2}+\frac{1}{2^{2}}+\frac{1}{2^{3}}+\cdots\right) \\
+&= \frac{|b|^{2}}{2}\sum_{j=0}^{\infty}\left(\frac{1}{2}\right)^{j}
+= \frac{|b|^{2}}{2}\cdot\frac{1}{1-\frac{1}{2}}
+= |b|^{2}. \qedhere
+\end{align*}
+\end{proof}
+
+\begin{theorem}[Limite exponencial complexo]\label{thm:man-limite-exp}
+Se $(c_n)_{n\geqslant1}$ é uma sequência de números complexos tal que
+$\lim_{n\to\infty}c_n=c\in\mathbb{C}$, então
+\[
+\left(1+\frac{c_n}{n}\right)^{n}\xrightarrow{n\to\infty} e^{c}.
+\]
+\end{theorem}
+
+\begin{proof}
+Vamos comparar $(1+c_n/n)^n$ com $e^{c_n}$. O erro entre cada par de
+fatores será de ordem $1/n^2$; o lema dos produtos permitirá somar
+esses $n$ erros mantendo uma quantidade que tende a zero.
+
+Para cada $n\in\mathbb{N}$ fixado, considere as sequências finitas constantes
+de números complexos definidas por
+\[
+z_j \equiv 1+\frac{c_n}{n}
+\qquad\text{e}\qquad
+w_j \equiv e^{c_n/n},
+\qquad j=1,\ldots,n.
+\]
+Seja $R>|c|$. Então existe $n_0\in\mathbb{N}$ tal que $|c_n|\leqslant R$ e
+$|c_n|/n\leqslant 1$ para todo $n\geqslant n_0$. Já que
+$1+\frac{R}{n}\leqslant e^{R/n}$ (pois $1+x\leqslant e^{x}$ para $x\geqslant 0$),
+temos $|z_j|\leqslant 1+\frac{|c_n|}{n}\leqslant 1+\frac{R}{n}\leqslant e^{R/n}$ e
+$|w_j|=e^{\operatorname{Re}(c_n)/n}\leqslant e^{|c_n|/n}\leqslant e^{R/n}$ para
+todo $j=1,\ldots,n$.
+
+Observe que, para $n\geqslant n_0$,
+\begin{align*}
+\left|\left(1+\frac{c_n}{n}\right)^{n}-e^{c_n}\right|
+&= \left|\left(1+\frac{c_n}{n}\right)^{n}-\left(e^{c_n/n}\right)^{n}\right| \\
+&= \left|\prod_{j=1}^{n}z_j-\prod_{j=1}^{n}w_j\right| \\
+&\leqslant \left(e^{R/n}\right)^{n-1}\sum_{j=1}^{n}|z_j-w_j|
+\qquad\text{(\Cref{lem:man-diferenca-produtos})} \\
+&= e^{R\frac{n-1}{n}}\sum_{j=1}^{n}\left|1+\frac{c_n}{n}-e^{c_n/n}\right| \\
+&\leqslant e^{R\frac{n-1}{n}}\sum_{j=1}^{n}\frac{|c_n|^{2}}{n^{2}}
+\qquad\text{(\Cref{lem:man-exp-quadratica})} \\
+&= e^{R\frac{n-1}{n}}\frac{|c_n|^{2}}{n}
+\leqslant \frac{e^{R\frac{n-1}{n}}R^{2}}{n}
+\xrightarrow{n\to\infty} 0.
+\end{align*}
+Já que $c_n\to c$ (e portanto $e^{c_n}\to e^{c}$ por continuidade da exponencial),
+temos que
+\[
+\left(1+\frac{c_n}{n}\right)^{n}\xrightarrow{n\to\infty} e^{c}. \qedhere
+\]
+\end{proof}
+
+\section{Momentos e expansão da função característica}\label{sec:momentos}
 
 Seja $X$ uma variável aleatória real. Nas notas de aula sobre momentos e funções
 geradoras de momentos, vimos que as esperanças das potências de $X$ podem ser
@@ -438,6 +618,7 @@ $\varphi_X$ até a ordem $n$ e calcular suas derivadas por meio de esperanças.
 
 \begin{theorem}[Derivadas da função característica]
 \label{thm:derivadas-momentos}
+\label{prop:man-derivadas-fc}
 Seja $X$ uma variável aleatória com função característica $\varphi_X$.
 Se $\mathbb{E}[|X|^n]<\infty$ para algum inteiro $n\geqslant1$, então, para
 cada inteiro $k$ com $1\leqslant k\leqslant n$, a derivada $\varphi_X^{(k)}$
@@ -450,9 +631,10 @@ existe, é contínua em $\mathbb{R}$ e satisfaz
 \end{theorem}
 
 \begin{proof}
-Vamos derivar a esperança uma vez de cada vez. Para aplicar o
-\Cref{thm:derivacao-integral}, precisamos verificar que as variáveis obtidas
-e as derivadas dos integrandos são integráveis.
+Vamos derivar a esperança uma vez de cada vez, verificando em cada
+passo a integrabilidade necessária. Na primeira derivada, explicitaremos
+o argumento de convergência dominada com quocientes incrementais.
+Nas demais, aplicaremos o \Cref{thm:derivacao-integral}.
 
 Primeiro, a hipótese de momento absoluto de ordem $n$ garante os momentos
 absolutos de ordens menores. Com efeito, se $1\leqslant j\leqslant n$, então
@@ -466,21 +648,40 @@ $|x|^j\leqslant|x|^n$. Logo
 \qquad 1\leqslant j\leqslant n.
 \]
 
-Comecemos pela primeira derivada. Para cada $t$, a variável $e^{itX}$ é
-integrável, pois tem módulo $1$. Além disso,
+Comecemos pela primeira derivada. Fixe $t\in\mathbb{R}$.
+Pela linearidade da esperança, para $h\neq0$,
 \[
-\frac{\partial}{\partial t}e^{itX}=iX e^{itX},
-\qquad
-\bigl|iX e^{itX}\bigr|=|X|.
+\frac{\varphi_X(t+h)-\varphi_X(t)}{h}
+=\mathbb{E}\left[
+e^{itX}\frac{e^{ihX}-1}{h}
+\right].
 \]
-Como $\mathbb{E}[|X|]<\infty$, o \Cref{thm:derivacao-integral} permite
-trocar a derivada com a esperança:
+Para justificar a passagem ao limite, tomamos uma sequência
+$h_m\to0$, com $h_m\neq0$, e definimos
 \[
-\varphi_X'(t)
-=\frac{d}{dt}\mathbb{E}[e^{itX}]
-=\mathbb{E}[iX e^{itX}],
-\qquad t\in\mathbb{R}.
+\psi_m\equiv e^{itX}\frac{e^{ih_mX}-1}{h_m}.
 \]
+Para cada $\omega\in\Omega$, temos
+$\psi_m(\omega)\to iX(\omega)e^{itX(\omega)}$.
+Além disso, a identidade
+\[
+e^{iu}-1=i\int_0^u e^{is}\,ds,
+\qquad u\in\mathbb{R},
+\]
+fornece $|e^{iu}-1|\leqslant|u|$. Portanto,
+\[
+|\psi_m|
+\leqslant\frac{|h_mX|}{|h_m|}
+=|X|.
+\]
+Como $\mathbb{E}[|X|]<\infty$, a convergência dominada, aplicada
+às partes real e imaginária, dá
+\[
+\frac{\varphi_X(t+h_m)-\varphi_X(t)}{h_m}
+\longrightarrow\mathbb{E}[iX e^{itX}].
+\]
+Como a sequência $(h_m)$ foi arbitrária, concluímos que
+$\varphi_X'(t)=\mathbb{E}[iX e^{itX}]$.
 
 Suponha agora que, para algum $k<n$, já tenhamos obtido
 \[
@@ -522,6 +723,14 @@ real e imaginária, dá
 \]
 Logo $\varphi_X^{(k)}$ é contínua para cada $k\leqslant n$.
 \end{proof}
+
+Se $F_X$ é a função de distribuição de $X$, a fórmula do teorema
+também pode ser escrita como
+\[
+\varphi_X^{(k)}(t)
+=\int_{\mathbb{R}}(ix)^k e^{itx}\,dF_X(x),
+\qquad 1\leqslant k\leqslant n.
+\]
 
 Tomando $t=0$ no teorema e usando $e^0=1$, obtemos
 \[
@@ -582,290 +791,583 @@ exponencial. Ela permitirá estimar o erro antes de tomar a esperança e será
 
 \subsection{Uma cota para o resto de Taylor}\label{subsec:resto-taylor}
 
-No \Cref{thm:derivadas-momentos} vimos que as derivadas de $\varphi_X$ na
-origem são os momentos de $X$. Para transformar essa informação em uma expansão
-de Taylor, porém, não basta conhecer as derivadas: é preciso saber quão grande
-é o erro cometido ao truncar a série. A cota a seguir resolve essa questão; ela
-é uma afirmação puramente analítica, sobre a exponencial complexa, e por isso
-vem antes de qualquer hipótese sobre $X$.
+O \Cref{thm:derivadas-momentos} já fornece uma expansão assintótica de
+$\varphi_X$ na origem. Vamos agora obter uma cota explícita para o
+resto, estimando primeiro o erro na aproximação de $e^{ix}$ por seu
+polinômio de Taylor. Assim poderemos controlar esse erro antes de
+tomar a esperança, como faremos na prova do Teorema do Limite Central.
 
 \begin{lemma}[Cota para o resto de Taylor]\label{lem:resto-taylor}
+\label{lem:man-resto-taylor}
 Para todo inteiro $n\geqslant0$ e todo $x\in\mathbb{R}$,
 \[
-\Bigl|e^{ix}-\sum_{m=0}^{n}\frac{(ix)^m}{m!}\Bigr|\leqslant\min\Bigl(\frac{|x|^{n+1}}{(n+1)!},\,\frac{2|x|^{n}}{n!}\Bigr).
+\left|e^{ix}-\sum_{m=0}^n\frac{(ix)^m}{m!}\right|
+\leqslant
+\min\left\{
+\frac{|x|^{n+1}}{(n+1)!},\,
+\frac{2|x|^n}{n!}
+\right\}.
 \]
-Quando $n=0$ a soma se reduz a $1$ e o segundo membro do mínimo deve ser lido
-como $2$, de modo que a cota diz simplesmente $|e^{ix}-1|\leqslant\min(|x|,2)$.
+Quando $n=0$, a segunda cota é entendida como $2$, de modo que
+a desigualdade se reduz a $|e^{ix}-1|\leqslant\min\{|x|,2\}$.
 \end{lemma}
 
-Vale entender, antes da prova, por que o enunciado traz um mínimo de duas cotas.
-O primeiro membro, $|x|^{n+1}/(n+1)!$, é a ordem de grandeza usual do resto de
-Taylor de $e^{ix}$: ele descreve o erro como se descreveria o de uma série de
-potências comum e é a cota adequada quando $|x|$ é pequeno. O segundo membro,
-$2|x|^{n}/n!$, é pior por um fator da ordem de $|x|$ nessa região, mas cresce
-como $|x|^{n}$ e não como $|x|^{n+1}$, sendo portanto o adequado para $|x|$
-grande. É essa segunda cota, e não a primeira, que permitirá provar o teorema
-central do limite sem supor o terceiro momento finito: ela exige apenas o
-controle de $n$ momentos. Como as duas estimativas valem simultaneamente, vale
-a menor delas.
+As duas cotas cumprem funções diferentes. A primeira descreve o
+comportamento do resto para $|x|$ pequeno, pois contém a potência
+$|x|^{n+1}$. A segunda cresce apenas como $|x|^n$ e será útil para
+valores grandes de $|x|$. Quando substituirmos $x$ por $tX$, essa
+diferença permitirá trabalhar sob uma hipótese de momento de
+ordem $n$, sem exigir o momento de ordem $n+1$.
 
 \begin{proof}
-A prova tem três etapas: obter uma identidade integral exata para o resto,
-cotá-la de duas maneiras, cada uma eficiente em uma região, e tomar o mínimo.
+Vamos obter uma identidade integral para o resto e estimá-la de duas
+maneiras.
 
-\medskip
-\textbf{Primeira etapa: a identidade do resto.}
-Integrando por partes com $u=e^{is}$ e $dv=(x-s)^{n}ds$, de modo que
-$du=ie^{is}ds$ e $v=-(x-s)^{n+1}/(n+1)$, obtemos
+\smallskip
+\noindent\textbf{Primeira etapa: a identidade do resto.}
+Integrando por partes com
 \[
-\int_{0}^{x}(x-s)^{n}e^{is}ds=\Bigl[-\frac{(x-s)^{n+1}}{n+1}e^{is}\Bigr]_{s=0}^{s=x}+\frac{i}{n+1}\int_{0}^{x}(x-s)^{n+1}e^{is}ds .
+u=e^{is},
+\qquad
+dv=(x-s)^n\,ds,
+\qquad
+du=ie^{is}\,ds,
+\qquad
+v=-\frac{(x-s)^{n+1}}{n+1},
 \]
-O termo de fronteira se anula em $s=x$, porque $(x-x)^{n+1}=0$, e vale
-$-x^{n+1}/(n+1)$ em $s=0$; logo o colchete é $x^{n+1}/(n+1)$ e
-\[
-\int_{0}^{x}(x-s)^{n}e^{is}ds=\frac{x^{n+1}}{n+1}+\frac{i}{n+1}\int_{0}^{x}(x-s)^{n+1}e^{is}ds .
-\]
-A conta vale também para $x<0$: a integral é orientada e o teorema fundamental
-do cálculo continua valendo nos extremos.
-
-Para $n=0$ a identidade diz que $\int_{0}^{x}e^{is}ds=x+i\int_{0}^{x}(x-s)e^{is}ds$,
-e o lado esquerdo é $(e^{ix}-1)/i$; multiplicando por $i$ e isolando $e^{ix}$,
-\[
-e^{ix}=1+ix+i^{2}\int_{0}^{x}(x-s)e^{is}ds ,
-\]
-que é o desenvolvimento de Taylor de ordem $1$ com resto integral: o
-coeficiente de $x^{2}$ na série é $i^{2}/2!$, e a integração de $(x-s)$ produz
-o $2$ que falta. Usando o caso $n=1$ e substituindo o valor da integral,
-\[
-e^{ix}=1+ix+\frac{i^{2}x^{2}}{2}+\frac{i^{3}}{2}\int_{0}^{x}(x-s)^{2}e^{is}ds .
-\]
-O padrão está claro. Se valer
-\[
-e^{ix}-\sum_{m=0}^{n}\frac{(ix)^{m}}{m!}=\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds
-\]
-para um certo $n$, então a identidade aplicada ao lado direito fornece
-\[
-\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds=\frac{i^{n+1}x^{n+1}}{(n+1)!}+\frac{i^{n+2}}{(n+1)!}\int_{0}^{x}(x-s)^{n+1}e^{is}ds ,
-\]
-já que $n!\,(n+1)=(n+1)!$. Isso é a mesma fórmula com $n$ trocado por $n+1$,
-o que conclui a indução. Portanto, para todo $n\geqslant0$,
-\[
-e^{ix}-\sum_{m=0}^{n}\frac{(ix)^{m}}{m!}=\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds .
-\]
-Toda a dificuldade está agora na integral do lado direito, que é o resto.
-
-\medskip
-\textbf{Segunda etapa: a cota boa para $|x|$ pequeno.} Como $|i^{n+1}|=1$ e
-$|e^{is}|\leqslant1$, e mudando a variável para $u=|s|$ (o que também cobre
-$x<0$),
-\[
-\Bigl|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds\Bigr|\leqslant\frac{1}{n!}\int_{0}^{|x|}(|x|-u)^{n}du=\frac{|x|^{n+1}}{(n+1)!} .
-\]
-O denominador vem daí: o $n!$ já estava na fórmula e a integral de $(x-s)^{n}$
-em $(0,x)$ acrescenta o fator $n+1$. Esta é a cota do cálculo diferencial usual,
-ótima para $|x|$ pequeno.
-
-\medskip
-\textbf{Terceira etapa: a cota boa para $|x|$ grande.}
-Suponha $n\geqslant1$ e integre por partes outra vez, com $dv=(x-s)^{n-1}ds$:
-\begin{align*}
-\int_{0}^{x}(x-s)^{n-1}e^{is}ds
-&=\frac{x^{n}}{n}+\frac{i}{n}\int_{0}^{x}(x-s)^{n}e^{is}ds ,
-\\[0.3cm]
-\frac{i}{n}\int_{0}^{x}(x-s)^{n}e^{is}ds
-&=-\frac{x^{n}}{n}+\int_{0}^{x}(x-s)^{n-1}e^{is}ds .
-\end{align*}
-O ponto decisivo é que o termo de fronteira é ele próprio uma integral da
-mesma família, $x^{n}/n=\int_{0}^{x}(x-s)^{n-1}ds$; substituindo, os dois
-pedaços se fundem em uma única integral,
-\[
-\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds=\frac{i^{n}}{(n-1)!}\int_{0}^{x}(x-s)^{n-1}\bigl(e^{is}-1\bigr)ds ,
-\]
-pois $\frac{i^{n}}{(n-1)!}\cdot\frac{i}{n}=\frac{i^{n+1}}{n!}$. É aqui que a
-subtração de $1$ faz o seu trabalho: sem ela teríamos duas parcelas, uma do
-termo de fronteira e outra da integral, e ao cotá-las separadamente voltaríamos
-à ordem de grandeza $|x|^{n+1}$. Com o $-1$ dentro do parêntese resta uma só
-integral, cujo integrando é uniformemente limitado, já que
-$|e^{is}-1|\leqslant|e^{is}|+1\leqslant2$ para todo $s$. Essa limitação não
-depende de $|x|$, e é isso que permite conservar o fator $|x|^{n}$:
-\[
-\Bigl|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}ds\Bigr|\leqslant\frac{2}{(n-1)!}\int_{0}^{|x|}(|x|-u)^{n-1}du=\frac{2|x|^{n}}{n!} .
-\]
-
-\medskip
-\textbf{O caso $n=0$ e a conclusão.}
-Para $n=0$ a segunda etapa já dá $|e^{ix}-1|\leqslant|x|$ e a terceira não se
-aplica, pois divide por $n$; a segunda cota do mínimo é então $2$, que é a
-estimativa trivial $|e^{ix}-1|\leqslant2$. Assim o enunciado vale para todo
-$n\geqslant0$: para $n\geqslant1$ porque as duas últimas etapas fornecem ambas
-as cotas, e vale a menor; para $n=0$ pela observação anterior.
-\end{proof}
-
-A transposição para funções características é imediata. Se
-$\mathbb{E}|X|^{n}<\infty$, então
-\[
-\min\bigl(|tX|^{n+1},2|tX|^{n}\bigr)\leqslant2|t|^{n}|X|^{n},
-\]
-e o lado direito dessa desigualdade é integrável. Assim todos os termos abaixo
-são finitos. Aplicando o lema a $x=tX$ e tomando esperanças, obtemos, para todo
-$t\in\mathbb{R}$,
-\begin{equation}\label{eq:cota-resto-taylor}
+obtemos
+\begin{equation}\label{eq:man-identidade-partes}
 \begin{aligned}
-\Bigl|\mathbb{E}\bigl[e^{itX}\bigr]
--\sum_{m=0}^{n}\mathbb{E}\Bigl[\frac{(itX)^{m}}{m!}\Bigr]\Bigr|
-&\leqslant\mathbb{E}\Bigl[\Bigl|e^{itX}
--\sum_{m=0}^{n}\frac{(itX)^{m}}{m!}\Bigr|\Bigr]
+\int_0^x(x-s)^n e^{is}\,ds
+&=\left[-\frac{(x-s)^{n+1}}{n+1}e^{is}\right]_{s=0}^{s=x}
++\frac{i}{n+1}\int_0^x(x-s)^{n+1}e^{is}\,ds
 \\[0.3cm]
-&\leqslant\mathbb{E}\Bigl[\min\bigl(|tX|^{n+1},\,2|tX|^{n}\bigr)\Bigr].
+&=\frac{x^{n+1}}{n+1}
++\frac{i}{n+1}\int_0^x(x-s)^{n+1}e^{is}\,ds.
 \end{aligned}
 \end{equation}
-Primeiro o módulo entra na esperança, pela desigualdade triangular
-(equivalentemente, pela desigualdade de Jensen aplicada a $|\cdot|$); depois se
-usa a cota pontual do lema. Os denominadores foram descartados porque
-$(n+1)!\geqslant1$ e $n!\geqslant1$, de modo que retirá-los só aumenta o lado
-direito.
+O termo de fronteira se anula em $s=x$ e vale
+$-x^{n+1}/(n+1)$ em $s=0$. A identidade também vale para $x<0$,
+pois as integrais são orientadas.
 
-A cota \eqref{eq:cota-resto-taylor} vale para todo $t$ real, sem restrição de
-tamanho, mas o interesse é o comportamento quando $t\to0$, e aí as duas
-parcelas do mínimo competem: se $\mathbb{E}|X|^{n+1}<\infty$, a primeira dá
-$O(|t|^{n+1})$; se dispomos apenas de $\mathbb{E}|X|^{n}<\infty$, a segunda dá
-$O(|t|^{n})$. No \Cref{thm:taylor-segunda-ordem} usaremos $n=2$: a primeira
-alternativa exigiria o terceiro momento finito, e é a segunda que permite obter
-a expansão de segunda ordem da função característica sob a hipótese de variância
-finita apenas. Em resumo, o resto de Taylor de ordem $n$ é $O(|t|^{n+1})$ se
-existirem $n+1$ momentos e $O(|t|^{n})$ se existirem apenas $n$.
+O ponto de partida é
+\[
+e^{ix}-1=i\int_0^x e^{is}\,ds.
+\]
+Usando \eqref{eq:man-identidade-partes} com $n=0$, encontramos
+\[
+e^{ix}=1+ix+i^2\int_0^x(x-s)e^{is}\,ds.
+\]
+Usando-a mais uma vez, agora com $n=1$, obtemos
+\[
+e^{ix}
+=1+ix+\frac{(ix)^2}{2}
++\frac{i^3}{2}\int_0^x(x-s)^2e^{is}\,ds.
+\]
+Esses cálculos sugerem a identidade
+\begin{equation}\label{eq:man-resto-integral}
+e^{ix}-\sum_{m=0}^n\frac{(ix)^m}{m!}
+=\frac{i^{n+1}}{n!}\int_0^x(x-s)^n e^{is}\,ds.
+\end{equation}
+Vamos verificá-la por indução. O caso $n=0$ é a identidade inicial.
+Suponha que ela seja válida para certo $n\geqslant0$. Pela
+\eqref{eq:man-identidade-partes}, seu lado direito é
+\[
+\frac{i^{n+1}x^{n+1}}{(n+1)!}
++\frac{i^{n+2}}{(n+1)!}
+\int_0^x(x-s)^{n+1}e^{is}\,ds.
+\]
+Passando a primeira parcela para o lado esquerdo, obtemos
+\eqref{eq:man-resto-integral} com $n$ substituído por $n+1$.
+Isso conclui a indução.
+
+\smallskip
+\noindent\textbf{Segunda etapa: a cota de ordem $|x|^{n+1}$.}
+Como $|e^{is}|=1$, a identidade do resto dá
+\[
+\left|
+\frac{i^{n+1}}{n!}\int_0^x(x-s)^n e^{is}\,ds
+\right|
+\leqslant
+\frac{1}{n!}\int_0^{|x|}(|x|-u)^n\,du
+=\frac{|x|^{n+1}}{(n+1)!}.
+\]
+Para $x<0$, invertemos os extremos da integral e fazemos $u=-s$;
+para $x\geqslant0$, basta tomar $u=s$. Assim, a mesma estimativa
+cobre os dois sinais de $x$.
+
+\smallskip
+\noindent\textbf{Terceira etapa: a cota de ordem $|x|^n$.}
+Para diminuir em uma unidade a potência de $|x|$, vamos reduzir
+o grau do núcleo $(x-s)^n$ por integração por partes.
+Suponha $n\geqslant1$ e tome
+\[
+u=(x-s)^n,
+\qquad
+dv=e^{is}\,ds,
+\qquad
+du=-n(x-s)^{n-1}\,ds,
+\qquad
+v=\frac{e^{is}}{i}.
+\]
+Então
+\begin{align*}
+\int_0^x(x-s)^n e^{is}\,ds
+&=\left[\frac{(x-s)^n e^{is}}{i}\right]_{s=0}^{s=x}
++\frac{n}{i}\int_0^x(x-s)^{n-1}e^{is}\,ds
+\\[0.3cm]
+&=-\frac{x^n}{i}
++\frac{n}{i}\int_0^x(x-s)^{n-1}e^{is}\,ds.
+\end{align*}
+Multiplicando por $i/n$ e escrevendo o termo de fronteira
+como uma integral,
+\[
+\frac{x^n}{n}=\int_0^x(x-s)^{n-1}\,ds,
+\]
+podemos reunir as duas parcelas:
+\[
+\frac{i}{n}\int_0^x(x-s)^n e^{is}\,ds
+=\int_0^x(x-s)^{n-1}(e^{is}-1)\,ds.
+\]
+Portanto,
+\[
+\frac{i^{n+1}}{n!}\int_0^x(x-s)^n e^{is}\,ds
+=\frac{i^n}{(n-1)!}
+\int_0^x(x-s)^{n-1}(e^{is}-1)\,ds.
+\]
+Agora usamos $|e^{is}-1|\leqslant2$. Como na segunda etapa,
+consideramos o sinal de $x$ para obter
+\[
+\left|
+\frac{i^{n+1}}{n!}\int_0^x(x-s)^n e^{is}\,ds
+\right|
+\leqslant
+\frac{2}{(n-1)!}\int_0^{|x|}(|x|-u)^{n-1}\,du
+=\frac{2|x|^n}{n!}.
+\]
+A redução do grau do núcleo é o que permite substituir o crescimento
+$|x|^{n+1}$ por $|x|^n$.
+
+Para $n=0$, a terceira etapa não se aplica, pois divide por $n$.
+Nesse caso, a segunda cota segue diretamente de
+$|e^{ix}-1|\leqslant|e^{ix}|+1=2$.
+Como as duas estimativas valem simultaneamente, podemos tomar
+o mínimo entre elas.
+\end{proof}
+
+Substituindo $x$ por $tx$, obtemos a forma que será aplicada
+às variáveis aleatórias.
+
+\begin{corollary}\label{cor:man-resto-taylor}
+Para quaisquer $t,x\in\mathbb{R}$ e todo inteiro $n\geqslant0$,
+\[
+\left|e^{itx}-\sum_{m=0}^n\frac{(itx)^m}{m!}\right|
+\leqslant
+\min\left\{
+\frac{|tx|^{n+1}}{(n+1)!},\,
+\frac{2|tx|^n}{n!}
+\right\},
+\]
+com a mesma convenção do \Cref{lem:resto-taylor} quando $n=0$.
+\end{corollary}
+
+Se $n\geqslant1$ e $\mathbb{E}[|X|^n]<\infty$, todos os termos
+do polinômio são integráveis, pelo argumento usado na prova do
+\Cref{thm:derivadas-momentos}. O mínimo também é integrável,
+pois é majorado por $2|t|^n|X|^n/n!$. Pela linearidade da
+esperança e pela desigualdade $|\mathbb{E}[Y]|\leqslant\mathbb{E}[|Y|]$,
+válida para variáveis aleatórias complexas integráveis,
+\begin{equation}\label{eq:cota-resto-taylor}
+\begin{aligned}
+\left|
+\varphi_X(t)-\sum_{m=0}^n\frac{(it)^m}{m!}\mathbb{E}[X^m]
+\right|
+&\leqslant
+\mathbb{E}\left[
+\left|e^{itX}-\sum_{m=0}^n\frac{(itX)^m}{m!}\right|
+\right]
+\\[0.3cm]
+&\leqslant
+\mathbb{E}\left[
+\min\left\{
+\frac{|tX|^{n+1}}{(n+1)!},\,
+\frac{2|tX|^n}{n!}
+\right\}
+\right].
+\end{aligned}
+\end{equation}
+Essa cota vale para todo $t\in\mathbb{R}$.
+Se $\mathbb{E}[|X|^{n+1}]<\infty$, a primeira parcela do mínimo
+fornece uma cota de ordem $|t|^{n+1}$ para o resto.
+Se dispomos apenas de $\mathbb{E}[|X|^n]<\infty$, a segunda
+fornece uma cota de ordem $|t|^n$. Na próxima subseção, veremos
+como usar simultaneamente as duas parcelas para obter um resto
+$o(t^2)$ sob a hipótese de segundo momento finito.
 
 \subsection{A expansão de segunda ordem e sua recíproca}\label{subsec:segunda-ordem}
 
-O caso especial $n=2$ da cota \eqref{eq:cota-resto-taylor} será útil adiante, quando
-tratarmos de somas de variáveis independentes. Com $n=2$, o polinômio de Taylor de
-$\varphi_X$ na origem é
+Vamos aplicar \eqref{eq:cota-resto-taylor} com $n=2$.
+Se $\mathbb{E}[X^2]<\infty$, então $\mathbb{E}[|X|]<\infty$,
+e os coeficientes do polinômio
 \[
-1+it\,\mathbb{E}[X]+\frac{(it)^2}{2}\,\mathbb{E}[X^2]=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\,\mathbb{E}[X^2],
+1+it\,\mathbb{E}[X]
++\frac{(it)^2}{2}\mathbb{E}[X^2]
+=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\mathbb{E}[X^2]
 \]
-e o resto é majorado por $\mathbb{E}\bigl[\min\bigl(|tX|^3,2|tX|^2\bigr)\bigr]$. Como
-$\mathbb{E}|X|^2<\infty$ implica $\mathbb{E}|X|<\infty$, os dois coeficientes são finitos.
+são finitos. O objetivo é mostrar que, após a divisão por $t^2$,
+o resto tende a zero, mesmo quando o terceiro momento absoluto
+não é finito.
 
 \begin{theorem}[Expansão de segunda ordem]\label{thm:taylor-segunda-ordem}
+\label{thm:man-expansao-segunda-ordem}
 Seja $X$ uma variável aleatória com função característica $\varphi_X$.
-Se $\mathbb{E}|X|^2<\infty$, então
+Se $\mathbb{E}[X^2]<\infty$, então
 \[
-\varphi_X(t)=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\,\mathbb{E}[X^2]+o(t^2),\qquad t\to0.
+\varphi_X(t)
+=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\mathbb{E}[X^2]+g(t),
 \]
+onde $g(t)=o(t^2)$ quando $t\to0$, isto é,
+$g(t)/t^2\to0$.
 \end{theorem}
 
 \begin{proof}
-Seja $R_2(t)\equiv\varphi_X(t)-1-it\,\mathbb{E}[X]+\tfrac{t^2}{2}\mathbb{E}[X^2]$ o resto, de
-modo que, por \eqref{eq:cota-resto-taylor},
-$|R_2(t)|\leqslant\mathbb{E}\bigl[\min\bigl(|tX|^3,2|tX|^2\bigr)\bigr]$. Vamos isolar o fator
-$t^2$ dentro da esperança, para que a divisão por $t^2$ apareça explicitamente. Como
-$|tx|^3=t^2|t||x|^3$ e $2|tx|^2=2t^2|x|^2$, dividindo ambos os lados por $t^2>0$ obtemos
-\begin{equation}\label{eq:resto-dividido}
-\frac{|R_2(t)|}{t^2}\leqslant\mathbb{E}\bigl[\min\bigl(|t|\,|X|^3,2|X|^2\bigr)\bigr].
-\end{equation}
-Basta mostrar que o lado direito tende a zero, o que é a afirmação $R_2(t)=o(t^2)$. Ponha
-$Y_t\equiv\min\bigl(|t||X|^3,2|X|^2\bigr)$. Temos $0\leqslant Y_t\leqslant2|X|^2$, e
-$2|X|^2$ é integrável por hipótese, logo $(Y_t)$ tem dominante integrável que não depende de
-$t$. Para a convergência pontual, fixe $\omega$ com $|X(\omega)|<\infty$, o que vale quase
-certamente porque $\mathbb{E}|X|^2$ é finito; quando $t\to0$, o primeiro argumento do mínimo
-tende a $0$ e o segundo é a constante $2|X(\omega)|^2$, de sorte que $Y_t(\omega)\to0$. Pelo
-teorema da convergência dominada, $\mathbb{E}[Y_t]\to0$; como $|R_2(t)|/t^2\geqslant0$, segue
-de \eqref{eq:resto-dividido} que
+Pela linearidade da esperança, podemos escrever
+\begin{align*}
+\varphi_X(t)
+&=\mathbb{E}\left[
+\left(e^{itX}-1-itX+\frac{t^2}{2}X^2\right)
++1+itX-\frac{t^2}{2}X^2
+\right]
+\\[0.3cm]
+&=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\mathbb{E}[X^2]+g(t),
+\end{align*}
+onde
 \[
-0\leqslant\limsup_{t\to0}\frac{|R_2(t)|}{t^2}\leqslant\lim_{t\to0}\mathbb{E}[Y_t]=0,
+g(t)\equiv
+\mathbb{E}\left[e^{itX}-1-itX+\frac{t^2}{2}X^2\right].
 \]
-isto é, $|R_2(t)|/t^2\to0$ e portanto $R_2(t)=o(t^2)$.
+A integrabilidade de todas as parcelas segue da hipótese de segundo
+momento finito. Em particular, $g(0)=0$.
+
+Pela \eqref{eq:cota-resto-taylor}, com $n=2$, temos
+\[
+|g(t)|
+\leqslant
+\mathbb{E}\left[
+\min\left\{
+\frac{|tX|^3}{6},\,t^2|X|^2
+\right\}
+\right].
+\]
+Para $t\neq0$, isolamos o fator $t^2$ dentro da esperança e obtemos
+\begin{equation}\label{eq:resto-dividido}
+\frac{|g(t)|}{t^2}
+\leqslant
+\mathbb{E}\left[
+\min\left\{
+\frac{|t|\,|X|^3}{6},\,|X|^2
+\right\}
+\right].
+\end{equation}
+Basta mostrar que o lado direito tende a zero.
+Defina
+\[
+Y_t\equiv
+\min\left\{
+\frac{|t|\,|X|^3}{6},\,|X|^2
+\right\}.
+\]
+Para cada $\omega\in\Omega$, o primeiro argumento do mínimo tende
+a zero quando $t\to0$, logo $Y_t(\omega)\to0$.
+Além disso,
+\[
+0\leqslant Y_t\leqslant|X|^2,
+\]
+e a variável dominante é integrável por hipótese.
+Pelo Teorema da Convergência Dominada, aplicado ao longo de qualquer
+sequência $t_m\to0$, temos $\mathbb{E}[Y_{t_m}]\to0$.
+Consequentemente, $\mathbb{E}[Y_t]\to0$ quando $t\to0$.
+A desigualdade \eqref{eq:resto-dividido} dá então
+$|g(t)|/t^2\to0$, como queríamos.
 \end{proof}
 
 \begin{remark}[Por que a cota com o mínimo]\label{rem:cota-minimo}
-O ponto da cota \eqref{eq:cota-resto-taylor}, que envolve o mínimo de dois termos em vez do
-primeiro termo que resultaria de uma aplicação ingênua da série de Taylor, é que assim a
-conclusão de \Cref{thm:taylor-segunda-ordem} vale sob a hipótese $\mathbb{E}|X|^2<\infty$,
-sem exigir $\mathbb{E}|X|^3<\infty$.
+Se usássemos apenas a primeira cota do \Cref{lem:resto-taylor},
+teríamos
+\[
+|g(t)|\leqslant\frac{|t|^3}{6}\mathbb{E}[|X|^3].
+\]
+Essa estimativa só forneceria o limite desejado sob a hipótese
+adicional de terceiro momento absoluto finito.
 
-A cota ingênua para $n=2$, $\bigl|e^{ix}-1-ix+x^2/2\bigr|\leqslant|x|^3/3!$, majora o resto
-por $\tfrac{1}{6}|t|^3\,\mathbb{E}|X|^3$ e, após a divisão por $t^2$, deixa
-$\tfrac{1}{6}|t|\,\mathbb{E}|X|^3$, que só tende a zero se o terceiro momento absoluto for
-finito.
-
-O mínimo contorna essa exigência porque trata de modo diferente as duas regiões
-determinadas por $|tX|$. Se $|tX|\leqslant2$, então $|tX|^3\leqslant2|tX|^2$ e o mínimo é o
-termo cúbico, o termo fino, útil justamente onde $|tX|$ é pequeno; como ele carrega o fator
-adicional $|t|$, decai quando $t\to0$, mesmo que $\mathbb{E}|X|^3$ seja infinito. Se
-$|tX|>2$, o mínimo é $2|tX|^2$, que não envolve $|X|^3$: nessa região, onde valores grandes
-de $|X|$ custariam integrabilidade, a cota é proporcional a $t^2|X|^2$, e o fator $t^2$ já
-está fora da esperança, pronto para ser cancelado na divisão. Em suma, o fator extra $|t|$
-da parte cúbica absorve o que seria uma potência maior de $|X|$, e a parte limitada fica
-controlada por $|X|^2$.
+O mínimo permite separar os papéis das duas cotas. Para
+$|tX|\leqslant6$, temos $|tX|^3/6\leqslant t^2|X|^2$, e usamos
+a cota cúbica. Para $|tX|>6$, usamos a cota quadrática.
+Após a divisão por $t^2$, a primeira garante a convergência pontual
+a zero, enquanto a segunda fornece a dominante integrável $|X|^2$.
+Assim, a convergência dominada exige apenas o segundo momento.
 \end{remark}
 
-O próximo resultado mostra que a existência da segunda derivada de $\varphi_X$ na origem
-implica a existência do segundo momento, isto é, ele é a recíproca de
-\Cref{thm:taylor-segunda-ordem}. Como $\varphi_X$ assume valores complexos, a derivada deve
-ser entendida no sentido da diferença segunda simétrica, expressão que aparece na hipótese.
+Vamos agora examinar uma recíproca. Pela propriedade
+$\varphi_X(-h)=\overline{\varphi_X(h)}$ e pela igualdade
+$\varphi_X(0)=1$, o quociente
+\[
+D_X(h)\equiv
+\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}
+=\frac{2\bigl(\operatorname{Re}\varphi_X(h)-1\bigr)}{h^2},
+\qquad h\neq0,
+\]
+é real e não positivo. A expansão de segunda ordem mostra que,
+se $\mathbb{E}[X^2]<\infty$, então $D_X(h)\to-\mathbb{E}[X^2]$.
+O próximo resultado recupera a finitude do segundo momento sob
+uma hipótese mais fraca sobre esse quociente.
 
 \begin{theorem}[Segundo momento e diferença segunda]\label{thm:segundo-momento-finito}
-Seja $X$ uma variável aleatória com função característica $\varphi_X$. Se
+Seja $X$ uma variável aleatória com função característica $\varphi_X$.
+Se
 \[
-\limsup_{h\downarrow0}\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}>-\infty,
+\limsup_{h\downarrow0}
+\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}
+>-\infty,
 \]
-então $\mathbb{E}|X|^2<\infty$.
+então $\mathbb{E}[X^2]<\infty$.
 \end{theorem}
 
 \begin{proof}
-Seja $F$ a função de distribuição de $X$, de modo que $\varphi_X(t)=\int e^{itx}\,dF(x)$. Pela
-linearidade da integral, aplicada ao integrando limitado,
+Seja $F_X$ a função de distribuição de $X$. Pela linearidade
+da integral, aplicada aos integrandos limitados,
 \[
-\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}=\int_{\mathbb{R}}\frac{e^{ihx}-2+e^{-ihx}}{h^2}\,dF(x).
+D_X(h)
+=\int_{\mathbb{R}}
+\frac{e^{ihx}-2+e^{-ihx}}{h^2}\,dF_X(x).
 \]
-Como $e^{ihx}+e^{-ihx}=2\cos(hx)$, o integrando vale
+Como $e^{ihx}+e^{-ihx}=2\cos(hx)$,
 \begin{equation}\label{eq:integrando-segunda-diferenca}
-\frac{e^{ihx}-2+e^{-ihx}}{h^2}=-\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\leqslant0,
+\frac{e^{ihx}-2+e^{-ihx}}{h^2}
+=-\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}
+\leqslant0.
 \end{equation}
-pois $1-\cos(hx)\geqslant0$; e o limite fundamental $\lim_{u\to0}(1-\cos u)/u^2=1/2$, com
-$u=hx$, mostra que $2\bigl(1-\cos(hx)\bigr)/h^2\to x^2$ quando $h\to0$, para cada $x$ fixado.
+Para aplicar o lema de Fatou, tomamos o oposto desse integrando:
+\[
+q_h(x)\equiv
+\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\geqslant0.
+\]
+O limite $(1-\cos u)/u^2\to1/2$, quando $u\to0$, mostra que
+$q_h(x)\to x^2$ para cada $x\in\mathbb{R}$.
+Para $x=0$, essa afirmação é imediata; para $x\neq0$,
+basta escrever $u=hx$.
 
-O sinal em \eqref{eq:integrando-segunda-diferenca} é o que autoriza usar o lema de Fatou na
-forma que fornece cota inferior, pois Fatou se aplica a funções não negativas: se
-$g_h\geqslant0$, então $\int\liminf_{h\to0}g_h\,dF\leqslant\liminf_{h\to0}\int g_h\,dF$.
-Aplicado diretamente ao integrando negativo, o lema daria a desigualdade no sentido oposto,
-inútil aqui. Tomando então $g_h(x)\equiv2\bigl(1-\cos(hx)\bigr)/h^2\geqslant0$, o simétrico
-do integrando original, e lembrando que $2\varphi_X(0)=2$ e que
-$\varphi_X(h)+\varphi_X(-h)=2\int\cos(hx)\,dF(x)$, obtemos
+Ponha $L\equiv\limsup_{h\downarrow0}D_X(h)$. Pela hipótese
+e pelo fato de $D_X(h)\leqslant0$, temos $-\infty<L\leqslant0$.
+Escolha uma sequência $h_m\downarrow0$ tal que
+$D_X(h_m)\to L$. Aplicando o lema de Fatou às funções
+não negativas $q_{h_m}$, obtemos
 \begin{align*}
-\int_{\mathbb{R}}x^2\,dF(x)
-&= \int_{\mathbb{R}}\lim_{h\to0}\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\,dF(x)
+\mathbb{E}[X^2]
+&=\int_{\mathbb{R}}x^2\,dF_X(x)
+=\int_{\mathbb{R}}\liminf_{m\to\infty}q_{h_m}(x)\,dF_X(x)
 \\[0.3cm]
-&\leqslant \liminf_{h\to0}\int_{\mathbb{R}}\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\,dF(x)
+&\leqslant
+\liminf_{m\to\infty}\int_{\mathbb{R}}q_{h_m}(x)\,dF_X(x)
 \\[0.3cm]
-&= \liminf_{h\to0}\frac{2\varphi_X(0)-\varphi_X(h)-\varphi_X(-h)}{h^2}
-\\[0.3cm]
-&= -\limsup_{h\to0}\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}<\infty,
+&=\liminf_{m\to\infty}\bigl(-D_X(h_m)\bigr)
+=-L<\infty.
 \end{align*}
-sendo a última desigualdade exatamente a hipótese. Como $x\mapsto x^2$ é não
-negativa, a integral $\int x^2\,dF(x)$ é o segundo momento $\mathbb{E}[X^2]$, e
-a cadeia mostra que esse número é finito, ou seja, que
-$\mathbb{E}|X|^2<\infty$.
+Isso prova a finitude do segundo momento.
 \end{proof}
 
-Combinando \Cref{thm:taylor-segunda-ordem} e \Cref{thm:segundo-momento-finito}, a finitude
-do segundo momento é equivalente à existência da segunda derivada de $\varphi_X$ na origem, no
-sentido da diferença segunda simétrica. Se $\mathbb{E}|X|^2<\infty$, a expansão de segunda
-ordem diz que $\bigl(\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)\bigr)/h^2$ converge para
-$-\mathbb{E}[X^2]$; reciprocamente, a hipótese de \Cref{thm:segundo-momento-finito} garante
-o segundo momento finito. Note que não se pede a existência do limite, apenas que o limite
-superior não seja $-\infty$.
+Combinando os dois teoremas, a finitude do segundo momento
+é equivalente à existência de um limite finito para a diferença
+segunda simétrica $D_X(h)$ na origem. Nesse caso, o limite é
+$-\mathbb{E}[X^2]$. O \Cref{thm:segundo-momento-finito} mostra
+que basta supor que o limite superior não seja $-\infty$.
 
+A diferença segunda fornece um critério sobre valores de
+$\varphi_X$ perto da origem, sem supor previamente a existência
+de derivadas. A derivada usual de $\varphi_X$, como função de
+variável real com valores complexos, é definida pelos quocientes
+incrementais usuais. Se $\varphi_X''(0)$ existe, a fórmula de Taylor
+dá $D_X(h)\to\varphi_X''(0)$, logo o segundo momento é finito.
+Reciprocamente, o \Cref{thm:derivadas-momentos} garante que o
+segundo momento finito implica a existência dessa derivada, com
+$\varphi_X''(0)=-\mathbb{E}[X^2]$.
+
+
+\section{Teorema do Limite Central}\label{sec:tlc}
+
+Vamos combinar a expansão de segunda ordem da função característica com o
+limite exponencial da \Cref{sec:preliminares-complexos}. A independência
+produzirá o produto, e a normalização por $\sqrt{n}$ fará aparecer um
+termo de ordem $1/n$ em cada fator.
+
+\begin{theorem}[Teorema do Limite Central, caso i.i.d.]\label{thm:man-tlc-iid}
+Seja $(X_n)_{n\geqslant1}$ uma sequência de variáveis aleatórias
+independentes e identicamente distribuídas, com média
+$\mu=\mathbb{E}[X_1]$ e variância
+$\sigma^2=\operatorname{Var}(X_1)\in(0,\infty)$.
+Então
+\[
+Z_n\equiv\frac{1}{\sigma\sqrt{n}}\sum_{j=1}^n(X_j-\mu)
+\Rightarrow Z,
+\]
+onde $Z$ tem distribuição normal padrão.
+\end{theorem}
+
+\begin{proof}
+Primeiro, vamos reduzir a demonstração ao caso de média zero e
+variância um. As variáveis
+\[
+Y_j\equiv\frac{X_j-\mu}{\sigma},
+\qquad j\geqslant1,
+\]
+continuam independentes e identicamente distribuídas e satisfazem
+\[
+\mathbb{E}[Y_j]=0,
+\qquad
+\operatorname{Var}(Y_j)=1.
+\]
+Além disso,
+\[
+\frac{1}{\sqrt{n}}\sum_{j=1}^nY_j
+=\frac{1}{\sigma\sqrt{n}}\sum_{j=1}^n(X_j-\mu).
+\]
+Portanto, basta provar o resultado quando
+$\mathbb{E}[X_1]=0$ e $\operatorname{Var}(X_1)=1$.
+Assumiremos essas condições no restante da prova. Nesse caso,
+$\mathbb{E}[X_1^2]=1$ e
+\[
+Z_n=\frac{1}{\sqrt{n}}\sum_{j=1}^nX_j.
+\]
+
+Pelo \Cref{ex:normal}, a função característica da normal padrão
+é $e^{-t^2/2}$. Vamos mostrar que
+\[
+\varphi_{Z_n}(t)\longrightarrow e^{-t^2/2},
+\qquad t\in\mathbb{R},
+\]
+e então aplicar o Teorema da Continuidade de Lévy.
+Para $t=0$, a igualdade $\varphi_{Z_n}(0)=1$ já fornece
+o limite. Fixe agora $t\neq0$.
+
+Pela independência e pelo fato de as parcelas terem a mesma
+distribuição, obtemos
+\begin{align*}
+\varphi_{Z_n}(t)
+&=\mathbb{E}\left[
+e^{i(t/\sqrt{n})\sum_{j=1}^nX_j}
+\right]
+\\[0.3cm]
+&=\mathbb{E}\left[
+\prod_{j=1}^n e^{i(t/\sqrt{n})X_j}
+\right]
+\\[0.3cm]
+&=\prod_{j=1}^n\mathbb{E}\left[e^{i(t/\sqrt{n})X_j}\right]
+\\[0.3cm]
+&=\prod_{j=1}^n\mathbb{E}\left[e^{i(t/\sqrt{n})X_1}\right]
+=\left(\varphi_{X_1}\left(\frac{t}{\sqrt{n}}\right)\right)^n.
+\end{align*}
+A terceira linha usa a independência das variáveis
+$e^{i(t/\sqrt{n})X_j}$, que são integráveis por terem módulo $1$.
+A quarta usa a igualdade das distribuições. Esse é o mecanismo
+da regra do produto recordada no \Cref{thm:fc-soma-independentes}.
+
+Pelo \Cref{thm:taylor-segunda-ordem}, existe uma função $g$ tal que
+\[
+\varphi_{X_1}(u)
+=1-\frac{u^2}{2}+g(u),
+\qquad g(u)=o(u^2),
+\]
+pois $\mathbb{E}[X_1]=0$ e $\mathbb{E}[X_1^2]=1$.
+Logo,
+\begin{equation}\label{eq:man-fatoracao-zn}
+\begin{aligned}
+\varphi_{Z_n}(t)
+&=\left(
+1-\frac{t^2}{2n}+g\left(\frac{t}{\sqrt{n}}\right)
+\right)^n
+\\[0.3cm]
+&=\left(1+\frac{c_n(t)}{n}\right)^n,
+\end{aligned}
+\end{equation}
+onde
+\[
+c_n(t)\equiv-\frac{t^2}{2}
++n\,g\left(\frac{t}{\sqrt{n}}\right).
+\]
+Queremos mostrar que $c_n(t)\to-t^2/2$. Para isso, precisamos
+controlar o erro depois da multiplicação por $n$.
+
+A estimativa \eqref{eq:resto-dividido}, aplicada à variável $X_1$,
+fornece
+\[
+\left|g\left(\frac{t}{\sqrt{n}}\right)\right|
+\leqslant
+\frac{t^2}{n}\,
+\mathbb{E}\left[
+\min\left\{
+\frac{|t|\,|X_1|^3}{6\sqrt{n}},\,|X_1|^2
+\right\}
+\right].
+\]
+Multiplicando por $n$, obtemos
+\[
+\left|n\,g\left(\frac{t}{\sqrt{n}}\right)\right|
+\leqslant
+t^2\,\mathbb{E}\left[
+\min\left\{
+\frac{|t|\,|X_1|^3}{6\sqrt{n}},\,|X_1|^2
+\right\}
+\right]
+\longrightarrow0.
+\]
+De fato, o integrando converge pontualmente a zero e é majorado
+por $|X_1|^2$, que é integrável. O limite segue do Teorema da
+Convergência Dominada.
+
+Concluímos que $c_n(t)\to-t^2/2$. Pelo
+\Cref{thm:man-limite-exp} e por \eqref{eq:man-fatoracao-zn},
+\[
+\varphi_{Z_n}(t)
+=\left(1+\frac{c_n(t)}{n}\right)^n
+\longrightarrow e^{-t^2/2}.
+\]
+A função limite é a função característica da normal padrão e
+é contínua na origem. O \Cref{thm:continuidade} dá
+$Z_n\Rightarrow Z$, como queríamos.
+\end{proof}
+
+Vamos justificar a formulação por intervalos apresentada na
+introdução. Denote por $F_n$ a função de distribuição de $Z_n$
+e por $\Phi$ a da normal padrão. Como $\Phi$ é contínua em toda
+a reta, o teorema garante que $F_n(x)\to\Phi(x)$ para todo
+$x\in\mathbb{R}$. Para $a<b$ e $\delta>0$,
+\[
+F_n(b)-F_n(a)
+\leqslant\mathbb{P}(a\leqslant Z_n\leqslant b)
+\leqslant F_n(b)-F_n(a-\delta).
+\]
+Passando aos limites inferior e superior em $n$ e depois fazendo
+$\delta\downarrow0$, a continuidade de $\Phi$ fornece
+\[
+\mathbb{P}(a\leqslant Z_n\leqslant b)
+\longrightarrow
+\Phi(b)-\Phi(a)
+=\frac{1}{\sqrt{2\pi}}\int_a^b e^{-x^2/2}\,dx.
+\]
+Isso mostra também que a inclusão dos extremos do intervalo
+não altera o limite.
 
 \section{Exercícios Propostos}\label{sec:exercicios}
 
-Os exercícios a seguir dependem do conteúdo da seção anterior. Eles serão
-reorganizados quando o texto destas notas for redigido.
+Os exercícios retomam a relação entre momentos e funções características,
+o controle das caudas e o comportamento de segunda ordem na origem.
 
 \begin{exercise}[Momentos da normal padrão]
 \label{exercise:momentos-normal}
-Seja $X$ uma variável aleatória com distribuição normal padrão. Use
-\Cref{thm:derivadas-momentos} e o desenvolvimento em série de potências de
+Seja $X$ uma variável aleatória com distribuição normal padrão.
+Verifique primeiro, a partir da densidade, que
+$\mathbb{E}[|X|^m]<\infty$ para todo inteiro $m\geqslant1$.
+Use então o \Cref{thm:derivadas-momentos} e o desenvolvimento em série de potências de
 $e^{-t^{2}/2}$ para mostrar que, para todo $n\geqslant1$,
 \[
   \mathbb{E}\bigl[X^{2n}\bigr]=\frac{(2n)!}{2^{n}\,n!}
@@ -877,7 +1379,10 @@ $\mathbb{E}[X^{2}]=1$ e $\mathbb{E}[X^{4}]=3$. Mostre também que os momentos de
 ordem ímpar se anulam, por simetria da distribuição:
 $\mathbb{E}[X^{2n-1}]=0$ para $n\geqslant1$.
 
-\emph{Sugestão:} a função característica da normal padrão é
+\emph{Sugestão:} para a integrabilidade, observe que, para cada
+$m\geqslant1$, existe $C_m<\infty$ tal que
+$|x|^m e^{-x^2/2}\leqslant C_m e^{-x^2/4}$ para todo $x\in\mathbb{R}$.
+A função característica da normal padrão é
 $\varphi_X(t)=e^{-t^{2}/2}=\sum_{n\geqslant0}\frac{(-1)^{n}}{2^{n}n!}t^{2n}$, e
 \Cref{thm:derivadas-momentos} dá
 $\varphi_X^{(2n)}(0)=i^{2n}\mathbb{E}[X^{2n}]=(-1)^{n}\mathbb{E}[X^{2n}]$;
@@ -907,8 +1412,8 @@ $\{\varphi_{X_i}:i\in I\}$ é equicontínua.
 |\varphi_{X_i}(t+h)-\varphi_{X_i}(t)|
 \leqslant\mathbb{E}\bigl[|e^{ihX_i}-1|\bigr].
 \]
-Use $|e^{i\theta}-1|\leqslant|\theta|\wedge2$, obtida em
-\eqref{eq:cota-resto-taylor}, para mostrar que, para todo $M>0$,
+Use $|e^{i\theta}-1|\leqslant\min\{|\theta|,2\}$, obtida no
+\Cref{lem:resto-taylor} com $n=0$, para mostrar que, para todo $M>0$,
 \[
 |\varphi_{X_i}(t+h)-\varphi_{X_i}(t)|
 \leqslant |h|M+2\mathbb{P}(|X_i|>M).
@@ -947,13 +1452,14 @@ $\sup_{t\in\mathbb{R}}|e^{it/n}-1|=2$.
 \end{enumerate}
 \end{exercise}
 
-\begin{exercise}[Segunda derivada nula na origem]\label{exercise:segunda-derivada-nula}
+\begin{exercise}[Comportamento de segunda ordem na origem]\label{exercise:segunda-derivada-nula}
 Seja $X$ uma variável aleatória com função de distribuição $F_X$ e função
 característica $\varphi_X$. Suponha que
 \[
-  \lim_{t\downarrow0}\frac{\varphi_X(t)-1}{t^2}=c>-\infty .
+  \lim_{t\downarrow0}\frac{\varphi_X(t)-1}{t^2}=c,
+  \qquad c\in\mathbb{R}.
 \]
-Mostre que $\mathbb{E}[X]=0$ e que $\mathbb{E}|X|^2=-2c<\infty$. Em
+Mostre que $\mathbb{E}[X]=0$ e que $\mathbb{E}[X^2]=-2c<\infty$. Em
 particular, se $\varphi_X(t)=1+o(t^2)$ quando $t\to0$, então $\varphi_X(t)\equiv1$
 e $X=0$ quase certamente.
 
@@ -966,7 +1472,7 @@ $t\in(0,\delta]$. Ora,
 \]
 e o integrando é não negativo e converge para $x^2/2$ quando $t\downarrow0$,
 para cada $x$ fixado. Aplicando o lema de Fatou ao longo de uma sequência
-$t_k\downarrow0$ e depois o teorema da convergência monótona, obtemos
+$t_k\downarrow0$, obtemos
 $\mathbb{E}[X^2]\leqslant2C<\infty$. Com o segundo momento finito, a expansão
 de segunda ordem de \Cref{thm:taylor-segunda-ordem} dá
 $\varphi_X(t)=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\mathbb{E}[X^2]+o(t^2)$; divida
@@ -975,378 +1481,8 @@ $c=-\frac{1}{2}\mathbb{E}[X^2]$.
 \end{exercise}
 
 %----------------------------------------------------------------------
-% CONTEÚDO DAS NOTAS MANUSCRITAS (TRANSCRIÇÃO ESTRUTURADA E PROVISÓRIA)
-%----------------------------------------------------------------------
-% Esta seção reúne, de maneira estruturada e organizada, o conteúdo das duas
-% aulas manuscritas (notas-de-aula.pdf), já eliminando repetições internas
-% (como a folha de recapitulação e rascunhos duplicados) e anotações riscadas,
-% para conferência antes da mesclagem definitiva com as seções anteriores.
-
-\section{Notas manuscritas: O Teorema do Limite Central}\label{sec:manuscrito}
-
-\subsection{Introdução e convergência em distribuição}\label{subsec:man-introducao}
-
-\begin{definition}[Convergência em distribuição]\label{def:man-conv-dist}
-Dizemos que uma sequência de variáveis aleatórias $\{X_n\}_{n\in\mathbb{N}}$
-converge em distribuição para uma variável aleatória $X$ se
-\[
-F_{X_n}(t)\longrightarrow F_X(t)
-\qquad\text{(isto é, }\mathbb{P}(X_n\leqslant t)\xrightarrow{n\to\infty}\mathbb{P}(X\leqslant t)\text{)}
-\]
-para todo ponto $t\in\mathbb{R}$ de continuidade de $F_X$. Denotamos essa
-convergência por
-\[
-X_n\xrightarrow[n\to\infty]{D} X
-\qquad\text{ou}\qquad
-X_n\underset{n\to\infty}{\Longrightarrow} X.
-\]
-\end{definition}
-
-Na forma clássica em termos de probabilidades de intervalos, o Teorema do
-Limite Central (no caso i.i.d.\ com variância $\sigma^2\in(0,+\infty)$) afirma
-que, para todos $a,b\in\mathbb{R}$ com $a<b$,
-\[
-\mathbb{P}\!\left(a\leqslant \frac{1}{\sigma\sqrt{n}}\sum_{j=1}^{n}(X_j-\mu)\leqslant b\right)
-\xrightarrow{n\to\infty}
-\int_{a}^{b}\frac{1}{\sqrt{2\pi}}\,e^{-\frac{x^2}{2}}\,dx.
-\]
-
-A seguir provaremos alguns resultados preliminares para a prova do Teorema do
-Limite Central (TLC).
-
-\subsection{Resultados preliminares de análise complexa}\label{subsec:man-analise-complexa}
-
-\begin{lemma}\label{lem:man-diferenca-produtos}
-Sejam $z_1,z_2,\ldots,z_n$ e $w_1,w_2,\ldots,w_n\in\mathbb{C}$ tais que
-$|z_j|\leqslant R$ e $|w_j|\leqslant R$ para todo $j=1,\ldots,n$. Então
-\[
-\left|\prod_{j=1}^{n}z_j - \prod_{j=1}^{n}w_j\right|
-\leqslant R^{n-1}\sum_{k=1}^{n}|z_k-w_k|.
-\]
-\end{lemma}
-
-\begin{proof}
-A prova será feita por indução. No caso $n=1$ temos
-\[
-|z_1-w_1|\leqslant R^{0}|z_1-w_1|,
-\]
-que é verdadeiro para quaisquer $z_1,w_1\in\mathbb{C}$ com $|z_1|,|w_1|\leqslant R$.
-Suponha que a desigualdade seja válida para $m\geqslant 1$. Sejam
-$z_1,\ldots,z_{m+1},w_1,\ldots,w_{m+1}\in\mathbb{C}$ com módulo menor ou igual a $R$.
-Então
-\begin{align*}
-\left|\prod_{j=1}^{m+1}z_j - \prod_{j=1}^{m+1}w_j\right|
-&= \left|z_1\prod_{j=2}^{m+1}z_j - w_1\prod_{j=2}^{m+1}w_j\right| \\
-&\leqslant \left|z_1\prod_{j=2}^{m+1}z_j - z_1\prod_{j=2}^{m+1}w_j\right|
-+ \left|z_1\prod_{j=2}^{m+1}w_j - w_1\prod_{j=2}^{m+1}w_j\right| \\
-&= |z_1|\left|\prod_{j=2}^{m+1}z_j - \prod_{j=2}^{m+1}w_j\right|
-+ \left|\prod_{j=2}^{m+1}w_j\right||z_1-w_1| \\
-&\leqslant R\left|\prod_{j=2}^{m+1}z_j - \prod_{j=2}^{m+1}w_j\right| + R^{m}|z_1-w_1| \\
-&\leqslant R\cdot R^{m-1}\sum_{j=2}^{m+1}|z_j-w_j| + R^{m}|z_1-w_1|
-\qquad\text{(hipótese de indução)} \\
-&= R^{m}\sum_{j=1}^{m+1}|z_j-w_j|,
-\end{align*}
-o que prova o lema.
-\end{proof}
-
-\begin{lemma}\label{lem:man-exp-quadratica}
-Se $b\in\mathbb{C}$ e $|b|\leqslant 1$, então
-\[
-\bigl|e^{b}-(1+b)\bigr|\leqslant |b|^{2}.
-\]
-\end{lemma}
-
-\begin{proof}
-Temos
-\[
-e^{b}-(1+b)=\frac{b^{2}}{2!}+\frac{b^{3}}{3!}+\frac{b^{4}}{4!}+\cdots.
-\]
-Usando a desigualdade triangular e a hipótese $|b|\leqslant 1$, obtemos a
-seguinte estimativa:
-\begin{align*}
-\bigl|e^{b}-(1+b)\bigr|
-&\leqslant \frac{|b|^{2}}{2!}+\frac{|b|^{3}}{3!}+\frac{|b|^{4}}{4!}+\cdots \\
-&\leqslant \left(\frac{1}{2!}+\frac{1}{3!}+\frac{1}{4!}+\cdots\right)|b|^{2} \\
-&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{2}{3!}+\frac{2}{4!}+\cdots\right) \\
-&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{1}{3}+\frac{1}{4\cdot 3}+\frac{1}{5\cdot 4\cdot 3}+\cdots\right) \\
-&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{1}{2}+\frac{1}{2^{2}}+\frac{1}{2^{3}}+\cdots\right) \\
-&= \frac{|b|^{2}}{2}\sum_{j=0}^{\infty}\left(\frac{1}{2}\right)^{j}
-= \frac{|b|^{2}}{2}\cdot\frac{1}{1-\frac{1}{2}}
-= |b|^{2}. \qedhere
-\end{align*}
-\end{proof}
-
-\begin{theorem}\label{thm:man-limite-exp}
-Se $\{c_n\}_{n\in\mathbb{N}}$ é uma sequência de números complexos tal que
-$\lim_{n\to\infty}c_n=c\in\mathbb{C}$, então
-\[
-\left(1+\frac{c_n}{n}\right)^{n}\xrightarrow{n\to\infty} e^{c}.
-\]
-\end{theorem}
-
-\begin{proof}
-Para cada $n\in\mathbb{N}$ fixado, considere as sequências finitas constantes
-de números complexos definidas por
-\[
-z_j \equiv 1+\frac{c_n}{n}
-\qquad\text{e}\qquad
-w_j \equiv e^{c_n/n},
-\qquad j=1,\ldots,n.
-\]
-Seja $R>|c|$. Então existe $n_0\in\mathbb{N}$ tal que $|c_n|\leqslant R$ e
-$|c_n|/n\leqslant 1$ para todo $n\geqslant n_0$. Já que
-$1+\frac{R}{n}\leqslant e^{R/n}$ (pois $1+x\leqslant e^{x}$ para $x\geqslant 0$),
-temos $|z_j|\leqslant 1+\frac{|c_n|}{n}\leqslant 1+\frac{R}{n}\leqslant e^{R/n}$ e
-$|w_j|=e^{\operatorname{Re}(c_n)/n}\leqslant e^{|c_n|/n}\leqslant e^{R/n}$ para
-todo $j=1,\ldots,n$.
-
-Observe que, para $n\geqslant n_0$,
-\begin{align*}
-\left|\left(1+\frac{c_n}{n}\right)^{n}-e^{c_n}\right|
-&= \left|\left(1+\frac{c_n}{n}\right)^{n}-\left(e^{c_n/n}\right)^{n}\right| \\
-&= \left|\prod_{j=1}^{n}z_j-\prod_{j=1}^{n}w_j\right| \\
-&\leqslant \left(e^{R/n}\right)^{n-1}\sum_{j=1}^{n}|z_j-w_j|
-\qquad\text{(\Cref{lem:man-diferenca-produtos})} \\
-&= e^{R\frac{n-1}{n}}\sum_{j=1}^{n}\left|1+\frac{c_n}{n}-e^{c_n/n}\right| \\
-&\leqslant e^{R\frac{n-1}{n}}\sum_{j=1}^{n}\frac{|c_n|^{2}}{n^{2}}
-\qquad\text{(\Cref{lem:man-exp-quadratica})} \\
-&= e^{R\frac{n-1}{n}}\frac{|c_n|^{2}}{n}
-\leqslant \frac{e^{R\frac{n-1}{n}}R^{2}}{n}
-\xrightarrow{n\to\infty} 0.
-\end{align*}
-Já que $c_n\to c$ (e portanto $e^{c_n}\to e^{c}$ por continuidade da exponencial),
-temos que
-\[
-\left(1+\frac{c_n}{n}\right)^{n}\xrightarrow{n\to\infty} e^{c}. \qedhere
-\]
-\end{proof}
-
-\subsection{Derivadas da função característica e resto de Taylor}\label{subsec:man-derivadas-taylor}
-
-\begin{proposition}\label{prop:man-derivadas-fc}
-Se $\mathbb{E}[|X|^{n}]<+\infty$ (isto é, $\int_{\mathbb{R}}|x|^{n}\,d\mu(x)<+\infty$,
-onde $\mu$ é a distribuição de $X$), então a função $t\mapsto \varphi_X^{(n)}(t)$ é
-contínua em toda a reta real. Além do mais,
-\[
-\varphi_X^{(n)}(t)=\mathbb{E}\bigl[(iX)^{n}e^{itX}\bigr]
-=\int_{\mathbb{R}}(ix)^{n}e^{itx}\,d\mu(x).
-\]
-\end{proposition}
-
-\begin{proof}
-Temos $\varphi_X(t)=\mathbb{E}[e^{itX}]$, portanto, para $n=1$,
-\begin{align*}
-\varphi_X'(t)
-&= \lim_{h\to 0}\frac{\varphi_X(t+h)-\varphi_X(t)}{h} \\
-&= \lim_{h\to 0}\frac{\mathbb{E}[e^{itX}e^{ihX}]-\mathbb{E}[e^{itX}]}{h} \\
-&= \lim_{h\to 0}\frac{\mathbb{E}\bigl[e^{itX}(e^{ihX}-1)\bigr]}{h}.
-\end{align*}
-Note que, para cada sequência $h_k\to 0$ ($h_k\neq 0$), temos
-\[
-\psi_k(\omega)\equiv e^{itX(\omega)}\frac{e^{ih_k X(\omega)}-1}{h_k}
-\xrightarrow{k\to\infty} \psi(\omega)\equiv iX(\omega)e^{itX(\omega)}.
-\]
-Como $|\psi_k|\leqslant |X|$ e $\int_{\Omega}|X|\,d\mathbb{P}<+\infty$, pelo
-Teorema da Convergência Dominada obtemos o resultado para $n=1$.
-% Nota de conferência: no manuscrito (folha 06) apenas o caso n=1 está desenvolvido;
-% a generalização para n>1 (por indução) e a continuidade de \varphi_X^{(n)} serão
-% integradas com o Teorema de derivação na mesclagem.
-\end{proof}
-
-\begin{lemma}[Durrett, Lema 3.37]\label{lem:man-resto-taylor}
-Para todo $x\in\mathbb{R}$ e todo inteiro $n\geqslant 0$, temos
-\[
-\left|e^{ix}-\sum_{m=0}^{n}\frac{(ix)^{m}}{m!}\right|
-\leqslant \min\left\{\frac{|x|^{n+1}}{(n+1)!},\;\frac{2|x|^{n}}{n!}\right\},
-\]
-onde a primeira cota é adequada para $|x|\ll 1$ e a segunda para $|x|\gg 1$ (com a
-convenção de que a segunda cota vale $2$ quando $n=0$).
-\end{lemma}
-
-\begin{proof}
-Integrando por partes com $u=e^{is}$, $du=ie^{is}\,ds$, $v=-\frac{(x-s)^{n+1}}{n+1}$
-e $dv=(x-s)^{n}\,ds$, obtemos
-\begin{equation}\label{eq:man-identidade-partes}
-\begin{aligned}
-\int_{0}^{x}(x-s)^{n}e^{is}\,ds
-&= \left[-e^{is}\frac{(x-s)^{n+1}}{n+1}\right]_{0}^{x}
-- \int_{0}^{x}\left(-\frac{(x-s)^{n+1}}{n+1}\right)ie^{is}\,ds \\
-&= \frac{x^{n+1}}{n+1}+\frac{i}{n+1}\int_{0}^{x}(x-s)^{n+1}e^{is}\,ds.
-\end{aligned}
-\end{equation}
-Quando $n=0$, temos
-\[
-\int_{0}^{x}e^{is}\,ds = x+i\int_{0}^{x}(x-s)e^{is}\,ds
-\;\Longrightarrow\;
-\frac{e^{ix}-1}{i}=x+i\int_{0}^{x}(x-s)e^{is}\,ds,
-\]
-donde
-\[
-e^{ix}=1+ix+i^{2}\int_{0}^{x}(x-s)e^{is}\,ds.
-\]
-Usando o resultado \eqref{eq:man-identidade-partes} no caso $n=1$, ficamos com
-\[
-e^{ix}=1+ix+\frac{(ix)^{2}}{2}+\frac{i^{3}}{2}\int_{0}^{x}(x-s)^{2}e^{is}\,ds.
-\]
-Iterando este procedimento, concluímos que
-\begin{equation}\label{eq:man-resto-integral}
-e^{ix}-\sum_{m=0}^{n}\frac{(ix)^{m}}{m!}
-=\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}\,ds.
-\end{equation}
-
-Para finalizar a prova, basta estimar o ``termo de erro'' em
-\eqref{eq:man-resto-integral}. Já que $|e^{is}|\leqslant 1$ para todo
-$s\in\mathbb{R}$, temos
-\[
-\left|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}\,ds\right|
-\leqslant \frac{|x|^{n+1}}{(n+1)!}.
-\]
-Esta estimativa é boa quando $|x|\ll 1$.
-
-Quando $|x|\gg 1$ (supondo $n\geqslant 1$), vamos proceder de outra maneira.
-Integrando por partes com $u=(x-s)^{n}$, $du=-n(x-s)^{n-1}\,ds$,
-$v=\frac{e^{is}}{i}$ e $dv=e^{is}\,ds$, temos
-\begin{align*}
-\frac{i}{n}\int_{0}^{x}(x-s)^{n}e^{is}\,ds
-&= \left(\left[\frac{(x-s)^{n}e^{is}}{i}\right]_{0}^{x}
--\int_{0}^{x}\frac{1}{i}e^{is}\,n(-1)(x-s)^{n-1}\,ds\right)\frac{i}{n} \\
-&= \left(-\frac{x^{n}}{i}+\frac{n}{i}\int_{0}^{x}(x-s)^{n-1}e^{is}\,ds\right)\frac{i}{n} \\
-&= -\frac{x^{n}}{n}+\int_{0}^{x}(x-s)^{n-1}e^{is}\,ds.
-\end{align*}
-Observando que $\frac{x^{n}}{n}=\int_{0}^{x}(x-s)^{n-1}\,ds$, segue de
-\eqref{eq:man-resto-integral} que
-\[
-\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}\,ds
-=\frac{i^{n}}{(n-1)!}\int_{0}^{x}(x-s)^{n-1}\bigl(e^{is}-1\bigr)\,ds.
-\]
-Lembrando que $|e^{is}-1|\leqslant 2$, obtemos
-\[
-\left|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}\,ds\right|
-\leqslant \frac{2}{(n-1)!}\left|\int_{0}^{x}(x-s)^{n-1}\,ds\right|
-\leqslant \frac{2}{n!}|x|^{n}.
-\]
-(Para $n=0$, vale diretamente $|e^{ix}-1|\leqslant 2$.)
-\end{proof}
-
-\begin{corollary}\label{cor:man-resto-taylor}
-Para quaisquer $t,x\in\mathbb{R}$ e todo inteiro $n\geqslant 0$,
-\[
-\left|e^{itx}-\sum_{m=0}^{n}\frac{(itx)^{m}}{m!}\right|
-\leqslant \min\left\{\frac{|xt|^{n+1}}{(n+1)!},\;\frac{2|tx|^{n}}{n!}\right\}.
-\]
-\end{corollary}
-
-\begin{theorem}\label{thm:man-expansao-segunda-ordem}
-Se $X$ é uma variável aleatória com $\mathbb{E}[|X|^{2}]<+\infty$, então
-\[
-\varphi_X(t)=1+it\mathbb{E}[X]-\frac{t^{2}}{2}\mathbb{E}[X^{2}]+g(t),
-\]
-onde $\frac{g(t)}{t^{2}}\xrightarrow{t\to 0} 0$, isto é, $g(t)=o(t^{2})$.
-\end{theorem}
-
-\begin{proof}
-Temos
-\begin{align*}
-\varphi_X(t)
-&= \mathbb{E}\bigl[e^{itX}\bigr] \\
-&= \mathbb{E}\left[\left(e^{itX}-1-itX+\frac{t^{2}}{2}X^{2}\right)+1+itX-\frac{t^{2}}{2}X^{2}\right] \\
-&= 1+it\mathbb{E}[X]-\frac{t^{2}}{2}\mathbb{E}[X^{2}]
-+\underbrace{\mathbb{E}\left[e^{itX}-1-itX+\frac{t^{2}}{2}X^{2}\right]}_{g(t)}.
-\end{align*}
-Pelo \Cref{cor:man-resto-taylor} (com $n=2$), temos que
-\begin{align*}
-|g(t)|
-&= \left|\mathbb{E}\left[e^{itX}-1-itX+\frac{t^{2}}{2}X^{2}\right]\right|
-\leqslant \mathbb{E}\left[\left|e^{itX}-\sum_{m=0}^{2}\frac{(itX)^{m}}{m!}\right|\right] \\
-&\leqslant \mathbb{E}\left[\min\left\{\frac{|tX|^{3}}{3!},\;\frac{2t^{2}X^{2}}{2!}\right\}\right]
-= t^{2}\,\mathbb{E}\left[\min\left\{\frac{|t|\,|X|^{3}}{3!},\;\frac{2|X|^{2}}{2!}\right\}\right].
-\end{align*}
-% Nota de conferência: no manuscrito (folha 03 da aula 2) a prova termina nesta
-% estimativa; resta dividir por t^2 e aplicar o Teorema da Convergência Dominada
-% (como já está feito no Teorema~\ref{thm:taylor-segunda-ordem}).
-\end{proof}
-
-\subsection{Teorema do Limite Central (caso i.i.d.)}\label{subsec:man-tlc}
-
-\begin{theorem}[Teorema do Limite Central --- caso i.i.d.]\label{thm:man-tlc-iid}
-Seja $\{X_n\}_{n\in\mathbb{N}}$ uma sequência de variáveis aleatórias i.i.d.\ com
-média $\mu=\mathbb{E}[X_1]$ e variância $\operatorname{Var}[X_1]\equiv\sigma^{2}>0$
-finita. Então
-\[
-\frac{1}{\sigma\sqrt{n}}\sum_{j=1}^{n}(X_j-\mu)
-\xrightarrow[n\to\infty]{D} N(0,1).
-\]
-\end{theorem}
-
-\begin{proof}
-É suficiente mostrar o teorema no caso em que $\mu=0$ e
-$\operatorname{Var}[X_1]=1$. Ou seja,
-\[
-\frac{1}{\sqrt{n}}\sum_{j=1}^{n}X_j \xrightarrow[n\to\infty]{D} N(0,1).
-\]
-De fato, basta notar que $Y_n=\frac{1}{\sigma\sqrt{n}}\sum_{j=1}^{n}(X_j-\mu)$
-possui parcelas $\frac{X_j-\mu}{\sigma}$ de média zero e variância $1$.
-
-Defina $Z_n\equiv\frac{1}{\sqrt{n}}\sum_{j=1}^{n}X_j$. A ideia é mostrar que
-\[
-\varphi_{Z_n}(t)\xrightarrow{n\to\infty} e^{-t^{2}/2}
-\qquad\forall\,t\in\mathbb{R}.
-\]
-Por definição,
-\begin{align}
-\varphi_{Z_n}(t)
-&= \mathbb{E}\left[e^{it\frac{1}{\sqrt{n}}\sum_{j=1}^{n}X_j}\right]
-= \mathbb{E}\left[\prod_{j=1}^{n}e^{i\frac{t}{\sqrt{n}}X_j}\right] \nonumber \\
-&= \prod_{j=1}^{n}\mathbb{E}\left[e^{i\frac{t}{\sqrt{n}}X_j}\right]
-\qquad\text{(independência)} \nonumber \\
-&= \prod_{j=1}^{n}\mathbb{E}\left[e^{i\frac{t}{\sqrt{n}}X_1}\right]
-\qquad\text{(identicamente distribuídas)} \nonumber \\
-&= \left(\varphi_{X_1}\!\left(\frac{t}{\sqrt{n}}\right)\right)^{n} \nonumber \\
-&= \left(1-\frac{t^{2}}{2n}\mathbb{E}[X_1^{2}]+g\!\left(\frac{t}{\sqrt{n}}\right)\right)^{n} \nonumber \\
-&= \left(1+\left(-\frac{t^{2}}{2n}+g\!\left(\frac{t}{\sqrt{n}}\right)\right)\right)^{n} \nonumber \\
-&= \left(1+\frac{c_n(t)}{n}\right)^{n}, \label{eq:man-fatoracao-zn}
-\end{align}
-onde usamos $\mathbb{E}[X_1]=0$, $\mathbb{E}[X_1^{2}]=\operatorname{Var}[X_1]=1$ e
-definimos
-\[
-c_n(t)\equiv -\frac{t^{2}}{2}+n\,g\!\left(\frac{t}{\sqrt{n}}\right).
-\]
-Queremos mostrar que $n\,g\!\left(\frac{t}{\sqrt{n}}\right)\longrightarrow 0$ quando
-$n\to\infty$. De fato, pela estimativa do \Cref{thm:man-expansao-segunda-ordem},
-\[
-\left|g\!\left(\frac{t}{\sqrt{n}}\right)\right|
-\leqslant \frac{t^{2}}{n}\,\mathbb{E}\left[\min\left\{\frac{|t|}{\sqrt{n}}\frac{|X_1|^{3}}{3!},\;|X_1|^{2}\right\}\right].
-\]
-Logo,
-\[
-\left|n\,g\!\left(\frac{t}{\sqrt{n}}\right)\right|
-\leqslant t^{2}\,\mathbb{E}\left[\min\left\{\frac{|t|}{3!\sqrt{n}}|X_1|^{3},\;|X_1|^{2}\right\}\right]
-\xrightarrow{n\to\infty} 0,
-\]
-pelo Teorema da Convergência Dominada (já que o integrando converge pontualmente a
-$0$ e é dominado por $|X_1|^{2}$, que é integrável).
-
-Pelo \Cref{thm:man-limite-exp} e por \eqref{eq:man-fatoracao-zn}, temos
-\[
-\lim_{n\to\infty}\varphi_{Z_n}(t)
-=\lim_{n\to\infty}\left(1+\frac{c_n(t)}{n}\right)^{n}
-=e^{\lim_{n\to\infty}c_n(t)}
-=e^{-\frac{t^{2}}{2}}.
-\]
-% Nota de conferência: no manuscrito (folha 06 da aula 2) a prova termina aqui;
-% na mesclagem será concluída invocando o Teorema da Continuidade de Lévy
-% (Teorema~\ref{thm:continuidade}) e o fato de que e^{-t^2/2} é a função
-% característica da distribuição N(0,1).
-\end{proof}
-
-%----------------------------------------------------------------------
 % BIBLIOGRAFIA
 %----------------------------------------------------------------------
-% Enquanto o texto não tem \cite, as duas referências básicas entram na lista
-% por \nocite. Ao redigir o texto, substitua esta linha pelas citações que
-% forem efetivamente usadas.
-\nocite{GrimmettWelsh2014,MR3930614}
-
 \bibliographystyle{plain}
 \bibliography{../arquivos-aux/referencias}
 
