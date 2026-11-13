@@ -405,10 +405,14 @@ e imaginária e obtemos $\mathbb{E}[Y_n]\to\mathbb{E}[Y]$. Em particular, isso
 vale quando $|Y_n|\leqslant M$ para uma constante $M<\infty$.
 
 No caso uniformemente limitado, a conclusão vale também quando $Y_n\to Y$
-apenas em probabilidade. De fato, $|Y|\leqslant M$ quase certamente e, para todo
-$\varepsilon>0$, decompondo segundo o evento
+apenas em probabilidade. De fato, para qualquer $\delta>0$, a condição
+$|Y_n|\leqslant M$ implica $\{|Y|>M+\delta\}\subseteq\{|Y_n-Y|>\delta\}$, donde
+$\mathbb{P}(|Y|>M+\delta)\leqslant\mathbb{P}(|Y_n-Y|>\delta)\to 0$ e, tomando
+$\delta=1/k$ com $k\to\infty$, segue que $|Y|\leqslant M$ quase certamente.
+Portanto, $Y$ é integrável e $|Y_n-Y|\leqslant 2M$ quase certamente; logo, para
+todo $\varepsilon>0$, decompondo segundo o evento
 $\{|Y_n-Y|\leqslant\varepsilon\}$ e seu complementar e usando a linearidade e a
-monotonicidade da esperança para variáveis reais limitadas, obtemos
+monotonicidade da esperança para variáveis reais integráveis, obtemos
 \[
 \mathbb{E}\bigl[|Y_n-Y|\bigr]
 \leqslant
@@ -542,13 +546,15 @@ Quando $X$ tem densidade $f$, a esperança se escreve
 \mathbb{E}\bigl[g(t,X)\bigr]=\int_{\mathbb{R}}g(t,x)f(x)\,dx,
 \]
 de modo que o teorema cobre também as expressões com densidade, desde que
-$\partial_t g(t,x)$ seja majorada em módulo por uma função $h$ com
-$\int_{\mathbb{R}}h(x)f(x)\,dx<\infty$. Para uma
-integral $\int_a^b g(t,x)\,dx$ (com $-\infty\leqslant a<b\leqslant\infty$) que não provenha de uma densidade de
-probabilidade, como a que aparece no \Cref{lem:dirichlet}, a mesma prova se
-aplica, com as hipóteses análogas, desde que exista uma função $h$ integrável
-em $(a,b)$ com $\bigl|\partial_t g(t,x)\bigr|\leqslant h(x)$ para todo
-$t\in I$ e quase todo $x\in(a,b)$.
+exista uma função mensurável $h$ com $\int_{\mathbb{R}}h(x)f(x)\,dx<\infty$ tal
+que, para quase todo $x$ no conjunto $\{f>0\}$,
+$\bigl|\partial_t g(t,x)\bigr|\leqslant h(x)$ para todo $t\in I$. Para uma
+integral $\int_a^b g(t,x)\,dx$ (com $-\infty\leqslant a<b\leqslant\infty$) que
+não provenha de uma densidade de probabilidade, como a que aparece no
+\Cref{lem:dirichlet}, a mesma prova se aplica, com as hipóteses análogas,
+desde que exista uma função mensurável $h$ integrável em $(a,b)$ tal que, para
+quase todo $x\in(a,b)$, $\bigl|\partial_t g(t,x)\bigr|\leqslant h(x)$ para todo
+$t\in I$.
 
 \subsection{A Integral de Dirichlet}\label{subsec:dirichlet}
 
@@ -1389,8 +1395,10 @@ $X$ tem a mesma distribuição que $\mu+\sigma Z$, com $Z$ normal padrão, e o i
 &=e^{i\mu t}\,\varphi_Z(\sigma t)
 =\exp\Bigl(i\mu t-\frac{\sigma^2t^2}{2}\Bigr), \qquad t\in\mathbb{R}.
 \end{align*}
-Uma distribuição normal com média $\mu$ e variância $\sigma^2$ tem, portanto,
-função característica $\exp(i\mu t-\sigma^2t^2/2)$.
+Uma distribuição normal com média $\mu$ e variância $\sigma^2>0$ tem, portanto,
+função característica $\exp(i\mu t-\sigma^2t^2/2)$ (a mesma expressão continua
+válida no caso degenerado $\sigma^2=0$, isto é, quando $X=\mu$ quase
+certamente, pelo item~(e) do \Cref{thm:propriedades-fc} com $a=0$).
 
 O mesmo tipo de escalonamento se aplica aos outros exemplos, de modo que
 frequentemente daremos a função característica apenas para um membro
@@ -2040,7 +2048,7 @@ a mesma distribuição, de modo que $X \overset{d}{=} -X$.
 
 \begin{corollary}[Soma de normais centradas independentes]\label{cor:soma-normais}
 Sejam $X_1$ e $X_2$ independentes, com $X_i$ normal de média $0$ e variância
-$\sigma_i^2$, $i = 1, 2$. Então $X_1 + X_2$ é normal de média $0$ e variância
+$\sigma_i^2>0$, $i = 1, 2$. Então $X_1 + X_2$ é normal de média $0$ e variância
 $\sigma_1^2 + \sigma_2^2$.
 \end{corollary}
 
@@ -2114,7 +2122,7 @@ Como vimos na prova da fórmula de inversão, vale a seguinte desigualdade
 \left|\frac{e^{-ita}-e^{-itb}}{it}\right|
 =\left|\int_a^b e^{-ity}\,dy\right|
 \leqslant b-a,
-\qquad a<b.
+\qquad t\neq0,\quad a<b.
 \end{equation}
 Além do mais, a função que aparece dentro do valor absoluto 
 à esquerda da desigualdade acima pode ser estendida por
@@ -2334,7 +2342,8 @@ de primeiro momento finito nessas distribuições.
 
 \section{O Teorema da Continuidade de~Lévy}\label{sec:continuidade}
 
-Nas notas de aula sobre modos de convergência, vimos que $(X_n)_{n\in\mathbb{N}}$ converge em
+Nas notas de aula sobre modos de convergência, vimos que $(X_n)_{n\in\mathbb{N}}$
+(adotando nestas notas a convenção $\mathbb{N}=\{1,2,\ldots\}$) converge em
 distribuição para $X$, e escrevemos $X_n\Rightarrow X$, quando
 \[
 F_n(x)=\mathbb{P}(X_n\leqslant x)
@@ -2444,7 +2453,7 @@ integráveis. A monotonicidade decorre da comparação das probabilidades nas
 integrais de cauda; a linearidade no caso geral foi admitida nas notas citadas.
 
 Vamos primeiro demonstrar o resultado para $h:\mathbb{R}\to\mathbb{R}$.
-Fixe $\varepsilon>0$ e seja $B$ uma constante com $|h(x)|\leqslant B$ para
+Fixe $\varepsilon>0$ e seja $B>0$ uma constante com $|h(x)|\leqslant B$ para
 todo $x$. A ideia é aproximar $h$ por uma função escada $g$, constante em
 cada intervalo de uma partição de $[-R,R]$, como na
 \Cref{fig:aprox-funcao-escada-esperanca}. A esperança de $g(X_n)$ será uma
@@ -2788,7 +2797,7 @@ real e imaginária. Pela definição de esperança complexa da
 \end{proof}
 
 \begin{lemma}[Seleção de uma subsequência]\label{lem:selecao-condensada}
-Toda sequência condensada $(X_n)_{n\in\mathbb{N}}$ possui uma subsequência que converge em
+Toda sequência condensada $(X_n)_{n\geqslant1}$ possui uma subsequência que converge em
 distribuição para alguma variável aleatória real.
 \end{lemma}
 
@@ -2955,7 +2964,7 @@ A condensação impedirá que a probabilidade escape para o infinito. Dado
 $\varepsilon>0$, existe $M>0$ tal que
 \[
 \mathbb{P}(|X_n|>M)<\varepsilon
-\qquad\text{para todo }n\in\mathbb{N}.
+\qquad\text{para todo }n\geqslant1.
 \]
 Se $q<-M$ é racional, então $\{X_n\leqslant q\}\subseteq\{|X_n|>M\}$ e
 \[
@@ -3258,10 +3267,10 @@ A desigualdade à esquerda segue de $|\varphi(t)|\leqslant1$, obtida passando
 ao limite em $|\varphi_{X_n}(t)|\leqslant1$.
 
 Para usar essa informação na cota \eqref{eq:cota-concentracao} do
-\Cref{lem:cota-cauda-fc}, vamos mostrar que a integral de
-$1-\operatorname{Re}\varphi_{X_n}$ em $[-u,u]$ converge para a integral de
-$1-\operatorname{Re}\varphi$ no mesmo intervalo. Para isso, considere uma
-variável auxiliar $U$, uniforme em $[-u,u]$, e defina
+\Cref{lem:cota-cauda-fc}, vamos mostrar que a integral normalizada de
+$1-\operatorname{Re}\varphi_{X_n}$ em $[-u,u]$ converge para o dobro da
+esperança de uma variável aleatória limitada por $\varepsilon/4$. Para isso,
+considere uma variável auxiliar $U$, uniforme em $[-u,u]$, e defina
 \[
 W_n=1-\operatorname{Re}\varphi_{X_n}(U),
 \qquad
@@ -3271,8 +3280,10 @@ Não precisamos supor qualquer relação entre $U$ e as variáveis $X_n$, pois
 as funções $\varphi_{X_n}$ são determinísticas. Como cada $\varphi_{X_n}$ é contínua,
 $W_n$ é uma variável aleatória; seu limite pontual $W$ também é uma variável
 aleatória. A convergência pontual de $\varphi_{X_n}$ implica $W_n\to W$,
-quando $n\to\infty$, quase certamente. Além disso,
-$0\leqslant W_n\leqslant2$ e $0\leqslant W\leqslant\varepsilon/4$. Como $U$
+quando $n\to\infty$, em todo ponto (e, em particular, quase certamente). Além
+disso, $0\leqslant W_n\leqslant2$, $0\leqslant W\leqslant2$ e, como
+$\mathbb{P}(|U|\leqslant u)=1$, temos $0\leqslant W\leqslant\varepsilon/4$
+quase certamente. Como $U$
 tem densidade $1/(2u)$ em $[-u,u]$, a fórmula da esperança e a convergência
 de variáveis limitadas fornecem
 \[
@@ -3411,7 +3422,7 @@ escreva $q=1-p$. Mostre que
 Verifique ainda que $\varphi_X(0)=1$ e que $|\varphi_X(t)|\leqslant1$ para todo
 $t$. Por fim, obtenha o mesmo resultado sem expandir o binômio, escrevendo $X$
 como soma de $n$ variáveis de Bernoulli independentes e usando o
-\Cref{thm:fc-soma-independentes}.
+\Cref{cor:fc-soma-n}.
 \end{exercise}
 
 \begin{exercise}\label{exercise:gw-7-96}
@@ -3507,7 +3518,8 @@ Em (b), use a série geométrica de razão $qe^{it}$, cujo módulo é menor que 
 
 \begin{exercise}\label{exercise:ross-7-51}
 Sejam $X_1,\ldots,X_n$ independentes, cada uma com densidade exponencial de
-parâmetro $\lambda>0$, isto é, $f(x)=\lambda e^{-\lambda x}$ para $x>0$.
+parâmetro $\lambda>0$, isto é, $f(x)=\lambda e^{-\lambda x}$ para $x>0$ e
+$f(x)=0$ para $x\leqslant0$.
 Mostre, usando funções características, que $X_1+\cdots+X_n$ tem densidade
 gama de parâmetros $n$ e $\lambda$:
 \[
@@ -3516,7 +3528,7 @@ f(x)=\frac{\lambda^{n}}{(n-1)!}\,x^{n-1}e^{-\lambda x},
 \]
 e $f(x)=0$ para $x\leqslant0$.
 
-\noindent\textbf{Sugestão:} combine o \Cref{thm:fc-soma-independentes}, o
+\noindent\textbf{Sugestão:} combine o \Cref{cor:fc-soma-n}, o
 \Cref{ex:exponencial} e o \Cref{exercise:gw-7-97} com $w=n$, lembrando que
 $\Gamma(n)=(n-1)!$. Para obter a função característica da exponencial de
 parâmetro $\lambda$ a partir do \Cref{ex:exponencial}, use o item (e) do
@@ -3526,7 +3538,7 @@ parâmetro $\lambda$ a partir do \Cref{ex:exponencial}, use o item (e) do
 
 \begin{exercise}\label{exercise:soma-normais-geral}
 Sejam $X$ e $Y$ independentes, com $X$ normal de média $\mu_1$ e variância
-$\sigma_1^2$ e $Y$ normal de média $\mu_2$ e variância $\sigma_2^2$. Mostre
+$\sigma_1^2>0$ e $Y$ normal de média $\mu_2$ e variância $\sigma_2^2>0$. Mostre
 que $X+Y$ é normal de média $\mu_1+\mu_2$ e variância
 $\sigma_1^2+\sigma_2^2$. Este exercício generaliza o
 \Cref{cor:soma-normais}, que trata do caso de médias nulas.
@@ -3637,9 +3649,14 @@ Aplicando o \Cref{exercise:massa-pontual} à variável aleatória $X-Y$, conclua
 = \mathbb{P}(X-Y=0)
 = \sum_{x}\mathbb{P}(X=x)^2 .
 \]
-A soma se estende aos valores $x$ com $\mathbb{P}(X=x)>0$, que são no máximo
-enumeráveis. No último passo, use a independência de $X$ e $Y$ para expressar
-$\mathbb{P}(X=Y)$ em termos dessas probabilidades pontuais.
+A soma se estende ao conjunto $D=\{x\in\mathbb{R}:\mathbb{P}(X=x)>0\}$, que é no
+máximo enumerável. No último passo, decomponha $\{X=Y\}$ em
+$\bigl(\bigcup_{x\in D}\{X=x,\,Y=x\}\bigr)\cup\{X=Y,\,X\notin D\}$ e use a
+independência de $X$ e $Y$. Para mostrar que $\mathbb{P}(X=Y,\,X\notin D)=0$,
+fixe $\varepsilon>0$, note que $G(x)=\mathbb{P}(X\leqslant x,\,X\notin D)$ é
+contínua em $\mathbb{R}$, escolha $R>0$ com $\mathbb{P}(X\notin(-R,R])<\varepsilon$ e
+cubra $(-R,R]$ por uma partição $-R=x_0<x_1<\cdots<x_m=R$ suficientemente fina
+de modo que $G(x_j)-G(x_{j-1})<\varepsilon$ para todo $j$.
 \end{starredexercise}
 
 \begin{starredexercise}\label{exercise:densidade-integral-divergente}
@@ -3667,10 +3684,13 @@ Embora não seja evidente a partir da fórmula, $f$ é um polinômio em cada
 intervalo $(k,k+1)$ com $k\in\mathbb{Z}$ e se anula fora de $[-n,n]$.
 
 \noindent\textbf{Sugestão:} obtenha a função característica da soma com o
-\Cref{thm:fc-soma-independentes}, aplique a fórmula de inversão na forma do
+\Cref{cor:fc-soma-n}, aplique a fórmula de inversão na forma do
 \Cref{thm:densidade-fc-integravel}, explorando a paridade do integrando, e, para
-a afirmação final, lembre que a densidade da soma é a convolução de $n$
-densidades uniformes, logo é polinomial por partes em cada intervalo unitário.
+a afirmação final, lembre que, para $n\geqslant2$, a convolução de $n$
+densidades uniformes em $(-1,1)$ é uma densidade contínua (logo coincide em
+todos os pontos com a função $f$ obtida pelo \Cref{thm:densidade-fc-integravel},
+conforme a observação que o segue), anula-se fora de $[-n,n]$ e reduz-se a um
+polinômio em cada intervalo $(k,k+1)$ com $k\in\mathbb{Z}$.
 \end{starredexercise}
 
 \begin{starredexercise}\label{exercise:cauchy-media}
@@ -3688,9 +3708,10 @@ aleatórias com a mesma função característica têm a mesma distribuição, pe
 Suponha que $X_n\Rightarrow X$ e que, para cada $n\geqslant1$, $X_n$ tenha
 distribuição normal de média $0$ e variância $\sigma_n^2$, com
 $0\leqslant\sigma_n^2<\infty$. Mostre que existe $\sigma^2\in[0,\infty)$ tal que
-$\sigma_n^2\to\sigma^2$. O limite pode ser $0$: nesse caso $X\equiv0$, a
-distribuição degenerada em $0$, que interpretamos como a normal de variância
-$0$. Nada se supõe de antemão sobre a convergência da sequência numérica
+$\sigma_n^2\to\sigma^2$. O limite pode ser $0$: nesse caso $X=0$ quase
+certamente, isto é, a distribuição limite é a degenerada em $0$, que
+interpretamos como a normal de variância $0$. Nada se supõe de antemão sobre a
+convergência da sequência numérica
 $(\sigma_n^2)$, nem sobre a natureza da distribuição limite.
 
 \noindent\textbf{Sugestão:} pelo \Cref{thm:continuidade},
@@ -3746,29 +3767,28 @@ $\varphi_{S_n}(t)=\varphi_{X_1}(t)\cdots\varphi_{X_n}(t)$, e basta identificar o
 \end{starredexercise}
 
 \begin{starredexercise}\label{exercise:produto-cossenos}
-Iterando a identidade $\sin t=2\sin(t/2)\cos(t/2)$ obtemos
+Iterando a identidade $\sin t=2\sin(t/2)\cos(t/2)$, obtém-se por via analítica
+a igualdade
 \[
   \frac{\sin t}{t}=\prod_{m=1}^{\infty}\cos\!\left(\frac{t}{2^{m}}\right),
-  \qquad t\neq0.
+  \qquad t\neq0
 \]
-Prove essa identidade interpretando cada um dos lados como função característica
-de uma mesma distribuição. Para isso: (i) mostre por indução que
-\[
-\sin t=2^{n}\sin\bigl(t/2^{n}\bigr)\prod_{m=1}^{n}\cos\bigl(t/2^{m}\bigr)
-\]
-e conclua que $(\sin t)/t$ é o limite dos produtos parciais, já que
-$2^{n}\sin(t/2^{n})\to t$ quando $n\to\infty$; (ii) verifique que
-$t\mapsto(\sin t)/t$, com o valor $1$ em $0$, é a função característica da
-distribuição uniforme em $[-1,1]$; (iii) verifique que $t\mapsto\cos(t/2^{m})$
-é a função característica de $Y_m$, que assume os valores $\pm2^{-m}$ com
-probabilidade $1/2$ cada; (iv) aplique o \Cref{exercise:produto-infinito-qc} às
-variáveis independentes $Y_1,Y_2,\dots$ e mostre que $\sum_{m\geqslant1}Y_m$ é
-uniforme em $[-1,1]$. No último passo, note que a série converge absolutamente,
+(que pode ser conferida mostrando por indução que
+$\sin t=2^{n}\sin(t/2^{n})\prod_{m=1}^{n}\cos(t/2^{m})$ e usando
+$2^{n}\sin(t/2^{n})\to t$). Prove essa identidade por via probabilística,
+interpretando cada um dos lados como a função característica de uma mesma
+distribuição. Para isso: (i) verifique que $t\mapsto(\sin t)/t$, com o valor $1$
+em $0$, é a função característica da distribuição uniforme em $[-1,1]$;
+(ii) verifique que $t\mapsto\cos(t/2^{m})$ é a função característica de $Y_m$,
+que assume os valores $\pm2^{-m}$ com probabilidade $1/2$ cada; (iii) aplique o
+\Cref{exercise:produto-infinito-qc} às variáveis independentes $Y_1,Y_2,\dots$ e
+mostre que $\sum_{m\geqslant1}Y_m$ tem distribuição uniforme em $[-1,1]$,
+concluindo que os dois lados coincidem por serem a função característica da
+mesma distribuição. No último passo, note que a série converge absolutamente,
 pois é majorada por $\sum_{m\geqslant1}2^{-m}=1$, e que, escrevendo
 $Y_m=2^{-m}(2U_m-1)$ com $U_m$ de Bernoulli simétrica, a soma coincide em
 distribuição com $2U-1$, onde $U=\sum_{m\geqslant1}U_m2^{-m}$ é uniforme em
-$[0,1]$, por ser a série dos dígitos da expansão binária. A unicidade da função
-característica, dada pelo \Cref{cor:unicidade}, fecha o argumento.
+$[0,1]$, por ser a série dos dígitos da expansão binária.
 \end{starredexercise}
 
 \begin{starredexercise}\label{exercise:cantor}
@@ -3896,8 +3916,12 @@ $\varphi_{X_1}(h)=1+iah+o(h)$. O limite para $h\uparrow0$ segue tomando
 conjugados, já que
 $\varphi_{X_1}(-h)=\overline{\varphi_{X_1}(h)}$.
 \end{enumerate}
-Conclua que a lei fraca dos grandes números vale se, e somente se, $\varphi_{X_1}'(0)$
-existe, e que nesse caso $\varphi_{X_1}'(0)=ia$.\footnote{%
+Conclua que a lei fraca dos grandes números (isto é, a existência de
+$a\in\mathbb{R}$ tal que $S_n/n\to a$ em probabilidade) vale se, e somente se,
+$\varphi_{X_1}'(0)$ existe, e que nesse caso tem-se necessariamente
+$\varphi_{X_1}'(0)=ia$ para o mesmo $a$ (note que
+$\varphi_{X_1}(-h)=\overline{\varphi_{X_1}(h)}$ força
+$\operatorname{Re}\varphi_{X_1}'(0)=0$ sempre que a derivada existe).\footnote{%
 O resultado deve-se a E.~J.~G.~Pitman (1956); a necessidade de demonstrar o
 item~(iii) foi observada por John Walsh.}
 \end{starredexercise}
@@ -4023,21 +4047,25 @@ que, se $(S_n)$ converge em distribuição, então $(S_n)$ converge em
 probabilidade. Conclua, a partir do teorema de equivalência de P.~Lévy para
 somas de variáveis independentes, que $(S_n)$ converge quase certamente.
 
-\noindent\textbf{Sugestão:} se $\varphi_{X_k}$ é a função característica de $X_k$, o incremento
+\noindent\textbf{Sugestão:} se $\varphi_{X_k}$ é a função característica de
+$X_k$ e $P_j(t)=\prod_{k=1}^{j}\varphi_{X_k}(t)$, o incremento
 $S_m-S_n=\sum_{n<k\leqslant m}X_k$, para $m>n$, é soma de variáveis
-independentes, logo
-\[
-  \varphi_{S_m-S_n}(t)=\prod_{k=n+1}^{m}\varphi_{X_k}(t)=\frac{P_m(t)}{P_n(t)},
-  \qquad P_j(t)=\prod_{k=1}^{j}\varphi_{X_k}(t).
-\]
-Se $S_n\Rightarrow S$, então $P_j(t)\to\varphi_S(t)$ para todo $t$; como
-$\varphi_S$ é contínua e $\varphi_S(0)=1$, escolha $\delta>0$ com
-$|\varphi_S(t)|>\frac12$ para $|t|\leqslant\delta$. Nesse intervalo os
-denominadores não se anulam para $n$ grande, e o quociente $P_m(t)/P_n(t)$
-tende a $1$ quando $m,n\to\infty$, para cada $t$ fixado. Pelo
-\Cref{exercise:convergencia-para-zero}, segue que $S_m-S_n\to0$ em
-probabilidade quando $m,n\to\infty$, isto é, $(S_n)$ é de Cauchy em
-probabilidade. Escolha então $n_1<n_2<\cdots$ com
+independentes, logo $\varphi_{S_m-S_n}(t)=\prod_{k=n+1}^{m}\varphi_{X_k}(t)$
+para todo $t\in\mathbb{R}$. Se $S_n\Rightarrow S$, então
+$P_j(t)\to\varphi_S(t)$ para todo $t$; como $\varphi_S$ é contínua e
+$\varphi_S(0)=1$, escolha $\delta>0$ com $|\varphi_S(t)|>\frac12$ para
+$|t|\leqslant\delta$. Como $|\varphi_{X_k}(t)|\leqslant1$, a sequência
+$|P_j(t)|$ é não crescente em $j$ e, portanto,
+$|P_j(t)|\geqslant|\varphi_S(t)|>\frac12$ para todo $j\geqslant1$ e todo
+$t\in[-\delta,\delta]$. Em particular, nenhum denominador se anula nesse
+intervalo, onde vale $\varphi_{S_m-S_n}(t)=P_m(t)/P_n(t)\to1$ quando
+$m,n\to\infty$ para cada $t\in[-\delta,\delta]$ fixado. Aplicando o
+\Cref{exercise:convergencia-para-zero} por contradição a eventuais
+subsequências $m_k>n_k\to\infty$ com
+$\mathbb{P}(|S_{m_k}-S_{n_k}|>\varepsilon)\geqslant\eta>0$ (e usando que
+$Y_k\Rightarrow0$ equivale a $Y_k\to0$ em probabilidade), conclua que
+$S_m-S_n\to0$ em probabilidade quando $m,n\to\infty$, isto é, $(S_n)$ é de
+Cauchy em probabilidade. Escolha então $n_1<n_2<\cdots$ com
 $\mathbb{P}\bigl(|S_{n_{k+1}}-S_{n_k}|>2^{-k}\bigr)\leqslant2^{-k}$; o lema de
 Borel--Cantelli garante que, quase certamente, $|S_{n_{k+1}}-S_{n_k}|\leqslant
 2^{-k}$ a partir de um certo índice, de modo que $(S_{n_k})$ converge quase
