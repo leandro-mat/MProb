@@ -975,6 +975,371 @@ $c=-\frac{1}{2}\mathbb{E}[X^2]$.
 \end{exercise}
 
 %----------------------------------------------------------------------
+% CONTEÚDO DAS NOTAS MANUSCRITAS (TRANSCRIÇÃO ESTRUTURADA E PROVISÓRIA)
+%----------------------------------------------------------------------
+% Esta seção reúne, de maneira estruturada e organizada, o conteúdo das duas
+% aulas manuscritas (notas-de-aula.pdf), já eliminando repetições internas
+% (como a folha de recapitulação e rascunhos duplicados) e anotações riscadas,
+% para conferência antes da mesclagem definitiva com as seções anteriores.
+
+\section{Notas manuscritas: O Teorema do Limite Central}\label{sec:manuscrito}
+
+\subsection{Introdução e convergência em distribuição}\label{subsec:man-introducao}
+
+\begin{definition}[Convergência em distribuição]\label{def:man-conv-dist}
+Dizemos que uma sequência de variáveis aleatórias $\{X_n\}_{n\in\mathbb{N}}$
+converge em distribuição para uma variável aleatória $X$ se
+\[
+F_{X_n}(t)\longrightarrow F_X(t)
+\qquad\text{(isto é, }\mathbb{P}(X_n\leqslant t)\xrightarrow{n\to\infty}\mathbb{P}(X\leqslant t)\text{)}
+\]
+para todo ponto $t\in\mathbb{R}$ de continuidade de $F_X$. Denotamos essa
+convergência por
+\[
+X_n\xrightarrow[n\to\infty]{D} X
+\qquad\text{ou}\qquad
+X_n\underset{n\to\infty}{\Longrightarrow} X.
+\]
+\end{definition}
+
+Na forma clássica em termos de probabilidades de intervalos, o Teorema do
+Limite Central (no caso i.i.d.\ com variância $\sigma^2\in(0,+\infty)$) afirma
+que, para todos $a,b\in\mathbb{R}$ com $a<b$,
+\[
+\mathbb{P}\!\left(a\leqslant \frac{1}{\sigma\sqrt{n}}\sum_{j=1}^{n}(X_j-\mu)\leqslant b\right)
+\xrightarrow{n\to\infty}
+\int_{a}^{b}\frac{1}{\sqrt{2\pi}}\,e^{-\frac{x^2}{2}}\,dx.
+\]
+
+A seguir provaremos alguns resultados preliminares para a prova do Teorema do
+Limite Central (TLC).
+
+\subsection{Resultados preliminares de análise complexa}\label{subsec:man-analise-complexa}
+
+\begin{lemma}\label{lem:man-diferenca-produtos}
+Sejam $z_1,z_2,\ldots,z_n$ e $w_1,w_2,\ldots,w_n\in\mathbb{C}$ tais que
+$|z_j|\leqslant R$ e $|w_j|\leqslant R$ para todo $j=1,\ldots,n$. Então
+\[
+\left|\prod_{j=1}^{n}z_j - \prod_{j=1}^{n}w_j\right|
+\leqslant R^{n-1}\sum_{k=1}^{n}|z_k-w_k|.
+\]
+\end{lemma}
+
+\begin{proof}
+A prova será feita por indução. No caso $n=1$ temos
+\[
+|z_1-w_1|\leqslant R^{0}|z_1-w_1|,
+\]
+que é verdadeiro para quaisquer $z_1,w_1\in\mathbb{C}$ com $|z_1|,|w_1|\leqslant R$.
+Suponha que a desigualdade seja válida para $m\geqslant 1$. Sejam
+$z_1,\ldots,z_{m+1},w_1,\ldots,w_{m+1}\in\mathbb{C}$ com módulo menor ou igual a $R$.
+Então
+\begin{align*}
+\left|\prod_{j=1}^{m+1}z_j - \prod_{j=1}^{m+1}w_j\right|
+&= \left|z_1\prod_{j=2}^{m+1}z_j - w_1\prod_{j=2}^{m+1}w_j\right| \\
+&\leqslant \left|z_1\prod_{j=2}^{m+1}z_j - z_1\prod_{j=2}^{m+1}w_j\right|
++ \left|z_1\prod_{j=2}^{m+1}w_j - w_1\prod_{j=2}^{m+1}w_j\right| \\
+&= |z_1|\left|\prod_{j=2}^{m+1}z_j - \prod_{j=2}^{m+1}w_j\right|
++ \left|\prod_{j=2}^{m+1}w_j\right||z_1-w_1| \\
+&\leqslant R\left|\prod_{j=2}^{m+1}z_j - \prod_{j=2}^{m+1}w_j\right| + R^{m}|z_1-w_1| \\
+&\leqslant R\cdot R^{m-1}\sum_{j=2}^{m+1}|z_j-w_j| + R^{m}|z_1-w_1|
+\qquad\text{(hipótese de indução)} \\
+&= R^{m}\sum_{j=1}^{m+1}|z_j-w_j|,
+\end{align*}
+o que prova o lema.
+\end{proof}
+
+\begin{lemma}\label{lem:man-exp-quadratica}
+Se $b\in\mathbb{C}$ e $|b|\leqslant 1$, então
+\[
+\bigl|e^{b}-(1+b)\bigr|\leqslant |b|^{2}.
+\]
+\end{lemma}
+
+\begin{proof}
+Temos
+\[
+e^{b}-(1+b)=\frac{b^{2}}{2!}+\frac{b^{3}}{3!}+\frac{b^{4}}{4!}+\cdots.
+\]
+Usando a desigualdade triangular e a hipótese $|b|\leqslant 1$, obtemos a
+seguinte estimativa:
+\begin{align*}
+\bigl|e^{b}-(1+b)\bigr|
+&\leqslant \frac{|b|^{2}}{2!}+\frac{|b|^{3}}{3!}+\frac{|b|^{4}}{4!}+\cdots \\
+&\leqslant \left(\frac{1}{2!}+\frac{1}{3!}+\frac{1}{4!}+\cdots\right)|b|^{2} \\
+&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{2}{3!}+\frac{2}{4!}+\cdots\right) \\
+&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{1}{3}+\frac{1}{4\cdot 3}+\frac{1}{5\cdot 4\cdot 3}+\cdots\right) \\
+&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{1}{2}+\frac{1}{2^{2}}+\frac{1}{2^{3}}+\cdots\right) \\
+&= \frac{|b|^{2}}{2}\sum_{j=0}^{\infty}\left(\frac{1}{2}\right)^{j}
+= \frac{|b|^{2}}{2}\cdot\frac{1}{1-\frac{1}{2}}
+= |b|^{2}. \qedhere
+\end{align*}
+\end{proof}
+
+\begin{theorem}\label{thm:man-limite-exp}
+Se $\{c_n\}_{n\in\mathbb{N}}$ é uma sequência de números complexos tal que
+$\lim_{n\to\infty}c_n=c\in\mathbb{C}$, então
+\[
+\left(1+\frac{c_n}{n}\right)^{n}\xrightarrow{n\to\infty} e^{c}.
+\]
+\end{theorem}
+
+\begin{proof}
+Para cada $n\in\mathbb{N}$ fixado, considere as sequências finitas constantes
+de números complexos definidas por
+\[
+z_j \equiv 1+\frac{c_n}{n}
+\qquad\text{e}\qquad
+w_j \equiv e^{c_n/n},
+\qquad j=1,\ldots,n.
+\]
+Seja $R>|c|$. Então existe $n_0\in\mathbb{N}$ tal que $|c_n|\leqslant R$ e
+$|c_n|/n\leqslant 1$ para todo $n\geqslant n_0$. Já que
+$1+\frac{R}{n}\leqslant e^{R/n}$ (pois $1+x\leqslant e^{x}$ para $x\geqslant 0$),
+temos $|z_j|\leqslant 1+\frac{|c_n|}{n}\leqslant 1+\frac{R}{n}\leqslant e^{R/n}$ e
+$|w_j|=e^{\operatorname{Re}(c_n)/n}\leqslant e^{|c_n|/n}\leqslant e^{R/n}$ para
+todo $j=1,\ldots,n$.
+
+Observe que, para $n\geqslant n_0$,
+\begin{align*}
+\left|\left(1+\frac{c_n}{n}\right)^{n}-e^{c_n}\right|
+&= \left|\left(1+\frac{c_n}{n}\right)^{n}-\left(e^{c_n/n}\right)^{n}\right| \\
+&= \left|\prod_{j=1}^{n}z_j-\prod_{j=1}^{n}w_j\right| \\
+&\leqslant \left(e^{R/n}\right)^{n-1}\sum_{j=1}^{n}|z_j-w_j|
+\qquad\text{(\Cref{lem:man-diferenca-produtos})} \\
+&= e^{R\frac{n-1}{n}}\sum_{j=1}^{n}\left|1+\frac{c_n}{n}-e^{c_n/n}\right| \\
+&\leqslant e^{R\frac{n-1}{n}}\sum_{j=1}^{n}\frac{|c_n|^{2}}{n^{2}}
+\qquad\text{(\Cref{lem:man-exp-quadratica})} \\
+&= e^{R\frac{n-1}{n}}\frac{|c_n|^{2}}{n}
+\leqslant \frac{e^{R\frac{n-1}{n}}R^{2}}{n}
+\xrightarrow{n\to\infty} 0.
+\end{align*}
+Já que $c_n\to c$ (e portanto $e^{c_n}\to e^{c}$ por continuidade da exponencial),
+temos que
+\[
+\left(1+\frac{c_n}{n}\right)^{n}\xrightarrow{n\to\infty} e^{c}. \qedhere
+\]
+\end{proof}
+
+\subsection{Derivadas da função característica e resto de Taylor}\label{subsec:man-derivadas-taylor}
+
+\begin{proposition}\label{prop:man-derivadas-fc}
+Se $\mathbb{E}[|X|^{n}]<+\infty$ (isto é, $\int_{\mathbb{R}}|x|^{n}\,d\mu(x)<+\infty$,
+onde $\mu$ é a distribuição de $X$), então a função $t\mapsto \varphi_X^{(n)}(t)$ é
+contínua em toda a reta real. Além do mais,
+\[
+\varphi_X^{(n)}(t)=\mathbb{E}\bigl[(iX)^{n}e^{itX}\bigr]
+=\int_{\mathbb{R}}(ix)^{n}e^{itx}\,d\mu(x).
+\]
+\end{proposition}
+
+\begin{proof}
+Temos $\varphi_X(t)=\mathbb{E}[e^{itX}]$, portanto, para $n=1$,
+\begin{align*}
+\varphi_X'(t)
+&= \lim_{h\to 0}\frac{\varphi_X(t+h)-\varphi_X(t)}{h} \\
+&= \lim_{h\to 0}\frac{\mathbb{E}[e^{itX}e^{ihX}]-\mathbb{E}[e^{itX}]}{h} \\
+&= \lim_{h\to 0}\frac{\mathbb{E}\bigl[e^{itX}(e^{ihX}-1)\bigr]}{h}.
+\end{align*}
+Note que, para cada sequência $h_k\to 0$ ($h_k\neq 0$), temos
+\[
+\psi_k(\omega)\equiv e^{itX(\omega)}\frac{e^{ih_k X(\omega)}-1}{h_k}
+\xrightarrow{k\to\infty} \psi(\omega)\equiv iX(\omega)e^{itX(\omega)}.
+\]
+Como $|\psi_k|\leqslant |X|$ e $\int_{\Omega}|X|\,d\mathbb{P}<+\infty$, pelo
+Teorema da Convergência Dominada obtemos o resultado para $n=1$.
+% Nota de conferência: no manuscrito (folha 06) apenas o caso n=1 está desenvolvido;
+% a generalização para n>1 (por indução) e a continuidade de \varphi_X^{(n)} serão
+% integradas com o Teorema de derivação na mesclagem.
+\end{proof}
+
+\begin{lemma}[Durrett, Lema 3.37]\label{lem:man-resto-taylor}
+Para todo $x\in\mathbb{R}$ e todo inteiro $n\geqslant 0$, temos
+\[
+\left|e^{ix}-\sum_{m=0}^{n}\frac{(ix)^{m}}{m!}\right|
+\leqslant \min\left\{\frac{|x|^{n+1}}{(n+1)!},\;\frac{2|x|^{n}}{n!}\right\},
+\]
+onde a primeira cota é adequada para $|x|\ll 1$ e a segunda para $|x|\gg 1$ (com a
+convenção de que a segunda cota vale $2$ quando $n=0$).
+\end{lemma}
+
+\begin{proof}
+Integrando por partes com $u=e^{is}$, $du=ie^{is}\,ds$, $v=-\frac{(x-s)^{n+1}}{n+1}$
+e $dv=(x-s)^{n}\,ds$, obtemos
+\begin{equation}\label{eq:man-identidade-partes}
+\begin{aligned}
+\int_{0}^{x}(x-s)^{n}e^{is}\,ds
+&= \left[-e^{is}\frac{(x-s)^{n+1}}{n+1}\right]_{0}^{x}
+- \int_{0}^{x}\left(-\frac{(x-s)^{n+1}}{n+1}\right)ie^{is}\,ds \\
+&= \frac{x^{n+1}}{n+1}+\frac{i}{n+1}\int_{0}^{x}(x-s)^{n+1}e^{is}\,ds.
+\end{aligned}
+\end{equation}
+Quando $n=0$, temos
+\[
+\int_{0}^{x}e^{is}\,ds = x+i\int_{0}^{x}(x-s)e^{is}\,ds
+\;\Longrightarrow\;
+\frac{e^{ix}-1}{i}=x+i\int_{0}^{x}(x-s)e^{is}\,ds,
+\]
+donde
+\[
+e^{ix}=1+ix+i^{2}\int_{0}^{x}(x-s)e^{is}\,ds.
+\]
+Usando o resultado \eqref{eq:man-identidade-partes} no caso $n=1$, ficamos com
+\[
+e^{ix}=1+ix+\frac{(ix)^{2}}{2}+\frac{i^{3}}{2}\int_{0}^{x}(x-s)^{2}e^{is}\,ds.
+\]
+Iterando este procedimento, concluímos que
+\begin{equation}\label{eq:man-resto-integral}
+e^{ix}-\sum_{m=0}^{n}\frac{(ix)^{m}}{m!}
+=\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}\,ds.
+\end{equation}
+
+Para finalizar a prova, basta estimar o ``termo de erro'' em
+\eqref{eq:man-resto-integral}. Já que $|e^{is}|\leqslant 1$ para todo
+$s\in\mathbb{R}$, temos
+\[
+\left|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}\,ds\right|
+\leqslant \frac{|x|^{n+1}}{(n+1)!}.
+\]
+Esta estimativa é boa quando $|x|\ll 1$.
+
+Quando $|x|\gg 1$ (supondo $n\geqslant 1$), vamos proceder de outra maneira.
+Integrando por partes com $u=(x-s)^{n}$, $du=-n(x-s)^{n-1}\,ds$,
+$v=\frac{e^{is}}{i}$ e $dv=e^{is}\,ds$, temos
+\begin{align*}
+\frac{i}{n}\int_{0}^{x}(x-s)^{n}e^{is}\,ds
+&= \left(\left[\frac{(x-s)^{n}e^{is}}{i}\right]_{0}^{x}
+-\int_{0}^{x}\frac{1}{i}e^{is}\,n(-1)(x-s)^{n-1}\,ds\right)\frac{i}{n} \\
+&= \left(-\frac{x^{n}}{i}+\frac{n}{i}\int_{0}^{x}(x-s)^{n-1}e^{is}\,ds\right)\frac{i}{n} \\
+&= -\frac{x^{n}}{n}+\int_{0}^{x}(x-s)^{n-1}e^{is}\,ds.
+\end{align*}
+Observando que $\frac{x^{n}}{n}=\int_{0}^{x}(x-s)^{n-1}\,ds$, segue de
+\eqref{eq:man-resto-integral} que
+\[
+\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}\,ds
+=\frac{i^{n}}{(n-1)!}\int_{0}^{x}(x-s)^{n-1}\bigl(e^{is}-1\bigr)\,ds.
+\]
+Lembrando que $|e^{is}-1|\leqslant 2$, obtemos
+\[
+\left|\frac{i^{n+1}}{n!}\int_{0}^{x}(x-s)^{n}e^{is}\,ds\right|
+\leqslant \frac{2}{(n-1)!}\left|\int_{0}^{x}(x-s)^{n-1}\,ds\right|
+\leqslant \frac{2}{n!}|x|^{n}.
+\]
+(Para $n=0$, vale diretamente $|e^{ix}-1|\leqslant 2$.)
+\end{proof}
+
+\begin{corollary}\label{cor:man-resto-taylor}
+Para quaisquer $t,x\in\mathbb{R}$ e todo inteiro $n\geqslant 0$,
+\[
+\left|e^{itx}-\sum_{m=0}^{n}\frac{(itx)^{m}}{m!}\right|
+\leqslant \min\left\{\frac{|xt|^{n+1}}{(n+1)!},\;\frac{2|tx|^{n}}{n!}\right\}.
+\]
+\end{corollary}
+
+\begin{theorem}\label{thm:man-expansao-segunda-ordem}
+Se $X$ é uma variável aleatória com $\mathbb{E}[|X|^{2}]<+\infty$, então
+\[
+\varphi_X(t)=1+it\mathbb{E}[X]-\frac{t^{2}}{2}\mathbb{E}[X^{2}]+g(t),
+\]
+onde $\frac{g(t)}{t^{2}}\xrightarrow{t\to 0} 0$, isto é, $g(t)=o(t^{2})$.
+\end{theorem}
+
+\begin{proof}
+Temos
+\begin{align*}
+\varphi_X(t)
+&= \mathbb{E}\bigl[e^{itX}\bigr] \\
+&= \mathbb{E}\left[\left(e^{itX}-1-itX+\frac{t^{2}}{2}X^{2}\right)+1+itX-\frac{t^{2}}{2}X^{2}\right] \\
+&= 1+it\mathbb{E}[X]-\frac{t^{2}}{2}\mathbb{E}[X^{2}]
++\underbrace{\mathbb{E}\left[e^{itX}-1-itX+\frac{t^{2}}{2}X^{2}\right]}_{g(t)}.
+\end{align*}
+Pelo \Cref{cor:man-resto-taylor} (com $n=2$), temos que
+\begin{align*}
+|g(t)|
+&= \left|\mathbb{E}\left[e^{itX}-1-itX+\frac{t^{2}}{2}X^{2}\right]\right|
+\leqslant \mathbb{E}\left[\left|e^{itX}-\sum_{m=0}^{2}\frac{(itX)^{m}}{m!}\right|\right] \\
+&\leqslant \mathbb{E}\left[\min\left\{\frac{|tX|^{3}}{3!},\;\frac{2t^{2}X^{2}}{2!}\right\}\right]
+= t^{2}\,\mathbb{E}\left[\min\left\{\frac{|t|\,|X|^{3}}{3!},\;\frac{2|X|^{2}}{2!}\right\}\right].
+\end{align*}
+% Nota de conferência: no manuscrito (folha 03 da aula 2) a prova termina nesta
+% estimativa; resta dividir por t^2 e aplicar o Teorema da Convergência Dominada
+% (como já está feito no Teorema~\ref{thm:taylor-segunda-ordem}).
+\end{proof}
+
+\subsection{Teorema do Limite Central (caso i.i.d.)}\label{subsec:man-tlc}
+
+\begin{theorem}[Teorema do Limite Central --- caso i.i.d.]\label{thm:man-tlc-iid}
+Seja $\{X_n\}_{n\in\mathbb{N}}$ uma sequência de variáveis aleatórias i.i.d.\ com
+média $\mu=\mathbb{E}[X_1]$ e variância $\operatorname{Var}[X_1]\equiv\sigma^{2}>0$
+finita. Então
+\[
+\frac{1}{\sigma\sqrt{n}}\sum_{j=1}^{n}(X_j-\mu)
+\xrightarrow[n\to\infty]{D} N(0,1).
+\]
+\end{theorem}
+
+\begin{proof}
+É suficiente mostrar o teorema no caso em que $\mu=0$ e
+$\operatorname{Var}[X_1]=1$. Ou seja,
+\[
+\frac{1}{\sqrt{n}}\sum_{j=1}^{n}X_j \xrightarrow[n\to\infty]{D} N(0,1).
+\]
+De fato, basta notar que $Y_n=\frac{1}{\sigma\sqrt{n}}\sum_{j=1}^{n}(X_j-\mu)$
+possui parcelas $\frac{X_j-\mu}{\sigma}$ de média zero e variância $1$.
+
+Defina $Z_n\equiv\frac{1}{\sqrt{n}}\sum_{j=1}^{n}X_j$. A ideia é mostrar que
+\[
+\varphi_{Z_n}(t)\xrightarrow{n\to\infty} e^{-t^{2}/2}
+\qquad\forall\,t\in\mathbb{R}.
+\]
+Por definição,
+\begin{align}
+\varphi_{Z_n}(t)
+&= \mathbb{E}\left[e^{it\frac{1}{\sqrt{n}}\sum_{j=1}^{n}X_j}\right]
+= \mathbb{E}\left[\prod_{j=1}^{n}e^{i\frac{t}{\sqrt{n}}X_j}\right] \nonumber \\
+&= \prod_{j=1}^{n}\mathbb{E}\left[e^{i\frac{t}{\sqrt{n}}X_j}\right]
+\qquad\text{(independência)} \nonumber \\
+&= \prod_{j=1}^{n}\mathbb{E}\left[e^{i\frac{t}{\sqrt{n}}X_1}\right]
+\qquad\text{(identicamente distribuídas)} \nonumber \\
+&= \left(\varphi_{X_1}\!\left(\frac{t}{\sqrt{n}}\right)\right)^{n} \nonumber \\
+&= \left(1-\frac{t^{2}}{2n}\mathbb{E}[X_1^{2}]+g\!\left(\frac{t}{\sqrt{n}}\right)\right)^{n} \nonumber \\
+&= \left(1+\left(-\frac{t^{2}}{2n}+g\!\left(\frac{t}{\sqrt{n}}\right)\right)\right)^{n} \nonumber \\
+&= \left(1+\frac{c_n(t)}{n}\right)^{n}, \label{eq:man-fatoracao-zn}
+\end{align}
+onde usamos $\mathbb{E}[X_1]=0$, $\mathbb{E}[X_1^{2}]=\operatorname{Var}[X_1]=1$ e
+definimos
+\[
+c_n(t)\equiv -\frac{t^{2}}{2}+n\,g\!\left(\frac{t}{\sqrt{n}}\right).
+\]
+Queremos mostrar que $n\,g\!\left(\frac{t}{\sqrt{n}}\right)\longrightarrow 0$ quando
+$n\to\infty$. De fato, pela estimativa do \Cref{thm:man-expansao-segunda-ordem},
+\[
+\left|g\!\left(\frac{t}{\sqrt{n}}\right)\right|
+\leqslant \frac{t^{2}}{n}\,\mathbb{E}\left[\min\left\{\frac{|t|}{\sqrt{n}}\frac{|X_1|^{3}}{3!},\;|X_1|^{2}\right\}\right].
+\]
+Logo,
+\[
+\left|n\,g\!\left(\frac{t}{\sqrt{n}}\right)\right|
+\leqslant t^{2}\,\mathbb{E}\left[\min\left\{\frac{|t|}{3!\sqrt{n}}|X_1|^{3},\;|X_1|^{2}\right\}\right]
+\xrightarrow{n\to\infty} 0,
+\]
+pelo Teorema da Convergência Dominada (já que o integrando converge pontualmente a
+$0$ e é dominado por $|X_1|^{2}$, que é integrável).
+
+Pelo \Cref{thm:man-limite-exp} e por \eqref{eq:man-fatoracao-zn}, temos
+\[
+\lim_{n\to\infty}\varphi_{Z_n}(t)
+=\lim_{n\to\infty}\left(1+\frac{c_n(t)}{n}\right)^{n}
+=e^{\lim_{n\to\infty}c_n(t)}
+=e^{-\frac{t^{2}}{2}}.
+\]
+% Nota de conferência: no manuscrito (folha 06 da aula 2) a prova termina aqui;
+% na mesclagem será concluída invocando o Teorema da Continuidade de Lévy
+% (Teorema~\ref{thm:continuidade}) e o fato de que e^{-t^2/2} é a função
+% característica da distribuição N(0,1).
+\end{proof}
+
+%----------------------------------------------------------------------
 % BIBLIOGRAFIA
 %----------------------------------------------------------------------
 % Enquanto o texto não tem \cite, as duas referências básicas entram na lista
