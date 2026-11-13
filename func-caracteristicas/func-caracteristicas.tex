@@ -144,6 +144,7 @@ MAT-UnB} }
 % Ambientes não numerados usados no texto
 \newtheorem*{property}{Propriedade}
 \newtheorem*{solution}{Solução}
+\newtheorem*{remark*}{Observação}
 
 % Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
 % ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
@@ -373,6 +374,54 @@ $\operatorname{Re}z\leqslant|z|$, para todo $z\in\mathbb{C}$, concluímos que
 Dividindo por $\bigl|\mathbb{E}[Z]\bigr|>0$, obtemos a desigualdade desejada.
 \end{proof}
 
+A regra do produto para esperanças de variáveis aleatórias independentes também
+se estende ao caso complexo. Sejam $Z_1=U_1+iV_1$ e $Z_2=U_2+iV_2$ variáveis
+aleatórias complexas integráveis tais que os pares $(U_1,V_1)$ e $(U_2,V_2)$
+sejam independentes (em particular, isso ocorre quando $Z_1=g_1(X_1)$ e
+$Z_2=g_2(X_2)$ são funções mensuráveis a valores complexos de variáveis
+aleatórias independentes $X_1$ e $X_2$). Expandindo o produto, obtemos
+\[
+Z_1Z_2=(U_1U_2-V_1V_2)+i(U_1V_2+V_1U_2).
+\]
+Cada uma das quatro parcelas $U_1U_2$, $V_1V_2$, $U_1V_2$ e $V_1U_2$ é o produto
+de duas variáveis aleatórias reais independentes e integráveis; logo é
+integrável e sua esperança fatora no produto das esperanças. Pela
+\Cref{def:va-complexa} e pela linearidade da esperança real, $Z_1Z_2$ é
+integrável e
+\begin{align*}
+\mathbb{E}[Z_1Z_2]
+&=\bigl(\mathbb{E}[U_1]\mathbb{E}[U_2]-\mathbb{E}[V_1]\mathbb{E}[V_2]\bigr)
+  +i\bigl(\mathbb{E}[U_1]\mathbb{E}[V_2]+\mathbb{E}[V_1]\mathbb{E}[U_2]\bigr)
+\\[0.2cm]
+&=\bigl(\mathbb{E}[U_1]+i\mathbb{E}[V_1]\bigr)
+  \bigl(\mathbb{E}[U_2]+i\mathbb{E}[V_2]\bigr)
+=\mathbb{E}[Z_1]\,\mathbb{E}[Z_2].
+\end{align*}
+
+Registramos, por fim, uma consequência da convergência quase certa para
+variáveis aleatórias (reais ou complexas) uniformemente limitadas, que usaremos
+repetidamente ao longo do texto. Se $Y_n\to Y$ quase certamente e
+$|Y_n|\leqslant M$ para uma constante $M<\infty$, então
+$\mathbb{E}[Y_n]\to\mathbb{E}[Y]$. De fato, $|Y|\leqslant M$ quase certamente e,
+para todo $\varepsilon>0$, decompondo segundo o evento
+$\{|Y_n-Y|\leqslant\varepsilon\}$ e seu complementar e usando a linearidade e a
+monotonicidade da esperança para variáveis reais limitadas, obtemos
+\[
+\mathbb{E}\bigl[|Y_n-Y|\bigr]
+\leqslant
+\varepsilon+2M\,\mathbb{P}\bigl(|Y_n-Y|>\varepsilon\bigr).
+\]
+A probabilidade à direita tende a $0$, pois a convergência quase certa implica
+convergência em probabilidade. Como $\varepsilon>0$ é arbitrário,
+$\mathbb{E}[|Y_n-Y|]\to0$ e, pela desigualdade para o módulo da esperança
+(\Cref{lem:esperanca-modulo}),
+\[
+\bigl|\mathbb{E}[Y_n]-\mathbb{E}[Y]\bigr|
+=\bigl|\mathbb{E}[Y_n-Y]\bigr|
+\leqslant\mathbb{E}\bigl[|Y_n-Y|\bigr]\longrightarrow0,
+\]
+de modo que $\mathbb{E}[Y_n]\to\mathbb{E}[Y]$.
+
 \subsection{Derivando sob o Símbolo de Esperança}\label{subsec:derivacao-integral}
 
 Em vários pontos destas notas vamos precisar calcular derivadas de funções que são da forma
@@ -480,7 +529,7 @@ Quando $X$ tem densidade $f$, a esperança se escreve
 de modo que o teorema cobre também as expressões com densidade, desde que
 $\partial_t g(t,x)$ seja majorada em módulo por uma função $h$ com
 $\int_{\mathbb{R}}h(x)f(x)\,dx<\infty$. Para uma
-integral $\int_a^b g(t,x)\,dx$ que não provenha de uma densidade de
+integral $\int_a^b g(t,x)\,dx$ (com $-\infty\leqslant a<b\leqslant\infty$) que não provenha de uma densidade de
 probabilidade, como a que aparece no \Cref{lem:dirichlet}, a mesma prova se
 aplica, com as hipóteses análogas, desde que exista uma função $h$ integrável
 em $(a,b)$ com $\bigl|\partial_t g(t,x)\bigr|\leqslant h(x)$ para todo
@@ -1061,12 +1110,12 @@ válida em todos os pontos do espaço de probabilidade.
 
 \smallskip
 
-As variáveis aleatórias $e^{itX_j}$, com $j=1,2$, são integráveis, já que $|e^{itX_j}| = 1$ e portanto
+As variáveis aleatórias $e^{itX_j}$, com $j=1,2$, são integráveis, já que $|e^{itX_j}| = 1$ e, portanto,
 $\mathbb{E}[|e^{itX_j}|] = 1 < \infty$. Elas também são
 independentes: cada uma é uma função mensurável de $X_j$, e funções mensuráveis
 de variáveis aleatórias independentes, consideradas em pares, continuam
-independentes. Sendo assim, vale a
-regra do produto para esperanças de variáveis independentes e integráveis,
+independentes. Sendo assim, pela regra do produto para esperanças de variáveis
+complexas independentes e integráveis (vista na \Cref{subsec:va-complexas}),
 \[
 \mathbb{E}\big[e^{itX_1}e^{itX_2}\big]
 = \mathbb{E}\big[e^{itX_1}\big]\,\mathbb{E}\big[e^{itX_2}\big].
@@ -1415,19 +1464,139 @@ duas variáveis uniformes independentes. Sejam $U$ e $V$ independentes, ambas
 com densidade constante igual a $1$ em $(-1/2,1/2)$ e nula fora dele. Pela
 fórmula da convolução para a soma de variáveis independentes,
 \[
-f_{U+V}(s)=\int_{-1/2}^{1/2}\mathds{1}_{(-1/2,1/2)}(s-y)\,dy,
+f_{U+V}(s)=\displaystyle\int_{-1/2}^{1/2}\mathds{1}_{\left(-\tfrac{1}{2}\, ,\, \tfrac{1}{2}\right)}(s-y)\,dy,
 \]
-porque a densidade de $V$ vale $1$ em todo o intervalo de integração. O
-integrando é $1$ exatamente quando $y\in(-1/2,1/2)$ e $s-y\in(-1/2,1/2)$, isto
-é, quando $y\in(s-1/2,s+1/2)$. Portanto, a integral é o comprimento da
-interseção $(-1/2,1/2)\cap(s-1/2,s+1/2)$. Para $s\in[0,1)$, essa interseção é
-$(s-1/2,1/2)$, de comprimento $1-s$; para $s\in(-1,0]$, o cálculo simétrico dá
-$1+s$; e, para $|s|\geqslant1$, ela é vazia. Logo
+porque a densidade de $V$ vale $1$ em todo o intervalo de integração. 
+O integrando é $1$ exatamente quando 
+$y\in(-\tfrac{1}{2},\tfrac{1}{2})$ e $s-y\in(-\tfrac{1}{2},\tfrac{1}{2})$, isto
+é, quando $y\in(s-\tfrac{1}{2},s+\tfrac{1}{2})$. Portanto, a integral é o comprimento da
+interseção $(-\tfrac{1}{2},\tfrac{1}{2})\cap(s-\tfrac{1}{2},s+\tfrac{1}{2})$. Para $s\in[0,1)$, essa interseção é
+$(s-\tfrac{1}{2},\tfrac{1}{2})$, de comprimento $1-s$; para $s\in(-1,0]$, um argumento de simetria mostra que
+neste caso o comprimento é $1+s$; para $|s|\geqslant1$, ela é vazia, como ilustra a
+\Cref{fig:convolucao-triangular}. Logo
 $f_{U+V}(s)=(1-|s|)\mathds{1}_{(-1,1)}(s)$, que é precisamente a densidade de
 $X$. Como a função característica depende apenas da distribuição, para obter
 $\varphi_X$ basta calcular $\varphi_{U+V}$.
 
-Por \Cref{ex:uniforme}, com $a=-1/2$ e $b=1/2$,
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  x=1cm, y=1cm,
+  >=Stealth,
+  font=\small,
+]
+  % Painel superior: interseção (-1/2, 1/2) \cap (s-1/2, s+1/2) na reta y
+  \begin{scope}[x=3.85cm, y=1cm]
+    % Parâmetros ilustrativos para os três regimes de s
+    \def\spos{0.35}
+    \def\sneg{-0.35}
+    \def\sfora{1.28}
+
+    % Corredor vertical destacando o intervalo fixo (-1/2, 1/2)
+    \fill[black!3] (-0.5, -0.35) rectangle (0.5, 5.40);
+    \draw[black!35, densely dashed, line width=0.5pt] (-0.5, 5.40) -- (-0.5, -0.35);
+    \draw[black!35, densely dashed, line width=0.5pt] (0.5, 5.40) -- (0.5, -0.35);
+
+    % Linha de referência: intervalo fixo (-1/2, 1/2)
+    \node[anchor=east, font=\small, text=black!85] at (-1.31, 5.40)
+      {$(-\tfrac{1}{2},\tfrac{1}{2})$};
+    \draw[->, black!65, line width=0.6pt] (-1.25, 5.40) -- (2.05, 5.40)
+      node[right=2pt, font=\small, text=text] {$y$};
+    \fill[black!8, rounded corners=1pt] (-0.5, 5.30) rectangle (0.5, 5.50);
+    \draw[black!65, line width=1.5pt] (-0.5, 5.40) -- (0.5, 5.40);
+    \draw[black!65, line width=0.55pt] (0, 5.33) -- (0, 5.47);
+    \node[above=4pt, font=\scriptsize, text=muted] at (0, 5.40) {$0$};
+    \node[above=3pt, font=\scriptsize, text=black!85] at (-0.5, 5.40) {$-\tfrac{1}{2}$};
+    \node[above=3pt, font=\scriptsize, text=black!85] at (0.5, 5.40) {$\tfrac{1}{2}$};
+    \draw[black!65, fill=white, line width=0.9pt] (-0.5, 5.40) circle (2.2pt);
+    \draw[black!65, fill=white, line width=0.9pt] (0.5, 5.40) circle (2.2pt);
+
+    % Caso 1: s in [0, 1)
+    \node[anchor=east, font=\small, text=text] at (-1.31, 3.80) {$s\in[0,1)$};
+    \draw[->, black!65, line width=0.6pt] (-1.25, 3.80) -- (2.05, 3.80)
+      node[right=2pt, font=\small, text=text] {$y$};
+    \fill[teal!16, rounded corners=1pt] ({\spos-0.5}, 3.70) rectangle (0.5, 3.90);
+    \fill[black!8, rounded corners=1pt] (0.5, 3.70) rectangle ({\spos+0.5}, 3.90);
+    \draw[teal, line width=1.5pt] ({\spos-0.5}, 3.80) -- (0.5, 3.80);
+    \draw[black!55, line width=1.5pt] (0.5, 3.80) -- ({\spos+0.5}, 3.80);
+    \draw[teal, fill=white, line width=0.9pt] ({\spos-0.5}, 3.80) circle (2.2pt);
+    \draw[teal, fill=white, line width=0.9pt] (0.5, 3.80) circle (2.2pt);
+    \draw[black!55, fill=white, line width=0.9pt] ({\spos+0.5}, 3.80) circle (2.2pt);
+    \draw[teal!85!black, line width=0.6pt, decorate,
+      decoration={brace, amplitude=3.5pt}]
+      ({\spos-0.5}, 4.02) -- (0.5, 4.02)
+      node[midway, above=4pt, font=\scriptsize, text=teal!85!black] {$1-s$};
+    \node[below=4pt, font=\scriptsize, text=black!85] at ({\spos-0.5}, 3.80) {$s-\tfrac{1}{2}$};
+    \node[below=4pt, font=\scriptsize, text=black!85] at ({\spos+0.5}, 3.80) {$s+\tfrac{1}{2}$};
+
+    % Caso 2: s in (-1, 0]
+    \node[anchor=east, font=\small, text=text] at (-1.31, 1.95) {$s\in(-1,0]$};
+    \draw[->, black!65, line width=0.6pt] (-1.25, 1.95) -- (2.05, 1.95)
+      node[right=2pt, font=\small, text=text] {$y$};
+    \fill[black!8, rounded corners=1pt] ({\sneg-0.5}, 1.85) rectangle (-0.5, 2.05);
+    \fill[teal!16, rounded corners=1pt] (-0.5, 1.85) rectangle ({\sneg+0.5}, 2.05);
+    \draw[black!55, line width=1.5pt] ({\sneg-0.5}, 1.95) -- (-0.5, 1.95);
+    \draw[teal, line width=1.5pt] (-0.5, 1.95) -- ({\sneg+0.5}, 1.95);
+    \draw[black!55, fill=white, line width=0.9pt] ({\sneg-0.5}, 1.95) circle (2.2pt);
+    \draw[teal, fill=white, line width=0.9pt] (-0.5, 1.95) circle (2.2pt);
+    \draw[teal, fill=white, line width=0.9pt] ({\sneg+0.5}, 1.95) circle (2.2pt);
+    \draw[teal!85!black, line width=0.6pt, decorate,
+      decoration={brace, amplitude=3.5pt}]
+      (-0.5, 2.17) -- ({\sneg+0.5}, 2.17)
+      node[midway, above=4pt, font=\scriptsize, text=teal!85!black] {$1+s$};
+    \node[below=4pt, font=\scriptsize, text=black!85] at ({\sneg-0.5}, 1.95) {$s-\tfrac{1}{2}$};
+    \node[below=4pt, font=\scriptsize, text=black!85] at ({\sneg+0.5}, 1.95) {$s+\tfrac{1}{2}$};
+
+    % Caso 3: |s| >= 1 (representado por s >= 1)
+    \node[anchor=east, font=\small, text=text] at (-1.31, 0.00) {$|s|\geqslant1$};
+    \node[anchor=east, font=\scriptsize, text=muted] at (-1.31, -0.34) {(caso $s\geqslant1$)};
+    \draw[->, black!65, line width=0.6pt] (-1.25, 0.00) -- (2.05, 0.00)
+      node[right=2pt, font=\small, text=text] {$y$};
+    \fill[black!8, rounded corners=1pt] ({\sfora-0.5}, -0.10) rectangle ({\sfora+0.5}, 0.10);
+    \draw[black!55, line width=1.5pt] ({\sfora-0.5}, 0.00) -- ({\sfora+0.5}, 0.00);
+    \draw[black!55, fill=white, line width=0.9pt] ({\sfora-0.5}, 0.00) circle (2.2pt);
+    \draw[black!55, fill=white, line width=0.9pt] ({\sfora+0.5}, 0.00) circle (2.2pt);
+    \node[above=5pt, font=\scriptsize, text=muted, align=center] at (0, 0.00)
+      {interseção $\varnothing$\\[-1pt]comprimento $0$};
+    \node[below=4pt, font=\scriptsize, text=black!85] at ({\sfora-0.5}, 0.00) {$s-\tfrac{1}{2}$};
+    \node[below=4pt, font=\scriptsize, text=black!85] at ({\sfora+0.5}, 0.00) {$s+\tfrac{1}{2}$};
+  \end{scope}
+
+  % Painel inferior: gráfico da densidade triangular f_{U+V}(s)
+  \begin{scope}[xshift=0.82cm, yshift=-5.15cm, x=3.00cm, y=2.55cm]
+    \fill[teal!12] (-1, 0) -- (0, 1) -- (1, 0) -- cycle;
+
+    % Eixos
+    \draw[->, black!65, line width=0.6pt] (-1.55, 0) -- (1.65, 0)
+      node[right=2pt, font=\small, text=text] {$s$};
+    \draw[->, black!65, line width=0.6pt] (0, -0.15) -- (0, 1.28)
+      node[left=2pt, font=\small, text=text] {$f_{U+V}$};
+
+    % Ticks dos eixos
+    \foreach \sval in {-1, 1} {
+      \draw[black!65, line width=0.55pt] (\sval, -0.03) -- (\sval, 0.03);
+      \node[below=3pt, font=\scriptsize, text=black!85] at (\sval, 0) {$\sval$};
+    }
+    \node[below left=2pt, font=\scriptsize, text=black!85] at (0, 0) {$0$};
+    \draw[black!65, line width=0.55pt] (-0.03, 1) -- (0.03, 1);
+    \node[above left=0pt and 2pt, font=\scriptsize, text=black!85] at (0, 1) {$1$};
+
+    % Curva da densidade triangular
+    \draw[teal, line width=1.5pt]
+      (-1.45, 0) -- (-1, 0) -- (0, 1) -- (1, 0) -- (1.45, 0);
+
+    % Rótulos dos ramos inclinados
+    \node[above left=2pt, font=\scriptsize, text=teal!85!black]
+      at (-0.52, 0.48) {$1+s$};
+    \node[above right=2pt, font=\scriptsize, text=teal!85!black]
+      at (0.52, 0.48) {$1-s$};
+  \end{scope}
+\end{tikzpicture}
+\caption{Cálculo da densidade da soma $U+V$ pela fórmula da convolução. Acima, o intervalo fixo $(-\tfrac{1}{2},\tfrac{1}{2})$ (linha superior e faixa vertical sombreada) e o intervalo deslocado $(s-\tfrac{1}{2},s+\tfrac{1}{2})$ nos três regimes de $s$. Abaixo, o gráfico da densidade triangular resultante $f_{U+V}(s)=(1-|s|)\mathds{1}_{(-1,1)}(s)$.}
+\label{fig:convolucao-triangular}
+\end{figure}
+
+No \Cref{ex:uniforme}, com $a=-1/2$ e $b=1/2$, temos 
 \[
 \varphi_U(t)=\frac{e^{it/2}-e^{-it/2}}{it}
 =\frac{2\sin(t/2)}{t}, \qquad t\neq0,
@@ -1493,8 +1662,11 @@ porque $1-it$ nunca se anula. Em particular, $\varphi_X(0)=1$.
 \medskip
 
 \begin{example}[Exponencial bilateral]\label{ex:exponencial-bilateral}
-Seja $X$ uma variável aleatória com densidade $f(x)=\tfrac12e^{-|x|}$,
-$x\in\mathbb{R}$. Sua distribuição é conhecida como \emph{exponencial
+Seja $X$ uma variável aleatória com densidade 
+\begin{align*}
+f(x)=\frac{1}{2}e^{-|x|},\qquad  \forall x\in\mathbb{R}.
+\end{align*} 
+Sua distribuição é conhecida como \emph{exponencial
 bilateral} (ou distribuição de Laplace), e sua função característica é
 \[
   \varphi_X(t) \;=\; \frac{1}{1+t^2}, \qquad t\in\mathbb{R}.
@@ -1584,22 +1756,6 @@ A ideia é escrever a integral em \eqref{eq:inversao} como a esperança de uma
 função de $X$. Vamos calcular o limite dessa função para cada valor possível
 de $X$ e, depois, passar o limite para dentro da esperança.
 
-Antes disso, recordemos uma consequência da convergência quase certa que
-usaremos duas vezes. Se $Y_n\to Y$ quase certamente e $|Y_n|\leqslant M$
-para uma constante $M$, então $\mathbb{E}[Y_n]\to\mathbb{E}[Y]$. De fato,
-$|Y|\leqslant M$ quase certamente e, para todo $\varepsilon>0$,
-\[
-\mathbb{E}\bigl[|Y_n-Y|\bigr]
-\leqslant
-\varepsilon+2M\,\mathbb{P}\bigl(|Y_n-Y|>\varepsilon\bigr).
-\]
-A probabilidade à direita tende a $0$, pois a convergência quase certa
-implica convergência em probabilidade. Como $\varepsilon$ é arbitrário,
-$\mathbb{E}[|Y_n-Y|]\to0$ e, pela desigualdade para o módulo da esperança,
-$\mathbb{E}[Y_n]\to\mathbb{E}[Y]$. O mesmo argumento vale para variáveis
-complexas limitadas. Aqui usamos as propriedades de linearidade e
-monotonicidade da esperança para variáveis aleatórias limitadas.
-
 Comecemos pelo quociente que aparece na fórmula. Para $t\neq0$,
 \[
 \frac{e^{-ita}-e^{-itb}}{it}=\int_a^b e^{-ity}\,dy.
@@ -1620,9 +1776,9 @@ Como $\varphi_X(t)=\mathbb{E}[e^{itX}]$, queremos trocar a esperança com a
 integral em $t$. Para justificar essa troca, aproximamos a integral por somas
 de Riemann. Para cada valor de $X$, o integrando é contínuo em $t$, e as
 somas são limitadas em módulo por $T(b-a)/\pi$. Pela propriedade de
-convergência de variáveis limitadas que acabamos de recordar, podemos passar
-o limite das somas para dentro da esperança. A linearidade da esperança e a
-continuidade de $\varphi_X$ dão, portanto,
+convergência de variáveis limitadas vista na \Cref{subsec:va-complexas},
+podemos passar o limite das somas para dentro da esperança. A linearidade da
+esperança e a continuidade de $\varphi_X$ dão, portanto,
 \begin{equation}\label{eq:IT}
 \frac{1}{2\pi}\int_{-T}^{T}k(t)\varphi_X(t)\,dt
 =\mathbb{E}\bigl[K_T(X)\bigr].
@@ -1782,35 +1938,72 @@ necessário para o limite da fórmula.
 
 \medskip
 
-A fórmula de inversão mostra que a função característica determina a função
-de distribuição. De fato, suponha que $X$ e $Y$ tenham a mesma função
-característica. Para quaisquer $a<b$, a fórmula dá
+A fórmula de inversão mostra que a função característica determina univocamente
+a função de distribuição.
+
+\begin{corollary}[Unicidade da função característica]\label{cor:unicidade}
+Sejam $X$ e $Y$ variáveis aleatórias reais com funções de distribuição $F_X$ e
+$F_Y$ e funções características $\varphi_X$ e $\varphi_Y$, respectivamente. Se
+$\varphi_X(t)=\varphi_Y(t)$ para todo $t\in\mathbb{R}$, então
+$F_X(x)=F_Y(x)$ para todo $x\in\mathbb{R}$, isto é, $X$ e $Y$ têm a mesma
+distribuição.
+\end{corollary}
+
+\begin{proof}
+Suponha que $\varphi_X(t)=\varphi_Y(t)$ para todo $t\in\mathbb{R}$. Recorde que $F_X(x^-)=\mathbb{P}(X<x)$ e $F_Y(x^-)=\mathbb{P}(Y<x)$ denotam os
+limites à esquerda das funções de distribuição e que, após o enunciado do
+\Cref{thm:inversao}, definimos as funções $F_X^*$ e $F_Y^*$ por
+\[
+F_X^*(x)\equiv\frac{F_X(x^-)+F_X(x)}{2}
+\qquad\text{e}\qquad
+F_Y^*(x)\equiv\frac{F_Y(x^-)+F_Y(x)}{2},
+\qquad x\in\mathbb{R}.
+\]
+Usando $\mathbb{P}(a<X<b)=F_X(b^-)-F_X(a)$ e $\mathbb{P}(X=x)=F_X(x)-F_X(x^-)$,
+podemos reescrever o lado direito da fórmula de inversão \eqref{eq:inversao} como
+\begin{align*}
+\mathbb{P}(a<X<b)+&\frac{1}{2}\,\mathbb{P}(X=a)+\frac{1}{2}\,\mathbb{P}(X=b)\\
+&=\big(F_X(b^-)-F_X(a)\big)+\frac{1}{2}\big(F_X(a)-F_X(a^-)\big)
++\frac{1}{2}\big(F_X(b)-F_X(b^-)\big)\\[0.3cm]
+&=\frac{F_X(b^-)+F_X(b)}{2}-\frac{F_X(a^-)+F_X(a)}{2}
+\\[0.3cm]
+&=
+F_X^*(b)-F_X^*(a),
+\end{align*}
+e a expressão análoga vale para $Y$. Como $\varphi_X=\varphi_Y$, o lado esquerdo
+de \eqref{eq:inversao} é o mesmo para $X$ e para $Y$, donde obtemos, para
+quaisquer $a<b$,
 \[
 F_X^*(b)-F_X^*(a)=F_Y^*(b)-F_Y^*(a).
 \]
-Quando $a\to-\infty$, tanto $F_X^*(a)$ quanto $F_Y^*(a)$ tendem a zero, pois
-$0\leqslant F_X^*(a)\leqslant F_X(a)$, e o mesmo vale para $Y$. Logo
-$F_X^*(b)=F_Y^*(b)$ para todo $b$.
+Quando $a\to-\infty$, temos $0\leqslant F_X(a^-)\leqslant F_X(a)\to0$, logo
+$0\leqslant F_X^*(a)\leqslant F_X(a)\to0$, e o mesmo vale para $Y$. Fixando
+$b$ e fazendo $a\to-\infty$ na igualdade anterior, concluímos que
+$F_X^*(b)=F_Y^*(b)$ para todo $b\in\mathbb{R}$.
 
-Resta recuperar $F_X$ a partir de $F_X^*$. Se $y>x$, a monotonicidade de
-$F_X$ dá
+Resta recuperar $F_X$ a partir de $F_X^*$. Se $y>x$, a monotonicidade de $F_X$
+garante $F_X(x)\leqslant F_X(y^-)\leqslant F_X(y)$ e, como $F_X^*(y)$ é a média
+entre $F_X(y^-)$ e $F_X(y)$, temos
 \[
 F_X(x)\leqslant F_X(y^-)\leqslant F_X^*(y)\leqslant F_X(y).
 \]
-Fazendo $y\downarrow x$ e usando a continuidade à direita, obtemos
-$F_X^*(y)\to F_X(x)$. O mesmo vale para $Y$, portanto $F_X=F_Y$. Concluímos
-que duas variáveis aleatórias com a mesma função característica têm a mesma
-distribuição.
+Fazendo $y\downarrow x$ e usando a continuidade à direita de $F_X$, obtemos
+$F_X^*(y)\to F_X(x)$. O mesmo argumento mostra que $F_Y^*(y)\to F_Y(x)$ quando
+$y\downarrow x$. Como $F_X^*(y)=F_Y^*(y)$ para todo $y\in\mathbb{R}$, segue que
+$F_X(x)=F_Y(x)$ para todo $x\in\mathbb{R}$. Concluímos que duas variáveis
+aleatórias com a mesma função característica têm a mesma distribuição.
+\end{proof}
 
 \subsection{Duas Consequências Imediatas}\label{subsec:consequencias-inversao}
 
-A fórmula de inversão tem duas consequências imediatas, que provamos a seguir:
-uma propriedade de simetria em termos de $\varphi_X$ e a distribuição da soma
-de variáveis normais centradas independentes.
+A fórmula de inversão e o \Cref{cor:unicidade} têm duas consequências
+imediatas, que provamos a seguir: uma caracterização da simetria em termos de
+$\varphi_X$ e a distribuição da soma de variáveis normais centradas
+independentes.
 
 \begin{corollary}[Função característica real]\label{cor:fc-real}
-Seja $X$ uma variável aleatória real. Se $\varphi_X$ assume apenas valores
-reais, então $X$ e $-X$ têm a mesma distribuição.
+Seja $X$ uma variável aleatória real. Então $\varphi_X$ assume apenas valores
+reais se, e somente se, $X$ e $-X$ têm a mesma distribuição.
 \end{corollary}
 
 \begin{proof}
@@ -1826,10 +2019,12 @@ partes real e imaginária, obtemos
   \varphi_{-X}(t) = \overline{\mathbb{E}\bigl[e^{itX}\bigr]}
   = \overline{\varphi_X(t)},
 \]
-que é o item (b) de \Cref{thm:propriedades-fc}. Por hipótese
-$\varphi_X(t)$ é real, logo vale
-$\varphi_{-X}(t) = \varphi_X(t)$ para todo $t$; pela unicidade dada pelo
-\Cref{thm:inversao}, duas variáveis com a mesma função característica têm
+que é o item (b) do \Cref{thm:propriedades-fc}. Se $X$ e $-X$ têm a mesma
+distribuição, então $\varphi_X(t)=\varphi_{-X}(t)=\overline{\varphi_X(t)}$, logo
+$\varphi_X(t)$ é real para todo $t\in\mathbb{R}$. Reciprocamente, se
+$\varphi_X(t)$ é real para todo $t\in\mathbb{R}$, então
+$\varphi_{-X}(t) = \overline{\varphi_X(t)} = \varphi_X(t)$ para todo $t$; pelo
+\Cref{cor:unicidade}, duas variáveis com a mesma função característica têm
 a mesma distribuição, de modo que $X \overset{d}{=} -X$.
 \end{proof}
 
@@ -1852,7 +2047,7 @@ $e^{a}e^{b} = e^{a+b}$,
 \]
 Pelo \Cref{ex:normal}, o membro direito é a função característica de uma
 variável $Y$ normal de média $0$ e variância $\sigma_1^2+\sigma_2^2$; como
-$\varphi_{X_1+X_2}=\varphi_Y$, a unicidade do \Cref{thm:inversao} 
+$\varphi_{X_1+X_2}=\varphi_Y$, o \Cref{cor:unicidade}
 garante que $X_1+X_2\overset{d}{=}Y$.
 \end{proof}
 
@@ -3146,8 +3341,8 @@ $\varphi=\varphi_X$.
 Note que qualquer subsequência de $(X_n)$ é também uma sequência condensada, 
 portanto qualquer subsequência possui uma sub-subsequência convergente em distribuição. 
 O argumento anterior mostra que
-qualquer limite assim obtido tem função característica $\varphi_X$. Pela
-unicidade do \Cref{thm:inversao}, todos esses limites têm a mesma função de
+qualquer limite assim obtido tem função característica $\varphi_X$. Pelo
+\Cref{cor:unicidade}, todos esses limites têm a mesma função de
 distribuição $F_X$.
 
 Resta mostrar que a sequência inteira converge. Se isso não ocorresse,
@@ -3315,8 +3510,8 @@ e $f(x)=0$ para $x\leqslant0$.
 \Cref{ex:exponencial} e o \Cref{exercise:gw-7-97} com $w=n$, lembrando que
 $\Gamma(n)=(n-1)!$. Para obter a função característica da exponencial de
 parâmetro $\lambda$ a partir do \Cref{ex:exponencial}, use o item (e) do
-\Cref{thm:propriedades-fc}. A conclusão segue da unicidade do
-\Cref{thm:inversao}.
+\Cref{thm:propriedades-fc}. A conclusão segue do
+\Cref{cor:unicidade}.
 \end{exercise}
 
 \begin{exercise}\label{exercise:soma-normais-geral}
@@ -3329,7 +3524,7 @@ $\sigma_1^2+\sigma_2^2$. Este exercício generaliza o
 \noindent\textbf{Sugestão:} obtenha a função característica de uma normal com média $\mu$
 e variância $\sigma^2$ a partir do \Cref{ex:normal} e do item (e) do
 \Cref{thm:propriedades-fc}. Em seguida, multiplique as funções características
-de $X$ e de $Y$ e use a unicidade do \Cref{thm:inversao}.
+de $X$ e de $Y$ e use o \Cref{cor:unicidade}.
 \end{exercise}
 
 \begin{exercise}\label{exercise:aditividade-poisson-binomial}
@@ -3437,7 +3632,7 @@ enumeráveis. No último passo, use a independência de $X$ e $Y$ para expressar
 $\mathbb{P}(X=Y)$ em termos dessas probabilidades pontuais.
 \end{starredexercise}
 
-\begin{remark}\label{rem:sem-massa-pontual}
+\begin{remark*}
 Seja $X$ uma variável aleatória com função característica $\varphi_X$.
 A conclusão do \Cref{exercise:media-quadrado} implica que, se
 $\varphi_X(t)\to0$ quando $t\to\infty$, então $\mathbb{P}(X=x)=0$ para todo
@@ -3452,7 +3647,7 @@ zero no infinito. Por outro lado, um resultado conhecido como lema de
 Riemann--Lebesgue garante que, se $X$ tem densidade $f$, então
 $\varphi_X(t)=\int_{\mathbb{R}}f(x)e^{itx}\,dx$ tende a zero quando
 $|t|\to\infty$.
-\end{remark}
+\end{remark*}
 
 \begin{starredexercise}\label{exercise:densidade-integral-divergente}
 Dê um exemplo de variável aleatória $X$ que tenha densidade e cuja função
@@ -3492,8 +3687,8 @@ média $(X_1+\cdots+X_n)/n$ tem a mesma distribuição que $X_1$.
 
 \noindent\textbf{Sugestão:} calcule a função característica da média usando a
 independência e compare-a com a função característica de $X_1$; duas variáveis
-aleatórias com a mesma função característica têm a mesma distribuição, pela
-fórmula de inversão (\Cref{thm:inversao}).
+aleatórias com a mesma função característica têm a mesma distribuição, pelo
+\Cref{cor:unicidade}.
 \end{starredexercise}
 
 \begin{starredexercise}\label{exercise:normal-variancia}
@@ -3580,7 +3775,7 @@ pois é majorada por $\sum_{m\geqslant1}2^{-m}=1$, e que, escrevendo
 $Y_m=2^{-m}(2U_m-1)$ com $U_m$ de Bernoulli simétrica, a soma coincide em
 distribuição com $2U-1$, onde $U=\sum_{m\geqslant1}U_m2^{-m}$ é uniforme em
 $[0,1]$, por ser a série dos dígitos da expansão binária. A unicidade da função
-característica, dada por \Cref{thm:inversao}, fecha o argumento.
+característica, dada pelo \Cref{cor:unicidade}, fecha o argumento.
 \end{starredexercise}
 
 \begin{starredexercise}\label{exercise:cantor}
@@ -3633,28 +3828,38 @@ em distribuição para a constante $a$ equivale à convergência em probabilidad
 
 \item[(ii)] Reciprocamente, se $S_n/n\to a$ em probabilidade, mostre que
 $\varphi_{X_1}(t/n)^n\to e^{iat}$ quando $n\to\infty$ pelos inteiros, com $t$ fixo.
-Basta notar que $e^{itS_n/n}\to e^{ita}$ em probabilidade e que
-$\bigl|e^{itS_n/n}\bigr|\leqslant1$, de modo que a convergência também se dá em
-$L^1$.
+Basta notar que a convergência em probabilidade implica $S_n/n\Rightarrow a$, de
+modo que o item~(i) do \Cref{thm:continuidade} fornece
+$\varphi_{X_1}(t/n)^n=\varphi_{S_n/n}(t)\to\varphi_a(t)=e^{iat}$ (ou, diretamente,
+usar que $e^{itS_n/n}\to e^{ita}$ em probabilidade e aplicar a estimativa para
+variáveis limitadas da \Cref{subsec:va-complexas}).
 
-\item[(iii)] Use o item~(ii) e a convergência uniforme sobre compactos
-estabelecida no exercício sobre equicontinuidade das funções características,
-nas notas de aula sobre o Teorema do Limite Central, para mostrar que
+\item[(iii)] Use o argumento do item~(ii) para mostrar que
 $(\varphi_{X_1}(h)-1)/h\to ia$
-quando $h\to0$ pelos reais positivos.
-\noindent\textbf{Sugestão:} pela independência, a função característica de $S_n/n$ é
-$\varphi_{S_n/n}(s)=\varphi_{X_1}(s/n)^n$. Pelo item~(ii),
-$\varphi_{S_n/n}(s)\to e^{ias}$ para cada $s$, e o limite é
-contínuo; logo aquele exercício dá convergência uniforme
-sobre compactos. Fixe $\tau>0$ pequeno, com $|a|\tau<\pi/2$ e $\varphi_{X_1}(u)\neq0$
-para $|u|\leqslant\tau$, de modo que o logaritmo principal esteja definido. Da
-convergência uniforme em $[-\tau,\tau]$ segue que
-$n\log\varphi_{X_1}(s/n)=\log\varphi_{S_n/n}(s)\to ias$ uniformemente nesse intervalo; como
-$\log(1+z)=z+O(z^2)$ quando $z\to0$, obtemos
-$n\bigl(\varphi_{X_1}(s/n)-1\bigr)\to ias$ uniformemente em $|s|\leqslant\tau$. Tome
-agora $h\downarrow0$ e ponha $n=\lfloor\tau/h\rfloor$, de modo que
-$s_n\equiv nh\to\tau$ e $h=s_n/n$. Então $n\bigl(\varphi_{X_1}(h)-1\bigr)\to ia\tau$ e,
-dividindo por $nh\to\tau$, concluímos que $(\varphi_{X_1}(h)-1)/h\to ia$.
+quando $h\to0$.
+\noindent\textbf{Sugestão:} pela continuidade de $\varphi_{X_1}$ e como
+$\varphi_{X_1}(0)=1$, fixe $\tau>0$ pequeno, com $|a|\tau<\pi/2$ e
+$\varphi_{X_1}(u)\neq0$ para $|u|\leqslant\tau$, de modo que o ramo principal do
+logaritmo esteja bem definido em $\varphi_{X_1}(u)$. Considere $h\in(0,\tau)$
+fazendo $h\downarrow0$ e ponha $n=\lfloor\tau/h\rfloor$, de modo que
+$n\to\infty$, $s_n\equiv nh\to\tau$ e $h=s_n/n$. Como $S_n/n\to a$ em
+probabilidade e $s_n\to\tau$, temos $s_n(S_n/n)\to a\tau$ em probabilidade;
+logo $e^{is_n S_n/n}\to e^{ia\tau}$ em probabilidade e, sendo essas variáveis
+limitadas em módulo por $1$, a estimativa da \Cref{subsec:va-complexas} fornece
+\[
+\varphi_{X_1}(h)^n
+=\varphi_{X_1}(s_n/n)^n
+=\varphi_{S_n/n}(s_n)
+=\mathbb{E}\bigl[e^{is_n S_n/n}\bigr]
+\longrightarrow e^{ia\tau}.
+\]
+Tomando o logaritmo principal, segue que
+$n\log\varphi_{X_1}(h)\to ia\tau$ quando $h\downarrow0$. Como
+$\varphi_{X_1}(h)\to1$ e $\log(1+z)=z+O(z^2)$ quando $z\to0$, obtemos
+$n\bigl(\varphi_{X_1}(h)-1\bigr)\to ia\tau$. Dividindo por $nh=s_n\to\tau$,
+concluímos que $(\varphi_{X_1}(h)-1)/h\to ia$ quando $h\downarrow0$. O limite
+para $h\uparrow0$ segue tomando conjugados, já que
+$\varphi_{X_1}(-h)=\overline{\varphi_{X_1}(h)}$.
 \end{enumerate}
 Conclua que a lei fraca dos grandes números vale se, e somente se, $\varphi_{X_1}'(0)$
 existe, e que nesse caso $\varphi_{X_1}'(0)=ia$.\footnote{%
@@ -3662,7 +3867,7 @@ O resultado deve-se a E.~J.~G.~Pitman (1956); a necessidade de demonstrar o
 item~(iii) foi observada por John Walsh.}
 \end{starredexercise}
 
-\begin{remark}
+\begin{remark*}
 Combinando o exercício anterior com o exemplo clássico de uma variável
 aleatória $X$ com média infinita cuja função característica tem derivada na
 origem, vê-se que a existência de $\varphi_X'(0)$ não garante
@@ -3672,28 +3877,36 @@ grande: sua média diverge, pois
 $\mathbb{E}|X|=\int_0^\infty\mathbb{P}(|X|>x)\,dx=\infty$, e no entanto
 $\varphi_X(t)-1=O\bigl(t^2\log(1/|t|)\bigr)$ quando $t\to0$, de modo que
 $(\varphi_X(t)-1)/t\to0$ e $\varphi_X'(0)=0$ existe.
-\end{remark}
+\end{remark*}
 
 \begin{starredexercise}\label{exercise:primeiro-momento}
-Seja $X$ uma variável aleatória com função de distribuição $F_X$ e função
-característica $\varphi_X$. Mostre que
+Seja $X$ uma variável aleatória com função característica $\varphi_X$. Mostre que
 \[
-  2\int_0^\infty\frac{1-\operatorname{Re}\varphi_X(t)}{\pi t^2}\,dt=\int|y|\,dF_X(y),
+  2\int_0^\infty\frac{1-\operatorname{Re}\varphi_X(t)}{\pi t^2}\,dt=\mathbb{E}\bigl[|X|\bigr],
 \]
 com a igualdade entendida em $[0,+\infty]$. \textbf{Sugestão:} escreva
 \[
 1-\operatorname{Re}\varphi_X(t)
-=\int\bigl(1-\cos(ty)\bigr)\,dF_X(y)
+=\mathbb{E}\bigl[1-\cos(tX)\bigr]
 \]
 e recorde, do \Cref{ex:distribuicao-polya}, que a densidade de Pólya
-$\frac{1-\cos x}{\pi x^2}$ integra $1$ em $\mathbb{R}$; sendo ela par,
+$\frac{1-\cos u}{\pi u^2}$ integra $1$ em $\mathbb{R}$; sendo ela par,
 \[
-  \int_0^\infty\frac{1-\cos x}{\pi x^2}\,dx=\frac12 .
+  \int_0^\infty\frac{1-\cos u}{\pi u^2}\,du=\frac12 .
 \]
-Com a mudança de variáveis $x=|y|t$ em
-$\int_0^\infty\frac{1-\cos(ty)}{\pi t^2}\,dt$ obtém-se $\frac{|y|}{2}$, e o
-teorema de Tonelli, já que o integrando é não negativo, conclui a troca das
-integrais.
+Para cada $0<\varepsilon<T<\infty$, o integrando $\frac{1-\cos(tx)}{\pi t^2}$ é
+contínuo e limitado em $[\varepsilon,T]$, logo a troca entre a esperança e a
+integral em $[\varepsilon,T]$ se justifica por somas de Riemann e convergência
+de variáveis limitadas, como na prova do \Cref{thm:inversao}, fornecendo
+\[
+  2\int_\varepsilon^T\frac{1-\operatorname{Re}\varphi_X(t)}{\pi t^2}\,dt
+  =\mathbb{E}\left[2\int_\varepsilon^T\frac{1-\cos(tX)}{\pi t^2}\,dt\right].
+\]
+Com a mudança de variáveis $u=|X|t$, a variável aleatória não negativa dentro da
+esperança se escreve $|X|\cdot 2\int_{|X|\varepsilon}^{|X|T}\frac{1-\cos u}{\pi u^2}\,du$
+e cresce monotonicamente para $|X|$ quando $\varepsilon\downarrow0$ e
+$T\uparrow\infty$, de modo que a convergência monótona da esperança conclui a
+igualdade.
 \end{starredexercise}
 
 \begin{starredexercise}\label{exercise:convergencia-para-zero}
