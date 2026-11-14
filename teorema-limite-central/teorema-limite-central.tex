@@ -239,46 +239,287 @@ A exposição parte dos manuscritos de aula e do Capítulo 3 de
 %----------------------------------------------------------------------
 \section{Introdução}\label{sec:introducao}
 
-Nas notas de aula sobre funções características, vimos que a independência
-transforma a função característica de uma soma em um produto. O Teorema da
-Continuidade de Lévy permite, então, estudar a convergência em distribuição
-dessas somas por meio da convergência de suas funções características.
-Vamos aplicar esse método à demonstração do Teorema do Limite Central.
+Nas notas de aula sobre funções características, vimos que a função
+característica de uma soma de variáveis aleatórias independentes é o
+produto das funções características das parcelas. A convergência dessas
+funções permite, pelo Teorema da Continuidade de Lévy, estudar a
+convergência em distribuição das somas. Nestas notas vamos mostrar como aplicar esses resultados
+para obter uma versão clássica
+do Teorema do Limite Central, válida 
+para o caso de somas de variáveis aleatórias independentes e identicamente distribuídas e possuindo
+segundo momento finito. 
 
-Sejam $X_1,X_2,\ldots$ variáveis aleatórias independentes e identicamente
-distribuídas, com média $\mu$ e variância $\sigma^2\in(0,\infty)$.
-A Lei dos Grandes Números descreve a aproximação de
-$S_n/n$ por $\mu$, onde $S_n=X_1+\cdots+X_n$.
-O Teorema do Limite Central descreve as flutuações de $S_n$ em torno de
-$n\mu$, quando medidas na escala $\sigma\sqrt{n}$. Mais precisamente,
-mostraremos que
+Considere uma sequência $X_1,X_2,\ldots$ de variáveis aleatórias independentes
+e identicamente distribuídas (iid) com média $\mu$ e variância $\sigma^2\in(0,\infty)$. 
+Como de costume denote por $S_n\equiv X_1+\cdots+X_n$, a soma parcial das primeiras $n$ variáveis.
+Para essas somas, a Lei Forte dos Grandes Números afirma que a
+média aritmética $S_n/n$ converge quase certamente para $\mu$. 
+O que sugere que $S_n$ se comporte assintoticamente como $S_n\sim n\mu$.
+Vamos estudar agora as flutuações da soma
+$S_n$ em torno de $n\mu$, isto é, como se distribui $S_n-n\mu$ em uma sequência de escalas nas quais
+esta sequência possui variância um.  
+
+A ideia é que $\operatorname{Var}(S_n-n\mu) = \operatorname{Var}(S_n) = \sigma^2 n$
+e portanto na escala de $\sigma\sqrt{n}$ a variável aleatória 
+normalizada possui variância um, isto é, 
+\begin{align*}
+\operatorname{Var}\left( \frac{S_n}{\sigma \sqrt{n}}\right) = 1.
+\end{align*}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  x=1cm, y=1cm,
+  >=Stealth,
+  font=\small,
+  declare function={
+    gauss(\u,\m,\s) = exp(-0.5*((\u-\m)/\s)*((\u-\m)/\s))/(sqrt(2*pi)*\s);
+  }
+]
+  %--------------------------------------------------------------------
+  % DADOS EXATOS DE S_n ~ Bin(8n, 7/10), n = 1, 2, 3, 4
+  % \mu = 8 * 0.7 = 5.6, \sigma^2 = 8 * 0.7 * 0.3 = 1.68, \sigma = 1.296148
+  %--------------------------------------------------------------------
+  \def\muval{5.6}
+  \def\sigval{1.296148}
+  \def\hscale{3.05}
+
+  \def\dadosBinUm{1/0.00122, 2/0.01000, 3/0.04668, 4/0.13614, 5/0.25412, 6/0.29648, 7/0.19765, 8/0.05765}
+  \def\dadosBinDois{5/0.00130, 6/0.00556, 7/0.01854, 8/0.04868, 9/0.10096, 10/0.16490, 11/0.20988, 12/0.20405, 13/0.14650, 14/0.07325, 15/0.02279, 16/0.00332}
+  \def\dadosBinTres{10/0.00265, 11/0.00787, 12/0.01989, 13/0.04284, 14/0.07855, 15/0.12218, 16/0.16036, 17/0.17608, 18/0.15978, 19/0.11773, 20/0.06868, 21/0.03052, 22/0.00971, 23/0.00197}
+  \def\dadosBinQuatro{15/0.00347, 16/0.00860, 17/0.01888, 18/0.03672, 19/0.06313, 20/0.09575, 21/0.12766, 22/0.14894, 23/0.15110, 24/0.13221, 25/0.09872, 26/0.06202, 27/0.03216, 28/0.01340, 29/0.00431, 30/0.00101}
+
+  %====================================================================
+  % BLOCO SUPERIOR (4 LINHAS): S_n e evolução linear da média n\mu
+  % Eixo horizontal de x=0.00 a x=8.70; k=0 em x=0.25, passo \uk=0.255cm
+  %====================================================================
+  \def\xorig{0.25}
+  \def\uk{0.255}
+
+  \node[align=center, font=\small, text=text] at (4.35, 17.60)
+    {\textbf{Evolução da média das somas parciais $S_n = X_1 + \cdots + X_n$}\\[2pt]
+     {\color{muted}\footnotesize $X_i \sim \mathrm{Bin}(k, p)$ i.i.d., com $\mu \equiv \mathbb{E}[X_1]$ e $\sigma^2 \equiv \operatorname{Var}(X_1)$}};
+
+  % Linhas verticais de grade em 0, \mu, 2\mu, 3\mu, 4\mu, 5\mu
+  \foreach \m in {0,1,2,3,4,5} {
+    \pgfmathsetmacro{\xm}{\xorig + \m*\muval*\uk}
+    \draw[black!16, densely dashed, line width=0.45pt] (\xm, 10.00) -- (\xm, 16.95);
+  }
+
+  % Reta guia pontilhada conectando as médias \mu, 2\mu, 3\mu, 4\mu
+  \draw[teal!55, densely dotted, line width=0.85pt]
+    ({\xorig + 1*\muval*\uk}, 16.00) -- ({\xorig + 4*\muval*\uk}, 10.15);
+
+  \newcommand{\linhaMediaBin}[5]{%
+    \pgfmathsetmacro{\ybase}{10.15 + (4-#1)*1.95}
+    \pgfmathsetmacro{\kmean}{#1*\muval}
+    \pgfmathsetmacro{\ksd}{\sigval*sqrt(#1)}
+    \pgfmathsetmacro{\xmean}{\xorig + \kmean*\uk}
+    \pgfmathsetmacro{\kmin}{max(0, \kmean - 3.6*\ksd)}
+    \pgfmathsetmacro{\kmax}{min(32, \kmean + 3.6*\ksd)}
+    \pgfmathsetmacro{\ypeak}{\ybase + \hscale*gauss(\kmean,\kmean,\ksd)}
+
+    % Rótulo da soma parcial à esquerda
+    \node[anchor=east, font=\footnotesize, text=text] at (-0.18, {\ybase+0.24}) {#2};
+
+    % Barras da função de probabilidade de S_n ~ Bin(8n, 7/10)
+    \foreach \k/\p in #5 {
+      \pgfmathsetmacro{\xk}{\xorig + \k*\uk}
+      \pgfmathsetmacro{\yh}{\ybase + \hscale*\p}
+      \filldraw[fill=teal!50, draw=teal!90!black, line width=0.35pt, rounded corners=0.4pt]
+        ({\xk-0.088}, \ybase) rectangle ({\xk+0.088}, \yh);
+    }
+
+    % Curva guia suave (aproximação normal com mesma média e variância)
+    \draw[teal!85!black, line width=0.85pt, domain=\kmin:\kmax, samples=80, smooth]
+      plot ({\xorig + \x*\uk}, {\ybase + \hscale*gauss(\x,\kmean,\ksd)});
+
+    % Eixo horizontal da linha n
+    \draw[->, black!65, line width=0.55pt] (0.00, \ybase) -- (8.70, \ybase);
+
+    % Ticks nos múltiplos de \mu
+    \foreach \m in {0,1,2,3,4,5} {
+      \pgfmathsetmacro{\xm}{\xorig + \m*\muval*\uk}
+      \draw[black!45, line width=0.45pt] (\xm, {\ybase-0.04}) -- (\xm, {\ybase+0.04});
+    }
+
+    % Destaque da média n\mu
+    \draw[teal!85!black, densely dashed, line width=0.8pt]
+      (\xmean, \ybase) -- (\xmean, \ypeak);
+    \fill[teal!85!black] (\xmean, \ybase) circle (1.5pt);
+    \node[below=2pt, font=\scriptsize, text=teal!85!black, fill=white, inner sep=1pt]
+      at (\xmean, {\ybase-0.03}) {#3};
+
+    % Especificação de média e variância à direita da linha
+    \node[anchor=west, align=left, font=\scriptsize, text=text]
+      at (8.92, {\ybase+0.26}) {#4};
+  }
+
+  \linhaMediaBin{1}{$S_1 = X_1$}{$\mu$}{$\mathbb{E}[S_1]=\mu$\\[1pt]{\color{muted}$\operatorname{Var}(S_1)=\sigma^2$}}{\dadosBinUm}
+  \linhaMediaBin{2}{$S_2 = X_1+X_2$}{$2\mu$}{$\mathbb{E}[S_2]=2\mu$\\[1pt]{\color{muted}$\operatorname{Var}(S_2)=2\sigma^2$}}{\dadosBinDois}
+  \linhaMediaBin{3}{$S_3 = X_1+X_2+X_3$}{$3\mu$}{$\mathbb{E}[S_3]=3\mu$\\[1pt]{\color{muted}$\operatorname{Var}(S_3)=3\sigma^2$}}{\dadosBinTres}
+  \linhaMediaBin{4}{$S_4 = X_1+\cdots+X_4$}{$4\mu$}{$\mathbb{E}[S_4]=4\mu$\\[1pt]{\color{muted}$\operatorname{Var}(S_4)=4\sigma^2$}}{\dadosBinQuatro}
+
+  % Rótulos complementares do eixo inferior do bloco superior (n=4)
+  \foreach \m/\mlbl in {0/0, 1/\mu, 2/2\mu, 3/3\mu, 5/5\mu} {
+    \pgfmathsetmacro{\xm}{\xorig + \m*\muval*\uk}
+    \node[below=2pt, font=\scriptsize, text=muted] at (\xm, 10.12) {$\mlbl$};
+  }
+
+  %====================================================================
+  % BLOCO INFERIOR (4 LINHAS): S_n - n\mu e espalhamento em unidades de \sigma
+  % Centro 0 em \xzero=4.35; 1\sigma = \usigma=0.88cm; eixo de -1.25 a 9.95
+  %====================================================================
+  \def\xzero{4.35}
+  \def\usigma{0.88}
+
+  \node[align=center, font=\small, text=text] at (4.35, 7.68)
+    {\textbf{Espalhamento das somas centradas $S_n - n\mu$ em unidades de $\sigma$}\\[2pt]
+     {\color{muted}\footnotesize distribuições centradas na origem, com desvio padrão $\sigma\sqrt{n}$}};
+
+  % Grade vertical em múltiplos inteiros de \sigma (-6\sigma a +6\sigma)
+  \foreach \m in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6} {
+    \pgfmathsetmacro{\xm}{\xzero + \m*\usigma}
+    \draw[black!16, densely dashed, line width=0.45pt] (\xm, -0.15) -- (\xm, 6.98);
+  }
+  \draw[black!38, densely dashed, line width=0.55pt] (\xzero, -0.15) -- (\xzero, 6.98);
+
+  % Envoltória pontilhada \pm\sigma\sqrt{n} conectando as larguras de 1 desvio padrão
+  \draw[teal!55, densely dotted, line width=0.85pt, domain=1:4, samples=50, smooth]
+    plot ({\xzero + \usigma*sqrt(\x)}, {(4-\x)*1.95});
+  \draw[teal!55, densely dotted, line width=0.85pt, domain=1:4, samples=50, smooth]
+    plot ({\xzero - \usigma*sqrt(\x)}, {(4-\x)*1.95});
+
+  \newcommand{\linhaCentradaBin}[5]{%
+    \pgfmathsetmacro{\ybase}{(4-#1)*1.95}
+    \pgfmathsetmacro{\kmean}{#1*\muval}
+    \pgfmathsetmacro{\sdn}{sqrt(#1)}
+    \pgfmathsetmacro{\ksd}{\sigval*\sdn}
+    \pgfmathsetmacro{\zmax}{min(6.15, 3.6*\sdn)}
+
+    % Rótulo da variável centrada à esquerda
+    \node[anchor=east, font=\footnotesize, text=text] at (-1.40, {\ybase+0.24}) {#2};
+
+    % Faixa central sombreada de 1 desvio padrão [-\sigma\sqrt{n}, +\sigma\sqrt{n}]
+    \fill[teal!16]
+      ({\xzero-\sdn*\usigma}, \ybase)
+      -- plot[domain=-\sdn:\sdn, samples=50, smooth]
+         ({\xzero+\x*\usigma}, {\ybase + \hscale*gauss(\x*\sigval,0,\ksd)})
+      -- ({\xzero+\sdn*\usigma}, \ybase) -- cycle;
+
+    % Barras da função de probabilidade centrada S_n - n\mu em unidades de \sigma
+    \foreach \k/\p in #5 {
+      \pgfmathsetmacro{\zk}{(\k - \kmean)/\sigval}
+      \pgfmathsetmacro{\xk}{\xzero + \zk*\usigma}
+      \pgfmathsetmacro{\yh}{\ybase + \hscale*\p}
+      \pgfmathtruncatemacro{\indentro}{abs(\zk) <= \sdn ? 1 : 0}
+      \ifnum\indentro=1\relax
+        \filldraw[fill=teal!58, draw=teal!90!black, line width=0.35pt, rounded corners=0.4pt]
+          ({\xk-0.132}, \ybase) rectangle ({\xk+0.132}, \yh);
+      \else
+        \filldraw[fill=teal!24, draw=teal!75, line width=0.35pt, rounded corners=0.4pt]
+          ({\xk-0.132}, \ybase) rectangle ({\xk+0.132}, \yh);
+      \fi
+    }
+
+    % Curva guia suave centrada
+    \draw[teal!85!black, line width=0.85pt, domain=-\zmax:\zmax, samples=80, smooth]
+      plot ({\xzero+\x*\usigma}, {\ybase + \hscale*gauss(\x*\sigval,0,\ksd)});
+
+    % Eixo horizontal da linha n
+    \draw[->, black!65, line width=0.55pt] (-1.25, \ybase) -- (9.95, \ybase);
+
+    % Ticks nos múltiplos inteiros de \sigma (-6\sigma a +6\sigma)
+    \foreach \m in {-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6} {
+      \pgfmathsetmacro{\xm}{\xzero + \m*\usigma}
+      \draw[black!45, line width=0.45pt] (\xm, {\ybase-0.04}) -- (\xm, {\ybase+0.04});
+    }
+
+    % Marcação de -\sigma\sqrt{n} e +\sigma\sqrt{n} e cota de 1 desvio padrão
+    \draw[teal!85!black, densely dashed, line width=0.75pt]
+      ({\xzero-\sdn*\usigma}, \ybase) -- ({\xzero-\sdn*\usigma}, {\ybase+1.06});
+    \draw[teal!85!black, densely dashed, line width=0.75pt]
+      ({\xzero+\sdn*\usigma}, \ybase) -- ({\xzero+\sdn*\usigma}, {\ybase+1.06});
+    \fill[teal!85!black] ({\xzero-\sdn*\usigma}, \ybase) circle (1.4pt);
+    \fill[teal!85!black] ({\xzero+\sdn*\usigma}, \ybase) circle (1.4pt);
+
+    \draw[<->, teal!85!black, line width=0.55pt, shorten <=0.8pt, shorten >=0.8pt]
+      (\xzero, {\ybase+0.98}) -- ({\xzero+\sdn*\usigma}, {\ybase+0.98});
+    \node[above=1pt, font=\scriptsize, text=teal!85!black, fill=white, inner sep=0.8pt]
+      at ({\xzero+0.5*\sdn*\usigma}, {\ybase+0.99}) {#3};
+
+    % Especificação de média e variância à direita da linha
+    \node[anchor=west, align=left, font=\scriptsize, text=text]
+      at (10.12, {\ybase+0.26}) {#4};
+  }
+
+  \linhaCentradaBin{1}{$S_1 - \mu$}{$\sigma$}{$\mathbb{E}[S_1-\mu]=0$\\[1pt]{\color{muted}$\operatorname{Var}(S_1-\mu)=\sigma^2$}}{\dadosBinUm}
+  \linhaCentradaBin{2}{$S_2 - 2\mu$}{$\sigma\sqrt{2}$}{$\mathbb{E}[S_2-2\mu]=0$\\[1pt]{\color{muted}$\operatorname{Var}(S_2-2\mu)=2\sigma^2$}}{\dadosBinDois}
+  \linhaCentradaBin{3}{$S_3 - 3\mu$}{$\sigma\sqrt{3}$}{$\mathbb{E}[S_3-3\mu]=0$\\[1pt]{\color{muted}$\operatorname{Var}(S_3-3\mu)=3\sigma^2$}}{\dadosBinTres}
+  \linhaCentradaBin{4}{$S_4 - 4\mu$}{$2\sigma$}{$\mathbb{E}[S_4-4\mu]=0$\\[1pt]{\color{muted}$\operatorname{Var}(S_4-4\mu)=4\sigma^2$}}{\dadosBinQuatro}
+
+  % Rótulos das unidades de desvio padrão no eixo inferior (n=4)
+  \foreach \m/\mlbl in {
+    -6/-6\sigma,
+    -5/-5\sigma,
+    -4/-4\sigma,
+    -3/-3\sigma,
+    -2/-2\sigma,
+    -1/-\sigma,
+    0/0,
+    1/\sigma,
+    2/2\sigma,
+    3/3\sigma,
+    4/4\sigma,
+    5/5\sigma,
+    6/6\sigma
+  } {
+    \pgfmathsetmacro{\xm}{\xzero + \m*\usigma}
+    \node[below=2pt, font=\scriptsize, text=black!80] at (\xm, -0.03) {$\mlbl$};
+  }
+\end{tikzpicture}
+\caption{Evolução das somas parciais $S_n=X_1+\cdots+X_n$ para $n=1,2,3,4$,
+onde $X_i\sim\mathrm{Bin}(k,p)$ são independentes e identicamente distribuídas, com média
+$\mu\equiv\mathbb{E}[X_1]$ e variância $\sigma^2\equiv\operatorname{Var}(X_1)$. No bloco superior, o valor médio
+$\mathbb{E}[S_n]=n\mu$ desloca-se linearmente com $n$. No bloco inferior, após
+a centralização $S_n-n\mu$, as distribuições permanecem centradas na origem e
+seu espalhamento evolui em unidades do desvio padrão $\sigma$ segundo a escala
+$\sigma\sqrt{n}$, destacada no intervalo $[-\sigma\sqrt{n},\sigma\sqrt{n}]$.}
+\label{fig:escalas-soma-tlc}
+\end{figure}
+Com essa normalização, o Teorema do Limite Central afirma que
 \[
 \frac{S_n-n\mu}{\sigma\sqrt{n}}\Rightarrow Z,
 \]
-onde $Z$ tem distribuição normal padrão. Assim, para quaisquer
-$a,b\in\mathbb{R}$ com $a<b$,
+onde $\Rightarrow$ indica convergência em distribuição e $Z$ tem
+distribuição normal padrão. A função de distribuição da normal padrão
+é contínua em toda a reta. Por essa continuidade, o limite acima
+também pode ser expresso em termos de probabilidades de intervalos:
+para quaisquer $a,b\in\mathbb{R}$ com $a<b$,
 \[
 \mathbb{P}\left(
 a\leqslant\frac{S_n-n\mu}{\sigma\sqrt{n}}\leqslant b
 \right)
-\longrightarrow
+\xrightarrow[\quad n\to\infty\quad]{}
 \frac{1}{\sqrt{2\pi}}\int_a^b e^{-x^2/2}\,dx.
 \]
-A continuidade da função de distribuição normal permitirá passar da
-convergência em distribuição a essa formulação por intervalos.
 
-A demonstração segue a sequência dos manuscritos de aula. Primeiro,
-recordamos na \Cref{sec:auxiliares} os resultados sobre funções
-características que serão usados. Na \Cref{sec:preliminares-complexos},
-provamos o limite exponencial complexo
-$(1+c_n/n)^n\to e^c$ quando $c_n\to c$.
-A \Cref{sec:momentos} relaciona momentos e derivadas e estabelece uma
-expansão de segunda ordem com controle do resto sob a hipótese de segundo
-momento finito. Na \Cref{sec:tlc}, combinamos esses resultados para provar
-o Teorema do Limite Central. Os exercícios estão reunidos na
-\Cref{sec:exercicios}.
+A demonstração deste fato usa diversos fatos estabelecidos nas notas de aula
+anteriores sobre funções características que serão relembrados, para conveniência
+do leitor, na \Cref{sec:auxiliares}.
+Além destes resultados, vamos mostrar também na \Cref{sec:preliminares-complexos}
+que se $(c_n)_{n\in\mathbb{N}}$ é um sequência arbitrária de números complexos tal que $c_n \to c$,
+quando $n\to\infty$, então 
+\begin{align*}
+\lim_{n\to\infty} \left( 1+ \frac{c_n}{n}\right)^n  =  e^c.
+\end{align*}
+Esse limite será combinado com a expansão de segunda ordem da função
+característica, obtida na \Cref{sec:momentos}
+para finalizar a prova Teorema do Limite Central na
+\Cref{sec:tlc}. Em seguida, na seção na \Cref{sec:exercicios} 
+o leitor encontrará uma lista de exercícios propostos para consolidar o que foi aprendido nestas notas.
 
-\section{Funções características e convergência em distribuição}\label{sec:auxiliares}
+
+\section{Convergência em Distribuição}\label{sec:auxiliares}
 
 Recordamos as definições e os resultados das notas de aula sobre funções
 características que serão usados adiante. As demonstrações e os cálculos das
@@ -437,13 +678,57 @@ Essa será a função limite que identificaremos na demonstração do
 Teorema do Limite Central.
 \end{example}
 
-\section{Preliminares de análise complexa}\label{sec:preliminares-complexos}
+\section{Aproximação Exponencial Complexa}\label{sec:preliminares-complexos}
 
 Na prova do Teorema do Limite Central, a função característica da soma
-normalizada terá a forma $(1+c_n/n)^n$, com $c_n$ complexo e convergente.
-Vamos provar o limite dessa expressão comparando cada fator $1+c_n/n$
-com $e^{c_n/n}$. Para controlar o erro do produto, começamos pelo
+normalizada terá a forma $(1+c_n(t)/n)^n$, com $c_n(t)$,
+para cada $t\in\mathbb{R}$ fixado sendo uma sequência de números complexos convergente.
+Vamos calcular o limite dessa expressão comparando cada fator $1+c_n(t)/n$
+com $e^{c_n(t)/n}$. Para controlar o erro do produto, começamos pelo
 seguinte lema.
+
+A ideia é generalizar para números complexos o seguinte resultado clássico
+válido para números reais: se $(a_n)_{n\geqslant 1}$ é uma sequência real tal que
+$a_n\to a\in\mathbb{R}$, então
+\[
+\lim_{n\to\infty}\left(1+\frac{a_n}{n}\right)^{\!n} = e^a.
+\]
+No caso real, esse limite é demonstrado aplicando-se o logaritmo natural. Como
+$a_n\to a$, para $n$ suficientemente grande temos $1+a_n/n > 0$. Podemos então
+escrever
+\[
+\left(1+\frac{a_n}{n}\right)^{\!n} = \exp\left(n\ln\left(1+\frac{a_n}{n}\right)\right)
+= \exp\left(\frac{\ln(1+a_n/n)}{1/n}\right).
+\]
+Para calcular o limite do expoente quando $n\to\infty$, fazendo a identificação
+$x=1/n\to 0$ e tratando $a_n\approx a$, temos uma indeterminação do tipo
+$0/0$. Aplicando a Regra de L'Hôpital em relação a $x$, obtemos
+\[
+\lim_{x\to 0}\frac{\ln(1+ax)}{x}
+= \lim_{x\to 0}\frac{\frac{a}{1+ax}}{1}
+= a.
+\]
+Dessa forma, o expoente satisfaz
+\[
+\lim_{n\to\infty} n\ln\left(1+\frac{a_n}{n}\right)
+=
+\lim_{n\to\infty} \frac{ \ln\left(1+\frac{a_n}{n}\right) } { \frac{1}{n} }
+ = a.
+\]
+Como a função exponencial $x\mapsto e^x$ é contínua em toda a reta real, concluímos que
+\[
+\lim_{n\to\infty}\left(1+\frac{a_n}{n}\right)^{\!n}
+= \exp\left(\lim_{n\to\infty}n\ln\left(1+\frac{a_n}{n}\right)\right)
+= e^a.
+\]
+
+Quando passamos para números complexos $c_n\to c\in\mathbb{C}$, contudo, o uso direto do
+logaritmo é delicado devido à descontinuidade dos ramos do logaritmo complexo. Por essa razão,
+adotamos uma abordagem puramente algébrica e analítica baseada em estimativas diretas na série
+da exponencial: primeiro estabelecemos um lema sobre a diferença entre produtos de números complexos
+e, em seguida, uma cota quadrática para o erro da aproximação $e^b\approx 1+b$.
+O motivo destes dois resultados serem suficientes para nossos propósitos ficará claro ao final da
+seção. 
 
 \begin{lemma}[Diferença de produtos]\label{lem:man-diferenca-produtos}
 Sejam $n\geqslant1$ um inteiro e $R>0$. Considere números complexos
@@ -499,11 +784,11 @@ Usando a desigualdade triangular e a hipótese $|b|\leqslant 1$, obtemos a
 seguinte estimativa:
 \begin{align*}
 \bigl|e^{b}-(1+b)\bigr|
-&\leqslant \frac{|b|^{2}}{2!}+\frac{|b|^{3}}{3!}+\frac{|b|^{4}}{4!}+\cdots \\
-&\leqslant \left(\frac{1}{2!}+\frac{1}{3!}+\frac{1}{4!}+\cdots\right)|b|^{2} \\
-&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{2}{3!}+\frac{2}{4!}+\cdots\right) \\
-&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{1}{3}+\frac{1}{4\cdot 3}+\frac{1}{5\cdot 4\cdot 3}+\cdots\right) \\
-&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{1}{2}+\frac{1}{2^{2}}+\frac{1}{2^{3}}+\cdots\right) \\
+&\leqslant \frac{|b|^{2}}{2!}+\frac{|b|^{3}}{3!}+\frac{|b|^{4}}{4!}+\cdots \\[0.3cm]
+&\leqslant \left(\frac{1}{2!}+\frac{1}{3!}+\frac{1}{4!}+\cdots\right)|b|^{2} \\[0.3cm]
+&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{2}{3!}+\frac{2}{4!}+\cdots\right) \\[0.3cm]
+&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{1}{3}+\frac{1}{4\cdot 3}+\frac{1}{5\cdot 4\cdot 3}+\cdots\right) \\[0.3cm]
+&\leqslant \frac{|b|^{2}}{2}\left(1+\frac{1}{2}+\frac{1}{2^{2}}+\frac{1}{2^{3}}+\cdots\right) \\[0.3cm]
 &= \frac{|b|^{2}}{2}\sum_{j=0}^{\infty}\left(\frac{1}{2}\right)^{j}
 = \frac{|b|^{2}}{2}\cdot\frac{1}{1-\frac{1}{2}}
 = |b|^{2}. \qedhere
@@ -512,9 +797,11 @@ seguinte estimativa:
 
 \begin{theorem}[Limite exponencial complexo]\label{thm:man-limite-exp}
 Se $(c_n)_{n\geqslant1}$ é uma sequência de números complexos tal que
-$\lim_{n\to\infty}c_n=c\in\mathbb{C}$, então
+$c_n\to c\in\mathbb{C}$, quando $n\to\infty$,  então
 \[
-\left(1+\frac{c_n}{n}\right)^{n}\xrightarrow{n\to\infty} e^{c}.
+\left(1+\frac{c_n}{n}\right)^{n} 
+\xrightarrow[\quad n\to\infty\quad ]{}
+e^{c}.
 \]
 \end{theorem}
 
