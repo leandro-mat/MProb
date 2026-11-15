@@ -764,9 +764,11 @@ Então
 o que prova o lema.
 \end{proof}
 
-Para comparar os fatores $1+c_n/n$ e $e^{c_n/n}$, precisamos de uma
-cota para o erro da aproximação de $e^b$ por $1+b$. O próximo lema
-mostra que esse erro é de ordem $|b|^2$ quando $|b|\leqslant1$.
+O resultado principal desta seção o \Cref{thm:man-limite-exp}
+será obtido comparando os fatores $1+c_n/n$ e $e^{c_n/n}$. 
+Para esta comparação é suficiente estabelecer 
+uma cota para o erro da aproximação de $e^b$ por $1+b$. O próximo lema
+mostra que esse erro é de ordem $|b|^2$, quando $|b|\leqslant1$.
 
 \begin{lemma}[Erro da aproximação exponencial]\label{lem:man-exp-quadratica}
 Se $b\in\mathbb{C}$ e $|b|\leqslant 1$, então
@@ -806,9 +808,11 @@ e^{c}.
 \end{theorem}
 
 \begin{proof}
-Vamos comparar $(1+c_n/n)^n$ com $e^{c_n}$. O erro entre cada par de
-fatores será de ordem $1/n^2$; o lema dos produtos permitirá somar
-esses $n$ erros mantendo uma quantidade que tende a zero.
+Vamos comparar $(1+c_n/n)^n$ com $e^{c_n}$. Como $c_n\to c$, a
+continuidade da exponencial garante que $e^{c_n}\to e^c$. Assim, basta
+mostrar que o erro nessa comparação tende a zero. A identidade
+$e^{c_n}=(e^{c_n/n})^n$ permite escrever as duas expressões como produtos
+de $n$ fatores e aplicar o \Cref{lem:man-diferenca-produtos}.
 
 Para cada $n\in\mathbb{N}$ fixado, considere as sequências finitas constantes
 de números complexos definidas por
@@ -818,35 +822,113 @@ z_j \equiv 1+\frac{c_n}{n}
 w_j \equiv e^{c_n/n},
 \qquad j=1,\ldots,n.
 \]
-Seja $R>|c|$. Então existe $n_0\in\mathbb{N}$ tal que $|c_n|\leqslant R$ e
-$|c_n|/n\leqslant 1$ para todo $n\geqslant n_0$. Já que
-$1+\frac{R}{n}\leqslant e^{R/n}$ (pois $1+x\leqslant e^{x}$ para $x\geqslant 0$),
-temos $|z_j|\leqslant 1+\frac{|c_n|}{n}\leqslant 1+\frac{R}{n}\leqslant e^{R/n}$ e
-$|w_j|=e^{\operatorname{Re}(c_n)/n}\leqslant e^{|c_n|/n}\leqslant e^{R/n}$ para
-todo $j=1,\ldots,n$.
+Fixe $R>|c|$. Pela convergência de $(c_n)_{n\in\mathbb{N}}$, existe $n_0\in\mathbb{N}$
+tal que $|c_n|\leqslant R$ para todo $n\geqslant n_0$. Aumentando $n_0$,
+se necessário, podemos supor que $n_0\geqslant R$, de modo que
+\[
+\frac{|c_n|}{n}\leqslant\frac{R}{n}\leqslant1,
+\qquad n\geqslant n_0.
+\]
 
-Observe que, para $n\geqslant n_0$,
+Para aplicar o lema dos produtos, precisamos de uma cota comum para os
+módulos dos fatores. Usando a desigualdade triangular,
+$1+x\leqslant e^x$ para $x\geqslant0$ e a identidade
+$|e^z|=e^{\operatorname{Re}z}$, obtemos, para $n\geqslant n_0$ e
+$j=1,\ldots,n$,
+\begin{align*}
+|z_j|
+= \left|1+\frac{c_n}{n}\right|
+\leqslant 1+\frac{|c_n|}{n}
+\leqslant 1+\frac{R}{n}
+\leqslant e^{R/n}
+\end{align*}
+e
+\begin{align*}
+|w_j| 
+= \left| e^{\frac{c_n}{n}} \right|
+= e^{\operatorname{Re}(c_n)/n}
+\leqslant e^{|c_n|/n}
+\leqslant e^{R/n}.
+\end{align*}
+Aplicaremos, portanto, o \Cref{lem:man-diferenca-produtos} com a cota
+comum $e^{R/n}$. Essa escolha faz com que
+\begin{align}\label{cota-aux1-lim-exp}
+(e^{R/n})^{n-1} = e^{\frac{n-1}{n} R} \leqslant e^R
+\qquad  \Longrightarrow \qquad 
+|z_j| \leqslant e^R
+\quad \text{e}\quad 
+|w_j| \leqslant e^R
+\end{align}
+ou seja, o fator que multiplica a soma
+dos erros, no \Cref{lem:man-diferenca-produtos}, 
+fica limitado por uma constante independente de $n$.
+
+Vamos agora estimar o erro entre cada par de fatores. Como
+$|c_n/n|\leqslant1$, o \Cref{lem:man-exp-quadratica}, aplicado a
+$b=c_n/n$, fornece a seguinte estimativa
+\begin{align}\label{cota-aux2-lim-exp}
+|z_j-w_j|
+=\left|1+\frac{c_n}{n}-e^{c_n/n}\right|
+\leqslant\frac{|c_n|^2}{n^2}
+\leqslant\frac{R^2}{n^2}.
+\end{align}
+
+Note que na expressão abaixo temos $n$ pares de fatores, cada um com erro no máximo $R^2/n^2$.
+Ao somar esses erros, obteremos uma cota $R^2/n$, que tende a zero.
+De fato, usando o \Cref{lem:man-diferenca-produtos}, as estimativas \eqref{cota-aux1-lim-exp}
+e a estimativa \eqref{cota-aux2-lim-exp}, para $n\geqslant n_0$, temos
 \begin{align*}
 \left|\left(1+\frac{c_n}{n}\right)^{n}-e^{c_n}\right|
-&= \left|\left(1+\frac{c_n}{n}\right)^{n}-\left(e^{c_n/n}\right)^{n}\right| \\
-&= \left|\prod_{j=1}^{n}z_j-\prod_{j=1}^{n}w_j\right| \\
-&\leqslant \left(e^{R/n}\right)^{n-1}\sum_{j=1}^{n}|z_j-w_j|
-\qquad\text{(\Cref{lem:man-diferenca-produtos})} \\
-&= e^{R\frac{n-1}{n}}\sum_{j=1}^{n}\left|1+\frac{c_n}{n}-e^{c_n/n}\right| \\
-&\leqslant e^{R\frac{n-1}{n}}\sum_{j=1}^{n}\frac{|c_n|^{2}}{n^{2}}
-\qquad\text{(\Cref{lem:man-exp-quadratica})} \\
-&= e^{R\frac{n-1}{n}}\frac{|c_n|^{2}}{n}
-\leqslant \frac{e^{R\frac{n-1}{n}}R^{2}}{n}
-\xrightarrow{n\to\infty} 0.
+&= \left|\prod_{j=1}^{n}z_j-\prod_{j=1}^{n}w_j\right|
+\\[0.3cm]
+&\leqslant e^{R}\sum_{j=1}^{n}|z_j-w_j|
+\\[0.3cm]
+&\leqslant e^R\sum_{j=1}^{n}\frac{R^{2}}{n^{2}}
+\\[0.3cm]
+&= e^R\,n\,\frac{R^{2}}{n^{2}}
+\\[0.3cm]
+&\leqslant \frac{e^R R^{2}}{n}
+\xrightarrow[\quad n\to\infty\quad ]{} 0.
 \end{align*}
-Já que $c_n\to c$ (e portanto $e^{c_n}\to e^{c}$ por continuidade da exponencial),
-temos que
+Por fim, para passar da comparação com $e^{c_n}$ ao limite desejado,
+usamos a desigualdade triangular e a convergência $e^{c_n}\to e^c$:
 \[
-\left(1+\frac{c_n}{n}\right)^{n}\xrightarrow{n\to\infty} e^{c}. \qedhere
+\left|\left(1+\frac{c_n}{n}\right)^n-e^c\right|
+\leqslant
+\left|\left(1+\frac{c_n}{n}\right)^n-e^{c_n}\right|
++|e^{c_n}-e^c|
+\xrightarrow[\quad n\to\infty\quad ]{} 0. \qedhere
 \]
 \end{proof}
 
-\section{Momentos e expansão da função característica}\label{sec:momentos}
+Na aplicação ao Teorema do Limite Central, a sequência dependerá de um
+parâmetro real $t$. Fixando esse parâmetro, podemos aplicar diretamente
+o teorema anterior.
+
+\begin{corollary}[Limite exponencial com parâmetro]\label{cor:limite-exp-parametro}
+Sejam $c_n:\mathbb{R}\to\mathbb{C}$, $n\geqslant1$, e
+$c:\mathbb{R}\to\mathbb{C}$ funções tais que
+\[
+c_n(t)\xrightarrow{n\to\infty}c(t)
+\qquad\text{para cada }t\in\mathbb{R}.
+\]
+Então, para cada $t\in\mathbb{R}$ fixado,
+\[
+\left(1+\frac{c_n(t)}{n}\right)^n
+\xrightarrow{n\to\infty}e^{c(t)}.
+\]
+\end{corollary}
+
+\begin{proof}
+Fixe $t\in\mathbb{R}$. Mantendo esse valor de $t$ fixado enquanto
+$n\to\infty$, a hipótese diz que $(c_n(t))_{n\geqslant1}$ é uma
+sequência de números complexos convergente a $c(t)$. Nessa aplicação,
+as constantes $R$ e $n_0$ da prova do teorema podem depender do valor de $t$
+fixado. Aplicando o \Cref{thm:man-limite-exp} a essa sequência,
+obtemos a conclusão.
+\end{proof}
+
+\section{Momentos e Expansão da Função Característica}\label{sec:momentos}
 
 Seja $X$ uma variável aleatória real. Nas notas de aula sobre momentos e funções
 geradoras de momentos, vimos que as esperanças das potências de $X$ podem ser
@@ -866,21 +948,21 @@ $t=0$.
 Para entender o papel dos momentos, observamos que, ao derivar a exponencial
 em relação a $t$, aparece um fator $X$:
 \[
-\frac{d}{dt}e^{itX}=iX e^{itX},
-\qquad
+\frac{d}{dt}e^{itX}=iX e^{itX}
+\qquad \Longrightarrow \qquad 
 \left|\frac{d}{dt}e^{itX}\right|=|X|.
 \]
 Assim, para justificar a passagem da derivada para dentro da esperança, uma
 hipótese natural é que $\mathbb{E}[|X|]<\infty$. O resultado abaixo mostra
 como o mesmo raciocínio se estende às derivadas de ordem superior.
 
-\subsection{Derivadas, momentos e o decaimento das caudas}\label{subsec:momentos-derivadas}
+\subsection{Derivadas, Momentos e o Decaimento das Caudas}\label{subsec:momentos-derivadas}
 
 O \Cref{lem:cota-cauda-fc} fornece uma cota que relaciona a função
 característica às probabilidades de valores grandes de $|X|$: para $u>0$,
 \[
-\mathbb{P}(|X|\geqslant2/u)
-\leqslant
+\mathbb{P}\left( |X|\geqslant \frac{2}{u}\right)
+\ \leqslant \
 \frac{1}{u}\int_{-u}^{u}
 \bigl(1-\operatorname{Re}\varphi_X(t)\bigr)\,dt.
 \]
@@ -918,8 +1000,8 @@ existe, é contínua em $\mathbb{R}$ e satisfaz
 \end{theorem}
 
 \begin{proof}
-Vamos derivar a esperança uma vez de cada vez, verificando em cada
-passo a integrabilidade necessária. Na primeira derivada, explicitaremos
+Vamos derivar a esperança uma vez a cada etapa, verificando em cada
+uma das etapas a integrabilidade necessária. Na primeira derivada, explicitaremos
 o argumento de convergência dominada com quocientes incrementais.
 Nas demais, aplicaremos o \Cref{thm:derivacao-integral}.
 
@@ -1011,14 +1093,6 @@ real e imaginária, dá
 Logo $\varphi_X^{(k)}$ é contínua para cada $k\leqslant n$.
 \end{proof}
 
-Se $F_X$ é a função de distribuição de $X$, a fórmula do teorema
-também pode ser escrita como
-\[
-\varphi_X^{(k)}(t)
-=\int_{\mathbb{R}}(ix)^k e^{itx}\,dF_X(x),
-\qquad 1\leqslant k\leqslant n.
-\]
-
 Tomando $t=0$ no teorema e usando $e^0=1$, obtemos
 \[
 \varphi_X^{(k)}(0)=i^k\,\mathbb{E}[X^k],
@@ -1054,9 +1128,9 @@ $\varphi_R''(0)=-1$, as fórmulas dão
 \]
 em acordo com o cálculo direto a partir da distribuição de $R$.
 
-A existência das derivadas também permite aproximar $\varphi_X$ perto da origem.
-Se $\mathbb{E}[|X|^n]<\infty$, aplicamos a fórmula de Taylor às partes real e
-imaginária de $\varphi_X$ e substituímos as derivadas pelos momentos:
+A existência das derivadas de ordem superior também permite aproximar $\varphi_X$ perto da origem.
+Por exemplo, sob a hipótese $\mathbb{E}[|X|^n]<\infty$, se aplicamos a fórmula de Taylor às partes real e
+imaginária de $\varphi_X$ e substituímos as derivadas pelos momentos temos a seguinte identidade
 \[
 \varphi_X(t)
 =1+\sum_{k=1}^{n}\frac{(it)^k}{k!}\,\mathbb{E}[X^k]
@@ -1076,13 +1150,16 @@ Na próxima subseção, obteremos uma cota explícita para o resto da expansão 
 exponencial. Ela permitirá estimar o erro antes de tomar a esperança e será
 útil no estudo de somas de variáveis aleatórias.
 
-\subsection{Uma cota para o resto de Taylor}\label{subsec:resto-taylor}
+\subsection{Estimativas do Resto da Aproximação de Taylor}\label{subsec:resto-taylor}
 
-O \Cref{thm:derivadas-momentos} já fornece uma expansão assintótica de
-$\varphi_X$ na origem. Vamos agora obter uma cota explícita para o
-resto, estimando primeiro o erro na aproximação de $e^{ix}$ por seu
-polinômio de Taylor. Assim poderemos controlar esse erro antes de
-tomar a esperança, como faremos na prova do Teorema do Limite Central.
+Na subseção anterior, aplicamos a fórmula de Taylor a $\varphi_X$
+na origem e usamos o \Cref{thm:derivadas-momentos} para expressar
+os coeficientes do polinômio em termos dos momentos de $X$.
+Vamos agora obter uma cota explícita para o erro na aproximação de
+$e^{ix}$ por seu polinômio de Taylor. Substituindo $x$ por $tX$,
+poderemos aplicar essa cota antes de tomar a esperança e, assim,
+controlar o resto na expansão de $\varphi_X$, como faremos na prova
+do Teorema do Limite Central.
 
 \begin{lemma}[Cota para o resto de Taylor]\label{lem:resto-taylor}
 \label{lem:man-resto-taylor}
@@ -1112,134 +1189,278 @@ maneiras.
 
 \smallskip
 \noindent\textbf{Primeira etapa: a identidade do resto.}
-Integrando por partes com
+Fixe $x\in\mathbb{R}$. Para estimar o resto, vamos escrevê-lo como uma
+integral na qual possamos usar $|e^{is}|=1$. Começamos pelo Teorema
+Fundamental do Cálculo: como a derivada de $e^{is}$ em relação a $s$
+é $ie^{is}$, temos
 \[
-u=e^{is},
-\qquad
-dv=(x-s)^n\,ds,
-\qquad
-du=ie^{is}\,ds,
-\qquad
-v=-\frac{(x-s)^{n+1}}{n+1},
+e^{ix}=1+i\int_0^x e^{is}\,ds.
 \]
-obtemos
-\begin{equation}\label{eq:man-identidade-partes}
-\begin{aligned}
-\int_0^x(x-s)^n e^{is}\,ds
-&=\left[-\frac{(x-s)^{n+1}}{n+1}e^{is}\right]_{s=0}^{s=x}
-+\frac{i}{n+1}\int_0^x(x-s)^{n+1}e^{is}\,ds
+Essa igualdade já separa o termo constante $1$ do resto.
+
+Queremos agora fazer aparecer o termo $ix$. Para isso, vamos integrar
+por partes a integral restante, derivando a exponencial e integrando
+o fator $1$. Escolhemos a primitiva $s-x=-(x-s)$, que se anula em
+$s=x$. Assim, a contribuição de fronteira vem apenas de $s=0$:
+\begin{align*}
+\int_0^x e^{is}\,ds
+&=\left.-(x-s)e^{is}\right|_{s=0}^{s=x}
++i\int_0^x(x-s)e^{is}\,ds
 \\[0.3cm]
+&=x+i\int_0^x(x-s)e^{is}\,ds.
+\end{align*}
+Substituindo essa expressão na igualdade inicial, obtemos
+\begin{align}\label{aprox1-intpartes}
+e^{ix}=1+ix+i^2\int_0^x(x-s)e^{is}\,ds.
+\end{align}
+Agora os termos $1$ e $ix$ estão explícitos, e o novo resto contém
+o fator $x-s$. Se repetirmos a integração por partes, integrando esse
+fator e derivando a exponencial, aparecerá uma potência de grau $2$.
+
+\medskip 
+No que segue apresentamos os cálculos necessários 
+para o desenvolvimento desta expansão para ordens superiores.
+Pelas mesmas razões dos  dois primeiros passos, 
+vamos sempre escolher a primitiva que se anula em $s=x$.
+
+\medskip 
+
+Para $n\geqslant0$, consideramos na fórmula de integração por partes
+\[
+\begin{alignedat}{2}
+u &= e^{is},
+&\hspace{2.0cm} du &= ie^{is}\,ds,
+\\[0.3cm]
+v &= -\frac{(x-s)^{n+1}}{n+1},
+& dv &= (x-s)^n\,ds.
+\end{alignedat}
+\]
+Então 
+\begin{align}\label{eq:man-identidade-partes}
+\int_0^x(x-s)^n e^{is}\,ds
+&=\left.-\frac{(x-s)^{n+1}}{n+1}e^{is}\right|_{s=0}^{s=x}
++\frac{i}{n+1}\int_0^x(x-s)^{n+1}e^{is}\,ds
+\nonumber\\[0.3cm]
 &=\frac{x^{n+1}}{n+1}
 +\frac{i}{n+1}\int_0^x(x-s)^{n+1}e^{is}\,ds.
-\end{aligned}
-\end{equation}
+\end{align}
 O termo de fronteira se anula em $s=x$ e vale
-$-x^{n+1}/(n+1)$ em $s=0$. A identidade também vale para $x<0$,
-pois as integrais são orientadas.
+$-x^{n+1}/(n+1)$ em $s=0$. Portanto, essa integração por partes
+separa a parcela $x^{n+1}/(n+1)$ e deixa uma nova integral da mesma
+forma, com a potência $n+1$. Observamos que estas identidades também valem para
+$x<0$, já que
+$\int_0^x\varphi(s)\,ds=-\int_x^0\varphi(s)\,ds$.
 
-O ponto de partida é
-\[
-e^{ix}-1=i\int_0^x e^{is}\,ds.
-\]
-Usando \eqref{eq:man-identidade-partes} com $n=0$, encontramos
-\[
-e^{ix}=1+ix+i^2\int_0^x(x-s)e^{is}\,ds.
-\]
-Usando-a mais uma vez, agora com $n=1$, obtemos
+\medskip 
+
+Aplicando \eqref{eq:man-identidade-partes} com $n=1$ à integral que
+restou na aproximação $1+ix$ em \eqref{aprox1-intpartes}, ficamos com
 \[
 e^{ix}
 =1+ix+\frac{(ix)^2}{2}
 +\frac{i^3}{2}\int_0^x(x-s)^2e^{is}\,ds.
 \]
-Esses cálculos sugerem a identidade
+Cada aplicação retira da integral o próximo termo do polinômio e
+deixa um novo resto integral. Os fatores $i$ vêm das derivadas da
+exponencial, e as divisões sucessivas por $1,2,\ldots$ produzem os
+fatoriais. Isso sugere a identidade
 \begin{equation}\label{eq:man-resto-integral}
 e^{ix}-\sum_{m=0}^n\frac{(ix)^m}{m!}
 =\frac{i^{n+1}}{n!}\int_0^x(x-s)^n e^{is}\,ds.
 \end{equation}
-Vamos verificá-la por indução. O caso $n=0$ é a identidade inicial.
-Suponha que ela seja válida para certo $n\geqslant0$. Pela
-\eqref{eq:man-identidade-partes}, seu lado direito é
+Vamos confirmar esse padrão por indução. O caso $n=0$ é a igualdade
+obtida pelo Teorema Fundamental do Cálculo. Suponha que
+\eqref{eq:man-resto-integral} seja válida para certo $n\geqslant0$.
+Aplicando \eqref{eq:man-identidade-partes} à integral do resto, temos
 \[
-\frac{i^{n+1}x^{n+1}}{(n+1)!}
+\frac{i^{n+1}}{n!}\int_0^x(x-s)^n e^{is}\,ds
+=\frac{(ix)^{n+1}}{(n+1)!}
 +\frac{i^{n+2}}{(n+1)!}
 \int_0^x(x-s)^{n+1}e^{is}\,ds.
 \]
-Passando a primeira parcela para o lado esquerdo, obtemos
-\eqref{eq:man-resto-integral} com $n$ substituído por $n+1$.
-Isso conclui a indução.
+A primeira parcela é exatamente o termo de grau $n+1$ que precisamos
+acrescentar ao polinômio. Substituindo essa expressão na hipótese de
+indução e passando a primeira parcela para o lado esquerdo, obtemos
+\[
+e^{ix}-\sum_{m=0}^{n+1}\frac{(ix)^m}{m!}
+=\frac{i^{n+2}}{(n+1)!}\int_0^x(x-s)^{n+1}e^{is}\,ds.
+\]
+Esta identidade é precisamente a identidade \eqref{eq:man-resto-integral} com $n$ substituído por $n+1$,
+o que conclui a indução.
 
 \smallskip
 \noindent\textbf{Segunda etapa: a cota de ordem $|x|^{n+1}$.}
-Como $|e^{is}|=1$, a identidade do resto dá
+Vamos estimar a integral em \eqref{eq:man-resto-integral} usando
+a desigualdade triangular para integrais. Como $|e^{is}|=1$, o
+módulo do integrando é $\left|x-s\right|^n$. Para aplicar essa desigualdade
+com os extremos em ordem crescente, consideramos separadamente
+os dois sinais de $x$.
+
+Se $x\geqslant0$, então $x-s\geqslant0$ para $s\in[0,x]$, e
 \[
-\left|
-\frac{i^{n+1}}{n!}\int_0^x(x-s)^n e^{is}\,ds
-\right|
-\leqslant
-\frac{1}{n!}\int_0^{|x|}(|x|-u)^n\,du
-=\frac{|x|^{n+1}}{(n+1)!}.
+\left|\int_0^x(x-s)^n e^{is}\,ds\right|
+\leqslant\int_0^x(x-s)^n\,ds
+=\frac{x^{n+1}}{n+1}.
 \]
-Para $x<0$, invertemos os extremos da integral e fazemos $u=-s$;
-para $x\geqslant0$, basta tomar $u=s$. Assim, a mesma estimativa
-cobre os dois sinais de $x$.
+Se $x<0$, a inversão dos extremos introduz um sinal negativo,
+que desaparece ao tomarmos o módulo. Portanto,
+\[
+\left|\int_0^x(x-s)^n e^{is}\,ds\right|
+=\left|\int_x^0(x-s)^n e^{is}\,ds\right|
+\leqslant\int_x^0|x-s|^n\,ds.
+\]
+Para transformar a última integral em uma integral sobre $[0,|x|]$,
+fazemos $u=-s$. Quando $s$ vai de $x$ até $0$, $u$ vai de $|x|$
+até $0$. Além disso, $ds=-du$ e $|x-s|=|x|-u$ nesse intervalo,
+pois $x=-|x|$. Assim,
+\[
+\int_x^0|x-s|^n\,ds
+=\int_0^{|x|}(|x|-u)^n\,du
+=\frac{|x|^{n+1}}{n+1}.
+\]
+Nos dois casos, obtemos a mesma cota para o módulo da integral.
+Voltando a \eqref{eq:man-resto-integral} e usando $|i^{n+1}|=1$,
+concluímos que, para todo $x\in\mathbb{R}$,
+\begin{align}
+\left|e^{ix}-\sum_{m=0}^n\frac{(ix)^m}{m!}\right|
+&=\frac{1}{n!}\left|\int_0^x(x-s)^n e^{is}\,ds\right|\notag
+\\[0.3cm]
+&\leqslant\frac{|x|^{n+1}}{(n+1)!}.
+\label{eq:man-cota-resto-grau-n-mais-um}
+\end{align}
 
 \smallskip
+\begin{samepage}
 \noindent\textbf{Terceira etapa: a cota de ordem $|x|^n$.}
-Para diminuir em uma unidade a potência de $|x|$, vamos reduzir
-o grau do núcleo $(x-s)^n$ por integração por partes.
-Suponha $n\geqslant1$ e tome
+Na estimativa \eqref{eq:man-cota-resto-grau-n-mais-um}, a potência
+$|x|^{n+1}$ surgiu ao integrarmos um fator de grau $n$.
+Para obtermos a potência $|x|^n$, vamos reduzir em uma unidade
+o grau desse fator. Isso sugere integrar por partes, derivando
+$(x-s)^n$ e integrando a exponencial. Supomos inicialmente
+$n\geqslant1$, para que a potência $n-1$ seja não negativa.
+Tomamos
 \[
-u=(x-s)^n,
-\qquad
-dv=e^{is}\,ds,
-\qquad
-du=-n(x-s)^{n-1}\,ds,
-\qquad
-v=\frac{e^{is}}{i}.
+\begin{alignedat}{2}
+u &= (x-s)^n,
+&\hspace{1.5cm} du &= -n(x-s)^{n-1}\,ds,
+\\[0.3cm]
+v &= \frac{e^{is}}{i},
+& dv &= e^{is}\,ds.
+\end{alignedat}
 \]
-Então
-\begin{align*}
+\end{samepage}
+Como $n\geqslant1$, o termo de fronteira vale $0$ em $s=x$
+e $x^n/i$ em $s=0$. Portanto,
+\begin{align}
 \int_0^x(x-s)^n e^{is}\,ds
-&=\left[\frac{(x-s)^n e^{is}}{i}\right]_{s=0}^{s=x}
-+\frac{n}{i}\int_0^x(x-s)^{n-1}e^{is}\,ds
+&=\left.\frac{(x-s)^n e^{is}}{i}\right|_{s=0}^{s=x}
++\frac{n}{i}\int_0^x(x-s)^{n-1}e^{is}\,ds\notag
 \\[0.3cm]
 &=-\frac{x^n}{i}
 +\frac{n}{i}\int_0^x(x-s)^{n-1}e^{is}\,ds.
-\end{align*}
-Multiplicando por $i/n$ e escrevendo o termo de fronteira
-como uma integral,
-\[
-\frac{x^n}{n}=\int_0^x(x-s)^{n-1}\,ds,
-\]
-podemos reunir as duas parcelas:
-\[
+\label{eq:man-partes-reducao-grau}
+\end{align}
+Ao multiplicarmos \eqref{eq:man-partes-reducao-grau} por $i/n$,
+o termo de fronteira passa a ser $-x^n/n$. Para reuni-lo à integral
+que contém a exponencial, escrevemos essa potência como uma integral
+com o mesmo fator $(x-s)^{n-1}$:
+\begin{equation}\label{eq:man-fronteira-como-integral}
+\int_0^x(x-s)^{n-1}\,ds
+=\left.-\frac{(x-s)^n}{n}\right|_{s=0}^{s=x}
+=\frac{x^n}{n}.
+\end{equation}
+O cálculo pela primitiva também vale para $x<0$, com a convenção
+$\int_0^x f(s)\,ds=-\int_x^0 f(s)\,ds$.
+Usando \eqref{eq:man-fronteira-como-integral} em
+\eqref{eq:man-partes-reducao-grau}, após a multiplicação por $i/n$,
+obtemos
+\begin{align}
 \frac{i}{n}\int_0^x(x-s)^n e^{is}\,ds
-=\int_0^x(x-s)^{n-1}(e^{is}-1)\,ds.
-\]
-Portanto,
-\[
-\frac{i^{n+1}}{n!}\int_0^x(x-s)^n e^{is}\,ds
+&=-\frac{x^n}{n}+\int_0^x(x-s)^{n-1}e^{is}\,ds\notag
+\\[0.3cm]
+&=-\int_0^x(x-s)^{n-1}\,ds
++\int_0^x(x-s)^{n-1}e^{is}\,ds\notag
+\\[0.3cm]
+&=\int_0^x(x-s)^{n-1}(e^{is}-1)\,ds.
+\label{eq:man-identidade-reducao-grau}
+\end{align}
+A subtração de $1$ no fator $e^{is}-1$ vem, portanto, do termo
+de fronteira que incorporamos à integral.
+Como $n!=n(n-1)!$, ao multiplicarmos
+\eqref{eq:man-identidade-reducao-grau} por $i^n/(n-1)!$ e usarmos
+\eqref{eq:man-resto-integral}, obtemos uma nova representação do resto:
+\begin{equation}\label{eq:man-resto-grau-menor}
+e^{ix}-\sum_{m=0}^n\frac{(ix)^m}{m!}
 =\frac{i^n}{(n-1)!}
 \int_0^x(x-s)^{n-1}(e^{is}-1)\,ds.
-\]
-Agora usamos $|e^{is}-1|\leqslant2$. Como na segunda etapa,
-consideramos o sinal de $x$ para obter
+\end{equation}
+Nessa representação, o fator polinomial tem grau $n-1$, e o outro
+fator admite uma cota que independe de $s$:
 \[
-\left|
-\frac{i^{n+1}}{n!}\int_0^x(x-s)^n e^{is}\,ds
-\right|
-\leqslant
-\frac{2}{(n-1)!}\int_0^{|x|}(|x|-u)^{n-1}\,du
-=\frac{2|x|^n}{n!}.
+|e^{is}-1|\leqslant|e^{is}|+1=2,
+\qquad s\in\mathbb{R}.
 \]
-A redução do grau do núcleo é o que permite substituir o crescimento
-$|x|^{n+1}$ por $|x|^n$.
+Vamos usar essa cota para estimar a integral em
+\eqref{eq:man-resto-grau-menor}, considerando os dois sinais de $x$.
 
-Para $n=0$, a terceira etapa não se aplica, pois divide por $n$.
-Nesse caso, a segunda cota segue diretamente de
-$|e^{ix}-1|\leqslant|e^{ix}|+1=2$.
-Como as duas estimativas valem simultaneamente, podemos tomar
-o mínimo entre elas.
+Se $x\geqslant0$, temos $x-s\geqslant0$ em $[0,x]$. Pela
+desigualdade triangular e pela cota $|e^{is}-1|\leqslant2$,
+\begin{align*}
+\left|\int_0^x(x-s)^{n-1}(e^{is}-1)\,ds\right|
+&\leqslant\int_0^x(x-s)^{n-1}|e^{is}-1|\,ds
+\\[0.3cm]
+&\leqslant2\int_0^x(x-s)^{n-1}\,ds
+\\[0.3cm]
+&=\frac{2x^n}{n}.
+\end{align*}
+Se $x<0$, primeiro invertemos os extremos para integrar de $x$ até
+$0$. O sinal negativo introduzido por essa inversão desaparece ao
+tomarmos o módulo. Nesse intervalo, $x-s\leqslant0$, e o módulo
+do fator polinomial é $\left|x-s\right|^{n-1}$. Assim,
+\begin{align*}
+\left|\int_0^x(x-s)^{n-1}(e^{is}-1)\,ds\right|
+&=\left|\int_x^0(x-s)^{n-1}(e^{is}-1)\,ds\right|
+\\[0.3cm]
+&\leqslant\int_x^0|x-s|^{n-1}|e^{is}-1|\,ds
+\\[0.3cm]
+&\leqslant2\int_x^0|x-s|^{n-1}\,ds.
+\end{align*}
+Para calcular a integral real que restou, fazemos $u=-s$.
+O limite $s=x$ corresponde a $u=|x|$, o limite $s=0$ corresponde
+a $u=0$ e $ds=-du$. Como $x=-|x|$ e $s=-u$, temos
+$x-s=-(|x|-u)$. Além disso, $0\leqslant u\leqslant|x|$,
+de modo que $\left|x-s\right|=|x|-u$. Logo,
+\begin{align*}
+\int_x^0|x-s|^{n-1}\,ds
+&=-\int_{|x|}^0(|x|-u)^{n-1}\,du
+\\[0.3cm]
+&=\int_0^{|x|}(|x|-u)^{n-1}\,du
+=\frac{|x|^n}{n}.
+\end{align*}
+Portanto, para ambos os sinais de $x$, estabelecemos a estimativa
+\begin{equation}\label{eq:man-cota-integral-grau-menor}
+\left|\int_0^x(x-s)^{n-1}(e^{is}-1)\,ds\right|
+\leqslant\frac{2|x|^n}{n},
+\qquad x\in\mathbb{R}.
+\end{equation}
+Aplicando \eqref{eq:man-cota-integral-grau-menor} à representação
+\eqref{eq:man-resto-grau-menor} e usando $|i^n|=1$, concluímos que,
+para $n\geqslant1$,
+\begin{equation}\label{eq:man-cota-resto-grau-n}
+\left|e^{ix}-\sum_{m=0}^n\frac{(ix)^m}{m!}\right|
+\leqslant\frac{1}{(n-1)!}\frac{2|x|^n}{n}
+=\frac{2|x|^n}{n!}.
+\end{equation}
+
+O caso $n=0$ é tratado separadamente porque o argumento acima
+divide por $n$. Nesse caso, calculamos diretamente
+\[
+|e^{ix}-1|\leqslant|e^{ix}|+1=2.
+\]
+A estimativa \eqref{eq:man-cota-resto-grau-n}, junto com esse caso
+$n=0$, estabelece a segunda cota. Como a primeira cota,
+\eqref{eq:man-cota-resto-grau-n-mais-um}, vale ao mesmo tempo,
+podemos tomar o mínimo entre elas.
 \end{proof}
 
 Substituindo $x$ por $tx$, obtemos a forma que será aplicada
@@ -1258,22 +1479,87 @@ Para quaisquer $t,x\in\mathbb{R}$ e todo inteiro $n\geqslant0$,
 com a mesma convenção do \Cref{lem:resto-taylor} quando $n=0$.
 \end{corollary}
 
-Se $n\geqslant1$ e $\mathbb{E}[|X|^n]<\infty$, todos os termos
-do polinômio são integráveis, pelo argumento usado na prova do
-\Cref{thm:derivadas-momentos}. O mínimo também é integrável,
-pois é majorado por $2|t|^n|X|^n/n!$. Pela linearidade da
-esperança e pela desigualdade $|\mathbb{E}[Y]|\leqslant\mathbb{E}[|Y|]$,
-válida para variáveis aleatórias complexas integráveis,
-\begin{equation}\label{eq:cota-resto-taylor}
-\begin{aligned}
+Vamos agora usar o \Cref{cor:man-resto-taylor} para controlar o erro
+na aproximação de $\varphi_X(t)$ por um polinômio em $t$.
+A ideia é tomar esperanças: o termo $e^{itX}$ dará $\varphi_X(t)$,
+e as potências de $X$ darão os momentos que aparecem nos coeficientes.
+
+Suponha que $X$ seja uma variável aleatória com
+$\mathbb{E}[|X|^n]<\infty$ para algum inteiro $n\geqslant1$,
+e fixe $t\in\mathbb{R}$. O erro na aproximação de $e^{itX}$
+é uma variável aleatória complexa, que denotamos por $R_{n,t}$:
+\begin{equation}\label{eq:resto-aleatorio-taylor}
+R_{n,t}\equiv e^{itX}-\sum_{m=0}^n\frac{(itX)^m}{m!}.
+\end{equation}
+Como o \Cref{cor:man-resto-taylor} vale para todo $x\in\mathbb{R}$,
+podemos aplicá-lo a $x=X(\omega)$ para cada $\omega\in\Omega$.
+Obtemos, assim, a desigualdade entre variáveis aleatórias
+\begin{equation}\label{eq:resto-aleatorio-dominado}
+0\leqslant|R_{n,t}|
+\leqslant\min\left\{
+\frac{|tX|^{n+1}}{(n+1)!},\,
+\frac{2|tX|^n}{n!}
+\right\}
+\leqslant\frac{2|t|^n}{n!}|X|^n.
+\end{equation}
+A última expressão é integrável pela hipótese sobre o momento de
+ordem $n$. De fato,
+\[
+\mathbb{E}\left[\frac{2|t|^n}{n!}|X|^n\right]
+=\frac{2|t|^n}{n!}\mathbb{E}[|X|^n]<\infty.
+\]
+Portanto, tanto $R_{n,t}$ quanto o mínimo em
+\eqref{eq:resto-aleatorio-dominado} são integráveis.
+É a segunda cota que garante essa integrabilidade usando apenas
+o momento de ordem $n$.
+
+Para calcular $\mathbb{E}[R_{n,t}]$ termo a termo em
+\eqref{eq:resto-aleatorio-taylor}, precisamos também verificar
+a integrabilidade de cada termo do polinômio.
+Retomamos o argumento da prova do \Cref{thm:derivadas-momentos}.
+Para $1\leqslant m\leqslant n$, temos $|x|^m\leqslant1+|x|^n$:
+se $|x|\leqslant1$, então $|x|^m\leqslant1$; se $|x|>1$,
+então $|x|^m\leqslant|x|^n$. Assim,
+\[
+\mathbb{E}[|X|^m]
+\leqslant1+\mathbb{E}[|X|^n]<\infty,
+\qquad 1\leqslant m\leqslant n.
+\]
+Consequentemente,
+\[
+\mathbb{E}\left[\left|\frac{(itX)^m}{m!}\right|\right]
+=\frac{|t|^m}{m!}\mathbb{E}[|X|^m]<\infty,
+\qquad 1\leqslant m\leqslant n.
+\]
+Para $m=0$, usamos $X^0=1$, de modo que o termo correspondente
+é a constante $1$. A variável $e^{itX}$ também é integrável,
+pois $|e^{itX}|=1$.
+
+Podemos, portanto, aplicar a linearidade da esperança à soma finita
+em \eqref{eq:resto-aleatorio-taylor}. Como os fatores
+$(it)^m/m!$ são constantes, obtemos
+\begin{align}
+\mathbb{E}[R_{n,t}]
+&=\mathbb{E}[e^{itX}]
+-\sum_{m=0}^n\mathbb{E}\left[\frac{(itX)^m}{m!}\right]\notag
+\\[0.3cm]
+&=\varphi_X(t)-\sum_{m=0}^n\frac{(it)^m}{m!}\mathbb{E}[X^m].
+\label{eq:esperanca-resto-taylor}
+\end{align}
+O lado direito de \eqref{eq:esperanca-resto-taylor} é o erro que
+queremos controlar. A desigualdade
+$|\mathbb{E}[Y]|\leqslant\mathbb{E}[|Y|]$, aplicada à variável
+complexa integrável $Y=R_{n,t}$, permite usar a cota pontual
+\eqref{eq:resto-aleatorio-dominado}. Pela monotonicidade da esperança,
+obtemos
+\begin{align}\label{eq:cota-resto-taylor}
 \left|
 \varphi_X(t)-\sum_{m=0}^n\frac{(it)^m}{m!}\mathbb{E}[X^m]
 \right|
-&\leqslant
-\mathbb{E}\left[
-\left|e^{itX}-\sum_{m=0}^n\frac{(itX)^m}{m!}\right|
-\right]
-\\[0.3cm]
+&=\left|\mathbb{E}[R_{n,t}]\right|
+\nonumber\\[0.3cm]
+&\leqslant\mathbb{E}[|R_{n,t}|]
+\nonumber\\[0.3cm]
 &\leqslant
 \mathbb{E}\left[
 \min\left\{
@@ -1281,29 +1567,57 @@ válida para variáveis aleatórias complexas integráveis,
 \frac{2|tX|^n}{n!}
 \right\}
 \right].
-\end{aligned}
-\end{equation}
-Essa cota vale para todo $t\in\mathbb{R}$.
-Se $\mathbb{E}[|X|^{n+1}]<\infty$, a primeira parcela do mínimo
-fornece uma cota de ordem $|t|^{n+1}$ para o resto.
-Se dispomos apenas de $\mathbb{E}[|X|^n]<\infty$, a segunda
-fornece uma cota de ordem $|t|^n$. Na próxima subseção, veremos
-como usar simultaneamente as duas parcelas para obter um resto
-$o(t^2)$ sob a hipótese de segundo momento finito.
+\end{align}
+Como $t$ foi fixado arbitrariamente, essa estimativa vale para todo
+$t\in\mathbb{R}$.
 
-\subsection{A expansão de segunda ordem e sua recíproca}\label{subsec:segunda-ordem}
+Vamos explicitar o que cada uma das duas cotas fornece depois de
+tomarmos a esperança. Usando a segunda expressão do mínimo em
+\eqref{eq:cota-resto-taylor}, temos
+\begin{align}
+\left|\varphi_X(t)-\sum_{m=0}^n\frac{(it)^m}{m!}\mathbb{E}[X^m]\right|
+&\leqslant\mathbb{E}\left[\frac{2|tX|^n}{n!}\right]\notag
+\\[0.3cm]
+&=\frac{2\mathbb{E}[|X|^n]}{n!}|t|^n.
+\label{eq:cota-resto-momento-n}
+\end{align}
+Se, além disso, $\mathbb{E}[|X|^{n+1}]<\infty$, podemos usar a
+primeira expressão do mínimo em \eqref{eq:cota-resto-taylor}:
+\begin{align}
+\left|\varphi_X(t)-\sum_{m=0}^n\frac{(it)^m}{m!}\mathbb{E}[X^m]\right|
+&\leqslant\mathbb{E}\left[\frac{|tX|^{n+1}}{(n+1)!}\right]\notag
+\\[0.3cm]
+&=\frac{\mathbb{E}[|X|^{n+1}]}{(n+1)!}|t|^{n+1}.
+\label{eq:cota-resto-momento-n-mais-um}
+\end{align}
+Os fatores que multiplicam $|t|^n$ e $|t|^{n+1}$ nas estimativas
+\eqref{eq:cota-resto-momento-n} e
+\eqref{eq:cota-resto-momento-n-mais-um} não dependem de $t$.
+É nesse sentido que as cotas são de ordem $|t|^n$ e $|t|^{n+1}$,
+respectivamente, quando $t\to0$.
 
-Vamos aplicar \eqref{eq:cota-resto-taylor} com $n=2$.
-Se $\mathbb{E}[X^2]<\infty$, então $\mathbb{E}[|X|]<\infty$,
-e os coeficientes do polinômio
+A estimativa \eqref{eq:cota-resto-taylor} mantém o mínimo dentro
+da esperança. Assim, para cada valor de $X$, usamos a menor das
+duas cotas. Isso permite combinar a potência $|t|^{n+1}$ da
+primeira com o controle integrável fornecido pela segunda.
+Na próxima subseção, vamos aplicar essa combinação com $n=2$
+para obter um resto $o(t^2)$ sob a hipótese de segundo momento finito.
+
+\subsection{A Expansão de Segunda Ordem e sua Recíproca}\label{subsec:segunda-ordem}
+
+Sob a hipótese $\mathbb{E}[X^2]<\infty$, a estimativa
+\eqref{eq:cota-resto-momento-n}, com $n=2$, já fornece
 \[
-1+it\,\mathbb{E}[X]
-+\frac{(it)^2}{2}\mathbb{E}[X^2]
-=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\mathbb{E}[X^2]
+\left|\varphi_X(t)-1-it\,\mathbb{E}[X]
++\frac{t^2}{2}\mathbb{E}[X^2]\right|
+\leqslant t^2\mathbb{E}[X^2].
 \]
-são finitos. O objetivo é mostrar que, após a divisão por $t^2$,
-o resto tende a zero, mesmo quando o terceiro momento absoluto
-não é finito.
+Para $t\neq0$, ela mostra que o módulo do erro, dividido por $t^2$,
+fica limitado.
+Vamos mostrar que esse quociente, na verdade, tende a zero,
+usando a estimativa com o mínimo em \eqref{eq:cota-resto-taylor}.
+Depois examinaremos a recíproca: como reconhecer a finitude do
+segundo momento a partir dos valores de $\varphi_X$ perto da origem.
 
 \begin{theorem}[Expansão de segunda ordem]\label{thm:taylor-segunda-ordem}
 \label{thm:man-expansao-segunda-ordem}
@@ -1318,26 +1632,36 @@ $g(t)/t^2\to0$.
 \end{theorem}
 
 \begin{proof}
-Pela linearidade da esperança, podemos escrever
-\begin{align*}
-\varphi_X(t)
-&=\mathbb{E}\left[
-\left(e^{itX}-1-itX+\frac{t^2}{2}X^2\right)
-+1+itX-\frac{t^2}{2}X^2
-\right]
-\\[0.3cm]
-&=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\mathbb{E}[X^2]+g(t),
-\end{align*}
-onde
-\[
-g(t)\equiv
-\mathbb{E}\left[e^{itX}-1-itX+\frac{t^2}{2}X^2\right].
-\]
-A integrabilidade de todas as parcelas segue da hipótese de segundo
-momento finito. Em particular, $g(0)=0$.
+Vamos identificar o resto, dividi-lo por $t^2$ e usar a convergência
+dominada para obter o limite.
 
-Pela \eqref{eq:cota-resto-taylor}, com $n=2$, temos
+\smallskip
+\noindent\textbf{Identificação do resto.}
+Como $|x|\leqslant1+x^2$, a hipótese garante que
 \[
+\mathbb{E}[|X|]\leqslant1+\mathbb{E}[X^2]<\infty.
+\]
+Podemos, portanto, usar as identidades
+\eqref{eq:resto-aleatorio-taylor} e
+\eqref{eq:esperanca-resto-taylor} com $n=2$.
+Usando $\mathbb{E}[X^0]=1$ e $(it)^2=-t^2$, definimos
+\begin{align}
+g(t)
+&\equiv\varphi_X(t)-1-it\,\mathbb{E}[X]
++\frac{t^2}{2}\mathbb{E}[X^2]\notag
+\\[0.3cm]
+&=\mathbb{E}[R_{2,t}]\notag
+\\[0.3cm]
+&=\mathbb{E}\left[e^{itX}-1-itX+\frac{t^2}{2}X^2\right].
+\label{eq:definicao-resto-segunda-ordem}
+\end{align}
+A primeira linha de \eqref{eq:definicao-resto-segunda-ordem},
+reorganizada, é a igualdade do enunciado. Além disso, $g(0)=0$.
+Resta provar que $g(t)/t^2\to0$ quando $t\to0$.
+
+Agora usamos a desigualdade \eqref{eq:cota-resto-taylor}, também
+com $n=2$. Como $3!=6$ e $2/2!=1$, ela fornece
+\begin{equation}\label{eq:cota-resto-segunda-ordem}
 |g(t)|
 \leqslant
 \mathbb{E}\left[
@@ -1345,69 +1669,145 @@ Pela \eqref{eq:cota-resto-taylor}, com $n=2$, temos
 \frac{|tX|^3}{6},\,t^2|X|^2
 \right\}
 \right].
-\]
-Para $t\neq0$, isolamos o fator $t^2$ dentro da esperança e obtemos
-\begin{equation}\label{eq:resto-dividido}
-\frac{|g(t)|}{t^2}
-\leqslant
-\mathbb{E}\left[
-\min\left\{
-\frac{|t|\,|X|^3}{6},\,|X|^2
-\right\}
-\right].
 \end{equation}
-Basta mostrar que o lado direito tende a zero.
-Defina
-\[
+
+\smallskip
+\noindent\textbf{Normalização do erro.}
+Para estudar o quociente por $t^2$, vamos primeiro colocar esse
+fator em evidência dentro do mínimo. Como $|t|^3=t^2|t|$,
+definimos a variável aleatória não negativa
+\begin{equation}\label{eq:variavel-resto-normalizado}
 Y_t\equiv
 \min\left\{
 \frac{|t|\,|X|^3}{6},\,|X|^2
-\right\}.
+\right\},
+\qquad t\in\mathbb{R}.
+\end{equation}
+Multiplicar duas quantidades pelo mesmo número positivo preserva
+qual delas é a menor. Assim, para $t\neq0$,
+\[
+\min\left\{
+\frac{|tX|^3}{6},\,t^2|X|^2
+\right\}
+=t^2\min\left\{
+\frac{|t|\,|X|^3}{6},\,|X|^2
+\right\}
+=t^2Y_t.
 \]
-Para cada $\omega\in\Omega$, o primeiro argumento do mínimo tende
-a zero quando $t\to0$, logo $Y_t(\omega)\to0$.
 Além disso,
 \[
 0\leqslant Y_t\leqslant|X|^2,
 \]
-e a variável dominante é integrável por hipótese.
-Pelo Teorema da Convergência Dominada, aplicado ao longo de qualquer
-sequência $t_m\to0$, temos $\mathbb{E}[Y_{t_m}]\to0$.
-Consequentemente, $\mathbb{E}[Y_t]\to0$ quando $t\to0$.
-A desigualdade \eqref{eq:resto-dividido} dá então
-$|g(t)|/t^2\to0$, como queríamos.
+de modo que $Y_t$ é integrável pela hipótese de segundo momento
+finito. Podemos, portanto, retirar o fator constante $t^2$ da
+esperança em \eqref{eq:cota-resto-segunda-ordem} e dividir por ele:
+\begin{equation}\label{eq:resto-dividido}
+0\leqslant\frac{|g(t)|}{t^2}
+\leqslant\frac{1}{t^2}\mathbb{E}[t^2Y_t]
+=\mathbb{E}[Y_t],
+\qquad t\neq0.
+\end{equation}
+O problema foi, assim, reduzido a mostrar que
+$\mathbb{E}[Y_t]\to0$.
+
+\smallskip
+\noindent\textbf{Passagem ao limite.}
+Vamos verificar separadamente a convergência para cada resultado
+do experimento e a existência de uma dominante integrável.
+Fixe $\omega\in\Omega$. Pela definição
+\eqref{eq:variavel-resto-normalizado},
+\[
+0\leqslant Y_t(\omega)
+\leqslant\frac{|t|\,|X(\omega)|^3}{6}
+\xrightarrow{t\to0}0.
+\]
+Aqui $X(\omega)$ é um número real fixado, de modo que seu cubo em
+módulo é finito. É a primeira expressão do mínimo que fornece
+essa convergência. Já a segunda fornece a dominante $|X|^2$,
+que independe de $t$ e tem esperança finita.
+
+Tome agora uma sequência arbitrária $t_m\to0$, com $t_m\neq0$.
+Temos $Y_{t_m}(\omega)\to0$ para todo $\omega$ e
+$0\leqslant Y_{t_m}\leqslant|X|^2$.
+O Teorema da Convergência Dominada dá
+\[
+\mathbb{E}[Y_{t_m}]\longrightarrow\mathbb{E}[0]=0.
+\]
+Aplicando \eqref{eq:resto-dividido} com $t=t_m$, obtemos
+\[
+0\leqslant\frac{|g(t_m)|}{t_m^2}
+\leqslant\mathbb{E}[Y_{t_m}]\longrightarrow0.
+\]
+Como a sequência foi arbitrária, o critério sequencial para limites
+mostra que $|g(t)|/t^2\to0$ quando $t\to0$.
+Esse quociente é o módulo de $g(t)/t^2$, portanto
+$g(t)/t^2\to0$. Isso prova que $g(t)=o(t^2)$.
 \end{proof}
 
 \begin{remark}[Por que a cota com o mínimo]\label{rem:cota-minimo}
-Se usássemos apenas a primeira cota do \Cref{lem:resto-taylor},
-teríamos
+Se supuséssemos também $\mathbb{E}[|X|^3]<\infty$, a estimativa
+\eqref{eq:cota-resto-momento-n-mais-um}, com $n=2$, daria
 \[
-|g(t)|\leqslant\frac{|t|^3}{6}\mathbb{E}[|X|^3].
+\frac{|g(t)|}{t^2}
+\leqslant\frac{|t|}{6}\mathbb{E}[|X|^3]
+\xrightarrow{t\to0}0,
+\qquad t\neq0.
 \]
-Essa estimativa só forneceria o limite desejado sob a hipótese
-adicional de terceiro momento absoluto finito.
+Essa conta usa o terceiro momento para obter uma cota integrável
+a partir do termo cúbico.
 
-O mínimo permite separar os papéis das duas cotas. Para
-$|tX|\leqslant6$, temos $|tX|^3/6\leqslant t^2|X|^2$, e usamos
-a cota cúbica. Para $|tX|>6$, usamos a cota quadrática.
-Após a divisão por $t^2$, a primeira garante a convergência pontual
-a zero, enquanto a segunda fornece a dominante integrável $|X|^2$.
-Assim, a convergência dominada exige apenas o segundo momento.
+Na cota \eqref{eq:cota-resto-segunda-ordem}, o mínimo escolhe
+o termo cúbico quando $|tX|\leqslant6$, pois então
+$|tX|^3/6\leqslant t^2|X|^2$; quando $|tX|>6$, escolhe o termo
+quadrático. Depois de dividirmos por $t^2$, essas duas expressões
+cumprem funções distintas: a primeira faz
+$Y_t(\omega)\to0$ para cada $\omega$ fixado, e a segunda fornece
+a dominante integrável $|X|^2$. Por isso a prova anterior usa
+apenas o segundo momento.
 \end{remark}
 
-Vamos agora examinar uma recíproca. Pela propriedade
-$\varphi_X(-h)=\overline{\varphi_X(h)}$ e pela igualdade
-$\varphi_X(0)=1$, o quociente
-\[
-D_X(h)\equiv
-\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}
-=\frac{2\bigl(\operatorname{Re}\varphi_X(h)-1\bigr)}{h^2},
+Para procurar uma recíproca, vamos isolar o coeficiente quadrático
+da expansão de $\varphi_X$. Ao somar os valores em $h$ e $-h$,
+os termos lineares se cancelam; ao subtrair $2\varphi_X(0)$,
+cancelamos também os termos constantes. Isso sugere considerar
+a diferença segunda simétrica.
+
+Pelos itens~(a), (b) e~(c) do \Cref{thm:propriedades-fc}, temos
+$\varphi_X(0)=1$, $\varphi_X(-h)=\overline{\varphi_X(h)}$ e
+$\operatorname{Re}\varphi_X(h)\leqslant|\varphi_X(h)|\leqslant1$.
+Portanto, para qualquer variável aleatória $X$, o quociente
+\begin{align}
+D_X(h)
+&\equiv\frac{\varphi_X(h)-2\varphi_X(0)+\varphi_X(-h)}{h^2}\notag
+\\[0.3cm]
+&=\frac{2\bigl(\operatorname{Re}\varphi_X(h)-1\bigr)}{h^2}
+\leqslant0,
 \qquad h\neq0,
+\label{eq:diferenca-segunda-fc}
+\end{align}
+é real e não positivo.
+
+Se $\mathbb{E}[X^2]<\infty$, o \Cref{thm:taylor-segunda-ordem}
+fornece as duas expansões
+\begin{align*}
+\varphi_X(h)
+&=1+ih\,\mathbb{E}[X]-\frac{h^2}{2}\mathbb{E}[X^2]+g(h),
+\\[0.3cm]
+\varphi_X(-h)
+&=1-ih\,\mathbb{E}[X]-\frac{h^2}{2}\mathbb{E}[X^2]+g(-h).
+\end{align*}
+Somando-as, subtraindo $2$ e dividindo por $h^2$, obtemos
+\begin{equation}\label{eq:diferenca-segunda-resto}
+D_X(h)=-\mathbb{E}[X^2]+\frac{g(h)+g(-h)}{h^2}.
+\end{equation}
+Como $(-h)^2=h^2$, os dois quocientes $g(h)/h^2$ e
+$g(-h)/h^2$ tendem a zero. Assim,
+\eqref{eq:diferenca-segunda-resto} mostra que
+\[
+D_X(h)\xrightarrow{h\to0}-\mathbb{E}[X^2].
 \]
-é real e não positivo. A expansão de segunda ordem mostra que,
-se $\mathbb{E}[X^2]<\infty$, então $D_X(h)\to-\mathbb{E}[X^2]$.
-O próximo resultado recupera a finitude do segundo momento sob
-uma hipótese mais fraca sobre esse quociente.
+Vamos agora mostrar que uma informação mais fraca sobre $D_X$
+já permite concluir que o segundo momento é finito.
 
 \begin{theorem}[Segundo momento e diferença segunda]\label{thm:segundo-momento-finito}
 Seja $X$ uma variável aleatória com função característica $\varphi_X$.
@@ -1421,63 +1821,158 @@ então $\mathbb{E}[X^2]<\infty$.
 \end{theorem}
 
 \begin{proof}
-Seja $F_X$ a função de distribuição de $X$. Pela linearidade
-da integral, aplicada aos integrandos limitados,
-\[
+Vamos construir variáveis aleatórias não negativas que convirjam
+para $X^2$. A hipótese sobre $D_X$ permitirá controlar suas
+esperanças ao longo de uma sequência, e o lema de Fatou dará
+a finitude de $\mathbb{E}[X^2]$.
+
+\smallskip
+\noindent\textbf{Uma aproximação não negativa de $X^2$.}
+Fixe $h\neq0$. As variáveis $e^{ihX}$ e $e^{-ihX}$ têm módulo $1$
+e são integráveis. Pela definição \eqref{eq:diferenca-segunda-fc}
+e pela linearidade da esperança,
+\begin{align*}
 D_X(h)
-=\int_{\mathbb{R}}
-\frac{e^{ihx}-2+e^{-ihx}}{h^2}\,dF_X(x).
-\]
-Como $e^{ihx}+e^{-ihx}=2\cos(hx)$,
+&=\frac{\mathbb{E}[e^{ihX}]-2\mathbb{E}[1]
++\mathbb{E}[e^{-ihX}]}{h^2}
+\\[0.3cm]
+&=\mathbb{E}\left[
+\frac{e^{ihX}-2+e^{-ihX}}{h^2}
+\right].
+\end{align*}
+Para reconhecer o sinal e o limite do integrando, usamos
+$e^{ihx}+e^{-ihx}=2\cos(hx)$. Assim, para $x\in\mathbb{R}$,
 \begin{equation}\label{eq:integrando-segunda-diferenca}
 \frac{e^{ihx}-2+e^{-ihx}}{h^2}
 =-\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}
 \leqslant0.
 \end{equation}
-Para aplicar o lema de Fatou, tomamos o oposto desse integrando:
-\[
+O lema de Fatou se aplica a variáveis não negativas. Por isso,
+\eqref{eq:integrando-segunda-diferenca} sugere tomar o oposto
+do integrando e definir
+\begin{equation}\label{eq:definicao-qh}
 q_h(x)\equiv
-\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}\geqslant0.
-\]
-O limite $(1-\cos u)/u^2\to1/2$, quando $u\to0$, mostra que
-$q_h(x)\to x^2$ para cada $x\in\mathbb{R}$.
-Para $x=0$, essa afirmação é imediata; para $x\neq0$,
-basta escrever $u=hx$.
+\frac{2\bigl(1-\cos(hx)\bigr)}{h^2},
+\qquad 0\leqslant q_h(x)\leqslant\frac{4}{h^2}.
+\end{equation}
+A cota $q_h(x)\leqslant4/h^2$ em \eqref{eq:definicao-qh}
+decorre de $0\leqslant1-\cos(hx)\leqslant2$.
+Para cada $h\neq0$ fixado, $q_h(X)$ é, portanto, uma variável
+aleatória não negativa e limitada. Sua esperança é finita e satisfaz
+\begin{equation}\label{eq:esperanca-qh}
+\mathbb{E}[q_h(X)]
+=-\mathbb{E}\left[\frac{e^{ihX}-2+e^{-ihX}}{h^2}\right]
+=-D_X(h).
+\end{equation}
 
-Ponha $L\equiv\limsup_{h\downarrow0}D_X(h)$. Pela hipótese
-e pelo fato de $D_X(h)\leqslant0$, temos $-\infty<L\leqslant0$.
-Escolha uma sequência $h_m\downarrow0$ tal que
-$D_X(h_m)\to L$. Aplicando o lema de Fatou às funções
-não negativas $q_{h_m}$, obtemos
+Vamos verificar que essas variáveis aproximam $X^2$.
+Se $x=0$, temos $q_h(0)=0$ para todo $h\neq0$.
+Se $x\neq0$, a identidade $1-\cos u=2\sin^2(u/2)$ dá
+\[
+q_h(x)
+=\frac{4\sin^2(hx/2)}{h^2}
+=x^2\left(\frac{\sin(hx/2)}{hx/2}\right)^2
+\xrightarrow{h\to0}x^2,
+\]
+pois $\sin v/v\to1$ quando $v\to0$.
+Aplicando esse limite a $x=X(\omega)$, concluímos que
+\begin{equation}\label{eq:limite-qh}
+q_h(X(\omega))\xrightarrow{h\to0}X(\omega)^2,
+\qquad \omega\in\Omega.
+\end{equation}
+
+\smallskip
+\noindent\textbf{A sequência fornecida pela hipótese.}
+Para usar o limite \eqref{eq:limite-qh} e concluir que
+$\mathbb{E}[X^2]<\infty$, precisamos controlar as esperanças
+em \eqref{eq:esperanca-qh}. É aqui que usamos a hipótese do teorema.
+Ponha
+\[
+L\equiv\limsup_{h\downarrow0}D_X(h).
+\]
+Pela hipótese e pelo sinal de $D_X$ em
+\eqref{eq:diferenca-segunda-fc}, temos $-\infty<L\leqslant0$.
+
+Vamos escolher uma sequência ao longo da qual $D_X(h)$ tende
+a esse número finito. Pela definição do limite superior, para
+cada $m\geqslant1$, temos $D_X(h)<L+1/m$ para todo $h>0$
+suficientemente pequeno, enquanto $D_X(h)>L-1/m$ ocorre para
+valores positivos de $h$ arbitrariamente próximos de zero.
+Podemos, portanto, escolher sucessivamente $h_m>0$, com
+$h_m<1/m$ e, para $m\geqslant2$, $h_m<h_{m-1}/2$, de modo que
+\[
+L-\frac{1}{m}<D_X(h_m)<L+\frac{1}{m}.
+\]
+Assim, $h_m\downarrow0$ e $D_X(h_m)\to L$.
+Por \eqref{eq:esperanca-qh}, essa escolha fornece
+\begin{equation}\label{eq:esperancas-qh-sequencia}
+\mathbb{E}[q_{h_m}(X)]
+=-D_X(h_m)\xrightarrow{m\to\infty}-L<\infty.
+\end{equation}
+
+\smallskip
+\noindent\textbf{Aplicação do lema de Fatou.}
+As variáveis $q_{h_m}(X)$ são não negativas por
+\eqref{eq:definicao-qh} e convergem para $X^2$ por
+\eqref{eq:limite-qh}. O lema de Fatou pode ser aplicado mesmo
+antes de sabermos se a esperança do limite é finita.
+Usando também \eqref{eq:esperancas-qh-sequencia}, obtemos
 \begin{align*}
 \mathbb{E}[X^2]
-&=\int_{\mathbb{R}}x^2\,dF_X(x)
-=\int_{\mathbb{R}}\liminf_{m\to\infty}q_{h_m}(x)\,dF_X(x)
+&=\mathbb{E}\left[\liminf_{m\to\infty}q_{h_m}(X)\right]
 \\[0.3cm]
 &\leqslant
-\liminf_{m\to\infty}\int_{\mathbb{R}}q_{h_m}(x)\,dF_X(x)
+\liminf_{m\to\infty}\mathbb{E}[q_{h_m}(X)]
 \\[0.3cm]
-&=\liminf_{m\to\infty}\bigl(-D_X(h_m)\bigr)
-=-L<\infty.
+&=-L<\infty.
 \end{align*}
-Isso prova a finitude do segundo momento.
+Essa desigualdade prova a finitude do segundo momento.
 \end{proof}
 
-Combinando os dois teoremas, a finitude do segundo momento
-é equivalente à existência de um limite finito para a diferença
-segunda simétrica $D_X(h)$ na origem. Nesse caso, o limite é
-$-\mathbb{E}[X^2]$. O \Cref{thm:segundo-momento-finito} mostra
-que basta supor que o limite superior não seja $-\infty$.
+O \Cref{thm:taylor-segunda-ordem}, por meio de
+\eqref{eq:diferenca-segunda-resto}, mostra que o segundo momento
+finito implica a existência de um limite finito para $D_X(h)$.
+O \Cref{thm:segundo-momento-finito} fornece a direção inversa
+e exige apenas uma condição sobre o limite superior. Portanto,
+\[
+\mathbb{E}[X^2]<\infty
+\quad\Longleftrightarrow\quad
+\limsup_{h\downarrow0}D_X(h)>-\infty.
+\]
+Quando essas condições valem, existe também o limite bilateral e
+\[
+\lim_{h\to0}D_X(h)=-\mathbb{E}[X^2].
+\]
 
-A diferença segunda fornece um critério sobre valores de
-$\varphi_X$ perto da origem, sem supor previamente a existência
-de derivadas. A derivada usual de $\varphi_X$, como função de
-variável real com valores complexos, é definida pelos quocientes
-incrementais usuais. Se $\varphi_X''(0)$ existe, a fórmula de Taylor
-dá $D_X(h)\to\varphi_X''(0)$, logo o segundo momento é finito.
-Reciprocamente, o \Cref{thm:derivadas-momentos} garante que o
-segundo momento finito implica a existência dessa derivada, com
-$\varphi_X''(0)=-\mathbb{E}[X^2]$.
+Podemos relacionar esse critério à derivada segunda usual de
+$\varphi_X$, como função de variável real com valores complexos.
+Se $\varphi_X''(0)$ existe, a fórmula de Taylor, aplicada às partes
+real e imaginária, fornece
+\begin{align*}
+\varphi_X(h)
+&=\varphi_X(0)+h\varphi_X'(0)
++\frac{h^2}{2}\varphi_X''(0)+o(h^2),
+\\[0.3cm]
+\varphi_X(-h)
+&=\varphi_X(0)-h\varphi_X'(0)
++\frac{h^2}{2}\varphi_X''(0)+o(h^2).
+\end{align*}
+Somando essas expansões e usando
+\eqref{eq:diferenca-segunda-fc}, os termos constantes e lineares
+se cancelam, e obtemos
+\[
+D_X(h)=\varphi_X''(0)+o(1)
+\xrightarrow{h\to0}\varphi_X''(0).
+\]
+Como $D_X(h)$ é real e não positivo, esse limite também é real
+e finito. O \Cref{thm:segundo-momento-finito} dá então
+$\mathbb{E}[X^2]<\infty$.
+Reciprocamente, se o segundo momento é finito, o
+\Cref{thm:derivadas-momentos} garante a existência da derivada
+segunda e a identidade
+\[
+\varphi_X''(0)=-\mathbb{E}[X^2].
+\]
 
 
 \section{Teorema do Limite Central}\label{sec:tlc}
@@ -1740,8 +2235,8 @@ $\sup_{t\in\mathbb{R}}|e^{it/n}-1|=2$.
 \end{exercise}
 
 \begin{exercise}[Comportamento de segunda ordem na origem]\label{exercise:segunda-derivada-nula}
-Seja $X$ uma variável aleatória com função de distribuição $F_X$ e função
-característica $\varphi_X$. Suponha que
+Seja $X$ uma variável aleatória com função característica $\varphi_X$.
+Suponha que
 \[
   \lim_{t\downarrow0}\frac{\varphi_X(t)-1}{t^2}=c,
   \qquad c\in\mathbb{R}.
@@ -1755,11 +2250,11 @@ $\bigl(1-\operatorname{Re}\varphi_X(t)\bigr)/t^2\leqslant C$ para
 $t\in(0,\delta]$. Ora,
 \[
 \frac{1-\operatorname{Re}\varphi_X(t)}{t^2}
-=\int_{\mathbb{R}}\frac{1-\cos(tx)}{t^2}\,dF_X(x),
+=\mathbb{E}\left[\frac{1-\cos(tX)}{t^2}\right].
 \]
-e o integrando é não negativo e converge para $x^2/2$ quando $t\downarrow0$,
-para cada $x$ fixado. Aplicando o lema de Fatou ao longo de uma sequência
-$t_k\downarrow0$, obtemos
+A variável aleatória dentro da esperança é não negativa e converge
+pontualmente para $X^2/2$ quando $t\downarrow0$. Aplicando o lema de
+Fatou ao longo de uma sequência $t_k\downarrow0$, obtemos
 $\mathbb{E}[X^2]\leqslant2C<\infty$. Com o segundo momento finito, a expansão
 de segunda ordem de \Cref{thm:taylor-segunda-ordem} dá
 $\varphi_X(t)=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\mathbb{E}[X^2]+o(t^2)$; divida
