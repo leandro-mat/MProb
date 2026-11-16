@@ -47,3 +47,6 @@ agent-output/
 
 # Pasta local de listas de exercícios (temporária, não versionar)
 listas/
+# Arquivos locais de preparação do Teorema do Limite Central (não versionar)
+/teorema-limite-central/notas-de-aula.pdf
+/teorema-limite-central/notas-de-aula-ocr*.json
