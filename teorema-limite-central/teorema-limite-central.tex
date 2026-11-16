@@ -214,16 +214,16 @@ características, momentos, resto de Taylor, MAT-UnB} }
 \begin{abstract}
 Nestas notas, demonstramos o Teorema do Limite Central para sequências de
 variáveis aleatórias independentes e identicamente distribuídas, com
-variância positiva e finita. Esse teorema é um resultado central da teoria
+variância positiva e finita. Esse teorema é um resultado fundamental da teoria
 sobre o comportamento assintótico de somas de variáveis aleatórias.
 
 Para prová-lo, seguimos o roteiro padrão da literatura, baseado em funções
-características e no Teorema da Continuidade de Paul Lévy. A exposição é
+características e no Teorema da Continuidade de Lévy. A exposição é
 bastante detalhada e a demonstração é apresentada na íntegra: recordamos os
 pré-requisitos sobre funções características e desenvolvemos com cuidado
 todos os resultados técnicos auxiliares necessários. O texto conta ao final
-com uma lista de exercícios, e, em algumas partes, a exposição segue de
-perto o Capítulo 3 da referência \cite{MR3930614}.
+com uma lista de exercícios. Em algumas partes, a exposição segue de
+perto o Capítulo 3 de \cite{MR3930614}.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -232,7 +232,7 @@ perto o Capítulo 3 da referência \cite{MR3930614}.
 \begingroup
 \hypersetup{urlcolor=darkgray}
 \href{\doclicenseURL}{%
-\doclicenseName - Attribution-NonCommercial-ShareAlike 4.0 International%
+\doclicenseName{} -- Attribution-NonCommercial-ShareAlike 4.0 International%
 }%
 \endgroup
 }
@@ -246,28 +246,29 @@ Nas notas de aula sobre funções características, vimos que a função
 característica de uma soma de variáveis aleatórias independentes é o
 produto das funções características das parcelas. A convergência dessas
 funções permite, pelo Teorema da Continuidade de Lévy, estudar a
-convergência em distribuição das somas. Nestas notas vamos mostrar como aplicar esses resultados
+convergência em distribuição das somas. Nestas notas, vamos mostrar como aplicar esses resultados
 para obter uma versão clássica
-do Teorema do Limite Central, válida 
-para o caso de somas de variáveis aleatórias independentes e identicamente distribuídas e possuindo
-segundo momento finito. 
+do Teorema do Limite Central, válida
+para o caso de somas de variáveis aleatórias independentes e identicamente distribuídas e com
+segundo momento finito.
 
 Considere uma sequência $X_1,X_2,\ldots$ de variáveis aleatórias independentes
-e identicamente distribuídas (iid) com média $\mu$ e variância $\sigma^2\in(0,\infty)$. 
-Como de costume denote por $S_n\equiv X_1+\cdots+X_n$, a soma parcial das primeiras $n$ variáveis.
+e identicamente distribuídas (i.i.d.) com média $\mu$ e variância $\sigma^2\in(0,\infty)$.
+Como de costume, denote por $S_n\equiv X_1+\cdots+X_n$ a soma parcial das primeiras $n$ variáveis.
 Para essas somas, a Lei Forte dos Grandes Números afirma que a
-média aritmética $S_n/n$ converge quase certamente para $\mu$. 
-O que sugere que $S_n$ se comporte assintoticamente como $S_n\sim n\mu$.
+média aritmética $S_n/n$ converge quase certamente para $\mu$,
+o que sugere que $S_n$ se comporta assintoticamente como $n\mu$.
 Vamos estudar agora as flutuações da soma
-$S_n$ em torno de $n\mu$, isto é, como se distribui $S_n-n\mu$ em uma sequência de escalas nas quais
-esta sequência possui variância um.  
+$S_n$ em torno de $n\mu$, isto é, como se distribui $S_n-n\mu$ quando medida em uma escala
+na qual essa variável possui variância um.
 
 A ideia é que $\operatorname{Var}(S_n-n\mu) = \operatorname{Var}(S_n) = \sigma^2 n$
-e portanto na escala de $\sigma\sqrt{n}$ a variável aleatória 
-normalizada possui variância um, isto é, 
-\begin{align*}
-\operatorname{Var}\left( \frac{S_n}{\sigma \sqrt{n}}\right) = 1.
-\end{align*}
+e, portanto, na escala de $\sigma\sqrt{n}$, a variável aleatória
+normalizada possui variância um, isto é,
+\[
+\operatorname{Var}\left( \frac{S_n-n\mu}{\sigma \sqrt{n}}\right) = 1.
+\]
+
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
@@ -481,7 +482,7 @@ normalizada possui variância um, isto é,
   }
 \end{tikzpicture}
 \caption{Evolução das somas parciais $S_n=X_1+\cdots+X_n$ para $n=1,2,3,4$,
-onde $X_i\sim\mathrm{Bin}(k,p)$ são independentes e identicamente distribuídas, com média
+onde $X_i\sim\mathrm{Bin}(k,p)$ (ilustrada para $k=8$ e $p=0{,}7$) são independentes e identicamente distribuídas, com média
 $\mu\equiv\mathbb{E}[X_1]$ e variância $\sigma^2\equiv\operatorname{Var}(X_1)$. No bloco superior, o valor médio
 $\mathbb{E}[S_n]=n\mu$ desloca-se linearmente com $n$. No bloco inferior, após
 a centralização $S_n-n\mu$, as distribuições permanecem centradas na origem e
@@ -489,13 +490,14 @@ seu espalhamento evolui em unidades do desvio padrão $\sigma$ segundo a escala
 $\sigma\sqrt{n}$, destacada no intervalo $[-\sigma\sqrt{n},\sigma\sqrt{n}]$.}
 \label{fig:escalas-soma-tlc}
 \end{figure}
-Com essa normalização, o Teorema do Limite Central afirma que
+
+Com essa normalização, ilustrada na \Cref{fig:escalas-soma-tlc}, o Teorema do Limite Central afirma que
 \[
 \frac{S_n-n\mu}{\sigma\sqrt{n}}\Rightarrow Z,
 \]
 onde $\Rightarrow$ indica convergência em distribuição e $Z$ tem
-distribuição normal padrão. A função de distribuição da normal padrão
-é contínua em toda a reta. Por essa continuidade, o limite acima
+distribuição normal padrão. Como a função de distribuição da normal padrão
+é contínua em toda a reta, o limite acima
 também pode ser expresso em termos de probabilidades de intervalos:
 para quaisquer $a,b\in\mathbb{R}$ com $a<b$,
 \[
@@ -506,23 +508,23 @@ a\leqslant\frac{S_n-n\mu}{\sigma\sqrt{n}}\leqslant b
 \frac{1}{\sqrt{2\pi}}\int_a^b e^{-x^2/2}\,dx.
 \]
 
-A demonstração deste fato usa diversos fatos estabelecidos nas notas de aula
-anteriores sobre funções características que serão relembrados, para conveniência
+A demonstração desse resultado usa diversos fatos estabelecidos nas notas de aula
+anteriores sobre funções características, que serão relembrados, para conveniência
 do leitor, na \Cref{sec:auxiliares}.
-Além destes resultados, vamos mostrar também na \Cref{sec:preliminares-complexos}
-que se $(c_n)_{n\in\mathbb{N}}$ é um sequência arbitrária de números complexos tal que $c_n \to c$,
-quando $n\to\infty$, então 
-\begin{align*}
+Além desses resultados, vamos mostrar também na \Cref{sec:preliminares-complexos}
+que, se $(c_n)_{n\geqslant1}$ é uma sequência arbitrária de números complexos tal que $c_n \to c$
+quando $n\to\infty$, então
+\[
 \lim_{n\to\infty} \left( 1+ \frac{c_n}{n}\right)^n  =  e^c.
-\end{align*}
+\]
 Esse limite será combinado com a expansão de segunda ordem da função
-característica, obtida na \Cref{sec:momentos}
-para finalizar a prova Teorema do Limite Central na
-\Cref{sec:tlc}. Em seguida, na seção na \Cref{sec:exercicios} 
+característica, obtida na \Cref{sec:momentos},
+para finalizar a prova do Teorema do Limite Central na
+\Cref{sec:tlc}. Em seguida, na \Cref{sec:exercicios},
 o leitor encontrará uma lista de exercícios propostos para consolidar o que foi aprendido nestas notas.
 
 
-\section{Convergência em Distribuição}\label{sec:auxiliares}
+\section{Funções Características e Convergência}\label{sec:auxiliares}
 
 Recordamos as definições e os resultados das notas de aula sobre funções
 características que serão usados adiante. As demonstrações e os cálculos das
@@ -563,9 +565,9 @@ Dizemos que uma sequência de variáveis aleatórias $(X_n)_{n\geqslant1}$ é
 
 \subsection{Resultados}\label{subsec:aux-resultados}
 
-\begin{theorem}\label{thm:propriedades-fc}
+\begin{theorem}[Propriedades da função característica]\label{thm:propriedades-fc}
 Seja $X$ uma variável aleatória real, com função característica $\varphi_X$. Para
-todos $t,h,a,b\in\mathbb{R}$ valem:
+quaisquer $t,h,a,b\in\mathbb{R}$, valem:
 \begin{enumerate}[label=(\alph*)]
 \item $\varphi_X(0)=1$;
 \item $\varphi_X(-t)=\overline{\varphi_X(t)}$;
@@ -576,7 +578,7 @@ Em particular, a função $\varphi_X$ é uniformemente contínua em $\mathbb{R}$
 \end{enumerate}
 \end{theorem}
 
-\begin{theorem}[Função característica de uma soma independente]
+\begin{theorem}[Soma de variáveis independentes]
 \label{thm:fc-soma-independentes}
 Sejam $X_1,\ldots,X_n$ variáveis aleatórias independentes. Então
 \[
@@ -593,7 +595,7 @@ Em particular, se elas têm a mesma distribuição,
 
 \begin{theorem}[Derivação dentro da esperança]\label{thm:derivacao-integral}
 Sejam $I\subseteq\mathbb{R}$ um intervalo aberto, $X$ uma variável aleatória
-real e $g:I\times\mathbb{R}\to\mathbb{C}$. Suponha que:
+real e $g\colon I\times\mathbb{R}\to\mathbb{C}$. Suponha que:
 \begin{enumerate}
 \item[(i)] para cada $t\in I$, a variável aleatória $g(t,X)$ é integrável;
 \item[(ii)] para quase todo $\omega\in\Omega$, a função
@@ -616,34 +618,29 @@ F'(t)
 \]
 \end{theorem}
 
-\begin{lemma}[Cota para as caudas]\label{lem:cota-cauda-fc}
-Seja $Y$ uma variável aleatória real com função característica $\varphi_Y$.
-Para todo $u>0$, vale a desigualdade
-\begin{equation}\label{eq:cota-concentracao}
-\mathbb{P}(|Y|\geqslant2/u)
-\leqslant
-\frac{1}{u}\int_{-u}^{u}
-\bigl(1-\operatorname{Re}\varphi_Y(t)\bigr)\,dt.
-\end{equation}
-\end{lemma}
-
 \begin{theorem}[Teorema da Continuidade de Lévy]\label{thm:continuidade}
-Sejam $X_1,X_2,\ldots$ variáveis aleatórias reais, e denote por
+Sejam $X_1,X_2,\ldots$ variáveis aleatórias reais e denote por
 $\varphi_{X_n}$ a função característica de $X_n$, para cada $n$.
 
 \begin{enumerate}[label=\textup{(\roman*)}]
 \item Se $X_n\Rightarrow X$, então
 $\varphi_{X_n}(t)\to\varphi_X(t)$ para todo $t\in\mathbb{R}$.
 
-\item Se $\varphi_{X_n}(t)\to\varphi(t)$ para todo $t\in\mathbb{R}$, para uma
-função $\varphi$ contínua em $0$, então existe uma variável aleatória $X$ tal que
+\item Se $\varphi_{X_n}(t)\to\varphi(t)$ para todo $t\in\mathbb{R}$, em que
+$\varphi$ é uma função contínua em $0$, então existe uma variável aleatória $X$ tal que
 $X_n\Rightarrow X$ e $\varphi=\varphi_X$. Além disso, $(X_n)$ é condensada.
 \end{enumerate}
 \end{theorem}
 
-No item (ii) do teorema, $\varphi$ é inicialmente apenas uma função
-limite. Uma das conclusões do teorema é que essa função limite é função
+No item~(ii) do teorema, $\varphi$ é inicialmente apenas uma função
+limite. Uma das conclusões do teorema é que essa função limite é a função
 característica de alguma variável aleatória.
+
+\begin{theorem}[Unicidade da distribuição pela função característica]\label{thm:unicidade-fc}
+Sejam $X$ e $Y$ variáveis aleatórias reais com funções características
+$\varphi_X$ e $\varphi_Y$, respectivamente. Se $\varphi_X(t)=\varphi_Y(t)$ para
+todo $t\in\mathbb{R}$, então $X$ e $Y$ têm a mesma distribuição.
+\end{theorem}
 
 \subsection{Exemplos}\label{subsec:aux-exemplos}
 
@@ -684,11 +681,10 @@ Teorema do Limite Central.
 \section{Aproximação Exponencial Complexa}\label{sec:preliminares-complexos}
 
 Na prova do Teorema do Limite Central, a função característica da soma
-normalizada terá a forma $(1+c_n(t)/n)^n$, com $c_n(t)$,
-para cada $t\in\mathbb{R}$ fixado sendo uma sequência de números complexos convergente.
+normalizada terá a forma $(1+c_n(t)/n)^n$, em que, para cada $t\in\mathbb{R}$
+fixado, $(c_n(t))_{n\geqslant1}$ é uma sequência convergente de números complexos.
 Vamos calcular o limite dessa expressão comparando cada fator $1+c_n(t)/n$
-com $e^{c_n(t)/n}$. Para controlar o erro do produto, começamos pelo
-seguinte lema.
+com $e^{c_n(t)/n}$.
 
 A ideia é generalizar para números complexos o seguinte resultado clássico
 válido para números reais: se $(a_n)_{n\geqslant 1}$ é uma sequência real tal que
@@ -697,13 +693,13 @@ $a_n\to a\in\mathbb{R}$, então
 \lim_{n\to\infty}\left(1+\frac{a_n}{n}\right)^{\!n} = e^a.
 \]
 No caso real, esse limite é demonstrado aplicando-se o logaritmo natural. Como
-$a_n\to a$, para $n$ suficientemente grande temos $1+a_n/n > 0$. Podemos então
+$a_n\to a$, para $n$ suficientemente grande, temos $1+a_n/n > 0$. Podemos então
 escrever
 \[
 \left(1+\frac{a_n}{n}\right)^{\!n} = \exp\left(n\ln\left(1+\frac{a_n}{n}\right)\right)
 = \exp\left(\frac{\ln(1+a_n/n)}{1/n}\right).
 \]
-Para calcular o limite do expoente quando $n\to\infty$, fazendo a identificação
+Para motivar o limite do expoente quando $n\to\infty$ de maneira heurística, fazendo a identificação
 $x=1/n\to 0$ e tratando $a_n\approx a$, temos uma indeterminação do tipo
 $0/0$. Aplicando a Regra de L'Hôpital em relação a $x$, obtemos
 \[
@@ -730,8 +726,8 @@ logaritmo é delicado devido à descontinuidade dos ramos do logaritmo complexo.
 adotamos uma abordagem puramente algébrica e analítica baseada em estimativas diretas na série
 da exponencial: primeiro estabelecemos um lema sobre a diferença entre produtos de números complexos
 e, em seguida, uma cota quadrática para o erro da aproximação $e^b\approx 1+b$.
-O motivo destes dois resultados serem suficientes para nossos propósitos ficará claro ao final da
-seção. 
+O motivo pelo qual esses dois resultados são suficientes para nossos propósitos ficará claro ao final da
+seção. Para controlar o erro do produto, começamos pelo seguinte lema.
 
 \begin{lemma}[Diferença de produtos]\label{lem:man-diferenca-produtos}
 Sejam $n\geqslant1$ um inteiro e $R>0$. Considere números complexos
@@ -744,12 +740,12 @@ $|z_j|\leqslant R$ e $|w_j|\leqslant R$ para todo $j=1,\ldots,n$. Então
 \end{lemma}
 
 \begin{proof}
-A prova será feita por indução. No caso $n=1$ temos
+A prova será feita por indução. No caso $n=1$, temos
 \[
 |z_1-w_1|\leqslant R^{0}|z_1-w_1|,
 \]
 que é verdadeiro para quaisquer $z_1,w_1\in\mathbb{C}$ com $|z_1|,|w_1|\leqslant R$.
-Suponha que a desigualdade seja válida para $m\geqslant 1$. Sejam
+Suponha que a desigualdade seja válida para algum $m\geqslant 1$. Sejam
 $z_1,\ldots,z_{m+1},w_1,\ldots,w_{m+1}\in\mathbb{C}$ com módulo menor ou igual a $R$.
 Então
 \begin{align*}
@@ -767,11 +763,11 @@ Então
 o que prova o lema.
 \end{proof}
 
-O resultado principal desta seção o \Cref{thm:man-limite-exp}
-será obtido comparando os fatores $1+c_n/n$ e $e^{c_n/n}$. 
-Para esta comparação é suficiente estabelecer 
+O resultado principal desta seção, o \Cref{thm:man-limite-exp},
+será obtido comparando os fatores $1+c_n/n$ e $e^{c_n/n}$.
+Para essa comparação, é suficiente estabelecer
 uma cota para o erro da aproximação de $e^b$ por $1+b$. O próximo lema
-mostra que esse erro é de ordem $|b|^2$, quando $|b|\leqslant1$.
+mostra que esse erro é de ordem $|b|^2$ quando $|b|\leqslant1$.
 
 \begin{lemma}[Erro da aproximação exponencial]\label{lem:man-exp-quadratica}
 Se $b\in\mathbb{C}$ e $|b|\leqslant 1$, então
@@ -802,9 +798,9 @@ seguinte estimativa:
 
 \begin{theorem}[Limite exponencial complexo]\label{thm:man-limite-exp}
 Se $(c_n)_{n\geqslant1}$ é uma sequência de números complexos tal que
-$c_n\to c\in\mathbb{C}$, quando $n\to\infty$,  então
+$c_n\to c\in\mathbb{C}$ quando $n\to\infty$, então
 \[
-\left(1+\frac{c_n}{n}\right)^{n} 
+\left(1+\frac{c_n}{n}\right)^{n}
 \xrightarrow[\quad n\to\infty\quad ]{}
 e^{c}.
 \]
@@ -817,7 +813,7 @@ mostrar que o erro nessa comparação tende a zero. A identidade
 $e^{c_n}=(e^{c_n/n})^n$ permite escrever as duas expressões como produtos
 de $n$ fatores e aplicar o \Cref{lem:man-diferenca-produtos}.
 
-Para cada $n\in\mathbb{N}$ fixado, considere as sequências finitas constantes
+Para cada $n\geqslant1$ fixado, considere as sequências finitas constantes
 de números complexos definidas por
 \[
 z_j \equiv 1+\frac{c_n}{n}
@@ -825,7 +821,7 @@ z_j \equiv 1+\frac{c_n}{n}
 w_j \equiv e^{c_n/n},
 \qquad j=1,\ldots,n.
 \]
-Fixe $R>|c|$. Pela convergência de $(c_n)_{n\in\mathbb{N}}$, existe $n_0\in\mathbb{N}$
+Fixe $R>|c|$. Pela convergência de $(c_n)_{n\geqslant1}$, existe $n_0\geqslant1$
 tal que $|c_n|\leqslant R$ para todo $n\geqslant n_0$. Aumentando $n_0$,
 se necessário, podemos supor que $n_0\geqslant R$, de modo que
 \[
@@ -835,7 +831,7 @@ se necessário, podemos supor que $n_0\geqslant R$, de modo que
 
 Para aplicar o lema dos produtos, precisamos de uma cota comum para os
 módulos dos fatores. Usando a desigualdade triangular,
-$1+x\leqslant e^x$ para $x\geqslant0$ e a identidade
+a desigualdade $1+x\leqslant e^x$ para $x\geqslant0$ e a identidade
 $|e^z|=e^{\operatorname{Re}z}$, obtemos, para $n\geqslant n_0$ e
 $j=1,\ldots,n$,
 \begin{align*}
@@ -847,7 +843,7 @@ $j=1,\ldots,n$,
 \end{align*}
 e
 \begin{align*}
-|w_j| 
+|w_j|
 = \left| e^{\frac{c_n}{n}} \right|
 = e^{\operatorname{Re}(c_n)/n}
 \leqslant e^{|c_n|/n}
@@ -857,18 +853,18 @@ Aplicaremos, portanto, o \Cref{lem:man-diferenca-produtos} com a cota
 comum $e^{R/n}$. Essa escolha faz com que
 \begin{align}\label{cota-aux1-lim-exp}
 (e^{R/n})^{n-1} = e^{\frac{n-1}{n} R} \leqslant e^R
-\qquad  \Longrightarrow \qquad 
+\qquad  \Longrightarrow \qquad
 |z_j| \leqslant e^R
-\quad \text{e}\quad 
-|w_j| \leqslant e^R
+\quad \text{e}\quad
+|w_j| \leqslant e^R,
 \end{align}
 ou seja, o fator que multiplica a soma
-dos erros, no \Cref{lem:man-diferenca-produtos}, 
+dos erros, no \Cref{lem:man-diferenca-produtos},
 fica limitado por uma constante independente de $n$.
 
 Vamos agora estimar o erro entre cada par de fatores. Como
 $|c_n/n|\leqslant1$, o \Cref{lem:man-exp-quadratica}, aplicado a
-$b=c_n/n$, fornece a seguinte estimativa
+$b=c_n/n$, fornece a seguinte estimativa:
 \begin{align}\label{cota-aux2-lim-exp}
 |z_j-w_j|
 =\left|1+\frac{c_n}{n}-e^{c_n/n}\right|
@@ -876,10 +872,10 @@ $b=c_n/n$, fornece a seguinte estimativa
 \leqslant\frac{R^2}{n^2}.
 \end{align}
 
-Note que na expressão abaixo temos $n$ pares de fatores, cada um com erro no máximo $R^2/n^2$.
+Note que, na expressão abaixo, temos $n$ pares de fatores, cada um com erro no máximo $R^2/n^2$.
 Ao somar esses erros, obteremos uma cota $R^2/n$, que tende a zero.
-De fato, usando o \Cref{lem:man-diferenca-produtos}, as estimativas \eqref{cota-aux1-lim-exp}
-e a estimativa \eqref{cota-aux2-lim-exp}, para $n\geqslant n_0$, temos
+De fato, usando o \Cref{lem:man-diferenca-produtos} e as estimativas \eqref{cota-aux1-lim-exp}
+e \eqref{cota-aux2-lim-exp}, para $n\geqslant n_0$, temos
 \begin{align*}
 \left|\left(1+\frac{c_n}{n}\right)^{n}-e^{c_n}\right|
 &= \left|\prod_{j=1}^{n}z_j-\prod_{j=1}^{n}w_j\right|
@@ -909,8 +905,8 @@ parâmetro real $t$. Fixando esse parâmetro, podemos aplicar diretamente
 o teorema anterior.
 
 \begin{corollary}[Limite exponencial com parâmetro]\label{cor:limite-exp-parametro}
-Sejam $c_n:\mathbb{R}\to\mathbb{C}$, $n\geqslant1$, e
-$c:\mathbb{R}\to\mathbb{C}$ funções tais que
+Sejam $c_n\colon\mathbb{R}\to\mathbb{C}$, $n\geqslant1$, e
+$c\colon\mathbb{R}\to\mathbb{C}$ funções tais que
 \[
 c_n(t)\xrightarrow{n\to\infty}c(t)
 \qquad\text{para cada }t\in\mathbb{R}.
@@ -935,8 +931,8 @@ obtemos a conclusão.
 
 Seja $X$ uma variável aleatória real. Nas notas de aula sobre momentos e funções
 geradoras de momentos, vimos que as esperanças das potências de $X$ podem ser
-recuperadas a partir das derivadas de
-$M_X$ na origem, quando a função geradora existe em uma vizinhança de $0$.
+recuperadas a partir das derivadas da função geradora de momentos $M_X$ na origem,
+quando ela existe em uma vizinhança de $0$.
 Vamos investigar uma relação semelhante para a função característica
 \[
 \varphi_X(t)=\mathbb{E}[e^{itX}].
@@ -944,7 +940,7 @@ Vamos investigar uma relação semelhante para a função característica
 
 A função característica está definida para todo $t\in\mathbb{R}$, pois
 $|e^{itX}|=1$. Isso não garante, por si só, que ela seja derivável. Por
-exemplo, no \Cref{ex:cauchy} encontramos uma variável sem primeiro momento
+exemplo, no \Cref{ex:cauchy}, encontramos uma variável sem primeiro momento
 finito cuja função característica é $e^{-|t|}$, que não é derivável em
 $t=0$.
 
@@ -956,37 +952,12 @@ em relação a $t$, aparece um fator $X$:
 \left|\frac{d}{dt}e^{itX}\right|=|X|.
 \]
 Assim, para justificar a passagem da derivada para dentro da esperança, uma
-hipótese natural é que $\mathbb{E}[|X|]<\infty$. O resultado abaixo mostra
-como o mesmo raciocínio se estende às derivadas de ordem superior.
+hipótese natural é que $\mathbb{E}[|X|]<\infty$.
 
-\subsection{Derivadas, Momentos e o Decaimento das Caudas}\label{subsec:momentos-derivadas}
+\subsection{Derivadas e Momentos}\label{subsec:momentos-derivadas}
 
-O \Cref{lem:cota-cauda-fc} fornece uma cota que relaciona a função
-característica às probabilidades de valores grandes de $|X|$: para $u>0$,
-\[
-\mathbb{P}\left( |X|\geqslant \frac{2}{u}\right)
-\ \leqslant \
-\frac{1}{u}\int_{-u}^{u}
-\bigl(1-\operatorname{Re}\varphi_X(t)\bigr)\,dt.
-\]
-Essa é a cota \eqref{eq:cota-concentracao}, escrita para a variável $X$. Ela
-mostra que, quando a parte real de $\varphi_X$ está próxima de $1$ perto da
-origem, a probabilidade de $|X|$ ser grande é pequena.
-
-Os momentos também controlam essas probabilidades. De fato, se
-$\mathbb{E}[|X|^n]<\infty$ para algum inteiro $n\geqslant1$, então, para
-$r>0$,
-\[
-\mathds{1}_{\{|X|\geqslant r\}}\leqslant\frac{|X|^n}{r^n}.
-\]
-Tomando esperanças, obtemos
-\[
-\mathbb{P}(|X|\geqslant r)
-\leqslant\frac{\mathbb{E}[|X|^n]}{r^n}.
-\]
-Vamos agora mostrar outra relação entre momentos e função característica:
-quando o momento absoluto de ordem $n$ é finito, podemos derivar
-$\varphi_X$ até a ordem $n$ e calcular suas derivadas por meio de esperanças.
+Mostramos agora que, quando o momento absoluto de ordem $n$ é finito, podemos
+derivar $\varphi_X$ até a ordem $n$ e calcular suas derivadas por meio de esperanças.
 
 \begin{theorem}[Derivadas da função característica]
 \label{thm:derivadas-momentos}
@@ -1004,15 +975,16 @@ existe, é contínua em $\mathbb{R}$ e satisfaz
 
 \begin{proof}
 Vamos derivar a esperança uma vez a cada etapa, verificando em cada
-uma das etapas a integrabilidade necessária. Na primeira derivada, explicitaremos
+uma delas a integrabilidade necessária. Na primeira derivada, explicitaremos
 o argumento de convergência dominada com quocientes incrementais.
 Nas demais, aplicaremos o \Cref{thm:derivacao-integral}.
 
-Primeiro, a hipótese de momento absoluto de ordem $n$ garante os momentos
+Primeiro, a hipótese de momento absoluto de ordem $n$ garante a finitude dos momentos
 absolutos de ordens menores. Com efeito, se $1\leqslant j\leqslant n$, então
 \[
 |x|^j\leqslant1+|x|^n,\qquad x\in\mathbb{R}.
 \]
+
 Para $|x|\leqslant1$, temos $|x|^j\leqslant1$; para $|x|>1$, temos
 $|x|^j\leqslant|x|^n$. Logo
 \[
@@ -1046,7 +1018,7 @@ fornece $|e^{iu}-1|\leqslant|u|$. Portanto,
 \leqslant\frac{|h_mX|}{|h_m|}
 =|X|.
 \]
-Como $\mathbb{E}[|X|]<\infty$, a convergência dominada, aplicada
+Como $\mathbb{E}[|X|]<\infty$, o Teorema da Convergência Dominada, aplicado
 às partes real e imaginária, dá
 \[
 \frac{\varphi_X(t+h_m)-\varphi_X(t)}{h_m}
@@ -1084,7 +1056,7 @@ sequência $t_m\to t$. Para cada resultado do experimento,
 \qquad
 \bigl|(iX)^k e^{it_mX}\bigr|=|X|^k.
 \]
-Como $\mathbb{E}[|X|^k]<\infty$, a convergência dominada, aplicada às partes
+Como $\mathbb{E}[|X|^k]<\infty$, o Teorema da Convergência Dominada, aplicado às partes
 real e imaginária, dá
 \[
 \varphi_X^{(k)}(t_m)
@@ -1120,20 +1092,20 @@ Nesse caso, a média é $\mathbb{E}[X]=-i\varphi_X'(0)$, e a variância é
 \end{aligned}
 \]
 
-Por exemplo, no \Cref{ex:rademacher} vimos que uma variável $R$ que assume
+Por exemplo, no \Cref{ex:rademacher}, vimos que uma variável $X$ que assume
 $-1$ e $1$ com probabilidades iguais tem função característica
-$\varphi_R(t)=\cos t$. Como $\varphi_R'(0)=0$ e
-$\varphi_R''(0)=-1$, as fórmulas dão
+$\varphi_X(t)=\cos t$. Como $\varphi_X'(0)=0$ e
+$\varphi_X''(0)=-1$, as fórmulas dão
 \[
-\mathbb{E}[R]=0,
+\mathbb{E}[X]=0,
 \qquad
-\mathbb{E}[R^2]=1,
+\mathbb{E}[X^2]=1,
 \]
-em acordo com o cálculo direto a partir da distribuição de $R$.
+de acordo com o cálculo direto a partir da distribuição de $X$.
 
 A existência das derivadas de ordem superior também permite aproximar $\varphi_X$ perto da origem.
-Por exemplo, sob a hipótese $\mathbb{E}[|X|^n]<\infty$, se aplicamos a fórmula de Taylor às partes real e
-imaginária de $\varphi_X$ e substituímos as derivadas pelos momentos temos a seguinte identidade
+Além disso, sob a hipótese $\mathbb{E}[|X|^n]<\infty$, se aplicamos a fórmula de Taylor às partes real e
+imaginária de $\varphi_X$ e substituímos as derivadas pelos momentos, obtemos a expansão
 \[
 \varphi_X(t)
 =1+\sum_{k=1}^{n}\frac{(it)^k}{k!}\,\mathbb{E}[X^k]
@@ -1148,10 +1120,6 @@ quando $t\to0$. Em particular, se $\mathbb{E}[X^2]<\infty$,
 -\frac{t^2}{2}\,\mathbb{E}[X^2]+o(t^2).
 \]
 Para essa conclusão, não precisamos supor que o terceiro momento seja finito.
-
-Na próxima subseção, obteremos uma cota explícita para o resto da expansão da
-exponencial. Ela permitirá estimar o erro antes de tomar a esperança e será
-útil no estudo de somas de variáveis aleatórias.
 
 \subsection{Estimativas do Resto da Aproximação de Taylor}\label{subsec:resto-taylor}
 
@@ -1220,13 +1188,10 @@ Agora os termos $1$ e $ix$ estão explícitos, e o novo resto contém
 o fator $x-s$. Se repetirmos a integração por partes, integrando esse
 fator e derivando a exponencial, aparecerá uma potência de grau $2$.
 
-\medskip 
-No que segue apresentamos os cálculos necessários 
-para o desenvolvimento desta expansão para ordens superiores.
-Pelas mesmas razões dos  dois primeiros passos, 
+No que segue, apresentamos os cálculos necessários
+para o desenvolvimento dessa expansão para ordens superiores.
+Pelas mesmas razões dos dois primeiros passos,
 vamos sempre escolher a primitiva que se anula em $s=x$.
-
-\medskip 
 
 Para $n\geqslant0$, consideramos na fórmula de integração por partes
 \[
@@ -1250,11 +1215,9 @@ Então
 O termo de fronteira se anula em $s=x$ e vale
 $-x^{n+1}/(n+1)$ em $s=0$. Portanto, essa integração por partes
 separa a parcela $x^{n+1}/(n+1)$ e deixa uma nova integral da mesma
-forma, com a potência $n+1$. Observamos que estas identidades também valem para
+forma, com a potência $n+1$. Observamos que essas identidades também valem para
 $x<0$, já que
-$\int_0^x\varphi(s)\,ds=-\int_x^0\varphi(s)\,ds$.
-
-\medskip 
+$\int_0^x f(s)\,ds=-\int_x^0 f(s)\,ds$.
 
 Aplicando \eqref{eq:man-identidade-partes} com $n=1$ à integral que
 restou na aproximação $1+ix$ em \eqref{aprox1-intpartes}, ficamos com
@@ -1288,7 +1251,7 @@ indução e passando a primeira parcela para o lado esquerdo, obtemos
 e^{ix}-\sum_{m=0}^{n+1}\frac{(ix)^m}{m!}
 =\frac{i^{n+2}}{(n+1)!}\int_0^x(x-s)^{n+1}e^{is}\,ds.
 \]
-Esta identidade é precisamente a identidade \eqref{eq:man-resto-integral} com $n$ substituído por $n+1$,
+Essa é precisamente a identidade \eqref{eq:man-resto-integral} com $n$ substituído por $n+1$,
 o que conclui a indução.
 
 \smallskip
@@ -1305,6 +1268,7 @@ Se $x\geqslant0$, então $x-s\geqslant0$ para $s\in[0,x]$, e
 \leqslant\int_0^x(x-s)^n\,ds
 =\frac{x^{n+1}}{n+1}.
 \]
+
 Se $x<0$, a inversão dos extremos introduz um sinal negativo,
 que desaparece ao tomarmos o módulo. Portanto,
 \[
@@ -1351,7 +1315,7 @@ v &= \frac{e^{is}}{i},
 & dv &= e^{is}\,ds.
 \end{alignedat}
 \]
-\end{samepage}
+\end{samepage}%
 Como $n\geqslant1$, o termo de fronteira vale $0$ em $s=x$
 e $x^n/i$ em $s=0$. Portanto,
 \begin{align}
@@ -1469,7 +1433,7 @@ podemos tomar o mínimo entre elas.
 Substituindo $x$ por $tx$, obtemos a forma que será aplicada
 às variáveis aleatórias.
 
-\begin{corollary}\label{cor:man-resto-taylor}
+\begin{corollary}[Resto de Taylor com parâmetro]\label{cor:man-resto-taylor}
 Para quaisquer $t,x\in\mathbb{R}$ e todo inteiro $n\geqslant0$,
 \[
 \left|e^{itx}-\sum_{m=0}^n\frac{(itx)^m}{m!}\right|
@@ -1633,8 +1597,8 @@ $g(t)/t^2\to0$.
 \end{theorem}
 
 \begin{proof}
-Vamos identificar o resto, dividi-lo por $t^2$ e usar a convergência
-dominada para obter o limite.
+Vamos identificar o resto, dividi-lo por $t^2$ e usar o Teorema da Convergência
+Dominada para obter o limite.
 
 \smallskip
 \noindent\textbf{Identificação do resto.}
@@ -1745,7 +1709,7 @@ Esse quociente é o módulo de $g(t)/t^2$, portanto
 $g(t)/t^2\to0$. Isso prova que $g(t)=o(t^2)$.
 \end{proof}
 
-\begin{remark}[Por que a cota com o mínimo]\label{rem:cota-minimo}
+\begin{remark}[Por que usar a cota com o mínimo?]\label{rem:cota-minimo}
 Se supuséssemos também $\mathbb{E}[|X|^3]<\infty$, a estimativa
 \eqref{eq:cota-resto-momento-n-mais-um}, com $n=2$, daria
 \[
@@ -1771,10 +1735,10 @@ apenas o segundo momento.
 
 Esta subseção é completamente opcional. Seu conteúdo não será usado
 na prova do Teorema do Limite Central apresentada na \Cref{sec:tlc}.
-O leitor pode, sem prejuízos, omitir numa primeira leitura esta seção 
-e seguir diretamente para \Cref{sec:tlc}.
+O leitor pode, sem prejuízo, omitir em uma primeira leitura esta subseção
+e seguir diretamente para a \Cref{sec:tlc}.
 
-Nesta seção vamos investigar como reconhecer a finitude do segundo momento
+Nesta subseção, vamos investigar como reconhecer a finitude do segundo momento
 a partir dos valores de $\varphi_X$ perto da origem. Para isso,
 vamos isolar o coeficiente quadrático da sua expansão.
 Ao somar os valores em $h$ e $-h$,
@@ -1818,6 +1782,7 @@ D_X(h)
 \xrightarrow[\quad h\to 0\quad ]{}
 -\mathbb{E}[X^2].
 \]
+
 Vamos agora mostrar que uma informação mais fraca sobre $D_X$
 já permite concluir que o segundo momento é finito.
 
@@ -1835,7 +1800,7 @@ então $\mathbb{E}[X^2]<\infty$.
 \begin{proof}
 Vamos construir variáveis aleatórias não negativas que convirjam
 para $X^2$. A hipótese sobre $D_X$ permitirá controlar suas
-esperanças ao longo de uma sequência, e o lema de Fatou dará
+esperanças ao longo de uma sequência, e o Lema de Fatou dará
 a finitude de $\mathbb{E}[X^2]$.
 
 \smallskip
@@ -1859,7 +1824,7 @@ $e^{ihx}+e^{-ihx}=2\cos(hx)$. Assim, para $x\in\mathbb{R}$,
 =-\frac{2\bigl(1-\cos(hx)\bigr)}{h^2}
 \leqslant0.
 \end{equation}
-O lema de Fatou se aplica a variáveis não negativas. Por isso,
+O Lema de Fatou se aplica a variáveis não negativas. Por isso,
 \eqref{eq:integrando-segunda-diferenca} sugere tomar o oposto
 do integrando e definir
 \begin{equation}\label{eq:definicao-qh}
@@ -1884,7 +1849,7 @@ Se $x\neq0$, a identidade $1-\cos u=2\sin^2(u/2)$ dá
 q_h(x)
 =\frac{4\sin^2(hx/2)}{h^2}
 =x^2\left(\frac{\sin(hx/2)}{hx/2}\right)^2
-\xrightarrow[\quad  h\to 0 \quad]{} x^2,
+\xrightarrow[\quad h\to 0\quad]{} x^2,
 \]
 pois $\sin v/v\to1$ quando $v\to0$.
 Aplicando esse limite a $x=X(\omega)$, concluímos que
@@ -1906,8 +1871,6 @@ L\equiv\limsup_{h\downarrow0}D_X(h).
 Pela hipótese e pelo sinal de $D_X$ em
 \eqref{eq:diferenca-segunda-fc}, temos $-\infty<L\leqslant0$.
 
-\medskip 
-
 Vamos escolher uma sequência ao longo da qual $D_X(h)$ tende
 a esse número finito. Pela definição do limite superior, para
 cada $m\geqslant1$, temos $D_X(h)<L+1/m$ para todo $h>0$
@@ -1926,10 +1889,10 @@ Por \eqref{eq:esperanca-qh}, essa escolha fornece
 \end{equation}
 
 \smallskip
-\noindent\textbf{Aplicação do lema de Fatou.}
+\noindent\textbf{Aplicação do Lema de Fatou.}
 As variáveis $q_{h_m}(X)$ são não negativas por
 \eqref{eq:definicao-qh} e convergem para $X^2$ por
-\eqref{eq:limite-qh}. O lema de Fatou pode ser aplicado mesmo
+\eqref{eq:limite-qh}. O Lema de Fatou pode ser aplicado mesmo
 antes de sabermos se a esperança do limite é finita.
 Usando também \eqref{eq:esperancas-qh-sequencia}, obtemos
 \begin{align*}
@@ -2004,10 +1967,10 @@ da distribuição comum das parcelas.
 A prova começa centrando cada parcela e dividindo-a por $\sigma$,
 para obter variáveis de média zero e variância um.
 Na expansão do \Cref{thm:taylor-segunda-ordem}, a média zero elimina
-o termo linear, e a variância um, fixa o termo quadrático em $-t^2/2$.
+o termo linear, e a variância um fixa o termo quadrático em $-t^2/2$.
 A independência permite escrever a função característica da soma
 como um produto; a igualdade das distribuições transforma esse produto
-em uma potência de $n$ fatores iguais.
+em uma potência $n$-ésima.
 A divisão da soma por $\sqrt{n}$ faz cada fator ser avaliado em
 $t/\sqrt{n}$. Para $t$ fixado, esse argumento tende a zero,
 e o termo quadrático se torna $-t^2/(2n)$.
@@ -2054,11 +2017,11 @@ A estratégia da prova será mostrar que
 Para entender por que essa convergência é suficiente, observe primeiro
 que $\varphi_Z$ é contínua na origem. Assim, uma vez estabelecido o
 limite acima, o item~(ii) do Teorema da Continuidade de Lévy
-(\Cref{thm:continuidade}) garante que $(Z_n)_{n\in\mathbb{N}}$
+(\Cref{thm:continuidade}) garante que $(Z_n)_{n\geqslant1}$
 converge em distribuição para uma variável aleatória cuja função
 característica é $\varphi_Z$. Como duas variáveis aleatórias com a
-mesma função característica têm a mesma distribuição, fato demonstrado
-nas notas de aula sobre funções características, essa variável limite
+mesma função característica têm a mesma distribuição (\Cref{thm:unicidade-fc}),
+essa variável limite
 tem distribuição normal padrão. A demonstração do teorema fica assim
 reduzida a estabelecer a convergência acima.
 
@@ -2072,7 +2035,7 @@ identicamente distribuídas, agora padronizadas com média $0$ e variância $1$,
 que são os dois primeiros momentos da normal padrão limite.
 
 Como $\sigma^2=\operatorname{Var}(X_1)\in(0,\infty)$, temos
-$\sigma=\sqrt{\sigma^2}\in(0,\infty)$; em particular, $\mu\in\mathbb{R}$,
+$\sigma=\sqrt{\sigma^2}\in(0,\infty)$; além disso, $\mu\in\mathbb{R}$,
 $\sigma>0$ e $1/\sigma$ está bem definido. Além disso, como as variáveis
 $(X_n)_{n\geqslant1}$ são identicamente distribuídas, cada $X_j$ tem a
 mesma distribuição de $X_1$ e, portanto, a mesma média e a mesma variância:
@@ -2145,9 +2108,9 @@ $t\in\mathbb{R}\setminus\{0\}$ para o restante da prova.
 
 Como $Z_n$ é um múltiplo de uma soma de variáveis aleatórias independentes,
 podemos calcular $\varphi_{Z_n}(t)$ a partir das funções características
-das parcelas, sem determinar antes a distribuição da soma. Para manter a
-notação enxuta nas passagens seguintes, vamos introduzir a seguinte notação para a soma das parcelas
-padronizadas
+das parcelas, sem determinar antes a distribuição da soma. Para aliviar a
+notação nas passagens seguintes, denotamos a soma das parcelas
+padronizadas por
 \[
 S_n^*\equiv\sum_{j=1}^n Y_j=Y_1+\cdots+Y_n,
 \qquad\text{de modo que}\qquad
@@ -2190,7 +2153,7 @@ $\varphi_{Y_1}(t/\sqrt{n})$, e obtemos
 \smallskip
 \noindent\textbf{Expansão local e limite exponencial.}
 Na expressão \eqref{eq:tlc-produto-fc}, o valor $t\neq0$ está fixado e
-queremos fazer $n\to\infty$; logo, o argumento $t/\sqrt{n}$ onde avaliamos
+queremos fazer $n\to\infty$; logo, o argumento $t/\sqrt{n}$ no qual avaliamos
 $\varphi_{Y_1}$ tende a zero. Isso nos leva a estudar o comportamento local
 de $\varphi_{Y_1}(u)$ quando $u\to0$.
 
@@ -2205,7 +2168,7 @@ temos
 onde o resto $g\colon\mathbb{R}\to\mathbb{C}$ satisfaz $g(u)/u^2\to0$
 quando $u\to0$. Substituindo os momentos $\mathbb{E}[Y_1]=0$ e
 $\mathbb{E}[Y_1^2]=1$ calculados na etapa anterior,
-temos que o termo linear se anula
+vemos que o termo linear se anula
 e o coeficiente do termo quadrático é exatamente $-1/2$. Logo
 \begin{equation}\label{eq:tlc-expansao-padronizada}
 \varphi_{Y_1}(u)
@@ -2294,18 +2257,31 @@ $(c_n(t))_{n\geqslant1}$ converge para $-t^2/2\in\mathbb{C}$. Pelo
 Reunindo esse limite com o caso $t=0$ já verificado, concluímos que
 $\varphi_{Z_n}(t)\to e^{-t^2/2}=\varphi_Z(t)$ para todo $t\in\mathbb{R}$.
 Como vimos na primeira parte da prova, o item~(ii) do
-\Cref{thm:continuidade} e a unicidade da distribuição determinada pela
-função característica garantem então que $Z_n\Rightarrow Z$.
-Note que, em todo o argumento, as únicas propriedades da distribuição comum das parcelas que usamos
-foram apenas os valores da média e da variância: $\mu$ e $\sigma^2$ (as demais características de $X_1$ ficam
+\Cref{thm:continuidade} e o \Cref{thm:unicidade-fc} garantem então que $Z_n\Rightarrow Z$.
+Note que, em todo o argumento, as únicas propriedades da distribuição comum das parcelas usadas
+foram a média $\mu$ e a variância $\sigma^2$ (as demais características de $X_1$ ficam
 absorvidas no resto $g$, cuja contribuição desaparece no limite), razão
 pela qual a distribuição limite é sempre a normal padrão.
 \end{proof}
 
-Vamos justificar a formulação por intervalos apresentada na
-introdução. Denote por $F_n$ a função de distribuição de $Z_n$
-e por $\Phi$ a da normal padrão. Como $\Phi$ é contínua em toda
-a reta, o teorema garante que $F_n(x)\to\Phi(x)$ para todo
+A seguir, justificamos a formulação por intervalos anunciada na introdução.
+
+\begin{corollary}[Formulação por intervalos]\label{cor:tlc-intervalos}
+Nas hipóteses do \Cref{thm:man-tlc-iid}, seja $\Phi$ a função de distribuição
+da normal padrão. Então, para quaisquer $a,b\in\mathbb{R}$ com $a<b$,
+\[
+\mathbb{P}(a\leqslant Z_n\leqslant b)
+\xrightarrow[\quad n\to\infty\quad]{}
+\Phi(b)-\Phi(a)
+=\frac{1}{\sqrt{2\pi}}\int_a^b e^{-x^2/2}\,dx,
+\]
+e o mesmo limite vale se o intervalo $[a,b]$ for substituído por $(a,b)$,
+$(a,b]$ ou $[a,b)$.
+\end{corollary}
+
+\begin{proof}
+Denote por $F_n$ a função de distribuição de $Z_n$. Como $\Phi$ é contínua em toda
+a reta, o \Cref{thm:man-tlc-iid} garante que $F_n(x)\to\Phi(x)$ para todo
 $x\in\mathbb{R}$.
 
 Para tratar os extremos do intervalo sem supor que $Z_n$ tenha
@@ -2345,14 +2321,19 @@ As inclusões usadas em \eqref{eq:tlc-cotas-intervalo} também valem
 se substituirmos $[a,b]$ por $(a,b)$, $(a,b]$ ou $[a,b)$.
 Assim, o mesmo argumento mostra que incluir ou excluir os extremos
 não altera o limite.
+\end{proof}
 
 \section{Exercícios Propostos}\label{sec:exercicios}
+
+Os exercícios a seguir consolidam os resultados apresentados nestas notas,
+partindo de aplicações diretas até complementos teóricos. Parte dos enunciados
+foi adaptada de \cite{GrimmettWelsh2014} e \cite{Ross2010}.
 
 \begin{exercise}\label{exercise:tlc-imediato-padronizacao}
 Seja $(X_n)_{n\geqslant1}$ uma sequência de variáveis aleatórias independentes e
 identicamente distribuídas com média $\mu=10$ e variância $\sigma^2=4$. Defina
 $S_n=X_1+\cdots+X_n$ e $\overline{X}_n=S_n/n$. Usando o \Cref{thm:man-tlc-iid} e
-a formulação por intervalos obtida na \Cref{sec:tlc}, expresse em termos da
+o \Cref{cor:tlc-intervalos}, expresse em termos da
 função de distribuição $\Phi$ da normal padrão a aproximação fornecida pelo
 Teorema do Limite Central para cada uma das probabilidades a seguir:
 \begin{enumerate}[label=(\alph*)]
@@ -2375,7 +2356,7 @@ $n\geqslant1$, defina
 \]
 Calcule a função característica $\varphi_{Z_n}$ combinando o \Cref{ex:normal}, o
 item~(e) do \Cref{thm:propriedades-fc} e o \Cref{thm:fc-soma-independentes}.
-Conclua, pela unicidade da distribuição determinada pela função característica,
+Conclua, pelo \Cref{thm:unicidade-fc},
 que $Z_n$ já tem exatamente a distribuição normal padrão para todo
 $n\geqslant1$.
 \end{exercise}
@@ -2401,8 +2382,8 @@ $\varphi_{Z_n}(t)\to e^{-t^2/2}$ para todo $t\in\mathbb{R}$.
 \begin{exercise}\label{exercise:tlc-imediato-intervalos}
 Seja $(X_n)_{n\geqslant1}$ uma sequência nas condições do \Cref{thm:man-tlc-iid},
 com soma normalizada $Z_n$. A partir da convergência
-$\mathbb{P}(a\leqslant Z_n\leqslant b)\to\Phi(b)-\Phi(a)$ estabelecida na
-\Cref{sec:tlc}, demonstre os itens abaixo.
+$\mathbb{P}(a\leqslant Z_n\leqslant b)\to\Phi(b)-\Phi(a)$ estabelecida no
+\Cref{cor:tlc-intervalos}, demonstre os itens abaixo.
 \begin{enumerate}[label=(\alph*)]
 \item Para todo $x\geqslant0$, vale
 $\mathbb{P}(|Z_n|\leqslant x)\to 2\Phi(x)-1$ quando $n\to\infty$.
@@ -2445,7 +2426,8 @@ e use $\sigma^2=\mathbb{E}[X^2]-\mu^2$.
 \begin{exercise}\label{exercise:tlc-imediato-hipoteses-variancia}
 No \Cref{thm:man-tlc-iid}, supomos que a variância comum $\sigma^2$ satisfaz
 $\sigma^2\in(0,\infty)$. Examine o que ocorre quando essa hipótese falha nos dois
-casos extremos abaixo.
+casos extremos abaixo, denotando por $S_n=X_1+\cdots+X_n$ a soma parcial das
+primeiras $n$ variáveis.
 \begin{enumerate}[label=(\alph*)]
 \item Se $(X_n)_{n\geqslant1}$ é uma sequência i.i.d. degenerada em uma
 constante $\mu\in\mathbb{R}$, isto é, $\mathbb{P}(X_1=\mu)=1$, mostre que
@@ -2527,8 +2509,8 @@ alternativamente, calcule diretamente $\varphi_{Z_n}(t)$ e utilize o
 
 \begin{exercise}\label{exercise:gw-8-prob-2}
 Aplicando o \Cref{thm:man-tlc-iid} a uma sequência de variáveis aleatórias com
-distribuição de Bernoulli de parâmetro $p$, prove que, para quaisquer $0<p<1$,
-$q=1-p$ e $x>0$, vale
+distribuição de Bernoulli de parâmetro $p$, prove que, para quaisquer $0<p<1$
+e $x>0$, com $q=1-p$, vale
 \[
   \sum_{k:\,|k-np|\leqslant x\sqrt{npq}}\binom{n}{k}p^k q^{n-k}
   \xrightarrow[\quad n\to\infty\quad]{}
@@ -2551,7 +2533,7 @@ independentes com distribuição de Poisson de parâmetro $1$, prove que
 \noindent\emph{Sugestão:} se $X_1,X_2,\ldots$ são independentes com distribuição
 $\mathrm{Poisson}(1)$, verifique pelo \Cref{thm:fc-soma-independentes} que
 $S_n=X_1+\cdots+X_n$ tem função característica $\exp\bigl(n(e^{it}-1)\bigr)$,
-logo distribuição $\mathrm{Poisson}(n)$ pela unicidade. Escreva então o lado
+logo distribuição $\mathrm{Poisson}(n)$ pelo \Cref{thm:unicidade-fc}. Escreva então o lado
 esquerdo como $\mathbb{P}(S_n\leqslant n)$ e padronize $S_n$.
 \end{exercise}
 
@@ -2604,7 +2586,7 @@ $n\to\infty$, e conclua pelo \Cref{thm:continuidade} que $\overline{X}_n$
 converge em distribuição para a constante $\mu$ (e, portanto, em probabilidade,
 como visto nas notas de aula sobre modos de convergência).
 
-\noindent\emph{Sugestão:} pelo \Cref{thm:derivadas-momentos} com $n=1$, a função
+\noindent\emph{Sugestão:} pelo \Cref{thm:derivadas-momentos} aplicado à primeira derivada, a função
 $\varphi_{X_1}$ é derivável em $0$ com $\varphi_{X_1}'(0)=i\mu$, de modo que
 $\varphi_{X_1}(u)=1+iu\mu+g_1(u)$ com $g_1(u)/u\to0$ quando $u\to0$. Use
 $\varphi_{\overline{X}_n}(t)=\bigl(\varphi_{X_1}(t/n)\bigr)^n$ e o
@@ -2618,8 +2600,9 @@ uniformemente distribuídos no intervalo $(-1/2,\,1/2)$, use o Teorema do Limite
 Central para aproximar, em termos de $\Phi$, a probabilidade de que a soma
 obtida difira da soma exata por mais de $3$.
 
-\noindent\emph{Sugestão:} cada erro tem média $0$ e variância $1/12$; escreva o erro total
-como $S_{50}=\sum_{j=1}^{50}X_j$ e aproxime $\mathbb{P}(|S_{50}|>3)$.
+\noindent\emph{Sugestão:} cada erro tem média $0$ e variância $1/12$; denotando por $X_j$ o
+$j$-ésimo erro de arredondamento, escreva o erro total como $S_{50}=\sum_{j=1}^{50}X_j$
+e aproxime $\mathbb{P}(|S_{50}|>3)$.
 \end{exercise}
 
 \begin{exercise}\label{exercise:ross-8-6}
@@ -2665,6 +2648,10 @@ de sinistros por segurado é de $240$ reais, com desvio padrão de $800$ reais.
 Supondo independência e distribuição comum entre os segurados, use o Teorema do
 Limite Central para aproximar, em termos de $\Phi$, a probabilidade de que o
 total anual de sinistros ultrapasse $2{,}7$ milhões de reais.
+
+\noindent\emph{Sugestão:} escreva o total anual como
+$S_{10\,000}=\sum_{j=1}^{10\,000}X_j$, em que $X_j$ é o sinistro anual do
+$j$-ésimo segurado (com $\mu=240$ e $\sigma=800$), e padronize $S_{10\,000}$.
 \end{exercise}
 
 \begin{exercise}\label{exercise:ross-st-8-8}
@@ -2699,8 +2686,9 @@ Os exercícios seguintes, todos assinalados com estrela, são mais exigentes e
 podem ser deixados para um segundo momento.
 
 \begin{starredexercise}\label{exercise:equicontinuidade}
-Dizemos que uma família de variáveis aleatórias $\{X_i:i\in I\}$ é
-\emph{condensada} se, para todo $\varepsilon>0$, existe $M>0$ tal que
+Estendendo a \Cref{def:sequencia-condensada}, dizemos que uma família de
+variáveis aleatórias $\{X_i:i\in I\}$ é \emph{condensada} (em inglês,
+\emph{tight}) se, para todo $\varepsilon>0$, existe $M>0$ tal que
 \[
 \mathbb{P}(|X_i|>M)<\varepsilon
 \qquad\text{para todo }i\in I.
@@ -2711,8 +2699,8 @@ $\varepsilon>0$, existe $\delta>0$ tal que $|h|<\delta$ implica
 $|\varphi_{X_i}(t+h)-\varphi_{X_i}(t)|<\varepsilon$ para todos $i\in I$ e
 $t\in\mathbb{R}$.
 
-\begin{enumerate}
-\item[(i)] Suponha que $\{X_i:i\in I\}$ seja condensada e mostre que
+\begin{enumerate}[label=(\alph*)]
+\item Suponha que $\{X_i:i\in I\}$ seja condensada e mostre que
 $\{\varphi_{X_i}:i\in I\}$ é equicontínua.
 
 \noindent\emph{Sugestão:} pelo item~(d) do \Cref{thm:propriedades-fc},
@@ -2728,16 +2716,16 @@ Use $|e^{i\theta}-1|\leqslant\min\{|\theta|,2\}$, obtida no
 \]
 Escolha primeiro $M$ e depois $\delta$ em função de $\varepsilon$.
 
-\item[(ii)] Suponha que $X_n\Rightarrow X_\infty$ e denote por
+\item Suponha que $X_n\Rightarrow X_\infty$ e denote por
 $\varphi_{X_\infty}$ a função característica de $X_\infty$. Mostre que a
-família $\{X_n:n\in\mathbb{N}\}\cup\{X_\infty\}$ é condensada e conclua que
-$\varphi_{X_n}\to\varphi_{X_\infty}$ uniformemente sobre cada intervalo limitado.
+família $\{X_n:n\geqslant1\}\cup\{X_\infty\}$ é condensada e conclua que
+$\varphi_{X_n}\to\varphi_{X_\infty}$ uniformemente em cada intervalo limitado.
 
 \noindent\emph{Sugestão:} para obter a condensação, escolha $M$ de modo que $-M$ e $M$
 sejam pontos de continuidade de $F_{X_\infty}$ e que
 $\mathbb{P}(|X_\infty|\geqslant M)$ seja pequena. Use a convergência das
 funções de distribuição e, depois, aumente $M$ para incluir os finitos
-índices iniciais. Aplique o item~(i) e o \Cref{thm:continuidade}. Dado um
+índices iniciais. Aplique o item~(a) e o \Cref{thm:continuidade}. Dado um
 intervalo limitado, cubra-o por um número finito de intervalos de raio
 $\delta$, centrados em $t_1,\ldots,t_k$, e escreva
 \[
@@ -2751,7 +2739,7 @@ $\delta$, centrados em $t_1,\ldots,t_k$, e escreva
 Use a equicontinuidade na primeira e na terceira parcelas e a convergência
 pontual em $t_j$ na parcela do meio.
 
-\item[(iii)] Dê um exemplo em que $X_n\Rightarrow X_\infty$, mas
+\item Dê um exemplo em que $X_n\Rightarrow X_\infty$, mas
 $\varphi_{X_n}$ não converge para $\varphi_{X_\infty}$ uniformemente em
 $\mathbb{R}$.
 
@@ -2779,7 +2767,7 @@ $t\in(0,\delta]$. Ora,
 =\mathbb{E}\left[\frac{1-\cos(tX)}{t^2}\right].
 \]
 A variável aleatória dentro da esperança é não negativa e converge
-pontualmente para $X^2/2$ quando $t\downarrow0$. Aplicando o lema de
+pontualmente para $X^2/2$ quando $t\downarrow0$. Aplicando o Lema de
 Fatou ao longo de uma sequência $t_k\downarrow0$, obtemos
 $\mathbb{E}[X^2]\leqslant2C<\infty$. Com o segundo momento finito, a expansão
 de segunda ordem do \Cref{thm:taylor-segunda-ordem} dá
@@ -2789,8 +2777,8 @@ $c=-\frac{1}{2}\mathbb{E}[X^2]$.
 \end{starredexercise}
 
 \begin{starredexercise}\label{exercise:gw-8-prob-19}
-Sejam $(X_k)_{k\geqslant1}$ e $(Y_k)_{k\geqslant1}$ duas sequências de
-variáveis aleatórias independentes com
+Sejam $(X_k)_{k\geqslant1}$ e $(Y_k)_{k\geqslant1}$ duas sequências, cada uma
+formada por variáveis aleatórias independentes, com
 \[
   \mathbb{P}(X_k=1)=\mathbb{P}(X_k=-1)=\frac{1}{2}
 \]
@@ -2803,7 +2791,7 @@ e, para cada $k\geqslant1$,
 \]
 Defina
 \[
-  S_n=\sum_{k=1}^n\frac{X_k}{\sqrt{n}},
+  U_n=\sum_{k=1}^n\frac{X_k}{\sqrt{n}},
   \qquad
   T_n=\sum_{k=1}^n\frac{Y_k}{\sqrt{n}},
 \]
@@ -2811,7 +2799,7 @@ e denote por $Z$ uma variável aleatória com distribuição normal padrão.
 Verifique se cada afirmação abaixo é verdadeira ou falsa (demonstrando ou
 justificando com contraexemplo):
 \begin{enumerate}[label=(\alph*)]
-\item $S_n\Rightarrow Z$;
+\item $U_n\Rightarrow Z$;
 \item $\mathbb{E}[T_n]\to\mathbb{E}[Z]$ e $\operatorname{Var}(T_n)\to\operatorname{Var}(Z)$;
 \item $T_n\Rightarrow Z$.
 \end{enumerate}
@@ -2860,9 +2848,8 @@ que $\gamma(t)=1$ em $[-\delta,\delta]$, e a recorrência de (a) estende
 $\varphi(t)=\varphi(-t)$ por indução aos intervalos $[-2^k\delta,2^k\delta]$.
 Em (c), itere $\varphi(t)=\varphi(t/2)^4$, substitua $\varphi(t/2^n)$ pela
 expansão do \Cref{thm:taylor-segunda-ordem}, aplique o \Cref{thm:man-limite-exp}
-ao longo da subsequência $4^n$ para obter $\varphi(t)=e^{-t^2/2}$ e invoque a
-unicidade da distribuição determinada pela função característica junto com o
-\Cref{ex:normal}.
+ao longo da subsequência $4^n$ para obter $\varphi(t)=e^{-t^2/2}$ e invoque o
+\Cref{thm:unicidade-fc} junto com o \Cref{ex:normal}.
 \end{starredexercise}
 
 %----------------------------------------------------------------------
