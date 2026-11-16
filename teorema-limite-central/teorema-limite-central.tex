@@ -78,8 +78,8 @@
 citecolor={red}, urlcolor={blue!80!black}]{hyperref}
 
 \hypersetup{
-pdftitle={Teorema do Limite Central}, pdfauthor={L. Cioletti},
-pdfsubject={Teorema do Limite Central, funções características, momentos e
+pdftitle={O Teorema do Limite Central}, pdfauthor={L. Cioletti},
+pdfsubject={O Teorema do Limite Central, funções características, momentos e
 resto de Taylor}, pdfkeywords={teorema do limite central, funções
 características, momentos, resto de Taylor, MAT-UnB} }
 
@@ -199,7 +199,7 @@ características, momentos, resto de Taylor, MAT-UnB} }
 % --- TÍTULO, AUTOR E DATA ---
 \vspace*{0.3cm}
 \begin{center}
-{\LARGE\bf Teorema do Limite Central}
+{\LARGE\bf O Teorema do Limite Central}
 \vspace{1cm}
 
 {\large \bf L. Cioletti}
@@ -212,15 +212,16 @@ características, momentos, resto de Taylor, MAT-UnB} }
 \begin{abstract}
 Nestas notas, demonstramos o Teorema do Limite Central para sequências de
 variáveis aleatórias independentes e identicamente distribuídas, com
-variância positiva e finita. A prova usa funções características, o
-Teorema da Continuidade de Lévy e um limite exponencial complexo.
-Relacionamos os momentos às derivadas da função característica e
-obtemos uma expansão de segunda ordem cujo resto é controlado sem
-supor a existência do terceiro momento. Estudamos também uma recíproca
-que caracteriza a finitude do segundo momento por diferenças segundas
-na origem e apresentamos exercícios sobre esses resultados.
-A exposição parte dos manuscritos de aula e do Capítulo 3 de
-\cite{MR3930614}.
+variância positiva e finita. Esse teorema é um resultado central da teoria
+sobre o comportamento assintótico de somas de variáveis aleatórias.
+
+Para prová-lo, seguimos o roteiro padrão da literatura, baseado em funções
+características e no Teorema da Continuidade de Paul Lévy. A exposição é
+bastante detalhada e a demonstração é apresentada na íntegra: recordamos os
+pré-requisitos sobre funções características e desenvolvemos com cuidado
+todos os resultados técnicos auxiliares necessários. O texto conta ao final
+com uma lista de exercícios, e, em algumas partes, a exposição segue de
+perto o Capítulo 3 da referência \cite{MR3930614}.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -2061,171 +2062,242 @@ reduzida a estabelecer a convergência acima.
 
 \smallskip
 \noindent\textbf{Padronização das parcelas.}
-Vamos incorporar a centralização e a divisão por $\sigma$ a cada
-parcela. A razão para esse passo é que a prova vai depender da
-expansão de segunda ordem da função característica, e o
-\Cref{thm:taylor-segunda-ordem} mostra que essa expansão é
-determinada pelos dois primeiros momentos: para uma variável
-aleatória $W$ com segundo momento finito,
+Para preparar o estudo de $Z_n$, vamos incorporar a centralização por $\mu$
+e o reescalonamento por $\sigma$ a cada parcela da soma, deixando o fator
+$1/\sqrt{n}$ em evidência. O objetivo é reescrever $Z_n$ como $1/\sqrt{n}$
+multiplicado por uma soma de variáveis aleatórias ainda independentes e
+identicamente distribuídas, agora padronizadas com média $0$ e variância $1$,
+que são os dois primeiros momentos da normal padrão limite.
+
+Como $\sigma^2=\operatorname{Var}(X_1)\in(0,\infty)$, temos
+$\sigma=\sqrt{\sigma^2}\in(0,\infty)$; em particular, $\mu\in\mathbb{R}$,
+$\sigma>0$ e $1/\sigma$ está bem definido. Além disso, como as variáveis
+$(X_n)_{n\geqslant1}$ são identicamente distribuídas, cada $X_j$ tem a
+mesma distribuição de $X_1$ e, portanto, a mesma média e a mesma variância:
+para todo $j\geqslant1$, vale $\mathbb{E}[X_j]=\mathbb{E}[X_1]=\mu$ e,
+pela definição de variância,
 \[
-\varphi_W(t)=1+it\,\mathbb{E}[W]-\frac{t^2}{2}\mathbb{E}[W^2]+o(t^2),
-\qquad t\to0.
+\mathbb{E}\bigl[(X_j-\mu)^2\bigr]
+=\mathbb{E}\bigl[(X_j-\mathbb{E}[X_j])^2\bigr]
+=\operatorname{Var}(X_j)
+=\operatorname{Var}(X_1)
+=\sigma^2<\infty.
 \]
-Escolhendo $W$ de modo que $\mathbb{E}[W]=0$ e $\mathbb{E}[W^2]=1$,
-obtemos a aproximação $1-t^2/2+o(t^2)$, que é exatamente a forma de
-que precisamos: ela coincide com a expansão de
-$\varphi_Z(t)=e^{-t^2/2}$ na origem.
-Como $0<\sigma<\infty$, podemos definir
+Definimos então as variáveis aleatórias padronizadas
 \[
 Y_j\equiv\frac{X_j-\mu}{\sigma},
-\qquad j\geqslant1,
+\qquad j\geqslant1.
 \]
-e então, para cada $j\geqslant1$,
+
+Verifiquemos primeiro que $(Y_j)_{j\geqslant1}$ continua sendo uma
+sequência independente e identicamente distribuída. Cada $Y_j$ é obtida
+aplicando a $X_j$ a mesma função afim (logo contínua e Borel-mensurável)
+$h(x)=(x-\mu)/\sigma$. Como visto em notas de aula anteriores, funções
+mensuráveis de variáveis aleatórias independentes permanecem independentes;
+além disso, como todas as variáveis $X_j$ têm a mesma distribuição e lhes
+aplicamos a mesma função $h$, as variáveis $Y_j=h(X_j)$ também são
+identicamente distribuídas (como $\sigma>0$, cada evento
+$\{Y_j\leqslant y\}$ coincide com $\{X_j\leqslant\sigma y+\mu\}$).
+
+Calculemos agora os dois primeiros momentos de cada $Y_j$. Como $\mu$ e
+$\sigma>0$ são constantes, a linearidade da esperança fornece
 \begin{align*}
 \mathbb{E}[Y_j]
-&=\frac{\mathbb{E}[X_j]-\mu}{\sigma}=0,
+&=\mathbb{E}\!\left[\frac{X_j-\mu}{\sigma}\right]
+=\frac{1}{\sigma}\,\mathbb{E}[X_j-\mu]
+=\frac{\mathbb{E}[X_j]-\mu}{\sigma}
+=\frac{\mu-\mu}{\sigma}
+=0,
 \\[0.3cm]
 \mathbb{E}[Y_j^2]
-&=\frac{\mathbb{E}[(X_j-\mu)^2]}{\sigma^2}
-=\frac{\sigma^2}{\sigma^2}=1.
+&=\mathbb{E}\!\left[\left(\frac{X_j-\mu}{\sigma}\right)^{\!2}\right]
+=\frac{1}{\sigma^2}\,\mathbb{E}\bigl[(X_j-\mu)^2\bigr]
+=\frac{\sigma^2}{\sigma^2}
+=1.
 \end{align*}
-Observe que a centralização não é um detalhe técnico. Se não
-centralizássemos as parcelas, cada fator que calcularemos a seguir
-teria um termo linear não nulo, de ordem $1/\sqrt{n}$. Ao elevar à
-potência $n$, esses termos se acumulariam em uma fase de ordem
-$\sqrt{n}$: a potência oscilaria, em vez de convergir. É a média zero
-que elimina esse termo linear e deixa a aproximação na forma
-$1-t^2/2+o(t^2)$.
-Como aplicamos a cada $X_j$ a mesma função afim, as variáveis
-$Y_j$ continuam independentes e identicamente distribuídas.
-Além disso, a soma do enunciado se escreve como
+Em particular, $\operatorname{Var}(Y_j)=\mathbb{E}[Y_j^2]-(\mathbb{E}[Y_j])^2=1$
+e $\mathbb{E}[Y_1^2]=1<\infty$. Introduzindo a constante $1/\sigma$ no
+somatório que define $Z_n$, obtemos ainda
 \[
 Z_n
 =\frac{1}{\sigma\sqrt{n}}\sum_{j=1}^n(X_j-\mu)
-=\frac{1}{\sqrt{n}}\sum_{j=1}^nY_j.
+=\frac{1}{\sqrt{n}}\sum_{j=1}^n\frac{X_j-\mu}{\sigma}
+=\frac{1}{\sqrt{n}}\sum_{j=1}^n Y_j.
 \]
-Repare no papel de cada fator: o fator $1/\sigma$ foi absorvido por
-cada parcela, enquanto o fator $1/\sqrt{n}$ ficou em evidência. Este
-último não é arbitrário, pois, como as parcelas são independentes e
-têm variância $1$, a variância da soma é $n$; dividir por $\sqrt{n}$
-é justamente a escala em que a soma volta a ter variância $1$.
+Note o papel do fator restante $1/\sqrt{n}$: como $Y_1,\ldots,Y_n$ são
+independentes com variância $1$, temos
+$\operatorname{Var}(Y_1+\cdots+Y_n)=\sum_{j=1}^n\operatorname{Var}(Y_j)=n$
+e, pela propriedade da variância sob mudança de escala vista em notas
+anteriores,
+$\operatorname{Var}(Z_n)=(1/\sqrt{n})^2\operatorname{Var}(Y_1+\cdots+Y_n)=(1/n)\cdot n=1$
+para todo $n\geqslant1$.
 
 \smallskip
 \noindent\textbf{A função característica da soma.}
-Como $Z_n$ é uma soma de variáveis independentes, podemos calcular
-sua função característica usando a regra do produto, sem determinar
-antes a distribuição da soma. Para isso, aplicamos primeiro o
-item~(e) do \Cref{thm:propriedades-fc} à soma, o que traz o fator
-$1/\sqrt{n}$ para dentro do argumento da função característica, e
-depois usamos o \Cref{thm:fc-soma-independentes}, que transforma a
-função característica de uma soma de variáveis independentes em um
-produto. Obtemos
+Queremos agora expressar $\varphi_{Z_n}(t)$ em termos de $\varphi_{Y_1}$ e
+estudar seu limite quando $n\to\infty$. Para $t=0$, o item~(a) do
+\Cref{thm:propriedades-fc} garante diretamente que
+$\varphi_{Z_n}(0)=1=e^0=\varphi_Z(0)$ para todo $n\geqslant1$, de modo que a
+convergência desejada é imediata na origem. Fixemos, portanto,
+$t\in\mathbb{R}\setminus\{0\}$ para o restante da prova.
+
+Como $Z_n$ é um múltiplo de uma soma de variáveis aleatórias independentes,
+podemos calcular $\varphi_{Z_n}(t)$ a partir das funções características
+das parcelas, sem determinar antes a distribuição da soma. Para manter a
+notação enxuta nas passagens seguintes, vamos introduzir a seguinte notação para a soma das parcelas
+padronizadas
+\[
+S_n^*\equiv\sum_{j=1}^n Y_j=Y_1+\cdots+Y_n,
+\qquad\text{de modo que}\qquad
+Z_n=\frac{1}{\sqrt{n}}\,S_n^*.
+\]
+
+Aplicamos primeiro a regra de transformação afim do item~(e) do
+\Cref{thm:propriedades-fc}, segundo a qual
+$\mathbb{E}[e^{it(aW+b)}]=e^{itb}\varphi_W(at)$ para quaisquer constantes
+$a,b\in\mathbb{R}$. Tomando $W=S_n^*$, $a=1/\sqrt{n}$ e $b=0$ (de modo que
+$e^{itb}=e^0=1$), vemos que o fator $1/\sqrt{n}$ migra para dentro do
+argumento da função característica:
+\[
+\varphi_{Z_n}(t)
+=\mathbb{E}\Bigl[\exp\Bigl(it\cdot\frac{1}{\sqrt{n}}S_n^*\Bigr)\Bigr]
+=e^{it\cdot 0}\,\varphi_{S_n^*}\!\left(\frac{t}{\sqrt{n}}\right)
+=\varphi_{Y_1+\cdots+Y_n}\!\left(\frac{t}{\sqrt{n}}\right).
+\]
+Em seguida, como $Y_1,\ldots,Y_n$ são independentes, o
+\Cref{thm:fc-soma-independentes} afirma que, em todo ponto
+$s\in\mathbb{R}$, a função característica da soma fatora no produto das
+funções características das parcelas,
+$\varphi_{Y_1+\cdots+Y_n}(s)=\prod_{j=1}^n\varphi_{Y_j}(s)$. Por fim, para
+cada $j\in\{1,\ldots,n\}$ e cada $s\in\mathbb{R}$, a esperança
+$\varphi_{Y_j}(s)=\mathbb{E}[e^{isY_j}]$ depende apenas da distribuição de
+$Y_j$. Como $Y_1,\ldots,Y_n$ são identicamente distribuídas, temos
+$\varphi_{Y_j}(s)=\varphi_{Y_1}(s)$ para todo $s\in\mathbb{R}$ (o que
+corresponde ao caso ``em particular'' do
+\Cref{thm:fc-soma-independentes}). Avaliando essas identidades no ponto
+$s=t/\sqrt{n}$, todos os $n$ fatores do produto igualam-se a
+$\varphi_{Y_1}(t/\sqrt{n})$, e obtemos
 \begin{align}
 \varphi_{Z_n}(t)
-&=\prod_{j=1}^n\varphi_{Y_j}\left(\frac{t}{\sqrt{n}}\right)\notag
+&=\prod_{j=1}^n\varphi_{Y_j}\!\left(\frac{t}{\sqrt{n}}\right)\notag
 \\[0.3cm]
-&=\left(\varphi_{Y_1}\left(\frac{t}{\sqrt{n}}\right)\right)^n.
+&=\left(\varphi_{Y_1}\!\left(\frac{t}{\sqrt{n}}\right)\right)^{\!n}.
 \label{eq:tlc-produto-fc}
 \end{align}
-Na última igualdade, usamos o fato de as parcelas terem a mesma
-distribuição. Assim, $\varphi_{Z_n}(t)$ é uma potência de $n$ fatores
-iguais, cada um avaliado em $t/\sqrt{n}$. Para cada $t$ fixado, esse
-argumento tende a zero quando $n\to\infty$. Isso sugere aproximar
-$\varphi_{Y_1}$ perto da origem, usando a expansão de segunda ordem.
-
-Como $\mathbb{E}[Y_1]=0$ e $\mathbb{E}[Y_1^2]=1<\infty$,
-o \Cref{thm:taylor-segunda-ordem} fornece a aproximação procurada:
-a média nula elimina o termo linear, e o segundo momento igual a $1$
-fixa o coeficiente quadrático em $-1/2$. Explicitamente,
-\begin{equation}\label{eq:tlc-expansao-padronizada}
-\varphi_{Y_1}(t)=1-\frac{t^2}{2}+g(t),
-\qquad
-\frac{g(t)}{t^2}\xrightarrow{t\to0}0.
-\end{equation}
-Também temos $g(0)=0$, pois $\varphi_{Y_1}(0)=1$.
-Repare que a forma dessa aproximação depende apenas de
-$\mathbb{E}[Y_1]$ e $\mathbb{E}[Y_1^2]$. Essa é a pista de que o
-limite final não dependerá da distribuição comum das parcelas, e sim
-apenas de $\mu$ e $\sigma$.
-Ao aplicarmos essa expansão no argumento $t/\sqrt{n}$ que aparece em
-\eqref{eq:tlc-produto-fc}, o termo quadrático passa a ser $-t^2/(2n)$.
-Para usar o limite exponencial, precisaremos então mostrar que a
-contribuição do resto, mesmo depois de multiplicada por $n$, tende a zero.
 
 \smallskip
-\noindent\textbf{O limite exponencial.}
-O \Cref{cor:limite-exp-parametro} afirma que uma potência da forma
-$(1+c/n)^n$ converge para $e^c$. Para reconhecer essa forma na
-expressão \eqref{eq:tlc-produto-fc}, colocamos o fator $1/n$ em
-evidência na diferença entre a base da potência e $1$:
+\noindent\textbf{Expansão local e limite exponencial.}
+Na expressão \eqref{eq:tlc-produto-fc}, o valor $t\neq0$ está fixado e
+queremos fazer $n\to\infty$; logo, o argumento $t/\sqrt{n}$ onde avaliamos
+$\varphi_{Y_1}$ tende a zero. Isso nos leva a estudar o comportamento local
+de $\varphi_{Y_1}(u)$ quando $u\to0$.
+
+Como $\mathbb{E}[Y_1^2]=1<\infty$, podemos aplicar o
+\Cref{thm:taylor-segunda-ordem} à variável $Y_1$. Escrevendo a variável da
+expansão como $u\in\mathbb{R}$ para distingui-la do parâmetro fixado $t$,
+temos
+\[
+\varphi_{Y_1}(u)
+=1+iu\,\mathbb{E}[Y_1]-\frac{u^2}{2}\,\mathbb{E}[Y_1^2]+g(u),
+\]
+onde o resto $g\colon\mathbb{R}\to\mathbb{C}$ satisfaz $g(u)/u^2\to0$
+quando $u\to0$. Substituindo os momentos $\mathbb{E}[Y_1]=0$ e
+$\mathbb{E}[Y_1^2]=1$ calculados na etapa anterior,
+temos que o termo linear se anula
+e o coeficiente do termo quadrático é exatamente $-1/2$. Logo
+\begin{equation}\label{eq:tlc-expansao-padronizada}
+\varphi_{Y_1}(u)
+=1-\frac{u^2}{2}+g(u),
+\qquad\text{com}\qquad
+\frac{g(u)}{u^2}\xrightarrow[\quad u\to0\quad]{}0.
+\end{equation}
+Aplicando \eqref{eq:tlc-expansao-padronizada} em $u=t/\sqrt{n}$ e usando
+$(t/\sqrt{n})^2=t^2/n$, a igualdade \eqref{eq:tlc-produto-fc} fornece
+\[
+\varphi_{Z_n}(t)
+=\left(
+1-\frac{t^2}{2n}+g\!\left(\frac{t}{\sqrt{n}}\right)
+\right)^{\!n}.
+\]
+
+Na expressão obtida para $\varphi_{Z_n}(t)$, tanto $\varphi_{Y_1}(t/\sqrt{n})$
+quanto $g(t/\sqrt{n})$ assumem, em geral, valores complexos; por isso não
+podemos tomar o logaritmo real do Cálculo para calcular o limite da potência.
+Em vez disso, recorremos ao \Cref{thm:man-limite-exp} da
+\Cref{sec:preliminares-complexos} (e à sua forma parametrizada, o
+\Cref{cor:limite-exp-parametro}), segundo o qual $(1+c_n/n)^n\to e^c$ sempre
+que uma sequência complexa $(c_n)_{n\geqslant1}$ converge para
+$c\in\mathbb{C}$.
+
+Para reconhecer exatamente a estrutura $(1+c_n(t)/n)^n$, colocamos o fator
+$1/n$ em evidência nos termos que se somam a $1$:
 \begin{samepage}
 \begin{align}
 \varphi_{Z_n}(t)
 &=\left(
-1-\frac{t^2}{2n}+g\left(\frac{t}{\sqrt{n}}\right)
-\right)^n\notag
+1+\frac{1}{n}\left[-\frac{t^2}{2}+n\,g\!\left(\frac{t}{\sqrt{n}}\right)\right]
+\right)^{\!n}\notag
 \\[0.3cm]
-&=\left(1+\frac{c_n(t)}{n}\right)^n,
+&=\left(1+\frac{c_n(t)}{n}\right)^{\!n},
 \label{eq:man-fatoracao-zn}
 \end{align}
-onde definimos, para todo $t\in\mathbb{R}$,
+onde definimos, para o valor fixado $t\neq0$ e todo $n\geqslant1$, o número
+complexo
 \begin{equation}\label{eq:tlc-definicao-cn}
-c_n(t)\equiv-\frac{t^2}{2}
-+n\,g\left(\frac{t}{\sqrt{n}}\right).
+c_n(t)\equiv-\frac{t^2}{2}+n\,g\!\left(\frac{t}{\sqrt{n}}\right).
 \end{equation}
 \end{samepage}
 
-Para aplicar o corolário, resta verificar a convergência de $c_n(t)$
-para cada $t$ fixado. Pela definição \eqref{eq:tlc-definicao-cn},
-o ponto delicado é o resto, que aparece multiplicado por $n$. A
-escolha desse fator $n$ não é arbitrária: como
-$(t/\sqrt{n})^2=t^2/n$, ele é exatamente o inverso da escala na qual
-sabemos controlar o resto, e por isso o quociente que aparece na
-igualdade abaixo é justamente aquele que tende a zero.
-Se $t=0$, temos $g(0)=0$ e, portanto, $c_n(0)=0$ para todo $n$.
-Fixe agora $t\neq0$. Como $(t/\sqrt{n})^2=t^2/n$,
-podemos usar diretamente o limite do resto em
-\eqref{eq:tlc-expansao-padronizada}:
-\begin{equation}\label{eq:tlc-resto-reescalado}
-n\,g\left(\frac{t}{\sqrt{n}}\right)
-=t^2\,
-\frac{g(t/\sqrt{n})}{(t/\sqrt{n})^2}
-\xrightarrow{n\to\infty}0.
-\end{equation}
-De fato, o argumento $t/\sqrt{n}$ tende a zero, de modo que o
-quociente tende a zero, enquanto $t^2$ é constante.
-Por \eqref{eq:tlc-definicao-cn} e \eqref{eq:tlc-resto-reescalado},
-concluímos que
+Resta verificar que $c_n(t)\to-t^2/2$ quando $n\to\infty$, isto é, que o
+termo $n\,g(t/\sqrt{n})$ tende a zero. À primeira vista, o fator $n$ gerado
+ao colocarmos $1/n$ em evidência cresce para infinito; entretanto, como
+$t\neq0$, temos $(t/\sqrt{n})^2=t^2/n\neq0$ e, portanto,
 \[
-c_n(t)\longrightarrow-\frac{t^2}{2}
-\qquad\text{para todo }t\in\mathbb{R}.
+n=\frac{t^2}{t^2/n}=\frac{t^2}{(t/\sqrt{n})^2}.
+\]
+Substituindo essa igualdade em $n\,g(t/\sqrt{n})$, fazemos aparecer
+exatamente o quociente controlado por \eqref{eq:tlc-expansao-padronizada}:
+\begin{equation}\label{eq:tlc-resto-reescalado}
+n\,g\!\left(\frac{t}{\sqrt{n}}\right)
+=t^2\,\frac{g(t/\sqrt{n})}{(t/\sqrt{n})^2}.
+\end{equation}
+Defina $u_n\equiv t/\sqrt{n}$. Como $t\neq0$, temos $u_n\neq0$ para todo
+$n\geqslant1$ e $u_n\to0$ quando $n\to\infty$. Pelo limite
+$\lim_{u\to0}g(u)/u^2=0$ em \eqref{eq:tlc-expansao-padronizada} e pelo
+critério sequencial para limites, segue que
+\[
+\frac{g(t/\sqrt{n})}{(t/\sqrt{n})^2}
+=\frac{g(u_n)}{u_n^2}
+\xrightarrow[\quad n\to\infty\quad]{}0.
+\]
+Como $t^2$ não depende de $n$, a identidade \eqref{eq:tlc-resto-reescalado}
+mostra que $n\,g(t/\sqrt{n})\to t^2\cdot0=0$ e, portanto, por
+\eqref{eq:tlc-definicao-cn},
+\[
+c_n(t)
+=-\frac{t^2}{2}+n\,g\!\left(\frac{t}{\sqrt{n}}\right)
+\xrightarrow[\quad n\to\infty\quad]{}-\frac{t^2}{2}.
 \]
 
-Estão verificadas as hipóteses do \Cref{cor:limite-exp-parametro}.
-Aplicando-o às funções $c_n$ e usando \eqref{eq:man-fatoracao-zn},
-obtemos
+Assim, para o parâmetro fixado $t\neq0$, a sequência complexa
+$(c_n(t))_{n\geqslant1}$ converge para $-t^2/2\in\mathbb{C}$. Pelo
+\Cref{thm:man-limite-exp} (na forma parametrizada do
+\Cref{cor:limite-exp-parametro}) e pela fatoração
+\eqref{eq:man-fatoracao-zn}, obtemos
 \[
 \varphi_{Z_n}(t)
-=\left(1+\frac{c_n(t)}{n}\right)^n
-\xrightarrow{n\to\infty}e^{-t^2/2},
-\qquad t\in\mathbb{R}.
+=\left(1+\frac{c_n(t)}{n}\right)^{\!n}
+\xrightarrow[\quad n\to\infty\quad]{}e^{-t^2/2}.
 \]
-Como a função limite é contínua na origem, o item~(ii) do
-\Cref{thm:continuidade} garante a convergência em distribuição
-para uma variável com essa função característica.
-A unicidade da distribuição determinada pela função característica,
-demonstrada nas notas de aula sobre funções características,
-identifica esse limite com a normal padrão do \Cref{ex:normal}.
-Portanto, $Z_n\Rightarrow Z$.
-
-Vale observar que, ao longo da prova, usamos da distribuição comum
-das parcelas apenas os seus dois primeiros momentos. É por isso que
-o limite encontrado é o mesmo para qualquer escolha de $X_1$ com
-média $\mu$ e variância $\sigma^2$ finitas e não nulas: depois da
-padronização, a expansão de segunda ordem fornece a mesma aproximação
-$1-t^2/2+o(t^2)$ para todas essas distribuições. Suas demais
-características ficam apenas no resto, cuja contribuição desaparece
-quando passamos ao limite.
+Reunindo esse limite com o caso $t=0$ já verificado, concluímos que
+$\varphi_{Z_n}(t)\to e^{-t^2/2}=\varphi_Z(t)$ para todo $t\in\mathbb{R}$.
+Como vimos na primeira parte da prova, o item~(ii) do
+\Cref{thm:continuidade} e a unicidade da distribuição determinada pela
+função característica garantem então que $Z_n\Rightarrow Z$.
+Note que, em todo o argumento, as únicas propriedades da distribuição comum das parcelas que usamos
+foram apenas os valores da média e da variância: $\mu$ e $\sigma^2$ (as demais características de $X_1$ ficam
+absorvidas no resto $g$, cuja contribuição desaparece no limite), razão
+pela qual a distribuição limite é sempre a normal padrão.
 \end{proof}
 
 Vamos justificar a formulação por intervalos apresentada na
@@ -2263,7 +2335,7 @@ em $a$ e $b$, as duas cotas tendem a $\Phi(b)-\Phi(a)$.
 Portanto,
 \[
 \mathbb{P}(a\leqslant Z_n\leqslant b)
-\longrightarrow
+\xrightarrow[\quad n\to\infty \quad]{}
 \Phi(b)-\Phi(a)
 =\frac{1}{\sqrt{2\pi}}\int_a^b e^{-x^2/2}\,dx.
 \]
