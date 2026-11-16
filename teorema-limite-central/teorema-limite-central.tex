@@ -123,8 +123,10 @@ características, momentos, resto de Taylor, MAT-UnB} }
 \newtheorem{remark}[remark]{Observação}
 \aliascntresetthe{remark}
 
+% O primeiro argumento é o espaço acima do ambiente. Acrescentamos 0,4 cm ao
+% valor usual de 3pt para separar melhor os exercícios.
 \newtheoremstyle{plainexercise}
-  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {14.4pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
   {\thmnumber{#2}\thmnote{ #3}}
 \theoremstyle{plainexercise}
 \newtheorem{exercise}{Exercício}
@@ -132,7 +134,7 @@ características, momentos, resto de Taylor, MAT-UnB} }
 % Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
 % como nas notas anteriores.
 \newtheoremstyle{starredexercise}
-  {3pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {14.4pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
   {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
 \theoremstyle{starredexercise}
 \newtheorem{starredexercise}[exercise]{Exercício}
@@ -2346,11 +2348,126 @@ não altera o limite.
 
 \section{Exercícios Propostos}\label{sec:exercicios}
 
-Os exercícios retomam a relação entre momentos e funções características,
-o controle das caudas e o comportamento de segunda ordem na origem.
+\begin{exercise}\label{exercise:tlc-imediato-padronizacao}
+Seja $(X_n)_{n\geqslant1}$ uma sequência de variáveis aleatórias independentes e
+identicamente distribuídas com média $\mu=10$ e variância $\sigma^2=4$. Defina
+$S_n=X_1+\cdots+X_n$ e $\overline{X}_n=S_n/n$. Usando o \Cref{thm:man-tlc-iid} e
+a formulação por intervalos obtida na \Cref{sec:tlc}, expresse em termos da
+função de distribuição $\Phi$ da normal padrão a aproximação fornecida pelo
+Teorema do Limite Central para cada uma das probabilidades a seguir:
+\begin{enumerate}[label=(\alph*)]
+\item $\mathbb{P}(S_{100}\leqslant 1030)$;
+\item $\mathbb{P}\bigl(|\overline{X}_{64}-10|\leqslant 0{,}5\bigr)$;
+\item $\mathbb{P}(S_{400}>3960)$.
+\end{enumerate}
 
-\begin{exercise}[Momentos da normal padrão]
-\label{exercise:momentos-normal}
+\noindent\emph{Sugestão:} reescreva cada evento em função da soma normalizada
+$Z_n=(S_n-n\mu)/(\sigma\sqrt{n})$. Em (b) e (c), use também a simetria
+$\Phi(-x)=1-\Phi(x)$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:tlc-imediato-normais}
+Seja $(X_n)_{n\geqslant1}$ uma sequência de variáveis aleatórias independentes e
+identicamente distribuídas com distribuição normal padrão. Para cada
+$n\geqslant1$, defina
+\[
+  Z_n=\frac{X_1+\cdots+X_n}{\sqrt{n}}.
+\]
+Calcule a função característica $\varphi_{Z_n}$ combinando o \Cref{ex:normal}, o
+item~(e) do \Cref{thm:propriedades-fc} e o \Cref{thm:fc-soma-independentes}.
+Conclua, pela unicidade da distribuição determinada pela função característica,
+que $Z_n$ já tem exatamente a distribuição normal padrão para todo
+$n\geqslant1$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:tlc-imediato-rademacher}
+Seja $(X_n)_{n\geqslant1}$ uma sequência de variáveis aleatórias independentes e
+identicamente distribuídas com distribuição de Rademacher (\Cref{ex:rademacher}),
+de modo que $\varphi_{X_1}(t)=\cos t$.
+\begin{enumerate}[label=(\alph*)]
+\item Calcule $\mathbb{E}[X_1]$ e $\mathbb{E}[X_1^2]$ diretamente a partir da
+distribuição de $X_1$ e verifique a identidade
+$\varphi_{X_1}^{(k)}(0)=i^k\mathbb{E}[X_1^k]$ do
+\Cref{thm:derivadas-momentos} para $k=1,2$.
+\item Defina $Z_n=(X_1+\cdots+X_n)/\sqrt{n}$. Expresse $\varphi_{Z_n}(t)$ em
+termos da função cosseno, identifique
+$c_n(t)=n\bigl(\varphi_{X_1}(t/\sqrt{n})-1\bigr)$ e use a expansão
+$\cos u=1-u^2/2+o(u^2)$ quando $u\to0$ junto com o
+\Cref{cor:limite-exp-parametro} para provar diretamente que
+$\varphi_{Z_n}(t)\to e^{-t^2/2}$ para todo $t\in\mathbb{R}$.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:tlc-imediato-intervalos}
+Seja $(X_n)_{n\geqslant1}$ uma sequência nas condições do \Cref{thm:man-tlc-iid},
+com soma normalizada $Z_n$. A partir da convergência
+$\mathbb{P}(a\leqslant Z_n\leqslant b)\to\Phi(b)-\Phi(a)$ estabelecida na
+\Cref{sec:tlc}, demonstre os itens abaixo.
+\begin{enumerate}[label=(\alph*)]
+\item Para todo $x\geqslant0$, vale
+$\mathbb{P}(|Z_n|\leqslant x)\to 2\Phi(x)-1$ quando $n\to\infty$.
+\item Para todo $x\in\mathbb{R}$ fixado, vale $\mathbb{P}(Z_n=x)\to0$ quando
+$n\to\infty$.
+\end{enumerate}
+
+\noindent\emph{Sugestão:} em (a), use $\Phi(-x)=1-\Phi(x)$. Em (b), fixe $\delta>0$,
+utilize a desigualdade
+$0\leqslant\mathbb{P}(Z_n=x)\leqslant\mathbb{P}(x-\delta\leqslant Z_n\leqslant x)$
+junto com a convergência por intervalos e faça $\delta\downarrow0$ usando a
+continuidade de $\Phi$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:tlc-imediato-modulo-quadrado}
+Seja $X$ uma variável aleatória com $\mathbb{E}[X^2]<\infty$, média $\mu$ e
+variância $\sigma^2$.
+\begin{enumerate}[label=(\alph*)]
+\item Mostre que $\operatorname{Re}\varphi_X(t)=\mathbb{E}[\cos(tX)]$ e
+$\operatorname{Im}\varphi_X(t)=\mathbb{E}[\sin(tX)]$ para todo
+$t\in\mathbb{R}$.
+\item Aplicando o \Cref{thm:taylor-segunda-ordem}, deduza que, quando $t\to0$,
+\[
+  \operatorname{Re}\varphi_X(t)
+  =1-\frac{t^2}{2}\mathbb{E}[X^2]+o(t^2)
+  \qquad\text{e}\qquad
+  \operatorname{Im}\varphi_X(t)
+  =t\mu+o(t^2).
+\]
+\item Conclua que $|\varphi_X(t)|^2=1-\sigma^2t^2+o(t^2)$ quando $t\to0$.
+\end{enumerate}
+
+\noindent\emph{Sugestão:} em (a), use $e^{itX}=\cos(tX)+i\sin(tX)$. Em (b), observe que
+se $g(t)=o(t^2)$, então $\operatorname{Re}g(t)=o(t^2)$ e
+$\operatorname{Im}g(t)=o(t^2)$. Em (c), escreva
+$|\varphi_X(t)|^2=\bigl(\operatorname{Re}\varphi_X(t)\bigr)^2+\bigl(\operatorname{Im}\varphi_X(t)\bigr)^2$
+e use $\sigma^2=\mathbb{E}[X^2]-\mu^2$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:tlc-imediato-hipoteses-variancia}
+No \Cref{thm:man-tlc-iid}, supomos que a variância comum $\sigma^2$ satisfaz
+$\sigma^2\in(0,\infty)$. Examine o que ocorre quando essa hipótese falha nos dois
+casos extremos abaixo.
+\begin{enumerate}[label=(\alph*)]
+\item Se $(X_n)_{n\geqslant1}$ é uma sequência i.i.d. degenerada em uma
+constante $\mu\in\mathbb{R}$, isto é, $\mathbb{P}(X_1=\mu)=1$, mostre que
+$(S_n-n\mu)/\sqrt{n}=0$ quase certamente para todo $n\geqslant1$, de modo que
+essa sequência converge em distribuição para a constante $0$, e não para a
+normal padrão.
+\item Se $(X_n)_{n\geqslant1}$ é uma sequência i.i.d. com distribuição de Cauchy
+(\Cref{ex:cauchy}), caso em que $\mathbb{E}[|X_1|]=\infty$, calcule
+$\varphi_{S_n/\sqrt{n}}(t)$ para $t\in\mathbb{R}$ e mostre, usando o item~(i) do
+\Cref{thm:continuidade}, que $S_n/\sqrt{n}$ não converge em distribuição para
+nenhuma variável aleatória real quando $n\to\infty$.
+\end{enumerate}
+
+\noindent\emph{Sugestão:} em (b), o \Cref{ex:cauchy}, o item~(e) do
+\Cref{thm:propriedades-fc} e o \Cref{thm:fc-soma-independentes} fornecem
+$\varphi_{S_n/\sqrt{n}}(t)=e^{-\sqrt{n}|t|}$. Se $S_n/\sqrt{n}\Rightarrow Y$
+para alguma variável aleatória real $Y$, então $\varphi_Y(t)$ deveria valer $1$
+em $t=0$ e $0$ em $t\neq0$, contrariando a continuidade garantida pelo item~(d)
+do \Cref{thm:propriedades-fc}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:momentos-normal}
 Seja $X$ uma variável aleatória com distribuição normal padrão.
 Verifique primeiro, a partir da densidade, que
 $\mathbb{E}[|X|^m]<\infty$ para todo inteiro $m\geqslant1$.
@@ -2366,18 +2483,222 @@ $\mathbb{E}[X^{2}]=1$ e $\mathbb{E}[X^{4}]=3$. Mostre também que os momentos de
 ordem ímpar se anulam, por simetria da distribuição:
 $\mathbb{E}[X^{2n-1}]=0$ para $n\geqslant1$.
 
-\emph{Sugestão:} para a integrabilidade, observe que, para cada
+\noindent\emph{Sugestão:} para a integrabilidade, observe que, para cada
 $m\geqslant1$, existe $C_m<\infty$ tal que
 $|x|^m e^{-x^2/2}\leqslant C_m e^{-x^2/4}$ para todo $x\in\mathbb{R}$.
 A função característica da normal padrão é
-$\varphi_X(t)=e^{-t^{2}/2}=\sum_{n\geqslant0}\frac{(-1)^{n}}{2^{n}n!}t^{2n}$, e
+$\varphi_X(t)=e^{-t^{2}/2}=\sum_{n\geqslant0}\frac{(-1)^{n}}{2^{n}n!}t^{2n}$, e o
 \Cref{thm:derivadas-momentos} dá
 $\varphi_X^{(2n)}(0)=i^{2n}\mathbb{E}[X^{2n}]=(-1)^{n}\mathbb{E}[X^{2n}]$;
 compare os coeficientes das duas expressões de $\varphi_X$. Para os momentos
 ímpares, use $X\overset{d}{=}-X$.
 \end{exercise}
 
-\begin{exercise}[Equicontinuidade das funções características]\label{exercise:equicontinuidade}
+\begin{exercise}\label{exercise:gw-8-32}
+Um dado honesto é lançado $12\,000$ vezes. Seja $S$ o número total de vezes em
+que a face $6$ ocorre. Use o Teorema do Limite Central para determinar valores
+$a$ e $b$ tais que
+\[
+  \mathbb{P}(1900<S<2200)
+  \approx\frac{1}{\sqrt{2\pi}}\int_a^b e^{-x^2/2}\,dx.
+\]
+
+\noindent\emph{Sugestão:} escreva $S=\sum_{j=1}^{12\,000}X_j$, em que $X_j$ é a
+indicadora da ocorrência de face $6$ no $j$-ésimo lançamento, calcule $\mu=1/6$ e
+$\sigma^2=5/36$ e padronize $S$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-8-33}
+Para cada $n\geqslant1$, seja $X_n$ uma variável aleatória com distribuição
+gama de parâmetros $n$ e $1$, isto é, com densidade
+\[
+  f_n(x)=\frac{1}{(n-1)!}\,x^{n-1}e^{-x},\qquad x>0,
+\]
+e $f_n(x)=0$ para $x\leqslant0$. Mostre que $Z_n=(X_n-n)/\sqrt{n}$ converge em
+distribuição para a normal padrão quando $n\to\infty$.
+
+\noindent\emph{Sugestão:} recorde, das notas de aula sobre somas de variáveis
+aleatórias, que $X_n$ tem a mesma distribuição da soma de $n$ variáveis
+aleatórias independentes com distribuição exponencial de parâmetro $1$ (cujos
+momentos são $\mu=1$ e $\sigma^2=1$) e aplique o \Cref{thm:man-tlc-iid};
+alternativamente, calcule diretamente $\varphi_{Z_n}(t)$ e utilize o
+\Cref{thm:continuidade}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-8-prob-2}
+Aplicando o \Cref{thm:man-tlc-iid} a uma sequência de variáveis aleatórias com
+distribuição de Bernoulli de parâmetro $p$, prove que, para quaisquer $0<p<1$,
+$q=1-p$ e $x>0$, vale
+\[
+  \sum_{k:\,|k-np|\leqslant x\sqrt{npq}}\binom{n}{k}p^k q^{n-k}
+  \xrightarrow[\quad n\to\infty\quad]{}
+  \frac{2}{\sqrt{2\pi}}\int_0^x e^{-u^2/2}\,du.
+\]
+
+\noindent\emph{Sugestão:} note que a soma à esquerda é $\mathbb{P}(|S_n-np|\leqslant x\sqrt{npq})$,
+onde $S_n=X_1+\cdots+X_n$ tem distribuição $\mathrm{Bin}(n,p)$, e aplique o
+\Cref{exercise:tlc-imediato-intervalos}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-8-prob-5}
+Aplicando o \Cref{thm:man-tlc-iid} a uma sequência de variáveis aleatórias
+independentes com distribuição de Poisson de parâmetro $1$, prove que
+\[
+  e^{-n}\left(1+n+\frac{n^2}{2!}+\cdots+\frac{n^n}{n!}\right)
+  \xrightarrow[\quad n\to\infty\quad]{}\frac{1}{2}.
+\]
+
+\noindent\emph{Sugestão:} se $X_1,X_2,\ldots$ são independentes com distribuição
+$\mathrm{Poisson}(1)$, verifique pelo \Cref{thm:fc-soma-independentes} que
+$S_n=X_1+\cdots+X_n$ tem função característica $\exp\bigl(n(e^{it}-1)\bigr)$,
+logo distribuição $\mathrm{Poisson}(n)$ pela unicidade. Escreva então o lado
+esquerdo como $\mathbb{P}(S_n\leqslant n)$ e padronize $S_n$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-8-prob-10}
+Sejam $X_1,X_2,\ldots$ e $Y_1,Y_2,\ldots$ variáveis aleatórias todas
+independentes e identicamente distribuídas, com média $\mu$ e variância
+$\sigma^2\in(0,\infty)$. Mostre que
+\[
+  U_n=\frac{1}{\sqrt{2n\sigma^2}}
+  \left(\sum_{j=1}^n X_j-\sum_{j=1}^n Y_j\right)
+\]
+converge em distribuição para a normal padrão quando $n\to\infty$.
+
+\noindent\emph{Sugestão:} defina $W_j=X_j-Y_j$ para $j\geqslant1$, observe que
+$(W_j)_{j\geqslant1}$ é i.i.d. com média $0$ e variância $2\sigma^2$, e aplique
+o \Cref{thm:man-tlc-iid}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-8-prob-24}
+Seja $X$ uma variável aleatória cuja função de distribuição $F$ é contínua e
+estritamente crescente em $\mathbb{R}$.
+\begin{enumerate}[label=(\alph*)]
+\item Mostre que $Y=F(X)$ tem distribuição uniforme em $(0,1)$, encontre a
+densidade de $-\ln(1-Y)$ e calcule sua média e sua variância.
+\item Seja agora $(X_k)_{k\geqslant1}$ uma sequência de variáveis aleatórias
+independentes com funções de distribuição respectivas $(F_k)_{k\geqslant1}$, todas
+contínuas e estritamente crescentes em $\mathbb{R}$. Defina
+\[
+  Z_n=-\frac{1}{\sqrt{n}}\sum_{k=1}^n\bigl(1+\ln[1-F_k(X_k)]\bigr),
+  \qquad n\geqslant1.
+\]
+Mostre que $Z_n$ converge em distribuição para a normal padrão quando
+$n\to\infty$.
+\end{enumerate}
+
+\noindent\emph{Sugestão:} em (a), note que $0<F(x)<1$ para todo $x\in\mathbb{R}$ e que
+$F$ possui inversa contínua $F^{-1}\colon(0,1)\to\mathbb{R}$; para $t>0$,
+calcule $\mathbb{P}\bigl(-\ln(1-Y)\leqslant t\bigr)$. Em (b), observe que as
+variáveis $E_k=-\ln[1-F_k(X_k)]$ são independentes e identicamente
+distribuídas com distribuição exponencial de parâmetro $1$, e escreva
+$Z_n=\frac{1}{\sqrt{n}}\sum_{k=1}^n(E_k-1)$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:gw-8-52}
+Sejam $X_1,X_2,\ldots$ variáveis aleatórias independentes e identicamente
+distribuídas com $\mathbb{E}[|X_1|]<\infty$ e $\mu=\mathbb{E}[X_1]$. Defina
+$\overline{X}_n=(X_1+\cdots+X_n)/n$. Mostre, sem supor segundo momento finito,
+que $\varphi_{\overline{X}_n}(t)\to e^{it\mu}$ para todo $t\in\mathbb{R}$ quando
+$n\to\infty$, e conclua pelo \Cref{thm:continuidade} que $\overline{X}_n$
+converge em distribuição para a constante $\mu$ (e, portanto, em probabilidade,
+como visto nas notas de aula sobre modos de convergência).
+
+\noindent\emph{Sugestão:} pelo \Cref{thm:derivadas-momentos} com $n=1$, a função
+$\varphi_{X_1}$ é derivável em $0$ com $\varphi_{X_1}'(0)=i\mu$, de modo que
+$\varphi_{X_1}(u)=1+iu\mu+g_1(u)$ com $g_1(u)/u\to0$ quando $u\to0$. Use
+$\varphi_{\overline{X}_n}(t)=\bigl(\varphi_{X_1}(t/n)\bigr)^n$ e o
+\Cref{cor:limite-exp-parametro}.
+\end{exercise}
+
+\begin{exercise}\label{exercise:ross-8-5}
+Cinquenta números são arredondados para o inteiro mais próximo e, em seguida,
+somados. Supondo que os erros individuais de arredondamento sejam independentes e
+uniformemente distribuídos no intervalo $(-1/2,\,1/2)$, use o Teorema do Limite
+Central para aproximar, em termos de $\Phi$, a probabilidade de que a soma
+obtida difira da soma exata por mais de $3$.
+
+\noindent\emph{Sugestão:} cada erro tem média $0$ e variância $1/12$; escreva o erro total
+como $S_{50}=\sum_{j=1}^{50}X_j$ e aproxime $\mathbb{P}(|S_{50}|>3)$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:ross-8-6}
+Um dado honesto é lançado sucessivamente até que a soma acumulada de todos os
+resultados exceda $300$. Use o Teorema do Limite Central para aproximar, em
+termos de $\Phi$, a probabilidade de que sejam necessários pelo menos $80$
+lançamentos.
+
+\noindent\emph{Sugestão:} se $S_n=X_1+\cdots+X_n$ é a soma dos primeiros $n$
+lançamentos, observe que são necessários pelo menos $80$ lançamentos se, e
+somente se, $S_{79}\leqslant300$, e recorde que $\mathbb{E}[X_1]=7/2$ e
+$\operatorname{Var}(X_1)=35/12$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:ross-8-7}
+Uma pessoa dispõe de $100$ lâmpadas cujas vidas úteis são variáveis aleatórias
+independentes com distribuição exponencial de média $5$ horas. As lâmpadas são
+utilizadas uma de cada vez, substituindo-se imediatamente cada lâmpada queimada
+por uma nova. Use o Teorema do Limite Central para aproximar, em termos de
+$\Phi$, a probabilidade de que ainda haja uma lâmpada em funcionamento após
+$525$ horas.
+
+\noindent\emph{Sugestão:} lembre que uma variável exponencial de média $5$ tem variância
+$25$ e padronize a soma das $100$ vidas úteis.
+\end{exercise}
+
+\begin{exercise}\label{exercise:ross-8-14}
+Um componente crítico de um sistema elétrico precisa ser substituído
+imediatamente ao falhar. Suponha que as vidas úteis dos componentes desse tipo
+sejam independentes e identicamente distribuídas, com média $100$ horas e desvio
+padrão $30$ horas. Usando a aproximação do Teorema do Limite Central e o valor
+$\Phi(1{,}645)\approx0{,}95$, determine o menor número de componentes que devem
+permanecer em estoque para que o sistema opere continuamente pelas próximas
+$2000$ horas com probabilidade de pelo menos $0{,}95$.
+
+\noindent\emph{Sugestão:} com $n$ componentes em estoque, a condição de operação contínua
+equivale a $S_n\geqslant2000$; imponha $(100n-2000)/(30\sqrt{n})\geqslant1{,}645$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:ross-8-15}
+Uma seguradora possui $10\,000$ segurados de automóveis. O valor anual esperado
+de sinistros por segurado é de $240$ reais, com desvio padrão de $800$ reais.
+Supondo independência e distribuição comum entre os segurados, use o Teorema do
+Limite Central para aproximar, em termos de $\Phi$, a probabilidade de que o
+total anual de sinistros ultrapasse $2{,}7$ milhões de reais.
+\end{exercise}
+
+\begin{exercise}\label{exercise:ross-st-8-8}
+Em cada aposta, um jogador perde $1$ real com probabilidade $0{,}7$, perde $2$
+reais com probabilidade $0{,}2$ ou ganha $10$ reais com probabilidade $0{,}1$.
+Supondo apostas independentes, use o Teorema do Limite Central para aproximar,
+em termos de $\Phi$, a probabilidade de que o jogador esteja em prejuízo após as
+primeiras $100$ apostas.
+
+\noindent\emph{Sugestão:} denote por $X_j\in\{-1,-2,10\}$ o resultado líquido da
+$j$-ésima aposta, calcule $\mathbb{E}[X_1]$ e $\operatorname{Var}(X_1)$ e
+avalie $\mathbb{P}(S_{100}<0)$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:ross-teor-8-7}
+Um dado honesto é lançado $100$ vezes, e denota-se por $X_i$ o resultado obtido
+no $i$-ésimo lançamento, para $1\leqslant i\leqslant100$. Use o Teorema do
+Limite Central para aproximar, em termos de $\Phi$, a probabilidade
+\[
+  \mathbb{P}\left(\prod_{i=1}^{100} X_i\leqslant a^{100}\right),
+  \qquad 1<a<6.
+\]
+
+\noindent\emph{Sugestão:} tomando o logaritmo natural, o evento equivale a
+$\sum_{i=1}^{100}\ln X_i\leqslant100\ln a$; aplique o \Cref{thm:man-tlc-iid} às
+variáveis i.i.d. $Y_i=\ln X_i$.
+\end{exercise}
+
+\medskip
+
+Os exercícios seguintes, todos assinalados com estrela, são mais exigentes e
+podem ser deixados para um segundo momento.
+
+\begin{starredexercise}\label{exercise:equicontinuidade}
 Dizemos que uma família de variáveis aleatórias $\{X_i:i\in I\}$ é
 \emph{condensada} se, para todo $\varepsilon>0$, existe $M>0$ tal que
 \[
@@ -2394,7 +2715,7 @@ $t\in\mathbb{R}$.
 \item[(i)] Suponha que $\{X_i:i\in I\}$ seja condensada e mostre que
 $\{\varphi_{X_i}:i\in I\}$ é equicontínua.
 
-\emph{Sugestão:} pelo item~(d) do \Cref{thm:propriedades-fc},
+\noindent\emph{Sugestão:} pelo item~(d) do \Cref{thm:propriedades-fc},
 \[
 |\varphi_{X_i}(t+h)-\varphi_{X_i}(t)|
 \leqslant\mathbb{E}\bigl[|e^{ihX_i}-1|\bigr].
@@ -2412,7 +2733,7 @@ $\varphi_{X_\infty}$ a função característica de $X_\infty$. Mostre que a
 família $\{X_n:n\in\mathbb{N}\}\cup\{X_\infty\}$ é condensada e conclua que
 $\varphi_{X_n}\to\varphi_{X_\infty}$ uniformemente sobre cada intervalo limitado.
 
-\emph{Sugestão:} para obter a condensação, escolha $M$ de modo que $-M$ e $M$
+\noindent\emph{Sugestão:} para obter a condensação, escolha $M$ de modo que $-M$ e $M$
 sejam pontos de continuidade de $F_{X_\infty}$ e que
 $\mathbb{P}(|X_\infty|\geqslant M)$ seja pequena. Use a convergência das
 funções de distribuição e, depois, aumente $M$ para incluir os finitos
@@ -2434,12 +2755,12 @@ pontual em $t_j$ na parcela do meio.
 $\varphi_{X_n}$ não converge para $\varphi_{X_\infty}$ uniformemente em
 $\mathbb{R}$.
 
-\emph{Sugestão:} tome $X_n\equiv1/n$ e $X_\infty\equiv0$ e observe que
+\noindent\emph{Sugestão:} tome $X_n\equiv1/n$ e $X_\infty\equiv0$ e observe que
 $\sup_{t\in\mathbb{R}}|e^{it/n}-1|=2$.
 \end{enumerate}
-\end{exercise}
+\end{starredexercise}
 
-\begin{exercise}[Comportamento de segunda ordem na origem]\label{exercise:segunda-derivada-nula}
+\begin{starredexercise}\label{exercise:segunda-derivada-nula}
 Seja $X$ uma variável aleatória com função característica $\varphi_X$.
 Suponha que
 \[
@@ -2450,7 +2771,7 @@ Mostre que $\mathbb{E}[X]=0$ e que $\mathbb{E}[X^2]=-2c<\infty$. Em
 particular, se $\varphi_X(t)=1+o(t^2)$ quando $t\to0$, então $\varphi_X(t)\equiv1$
 e $X=0$ quase certamente.
 
-\emph{Sugestão:} da hipótese segue que
+\noindent\emph{Sugestão:} da hipótese segue que
 $\bigl(1-\operatorname{Re}\varphi_X(t)\bigr)/t^2\leqslant C$ para
 $t\in(0,\delta]$. Ora,
 \[
@@ -2461,11 +2782,88 @@ A variável aleatória dentro da esperança é não negativa e converge
 pontualmente para $X^2/2$ quando $t\downarrow0$. Aplicando o lema de
 Fatou ao longo de uma sequência $t_k\downarrow0$, obtemos
 $\mathbb{E}[X^2]\leqslant2C<\infty$. Com o segundo momento finito, a expansão
-de segunda ordem de \Cref{thm:taylor-segunda-ordem} dá
+de segunda ordem do \Cref{thm:taylor-segunda-ordem} dá
 $\varphi_X(t)=1+it\,\mathbb{E}[X]-\frac{t^2}{2}\mathbb{E}[X^2]+o(t^2)$; divida
 por $t^2$ e faça $t\downarrow0$ para concluir que $\mathbb{E}[X]=0$ e que
 $c=-\frac{1}{2}\mathbb{E}[X^2]$.
-\end{exercise}
+\end{starredexercise}
+
+\begin{starredexercise}\label{exercise:gw-8-prob-19}
+Sejam $(X_k)_{k\geqslant1}$ e $(Y_k)_{k\geqslant1}$ duas sequências de
+variáveis aleatórias independentes com
+\[
+  \mathbb{P}(X_k=1)=\mathbb{P}(X_k=-1)=\frac{1}{2}
+\]
+e, para cada $k\geqslant1$,
+\[
+  \mathbb{P}(Y_k=1)=\mathbb{P}(Y_k=-1)
+  =\frac{1}{2}\left(1-\frac{1}{k^2}\right),
+  \qquad
+  \mathbb{P}(Y_k=k+1)=\mathbb{P}(Y_k=-k-1)=\frac{1}{2k^2}.
+\]
+Defina
+\[
+  S_n=\sum_{k=1}^n\frac{X_k}{\sqrt{n}},
+  \qquad
+  T_n=\sum_{k=1}^n\frac{Y_k}{\sqrt{n}},
+\]
+e denote por $Z$ uma variável aleatória com distribuição normal padrão.
+Verifique se cada afirmação abaixo é verdadeira ou falsa (demonstrando ou
+justificando com contraexemplo):
+\begin{enumerate}[label=(\alph*)]
+\item $S_n\Rightarrow Z$;
+\item $\mathbb{E}[T_n]\to\mathbb{E}[Z]$ e $\operatorname{Var}(T_n)\to\operatorname{Var}(Z)$;
+\item $T_n\Rightarrow Z$.
+\end{enumerate}
+
+\noindent\emph{Sugestão:} o item~(a) segue diretamente do \Cref{thm:man-tlc-iid}. Em (b),
+calcule $\operatorname{Var}(Y_k)=2+2/k$ e deduza que $\operatorname{Var}(T_n)\to2\neq1$.
+Em (c), fixe $t\in\mathbb{R}$ e um inteiro $K\geqslant1$; note que
+$|\varphi_{Y_k}(u)-\cos u|\leqslant 2/k^2$ para todo $u\in\mathbb{R}$. Para
+$n>K$, escreva
+\[
+  \varphi_{T_n}(t)
+  =\prod_{k=1}^K\varphi_{Y_k}\!\left(\frac{t}{\sqrt{n}}\right)
+   \prod_{k=K+1}^n\varphi_{Y_k}\!\left(\frac{t}{\sqrt{n}}\right),
+\]
+aplique o \Cref{lem:man-diferenca-produtos} ao segundo produto para compará-lo
+com $\cos^{n-K}(t/\sqrt{n})$, passe primeiro ao limite $n\to\infty$ e, em
+seguida, $K\to\infty$, concluindo pelo \Cref{thm:continuidade}.
+\end{starredexercise}
+
+\begin{starredexercise}\label{exercise:gw-8-prob-22}
+Sejam $X$ e $Y$ variáveis aleatórias independentes e identicamente distribuídas
+com média $0$, variância $1$ e função característica comum $\varphi$. Suponha
+que $X+Y$ e $X-Y$ sejam independentes.
+\begin{enumerate}[label=(\alph*)]
+\item Mostre que $\varphi(2t)=\varphi(t)^3\varphi(-t)$ para todo
+$t\in\mathbb{R}$.
+\item Mostre que $\varphi(t)=\varphi(-t)$ e que $\varphi(2t)=\varphi(t)^4$ para
+todo $t\in\mathbb{R}$.
+\item Deduza que, para todo $t\in\mathbb{R}$, tem-se
+\[
+  \varphi(t)=\left(1-\frac{1}{2}\Bigl(\frac{t}{2^n}\Bigr)^{\!2}
+  +o\bigl((t/2^n)^2\bigr)\right)^{\!4^n}
+\]
+quando $n\to\infty$, e conclua que $X$ e $Y$ têm distribuição normal padrão.
+\end{enumerate}
+
+\noindent\emph{Sugestão:} em (a), use $2X=(X+Y)+(X-Y)$ e a independência entre $X+Y$ e
+$X-Y$. Em (b), defina $\gamma(t)=\varphi(t)/\varphi(-t)$ em uma vizinhança
+$[-\delta,\delta]$ da origem onde $\varphi$ não se anula; dividindo a
+identidade de (a) por sua análoga em $-t$, obtenha $\gamma(2t)=\gamma(t)^2$ em
+$[-\delta/2,\delta/2]$, logo $\gamma(t)=\gamma(t/2^n)^{2^n}$ em
+$[-\delta,\delta]$. Pelo \Cref{thm:taylor-segunda-ordem},
+$\varphi(u)=1-u^2/2+o(u^2)$, donde $\gamma(u)=1+o(u^2)$ quando $u\to0$;
+aplicando o \Cref{thm:man-limite-exp} ao longo da subsequência $2^n$, segue
+que $\gamma(t)=1$ em $[-\delta,\delta]$, e a recorrência de (a) estende
+$\varphi(t)=\varphi(-t)$ por indução aos intervalos $[-2^k\delta,2^k\delta]$.
+Em (c), itere $\varphi(t)=\varphi(t/2)^4$, substitua $\varphi(t/2^n)$ pela
+expansão do \Cref{thm:taylor-segunda-ordem}, aplique o \Cref{thm:man-limite-exp}
+ao longo da subsequência $4^n$ para obter $\varphi(t)=e^{-t^2/2}$ e invoque a
+unicidade da distribuição determinada pela função característica junto com o
+\Cref{ex:normal}.
+\end{starredexercise}
 
 %----------------------------------------------------------------------
 % BIBLIOGRAFIA
