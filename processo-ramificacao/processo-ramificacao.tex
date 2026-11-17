@@ -295,39 +295,39 @@ geração seguinte é a soma desses números. O objeto central destas notas é,
 portanto, uma soma com um número aleatório de parcelas, e a ferramenta natural
 para analisá-la é a função geradora de probabilidade. 
 
-Para conveniência do leitor revisamos os conceitos e resultados fundamentais 
+Para conveniência do leitor revisamos alguns dos conceitos e resultados fundamentais 
 sobre funções geradoras necessários para o desenvolvimento do texto. 
 Para maiores detalhes o leitor pode consultar as notas
-de aula \href{https://mat.unb.br/~cioletti/ensino/func-gen-discretas.pdf}{\emph{Funções
+de aula sobre \href{https://mat.unb.br/~cioletti/ensino/func-gen-discretas.pdf}{\emph{Funções
 Geradoras de Probabilidade}}.
 
 \begin{definition}\label{def:fgp}
-Seja $X$ uma variável aleatória com valores em $\{0,1,2,\ldots\}$ e função de
-probabilidade $p_X$, e escreva $p_k=p_X(k)=\mathbb{P}(X=k)$. A \emph{função
-geradora de probabilidade}, abreviadamente \emph{FGP}, de $X$ é a função
+Seja $X$ uma variável aleatória tomando valores em $\{0,1,2,\ldots\}$ e para cada
+$k\in\{0,1,2,\ldots\}$ seja $p_k\equiv p_X(k)\equiv \mathbb{P}(X=k)$. A \emph{função
+geradora de probabilidade} de $X$ é a função
 definida por
 \begin{equation}\label{eq:def-fgp}
-G_X(s)=\mathbb{E}[s^X]=\sum_{k=0}^{\infty}s^k p_k,
+G_X(s)\equiv \mathbb{E}[s^X] =\sum_{k=0}^{\infty}s^k p_k,
 \end{equation}
-para os valores de $s$ nos quais a série converge absolutamente. Em $s=0$,
-adotamos a convenção $0^0=1$, como corresponde ao termo constante da série.
+para cada valor de $s\in\mathbb{R}$, onde a série acima converge absolutamente. 
 \end{definition}
 
-A igualdade $\mathbb{E}[s^X]=\sum_{k}s^k p_k$ é a aplicação, à função
-$x\mapsto s^x$, do resultado visto nas notas de aula sobre esperança discreta
-que permite calcular a esperança de uma função de uma variável aleatória.
-
-A normalização da função de probabilidade garante um domínio comum a todas as
-FGP: se $|s|\leqslant 1$, então
+A normalização da função de probabilidade, garante um domínio comum a todas as
+funções geradoras de probabilidade. 
+Mais precisamente, para qualquer variável aleatória
+tomando valores em $\{0,1,2,\ldots\}$ temos 
 \[
 \sum_{k=0}^{\infty}|p_k s^k|
 =\sum_{k=0}^{\infty}p_k|s|^k
-\leqslant\sum_{k=0}^{\infty}p_k=1.
+\leqslant\sum_{k=0}^{\infty}p_k=1
+\qquad \forall s\in [-1,1]. 
 \]
-Logo, toda FGP converge absolutamente para $|s|\leqslant 1$ e, vista como série
-de potências, tem raio de convergência pelo menos igual a $1$. Em particular,
-$G_X$ é contínua em $[0,1)$, e a continuidade à esquerda em $s=1$ segue do
-lema de Abel sobre coeficientes não negativos, que enunciaremos na prova do
+Logo, toda função geradora de probabilidade 
+converge absolutamente para $|s|\leqslant 1$ e, vista como série
+de potências, tem raio de convergência pelo menos um. Em particular,
+$G_X$ é contínua em $[0,1)$. Na verdade, a função $G_X$ também 
+é continua à esquerda em $s=1$. Este fato segue do
+lema de Abel, que enunciaremos na prova do
 \Cref{thm:fgp-momentos}:
 $\lim_{s\uparrow 1}G_X(s)=\sum_{k}p_k=1=G_X(1)$. Assim, $G_X$ é contínua em $[0,1]$.
 
