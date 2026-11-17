@@ -355,18 +355,32 @@ e somando, obtemos
 \qquad\text{para todo } n,
 \]
 e, fazendo $n\to\infty$ e usando que as somas parciais convergem a $A(s)$ e
-a $A(t)$, chegamos a $A(s)\leqslant A(t)$. Uma função não decrescente admite
-limite à esquerda em $[0,+\infty]$, de modo que $L=\lim_{s\uparrow 1}A(s)$
-existe e é o supremo dos valores $A(s)$ com $0\leqslant s<1$.
+a $A(t)$, concluímos que $A(s)\leqslant A(t)$. Como toda função não decrescente admite
+limite à esquerda como um único ponto em $[0,+\infty]$, podemos afirmar que 
+está bem-definido $L=\lim_{s\uparrow 1}A(s)$.
+Além do mais este limite coincide com o supremo dos valores $A(s)$, tomado sobre $0\leqslant s<1$.
 
-Para ver que $\sum_{k=0}^{\infty}a_k\leqslant L$, fixe $n$. Para todo
-$s\in[0,1)$ vale $\sum_{k=0}^{n}a_ks^k\leqslant A(s)$ e o lado esquerdo,
-sendo um polinômio em $s$, converge a $\sum_{k=0}^{n}a_k$ quando
-$s\uparrow 1$; fazendo $s\uparrow 1$ na desigualdade, obtemos
-$\sum_{k=0}^{n}a_k\leqslant L$. Isso vale para todo $n$ e, como os $a_k$
-são não negativos, as somas parciais $\sum_{k=0}^{n}a_k$ são não
-decrescentes em $n$ e têm supremo, finito ou $+\infty$, igual a
-$\sum_{k=0}^{\infty}a_k$. Logo $\sum_{k=0}^{\infty}a_k\leqslant L$.
+Para ver que $\sum_{k=0}^{\infty}a_k\leqslant L$, fixe $n$. Como
+$a_k\geqslant 0$, a soma parcial de ordem $n$ não ultrapassa a soma
+total:
+\[
+\sum_{k=0}^{n}a_ks^k\leqslant A(s)
+\qquad\text{para todo } s\in[0,1).
+\]
+O lado esquerdo, sendo um polinômio em $s$, converge a
+$\sum_{k=0}^{n}a_k$ quando $s\uparrow 1$; fazendo $s\uparrow 1$ na
+desigualdade, obtemos
+\[
+\sum_{k=0}^{n}a_k\leqslant L
+\qquad\text{para todo } n.
+\]
+Como os $a_k$ são não negativos, as somas parciais $\sum_{k=0}^{n}a_k$
+são não decrescentes em $n$ e têm supremo, finito ou $+\infty$, igual a
+$\sum_{k=0}^{\infty}a_k$; fazendo $n\to\infty$ na desigualdade acima,
+chegamos a
+\[
+\sum_{k=0}^{\infty}a_k\leqslant L.
+\]
 
 Para a desigualdade oposta, fixe $s\in[0,1)$. De $s^k\leqslant 1$ segue
 \[
