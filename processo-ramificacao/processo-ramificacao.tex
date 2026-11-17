@@ -133,7 +133,6 @@ equação de extinção, MAT-UnB} }
   {\thmnumber{#2}\thmnote{ #3}}
 \theoremstyle{plainexercise}
 \newtheorem{exercise}{Exercício}
-\newtheorem{problem}{Problema}
 
 % Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
 % como nas notas anteriores.
@@ -176,8 +175,6 @@ equação de extinção, MAT-UnB} }
 \Crefname{example}{Exemplo}{Exemplos}
 \crefname{exercise}{exercício}{exercícios}
 \Crefname{exercise}{Exercício}{Exercícios}
-\crefname{problem}{problema}{problemas}
-\Crefname{problem}{Problema}{Problemas}
 \crefname{remark}{observação}{observações}
 \Crefname{remark}{Observação}{Observações}
 \crefname{section}{seção}{seções}
@@ -1580,7 +1577,8 @@ condicional e sobre funções geradoras de probabilidade. Não apresentamos
 soluções. Em cada enunciado indicamos, quando isso não é evidente, qual
 resultado já disponível deve ser empregado.
 
-\begin{problem}\label{prob:variancia-soma-aleatoria}
+\begin{enumerate}[label={\arabic*.}]
+\item
 Sejam $X_1,X_2,\ldots$ variáveis aleatórias independentes, cada uma com média
 $\mu$ e variância $\sigma^2$, e seja $N$ uma variável aleatória com valores no
 conjunto $\{1,2,\ldots\}$ dos inteiros positivos, independente da sequência
@@ -1596,6 +1594,7 @@ tem variância dada por
 A fórmula se estende ao caso em que $N$ assume valores em $\{0,1,2,\ldots\}$,
 com a convenção de que a soma vazia é $0$; é essa extensão que usamos no
 processo de ramificação.
+
 \emph{Sugestão:} decomponha sobre os valores de $N$ e use a independência para
 fatorar as esperanças; recorde a fórmula da variância de uma soma de um número
 fixo de parcelas independentes.
@@ -1614,10 +1613,9 @@ e deduza, iterando essa recorrência a partir de $\operatorname{Var}(Z_0)=0$,
 uma expressão para $\operatorname{Var}(Z_n)$ em termos de $\mu$, $\sigma^2$ e
 $n$. Compare o resultado com a fórmula obtida no
 \Cref{exercise:variancia-geracao}.
-\end{problem}
 
-\begin{problem}\label{prob:variancia-normalizada}
-Use o resultado do \Cref{prob:variancia-soma-aleatoria} para mostrar que, se
+\item
+Use o resultado do problema anterior para mostrar que, se
 $Z_0,Z_1,\ldots$ é um processo de ramificação cujos tamanhos de família têm
 média $\mu>1$ e variância $\sigma^2$, então
 \[
@@ -1629,9 +1627,8 @@ média $\mu>1$ e variância $\sigma^2$, então
 \emph{Sugestão:} escreva a recorrência do problema anterior para a variável
 normalizada $Z_n/\mu^n$ e observe que as parcelas somadas formam uma progressão
 geométrica.
-\end{problem}
 
-\begin{problem}\label{prob:covariancia-geracoes}
+\item
 Usando o Teorema da Partição, apresentado nas notas de aula sobre esperança
 condicional, e condicionando no valor de $Z_m$, mostre que, se
 $Z_0,Z_1,\ldots$ é um processo de ramificação cuja distribuição do tamanho de
@@ -1644,9 +1641,8 @@ família tem média $\mu$, então
 indivíduos da geração $m$ evoluem de modo independente e cada uma contribui
 para a geração $n$ com esperança $\mu^{n-m}$, como no
 \Cref{thm:media-geracao}.
-\end{problem}
 
-\begin{problem}\label{prob:composicao-e-poisson}
+\item
 Seja $(Z_n:n\geqslant 0)$ um processo de ramificação com $Z_0=1$. Escreva $P_r$
 para a FGP do tamanho da $r$-ésima geração, de modo que $P_r=G_r$ na notação da
 \Cref{sec:metodo-geradoras}. Mostre que
@@ -1673,9 +1669,8 @@ reaparecer na expressão.
 
 \smallskip
 \noindent\emph{(Oxford, 1977)}
-\end{problem}
 
-\begin{problem}\label{prob:total-geracoes}
+\item
 Neste problema usamos $Y_n$ para o tamanho da $n$-ésima geração e $T_n$ para o
 total de indivíduos, para não sobrecarregar a notação $Z_n$ já usada nas seções
 anteriores. Seja então $(Y_n:n\geqslant 0)$ um processo de ramificação com
@@ -1688,16 +1683,17 @@ $0$. Escreva $Q_n$ para a FGP de $T_n$. Mostre que, para $n\geqslant 2$,
 \[
 Q_n(s)=s\,P_1\bigl(Q_{n-1}(s)\bigr),
 \]
-em que $P_1$ é a FGP da distribuição do tamanho de família. \emph{Sugestão:} o fator $s$ isola a contribuição do fundador, que comparece
+em que $P_1$ é a FGP da distribuição do tamanho de família.
+
+\emph{Sugestão:} o fator $s$ isola a contribuição do fundador, que comparece
 em $T_n$ e não é contado por nenhuma das linhagens descendentes; a composição
 reúne os totais das $Y_1$ linhagens que partem da primeira geração, cada uma
 delas com $n-1$ gerações contadas a partir de seu próprio fundador.
 
 \smallskip
 \noindent\emph{(Oxford, 1974)}
-\end{problem}
 
-\begin{problem}\label{prob:extincao-alfa-beta}
+\item
 \begin{enumerate}[label=(\alph*)]
   \item Explique o que se entende pelo termo ``processo de ramificação''.
   \item Seja $Z_n$ o tamanho da $n$-ésima geração de um processo de ramificação
@@ -1728,7 +1724,7 @@ algum momento.
 
 \smallskip
 \noindent\emph{(Cambridge, 2001)}
-\end{problem}
+\end{enumerate}
 
 %----------------------------------------------------------------------
 % BIBLIOGRAFIA
