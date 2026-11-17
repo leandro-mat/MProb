@@ -606,13 +606,15 @@ no processo de ramificação, porém, o próprio número de parcelas é aleatór
 Nesse caso, fixamos esse número, usamos o produto e reunimos os casos possíveis,
 o que transforma o produto em uma composição de funções geradoras. Adotamos a
 convenção da soma vazia: $X_1+\cdots+X_N=0$ em $\{N=0\}$, com contribuição
-$s^0=1$ para a FGP, inclusive quando $s=0$ (convenção $0^0=1$).
+$s^0=1$ para a função geradora de probabilidade, inclusive quando $s=0$
+(convenção $0^0=1$).
 
 \begin{theorem}[Fórmula da soma aleatória]\label{thm:soma-aleatoria}
 Sejam $N,X_1,X_2,\ldots$ variáveis aleatórias com valores em
 $\{0,1,2,\ldots\}$, com $X_1,X_2,\ldots$ independentes e identicamente
-distribuídas, com a mesma distribuição de uma variável $X$ de FGP $G_X$, e $N$
-independente da sequência $X_1,X_2,\ldots$. Defina $S_N=X_1+\cdots+X_N$, com
+distribuídas, com a mesma distribuição de uma variável $X$ de função geradora
+de probabilidade $G_X$, e $N$ independente da sequência $X_1,X_2,\ldots$. Defina
+$S_N=X_1+\cdots+X_N$, com
 $S_N=0$ em $\{N=0\}$. Então, para $|s|\leqslant 1$,
 \[
 G_{S_N}(s)=G_N\bigl(G_X(s)\bigr).
@@ -655,8 +657,9 @@ do produto fatora:
 =\mathbb{E}\bigl[s^{X_1+\cdots+X_n}\bigr]\,\mathbb{P}(N=n).
 \]
 
-Em seguida, calculamos a FGP da soma fixa. As parcelas são independentes
-e, para $|s|\leqslant 1$, as variáveis $s^{X_i}$ são limitadas
+Em seguida, calculamos a função geradora de probabilidade da soma fixa. As
+parcelas são independentes e, para $|s|\leqslant 1$, as variáveis $s^{X_i}$ são
+limitadas
 em módulo por $1$; o \Cref{cor:fgp-soma-finita}, enunciado nesse mesmo
 domínio, aplica-se portanto diretamente. Como as parcelas têm a mesma
 distribuição, todos os fatores são iguais:
@@ -1043,12 +1046,12 @@ assume os valores $0,1,2,\ldots$ e
 \]
 O tamanho de família é, portanto, o número de tentativas até o primeiro
 sucesso, contando a tentativa vencedora, menos um. Nas notas de aula sobre
-funções geradoras de probabilidade calculamos a FGP da distribuição geométrica
-e discutimos esse deslocamento do suporte; o cálculo a seguir repete aquele,
-com um fator $s$ a menos, e por isso o apresentamos em detalhe.
+funções geradoras de probabilidade calculamos a função geradora da distribuição
+geométrica e discutimos esse deslocamento do suporte; o cálculo a seguir repete
+aquele, com um fator $s$ a menos, e por isso o apresentamos em detalhe.
 
-Como $p$ decai geometricamente, a FGP de um tamanho de família típico é uma
-série geométrica de razão $s/2$:
+Como $p$ decai geometricamente, a função geradora de probabilidade de um
+tamanho de família típico é uma série geométrica de razão $s/2$:
 \begin{equation}\label{eq:fgp-geometrica-meio}
 G(s)=\sum_{k=0}^{\infty}s^k\left(\frac{1}{2}\right)^{k+1}
 =\frac{1}{2}\sum_{k=0}^{\infty}\left(\frac{s}{2}\right)^{k}
@@ -1056,9 +1059,9 @@ G(s)=\sum_{k=0}^{\infty}s^k\left(\frac{1}{2}\right)^{k+1}
 \qquad |s|\leqslant 1.
 \end{equation}
 A série do meio converge para $|s/2|<1$, isto é, para $|s|<2$, intervalo em que
-vale a igualdade final; como todas as FGP do processo são usadas em
-$|s|\leqslant 1$, trabalhamos nesse domínio, no qual o denominador $2-s$ não se
-anula, pois $2-\operatorname{Re}(s)\geqslant 1$. Note ainda que
+vale a igualdade final; como todas as funções geradoras de probabilidade do
+processo são usadas em $|s|\leqslant 1$, trabalhamos nesse domínio, no qual o
+denominador $2-s$ não se anula, pois $2-\operatorname{Re}(s)\geqslant 1$. Note ainda que
 $G_Y(s)=s/(2-s)=s\,G(s)$: a multiplicação por $s$ é o efeito de acrescentar
 uma unidade a $C$, isto é, de passar de $C$ para $Y=C+1$.
 
@@ -1130,8 +1133,8 @@ $-2(n-1)+(n-2)=-2n+2+n-2=-n$, o que é exatamente a fórmula
 \end{proof}
 
 A fórmula \eqref{eq:gn-meio} dá acesso à função de probabilidade de $Z_n$,
-pois os coeficientes da série de potências de uma FGP são essas
-probabilidades. Para extraí-los, convém decompor o quociente em uma constante
+pois os coeficientes da série de potências de uma função geradora de
+probabilidade são essas probabilidades. Para extraí-los, convém decompor o quociente em uma constante
 mais uma série geométrica. Escrevemos o numerador como múltiplo do denominador
 mais uma constante:
 \[
@@ -1632,8 +1635,9 @@ certa; quando $\mu>1$, a linhagem sobrevive para sempre com probabilidade
 $1-e>0$, e $e$ é justamente a menor raiz da equação $x=G(x)$ no intervalo
 $[0,1)$, cuja existência a prova acima estabelece. O critério não calcula esse
 valor: para obtê-lo é preciso resolver a equação, o que só é viável quando a
-FGP tem forma simples. Os dois exercícios a seguir ilustram a situação com
-funções geradoras cujas raízes podem ser encontradas explicitamente.
+função geradora de probabilidade tem forma simples. Os dois exercícios a seguir
+ilustram a situação com funções geradoras cujas raízes podem ser encontradas
+explicitamente.
 
 % Origem: G&W, exercício 9.23.
 \begin{exercise}\label{exercise:extincao-geometrica}
@@ -1644,7 +1648,7 @@ p_k=pq^k,\qquad k=0,1,2,\ldots,
 \]
 com $0<p=1-q<1$. Use o \Cref{thm:extincao-raiz} para mostrar que a
 probabilidade de que o processo se extinga em algum momento é $p/q$ quando
-$p\leqslant1/2$. A FGP do tamanho de família é a de
+$p\leqslant1/2$. A função geradora de probabilidade do tamanho de família é a de
 \eqref{eq:fgp-geometrica-geral} e a equação $x=G(x)$ se reduz, nesse caso, a
 uma equação quadrática.
 \end{exercise}
@@ -1742,8 +1746,8 @@ para a geração $n$ com esperança $\mu^{n-m}$, como no
 
 \item
 Seja $(Z_n:n\geqslant 0)$ um processo de ramificação com $Z_0=1$. Escreva $P_r$
-para a FGP do tamanho da $r$-ésima geração, de modo que $P_r=G_r$ na notação da
-\Cref{sec:metodo-geradoras}. Mostre que
+para a função geradora de probabilidade do tamanho da $r$-ésima geração, de
+modo que $P_r=G_r$ na notação da \Cref{sec:metodo-geradoras}. Mostre que
 \[
 P_n(s)=P_r\bigl(P_{n-r}(s)\bigr),
 \qquad 1\leqslant r\leqslant n-1,
@@ -1756,14 +1760,14 @@ lei, agora com $n-r$ gerações a percorrer.
 Suponha agora que o processo seja modificado de tal modo que a geração inicial
 $Z_0$ tenha distribuição $\mathrm{Poisson}(\lambda)$ e que o número de filhos de
 cada indivíduo tenha distribuição $\mathrm{Poisson}(\lambda)$, com todas as
-escolhas independentes. Seja $H_n$ a FGP do número total de indivíduos
-$Z_0+Z_1+\cdots+Z_n$. Encontre uma função $f$ tal que
+escolhas independentes. Seja $H_n$ a função geradora de probabilidade do número
+total de indivíduos $Z_0+Z_1+\cdots+Z_n$. Encontre uma função $f$ tal que
 \[
 H_n(s)=f\bigl(s\,H_{n-1}(s)\bigr).
 \]
 \emph{Sugestão:} o fator $s$ fora da composição registra a contribuição da
-geração inicial, e a escolha poissoniana faz a FGP da geração inicial
-reaparecer na expressão.
+geração inicial, e a escolha poissoniana faz a função geradora de probabilidade
+da geração inicial reaparecer na expressão.
 
 \smallskip
 \noindent\emph{(Oxford, 1977)}
@@ -1777,11 +1781,13 @@ $\mathbb{P}(Y_0=1)=1$, e seja
 T_n=Y_0+Y_1+\cdots+Y_{n-1}
 \]
 o número total de indivíduos nas $n$ primeiras gerações, contando a geração
-$0$. Escreva $Q_n$ para a FGP de $T_n$. Mostre que, para $n\geqslant 2$,
+$0$. Escreva $Q_n$ para a função geradora de probabilidade de $T_n$. Mostre
+que, para $n\geqslant 2$,
 \[
 Q_n(s)=s\,P_1\bigl(Q_{n-1}(s)\bigr),
 \]
-em que $P_1$ é a FGP da distribuição do tamanho de família.
+em que $P_1$ é a função geradora de probabilidade da distribuição do tamanho de
+família.
 
 \emph{Sugestão:} o fator $s$ isola a contribuição do fundador, que comparece
 em $T_n$ e não é contado por nenhuma das linhagens descendentes; a composição
@@ -1795,8 +1801,9 @@ delas com $n-1$ gerações contadas a partir de seu próprio fundador.
 \begin{enumerate}[label=(\alph*)]
   \item Explique o que se entende pelo termo ``processo de ramificação''.
   \item Seja $Z_n$ o tamanho da $n$-ésima geração de um processo de ramificação
-        em que cada tamanho de família tem FGP $G$, e suponha $Z_0=1$. Mostre
-        que a FGP $G_n$ do tamanho da $n$-ésima geração satisfaz
+        em que cada tamanho de família tem função geradora de probabilidade
+        $G$, e suponha $Z_0=1$. Mostre que a função geradora de probabilidade
+        $G_n$ do tamanho da $n$-ésima geração satisfaz
         \[
         G_{n+1}(s)=G_n\bigl(G(s)\bigr),
         \qquad n\geqslant 1.
@@ -1805,7 +1812,8 @@ delas com $n-1$ gerações contadas a partir de seu próprio fundador.
         \[
         G(s)=1-\alpha(1-s)^{\beta}
         \]
-        é a FGP de uma variável aleatória com valores em $\{0,1,2,\ldots\}$
+        é a função geradora de probabilidade de uma variável aleatória com
+        valores em $\{0,1,2,\ldots\}$
         quando $\alpha,\beta\in(0,1)$ e, para essa escolha de $G$, encontre
         $G_n$ explicitamente.
   \item Encontre a probabilidade $\mathbb{P}(Z_n=0)$, mostre que ela converge,
