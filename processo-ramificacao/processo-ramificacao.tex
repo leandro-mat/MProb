@@ -1,0 +1,944 @@
+% !TeX spellcheck = pt_BR
+\documentclass[12pt,portuguese]{article}
+
+%----------------------------------------------------------------------
+% PACOTES ESSENCIAIS E TRADUÇÃO
+%----------------------------------------------------------------------
+\usepackage[brazilian]{babel}     % Suporte à língua portuguesa
+\usepackage[utf8]{inputenc}       % Codificação de entrada
+\usepackage[T1]{fontenc}          % Codificação da fonte
+\usepackage{lmodern}              % Fonte escalável
+
+%----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS
+%----------------------------------------------------------------------
+\usepackage{amsmath, amsthm, amssymb, amstext, mathtools}
+\usepackage{mathrsfs}             % Para fontes como \mathscr
+\usepackage{dsfont}               % Para o indicador de conjunto \mathds{1}
+\usepackage[all]{xy}              % Para diagramas comutativos
+\usepackage{imakeidx}             % Criação de Lista de Símbolos / Índice
+
+% Desigualdades sempre com símbolos inclinados
+\let\leq\leqslant
+\let\le\leqslant
+\let\ge\geqslant
+\let\geq\geqslant
+
+%----------------------------------------------------------------------
+% FORMATAÇÃO, LAYOUT E CORES
+%----------------------------------------------------------------------
+\usepackage{geometry}
+\usepackage{varwidth}
+\usepackage{graphicx}
+\usepackage[pdftex]{xcolor}
+\usepackage{titlesec}
+\usepackage{appendix}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{fontawesome5}
+\usepackage{lucide-icons}
+\usepackage{caption}
+\usepackage{stackengine}
+\captionsetup{width=0.8\textwidth}
+
+% Definição de Cores
+\definecolor{teal}{RGB}{15,118,110}
+\definecolor{text}{RGB}{28,25,23}
+\definecolor{muted}{RGB}{87,83,78}
+\definecolor{card}{RGB}{255,255,255}
+\definecolor{border}{RGB}{231,229,228}
+
+% Definição de margens e espaçamento
+\setlength{\topmargin}{-0.7in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textheight}{9.55in}
+\setlength{\textwidth}{6.5in}
+\setlength{\baselineskip}{12mm}
+
+% Formatação dos títulos de seção
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection.}{0.6em}{}
+
+%----------------------------------------------------------------------
+% TIKZ E GRÁFICOS
+%----------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+
+%----------------------------------------------------------------------
+% REFERÊNCIAS, LINKS E METADADOS DO PDF
+%----------------------------------------------------------------------
+\usepackage[pdftex, colorlinks, linkcolor={red!50!black}, 
+citecolor={red}, urlcolor={blue!80!black}]{hyperref}
+
+\hypersetup{
+pdftitle={Introdução aos Processos Estocásticos e o Processo de Ramificação},
+pdfauthor={L. Cioletti},
+pdfsubject={processos estocásticos, processo de ramificação, funções
+geradoras de probabilidade, soma aleatória, extinção},
+pdfkeywords={processo de ramificação, processos estocásticos, função
+geradora de probabilidade, soma aleatória, MAT-UnB} }
+
+% --- PACOTE E COMANDO PARA A LICENÇA CREATIVE COMMONS ---
+\usepackage[type={CC},modifier={by-nc-sa},version={4.0}]{doclicense}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%----------------------------------------------------------------------
+% ALIASCNT E AMBIENTES DE TEOREMA (Cleveref)
+%----------------------------------------------------------------------
+\usepackage{aliascnt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}
+
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definição}
+\aliascntresetthe{definition}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Exemplo}
+\aliascntresetthe{example}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposição}
+\aliascntresetthe{proposition}
+
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corolário}
+\aliascntresetthe{corollary}
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lema}
+\aliascntresetthe{lemma}
+
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Observação}
+\aliascntresetthe{remark}
+
+% O primeiro argumento é o espaço acima do ambiente. Acrescentamos 0,4 cm ao
+% valor usual de 3pt para separar melhor os exercícios.
+\newtheoremstyle{plainexercise}
+  {14.4pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{plainexercise}
+\newtheorem{exercise}{Exercício}
+
+% Versão marcada dos exercícios: a estrela fica pendurada na margem esquerda,
+% como nas notas anteriores.
+\newtheoremstyle{starredexercise}
+  {14.4pt}{3pt}{\normalfont}{}{\bfseries}{.}{.5em}
+  {\llap{\textasteriskcentered\,}\thmnumber{#2}\thmnote{ #3}}
+\theoremstyle{starredexercise}
+\newtheorem{starredexercise}[exercise]{Exercício}
+\theoremstyle{definition}
+
+% Ambientes não numerados usados no texto
+\newtheorem*{property}{Propriedade}
+\newtheorem*{solution}{Solução}
+
+% Se um enumerate for o primeiro conteúdo de um teorema/exercício (cabeçalho
+% ainda pendente, \@inlabel true), o \leavevmode dispara o \everypar do amsthm
+% que coloca o cabeçalho na própria linha, antes da lista iniciar.
+\makeatletter
+\setlist[enumerate]{before={\if@inlabel\leavevmode\fi}}
+\makeatother
+
+% Nomes em português para os ambientes
+\AtBeginDocument{\renewcommand{\proofname}{\normalfont\textbf{Prova}}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Cleveref (deve vir depois de hyperref e amsthm)
+\usepackage[brazilian,nameinlink]{cleveref}
+
+\crefname{theorem}{teorema}{teoremas}
+\Crefname{theorem}{Teorema}{Teoremas}
+\crefname{definition}{definição}{definições}
+\Crefname{definition}{Definição}{Definições}
+\crefname{lemma}{lema}{lemas}
+\Crefname{lemma}{Lema}{Lemas}
+\crefname{proposition}{proposição}{proposições}
+\Crefname{proposition}{Proposição}{Proposições}
+\crefname{corollary}{corolário}{corolários}
+\Crefname{corollary}{Corolário}{Corolários}
+\crefname{example}{exemplo}{exemplos}
+\Crefname{example}{Exemplo}{Exemplos}
+\crefname{exercise}{exercício}{exercícios}
+\Crefname{exercise}{Exercício}{Exercícios}
+\crefname{remark}{observação}{observações}
+\Crefname{remark}{Observação}{Observações}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+
+%----------------------------------------------------------------------
+% MACROS ADICIONAIS
+%----------------------------------------------------------------------
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\graphicspath{{./}{../arquivos-aux/}}
+
+% Seno na convenção em português
+\renewcommand{\sin}{\operatorname{sen}}
+
+%----------------------------------------------------------------------
+% DOCUMENTO PRINCIPAL
+%----------------------------------------------------------------------
+\begin{document}
+
+% --- CABEÇALHO COM O LOGO DA UnB ---
+\vspace*{-0.8cm}
+\begin{figure}[H]
+\includegraphics{logo-mat-unb.pdf}
+\end{figure}
+
+% --- TÍTULO, AUTOR E DATA ---
+\vspace*{0.3cm}
+\begin{center}
+{\LARGE\bf Introdução aos Processos Estocásticos e o Processo de Ramificação}
+\vspace{1cm}
+
+{\large \bf L. Cioletti}
+\vspace{0.3cm}
+
+{\footnotesize Novembro de 2026}
+\end{center}
+
+% --- RESUMO (ABSTRACT) ---
+\begin{abstract}
+Nestas notas, iniciamos o estudo de processos que evoluem aleatoriamente ao
+longo do tempo e desenvolvemos o primeiro exemplo completo dessa classe: o
+processo de ramificação, modelo simples para o crescimento de uma população
+que se reproduz. Apresentamos o modelo com tamanhos de família independentes
+e identicamente distribuídos e mostramos como a função geradora de
+probabilidade do tamanho da $n$-ésima geração é a $n$-ésima iterada da função
+geradora do tamanho de família, da qual extraímos a média
+$\mathbb{E}[Z_n]=\mu^n$, que orienta a discussão dos três regimes $\mu<1$, $\mu=1$ e
+$\mu>1$. Para tornar a exposição autossuficiente, reapresentamos com provas os
+instrumentos necessários sobre funções geradoras de probabilidade, em
+particular a fórmula da soma aleatória. O texto conta com uma figura da
+árvore genealógica do processo e com exercícios propostos ao final da
+exposição. A exposição segue de perto as Seções 9.1 a 9.3 do Capítulo 9 da
+referência \cite{GrimmettWelsh2014}.
+\end{abstract}
+
+% --- LICENÇA NO RODAPÉ ---
+\blfootnote{%
+\doclicenseImage[imagewidth=2.6em]\
+\begingroup
+\hypersetup{urlcolor=darkgray}
+\href{\doclicenseURL}{%
+\doclicenseName{} -- Attribution-NonCommercial-ShareAlike 4.0 International%
+}%
+\endgroup
+}
+
+% Origem: G&W, seção 9.1 (Random processes).
+\section{Introdução}\label{sec:introducao}
+
+Nas notas de aula anteriores desenvolvemos a terminologia
+e os resultados básicos da teoria da probabilidade.
+Nestas notas iniciamos o estudo de aplicações dessa teoria
+a fenômenos que evoluem aleatoriamente ao longo do tempo.
+
+A passagem do tempo faz parte do mundo em que vivemos
+e, consequentemente,
+muitas aplicações da probabilidade envolvem quantidades
+que se desenvolvem de modo aleatório à medida que o tempo passa.
+Processos que evoluem aleatoriamente dessa forma são chamados de
+\emph{processos aleatórios} ou \emph{processos estocásticos},
+e há muitos tipos diferentes deles.
+A maior parte dos processos reais da natureza,
+como a contagem de pólen em uma cidade
+ou a posição de um time no campeonato brasileiro de futebol,
+evolui segundo regras complicadas demais
+para serem descritas com exatidão,
+e bons modelos probabilísticos para esses processos
+podem ser bastante complexos.
+Vamos nos restringir a alguns dos processos aleatórios mais simples,
+e os processos específicos que consideraremos
+com mais profundidade são
+\begin{enumerate}[label=(\alph*)]
+  \item \emph{processos de ramificação}: modelam o crescimento de uma
+        população que se reproduz por si mesma (como a população humana);
+  \item \emph{passeios aleatórios}: modelam o movimento de uma partícula
+        que se desloca de modo errático dentro de um meio (uma partícula
+        de poeira na atmosfera, por exemplo);
+  \item \emph{processos de Poisson e processos relacionados}: modelam
+        fenômenos como a emissão de partículas radioativas por uma fonte
+        que decai lentamente, ou o comprimento da fila no caixa de um
+        supermercado.
+\end{enumerate}
+Há uma teoria razoavelmente completa de cada um desses três tipos de
+processo, cujos traços principais são descritos nestas
+notas e em notas de aula futuras. Nestas notas trataremos do primeiro
+tipo, o processo de ramificação, que serve de modelo para o crescimento
+de populações. Em contraste, a teoria \emph{geral} dos processos
+estocásticos é bem mais difícil e está fora do escopo destas notas.
+
+Em um extremo, os probabilistas estudam processos ``concretos'' como os
+listados acima, frequentemente concebidos para atender às necessidades
+de uma área de aplicação particular. No outro extremo, há uma teoria
+abstrata de processos estocásticos ``gerais''. A tensão entre esses dois
+extremos se resolve pela identificação de propriedades compartilhadas
+por grandes famílias de processos e que, ao mesmo tempo, são
+específicas o bastante para permitir o desenvolvimento de uma teoria
+útil. Talvez a mais importante dessas propriedades seja a chamada
+\emph{propriedade de Markov}. Não a discutimos aqui; remetemos o leitor
+às notas de aula futuras sobre processos de Markov em tempo discreto.
+
+% Origem: reapresentação condensada das notas func-gen-discretas (G&W, cap. 4).
+\section{Preliminares sobre funções geradoras}\label{sec:preliminares-fgp}
+
+O processo de ramificação que vamos estudar evolui por uma regra simples: cada
+indivíduo de uma geração deixa um número aleatório de filhos, e o tamanho da
+geração seguinte é a soma desses números. O objeto central destas notas é,
+portanto, uma soma com um número aleatório de parcelas, e a ferramenta natural
+para analisá-la é a função geradora de probabilidade, que reúne todas as
+probabilidades $p_0,p_1,p_2,\ldots$ em um único objeto, usando cada uma como
+coeficiente da potência correspondente de uma variável auxiliar $s$. Reapresentamos
+aqui, com provas, a definição e o domínio, o produto de funções geradoras, a
+leitura dos momentos por derivação e a fórmula da soma aleatória; o tratamento
+completo está nas notas de aula sobre funções geradoras de probabilidade.
+
+\begin{definition}\label{def:fgp}
+Seja $X$ uma variável aleatória com valores em $\{0,1,2,\ldots\}$ e função de
+probabilidade $p_X$, e escreva $p_k=p_X(k)=\mathbb{P}(X=k)$. A \emph{função
+geradora de probabilidade}, abreviadamente \emph{FGP}, de $X$ é a função
+definida por
+\begin{equation}\label{eq:def-fgp}
+G_X(s)=\mathbb{E}[s^X]=\sum_{k=0}^{\infty}s^k p_k,
+\end{equation}
+para os valores de $s$ nos quais a série converge absolutamente. Em $s=0$,
+adotamos a convenção $0^0=1$, como corresponde ao termo constante da série.
+\end{definition}
+
+A igualdade $\mathbb{E}[s^X]=\sum_{k}s^k p_k$ é a aplicação, à função
+$x\mapsto s^x$, do resultado visto nas notas de aula sobre esperança discreta
+que permite calcular a esperança de uma função de uma variável aleatória.
+
+A normalização da função de probabilidade garante um domínio comum a todas as
+FGP: se $|s|\leqslant 1$, então
+\[
+\sum_{k=0}^{\infty}|p_k s^k|
+=\sum_{k=0}^{\infty}p_k|s|^k
+\leqslant\sum_{k=0}^{\infty}p_k=1.
+\]
+Logo, toda FGP converge absolutamente para $|s|\leqslant 1$ e, vista como série
+de potências, tem raio de convergência pelo menos igual a $1$. Em particular,
+$G_X$ é contínua em $[0,1)$, e a continuidade à esquerda em $s=1$ segue do
+lema de Abel sobre coeficientes não negativos, que demonstraremos na prova do
+\Cref{thm:fgp-momentos}:
+$\lim_{s\uparrow 1}G_X(s)=\sum_{k}p_k=1=G_X(1)$. Assim, $G_X$ é contínua em $[0,1]$.
+
+Dois valores de $s$ já revelam informação probabilística: em $s=0$, somente o
+coeficiente constante permanece; em $s=1$, somamos todas as probabilidades.
+
+\begin{proposition}\label{prop:fgp-basica}
+Se $X$ tem função de probabilidade $(p_k)_{k\geqslant 0}$ e FGP $G_X$, então
+\[
+G_X(0)=p_0=\mathbb{P}(X=0)
+\quad\text{e}\quad
+G_X(1)=1.
+\]
+\end{proposition}
+
+\begin{proof}
+As duas identidades seguem diretamente de \eqref{eq:def-fgp}: para $s=0$, os
+termos com $k\geqslant 1$ se anulam; para $s=1$, obtemos
+$\sum_{k=0}^{\infty}p_k=1$.
+\end{proof}
+
+O valor em $0$ extrai apenas $p_0$. Para recuperar os demais, derivamos: cada
+derivação transforma o coeficiente de $s^k$ em $kp_k$ e, após $k$ derivações, o
+termo $p_k s^k$ torna-se $k!p_k$; os termos de grau maior ainda contêm potências
+positivas de $s$, que se anulam em $s=0$. Séries de potências podem ser derivadas
+termo a termo no interior do raio de convergência, de modo que, para todo $k\geqslant 0$,
+\[
+\mathbb{P}(X=k)=p_k=\frac{G_X^{(k)}(0)}{k!},
+\]
+com a convenção $G_X^{(0)}=G_X$. Assim, podemos recuperar separadamente qualquer
+entrada da função de probabilidade a partir da FGP.
+
+\medskip
+
+Por que o produto deve aparecer? Ao multiplicar dois termos genéricos
+$\mathbb{P}(X=j)s^j$ e $\mathbb{P}(Y=\ell)s^\ell$, os expoentes se somam, e o
+coeficiente de $s^k$ no produto reúne os pares $(j,\ell)$ com $j+\ell=k$. Sob
+independência de $X$ e $Y$, o produto das probabilidades é a probabilidade
+conjunta do par, e o coeficiente obtido é a convolução que calcula
+$\mathbb{P}(X+Y=k)$. A prova formal é ainda mais curta.
+
+\begin{theorem}[Produto de funções geradoras]\label{thm:fgp-produto}
+Sejam $X$ e $Y$ variáveis aleatórias discretas independentes, ambas com
+valores em $\{0,1,2,\ldots\}$. Então, para todo $s$ com $|s|\leqslant 1$,
+\[
+G_{X+Y}(s)=G_X(s)G_Y(s).
+\]
+\end{theorem}
+
+\begin{proof}
+Como $X$ e $Y$ são independentes, as variáveis $s^X$ e $s^Y$ também são
+independentes. Para $|s|\leqslant 1$, ambas são limitadas em módulo por $1$
+e, portanto, integráveis.
+Logo,
+\begin{align*}
+G_{X+Y}(s)
+&=\mathbb{E}[s^{X+Y}]
+=\mathbb{E}[s^Xs^Y]
+\\[0.2cm]
+&=\mathbb{E}[s^X]\,\mathbb{E}[s^Y]
+=G_X(s)G_Y(s),
+\end{align*}
+o que encerra a demonstração.
+\end{proof}
+
+A aplicação repetida do teorema revela a vantagem sobre a convolução.
+
+\begin{corollary}[FGP de uma soma finita]\label{cor:fgp-soma-finita}
+Sejam $X_1,\ldots,X_n$ variáveis aleatórias discretas independentes, com valores
+em $\{0,1,2,\ldots\}$, e defina $S_n=X_1+\cdots+X_n$. Então
+\[
+G_{S_n}(s)=\prod_{i=1}^{n}G_{X_i}(s),
+\qquad |s|\leqslant 1.
+\]
+Em particular, se as parcelas são identicamente distribuídas, com a mesma
+distribuição de uma variável $X$, então $G_{S_n}(s)=\bigl(G_X(s)\bigr)^n$ para
+$|s|\leqslant 1$.
+\end{corollary}
+
+\begin{proof}
+O argumento é por indução em $n$. A independência da família garante que
+$S_{n-1}$ e $X_n$ são independentes, pois $S_{n-1}=X_1+\cdots+X_{n-1}$ é
+função de $X_1,\ldots,X_{n-1}$, que são independentes de $X_n$. Aplicando
+o \Cref{thm:fgp-produto} ao par $(S_{n-1},X_n)$ e usando a hipótese de
+indução, obtemos
+\[
+G_{S_n}(s)
+=G_{S_{n-1}}(s)G_{X_n}(s)
+=\cdots
+=\prod_{i=1}^{n}G_{X_i}(s).
+\]
+No caso identicamente distribuído, todos os fatores desse produto são
+iguais a $G_X(s)$.
+\end{proof}
+
+\medskip
+
+A FGP também permite calcular momentos por derivação. Cada derivação de $s^k$
+reduz o expoente em uma unidade, produzindo os fatores $k,k-1,\ldots$, e não a
+potência $k^r$. Por isso, escrevemos $(X)_r=X(X-1)\cdots(X-r+1)$ para a
+\emph{potência fatorial decrescente} de ordem $r$ e chamamos $\mathbb{E}[(X)_r]$
+de \emph{$r$-ésimo momento fatorial} de $X$, admitindo o valor $+\infty$.
+Derivar termo a termo uma série infinita e alcançar a fronteira $s=1$ exigem
+justificativas distintas; o próximo resultado separa essas duas passagens.
+
+\begin{theorem}[Derivadas da FGP e momentos]\label{thm:fgp-momentos}
+Seja $X$ uma variável aleatória com valores em $\{0,1,2,\ldots\}$ e seja $G_X$
+sua FGP. Para todo inteiro $r\geqslant 1$ e todo $|s|<1$,
+\[
+G_X^{(r)}(s)=\sum_{k=r}^{\infty}(k)_r\,s^{k-r}\,\mathbb{P}(X=k).
+\]
+Além disso, as derivadas laterais em $1$, definidas por
+$G_X^{(r)}(1)\equiv\lim_{s\uparrow 1}G_X^{(r)}(s)$, satisfazem
+$G_X^{(r)}(1)=\mathbb{E}[(X)_r]$, com a possibilidade de ambos os lados serem
+iguais a $+\infty$. Em particular, $G'_X(1)=\mathbb{E}[X]$ e
+$G''_X(1)=\mathbb{E}[X(X-1)]$, e, quando $\mathbb{E}[X^2]<\infty$,
+\[
+\operatorname{Var}(X)=G''_X(1)+G'_X(1)-\bigl(G'_X(1)\bigr)^2.
+\]
+\end{theorem}
+
+\begin{proof}
+A prova tem duas etapas. Primeiro justificamos a derivação no interior do
+intervalo de convergência; depois passamos de $s<1$ para $s=1$.
+
+Como $G_X(s)=\sum_{k=0}^{\infty}\mathbb{P}(X=k)s^k$ converge em $s=1$,
+seu raio de convergência é pelo menos $1$. Pelo teorema de derivação
+termo a termo de séries de potências, no interior do raio podemos derivar
+termo a termo, e a série derivada tem o mesmo raio. Como $|s|<1$ está no
+interior desse raio, podemos repetir o procedimento $r$ vezes. A $r$-ésima
+derivada de $s^k$ é nula para $k<r$ e é $(k)_r s^{k-r}$ para
+$k\geqslant r$, o que produz a fórmula enunciada.
+
+Resta atingir $s=1$. Não podemos simplesmente substituir $s=1$ em uma
+identidade demonstrada apenas para $|s|<1$. Os coeficientes
+$(k)_r\,\mathbb{P}(X=k)$ da série derivada são não negativos, e usaremos o
+seguinte resultado clássico, o lema de Abel (veja, por exemplo, Grimmett e
+Welsh \cite{GrimmettWelsh2014}, p.\,55): se $a_k\geqslant 0$, então
+$\lim_{s\uparrow 1}\sum_k a_k s^k=\sum_k a_k$ em $[0,+\infty]$.
+Portanto,
+\begin{align*}
+\lim_{s\uparrow 1}G_X^{(r)}(s)
+&=\sum_{k=r}^{\infty}(k)_r\,\mathbb{P}(X=k)
+\\[0.3cm]
+&=\mathbb{E}[(X)_r].
+\end{align*}
+Esse resultado admite o valor $+\infty$, de modo que a conclusão continua
+válida mesmo quando o momento fatorial não é finito.
+
+Os casos $r=1$ e $r=2$ fornecem as identidades anunciadas. Como
+$(X)_1=X$, temos $\mathbb{E}[X]=G'_X(1)$; como $(X)_2=X(X-1)$, temos
+$\mathbb{E}[X(X-1)]=G''_X(1)$. A derivada segunda produz, portanto, o
+segundo momento fatorial, e não diretamente $\mathbb{E}[X^2]$. A
+identidade $X^2=X(X-1)+X$ faz a conversão entre as duas formas:
+\[
+\mathbb{E}[X^2]=G''_X(1)+G'_X(1).
+\]
+Nas notas de aula sobre esperança discreta, obtivemos a expressão
+$\operatorname{Var}(X)=\mathbb{E}[X^2]-(\mathbb{E}[X])^2$. Substituindo
+nela as duas fórmulas anteriores, chegamos a
+\[
+\operatorname{Var}(X)
+=G''_X(1)+G'_X(1)-\bigl(G'_X(1)\bigr)^2,
+\]
+o que encerra a demonstração.
+\end{proof}
+
+Essas identidades são fórmulas para momentos finitos. Se a derivada lateral em
+$1$ vale $+\infty$, a afirmação sobre a esperança ou o momento fatorial continua
+válida no sentido estendido, mas não devemos formar diferenças indeterminadas
+para calcular a variância; seu uso pressupõe $G''_X(1)<\infty$.
+
+\medskip
+
+O produto de funções geradoras descreve uma soma com número fixo de parcelas;
+no processo de ramificação, porém, o próprio número de parcelas é aleatório.
+Nesse caso, fixamos esse número, usamos o produto e reunimos os casos possíveis,
+o que transforma o produto em uma composição de funções geradoras. Adotamos a
+convenção da soma vazia: $X_1+\cdots+X_N=0$ em $\{N=0\}$, com contribuição
+$s^0=1$ para a FGP, inclusive quando $s=0$ (convenção $0^0=1$).
+
+\begin{theorem}[Fórmula da soma aleatória]\label{thm:soma-aleatoria}
+Sejam $N,X_1,X_2,\ldots$ variáveis aleatórias com valores em
+$\{0,1,2,\ldots\}$, com $X_1,X_2,\ldots$ independentes e identicamente
+distribuídas, com a mesma distribuição de uma variável $X$ de FGP $G_X$, e $N$
+independente da sequência $X_1,X_2,\ldots$. Defina $S_N=X_1+\cdots+X_N$, com
+$S_N=0$ em $\{N=0\}$. Então, para $|s|\leqslant 1$,
+\[
+G_{S_N}(s)=G_N\bigl(G_X(s)\bigr).
+\]
+\end{theorem}
+
+\begin{proof}
+Fixe $s$ com $|s|\leqslant 1$. Os eventos $\{N=n\}$, com
+$n=0,1,2,\ldots$, são dois a dois disjuntos e sua união é o espaço
+amostral. Em cada evento $\{N=n\}$, a soma aleatória se reduz à soma fixa
+$X_1+\cdots+X_n$ (vazia, e igual a $0$, quando $n=0$). Portanto,
+pontualmente,
+\[
+s^{S_N}
+=\sum_{n=0}^{\infty}s^{X_1+\cdots+X_n}\,\mathds{1}_{\{N=n\}}.
+\]
+Para $0\leqslant s\leqslant 1$, todos os termos são não negativos, e a
+convergência monótona permite trocar a esperança com a soma. Para
+$-1\leqslant s<0$, a mesma troca é justificada por convergência dominada:
+as somas parciais são limitadas em módulo por
+$\sum_{n=0}^{\infty}\mathds{1}_{\{N=n\}}=1$. Em ambos os casos,
+\begin{align*}
+G_{S_N}(s)
+&=\mathbb{E}\bigl[s^{S_N}\bigr]
+\\[0.2cm]
+&=\sum_{n=0}^{\infty}
+\mathbb{E}\bigl[s^{X_1+\cdots+X_n}\,\mathds{1}_{\{N=n\}}\bigr].
+\end{align*}
+Essa é a decomposição sobre a partição $\{N=n\}$, escrita explicitamente
+com indicadores; ela corresponde ao Teorema da Partição, apresentado nas
+notas de aula sobre esperança condicional.
+
+A independência entre $N$ e a sequência das parcelas garante que
+$\mathds{1}_{\{N=n\}}$ é independente de $s^{X_1+\cdots+X_n}$, que é
+função de $X_1,\ldots,X_n$. Para $|s|\leqslant 1$, ambas as
+variáveis são limitadas em módulo por $1$, logo integráveis, e a esperança
+do produto fatora:
+\[
+\mathbb{E}\bigl[s^{X_1+\cdots+X_n}\,\mathds{1}_{\{N=n\}}\bigr]
+=\mathbb{E}\bigl[s^{X_1+\cdots+X_n}\bigr]\,\mathbb{P}(N=n).
+\]
+
+Em seguida, calculamos a FGP da soma fixa. As parcelas são independentes
+e, para $|s|\leqslant 1$, as variáveis $s^{X_i}$ são limitadas
+em módulo por $1$; o \Cref{cor:fgp-soma-finita}, enunciado nesse mesmo
+domínio, aplica-se portanto diretamente. Como as parcelas têm a mesma
+distribuição, todos os fatores são iguais:
+\[
+\mathbb{E}\bigl[s^{X_1+\cdots+X_n}\bigr]
+=\prod_{i=1}^{n}\mathbb{E}\bigl[s^{X_i}\bigr]
+=\bigl(G_X(s)\bigr)^n.
+\]
+Para $n=0$, a soma vazia e o produto vazio valem ambos $1$. Aqui aparecem
+os papéis distintos das hipóteses: a independência entre as parcelas
+produz o produto, enquanto a distribuição comum o transforma na potência
+de uma única função.
+
+Resta reunir os valores possíveis de $N$:
+\begin{align*}
+G_{S_N}(s)
+&=\sum_{n=0}^{\infty}\bigl(G_X(s)\bigr)^n\,\mathbb{P}(N=n)
+\\[0.2cm]
+&=G_N\bigl(G_X(s)\bigr).
+\end{align*}
+A última igualdade é exatamente \eqref{eq:def-fgp}, a definição de $G_N$,
+avaliada no ponto $G_X(s)$. Essa avaliação é legítima: para
+$|s|\leqslant 1$, os coeficientes não negativos de $G_X$ dão
+$|G_X(s)|\leqslant G_X(|s|)\leqslant G_X(1)=1$, de modo que $G_X(s)$
+pertence ao domínio em que $G_N$ converge absolutamente. Assim, decompor sobre os
+valores de $N$, aplicar o produto em cada caso e reunir os casos faz a
+composição surgir, o que encerra a demonstração.
+\end{proof}
+
+É essa identidade que alimentará a recursão das funções geradoras nas seções
+seguintes, com o número de parcelas dado pelo tamanho da geração anterior.
+
+\section{Um modelo para o crescimento de populações}\label{sec:modelo-populacao}
+% Origem: G&W, seção 9.2 (A model for population growth).
+
+Antes de usar a fórmula da soma aleatória, precisamos construir o modelo
+populacional que ela descreve. Vamos definir o termo \emph{nômade} para
+designar um tipo de objeto hipotético capaz de se reproduzir segundo as
+regras a seguir. No tempo $n=0$, existe um único nômade. Esse nômade vive por uma unidade de tempo
+e então, no tempo $n=1$, morre no ato do parto e é substituído por uma
+família de nômades filhos. Esses nômades têm biografias semelhantes: cada
+um sobrevive apenas até o tempo $n=2$, quando morre e é substituído por
+uma família de filhos. Esse processo de morte e nascimento continua em
+todos os tempos seguintes $n=3,4,\ldots$.
+
+Se conhecemos os tamanhos de todas as famílias individuais de nômades,
+então conhecemos tudo sobre o desenvolvimento da população de nômades, e
+podemos representar esse desenvolvimento da maneira usual por uma árvore
+genealógica (veja a \Cref{fig:arvore-ramificacao}). A dificuldade é que
+nômades distintos podem ter números distintos de filhos, e esses números
+podem não ser inteiramente previsíveis de antemão. Vamos supor aqui que
+os tamanhos de família são variáveis aleatórias que satisfazem as duas
+condições a seguir:
+\begin{enumerate}[label=\Roman*.]
+  \item os tamanhos de família são variáveis aleatórias independentes,
+        cada uma com valores em $\{0,1,2,\ldots\}$;
+  \item os tamanhos de família são variáveis aleatórias identicamente
+        distribuídas, com função de probabilidade conhecida $p$, de modo
+        que o número $C$ de filhos de um nômade típico satisfaz
+        $\mathbb{P}(C=k)=p_k$ para $k=0,1,2,\ldots$.
+\end{enumerate}
+A condição I expressa que cada nômade se reproduz sem interferência dos
+demais, e a condição II expressa que todos seguem a mesma lei de
+probabilidade: o mecanismo de reprodução não muda de um indivíduo para
+outro nem de uma geração para outra.
+
+Um processo desse tipo é chamado de \emph{processo de ramificação} e pode
+ser usado como modelo simples para o crescimento de bactérias ou para a
+propagação de um sobrenome de família (para dar apenas dois exemplos).
+Estabelecido o modelo, o problema básico é dizer algo sobre como o
+desenvolvimento do processo depende da função de probabilidade $p$ dos
+tamanhos de família. Para evitar trivialidades, vamos excluir os casos
+determinísticos, em que todo nômade tem exatamente $k$ filhos com
+probabilidade um, e supor ao longo destas notas que
+\[
+p_k\neq 1
+\quad\text{para } k=0,1,2,\ldots.
+\]
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1cm, >=Stealth, font=\small]
+    % O único indivíduo de Z2 fica sob o filho mais à esquerda de Z1 (x=4.8);
+    % a barra de Z3 (passo 2.4) e os grupos de Z4 são centrados sob seus pais.
+    \tikzset{
+      haste/.style={black!65, line width=0.55pt},
+      individuo/.style={fill=text},
+    }
+
+    \draw[haste] (7.2, 0) -- (7.2, -1.6);
+    \draw[haste] (4.8, -1.6) -- (9.6, -1.6);
+    \draw[haste] (4.8, -1.6) -- (4.8, -3.2);
+    \draw[haste] (4.8, -3.2) -- (4.8, -4.8);
+    \draw[haste] (1.2, -4.8) -- (8.4, -4.8);
+    \draw[haste] (1.2, -4.8) -- (1.2, -6.4);
+    \draw[haste] (0, -6.4) -- (2.4, -6.4);
+    \draw[haste] (6.0, -4.8) -- (6.0, -6.4);
+    \draw[haste] (5.4, -6.4) -- (6.6, -6.4);
+    \draw[haste] (8.4, -4.8) -- (8.4, -6.4);
+    \draw[haste] (7.8, -6.4) -- (9.0, -6.4);
+
+    \fill[individuo] (7.2, 0) circle (1.7pt);
+    \foreach \x in {4.8, 7.2, 9.6}
+      \fill[individuo] (\x, -1.6) circle (1.7pt);
+    \fill[individuo] (4.8, -3.2) circle (1.7pt);
+    \foreach \x in {1.2, 3.6, 6.0, 8.4}
+      \fill[individuo] (\x, -4.8) circle (1.7pt);
+    \foreach \x in {0, 1.2, 2.4, 5.4, 6.6, 7.8, 9.0}
+      \fill[individuo] (\x, -6.4) circle (1.7pt);
+
+    \foreach \y/\rotulo in {0/Z_0=1, -1.6/Z_1=3, -3.2/Z_2=1, -4.8/Z_3=4, -6.4/Z_4=7}
+      \node[anchor=west, font=\small, text=text] at (10.2, \y) {$\rotulo$};
+  \end{tikzpicture}
+  \caption{Árvore genealógica típica de um processo de ramificação com tamanhos
+    de geração $1$, $3$, $1$, $4$ e $7$. Cada ponto representa um indivíduo;
+    a haste vertical desce do pai até a barra horizontal que agrupa seus
+    filhos, sobre a qual os pontos dos filhos estão apoiados. Indivíduos sem
+    haste descendente não deixam descendência. À direita, o tamanho $Z_n$ de
+    cada geração.}
+  \label{fig:arvore-ramificacao}
+\end{figure}
+
+Vamos introduzir alguma notação. O conjunto dos nômades nascidos no tempo
+$n$ é chamado de $n$-ésima geração do processo de ramificação, e
+escrevemos $Z_n$ para o número de nômades dessa geração. Assim, $Z_0=1$,
+pois a população começa com um único nômade, e cada $Z_n$ conta quantos
+nômades nascem no tempo $n$. Como os tamanhos de família são aleatórios,
+cada $Z_n$ é uma variável aleatória, e não um número previsível de
+antemão. A evolução do processo é descrita pela sequência
+$Z_0,Z_1,\ldots$ de variáveis aleatórias, e é com essa sequência
+que vamos trabalhar. Propriedades específicas dos $Z_n$ serão obtidas na
+próxima seção; encerramos esta seção com uma lista de perguntas
+interessantes:
+\begin{enumerate}[label=(\alph*)]
+  \item Qual é a média e a variância de $Z_n$?
+  \item Qual é a função de probabilidade de $Z_n$?
+  \item Qual é a probabilidade de que a população de nômades esteja
+        extinta até o tempo $n$?
+  \item Qual é a probabilidade de que a população de nômades se extinja
+        eventualmente?
+\end{enumerate}
+
+\section{O método das funções geradoras}\label{sec:metodo-geradoras}
+
+O primeiro passo no estudo deste processo de ramificação é explicar como
+obter as distribuições das variáveis $Z_n$ em termos da função de
+probabilidade $p$ dos tamanhos de família. Claramente, $Z_0=1$ e
+% Origem: G&W, eq. (9.2).
+\begin{equation}\label{eq:zn-um}
+\mathbb{P}(Z_1=k)=p_k
+\quad\text{para } k=0,1,2,\ldots,
+\end{equation}
+pois $Z_1$ é o número de filhos do nômade fundador.
+
+Não é fácil escrever diretamente a função de probabilidade de $Z_2$:
+essa variável é a soma de um número aleatório de tamanhos de família,
+que também são aleatórios. De fato, escrevendo $C_i$ para o número de
+filhos do $i$-ésimo nômade da primeira geração, temos
+\[
+Z_2=C_1+C_2+\cdots+C_{Z_1},
+\]
+isto é, $Z_2$ é a soma dos tamanhos de família dos $Z_1$ nômades da
+primeira geração. O número de parcelas não é fixo: ele é o valor
+realizado de $Z_1$, que só fica conhecido depois que a primeira geração
+se forma. Mais geralmente, para $n=1,2,\ldots$,
+% Origem: G&W, eq. (9.3).
+\begin{equation}\label{eq:recursao-geracao}
+Z_n=C_1'+C_2'+\cdots+C_{Z_{n-1}}',
+\end{equation}
+em que $C_1',C_2',\ldots$ são os números de filhos dos nômades da
+$(n-1)$-ésima geração.
+
+Somas de um número aleatório de variáveis aleatórias são mais bem
+tratadas por funções geradoras de probabilidade do que por funções de
+probabilidade. Escrevemos
+\[
+G_n(s)=\mathbb{E}[s^{Z_n}]
+=\sum_{k=0}^{\infty}s^k\,\mathbb{P}(Z_n=k),
+\]
+para a função geradora de probabilidade de $Z_n$, e
+\[
+G(s)=\sum_{k=0}^{\infty}s^k\,p_k,
+\]
+para a função geradora de probabilidade de um tamanho de família típico.
+Como $Z_n$ e os tamanhos de família são variáveis aleatórias inteiras e
+não negativas, ambas as séries convergem absolutamente para
+$|s|\leqslant 1$, pelo argumento apresentado na \Cref{sec:preliminares-fgp}.
+Nosso objetivo é expressar $G_n$ em termos de $G$, e fazemos isso no
+teorema a seguir.
+
+% Origem: G&W, teorema 9.4.
+\begin{theorem}[Iteradas da função geradora]\label{thm:fgp-iterada}
+As funções geradoras $G,G_0,G_1,\ldots$ satisfazem
+% Origem: G&W, eq. (9.5).
+\begin{equation}\label{eq:recursao-fgp}
+G_0(s)=s,
+\qquad
+G_n(s)=G_{n-1}(G(s)),
+\quad\text{para } n=1,2,\ldots,
+\end{equation}
+e, portanto, $G_n$ é a $n$-ésima iterada de $G$:
+% Origem: G&W, eq. (9.6).
+\begin{equation}\label{eq:fgp-iterada}
+G_n(s)=G(G(\cdots G(s)\cdots)),
+\quad\text{para } n=0,1,2,\ldots.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Como $Z_0=1$, temos $G_0(s)=\mathbb{E}[s^{Z_0}]=s$. Fixe
+$n\geqslant 1$. A identidade \eqref{eq:recursao-geracao} expressa $Z_n$
+como a soma de $Z_{n-1}$ variáveis aleatórias $C_1',C_2',\ldots$, cada
+uma com função geradora de probabilidade $G$. Antes de usar a fórmula
+da soma aleatória, verificamos suas hipóteses de independência: os
+tamanhos de família $C_i'$ são independentes e identicamente
+distribuídos, com função de probabilidade $p$, e são independentes de
+$Z_{n-1}$, pois $Z_{n-1}$ é determinado pelos tamanhos de família das
+gerações $0,1,\ldots,n-2$, enquanto os $C_i'$ descrevem a reprodução dos
+nômades da $(n-1)$-ésima geração, que ocorre depois de $Z_{n-1}$ estar
+formado. Podemos então aplicar \Cref{thm:soma-aleatoria} com $X_i=C_i'$
+e $N=Z_{n-1}$: a função geradora da soma aleatória é a composição da
+função geradora do número de parcelas com a função geradora comum das
+parcelas, o que nos dá
+% Origem: G&W, eq. (9.7).
+\begin{equation}\label{eq:passo-recursao}
+G_n(s)=G_{n-1}(G(s)).
+\end{equation}
+A composição está bem definida para $|s|\leqslant 1$: nesse caso,
+$|G(s)|\leqslant\sum_{k=0}^{\infty}|s|^k\,p_k\leqslant 1$, de modo que
+$G(s)$ permanece no domínio de convergência de $G_{n-1}$.
+
+Para chegar à iterada, aplicamos \eqref{eq:passo-recursao}
+sucessivamente, primeiro a $G_{n-1}$, depois a $G_{n-2}$, e assim por
+diante:
+\begin{align*}
+G_n(s)
+&=G_{n-1}(G(s))=G_{n-2}(G(G(s)))=\cdots\\[0.3cm]
+&=G_1(G(G(\cdots G(s)\cdots))).
+\end{align*}
+Por \eqref{eq:zn-um}, a variável $Z_1$ tem função de probabilidade $p$,
+de modo que $G_1=G$. Substituindo na última linha, obtemos
+\eqref{eq:fgp-iterada}, o que conclui a prova.
+\end{proof}
+% Origem: G&W, seção 9.3, do Teorema 9.8 ao Exercício 9.12.
+
+O \Cref{thm:fgp-iterada} expressa a função geradora de $Z_n$ como
+uma iterada de $G$ e contém a informação necessária para estudar
+o desenvolvimento do processo. A primeira consequência dessa representação
+é a média do tamanho da $n$-ésima geração, que obtemos a seguir.
+
+\begin{theorem}[Média do tamanho da $n$-ésima geração]\label{thm:media-geracao}
+A média de $Z_n$ é
+\begin{equation}\label{eq:media-mu-n}
+\mathbb{E}[Z_n] = \mu^n,
+\end{equation}
+em que $\mu = \sum_k k p_k$ é a média da distribuição do tamanho de família.
+\end{theorem}
+
+\begin{proof}
+Em vez de calcular a distribuição de $Z_n$ explicitamente, vamos explorar
+a recursão satisfeita por $G_n$.
+A esperança de $Z_n$ pode ser lida na derivada da sua função geradora:
+pelo \Cref{thm:fgp-momentos}, $\mathbb{E}[Z_n] = G_n'(1)$.
+Para calcular essa derivada, usamos a recursão \eqref{eq:recursao-fgp},
+que escreve $G_n = G_{n-1}\circ G$. A regra da cadeia em $s=1$ envolve
+derivadas laterais e pede um cuidado: como $p_k\neq 1$ para todo $k$,
+temos $\mathbb{P}(C>0)>0$ e, portanto, $G(s)<1$ para $0\leqslant s<1$,
+enquanto $G(s)\uparrow 1$ quando $s\uparrow 1$. Fatoramos então o
+quociente incremental de $G_{n-1}(G(s))$ em
+\[
+\frac{G_{n-1}(G(s))-G_{n-1}(1)}{G(s)-1}\,
+\frac{G(s)-1}{s-1}.
+\]
+Os dois fatores tendem às derivadas laterais $G_{n-1}'(1)=\mathbb{E}[Z_{n-1}]$
+e $G'(1)=\mu$, ambas positivas (ou $+\infty$); o limite do produto é
+portanto o produto dos limites, também no sentido estendido. Isso
+justifica a regra da cadeia que usamos a seguir:
+\begin{align*}
+\mathbb{E}[Z_n]
+&= G_n'(1) \\[0.2cm]
+&= G_{n-1}'(G(1))\,G'(1)
+   && \text{(regra da cadeia)} \\[0.2cm]
+&= G_{n-1}'(1)\,G'(1)
+   && \text{(pois $G(1)=1$, pelo \Cref{prop:fgp-basica})} \\[0.2cm]
+&= \mathbb{E}[Z_{n-1}]\,\mu.
+\end{align*}
+Na última linha usamos novamente o \Cref{thm:fgp-momentos} para identificar
+$G_{n-1}'(1) = \mathbb{E}[Z_{n-1}]$ e $G'(1) = \mu$, já que $\mu$ é a média
+da distribuição do tamanho de família.
+
+A relação $\mathbb{E}[Z_n] = \mu\,\mathbb{E}[Z_{n-1}]$ vale para todo
+$n\geqslant 1$. Iterando-a e lembrando que $Z_0 = 1$ (o processo começa
+com um único nômade), obtemos
+\begin{align*}
+\mathbb{E}[Z_n]
+&= \mu\,\mathbb{E}[Z_{n-1}]
+ = \mu^2\,\mathbb{E}[Z_{n-2}]
+ = \cdots \\[0.2cm]
+&= \mu^n\,\mathbb{E}[Z_0]
+ = \mu^n.
+\end{align*}
+\end{proof}
+
+A variância de $Z_n$ pode ser derivada de modo semelhante, em termos da
+média $\mu$ e da variância $\sigma^2$ da distribuição do tamanho de família;
+o cálculo usa a segunda derivada de $G_n$ em $1$ e está proposto
+no \Cref{exercise:variancia-geracao}.
+
+Do \Cref{thm:media-geracao} segue que, quando $n\to\infty$,
+\[
+\mathbb{E}[Z_n] \to
+\begin{cases}
+0 & \text{se } \mu<1,\\
+1 & \text{se } \mu=1,\\
+\infty & \text{se } \mu>1,
+\end{cases}
+\]
+o que indica que o comportamento do processo depende substancialmente
+de qual dos três casos $\mu<1$, $\mu=1$ ou $\mu>1$ ocorre.
+Veremos esse contraste com mais detalhe em notas de aula futuras:
+se $\mu\leqslant 1$, a população de nômades está fadada à extinção,
+enquanto se $\mu>1$ há probabilidade estritamente positiva de que
+a linhagem de nômades continue para sempre.
+
+Essa dependência da média $\mu$ do tamanho de família é natural.
+A condição $\mu<1$ significa que cada morte é reposta, em média,
+por menos de um nascimento: cada nômade gera estritamente menos filhos
+do que o necessário para preencher a lacuna deixada pela sua morte.
+Já $\mu>1$ significa que cada morte é reposta, em média, por mais
+de um nascimento, de modo que a população aumenta.
+
+O caso $\mu=1$ é chamado \emph{crítico}: a média do tamanho da população
+é igual a $1$ em todos os tempos. Isso não significa que a população
+permaneça parada em $1$; ela oscila aleatoriamente, e essas flutuações
+fazem com que o tamanho da população assuma o valor $0$ mais cedo
+ou mais tarde. A partir daí, a população de nômades está extinta.
+
+% Origem: G&W, exercício 9.10.
+\begin{exercise}\label{exercise:composicao-geracoes}
+Mostre que, no processo de ramificação acima,
+\[
+G_n(s) = G_r\bigl(G_{n-r}(s)\bigr),
+\]
+para todo $r = 0, 1, 2, \ldots, n$. Isso pode ser provado diretamente
+a partir da conclusão do \Cref{thm:fgp-iterada} ou adaptando o método
+de prova de \eqref{eq:passo-recursao}.
+\end{exercise}
+
+% Origem: G&W, exercício 9.11.
+\begin{exercise}\label{exercise:extincao-bernoulli}
+Suponha que cada família de um processo de ramificação
+contenha apenas um membro (com probabilidade $p$) ou seja vazia
+(com probabilidade $1-p$). Encontre a probabilidade de que o processo
+se extinga até a $n$-ésima geração.
+\end{exercise}
+
+% Origem: G&W, exercício 9.12.
+\begin{exercise}\label{exercise:variancia-geracao}
+Sejam $\mu$ e $\sigma^2$ a média e a variância da distribuição do
+tamanho de família. Adapte a prova do \Cref{thm:media-geracao} para
+mostrar que a variância de $Z_n$, o tamanho da $n$-ésima geração do
+processo de ramificação, é dada por
+\[
+\operatorname{Var}(Z_n) =
+\begin{cases}
+n\sigma^2 & \text{se } \mu=1,\\[0.3cm]
+\sigma^2\mu^{n-1}\frac{\mu^n-1}{\mu-1} & \text{se } \mu\neq 1.
+\end{cases}
+\]
+\end{exercise}
+%----------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{../arquivos-aux/referencias}
+
+\end{document}
