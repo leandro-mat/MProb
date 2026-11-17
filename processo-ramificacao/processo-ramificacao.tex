@@ -437,12 +437,36 @@ entrada da função de probabilidade a partir da função geradora de probabilid
 
 \medskip
 
-Por que o produto deve aparecer? Ao multiplicar dois termos genéricos
-$\mathbb{P}(X=j)s^j$ e $\mathbb{P}(Y=\ell)s^\ell$, os expoentes se somam, e o
-coeficiente de $s^k$ no produto reúne os pares $(j,\ell)$ com $j+\ell=k$. Sob
-independência de $X$ e $Y$, o produto das probabilidades é a probabilidade
-conjunta do par, e o coeficiente obtido é a convolução que calcula
-$\mathbb{P}(X+Y=k)$. A prova formal é ainda mais curta.
+O tamanho de cada geração do processo de ramificação é a soma dos números
+de filhos deixados pelos indivíduos da geração anterior, de modo que
+precisamos saber calcular a função geradora de uma soma de variáveis
+aleatórias. Começamos com duas parcelas independentes, $X$ e $Y$, e
+perguntamos: que operação sobre $G_X$ e $G_Y$ corresponde à soma $X+Y$?
+
+O método direto usa a função de probabilidade: o evento $\{X+Y=k\}$ é a
+união dos eventos $\{X=j\}\cap\{Y=k-j\}$, com $j=0,\ldots,k$, que são
+dois a dois disjuntos; sob independência, as probabilidades conjuntas
+fatoram, e a soma sobre $j$ produz a convolução
+\[
+\mathbb{P}(X+Y=k)=\sum_{j=0}^{k}\mathbb{P}(X=j)\,\mathbb{P}(Y=k-j)
+\qquad\text{para } k=0,1,2,\ldots.
+\]
+O custo é uma soma nova para cada valor de $k$.
+
+A definição da função geradora sugere um atalho: nela, cada probabilidade
+é o coeficiente de uma potência de $s$, e o produto de potências de uma
+mesma base soma os expoentes, $s^js^\ell=s^{j+\ell}$. Ao multiplicar um
+termo genérico $\mathbb{P}(X=j)s^j$ de $G_X$ por um termo genérico
+$\mathbb{P}(Y=\ell)s^\ell$ de $G_Y$, obtemos
+$\mathbb{P}(X=j)\mathbb{P}(Y=\ell)s^{j+\ell}$; o coeficiente de $s^k$ no
+produto $G_X(s)G_Y(s)$ reúne, portanto, os pares $(j,\ell)$ tais que
+$j+\ell=k$, ponderados pelos mesmos pesos da convolução, e é exatamente
+$\mathbb{P}(X+Y=k)$. Somar variáveis aleatórias independentes é
+multiplicar as suas funções geradoras.
+
+A prova formal é ainda mais curta: a mesma identidade, com as variáveis
+aleatórias no lugar dos expoentes, é $s^{X+Y}=s^Xs^Y$, e a independência
+fatora a esperança do produto.
 
 \begin{theorem}[Produto de funções geradoras]\label{thm:fgp-produto}
 Sejam $X$ e $Y$ variáveis aleatórias discretas independentes, ambas com
