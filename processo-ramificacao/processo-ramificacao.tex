@@ -410,7 +410,8 @@ geração extinta, e as probabilidades de extinção da população serão
 valores de funções geradoras nesse ponto.
 
 \begin{proposition}\label{prop:fgp-basica}
-Se $X$ tem função de probabilidade $(p_k)_{k\geqslant 0}$ e FGP $G_X$, então
+Se $X$ tem função de probabilidade $(p_k)_{k\geqslant 0}$ e 
+função geradora de probabilidade $G_X$, então
 \[
 G_X(0)=p_0=\mathbb{P}(X=0)
 \quad\text{e}\quad
@@ -424,16 +425,15 @@ termos com $k\geqslant 1$ se anulam; para $s=1$, obtemos
 $\sum_{k=0}^{\infty}p_k=1$.
 \end{proof}
 
-O valor em $0$ extrai apenas $p_0$. Para recuperar os demais, derivamos: cada
-derivação transforma o coeficiente de $s^k$ em $kp_k$ e, após $k$ derivações, o
-termo $p_k s^k$ torna-se $k!p_k$; os termos de grau maior ainda contêm potências
-positivas de $s$, que se anulam em $s=0$. Séries de potências podem ser derivadas
+O valor em $0$ extrai apenas $p_0$. Para recuperar os demais, derivamos a função geradora, 
+já que séries de potências podem ser derivadas
 termo a termo no interior do raio de convergência, de modo que, para todo $k\geqslant 0$,
+temos
 \[
 \mathbb{P}(X=k)=p_k=\frac{G_X^{(k)}(0)}{k!},
 \]
 com a convenção $G_X^{(0)}=G_X$. Assim, podemos recuperar separadamente qualquer
-entrada da função de probabilidade a partir da FGP.
+entrada da função de probabilidade a partir da função geradora de probabilidade.
 
 \medskip
 
