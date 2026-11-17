@@ -494,7 +494,7 @@ o que encerra a demonstração.
 
 A aplicação repetida do teorema revela a vantagem sobre a convolução.
 
-\begin{corollary}[FGP de uma soma finita]\label{cor:fgp-soma-finita}
+\begin{corollary}\label{cor:fgp-soma-finita}
 Sejam $X_1,\ldots,X_n$ variáveis aleatórias discretas independentes, com valores
 em $\{0,1,2,\ldots\}$, e defina $S_n=X_1+\cdots+X_n$. Então
 \[
@@ -525,7 +525,7 @@ iguais a $G_X(s)$.
 
 \medskip
 
-A FGP também permite calcular momentos por derivação. Cada derivação de $s^k$
+A função geradora de probabilidade também permite calcular momentos por derivação. Cada derivação de $s^k$
 reduz o expoente em uma unidade, produzindo os fatores $k,k-1,\ldots$, e não a
 potência $k^r$. Por isso, escrevemos $(X)_r=X(X-1)\cdots(X-r+1)$ para a
 \emph{potência fatorial decrescente} de ordem $r$ e chamamos $\mathbb{E}[(X)_r]$
@@ -533,9 +533,9 @@ de \emph{$r$-ésimo momento fatorial} de $X$, admitindo o valor $+\infty$.
 Derivar termo a termo uma série infinita e alcançar a fronteira $s=1$ exigem
 justificativas distintas; o próximo resultado separa essas duas passagens.
 
-\begin{theorem}[Derivadas da FGP e momentos]\label{thm:fgp-momentos}
+\begin{theorem}\label{thm:fgp-momentos}
 Seja $X$ uma variável aleatória com valores em $\{0,1,2,\ldots\}$ e seja $G_X$
-sua FGP. Para todo inteiro $r\geqslant 1$ e todo $|s|<1$,
+sua função geradora de probabilidade. Para todo inteiro $r\geqslant 1$ e todo $|s|<1$,
 \[
 G_X^{(r)}(s)=\sum_{k=r}^{\infty}(k)_r\,s^{k-r}\,\mathbb{P}(X=k).
 \]
@@ -561,7 +561,7 @@ interior desse raio, podemos repetir o procedimento $r$ vezes. A $r$-ésima
 derivada de $s^k$ é nula para $k<r$ e é $(k)_r s^{k-r}$ para
 $k\geqslant r$, o que produz a fórmula enunciada.
 
-Resta atingir $s=1$. Não podemos simplesmente substituir $s=1$ em uma
+Resta analisar o que acontece em $s=1$. Não podemos simplesmente substituir $s=1$ em uma
 identidade demonstrada apenas para $|s|<1$. Os coeficientes
 $(k)_r\,\mathbb{P}(X=k)$ da série derivada são não negativos e, como vimos
 acima, essa série converge para cada $s$ com $|s|<1$, pois tem o mesmo raio
