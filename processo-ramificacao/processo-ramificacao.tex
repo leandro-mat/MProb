@@ -348,11 +348,16 @@ $+\infty$.
 
 \begin{proof}
 A função $A$ é não decrescente em $[0,1)$: se $0\leqslant s\leqslant t<1$,
-então $s^k\leqslant t^k$ para todo $k$ e, como $a_k\geqslant 0$, a
-comparação termo a termo das somas parciais, seguida da passagem ao limite,
-dá $A(s)\leqslant A(t)$. Uma função não decrescente admite limite à
-esquerda em $[0,+\infty]$, de modo que $L=\lim_{s\uparrow 1}A(s)$ existe e
-é o supremo dos valores $A(s)$ com $0\leqslant s<1$.
+então $s^k\leqslant t^k$ para todo $k$ e, multiplicando por $a_k\geqslant 0$
+e somando, obtemos
+\[
+\sum_{k=0}^{n}a_ks^k\leqslant\sum_{k=0}^{n}a_kt^k
+\qquad\text{para todo } n,
+\]
+e, fazendo $n\to\infty$ e usando que as somas parciais convergem a $A(s)$ e
+a $A(t)$, chegamos a $A(s)\leqslant A(t)$. Uma função não decrescente admite
+limite à esquerda em $[0,+\infty]$, de modo que $L=\lim_{s\uparrow 1}A(s)$
+existe e é o supremo dos valores $A(s)$ com $0\leqslant s<1$.
 
 Para ver que $\sum_{k=0}^{\infty}a_k\leqslant L$, fixe $n$. Para todo
 $s\in[0,1)$ vale $\sum_{k=0}^{n}a_ks^k\leqslant A(s)$ e o lado esquerdo,
