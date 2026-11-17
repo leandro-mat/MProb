@@ -312,7 +312,7 @@ G_X(s)\equiv \mathbb{E}[s^X] =\sum_{k=0}^{\infty}s^k p_k,
 para cada valor de $s\in\mathbb{R}$, onde a série acima converge absolutamente. 
 \end{definition}
 
-A normalização da função de probabilidade, garante um domínio comum a todas as
+A normalização da função de probabilidade garante um domínio comum a todas as
 funções geradoras de probabilidade. 
 Mais precisamente, para qualquer variável aleatória
 tomando valores em $\{0,1,2,\ldots\}$ temos 
@@ -322,14 +322,66 @@ tomando valores em $\{0,1,2,\ldots\}$ temos
 \leqslant\sum_{k=0}^{\infty}p_k=1
 \qquad \forall s\in [-1,1]. 
 \]
-Logo, toda função geradora de probabilidade 
+Logo, toda função geradora de probabilidade
 converge absolutamente para $|s|\leqslant 1$ e, vista como série
 de potências, tem raio de convergência pelo menos um. Em particular,
-$G_X$ é contínua em $[0,1)$. Na verdade, a função $G_X$ também 
-é continua à esquerda em $s=1$. Este fato segue do
-lema de Abel, que enunciaremos na prova do
-\Cref{thm:fgp-momentos}:
-$\lim_{s\uparrow 1}G_X(s)=\sum_{k}p_k=1=G_X(1)$. Assim, $G_X$ é contínua em $[0,1]$.
+$G_X$ é contínua em $[0,1)$, pois toda série de potências é contínua no
+interior do seu disco de convergência. Esse argumento, porém, não alcança
+o ponto $s=1$: se o raio de convergência for exatamente um, esse ponto fica
+na fronteira do disco, e a continuidade de uma série de potências não se
+estende automaticamente à fronteira. Para examinar o comportamento de $G_X$
+em $s=1$, enunciamos e provamos a seguir um resultado clássico sobre séries
+com coeficientes não negativos, o lema de Abel.
+
+% Origem: G&W, p. 55 (lema de Abel).
+\begin{lemma}[Lema de Abel]\label{lem:abel}
+Seja $(a_k)_{k\geqslant 0}$ uma sequência de números reais não negativos
+tal que a série de potências $\sum_{k=0}^{\infty}a_ks^k$ convirja para
+cada $s$ com $|s|<1$, e denote por $A(s)$ a sua soma. Então
+\[
+\lim_{s\uparrow 1}A(s)=\sum_{k=0}^{\infty}a_k
+\quad\text{em }[0,+\infty],
+\]
+isto é, os dois lados são iguais, com a possibilidade de ambos valerem
+$+\infty$.
+\end{lemma}
+
+\begin{proof}
+A função $A$ é não decrescente em $[0,1)$: se $0\leqslant s\leqslant t<1$,
+então $s^k\leqslant t^k$ para todo $k$ e, como $a_k\geqslant 0$, a
+comparação termo a termo das somas parciais, seguida da passagem ao limite,
+dá $A(s)\leqslant A(t)$. Uma função não decrescente admite limite à
+esquerda em $[0,+\infty]$, de modo que $L=\lim_{s\uparrow 1}A(s)$ existe e
+é o supremo dos valores $A(s)$ com $0\leqslant s<1$.
+
+Para ver que $\sum_{k=0}^{\infty}a_k\leqslant L$, fixe $n$. Para todo
+$s\in[0,1)$ vale $\sum_{k=0}^{n}a_ks^k\leqslant A(s)$ e o lado esquerdo,
+sendo um polinômio em $s$, converge a $\sum_{k=0}^{n}a_k$ quando
+$s\uparrow 1$; fazendo $s\uparrow 1$ na desigualdade, obtemos
+$\sum_{k=0}^{n}a_k\leqslant L$. Isso vale para todo $n$ e, como os $a_k$
+são não negativos, as somas parciais $\sum_{k=0}^{n}a_k$ são não
+decrescentes em $n$ e têm supremo, finito ou $+\infty$, igual a
+$\sum_{k=0}^{\infty}a_k$. Logo $\sum_{k=0}^{\infty}a_k\leqslant L$.
+
+Para a desigualdade oposta, fixe $s\in[0,1)$. De $s^k\leqslant 1$ segue
+\[
+\sum_{k=0}^{n}a_ks^k\leqslant\sum_{k=0}^{n}a_k\leqslant\sum_{k=0}^{\infty}a_k
+\qquad\text{para todo } n,
+\]
+e, fazendo $n\to\infty$, obtemos $A(s)\leqslant\sum_{k=0}^{\infty}a_k$.
+Isso vale para todo $s\in[0,1)$ e, como $L$ é o supremo dos valores
+$A(s)$, concluímos que $L\leqslant\sum_{k=0}^{\infty}a_k$, o que encerra a
+demonstração.
+\end{proof}
+
+No caso da função geradora $G_X$, os coeficientes $p_k$ são não negativos
+e a série converge absolutamente para $|s|\leqslant 1$, de modo que a
+hipótese do \Cref{lem:abel} está satisfeita. O lema fornece
+\[
+\lim_{s\uparrow 1}G_X(s)=\sum_{k=0}^{\infty}p_k=1=G_X(1),
+\]
+e concluímos que $G_X$ é contínua à esquerda em $s=1$ e, portanto,
+contínua em todo o intervalo $[0,1]$.
 
 Dois valores de $s$ já revelam informação probabilística: em $s=0$, somente o
 coeficiente constante permanece; em $s=1$, somamos todas as probabilidades.
@@ -464,19 +516,18 @@ $k\geqslant r$, o que produz a fórmula enunciada.
 
 Resta atingir $s=1$. Não podemos simplesmente substituir $s=1$ em uma
 identidade demonstrada apenas para $|s|<1$. Os coeficientes
-$(k)_r\,\mathbb{P}(X=k)$ da série derivada são não negativos, e usaremos o
-seguinte resultado clássico, o lema de Abel (veja, por exemplo, Grimmett e
-Welsh \cite{GrimmettWelsh2014}, p.\,55): se $a_k\geqslant 0$, então
-$\lim_{s\uparrow 1}\sum_k a_k s^k=\sum_k a_k$ em $[0,+\infty]$.
-Portanto,
+$(k)_r\,\mathbb{P}(X=k)$ da série derivada são não negativos e, como vimos
+acima, essa série converge para cada $s$ com $|s|<1$, pois tem o mesmo raio
+de convergência da original. O \Cref{lem:abel} aplica-se, portanto, e
+fornece
 \begin{align*}
 \lim_{s\uparrow 1}G_X^{(r)}(s)
 &=\sum_{k=r}^{\infty}(k)_r\,\mathbb{P}(X=k)
 \\[0.3cm]
 &=\mathbb{E}[(X)_r].
 \end{align*}
-Esse resultado admite o valor $+\infty$, de modo que a conclusão continua
-válida mesmo quando o momento fatorial não é finito.
+A igualdade admite o valor $+\infty$ em ambos os lados, de modo que a
+conclusão permanece válida mesmo quando o momento fatorial não é finito.
 
 Os casos $r=1$ e $r=2$ fornecem as identidades anunciadas. Como
 $(X)_1=X$, temos $\mathbb{E}[X]=G'_X(1)$; como $(X)_2=X(X-1)$, temos
