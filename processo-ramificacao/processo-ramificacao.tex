@@ -375,14 +375,14 @@ desigualdade, obtemos
 \qquad\text{para todo } n.
 \]
 Como os $a_k$ são não negativos, as somas parciais $\sum_{k=0}^{n}a_k$
-são não decrescentes em $n$ e têm supremo, finito ou $+\infty$, igual a
-$\sum_{k=0}^{\infty}a_k$; fazendo $n\to\infty$ na desigualdade acima,
-chegamos a
+são não decrescentes em $n$. Além do mais supremo destas somas é dado por 
+$\sum_{k=0}^{\infty}a_k$. Como a desigualdade acima, é valida para todo $n\in\mathbb{N}$
+ela também é válida para o supremo e portanto
 \[
 \sum_{k=0}^{\infty}a_k\leqslant L.
 \]
 
-Para a desigualdade oposta, fixe $s\in[0,1)$. De $s^k\leqslant 1$ segue
+Para a desigualdade oposta, fixe $s\in[0,1)$. Já que $s^k\leqslant 1$ segue
 \[
 \sum_{k=0}^{n}a_ks^k\leqslant\sum_{k=0}^{n}a_k\leqslant\sum_{k=0}^{\infty}a_k
 \qquad\text{para todo } n,
@@ -393,17 +393,21 @@ $A(s)$, concluímos que $L\leqslant\sum_{k=0}^{\infty}a_k$, o que encerra a
 demonstração.
 \end{proof}
 
-No caso da função geradora $G_X$, os coeficientes $p_k$ são não negativos
+Observe que no caso de uma função geradora $G_X$, os coeficientes $p_k$ são não negativos
 e a série converge absolutamente para $|s|\leqslant 1$, de modo que a
-hipótese do \Cref{lem:abel} está satisfeita. O lema fornece
+hipótese do \Cref{lem:abel} é satisfeita. Neste caso o lema garante que 
 \[
 \lim_{s\uparrow 1}G_X(s)=\sum_{k=0}^{\infty}p_k=1=G_X(1),
 \]
 e concluímos que $G_X$ é contínua à esquerda em $s=1$ e, portanto,
 contínua em todo o intervalo $[0,1]$.
 
-Dois valores de $s$ já revelam informação probabilística: em $s=0$, somente o
-coeficiente constante permanece; em $s=1$, somamos todas as probabilidades.
+Dois valores de $s$ já revelam informação probabilística: em $s=0$, a série
+se reduz ao coeficiente constante, que é a probabilidade de $X$ ser nulo;
+em $s=1$, somamos todas as probabilidades. O ponto $s=0$ reaparecerá nas
+seções seguintes: no processo de ramificação, uma geração vazia é uma
+geração extinta, e as probabilidades de extinção da população serão
+valores de funções geradoras nesse ponto.
 
 \begin{proposition}\label{prop:fgp-basica}
 Se $X$ tem função de probabilidade $(p_k)_{k\geqslant 0}$ e FGP $G_X$, então
