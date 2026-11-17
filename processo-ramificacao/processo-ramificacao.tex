@@ -335,7 +335,7 @@ FGP: se $|s|\leqslant 1$, então
 Logo, toda FGP converge absolutamente para $|s|\leqslant 1$ e, vista como série
 de potências, tem raio de convergência pelo menos igual a $1$. Em particular,
 $G_X$ é contínua em $[0,1)$, e a continuidade à esquerda em $s=1$ segue do
-lema de Abel sobre coeficientes não negativos, que demonstraremos na prova do
+lema de Abel sobre coeficientes não negativos, que enunciaremos na prova do
 \Cref{thm:fgp-momentos}:
 $\lim_{s\uparrow 1}G_X(s)=\sum_{k}p_k=1=G_X(1)$. Assim, $G_X$ é contínua em $[0,1]$.
 
@@ -416,7 +416,8 @@ $|s|\leqslant 1$.
 \end{corollary}
 
 \begin{proof}
-O argumento é por indução em $n$. A independência da família garante que
+O argumento é por indução em $n$; o caso $n=1$ é imediato. No passo
+indutivo, a independência da família garante que
 $S_{n-1}$ e $X_n$ são independentes, pois $S_{n-1}=X_1+\cdots+X_{n-1}$ é
 função de $X_1,\ldots,X_{n-1}$, que são independentes de $X_n$. Aplicando
 o \Cref{thm:fgp-produto} ao par $(S_{n-1},X_n)$ e usando a hipótese de
@@ -699,12 +700,12 @@ que vamos trabalhar. Propriedades específicas dos $Z_n$ serão obtidas na
 próxima seção; encerramos esta seção com uma lista de perguntas
 interessantes:
 \begin{enumerate}[label=(\alph*)]
-  \item Qual é a média e a variância de $Z_n$?
+  \item Quais são a média e a variância de $Z_n$?
   \item Qual é a função de probabilidade de $Z_n$?
   \item Qual é a probabilidade de que a população de nômades esteja
         extinta até o tempo $n$?
-  \item Qual é a probabilidade de que a população de nômades se extinja
-        eventualmente?
+  \item Qual é a probabilidade de que a população de nômades se extinga
+        em algum momento?
 \end{enumerate}
 
 \section{O método das funções geradoras}\label{sec:metodo-geradoras}
@@ -757,7 +758,7 @@ teorema a seguir.
 
 % Origem: G&W, teorema 9.4.
 \begin{theorem}[Iteradas da função geradora]\label{thm:fgp-iterada}
-As funções geradoras $G,G_0,G_1,\ldots$ satisfazem
+Para $|s|\leqslant 1$, as funções geradoras $G,G_0,G_1,\ldots$ satisfazem
 % Origem: G&W, eq. (9.5).
 \begin{equation}\label{eq:recursao-fgp}
 G_0(s)=s,
@@ -784,7 +785,7 @@ distribuídos, com função de probabilidade $p$, e são independentes de
 $Z_{n-1}$, pois $Z_{n-1}$ é determinado pelos tamanhos de família das
 gerações $0,1,\ldots,n-2$, enquanto os $C_i'$ descrevem a reprodução dos
 nômades da $(n-1)$-ésima geração, que ocorre depois de $Z_{n-1}$ estar
-formado. Podemos então aplicar \Cref{thm:soma-aleatoria} com $X_i=C_i'$
+formado. Podemos então aplicar o \Cref{thm:soma-aleatoria} com $X_i=C_i'$
 e $N=Z_{n-1}$: a função geradora da soma aleatória é a composição da
 função geradora do número de parcelas com a função geradora comum das
 parcelas, o que nos dá
@@ -816,56 +817,45 @@ o desenvolvimento do processo. A primeira consequência dessa representação
 é a média do tamanho da $n$-ésima geração, que obtemos a seguir.
 
 \begin{theorem}[Média do tamanho da $n$-ésima geração]\label{thm:media-geracao}
-A média de $Z_n$ é
+A média de $Z_n$, para $n=0,1,2,\ldots$, é
 \begin{equation}\label{eq:media-mu-n}
 \mathbb{E}[Z_n] = \mu^n,
 \end{equation}
-em que $\mu = \sum_k k p_k$ é a média da distribuição do tamanho de família.
+em que $\mu = \sum_k k p_k$ é a média da distribuição do tamanho de família;
+no caso $n=0$, adotamos a convenção $\mu^0=1$.
 \end{theorem}
 
 \begin{proof}
-Em vez de calcular a distribuição de $Z_n$ explicitamente, vamos explorar
-a recursão satisfeita por $G_n$.
-A esperança de $Z_n$ pode ser lida na derivada da sua função geradora:
-pelo \Cref{thm:fgp-momentos}, $\mathbb{E}[Z_n] = G_n'(1)$.
-Para calcular essa derivada, usamos a recursão \eqref{eq:recursao-fgp},
-que escreve $G_n = G_{n-1}\circ G$. A regra da cadeia em $s=1$ envolve
-derivadas laterais e pede um cuidado: como $p_k\neq 1$ para todo $k$,
-temos $\mathbb{P}(C>0)>0$ e, portanto, $G(s)<1$ para $0\leqslant s<1$,
-enquanto $G(s)\uparrow 1$ quando $s\uparrow 1$. Fatoramos então o
-quociente incremental de $G_{n-1}(G(s))$ em
-\[
-\frac{G_{n-1}(G(s))-G_{n-1}(1)}{G(s)-1}\,
-\frac{G(s)-1}{s-1}.
-\]
-Os dois fatores tendem às derivadas laterais $G_{n-1}'(1)=\mathbb{E}[Z_{n-1}]$
-e $G'(1)=\mu$, ambas positivas (ou $+\infty$); o limite do produto é
-portanto o produto dos limites, também no sentido estendido. Isso
-justifica a regra da cadeia que usamos a seguir:
-\begin{align*}
-\mathbb{E}[Z_n]
-&= G_n'(1) \\[0.2cm]
-&= G_{n-1}'(G(1))\,G'(1)
-   && \text{(regra da cadeia)} \\[0.2cm]
-&= G_{n-1}'(1)\,G'(1)
-   && \text{(pois $G(1)=1$, pelo \Cref{prop:fgp-basica})} \\[0.2cm]
-&= \mathbb{E}[Z_{n-1}]\,\mu.
-\end{align*}
-Na última linha usamos novamente o \Cref{thm:fgp-momentos} para identificar
-$G_{n-1}'(1) = \mathbb{E}[Z_{n-1}]$ e $G'(1) = \mu$, já que $\mu$ é a média
-da distribuição do tamanho de família.
+Para $n=0$, temos $Z_0=1$ e, pela convenção, $\mu^0=1$, de modo que a
+identidade vale. Provamos agora o caso $n\geqslant 1$ por indução em
+$n$. Para $n=1$, a definição \eqref{eq:zn-um} dá $G_1=G$ e, pelo
+\Cref{thm:fgp-momentos}, $\mathbb{E}[Z_1]=G'(1)=\mu$. Como $\mu=0$
+implicaria $p_0=1$, temos $\mu>0$, no sentido estendido se
+$\mu=+\infty$. Suponha agora $n\geqslant 2$ e
+$\mathbb{E}[Z_{n-1}]=\mu^{n-1}>0$.
 
-A relação $\mathbb{E}[Z_n] = \mu\,\mathbb{E}[Z_{n-1}]$ vale para todo
-$n\geqslant 1$. Iterando-a e lembrando que $Z_0 = 1$ (o processo começa
-com um único nômade), obtemos
-\begin{align*}
+Como $p_k\neq 1$ para todo $k$, temos $\mathbb{P}(C>0)>0$ e, portanto,
+$0\leqslant G(s)<1$ para $0\leqslant s<1$, enquanto $G(s)\uparrow 1$
+quando $s\uparrow 1$. Em particular, para $0<s<1$, a regra da cadeia
+ordinária aplica-se à composição $G_n=G_{n-1}\circ G$, pois
+$G(s)\in[0,1)$ e $G_{n-1}$ é derivável em $(-1,1)$:
+\[
+G_n'(s)=G_{n-1}'(G(s))\,G'(s).
+\]
+Fazendo $s\uparrow 1$, os dois fatores tendem às derivadas laterais
+$G_{n-1}'(1)=\mathbb{E}[Z_{n-1}]$ e $G'(1)=\mu$, ambas positivas (a
+primeira pela hipótese de indução, a segunda já verificada). O limite
+do produto é, portanto, o produto dos limites, também no sentido
+estendido. Assim,
+\[
 \mathbb{E}[Z_n]
-&= \mu\,\mathbb{E}[Z_{n-1}]
- = \mu^2\,\mathbb{E}[Z_{n-2}]
- = \cdots \\[0.2cm]
-&= \mu^n\,\mathbb{E}[Z_0]
- = \mu^n.
-\end{align*}
+=G_n'(1)
+=G_{n-1}'(1)\,G'(1)
+=\mathbb{E}[Z_{n-1}]\,\mu
+=\mu^{n-1}\mu
+=\mu^n,
+\]
+o que conclui a indução.
 \end{proof}
 
 A variância de $Z_n$ pode ser derivada de modo semelhante, em termos da
@@ -891,10 +881,10 @@ a linhagem de nômades continue para sempre.
 
 Essa dependência da média $\mu$ do tamanho de família é natural.
 A condição $\mu<1$ significa que cada morte é reposta, em média,
-por menos de um nascimento: cada nômade gera estritamente menos filhos
+por menos de um nascimento: cada nômade gera, em média, estritamente menos filhos
 do que o necessário para preencher a lacuna deixada pela sua morte.
 Já $\mu>1$ significa que cada morte é reposta, em média, por mais
-de um nascimento, de modo que a população aumenta.
+de um nascimento, de modo que a população aumenta em média.
 
 O caso $\mu=1$ é chamado \emph{crítico}: a média do tamanho da população
 é igual a $1$ em todos os tempos. Isso não significa que a população
