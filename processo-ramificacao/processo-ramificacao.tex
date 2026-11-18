@@ -1134,42 +1134,65 @@ G_n(s)=G(G(\cdots G(s)\cdots)),
 \end{theorem}
 
 \begin{proof}
-Como $Z_0=1$ em toda realização, a definição \eqref{eq:def-fgp-geracao} dá
+Como $Z_0=1$ em toda realização, a definição \eqref{eq:def-fgp-geracao}
+fornece imediatamente a condição inicial em \eqref{eq:recursao-fgp}:
 \begin{equation}\label{eq:fgp-geracao-zero}
 G_0(s)=\mathbb{E}[s^{Z_0}]=s.
 \end{equation}
 
-Para aplicar a fórmula da soma aleatória à recorrência
-\eqref{eq:recursao-geracao}, precisamos identificar o número de parcelas
-e verificar sua independência em relação à sequência de parcelas. Podemos
-representar os sorteios do modelo por uma tabela $(C_{r,k})_{r,k\geqslant1}$
+Para obter a recorrência em \eqref{eq:recursao-fgp} e, em seguida, a
+fórmula iterada \eqref{eq:fgp-iterada}, dividimos a prova para $n\geqslant 1$
+em três etapas: primeiro organizamos os sorteios do modelo de modo a
+verificar as hipóteses da fórmula da soma aleatória; depois aplicamos o
+\Cref{thm:soma-aleatoria} para relacionar $G_n$ a $G_{n-1}$; por fim,
+iteramos essa relação por indução.
+
+\smallskip
+\noindent\textbf{Etapa 1: Independência entre $Z_{n-1}$ e os tamanhos de
+família da geração seguinte.}
+Fixe $n\geqslant 1$. Queremos aplicar o \Cref{thm:soma-aleatoria} à
+recorrência \eqref{eq:recursao-geracao},
+$Z_n=C_{n,1}+C_{n,2}+\cdots+C_{n,Z_{n-1}}$ (com soma vazia igual a $0$
+quando $Z_{n-1}=0$), tomando $N=Z_{n-1}$ e $X_k=C_{n,k}$. Para isso, o
+teorema exige uma sequência \emph{infinita} $X_1,X_2,\ldots$ de
+variáveis independentes e identicamente distribuídas que seja
+independente de $N$. Se olharmos apenas para os indivíduos que de fato
+nascem na geração $n-1$, o próprio número de variáveis $C_{n,k}$
+definidas varia com $Z_{n-1}$, o que tornaria pouco claro até mesmo o
+significado de $C_{n,4}$ quando $Z_{n-1}=3$.
+
+Para superar essa dificuldade, representamos todos os sorteios do
+modelo de antemão por uma tabela infinita $(C_{r,k})_{r,k\geqslant 1}$
 de variáveis aleatórias independentes, todas com função de probabilidade
-$p$. A linha $r$ fornece os números de filhos dos indivíduos da geração
-$r-1$. Se essa geração tem $m$ indivíduos, usamos as primeiras $m$ entradas
-da linha. As demais ficam sem uso nessa realização. Assim, cada indivíduo
-recebe um tamanho de família de acordo com as hipóteses do modelo.
+$p$ e, portanto, com função geradora $G$. A linha $r$ reúne os tamanhos
+de família reservados aos eventuais indivíduos da geração $r-1$: sempre
+que $Z_{r-1}=m$, a recorrência \eqref{eq:recursao-geracao} consome as $m$
+primeiras entradas $C_{r,1},\ldots,C_{r,m}$ da linha $r$ (nenhuma se
+$m=0$, caso em que a soma vazia vale $0$), deixando
+$C_{r,m+1},C_{r,m+2},\ldots$ sem uso nessa realização. Como as entradas
+da tabela são independentes e têm lei $p$, essa construção realiza
+exatamente as hipóteses~I e~II do modelo.
 
-Fixe $n\geqslant1$. A linha $n$, formada por $C_{n,1},C_{n,2},\ldots$,
-é uma sequência de variáveis independentes, cada uma com função geradora
-$G$. Para ver de que dados depende $Z_{n-1}$, acompanhemos as primeiras
-gerações. Como $Z_0=1$, temos $Z_1=C_{1,1}$. Para calcular $Z_2$, usamos
-$Z_1$ para saber quantas entradas da linha $2$ entram na soma. Em geral,
-se as primeiras $r-1$ linhas já determinam $Z_{r-1}$, basta acrescentar
-a linha $r$ para calcular $Z_r$ pela recorrência. Portanto, $Z_{n-1}$
-é uma função das linhas $1,\ldots,n-1$.
-
-Pela independência das entradas da tabela, a linha $n$ é independente da
-coleção das linhas anteriores e, portanto, de qualquer função delas. É
-assim que obtemos a independência entre $Z_{n-1}$ e a sequência inteira
-$C_{n,1},C_{n,2},\ldots$. Quando $n=1$, essa independência vale porque
-$Z_0$ é constante. A \Cref{fig:independencia-geracoes} ilustra o caso em
-que as linhas anteriores dão $Z_{n-1}=3$ e a soma usa as três primeiras
-entradas da linha $n$.
+Essa representação torna transparente de que dados depende $Z_{n-1}$.
+Quando $n=1$, temos $Z_0=1$ constante, logo independente da linha~$1$.
+Quando $n\geqslant 2$, podemos acompanhar a evolução linha a linha:
+$Z_1=C_{1,1}$ depende apenas da linha~$1$; conhecido $Z_1$, a soma
+$Z_2=\sum_{k=1}^{Z_1}C_{2,k}$ envolve apenas as linhas~$1$ e~$2$; de modo
+geral, se $Z_{r-1}$ já está determinado pelas linhas $1,\ldots,r-1$,
+acrescentar a linha $r$ determina $Z_r$ por \eqref{eq:recursao-geracao}.
+Por indução, $Z_{n-1}$ é uma função exclusivamente das linhas
+$1,\ldots,n-1$, isto é, de $(C_{r,k})_{1\leqslant r<n,\ k\geqslant 1}$.
+Pela independência entre todas as entradas da tabela, a linha $n$
+inteira, $(C_{n,k})_{k\geqslant 1}$, é independente da coleção das linhas
+anteriores e, consequentemente, de qualquer função delas. Obtemos assim a
+independência entre $Z_{n-1}$ e a sequência infinita
+$(C_{n,k})_{k\geqslant 1}$, como ilustra a
+\Cref{fig:independencia-geracoes}.
 
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[x=1cm, y=1.4cm, >=Stealth]
-    \draw[eixo tempo, ->] (-2.56, 0.2) -- (-2.56, -2.27);
+    \draw[eixo tempo, ->] (-2.56, 0.2) -- (-2.56, -2.52);
     \foreach \nivel/\tempo in {0/{n-2}, 1/{n-1}, 2/n} {
       \draw[guia tempo] (-2.56, -\nivel) -- (2.48, -\nivel);
       \draw[eixo tempo] (-2.56, -\nivel) -- (-2.41, -\nivel);
@@ -1196,6 +1219,10 @@ entradas da linha $n$.
     \foreach \pai/\filho in {a/b1, a/b2, a/b3, b1/c1, b1/c2, b3/c3, b3/c4, b3/c5}
       \draw[aresta ramificacao] (\pai) -- (\filho);
 
+    \foreach \centro/\indice/\tamanho in {-1.65/1/2, 0/2/0, 1.65/3/3}
+      \node[font=\scriptsize, text=teal!80!black]
+        at (\centro, -2.32) {$C_{n,\indice}=\tamanho$};
+
     \node[font=\small, text=text, anchor=west, inner sep=0pt, align=left]
       at (3, 0) {Reprodução das gerações $0,\ldots,n-2$\\[2pt]
                  $\bigl(C_{r,k}\bigr)_{1\leqslant r<n,\ k\geqslant1}$};
@@ -1204,95 +1231,75 @@ entradas da linha $n$.
     \node[font=\small, text=red!65!black, anchor=west, inner sep=0pt]
       at (3, -1) {$Z_{n-1}=3$};
 
+    \draw[draw=muted!60, densely dashed, line width=0.45pt]
+      (2.92, -1.33) -- (8.45, -1.33);
+
     \node[font=\small, text=text, anchor=west, inner sep=0pt]
-      at (3, -1.67) {Sequência independente dos dados acima};
+      at (3, -1.65) {Linha $n$, independente das anteriores:};
     \node[font=\small, text=text, anchor=base west, inner sep=0pt]
       at (3, -2)
       {$\underbrace{C_{n,1},\,C_{n,2},\,C_{n,3}}_{\text{parcelas usadas}},\,
         C_{n,4},\ldots$};
   \end{tikzpicture}
-  \caption{Os tamanhos de família com primeiro índice $r<n$ determinam
-    $Z_{n-1}$. A sequência $(C_{n,k})_{k\geqslant1}$ é independente desses
-    tamanhos pela hipótese do modelo. Neste exemplo, $Z_{n-1}=3$ e entram
-    na soma os três primeiros termos da sequência.}
+  \caption{Separação entre as linhas anteriores e a linha $n$ da tabela.
+    As entradas com primeiro índice $r<n$ determinam $Z_{n-1}$ (contorno
+    vermelho; aqui $Z_{n-1}=3$). Pela independência das entradas da
+    tabela, a linha $n$ inteira, $(C_{n,k})_{k\geqslant 1}$, é independente
+    desses dados; nesta realização, entram na soma apenas os três primeiros
+    termos ($C_{n,1}=2$, $C_{n,2}=0$, $C_{n,3}=3$), enquanto
+    $C_{n,4},\ldots$ ficam sem uso.}
   \label{fig:independencia-geracoes}
 \end{figure}
 
-No \Cref{thm:soma-aleatoria}, tomamos $N=Z_{n-1}$, $X_k=C_{n,k}$ e
-$S_N=Z_n$. Fixe $s$ com $|s|\leqslant1$. Para cada $m$ com
-$\mathbb{P}(Z_{n-1}=m)>0$, condicionemos em $\{Z_{n-1}=m\}$. Nesse
-evento, a recorrência \eqref{eq:recursao-geracao} usa exatamente as
-primeiras $m$ entradas da linha $n$. Condicionar nesse evento conserva a
-distribuição conjunta dessas entradas, pois a linha $n$ é independente
-de $Z_{n-1}$. Cada parcela tem geradora $G$, dada por
-\eqref{eq:def-fgp-familia}. Para $m\geqslant1$, a fórmula
-\eqref{eq:fgp-soma-finita-iid} do \Cref{cor:fgp-soma-finita} multiplica
-$m$ cópias de $G(s)$. Para $m=0$, a soma vazia vale $0$, e sua geradora
-é a constante $1$. Com a convenção da potência de expoente zero, os dois
-casos dão
-\begin{equation}\label{eq:fgp-geracao-condicional}
-\mathbb{E}\bigl[s^{Z_n}\mid Z_{n-1}=m\bigr]=\bigl(G(s)\bigr)^m.
-\end{equation}
-
-A definição \eqref{eq:def-fgp-geracao} pede a esperança de $s^{Z_n}$
-sobre todas as realizações. Podemos separá-las pelo valor de $Z_{n-1}$.
-O grupo em que $Z_{n-1}=m$ contribui com a esperança condicional
-\eqref{eq:fgp-geracao-condicional} vezes a probabilidade de estar nesse
-grupo. É a decomposição \eqref{eq:fgp-soma-aleatoria-casos} da soma
-aleatória. Ao substituir a esperança condicional pela potência de
-$G(s)$, podemos incluir os valores de $m$ que têm probabilidade zero,
-pois seu peso na soma é zero. Assim,
-\begin{align}
-G_n(s)
-&=\sum_{\substack{m\geqslant0\\\mathbb{P}(Z_{n-1}=m)>0}}
-\mathbb{P}(Z_{n-1}=m)\,\mathbb{E}\bigl[s^{Z_n}\mid Z_{n-1}=m\bigr]
-\notag\\[0.2cm]
-&=\sum_{m=0}^{\infty}\mathbb{P}(Z_{n-1}=m)\,\bigl(G(s)\bigr)^m.
-\label{eq:fgp-geracao-por-tamanho}
-\end{align}
-
-Escrevamos agora a definição \eqref{eq:def-fgp-geracao} para a geração
-$n-1$, usando $u$ como argumento da função geradora:
-\begin{equation}\label{eq:def-fgp-geracao-anterior}
-G_{n-1}(u)=\sum_{m=0}^{\infty}\mathbb{P}(Z_{n-1}=m)\,u^m,
-\qquad |u|\leqslant1.
-\end{equation}
-Os coeficientes de \eqref{eq:def-fgp-geracao-anterior} são os pesos da
-soma \eqref{eq:fgp-geracao-por-tamanho}. Para obter o termo com índice
-$m$ nessa soma, basta trocar $u^m$ por $\bigl(G(s)\bigr)^m$. A mesma
-substituição $u=G(s)$ funciona para todos os termos. Ela é legítima
-porque, pela série \eqref{eq:def-fgp-familia} e pela estimativa
-\eqref{eq:fgp-convergencia},
-\begin{equation}\label{eq:fgp-familia-no-dominio}
-|G(s)|\leqslant\sum_{k=0}^{\infty}p_k|s|^k\leqslant1.
-\end{equation}
-Portanto, podemos avaliar \eqref{eq:def-fgp-geracao-anterior} em $u=G(s)$.
-A fórmula \eqref{eq:fgp-soma-aleatoria} toma então a forma
+\smallskip
+\noindent\textbf{Etapa 2: A recorrência $G_n(s)=G_{n-1}(G(s))$.}
+Com as hipóteses verificadas na Etapa~1, aplicamos diretamente o
+\Cref{thm:soma-aleatoria} à recorrência \eqref{eq:recursao-geracao},
+tomando $N=Z_{n-1}$, $X_k=C_{n,k}$ e $S_N=Z_n$. Como cada parcela
+$C_{n,k}$ tem função geradora $G$, a fórmula da soma aleatória
+\eqref{eq:fgp-soma-aleatoria} fornece, para todo $|s|\leqslant 1$,
 % Origem: G&W, eq. (9.7).
 \begin{equation}\label{eq:passo-recursao}
-G_n(s)=G_{n-1}(G(s)).
+G_n(s)=G_{n-1}\bigl(G(s)\bigr),
 \end{equation}
+estabelecendo a segunda igualdade de \eqref{eq:recursao-fgp}.
 
+\medskip
+\noindent\textbf{Etapa 3: Iteração de $G$.}
 Partindo de \eqref{eq:fgp-geracao-zero}, as primeiras aplicações da
-recorrência \eqref{eq:passo-recursao} dão
+recorrência \eqref{eq:passo-recursao} revelam o padrão de composição:
 \begin{equation}\label{eq:fgp-primeiras-iteradas}
 \begin{aligned}
-G_1(s)&=G_0(G(s))=G(s),\\
-G_2(s)&=G_1(G(s))=G(G(s)),\\
-G_3(s)&=G_2(G(s))=G(G(G(s))).
+G_1(s)&=G_0\bigl(G(s)\bigr)=G(s),\\
+G_2(s)&=G_1\bigl(G(s)\bigr)=G\bigl(G(s)\bigr),\\
+G_3(s)&=G_2\bigl(G(s)\bigr)=G\bigl(G(G(s))\bigr).
 \end{aligned}
 \end{equation}
-Em \eqref{eq:fgp-primeiras-iteradas}, cada passagem acrescenta uma
-aplicação de $G$. Para justificar o padrão por indução, o caso de zero
-aplicações é a função identidade de \eqref{eq:fgp-geracao-zero}. Para
-$j\geqslant1$, suponha que $G_{j-1}(u)$ aplique $G$ exatamente $j-1$ vezes
-a $u$, para todo $|u|\leqslant1$. Pela recorrência
-\eqref{eq:passo-recursao}, calculamos $G_j(s)$ em dois passos. Primeiro
-aplicamos $G$ a $s$ para formar $u=G(s)$. Depois, avaliamos
-$G_{j-1}(u)$, o que acrescenta $j-1$ aplicações. A estimativa
-\eqref{eq:fgp-familia-no-dominio} garante que cada argumento permanece
-no domínio. Temos, assim, $j$ aplicações de $G$ e obtemos
-\eqref{eq:fgp-iterada} para todo $n\geqslant0$.
+Para provar \eqref{eq:fgp-iterada} por indução em $n\geqslant 0$,
+notamos primeiro por que podemos seguir aplicando a hipótese de indução
+ao ponto $G(s)$: pela estimativa \eqref{eq:fgp-convergencia}, todo $s$
+com $|s|\leqslant 1$ satisfaz
+$|G(s)|\leqslant\sum_{k=0}^{\infty}p_k|s|^k\leqslant 1$, de modo que o
+argumento $u=G(s)$ permanece sempre em $[-1,1]$.
+
+Os casos $n=0$ (identidade em \eqref{eq:fgp-geracao-zero}, zero
+aplicações de $G$) e $n=1$ (em \eqref{eq:fgp-primeiras-iteradas}) já
+estão verificados. Suponha agora que, para algum $n\geqslant 2$ e para
+todo $|u|\leqslant 1$, a função $G_{n-1}(u)$ seja obtida aplicando $G$
+sucessivamente $n-1$ vezes a $u$. Fixado $s$ com $|s|\leqslant 1$, o
+número $u=G(s)$ pertence a $[-1,1]$; pela recorrência
+\eqref{eq:passo-recursao} e pela hipótese de indução aplicada em $u$, o
+valor
+\[
+G_n(s)=G_{n-1}(u)
+\]
+resulta de $n-1$ aplicações sucessivas de $G$ a $u=G(s)$, isto é, de $n$
+aplicações sucessivas de $G$ a $s$:
+\[
+G_n(s)=G\bigl(G(\cdots G(s)\cdots)\bigr).
+\]
+Isso conclui a indução e estabelece \eqref{eq:fgp-iterada} para todo
+$n\geqslant 0$ e todo $|s|\leqslant 1$.
 \end{proof}
 % Origem: G&W, seção 9.3, do Teorema 9.8 ao Exercício 9.12.
 
@@ -1302,41 +1309,101 @@ o desenvolvimento do processo. A primeira consequência dessa representação
 é a média do tamanho da $n$-ésima geração, que obtemos a seguir.
 
 \begin{theorem}[Média do tamanho da $n$-ésima geração]\label{thm:media-geracao}
-A média de $Z_n$, para $n=0,1,2,\ldots$, é
+Seja $\mu \equiv \sum_{k=0}^{\infty} k p_k$ o valor médio do tamanho de uma
+família. Então $\mu\in (0,+\infty]$ e, para cada $n=0,1,2,\ldots$, o
+valor médio de $Z_n$ é dado por
 \begin{equation}\label{eq:media-mu-n}
 \mathbb{E}[Z_n] = \mu^n,
 \end{equation}
-em que $\mu = \sum_k k p_k$ é a média da distribuição do tamanho de família;
-no caso $n=0$, adotamos a convenção $\mu^0=1$.
+adotando-se a convenção $\mu^0 \equiv 1$ (inclusive quando $\mu=+\infty$).
 \end{theorem}
 
 \begin{proof}
-Para $n=0$, temos $Z_0=1$ e, pela convenção, $\mu^0=1$, de modo que a
-identidade vale. Provamos agora o caso $n\geqslant 1$ por indução em
-$n$. Para $n=1$, a definição \eqref{eq:zn-um} dá $G_1=G$ e, pelo
-\Cref{thm:fgp-momentos}, $\mathbb{E}[Z_1]=G'(1)=\mu$. Como $\mu=0$
-implicaria $p_0=1$, temos $\mu>0$, no sentido estendido se
-$\mu=+\infty$. Suponha agora $n\geqslant 2$ e
-$\mathbb{E}[Z_{n-1}]=\mu^{n-1}>0$.
-
-Como $p_k\neq 1$ para todo $k$, temos $\mathbb{P}(C>0)>0$ e, portanto,
-$0\leqslant G(s)<1$ para $0\leqslant s<1$, enquanto $G(s)\uparrow 1$
-quando $s\uparrow 1$. Em particular, para $0<s<1$, a regra da cadeia
-ordinária aplica-se à composição $G_n=G_{n-1}\circ G$, pois
-$G(s)\in[0,1)$ e $G_{n-1}$ é derivável em $(-1,1)$:
+Começamos mostrando que $\mu\in(0,+\infty]$. Pela suposição geral destas
+notas de que $p_k\neq 1$ para todo $k$ (em particular, $p_0\neq 1$),
+existe algum tamanho de família positivo com probabilidade estritamente
+positiva, isto é, $\mathbb{P}(C>0)=\sum_{k=1}^{\infty}p_k=1-p_0>0$. Como
+$kp_k\geqslant p_k$ para todo $k\geqslant 1$, segue que
 \[
-G_n'(s)=G_{n-1}'(G(s))\,G'(s).
+\mu=\sum_{k=1}^{\infty}kp_k\geqslant\sum_{k=1}^{\infty}p_k=1-p_0>0,
 \]
-Fazendo $s\uparrow 1$, os dois fatores tendem às derivadas laterais
-$G_{n-1}'(1)=\mathbb{E}[Z_{n-1}]$ e $G'(1)=\mu$, ambas positivas (a
-primeira pela hipótese de indução, a segunda já verificada). O limite
-do produto é, portanto, o produto dos limites, também no sentido
-estendido. Assim,
+logo $\mu\in(0,+\infty]$.
+
+Passamos agora à demonstração de \eqref{eq:media-mu-n} por indução em $n$,
+começando pelos casos $n=0$ e $n=1$. Para $n=0$, como $Z_0=1$ e $\mu^0=1$
+por convenção, vale imediatamente $\mathbb{E}[Z_0]=1=\mu^0$. Para $n=1$,
+a identidade \eqref{eq:zn-um} mostra que $Z_1$ tem a distribuição $p$ do
+tamanho de uma família, logo $\mathbb{E}[Z_1]=\mu=\mu^1$ e $G_1=G$; além
+disso, o \Cref{thm:fgp-momentos} garante que vale a
+seguinte igualdade $G'(1)=\mathbb{E}[Z_1]=\mu$.
+
+Resta o passo indutivo para $n\geqslant 2$. Suponha que
+$\mathbb{E}[Z_{n-1}]=\mu^{n-1}$. Pelo \Cref{thm:fgp-momentos}, podemos
+obter a média de $Z_n$ como a derivada lateral
+$\mathbb{E}[Z_n]=G_n'(1)=\lim_{s\uparrow 1}G_n'(s)$, e o
+\Cref{thm:fgp-iterada} fornece a recorrência $G_n(s)=G_{n-1}(G(s))$ em
+\eqref{eq:recursao-fgp} para $|s|\leqslant 1$. Não podemos, porém,
+aplicar a regra da cadeia diretamente em $s=1$, pois o
+\Cref{thm:fgp-momentos} garante a derivabilidade ordinária de uma função
+geradora apenas no interior $(-1,1)$ do intervalo de convergência (e a
+derivada lateral em $1$ pode inclusive ser $+\infty$). Em vez disso,
+calculamos $G_n'(s)$ para $s\in(0,1)$ e depois passamos ao limite quando
+$s\uparrow 1$.
+
+Para legitimar tanto a regra da cadeia em $(0,1)$ quanto essa passagem ao
+limite, verificamos duas propriedades de $G$:
+\begin{enumerate}[label=(\roman*)]
+  \item \emph{$G(s)$ permanece em $[0,1)\subset(-1,1)$ para $s\in[0,1)$.}
+        Como $p_k\geqslant 0$, $\sum_{k=0}^{\infty}p_k=1$ e existe ao
+        menos um $k\geqslant 1$ com $p_k>0$ (pois
+        $\sum_{k=1}^{\infty}p_k=1-p_0>0$), o fato de $s^k<1$ para todo
+        $k\geqslant 1$ quando $0\leqslant s<1$ produz a desigualdade
+        estrita
+        \[
+        0\leqslant G(s)=p_0+\sum_{k=1}^{\infty}p_k s^k
+        <p_0+\sum_{k=1}^{\infty}p_k=1,
+        \qquad 0\leqslant s<1.
+        \]
+        Como $G$ e $G_{n-1}$ são deriváveis em $(-1,1)$ pelo
+        \Cref{thm:fgp-momentos} e $G(s)\in[0,1)\subset(-1,1)$, a regra
+        da cadeia ordinária aplica-se à composição $G_n=G_{n-1}\circ G$
+        em $(0,1)$ e dá
+        \[
+        G_n'(s)=G_{n-1}'\bigl(G(s)\bigr)\,G'(s),
+        \qquad 0<s<1.
+        \]
+  \item \emph{$G(s)\uparrow 1$ quando $s\uparrow 1$.} Pela continuidade
+        de $G$ em $[0,1]$ (estabelecida na \Cref{sec:preliminares-fgp}
+        via \Cref{lem:abel}) e pela \Cref{prop:fgp-basica}, temos
+        $\lim_{s\uparrow 1}G(s)=G(1)=1$. Como $G$ é não decrescente em
+        $[0,1]$ (pois $p_k\geqslant 0$) e satisfaz $G(s)<1$ em $[0,1)$
+        pelo item anterior, segue que $G(s)\uparrow 1$ quando
+        $s\uparrow 1$.
+\end{enumerate}
+
+Passamos agora ao limite $s\uparrow 1$ na expressão obtida para $G_n'(s)$,
+analisando cada fator separadamente. Como $G(s)<1$ para $s\in[0,1)$ e
+$G(s)\to 1$ quando $s\uparrow 1$, a substituição $u=G(s)$ satisfaz
+$u\uparrow 1$; pelo \Cref{thm:fgp-momentos} e pela hipótese de indução,
+o primeiro fator converge para
+\[
+\lim_{s\uparrow 1}G_{n-1}'\bigl(G(s)\bigr)
+=\lim_{u\uparrow 1}G_{n-1}'(u)
+=G_{n-1}'(1)
+=\mathbb{E}[Z_{n-1}]
+=\mu^{n-1}.
+\]
+Para o segundo fator, o \Cref{thm:fgp-momentos} fornece diretamente
+$\lim_{s\uparrow 1}G'(s)=G'(1)=\mu$. Como $\mu\in(0,+\infty]$, tanto $\mu^{n-1}$
+quanto $\mu$ pertencem a $(0,+\infty]$; assim não ocorre a
+indeterminação $0\cdot(+\infty)$, e o limite do produto é o produto dos
+limites no sentido estendido (inclusive quando $\mu=+\infty$, em que
+$(+\infty)\cdot(+\infty)=+\infty$). Portanto,
 \[
 \mathbb{E}[Z_n]
 =G_n'(1)
+=\lim_{s\uparrow 1}G_{n-1}'\bigl(G(s)\bigr)\,G'(s)
 =G_{n-1}'(1)\,G'(1)
-=\mathbb{E}[Z_{n-1}]\,\mu
 =\mu^{n-1}\mu
 =\mu^n,
 \]
@@ -1344,11 +1411,17 @@ o que conclui a indução.
 \end{proof}
 
 A variância de $Z_n$ pode ser derivada de modo semelhante, em termos da
-média $\mu$ e da variância $\sigma^2$ da distribuição do tamanho de família;
+média $\mu$ e da variância $\sigma^2$ da distribuição do tamanho de uma família;
 o cálculo usa a segunda derivada de $G_n$ em $1$ e está proposto
 no \Cref{exercise:variancia-geracao}.
 
-Do \Cref{thm:media-geracao} segue que, quando $n\to\infty$,
+
+\bigskip
+
+Além de fornecer o valor médio em cada geração, o \Cref{thm:media-geracao}
+dá a primeira indicação sobre o destino da população no longo prazo.
+Fazendo $n\to\infty$ em \eqref{eq:media-mu-n}, o comportamento assintótico
+da média exibe uma transição brusca em $\mu=1$:
 \[
 \mathbb{E}[Z_n] \to
 \begin{cases}
@@ -1406,8 +1479,8 @@ processo de ramificação, é dada por
 \[
 \operatorname{Var}(Z_n) =
 \begin{cases}
-n\sigma^2 & \text{se } \mu=1,\\[0.3cm]
-\sigma^2\mu^{n-1}\frac{\mu^n-1}{\mu-1} & \text{se } \mu\neq 1.
+n\sigma^2 & \text{se } \mu=1,\\[0.4cm]
+\sigma^2\mu^{n-1}\, \displaystyle\frac{\mu^n-1}{\mu-1} & \text{se } \mu\neq 1.
 \end{cases}
 \]
 \end{exercise}
@@ -1416,11 +1489,13 @@ n\sigma^2 & \text{se } \mu=1,\\[0.3cm]
 
 A equação funcional \eqref{eq:recursao-fgp} do \Cref{thm:fgp-iterada},
 $G_n=G_{n-1}\circ G$, relaciona as funções geradoras de duas gerações
-consecutivas. Em geral ela não se resolve em forma fechada, e os casos em que
-isso é possível são poucos. Nesta seção resolvemos explicitamente um deles, com
-um tamanho de família simples, e o resultado já exibe o fenômeno da extinção.
+consecutivas. Em geral, não é possível obter uma expressão explícita
+para $G_n$, o que só acontece em poucos casos particulares. Nesta seção,
+estudamos um desses casos: embora a distribuição do tamanho de família
+seja bastante simples, o modelo correspondente já exibe o fenômeno da
+extinção.
 
-Suponhamos que a função de probabilidade de cada tamanho de família seja
+Suponhamos que a função de probabilidade do tamanho de uma família seja
 \[
 p_k=\left(\frac{1}{2}\right)^{k+1}
 \quad\text{para } k=0,1,2,\ldots.
@@ -1437,14 +1512,15 @@ assume os valores $0,1,2,\ldots$ e
 \[
 \mathbb{P}(C=k)=\mathbb{P}(Y=k+1)=\left(\frac{1}{2}\right)^{k+1}=p_k.
 \]
-O tamanho de família é, portanto, o número de tentativas até o primeiro
+Da igualdade acima segue que o tamanho de uma família pode ser interpretado
+como o número de tentativas até o primeiro
 sucesso, contando a tentativa vencedora, menos um. Nas notas de aula sobre
 funções geradoras de probabilidade calculamos a função geradora da distribuição
 geométrica e discutimos esse deslocamento do suporte; o cálculo a seguir repete
 aquele, com um fator $s$ a menos, e por isso o apresentamos em detalhe.
 
-Como $p$ decai geometricamente, a função geradora de probabilidade de um
-tamanho de família típico é uma série geométrica de razão $s/2$:
+Como $p$ decai geometricamente, a função geradora de probabilidade do
+tamanho de uma família é um múltiplo de uma série geométrica de razão $s/2$:
 \begin{equation}\label{eq:fgp-geometrica-meio}
 G(s)=\sum_{k=0}^{\infty}s^k\left(\frac{1}{2}\right)^{k+1}
 =\frac{1}{2}\sum_{k=0}^{\infty}\left(\frac{s}{2}\right)^{k}
@@ -1459,7 +1535,7 @@ $G_Y(s)=s/(2-s)=s\,G(s)$: a multiplicação por $s$ é o efeito de acrescentar
 uma unidade a $C$, isto é, de passar de $C$ para $Y=C+1$.
 
 Com $G$ em mãos, aplicamos a equação funcional sucessivamente. Para $n=1$ não
-há composição a fazer, pois $Z_1$ tem a distribuição do tamanho de família:
+há composição a fazer, pois $Z_1$ tem a distribuição do tamanho de uma família:
 \[
 G_1(s)=G(s)=\frac{1}{2-s}.
 \]
@@ -1572,14 +1648,27 @@ a $n$-ésima geração, e sua probabilidade vale
 \mathbb{P}(Z_n=0)=\frac{n}{n+1}=1-\frac{1}{n+1}\longrightarrow 1
 \quad\text{quando } n\to\infty.
 \]
-Logo, para $n$ grande, a $n$-ésima geração está vazia com probabilidade
-arbitrariamente próxima de $1$. Os eventos $\{Z_n=0\}$ são encaixados e
-crescentes, pois uma geração vazia só pode gerar gerações vazias; a união deles
-é o evento em que a população se extingue em algum momento, e sua probabilidade
-é o limite das probabilidades acima, isto é, $1$. Neste exemplo, portanto, a
+
+Já que 
+\begin{align*}
+\{Z_{n}=0\}  \subseteq \{Z_{n+1}=0\},\qquad \forall n\in\mathbb{N}\cup\{0\}
+\end{align*}
+temos da propriedade de continuidade da medida que 
+\begin{align*}
+\mathbb{P}\left( \bigcup_{n=0}^{\infty} \{Z_n=0\} \right) 
+=
+\lim_{n\to\infty} \mathbb{P}(Z_n=0) 
+=
+\lim_{n\to\infty} 1-\frac{1}{n+1} = 1. 
+\end{align*} 
+Neste exemplo, portanto, a
 extinção ocorre com probabilidade $1$.
 
-Vale registrar um contraste. Como $G'(s)=1/(2-s)^2$, a média do tamanho de
+
+\medskip 
+É importante observar como os cálculos feito até aqui fornecem 
+informações complementares sobre o modelo. Por exemplo, já que 
+$G'(s)=1/(2-s)^2$, o valor médio do tamanho de uma
 família é $\mu=G'(1)=1$, de modo que o processo está no caso crítico e, pelo
 \Cref{thm:media-geracao}, $\mathbb{E}[Z_n]=1$ para todo $n$. A média permanece
 constante enquanto $\mathbb{P}(Z_n=0)\to 1$, e isso não é contraditório: no
@@ -1588,9 +1677,12 @@ ela assume valores cada vez maiores, e é essa massa que sustenta a média. Na
 \Cref{sec:extincao} confirmamos, para um processo geral, que $\mu\leqslant 1$
 implica extinção quase certa.
 
+
+\bigskip 
+
 % Origem: G&W, seção 9.4 (Um exemplo), caso geral e exercício 9.17.
-O exemplo anterior é o caso particular em que cada tamanho de família tem
-distribuição geométrica de parâmetro $1/2$ deslocada para a origem. Vale a pena
+O exemplo analisado acima é o caso particular em que cada tamanho de uma família tem
+distribuição geométrica deslocada, de parâmetro $1/2$. Vale a pena
 considerar a família geométrica completa, porque ela permite acompanhar o efeito
 da média do tamanho de família sobre a extinção sem abandonar o cálculo
 explícito. Suponha então que a função de probabilidade de cada tamanho de
@@ -1599,19 +1691,19 @@ família seja
 p_k=pq^k,
 \qquad k=0,1,2,\ldots,
 \]
-em que $0<p=1-q<1$. Neste caso, $p_0=p>0$, de modo que uma família vazia é
-possível e a extinção já pode ocorrer na primeira geração. A média do tamanho de
-família é
+onde $0<p=1-q<1$. Neste caso, $p_0=p>0$, de modo que uma família vazia é
+possível e a extinção já pode ocorrer na primeira geração. 
+Neste caso o valor médio do tamanho de uma família é dado pela seguinte expressão
 \[
 \mu=\sum_{k=0}^{\infty}k\,pq^k
 =pq\sum_{k=1}^{\infty}k\,q^{k-1}
 =\frac{pq}{(1-q)^2}
 =\frac{q}{p},
 \]
-em que usamos a série geométrica e sua derivada.
+onde na segunda igualdade usamos a série geométrica e sua derivada.
 
-A função geradora de um tamanho de família típico é a soma de uma série
-geométrica. Para $|qs|<1$, isto é, para $|s|<q^{-1}$,
+A função geradora do tamanho de família é a soma de uma série
+geométrica. Mais precisamente, para $|qs|<1$, isto é, para $|s|<q^{-1}$,
 \begin{equation}\label{eq:fgp-geometrica-geral}
 G(s)=\sum_{k=0}^{\infty}s^k pq^k
 =p\sum_{k=0}^{\infty}(qs)^k
@@ -1621,8 +1713,11 @@ O raio de convergência desta série é $q^{-1}>1$, portanto o domínio de
 \eqref{eq:fgp-geometrica-geral} contém o intervalo $|s|\leqslant 1$, que é o
 único que usaremos daqui em diante. Quando $p=q=1/2$, a expressão
 \eqref{eq:fgp-geometrica-geral} se reduz a $1/(2-s)$, como no exemplo anterior.
-Convém supor agora $p\neq q$, ou seja, $\mu\neq 1$; o caso $\mu=1$ é o do
-exemplo anterior.
+Convém supor agora $p\neq q$, ou seja, $\mu\neq 1$, já que o caso $\mu=1$ é exatamente
+o exemplo anterior.
+
+
+\medskip 
 
 Iterando \eqref{eq:fgp-geometrica-geral} obtemos uma fórmula fechada para
 $G_n$. Como a composição de funções é associativa e $G_1=G$, a recursão
@@ -1641,6 +1736,9 @@ que em $n=1$ o numerador de \eqref{eq:gn-geral} vale $p(q-p)$ e o denominador
 vale $(q-p)(q+p)-qs(q-p)=(q-p)(1-qs)$, e a razão devolve
 $p/(1-qs)=G(s)$.
 
+
+
+\medskip 
 A probabilidade de extinção até a $n$-ésima geração é o valor de $G_n$ em $0$,
 que corresponde a manter apenas o termo constante da iterada. Tomando $s=0$ em
 \eqref{eq:gn-geral} e usando $\mu=q/p$, obtemos
@@ -1679,16 +1777,27 @@ Reunindo os dois casos,
 
 No primeiro caso, a probabilidade de que a população já esteja extinta na
 $n$-ésima geração tende a $1$ e, uma vez extinta a população, ela permanece
-extinta, de modo que a extinção em algum momento tem probabilidade $1$. No
-segundo caso o mesmo limite é $1/\mu<1$: para todo $n$ suficientemente grande a
+extinta, de modo que a extinção em algum momento tem probabilidade $1$. 
+Mais precisamente, como argumentado no exemplo anterior segue 
+de $\{Z_n=0\}\subseteq \{Z_{n+1}=0\}$ que se $\mu<1$, então
+\begin{align*}
+\mathbb{P}\left( \bigcup_{n=0}^{\infty} \{Z_n=0\} \right) 
+=
+\lim_{n\to\infty} \mathbb{P}(Z_n=0) 
+=
+1. 
+\end{align*} 
+
+
+No segundo caso o mesmo limite é $1/\mu<1$: para todo $n$ suficientemente grande a
 probabilidade de extinção até a $n$-ésima geração fica abaixo de um número
 estritamente menor que $1$, o número esperado de filhos por indivíduo supera a
-reposição, e a extinção em algum momento é menos que certa; há, portanto,
-probabilidade positiva de que a linhagem sobreviva em todos os tempos.
+reposição, e a extinção em algum momento pode não ocorrer com probabilidade positiva,
+ou seja, há portanto probabilidade positiva de que a linhagem sobreviva em todos os tempos.
 Acrescentando o caso $p=q=1/2$, em que $\mu=1$ e a extinção em algum momento
 também tem probabilidade $1$, como vimos no exemplo anterior, chegamos à
-conclusão de que a extinção é certa se e somente se $\mu\leqslant 1$. Na próxima
-seção veremos que esse critério não depende da forma geométrica da função de
+conclusão de que a extinção é certa se, e somente se, $\mu\leqslant 1$. 
+Na próxima seção veremos que esse critério não depende da forma geométrica da função de
 probabilidade: ele vale para qualquer processo de ramificação com tamanhos de
 família não degenerados.
 
@@ -1703,13 +1812,13 @@ que $\operatorname{Var}(Z_n)\to 0$ se e somente se $p>1/2$.
 \section{O Critério Geral de Extinção}\label{sec:extincao}
 
 No caso geométrico da seção anterior, o processo de ramificação se extingue
-com probabilidade um se e somente se a média $\mu$ do tamanho de família
+com probabilidade um se, e somente se, a média $\mu$ do tamanho de família
 satisfaz $\mu\leqslant 1$. Vamos mostrar nesta seção um resultado que
 reduz o cálculo da probabilidade de extinção, em qualquer processo de
 ramificação, ao estudo de uma equação envolvendo a função geradora $G$.
-A probabilidade de que a população se extinga em algum momento é
+A probabilidade de que a população se extinga em algum momento é dada por
 \begin{equation}\label{eq:definicao-extincao}
-e=\mathbb{P}\bigl(Z_n=0\ \text{para algum } n\geqslant 0\bigr).
+e\equiv \mathbb{P}\bigl(Z_n=0, \ \text{para algum } n\geqslant 0\bigr).
 \end{equation}
 O evento cuja probabilidade é $e$ descreve a situação em que a linhagem
 se encerra em tempo finito. Como $Z_0=1$, esse evento não
@@ -1722,27 +1831,31 @@ já ocorreu até um tempo prefixado. Escrevemos
 E_n=\{Z_n=0\}
 \]
 para o evento de que a população já esteja extinta na $n$-ésima geração e
-$e_n=\mathbb{P}(E_n)$ para sua probabilidade. A extinção em algum momento é
-a reunião dos eventos $E_n$:
-\[
-\bigl\{Z_n=0\ \text{para algum } n\geqslant 0\bigr\}
-=\bigcup_{n=0}^{\infty}E_n ,
-\]
-pois dizer que $Z_n=0$ para algum $n$ é o mesmo que dizer que o processo
-pertence a algum dos conjuntos $E_n$.
+denotamos a probabilidade deste evento por
+\[ 
+e_n\equiv \mathbb{P}(E_n).
+\] 
 
-A família $(E_n)$ é crescente. De fato, se $Z_n=0$, então a $n$-ésima
+A extinção em algum momento é o evento dado pela união de todos os eventos $E_n$'s, isto é,
+\[
+\bigl\{Z_n=0, \ \text{para algum } n\geqslant 0\bigr\}
+=\bigcup_{n=0}^{\infty}E_n.
+\]
+
+Como já mencionado anterioremente a família de eventos $(E_n)_{n\in\mathbb{N}}$ 
+é uma família crescente de eventos. 
+De fato, se $Z_n=0$, então a $n$-ésima
 geração é vazia, nenhum indivíduo existe para se reproduzir e a geração
 seguinte também é vazia, isto é, $Z_{n+1}=0$. Logo
 $E_n\subseteq E_{n+1}$ e, em particular, $e_n\leqslant e_{n+1}$. Para uma
 sequência crescente de eventos, a continuidade da probabilidade, discutida
 nas notas de aula sobre probabilidade, identifica a probabilidade da
-reunião com o limite das probabilidades. Obtemos assim
+reunião com o limite das probabilidades. Logo temos
 \begin{equation}\label{eq:limite-en}
 e=\lim_{n\to\infty}e_n .
 \end{equation}
 A igualdade \eqref{eq:limite-en} transfere o problema para a sequência
-$(e_n)$, que é mais tratável porque cada $e_n$ é a probabilidade de um
+$(e_n)_{n\in\mathbb{N}}$, que é mais tratável porque cada $e_n$ é a probabilidade de um
 evento descrito em um único instante. Além disso, como a sequência é
 crescente, ela tem limite, e esse limite é o valor procurado mesmo quando
 as probabilidades $e_n$ não são conhecidas explicitamente.
@@ -1833,24 +1946,32 @@ $E_n$ por um problema sobre os pontos fixos de $G$. A equação
 ponto fixo de $G$ no intervalo $[0,1]$. Em particular, $e=1$ exatamente
 quando $1$ é o único ponto fixo de $G$ nesse intervalo.
 
-% Origem: G&W, teorema 9.22, figura 9.2 e exercícios 9.23 e 9.24.
+\begin{exercise}\label{exercise:ponto-fixo-intervalo}
+Mostre que, se $f:[0,1]\to [0,1]$ é uma função contínua, então $f$ possui
+pelo menos um ponto fixo, isto é, existe algum $x_0\in [0,1]$ tal que
+$f(x_0)=x_0$. Para isso, considere a função auxiliar $g(x)=f(x)-x$ e aplique o
+Teorema do Valor Intermediário.
+\end{exercise}
 
-Essa descrição é
-exata, mas por si só não decide a questão que mais interessa na prática, isto é,
+
+\bigskip 
+
+A descrição apresentada acima é exata, mas por si só não decide a questão 
+que mais interessa na prática, isto é,
 se a extinção é certa ou se há probabilidade positiva de que a população
 sobreviva indefinidamente. Veremos que a resposta depende
-apenas da média $\mu$ do tamanho de família e que a fronteira entre os dois
+apenas do valor médio $\mu$ do tamanho de uma família e que a fronteira entre os dois
 comportamentos ocorre em $\mu=1$.
 
 \begin{theorem}[Critério de extinção]\label{thm:extincao-criterio}
 Suponha que $p_1\neq1$. Então
 \[
 e=1
-\quad\text{se e somente se}\quad
+\quad \Longleftrightarrow \quad
 \mu\leqslant1,
 \]
-em que $\mu=\sum_{k}kp_k$ é a média do tamanho de família e $e$ é a
-probabilidade de extinção eventual definida em \eqref{eq:definicao-extincao}.
+onde $\mu=\sum_{k}kp_k$ é o valor médio do tamanho de uma família e o número $e$ é a
+probabilidade de extinção definida em \eqref{eq:definicao-extincao}.
 \end{theorem}
 
 O caso $p_1=1$ está excluído do enunciado porque nele a conclusão é falsa. Se
@@ -1982,7 +2103,7 @@ que $h'(0)=G'(0)-1=p_1-1$, quantidade negativa, já que excluímos $p_1=1$.
 \noindent\textbf{O caso $\mu\leqslant1$.}
 Aqui $h'(x)\leqslant\mu-1\leqslant0$ para todo $0\leqslant x<1$, o que mostra
 que $h$ é não crescente em $[0,1)$. Como $h$ é contínua em $1$ e $h(1)=0$,
-segue que $h(x)\geqslant0$ para todo $x\in[0,1)$: se $x<1$ e $y\in(x,1)$,
+segue que $h(x)\geqslant0$ para todo $x\in[0,1)$. De fato, se $x<1$ e $y\in(x,1)$,
 a monotonicidade dá $h(x)\geqslant h(y)$ e, fazendo $y\uparrow1$, obtemos
 $h(x)\geqslant h(1)=0$.
 
