@@ -696,20 +696,19 @@ seguintes, com o número de parcelas dado pelo tamanho da geração anterior.
 % Origem: G&W, seção 9.2 (A model for population growth).
 
 Antes de usar a fórmula da soma aleatória, precisamos construir o modelo
-populacional que ela descreve. Vamos definir o termo \emph{nômade} para
-designar um tipo de objeto hipotético capaz de se reproduzir segundo as
-regras a seguir. No tempo $n=0$, existe um único nômade. Esse nômade vive por uma unidade de tempo
-e então, no tempo $n=1$, morre no ato do parto e é substituído por uma
-família de nômades filhos. Esses nômades têm biografias semelhantes: cada
-um sobrevive apenas até o tempo $n=2$, quando morre e é substituído por
-uma família de filhos. Esse processo de morte e nascimento continua em
-todos os tempos seguintes $n=3,4,\ldots$.
+populacional que ela descreve. No tempo $n=0$, existe um único indivíduo.
+Esse indivíduo vive por uma unidade de tempo e então, no tempo $n=1$, morre
+no ato do parto e é substituído por uma família de filhos. Esses
+indivíduos têm biografias semelhantes: cada um sobrevive apenas até o
+tempo $n=2$, quando morre e é substituído por uma família de filhos.
+Esse processo de morte e nascimento continua em todos os tempos
+seguintes $n=3,4,\ldots$.
 
-Se conhecemos os tamanhos de todas as famílias individuais de nômades,
-então conhecemos tudo sobre o desenvolvimento da população de nômades, e
-podemos representar esse desenvolvimento da maneira usual por uma árvore
-genealógica (veja a \Cref{fig:arvore-ramificacao}). A dificuldade é que
-nômades distintos podem ter números distintos de filhos, e esses números
+Se conhecemos o tamanho de cada família, então conhecemos tudo sobre o
+desenvolvimento da população, e podemos representar esse
+desenvolvimento da maneira usual por uma árvore genealógica (veja a
+\Cref{fig:arvore-ramificacao}). A dificuldade é que indivíduos distintos
+podem ter números distintos de filhos, e esses números
 podem não ser inteiramente previsíveis de antemão. Vamos supor aqui que
 os tamanhos de família são variáveis aleatórias que satisfazem as duas
 condições a seguir:
@@ -718,10 +717,10 @@ condições a seguir:
         cada uma com valores em $\{0,1,2,\ldots\}$;
   \item os tamanhos de família são variáveis aleatórias identicamente
         distribuídas, com função de probabilidade conhecida $p$, de modo
-        que o número $C$ de filhos de um nômade típico satisfaz
+        que o número $C$ de filhos de um indivíduo típico satisfaz
         $\mathbb{P}(C=k)=p_k$ para $k=0,1,2,\ldots$.
 \end{enumerate}
-A condição I expressa que cada nômade se reproduz sem interferência dos
+A condição I expressa que cada indivíduo se reproduz sem interferência dos
 demais, e a condição II expressa que todos seguem a mesma lei de
 probabilidade: o mecanismo de reprodução não muda de um indivíduo para
 outro nem de uma geração para outra.
@@ -732,7 +731,7 @@ propagação de um sobrenome de família (para dar apenas dois exemplos).
 Estabelecido o modelo, o problema básico é dizer algo sobre como o
 desenvolvimento do processo depende da função de probabilidade $p$ dos
 tamanhos de família. Para evitar trivialidades, vamos excluir os casos
-determinísticos, em que todo nômade tem exatamente $k$ filhos com
+determinísticos, em que todo indivíduo tem exatamente $k$ filhos com
 probabilidade um, e supor ao longo destas notas que
 \[
 p_k\neq 1
@@ -781,11 +780,12 @@ p_k\neq 1
   \label{fig:arvore-ramificacao}
 \end{figure}
 
-Vamos introduzir alguma notação. O conjunto dos nômades nascidos no tempo
-$n$ é chamado de $n$-ésima geração do processo de ramificação, e
-escrevemos $Z_n$ para o número de nômades dessa geração. Assim, $Z_0=1$,
-pois a população começa com um único nômade, e cada $Z_n$ conta quantos
-nômades nascem no tempo $n$. Como os tamanhos de família são aleatórios,
+Vamos introduzir alguma notação. O conjunto dos indivíduos nascidos no
+tempo $n$ é chamado de $n$-ésima geração do processo de ramificação, e
+escrevemos $Z_n$ para o número de indivíduos dessa geração. Assim,
+$Z_0=1$, pois a população começa com um único indivíduo, e cada $Z_n$
+conta quantos indivíduos nascem no tempo $n$. Como os tamanhos de família
+são aleatórios,
 cada $Z_n$ é uma variável aleatória, e não um número previsível de
 antemão. A evolução do processo é descrita pela sequência
 $Z_0,Z_1,\ldots$ de variáveis aleatórias, e é com essa sequência
@@ -795,10 +795,10 @@ interessantes:
 \begin{enumerate}[label=(\alph*)]
   \item Quais são a média e a variância de $Z_n$?
   \item Qual é a função de probabilidade de $Z_n$?
-  \item Qual é a probabilidade de que a população de nômades esteja
-        extinta até o tempo $n$?
-  \item Qual é a probabilidade de que a população de nômades se extinga
-        em algum momento?
+  \item Qual é a probabilidade de que a população esteja extinta até o
+        tempo $n$?
+  \item Qual é a probabilidade de que a população se extinga em algum
+        momento?
 \end{enumerate}
 
 \section{O Método das Funções Geradoras}\label{sec:metodo-geradoras}
@@ -811,16 +811,16 @@ probabilidade $p$ dos tamanhos de família. Claramente, $Z_0=1$ e
 \mathbb{P}(Z_1=k)=p_k
 \quad\text{para } k=0,1,2,\ldots,
 \end{equation}
-pois $Z_1$ é o número de filhos do nômade fundador.
+pois $Z_1$ é o número de filhos da geração inicial.
 
 Não é fácil escrever diretamente a função de probabilidade de $Z_2$:
 essa variável é a soma de um número aleatório de tamanhos de família,
 que também são aleatórios. De fato, escrevendo $C_i$ para o número de
-filhos do $i$-ésimo nômade da primeira geração, temos
+filhos do $i$-ésimo indivíduo da primeira geração, temos
 \[
 Z_2=C_1+C_2+\cdots+C_{Z_1},
 \]
-isto é, $Z_2$ é a soma dos tamanhos de família dos $Z_1$ nômades da
+isto é, $Z_2$ é a soma dos tamanhos de família dos $Z_1$ indivíduos da
 primeira geração. O número de parcelas não é fixo: ele é o valor
 realizado de $Z_1$, que só fica conhecido depois que a primeira geração
 se forma. Mais geralmente, para $n=1,2,\ldots$,
@@ -828,7 +828,7 @@ se forma. Mais geralmente, para $n=1,2,\ldots$,
 \begin{equation}\label{eq:recursao-geracao}
 Z_n=C_1'+C_2'+\cdots+C_{Z_{n-1}}',
 \end{equation}
-em que $C_1',C_2',\ldots$ são os números de filhos dos nômades da
+em que $C_1',C_2',\ldots$ são os números de filhos dos indivíduos da
 $(n-1)$-ésima geração.
 
 Somas de um número aleatório de variáveis aleatórias são mais bem
@@ -877,7 +877,7 @@ tamanhos de família $C_i'$ são independentes e identicamente
 distribuídos, com função de probabilidade $p$, e são independentes de
 $Z_{n-1}$, pois $Z_{n-1}$ é determinado pelos tamanhos de família das
 gerações $0,1,\ldots,n-2$, enquanto os $C_i'$ descrevem a reprodução dos
-nômades da $(n-1)$-ésima geração, que ocorre depois de $Z_{n-1}$ estar
+indivíduos da $(n-1)$-ésima geração, que ocorre depois de $Z_{n-1}$ estar
 formado. Podemos então aplicar o \Cref{thm:soma-aleatoria} com $X_i=C_i'$
 e $N=Z_{n-1}$: a função geradora da soma aleatória é a composição da
 função geradora do número de parcelas com a função geradora comum das
@@ -968,14 +968,15 @@ Do \Cref{thm:media-geracao} segue que, quando $n\to\infty$,
 o que indica que o comportamento do processo depende substancialmente
 de qual dos três casos $\mu<1$, $\mu=1$ ou $\mu>1$ ocorre.
 Veremos esse contraste com mais detalhe na \Cref{sec:extincao}:
-se $\mu\leqslant 1$, a população de nômades está fadada à extinção,
-enquanto se $\mu>1$ há probabilidade estritamente positiva de que
-a linhagem de nômades continue para sempre.
+se $\mu\leqslant 1$, a população está fadada à extinção, enquanto se
+$\mu>1$ há probabilidade estritamente positiva de que a linhagem continue
+para sempre.
 
 Essa dependência da média $\mu$ do tamanho de família é natural.
 A condição $\mu<1$ significa que cada morte é reposta, em média,
-por menos de um nascimento: cada nômade gera, em média, estritamente menos filhos
-do que o necessário para preencher a lacuna deixada pela sua morte.
+por menos de um nascimento: cada indivíduo gera, em média, estritamente
+menos filhos do que o necessário para preencher a lacuna deixada pela sua
+morte.
 Já $\mu>1$ significa que cada morte é reposta, em média, por mais
 de um nascimento, de modo que a população aumenta em média.
 
@@ -983,7 +984,7 @@ O caso $\mu=1$ é chamado \emph{crítico}: a média do tamanho da população
 é igual a $1$ em todos os tempos. Isso não significa que a população
 permaneça parada em $1$; ela oscila aleatoriamente, e essas flutuações
 fazem com que o tamanho da população assuma o valor $0$ mais cedo
-ou mais tarde. A partir daí, a população de nômades está extinta.
+ou mais tarde. A partir daí, a população está extinta.
 
 % Origem: G&W, exercício 9.10.
 \begin{exercise}\label{exercise:composicao-geracoes}
@@ -1289,7 +1290,7 @@ $n$-ésima geração tende a $1$ e, uma vez extinta a população, ela permanece
 extinta, de modo que a extinção em algum momento tem probabilidade $1$. No
 segundo caso o mesmo limite é $1/\mu<1$: para todo $n$ suficientemente grande a
 probabilidade de extinção até a $n$-ésima geração fica abaixo de um número
-estritamente menor que $1$, o número esperado de filhos por nômade supera a
+estritamente menor que $1$, o número esperado de filhos por indivíduo supera a
 reposição, e a extinção em algum momento é menos que certa; há, portanto,
 probabilidade positiva de que a linhagem sobreviva em todos os tempos.
 Acrescentando o caso $p=q=1/2$, em que $\mu=1$ e a extinção em algum momento
@@ -1314,12 +1315,12 @@ com probabilidade um se e somente se a média $\mu$ do tamanho de família
 satisfaz $\mu\leqslant 1$. Vamos mostrar nesta seção um resultado que
 reduz o cálculo da probabilidade de extinção, em qualquer processo de
 ramificação, ao estudo de uma equação envolvendo a função geradora $G$.
-A probabilidade de que os nômades desapareçam em algum momento é
+A probabilidade de que a população se extinga em algum momento é
 \begin{equation}\label{eq:definicao-extincao}
 e=\mathbb{P}\bigl(Z_n=0\ \text{para algum } n\geqslant 0\bigr).
 \end{equation}
-O evento cuja probabilidade é $e$ descreve a situação em que a linhagem do
-nômade fundador se encerra em tempo finito. Como $Z_0=1$, esse evento não
+O evento cuja probabilidade é $e$ descreve a situação em que a linhagem
+se encerra em tempo finito. Como $Z_0=1$, esse evento não
 pode ocorrer em $n=0$, mas o índice começa em zero porque a geração inicial
 faz parte da descrição do processo.
 
@@ -1328,9 +1329,10 @@ já ocorreu até um tempo prefixado. Escrevemos
 \[
 E_n=\{Z_n=0\}
 \]
-para o evento de que o processo esteja extinto (isto é, de que os nômades
-tenham desaparecido) até a $n$-ésima geração, e $e_n=\mathbb{P}(E_n)$ para
-sua probabilidade. A extinção em algum momento é a reunião dos eventos
+para o evento de que o processo esteja extinto (isto é, de que os
+indivíduos tenham desaparecido) até a $n$-ésima geração, e
+$e_n=\mathbb{P}(E_n)$ para sua probabilidade. A extinção em algum momento é
+a reunião dos eventos
 $E_n$:
 \[
 \bigl\{Z_n=0\ \text{para algum } n\geqslant 0\bigr\}
@@ -1340,7 +1342,7 @@ pois dizer que $Z_n=0$ para algum $n$ é o mesmo que dizer que o processo
 pertence a algum dos conjuntos $E_n$.
 
 A família $(E_n)$ é crescente. De fato, se $Z_n=0$, então a $n$-ésima
-geração é vazia, nenhum nômade existe para se reproduzir e a geração
+geração é vazia, nenhum indivíduo existe para se reproduzir e a geração
 seguinte também é vazia, isto é, $Z_{n+1}=0$. Logo
 $E_n\subseteq E_{n+1}$ e, em particular, $e_n\leqslant e_{n+1}$. Para uma
 sequência crescente de eventos, a continuidade da probabilidade, discutida
@@ -1356,7 +1358,7 @@ crescente, ela tem limite, e esse limite é o valor procurado mesmo quando
 as probabilidades $e_n$ não são conhecidas explicitamente.
 
 Um caso extremo é imediato. Se $p_0=0$, todas as famílias são não vazias,
-isto é, todo nômade tem ao menos um filho. Nesse caso, por indução em $n$,
+isto é, todo indivíduo tem ao menos um filho. Nesse caso, por indução em $n$,
 temos $Z_n\geqslant 1$ para todo $n$: a geração inicial é não vazia e, se
 $Z_n\geqslant 1$, então $Z_{n+1}$ é uma soma de $Z_n$ tamanhos de família,
 todos eles pelo menos $1$. Assim
@@ -1445,7 +1447,7 @@ quando $1$ é o único ponto fixo de $G$ nesse intervalo.
 
 Essa descrição é
 exata, mas por si só não decide a questão que mais interessa na prática, isto é,
-se a população de nômades está fadada a desaparecer ou se há probabilidade
+se a população está fadada a desaparecer ou se há probabilidade
 positiva de que ela sobreviva para sempre. Veremos que a resposta depende
 apenas da média $\mu$ do tamanho de família e que a fronteira entre os dois
 comportamentos ocorre em $\mu=1$.
@@ -1657,7 +1659,8 @@ uma equação quadrática.
 \begin{exercise}\label{exercise:extincao-binomial}
 Suponha que cada família de um processo de ramificação tenha distribuição
 $\mathrm{Bin}(2,p)$, com $0\leqslant p\leqslant1$ e $q=1-p$, isto é, que cada
-nômade deixe nenhum, um ou dois filhos com probabilidades $q^2$, $2pq$ e $p^2$,
+indivíduo deixe nenhum, um ou dois filhos com probabilidades $q^2$, $2pq$
+e $p^2$,
 respectivamente. Mostre que a probabilidade de extinção eventual é
 \[
 e=
@@ -1789,10 +1792,10 @@ Q_n(s)=s\,P_1\bigl(Q_{n-1}(s)\bigr),
 em que $P_1$ é a função geradora de probabilidade da distribuição do tamanho de
 família.
 
-\emph{Sugestão:} o fator $s$ isola a contribuição do fundador, que comparece
-em $T_n$ e não é contado por nenhuma das linhagens descendentes; a composição
-reúne os totais das $Y_1$ linhagens que partem da primeira geração, cada uma
-delas com $n-1$ gerações contadas a partir de seu próprio fundador.
+\emph{Sugestão:} o fator $s$ isola a contribuição da geração $0$, que
+comparece em $T_n$ e não é contada por nenhuma das linhagens descendentes; a
+composição reúne os totais das $Y_1$ linhagens que partem da primeira geração,
+cada uma delas com $n-1$ gerações contadas a partir de seu próprio fundador.
 
 \smallskip
 \noindent\emph{(Oxford, 1974)}
