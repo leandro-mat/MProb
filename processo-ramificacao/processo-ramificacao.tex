@@ -315,13 +315,13 @@ para cada valor de $s\in\mathbb{R}$, onde a série acima converge absolutamente.
 A normalização da função de probabilidade garante um domínio comum a todas as
 funções geradoras de probabilidade. 
 Mais precisamente, para qualquer variável aleatória
-tomando valores em $\{0,1,2,\ldots\}$ temos 
-\[
+tomando valores em $\{0,1,2,\ldots\}$ temos
+\begin{equation}\label{eq:fgp-convergencia}
 \sum_{k=0}^{\infty}|p_k s^k|
 =\sum_{k=0}^{\infty}p_k|s|^k
 \leqslant\sum_{k=0}^{\infty}p_k=1
 \qquad \forall s\in [-1,1]. 
-\]
+\end{equation}
 Logo, toda função geradora de probabilidade
 converge absolutamente para $|s|\leqslant 1$ e, vista como série
 de potências, tem raio de convergência pelo menos um. Em particular,
@@ -502,8 +502,11 @@ G_{S_n}(s)=\prod_{i=1}^{n}G_{X_i}(s),
 \qquad |s|\leqslant 1.
 \]
 Em particular, se as parcelas são identicamente distribuídas, com a mesma
-distribuição de uma variável $X$, então $G_{S_n}(s)=\bigl(G_X(s)\bigr)^n$ para
-$|s|\leqslant 1$.
+distribuição de uma variável $X$, então
+\begin{equation}\label{eq:fgp-soma-finita-iid}
+G_{S_n}(s)=\bigl(G_X(s)\bigr)^n,
+\qquad |s|\leqslant 1.
+\end{equation}
 \end{corollary}
 
 \begin{proof}
@@ -616,9 +619,9 @@ distribuídas, com a mesma distribuição de uma variável $X$ de função gerad
 de probabilidade $G_X$, e $N$ independente da sequência $X_1,X_2,\ldots$. Defina
 $S_N=X_1+\cdots+X_N$, com
 $S_N=0$ em $\{N=0\}$. Então, para $|s|\leqslant 1$,
-\[
+\begin{equation}\label{eq:fgp-soma-aleatoria}
 G_{S_N}(s)=G_N\bigl(G_X(s)\bigr).
-\]
+\end{equation}
 \end{theorem}
 
 \begin{proof}
@@ -674,12 +677,13 @@ produz o produto, enquanto a distribuição comum o transforma na potência
 de uma única função.
 
 Resta reunir os valores possíveis de $N$:
-\begin{align*}
+\begin{align}
 G_{S_N}(s)
 &=\sum_{n=0}^{\infty}\bigl(G_X(s)\bigr)^n\,\mathbb{P}(N=n)
+\label{eq:fgp-soma-aleatoria-casos}
 \\[0.2cm]
-&=G_N\bigl(G_X(s)\bigr).
-\end{align*}
+&=G_N\bigl(G_X(s)\bigr).\notag
+\end{align}
 A última igualdade é exatamente \eqref{eq:def-fgp}, a definição de $G_N$,
 avaliada no ponto $G_X(s)$. Essa avaliação é legítima: para
 $|s|\leqslant 1$, os coeficientes não negativos de $G_X$ dão
@@ -707,6 +711,8 @@ filhos. Os filhos nascidos no mesmo instante formam uma geração. A
   eixo tempo/.style={draw=muted, line width=0.45pt},
   rotulo tempo/.style={font=\scriptsize, text=muted, inner sep=0pt},
   guia tempo/.style={draw=muted, opacity=0.19, line width=0.35pt, densely dashed},
+  caixa familia/.style={draw=teal!65, fill=teal!9, line width=0.45pt,
+                        rounded corners=1.2pt},
 }
 
 \newcommand{\arvoreciclodevida}[1]{%
@@ -913,30 +919,32 @@ são aleatórios, como ilustra a \Cref{fig:soma-aleatoria-z2}.
   \centering
   \begin{tikzpicture}[
     x=1cm, y=1.15cm, >=Stealth,
-    caixa familia/.style={draw=teal!65, fill=teal!9, line width=0.45pt,
-                          rounded corners=1.2pt},
+    contorno geracao/.style={caixa familia, draw=red!65, fill=red!9},
   ]
-    \draw[eixo tempo, ->] (-2.25, 0.25) -- ([yshift=-2mm]-2.25, -2.25);
+    \draw[eixo tempo, ->] (-2.55, 0.25) -- ([yshift=-2mm]-2.55, -2.25);
     \foreach \geracao in {0,1,2} {
-      \draw[eixo tempo] (-2.25, -\geracao) -- (-2.1, -\geracao);
+      \draw[eixo tempo] (-2.55, -\geracao) -- (-2.4, -\geracao);
       \node[rotulo tempo, anchor=east, inner xsep=2.5pt]
-        at (-2.25, -\geracao) {$n=\geracao$};
+        at (-2.55, -\geracao) {$n=\geracao$};
     }
 
-    \foreach \coluna/\familias/\tamanhos/\soma in {
-      0/3/{2,0,3}/{2+0+3=5}, 4.95/3/{1,2,0}/{1+2+0=3}, 9.9/2/{1,3}/{1+3=4}
+    \def\distanciafamilias{1.7}
+    \foreach \coluna/\familias/\tamanhos/\parcelas/\soma in {
+      0/3/{2,0,3}/{C_1+C_2+C_{Z_1}}/{2+0+3},
+      7.6/2/{1,3}/{C_1+C_{Z_1}}/{1+3}
     } {
       \begin{scope}[xshift=\coluna cm, name prefix=quadro\coluna-]
-        \foreach \geracao in {0,2}
-          \draw[guia tempo] (-2.25, -\geracao) -- (2.15, -\geracao);
-        \pgfmathsetmacro{\inicioguia}{ifthenelse(\coluna==0,-2.25,-1.67)}
-        \draw[guia tempo] (\inicioguia, -1) -- (1.77, -1);
+        \pgfmathsetmacro{\meialargura}{0.5*\distanciafamilias*(\familias-1)+0.48}
+        \pgfmathsetmacro{\inicioguia}{ifthenelse(\coluna==0,-2.55,-\meialargura-0.37)}
+        \foreach \geracao in {0,1,2}
+          \draw[guia tempo] (\inicioguia, -\geracao) -- ({\meialargura+0.10}, -\geracao);
+        \draw[contorno geracao] (-\meialargura, -1.2) rectangle (\meialargura, -0.8);
 
-        \node[font=\small, text=text, anchor=west, inner sep=0pt]
-          at (1.87, -1) {$Z_1=\familias$};
+        \node[font=\small, text=red!65!black, anchor=west, inner sep=0pt]
+          at ({\meialargura+0.23}, -1) {$Z_1=\familias$};
         \node[vertice ramificacao] (raiz) at (0, 0) {};
         \foreach \tamanho [count=\indice] in \tamanhos {
-          \pgfmathsetmacro{\centro}{1.36*(\indice-(\familias+1)/2)}
+          \pgfmathsetmacro{\centro}{\distanciafamilias*(\indice-(\familias+1)/2)}
           \node[vertice ramificacao] (pai\indice) at (\centro, -1) {};
           \draw[aresta ramificacao] (raiz) -- (pai\indice);
           \node[rotulo tempo, anchor=west, inner xsep=2pt]
@@ -958,39 +966,149 @@ são aleatórios, como ilustra a \Cref{fig:soma-aleatoria-z2}.
           \node[font=\scriptsize, text=teal!80!black]
             at (\centro, -2.43) {$C_{\indice}=\tamanho$};
         }
-        \node[font=\small, text=text] at (0, -2.93) {$Z_2=\soma$};
+        \node[font=\small, text=text, anchor=north, inner sep=0pt] at (0, -2.72)
+          {$\begin{aligned}
+            Z_2 &= \parcelas \\
+                &= \soma
+          \end{aligned}$};
       \end{scope}
     }
   \end{tikzpicture}
-  \caption{Três realizações da soma que dá $Z_2$. Cada retângulo contém
-    os $C_i$ filhos do indivíduo $i$ da primeira geração. Um retângulo
-    tracejado representa uma família vazia. Os exemplos supõem
+  \caption{Duas realizações da soma que define $Z_2$. O contorno vermelho
+    reúne os $Z_1$ indivíduos da primeira geração. Cada retângulo verde
+    contém os $C_i$ filhos do indivíduo $i$ da primeira geração. O retângulo tracejado indica uma
+    família vazia. Os exemplos supõem
     \mbox{$p_0,p_1,p_2,p_3>0$}.}
   \label{fig:soma-aleatoria-z2}
 \end{figure}
 
 Dado um valor realizado $Z_1=m>0$, as $m$ parcelas $C_1,\ldots,C_m$ são
 independentes e têm a mesma função de probabilidade $p$.
-Se $Z_1=0$, a soma é vazia e $Z_2=0$. Mais geralmente, para $n=1,2,\ldots$,
-% Origem: G&W, eq. (9.3).
+Se $Z_1=0$, a soma é vazia e $Z_2=0$.
+
+\bigskip
+
+À primeira vista, parece que podemos descrever o processo
+$(Z_n)_{n\geqslant 0}$ considerando apenas uma sequência $C_1,C_2,\ldots$
+de variáveis aleatórias independentes, com a mesma função de probabilidade
+$p$, para o tamanho de cada família, e escrever, para cada $n$,
+\[
+Z_n \overset{d}{=} C_1+C_2+\cdots+C_{Z_{n-1}}.
+\]
+Na igualdade acima, os $C_i$ são cópias genéricas, externas ao processo, e
+não os da primeira geração; o símbolo $\overset{d}{=}$ lembra que a
+igualdade vale em distribuição, e não entre as variáveis do processo. Como
+as funções geradoras de probabilidade dependem apenas das leis, essa versão
+forneceria resultados corretos para os cálculos desta seção. Entretanto,
+essa tentativa de definir o processo não leva em conta o acoplamento entre
+as gerações. No estudo da extinção usaremos que $Z_n=0$ força $Z_{n+1}=0$,
+uma propriedade dos eventos definidos pelo processo, e não apenas das leis
+de suas variáveis.
+
+Preferimos, por isso, registrar os tamanhos de família que o modelo atribui
+a cada indivíduo, com dois índices. Para $n=1,2,\ldots$, temos
 \begin{equation}\label{eq:recursao-geracao}
-Z_n=C_1'+C_2'+\cdots+C_{Z_{n-1}}',
+Z_n=C_{n,1}+C_{n,2}+\cdots+C_{n,Z_{n-1}},
 \end{equation}
-em que $C_1',C_2',\ldots$ são os números de filhos dos indivíduos da
-$(n-1)$-ésima geração.
+em que $C_{n,k}$ é o número de filhos do $k$-ésimo indivíduo da geração
+$n-1$. A \Cref{fig:recursao-geracoes} mostra dois passos da recorrência
+na mesma realização do processo.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=3.65cm, >=Stealth]
+    \draw[eixo tempo, ->] (-4.7, 3mm) -- ([yshift=-4.5mm]-4.7, -2);
+    \foreach \nivel/\tempo in {0/{n-1}, 1/n, 2/{n+1}} {
+      \draw[guia tempo] (-4.7, -\nivel) -- (5, -\nivel);
+      \draw[eixo tempo] (-4.7, -\nivel) -- (-4.55, -\nivel);
+      \node[rotulo tempo, anchor=east, inner xsep=2.5pt]
+        at (-4.7, -\nivel) {$\tempo$};
+    }
+
+    % As caixas delimitam famílias na geração dos filhos.
+    \foreach \nivel/\tempo/\indice/\tamanho/\esquerda/\direita/\rotulo in {
+      1/n/1/2/-4.06/-1.65/-3,
+      1/n/2/0/-0.54/0.54/0,
+      1/n/3/3/0.79/5.03/1.81,
+      2/{n+1}/1/1/-4.39/-3.31/-3.85,
+      2/{n+1}/2/0/-2.69/-1.61/-2.15,
+      2/{n+1}/3/0/0.46/1.54/1,
+      2/{n+1}/4/2/2.16/3.36/2.76,
+      2/{n+1}/5/0/3.98/5.06/4.52
+    } {
+      \ifnum\tamanho=0\relax
+        \draw[caixa familia, dashed, fill=white]
+          ([yshift=-2mm]\esquerda, -\nivel) rectangle
+          ([yshift=2mm]\direita, -\nivel);
+        \node[rotulo tempo] at (\rotulo, -\nivel) {$\varnothing$};
+      \else
+        \draw[caixa familia]
+          ([yshift=-2mm]\esquerda, -\nivel) rectangle
+          ([yshift=2mm]\direita, -\nivel);
+      \fi
+      \node[font=\scriptsize, text=teal!80!black, yshift=-4.3mm]
+        at (\rotulo, -\nivel) {$C_{\tempo,\indice}=\tamanho$};
+    }
+
+    \foreach \nome/\posicao/\nivel/\indice in {
+      a1/-3/0/1, a2/0/0/2, a3/2.76/0/3,
+      b1/-3.85/1/1, b2/-2.15/1/2, b3/1/1/3, b4/2.76/1/4, b5/4.52/1/5,
+      c1/-3.85/2/0, c2/2.41/2/0, c3/3.11/2/0
+    } {
+      \node[vertice ramificacao] (\nome) at (\posicao, -\nivel) {};
+      \ifnum\nivel<2\relax
+        \node[rotulo tempo, anchor=west, inner xsep=2pt]
+          at (\nome.east) {$\indice$};
+      \fi
+    }
+    \foreach \pai/\filho in {a1/b1, a1/b2, a3/b3, a3/b4, a3/b5, b1/c1, b4/c2, b4/c3}
+      \draw[aresta ramificacao] (\pai) -- (\filho);
+
+    \node[font=\small, text=red!65!black, anchor=west, inner sep=0pt]
+      at (6.28, 0) {$Z_{n-1}=3$};
+    \node[font=\small, text=text, anchor=base west, inner sep=0pt]
+      at (6.28, -1) {$\begin{aligned}[t]
+        Z_n &= \sum\nolimits_{k=1}^{Z_{n-1}} C_{n,k} \\
+            &= 2+0+3=5
+      \end{aligned}$};
+    \node[font=\small, text=text, anchor=base west, inner sep=0pt]
+      at (6.28, -2) {$\begin{aligned}[t]
+        Z_{n+1} &= \sum\nolimits_{k=1}^{Z_n} C_{n+1,k} \\
+                &= 1+0+0+2+0
+      \end{aligned}$};
+  \end{tikzpicture}
+  \caption{Dois passos de uma mesma realização. Em $C_{r,k}$, o índice $r$
+    indica a geração em que esta família aparece e $k$ identifica 
+    o indivíduo que é o pai desta família.}
+  \label{fig:recursao-geracoes}
+\end{figure}
+
+Na \Cref{fig:recursao-geracoes}, os três indivíduos da geração $n-1$
+deixam $2$, $0$ e $3$ filhos. A soma $2+0+3=5$ conta os cinco indivíduos
+que aparecem na linha $n$ da mesma árvore. A soma seguinte tem uma
+parcela $C_{n+1,k}$ para cada um desses cinco indivíduos. Nos dois passos,
+os tamanhos de cada família seguem a mesma lei $p$.
+
+Na \Cref{fig:soma-aleatoria-z2}, usamos $C_k$ para o número de filhos do
+$k$-ésimo indivíduo da primeira geração. Como esses filhos nascem na
+geração $2$, escrevemos $C_{2,k}$ para essa mesma variável na notação com
+dois índices.
+
+
+\bigskip 
 
 Somas de um número aleatório de variáveis aleatórias são mais bem
 tratadas por funções geradoras de probabilidade do que por funções de
 probabilidade. Escrevemos
-\[
+\begin{equation}\label{eq:def-fgp-geracao}
 G_n(s)=\mathbb{E}[s^{Z_n}]
 =\sum_{k=0}^{\infty}s^k\,\mathbb{P}(Z_n=k),
-\]
+\end{equation}
 para a função geradora de probabilidade de $Z_n$, e
-\[
+\begin{equation}\label{eq:def-fgp-familia}
 G(s)=\sum_{k=0}^{\infty}s^k\,p_k,
-\]
-para a função geradora de probabilidade de um tamanho de família típico.
+\end{equation}
+para a função geradora de probabilidade do tamanho de cada família.
 Como $Z_n$ e os tamanhos de família são variáveis aleatórias inteiras e
 não negativas, ambas as séries convergem absolutamente para
 $|s|\leqslant 1$, pelo argumento apresentado na \Cref{sec:preliminares-fgp}.
@@ -1016,39 +1134,165 @@ G_n(s)=G(G(\cdots G(s)\cdots)),
 \end{theorem}
 
 \begin{proof}
-Como $Z_0=1$, temos $G_0(s)=\mathbb{E}[s^{Z_0}]=s$. Fixe
-$n\geqslant 1$. A identidade \eqref{eq:recursao-geracao} expressa $Z_n$
-como a soma de $Z_{n-1}$ variáveis aleatórias $C_1',C_2',\ldots$, cada
-uma com função geradora de probabilidade $G$. Antes de usar a fórmula
-da soma aleatória, verificamos suas hipóteses de independência: os
-tamanhos de família $C_i'$ são independentes e identicamente
-distribuídos, com função de probabilidade $p$, e são independentes de
-$Z_{n-1}$, pois $Z_{n-1}$ é determinado pelos tamanhos de família das
-gerações $0,1,\ldots,n-2$, enquanto os $C_i'$ descrevem a reprodução dos
-indivíduos da $(n-1)$-ésima geração, que ocorre depois de $Z_{n-1}$ estar
-formado. Podemos então aplicar o \Cref{thm:soma-aleatoria} com $X_i=C_i'$
-e $N=Z_{n-1}$: a função geradora da soma aleatória é a composição da
-função geradora do número de parcelas com a função geradora comum das
-parcelas, o que nos dá
+Como $Z_0=1$ em toda realização, a definição \eqref{eq:def-fgp-geracao} dá
+\begin{equation}\label{eq:fgp-geracao-zero}
+G_0(s)=\mathbb{E}[s^{Z_0}]=s.
+\end{equation}
+
+Para aplicar a fórmula da soma aleatória à recorrência
+\eqref{eq:recursao-geracao}, precisamos identificar o número de parcelas
+e verificar sua independência em relação à sequência de parcelas. Podemos
+representar os sorteios do modelo por uma tabela $(C_{r,k})_{r,k\geqslant1}$
+de variáveis aleatórias independentes, todas com função de probabilidade
+$p$. A linha $r$ fornece os números de filhos dos indivíduos da geração
+$r-1$. Se essa geração tem $m$ indivíduos, usamos as primeiras $m$ entradas
+da linha. As demais ficam sem uso nessa realização. Assim, cada indivíduo
+recebe um tamanho de família de acordo com as hipóteses do modelo.
+
+Fixe $n\geqslant1$. A linha $n$, formada por $C_{n,1},C_{n,2},\ldots$,
+é uma sequência de variáveis independentes, cada uma com função geradora
+$G$. Para ver de que dados depende $Z_{n-1}$, acompanhemos as primeiras
+gerações. Como $Z_0=1$, temos $Z_1=C_{1,1}$. Para calcular $Z_2$, usamos
+$Z_1$ para saber quantas entradas da linha $2$ entram na soma. Em geral,
+se as primeiras $r-1$ linhas já determinam $Z_{r-1}$, basta acrescentar
+a linha $r$ para calcular $Z_r$ pela recorrência. Portanto, $Z_{n-1}$
+é uma função das linhas $1,\ldots,n-1$.
+
+Pela independência das entradas da tabela, a linha $n$ é independente da
+coleção das linhas anteriores e, portanto, de qualquer função delas. É
+assim que obtemos a independência entre $Z_{n-1}$ e a sequência inteira
+$C_{n,1},C_{n,2},\ldots$. Quando $n=1$, essa independência vale porque
+$Z_0$ é constante. A \Cref{fig:independencia-geracoes} ilustra o caso em
+que as linhas anteriores dão $Z_{n-1}=3$ e a soma usa as três primeiras
+entradas da linha $n$.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1.4cm, >=Stealth]
+    \draw[eixo tempo, ->] (-2.56, 0.2) -- (-2.56, -2.27);
+    \foreach \nivel/\tempo in {0/{n-2}, 1/{n-1}, 2/n} {
+      \draw[guia tempo] (-2.56, -\nivel) -- (2.48, -\nivel);
+      \draw[eixo tempo] (-2.56, -\nivel) -- (-2.41, -\nivel);
+      \node[rotulo tempo, anchor=east, inner xsep=2.5pt]
+        at (-2.56, -\nivel) {$\tempo$};
+    }
+
+    \draw[caixa familia, draw=red!65, fill=red!9]
+      (-1.98, -1.14) rectangle (2.13, -0.86);
+    \draw[caixa familia] (-2.15, -2.14) rectangle (-1.15, -1.86);
+    \draw[caixa familia, dashed, fill=white]
+      (-0.5, -2.14) rectangle (0.5, -1.86);
+    \node[rotulo tempo] at (0, -2) {$\varnothing$};
+    \draw[caixa familia] (1.02, -2.14) rectangle (2.28, -1.86);
+
+    \foreach \nome/\posicao/\nivel in {
+      a/0/0, b1/-1.65/1, b2/0/1, b3/1.65/1,
+      c1/-1.85/2, c2/-1.45/2, c3/1.25/2, c4/1.65/2, c5/2.05/2
+    }
+      \node[vertice ramificacao] (\nome) at (\posicao, -\nivel) {};
+    \foreach \indice in {1,2,3}
+      \node[rotulo tempo, anchor=west, inner xsep=2pt]
+        at (b\indice.east) {$\indice$};
+    \foreach \pai/\filho in {a/b1, a/b2, a/b3, b1/c1, b1/c2, b3/c3, b3/c4, b3/c5}
+      \draw[aresta ramificacao] (\pai) -- (\filho);
+
+    \node[font=\small, text=text, anchor=west, inner sep=0pt, align=left]
+      at (3, 0) {Reprodução das gerações $0,\ldots,n-2$\\[2pt]
+                 $\bigl(C_{r,k}\bigr)_{1\leqslant r<n,\ k\geqslant1}$};
+    \draw[eixo tempo, ->] (3.22, -0.34) -- (3.22, -0.79)
+      node[midway, right=1mm, font=\scriptsize, text=muted] {determina};
+    \node[font=\small, text=red!65!black, anchor=west, inner sep=0pt]
+      at (3, -1) {$Z_{n-1}=3$};
+
+    \node[font=\small, text=text, anchor=west, inner sep=0pt]
+      at (3, -1.67) {Sequência independente dos dados acima};
+    \node[font=\small, text=text, anchor=base west, inner sep=0pt]
+      at (3, -2)
+      {$\underbrace{C_{n,1},\,C_{n,2},\,C_{n,3}}_{\text{parcelas usadas}},\,
+        C_{n,4},\ldots$};
+  \end{tikzpicture}
+  \caption{Os tamanhos de família com primeiro índice $r<n$ determinam
+    $Z_{n-1}$. A sequência $(C_{n,k})_{k\geqslant1}$ é independente desses
+    tamanhos pela hipótese do modelo. Neste exemplo, $Z_{n-1}=3$ e entram
+    na soma os três primeiros termos da sequência.}
+  \label{fig:independencia-geracoes}
+\end{figure}
+
+No \Cref{thm:soma-aleatoria}, tomamos $N=Z_{n-1}$, $X_k=C_{n,k}$ e
+$S_N=Z_n$. Fixe $s$ com $|s|\leqslant1$. Para cada $m$ com
+$\mathbb{P}(Z_{n-1}=m)>0$, condicionemos em $\{Z_{n-1}=m\}$. Nesse
+evento, a recorrência \eqref{eq:recursao-geracao} usa exatamente as
+primeiras $m$ entradas da linha $n$. Condicionar nesse evento conserva a
+distribuição conjunta dessas entradas, pois a linha $n$ é independente
+de $Z_{n-1}$. Cada parcela tem geradora $G$, dada por
+\eqref{eq:def-fgp-familia}. Para $m\geqslant1$, a fórmula
+\eqref{eq:fgp-soma-finita-iid} do \Cref{cor:fgp-soma-finita} multiplica
+$m$ cópias de $G(s)$. Para $m=0$, a soma vazia vale $0$, e sua geradora
+é a constante $1$. Com a convenção da potência de expoente zero, os dois
+casos dão
+\begin{equation}\label{eq:fgp-geracao-condicional}
+\mathbb{E}\bigl[s^{Z_n}\mid Z_{n-1}=m\bigr]=\bigl(G(s)\bigr)^m.
+\end{equation}
+
+A definição \eqref{eq:def-fgp-geracao} pede a esperança de $s^{Z_n}$
+sobre todas as realizações. Podemos separá-las pelo valor de $Z_{n-1}$.
+O grupo em que $Z_{n-1}=m$ contribui com a esperança condicional
+\eqref{eq:fgp-geracao-condicional} vezes a probabilidade de estar nesse
+grupo. É a decomposição \eqref{eq:fgp-soma-aleatoria-casos} da soma
+aleatória. Ao substituir a esperança condicional pela potência de
+$G(s)$, podemos incluir os valores de $m$ que têm probabilidade zero,
+pois seu peso na soma é zero. Assim,
+\begin{align}
+G_n(s)
+&=\sum_{\substack{m\geqslant0\\\mathbb{P}(Z_{n-1}=m)>0}}
+\mathbb{P}(Z_{n-1}=m)\,\mathbb{E}\bigl[s^{Z_n}\mid Z_{n-1}=m\bigr]
+\notag\\[0.2cm]
+&=\sum_{m=0}^{\infty}\mathbb{P}(Z_{n-1}=m)\,\bigl(G(s)\bigr)^m.
+\label{eq:fgp-geracao-por-tamanho}
+\end{align}
+
+Escrevamos agora a definição \eqref{eq:def-fgp-geracao} para a geração
+$n-1$, usando $u$ como argumento da função geradora:
+\begin{equation}\label{eq:def-fgp-geracao-anterior}
+G_{n-1}(u)=\sum_{m=0}^{\infty}\mathbb{P}(Z_{n-1}=m)\,u^m,
+\qquad |u|\leqslant1.
+\end{equation}
+Os coeficientes de \eqref{eq:def-fgp-geracao-anterior} são os pesos da
+soma \eqref{eq:fgp-geracao-por-tamanho}. Para obter o termo com índice
+$m$ nessa soma, basta trocar $u^m$ por $\bigl(G(s)\bigr)^m$. A mesma
+substituição $u=G(s)$ funciona para todos os termos. Ela é legítima
+porque, pela série \eqref{eq:def-fgp-familia} e pela estimativa
+\eqref{eq:fgp-convergencia},
+\begin{equation}\label{eq:fgp-familia-no-dominio}
+|G(s)|\leqslant\sum_{k=0}^{\infty}p_k|s|^k\leqslant1.
+\end{equation}
+Portanto, podemos avaliar \eqref{eq:def-fgp-geracao-anterior} em $u=G(s)$.
+A fórmula \eqref{eq:fgp-soma-aleatoria} toma então a forma
 % Origem: G&W, eq. (9.7).
 \begin{equation}\label{eq:passo-recursao}
 G_n(s)=G_{n-1}(G(s)).
 \end{equation}
-A composição está bem definida para $|s|\leqslant 1$: nesse caso,
-$|G(s)|\leqslant\sum_{k=0}^{\infty}|s|^k\,p_k\leqslant 1$, de modo que
-$G(s)$ permanece no domínio de convergência de $G_{n-1}$.
 
-Para chegar à iterada, aplicamos \eqref{eq:passo-recursao}
-sucessivamente, primeiro a $G_{n-1}$, depois a $G_{n-2}$, e assim por
-diante:
-\begin{align*}
-G_n(s)
-&=G_{n-1}(G(s))=G_{n-2}(G(G(s)))=\cdots\\[0.3cm]
-&=G_1(G(G(\cdots G(s)\cdots))).
-\end{align*}
-Por \eqref{eq:zn-um}, a variável $Z_1$ tem função de probabilidade $p$,
-de modo que $G_1=G$. Substituindo na última linha, obtemos
-\eqref{eq:fgp-iterada}, o que conclui a prova.
+Partindo de \eqref{eq:fgp-geracao-zero}, as primeiras aplicações da
+recorrência \eqref{eq:passo-recursao} dão
+\begin{equation}\label{eq:fgp-primeiras-iteradas}
+\begin{aligned}
+G_1(s)&=G_0(G(s))=G(s),\\
+G_2(s)&=G_1(G(s))=G(G(s)),\\
+G_3(s)&=G_2(G(s))=G(G(G(s))).
+\end{aligned}
+\end{equation}
+Em \eqref{eq:fgp-primeiras-iteradas}, cada passagem acrescenta uma
+aplicação de $G$. Para justificar o padrão por indução, o caso de zero
+aplicações é a função identidade de \eqref{eq:fgp-geracao-zero}. Para
+$j\geqslant1$, suponha que $G_{j-1}(u)$ aplique $G$ exatamente $j-1$ vezes
+a $u$, para todo $|u|\leqslant1$. Pela recorrência
+\eqref{eq:passo-recursao}, calculamos $G_j(s)$ em dois passos. Primeiro
+aplicamos $G$ a $s$ para formar $u=G(s)$. Depois, avaliamos
+$G_{j-1}(u)$, o que acrescenta $j-1$ aplicações. A estimativa
+\eqref{eq:fgp-familia-no-dominio} garante que cada argumento permanece
+no domínio. Temos, assim, $j$ aplicações de $G$ e obtemos
+\eqref{eq:fgp-iterada} para todo $n\geqslant0$.
 \end{proof}
 % Origem: G&W, seção 9.3, do Teorema 9.8 ao Exercício 9.12.
 
