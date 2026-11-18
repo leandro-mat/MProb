@@ -69,7 +69,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
-\usetikzlibrary{positioning,calc,fit,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
+\usetikzlibrary{positioning,calc,fit,backgrounds,nfold,decorations.pathreplacing,calligraphy,tikzmark,patterns,arrows.meta,bending,hobby}
 
 %----------------------------------------------------------------------
 % REFERÊNCIAS, LINKS E METADADOS DO PDF
@@ -699,70 +699,122 @@ Antes de usar a fórmula da soma aleatória, precisamos construir o modelo
 populacional que ela descreve. No tempo $n=0$, existe apenas um indivíduo.
 Cada indivíduo vive por uma unidade de tempo. Ao morrer, deixa zero ou mais
 filhos. Os filhos nascidos no mesmo instante formam uma geração. A
-\Cref{fig:ciclo-de-vida} ilustra as regras do modelo.
+\Cref{fig:ciclo-de-vida} ilustra como ocorre a evolução temporal do modelo.
+
+\tikzset{
+  vertice ramificacao/.style={circle, fill=text, inner sep=0pt, minimum size=2.2mm},
+  aresta ramificacao/.style={draw=text, line width=0.6pt},
+  eixo tempo/.style={draw=muted, line width=0.45pt},
+  rotulo tempo/.style={font=\scriptsize, text=muted, inner sep=0pt},
+  guia tempo/.style={draw=muted, opacity=0.19, line width=0.35pt, densely dashed},
+}
+
+\newcommand{\arvoreciclodevida}[1]{%
+  % Cada vértice é dado pelo nome, pelo pai, pela geração e pela abscissa.
+  \foreach \nome/\pai/\geracao/\posicao in {
+    g0/raiz/0/0,
+    g1a/g0/1/-2, g1b/g0/1/2,
+    g2a/g1a/2/-3.8, g2b/g1a/2/-2, g2c/g1a/2/-0.2, g2d/g1b/2/2,
+    g3a/g2b/3/-2.8, g3b/g2b/3/-1.2, g3c/g2c/3/-0.2,
+    g4a/g3a/4/-3.4, g4b/g3a/4/-2.2, g4c/g3b/4/-1.2, g4d/g3c/4/-0.2,
+    g5a/g4b/5/-2.2, g5b/g4d/5/-0.75, g5c/g4d/5/0.35
+  } {
+    \ifnum\geracao>#1\relax
+    \else
+      \def\opacidade{0.16}
+      \def\espessura{0.6pt}
+      \ifnum\geracao=#1\relax
+        \def\opacidade{1}
+        \def\espessura{0.8pt}
+      \fi
+      \node[vertice ramificacao, opacity=\opacidade]
+        (\nome) at (\posicao, -\geracao) {};
+      \ifnum\geracao>0\relax
+        \draw[aresta ramificacao, line width=\espessura, opacity=\opacidade]
+          (\pai) -- (\nome);
+      \fi
+    \fi
+  }%
+}
 
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}[
-    x=1cm, y=1.26cm,
-    individuo/.style={circle, fill=text, inner sep=0pt, minimum size=2.2mm},
-  ]
-    \foreach \instante/\coluna/\linha in {0/0/0, 1/9.66/0,
-                                         2/0/-3.85, 3/9.66/-3.85,
-                                         4/0/-10.15, 5/9.66/-10.15} {
+  \begin{tikzpicture}[x=1cm, y=1.26cm, >=Stealth]
+    \def\distanciacolunas{7.25}
+    \def\eixodireito{2.5}
+    \foreach \instante/\coluna/\linha in {0/0/0, 1/\distanciacolunas/0,
+                                         2/0/-3.85, 3/\distanciacolunas/-3.85,
+                                         4/0/-10.15, 5/\distanciacolunas/-10.15} {
       \begin{scope}[xshift=\coluna cm, yshift=\linha cm, name prefix=t\instante-]
-        \node[font=\small, text=text] at (0, 6.08mm) {$n=\instante$};
+        % Os eixos ficam nas bordas externas de cada par.
+        \ifodd\instante\relax
+          \let\ultimotempo\instante
+          \let\eixo\eixodireito
+          \def\pontadamarca{2.35}
+          \def\ancora{west}
+        \else
+          \def\eixo{-4.3}
+          \def\pontadamarca{-4.15}
+          \def\ancora{east}
 
-        % Cada vértice é dado pelo nome, pelo pai, pela geração e pela abscissa.
-        \foreach \nome/\pai/\geracao/\posicao in {
-          g0/raiz/0/0,
-          g1a/g0/1/-2, g1b/g0/1/2,
-          g2a/g1a/2/-3.8, g2b/g1a/2/-2, g2c/g1a/2/-0.2, g2d/g1b/2/2,
-          g3a/g2b/3/-2.8, g3b/g2b/3/-1.2, g3c/g2c/3/-0.2,
-          g4a/g3a/4/-3.4, g4b/g3a/4/-2.2, g4c/g3b/4/-1.2, g4d/g3c/4/-0.2,
-          g5a/g4b/5/-2.2, g5b/g4d/5/-0.75, g5c/g4d/5/0.35
-        } {
-          \ifnum\geracao>\instante\relax
+          % As guias de cada par são desenhadas antes de ambas as árvores.
+          \pgfmathtruncatemacro{\ultimotempo}{\instante+1}
+          \foreach \nivel in {0,...,\ultimotempo}
+            \draw[guia tempo] (\eixo, -\nivel) --
+              ({\distanciacolunas+\eixodireito}, -\nivel);
+        \fi
+        \draw[eixo tempo, ->] (\eixo, 0.3) --
+          ([yshift=-2mm]\eixo, {-\ultimotempo-0.25});
+        \foreach \nivel in {0,...,\ultimotempo} {
+          \draw[eixo tempo] (\eixo, -\nivel) -- (\pontadamarca, -\nivel);
+          \ifnum\nivel=\instante\relax
+            \node[rotulo tempo, font=\small, text=text, anchor=\ancora, inner xsep=2.5pt]
+              at (\eixo, -\nivel) {$n=\instante$};
           \else
-            \def\opacidade{0.16}
-            \def\espessura{0.6pt}
-            \ifnum\geracao=\instante\relax
-              \def\opacidade{1}
-              \def\espessura{0.8pt}
-            \fi
-            \node[individuo, opacity=\opacidade] (\nome) at (\posicao, -\geracao) {};
-            \ifnum\geracao>0\relax
-              \draw[draw=text, line width=\espessura, opacity=\opacidade]
-                (\pai) -- (\nome);
-            \fi
+            \node[rotulo tempo, anchor=\ancora, inner xsep=2.5pt]
+              at (\eixo, -\nivel) {$\nivel$};
           \fi
         }
+
+        \arvoreciclodevida{\instante}
       \end{scope}
     }
   \end{tikzpicture}
   \caption{Ciclo de vida do modelo. A cada passo, os indivíduos da geração
     anterior morrem e seus filhos nascem. Os vértices da geração viva e as
-    arestas que chegam até eles aparecem em tom escuro. As gerações
-    anteriores e as ligações entre elas ficam esmaecidas.}
+    arestas que chegam até eles aparecem em tom escuro. Os vértices
+    transparentes representam a história da evolução da população.}
   \label{fig:ciclo-de-vida}
 \end{figure}
 
 \begin{samepage}
-Se conhecemos o tamanho de cada família, então conhecemos tudo sobre o
-desenvolvimento da população, e podemos representar esse
-desenvolvimento da maneira usual por uma árvore genealógica (veja a
-\Cref{fig:arvore-ramificacao}). A dificuldade é que indivíduos distintos
-podem ter números distintos de filhos, e esses números
-podem não ser inteiramente previsíveis de antemão. Vamos supor aqui que
-os tamanhos de família são variáveis aleatórias que satisfazem as duas
-condições a seguir:
+Os filhos que um indivíduo deixa formam sua \emph{família}. O tamanho da
+família é o número de filhos, que pode ser zero. A árvore genealógica
+registra quem é filho de quem, como mostra a \Cref{fig:familia-ramificacao}.
 \par
 \end{samepage}
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=0.72cm]
+    \arvoreciclodevida{5}
+    \begin{scope}[on background layer]
+      \node[fit=(g5b)(g5c), draw=teal, draw opacity=0.65,
+            fill=teal, fill opacity=0.10, line width=0.6pt,
+            rounded corners=1.5pt, inner sep=2mm] {};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Uma família no quadro $n=5$ da \Cref{fig:ciclo-de-vida}.
+    O retângulo destaca os dois filhos de um mesmo indivíduo.}
+  \label{fig:familia-ramificacao}
+\end{figure}
+
+Para modelar a reprodução, supomos que:
 \begin{enumerate}[label=\Roman*.]
   \item os tamanhos de família são variáveis aleatórias independentes,
         cada uma com valores em $\{0,1,2,\ldots\}$;
   \item os tamanhos de família são variáveis aleatórias identicamente
-        distribuídas, com função de probabilidade conhecida $p$, de modo
+        distribuídas, com função de probabilidade conhecida, de modo
         que o número $C$ de filhos de um indivíduo típico satisfaz
         $\mathbb{P}(C=k)=p_k$ para $k=0,1,2,\ldots$.
 \end{enumerate}
@@ -771,12 +823,14 @@ demais, e a condição II expressa que todos seguem a mesma lei de
 probabilidade: o mecanismo de reprodução não muda de um indivíduo para
 outro nem de uma geração para outra.
 
+\medskip 
+
 Um processo desse tipo é chamado de \emph{processo de ramificação} e pode
 ser usado como modelo simples para fenômenos como o crescimento de
 bactérias ou a propagação de um sobrenome de família. Estabelecido o
 modelo, o problema básico é descrever como o desenvolvimento do processo
-depende da função de probabilidade $p$ dos tamanhos de família. Para
-evitar trivialidades, vamos excluir os casos
+depende da função de probabilidade $p$ dos tamanhos de cada família. 
+Para evitar trivialidades, vamos excluir os casos
 determinísticos, em que todo indivíduo tem exatamente $k$ filhos com
 probabilidade um, e supor ao longo destas notas que
 \[
@@ -785,58 +839,46 @@ p_k\neq 1
 \]
 \begin{figure}[htbp]
   \centering
-  \begin{tikzpicture}[x=1cm, y=1cm, >=Stealth, font=\small]
-    % O único indivíduo de Z2 fica sob o filho mais à esquerda de Z1 (x=4.8);
-    % a barra de Z3 (passo 2.4) e os grupos de Z4 são centrados sob seus pais.
-    \tikzset{
-      haste/.style={black!65, line width=0.55pt},
-      individuo/.style={fill=text},
+  \begin{tikzpicture}[x=1cm, y=1.26cm, >=Stealth]
+    \draw[eixo tempo, ->] (-0.65, 0.3) -- ([yshift=-2mm]-0.65, -4.25);
+    \foreach \geracao/\tamanho in {0/1, 1/3, 2/1, 3/4, 4/7} {
+      \draw[guia tempo] (-0.65, -\geracao) -- (10.1, -\geracao);
+      \draw[eixo tempo] (-0.65, -\geracao) -- (-0.5, -\geracao);
+      \node[rotulo tempo, anchor=east, inner xsep=2.5pt]
+        at (-0.65, -\geracao) {$\geracao$};
+      \node[font=\small, text=text, anchor=west, inner xsep=2.5pt]
+        at (10.1, -\geracao) {$Z_{\geracao}=\tamanho$};
     }
 
-    \draw[haste] (7.2, 0) -- (7.2, -1.6);
-    \draw[haste] (4.8, -1.6) -- (9.6, -1.6);
-    \draw[haste] (4.8, -1.6) -- (4.8, -3.2);
-    \draw[haste] (4.8, -3.2) -- (4.8, -4.8);
-    \draw[haste] (1.2, -4.8) -- (8.4, -4.8);
-    \draw[haste] (1.2, -4.8) -- (1.2, -6.4);
-    \draw[haste] (0, -6.4) -- (2.4, -6.4);
-    \draw[haste] (6.0, -4.8) -- (6.0, -6.4);
-    \draw[haste] (5.4, -6.4) -- (6.6, -6.4);
-    \draw[haste] (8.4, -4.8) -- (8.4, -6.4);
-    \draw[haste] (7.8, -6.4) -- (9.0, -6.4);
-
-    \fill[individuo] (7.2, 0) circle (1.7pt);
-    \foreach \x in {4.8, 7.2, 9.6}
-      \fill[individuo] (\x, -1.6) circle (1.7pt);
-    \fill[individuo] (4.8, -3.2) circle (1.7pt);
-    \foreach \x in {1.2, 3.6, 6.0, 8.4}
-      \fill[individuo] (\x, -4.8) circle (1.7pt);
-    \foreach \x in {0, 1.2, 2.4, 5.4, 6.6, 7.8, 9.0}
-      \fill[individuo] (\x, -6.4) circle (1.7pt);
-
-    \foreach \y/\rotulo in {0/Z_0=1, -1.6/Z_1=3, -3.2/Z_2=1, -4.8/Z_3=4, -6.4/Z_4=7}
-      \node[anchor=west, font=\small, text=text] at (10.2, \y) {$\rotulo$};
+    \foreach \nome/\pai/\geracao/\posicao in {
+      g0/raiz/0/7.2,
+      g1a/g0/1/4.8, g1b/g0/1/7.2, g1c/g0/1/9.6,
+      g2a/g1a/2/4.8,
+      g3a/g2a/3/1.2, g3b/g2a/3/3.6, g3c/g2a/3/6, g3d/g2a/3/8.4,
+      g4a/g3a/4/0, g4b/g3a/4/1.2, g4c/g3a/4/2.4,
+      g4d/g3c/4/5.4, g4e/g3c/4/6.6, g4f/g3d/4/7.8, g4g/g3d/4/9
+    } {
+      \node[vertice ramificacao] (\nome) at (\posicao, -\geracao) {};
+      \ifnum\geracao>0\relax
+        \draw[aresta ramificacao] (\pai) -- (\nome);
+      \fi
+    }
   \end{tikzpicture}
-  \caption{Árvore genealógica típica de um processo de ramificação com tamanhos
-    de geração $1$, $3$, $1$, $4$ e $7$. Cada ponto representa um indivíduo;
-    a haste vertical desce do pai até a barra horizontal que agrupa seus
-    filhos, sobre a qual os pontos dos filhos estão apoiados. Indivíduos sem
-    haste descendente não deixam descendência. À direita, o tamanho $Z_n$ de
-    cada geração.}
+  \caption{Árvore genealógica de um processo de ramificação. Cada ponto
+    representa um indivíduo, e cada aresta liga um pai a um de seus filhos.
+    As guias tracejadas alinham as gerações ao eixo do tempo, à esquerda,
+    e aos respectivos tamanhos $Z_n$, à direita.}
   \label{fig:arvore-ramificacao}
 \end{figure}
 
-Vamos introduzir alguma notação. O conjunto dos indivíduos nascidos no
-tempo $n$ é chamado de $n$-ésima geração do processo de ramificação, e
-escrevemos $Z_n$ para o número de indivíduos dessa geração. Como a
-população começa com apenas um indivíduo, $Z_0=1$. Os tamanhos de família
-são aleatórios, de modo que cada $Z_n$ é uma variável aleatória. A
-evolução do processo é descrita pela sequência
-$Z_0,Z_1,\ldots$ de variáveis aleatórias, e é com essa sequência
-que vamos trabalhar. Propriedades específicas dos $Z_n$ serão obtidas na
-próxima seção; encerramos esta seção com uma lista de perguntas
-interessantes:
-\begin{enumerate}[label=(\alph*)]
+Chamamos de $n$-ésima geração o conjunto de indivíduos nascidos no tempo
+$n$. Denotamos seu tamanho por $Z_n$, com $Z_0=1$. Na
+\Cref{fig:arvore-ramificacao}, os valores de $Z_n$ aparecem à direita da árvore.
+
+Os tamanhos das gerações seguintes dependem dos números aleatórios de
+filhos. Vamos estudar a sequência $Z_0,Z_1,\ldots$ a partir das seguintes
+perguntas:
+\begin{enumerate}[label=(\alph*),beginpenalty=10000]
   \item Quais são a média e a variância de $Z_n$?
   \item Qual é a função de probabilidade de $Z_n$?
   \item Qual é a probabilidade de que a população esteja extinta até o
@@ -849,7 +891,7 @@ interessantes:
 
 O primeiro passo no estudo deste processo de ramificação é explicar como
 obter as distribuições das variáveis $Z_n$ em termos da função de
-probabilidade $p$ dos tamanhos de família. Claramente, $Z_0=1$ e
+probabilidade $p$ dos tamanhos de cada família. Claramente, $Z_0=1$ e
 % Origem: G&W, eq. (9.2).
 \begin{equation}\label{eq:zn-um}
 \mathbb{P}(Z_1=k)=p_k
@@ -857,17 +899,79 @@ probabilidade $p$ dos tamanhos de família. Claramente, $Z_0=1$ e
 \end{equation}
 pois $Z_1$ é o número de filhos da geração inicial.
 
-Não é fácil escrever diretamente a função de probabilidade de $Z_2$:
-essa variável é a soma de um número aleatório de tamanhos de família,
-que também são aleatórios. De fato, escrevendo $C_i$ para o número de
-filhos do $i$-ésimo indivíduo da primeira geração, temos
+Para obter a função de probabilidade de $Z_2$, precisamos levar em conta
+duas fontes de aleatoriedade. Há $Z_1$ indivíduos na primeira geração, e
+cada um deixa um número aleatório de filhos. Escrevendo $C_i$ para o
+número de filhos do $i$-ésimo desses indivíduos, temos
 \[
 Z_2=C_1+C_2+\cdots+C_{Z_1},
 \]
-isto é, $Z_2$ é a soma dos tamanhos de família dos $Z_1$ indivíduos da
-primeira geração. O número de parcelas não é fixo: ele é o valor
-realizado de $Z_1$, que só fica conhecido depois que a primeira geração
-se forma. Mais geralmente, para $n=1,2,\ldots$,
+uma soma em que tanto o número de parcelas $Z_1$ quanto seus valores $C_i$
+são aleatórios, como ilustra a \Cref{fig:soma-aleatoria-z2}.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+    x=1cm, y=1.15cm, >=Stealth,
+    caixa familia/.style={draw=teal!65, fill=teal!9, line width=0.45pt,
+                          rounded corners=1.2pt},
+  ]
+    \draw[eixo tempo, ->] (-2.25, 0.25) -- ([yshift=-2mm]-2.25, -2.25);
+    \foreach \geracao in {0,1,2} {
+      \draw[eixo tempo] (-2.25, -\geracao) -- (-2.1, -\geracao);
+      \node[rotulo tempo, anchor=east, inner xsep=2.5pt]
+        at (-2.25, -\geracao) {$n=\geracao$};
+    }
+
+    \foreach \coluna/\familias/\tamanhos/\soma in {
+      0/3/{2,0,3}/{2+0+3=5}, 4.95/3/{1,2,0}/{1+2+0=3}, 9.9/2/{1,3}/{1+3=4}
+    } {
+      \begin{scope}[xshift=\coluna cm, name prefix=quadro\coluna-]
+        \foreach \geracao in {0,2}
+          \draw[guia tempo] (-2.25, -\geracao) -- (2.15, -\geracao);
+        \pgfmathsetmacro{\inicioguia}{ifthenelse(\coluna==0,-2.25,-1.67)}
+        \draw[guia tempo] (\inicioguia, -1) -- (1.77, -1);
+
+        \node[font=\small, text=text, anchor=west, inner sep=0pt]
+          at (1.87, -1) {$Z_1=\familias$};
+        \node[vertice ramificacao] (raiz) at (0, 0) {};
+        \foreach \tamanho [count=\indice] in \tamanhos {
+          \pgfmathsetmacro{\centro}{1.36*(\indice-(\familias+1)/2)}
+          \node[vertice ramificacao] (pai\indice) at (\centro, -1) {};
+          \draw[aresta ramificacao] (raiz) -- (pai\indice);
+          \node[rotulo tempo, anchor=west, inner xsep=2pt]
+            at (pai\indice.east) {$\indice$};
+
+          \ifnum\tamanho=0\relax
+            \draw[caixa familia, dashed, fill=white]
+              ({\centro-0.58}, -1.8) rectangle ({\centro+0.58}, -2.2);
+            \node[rotulo tempo] at (\centro, -2) {$\varnothing$};
+          \else
+            \draw[caixa familia]
+              ({\centro-0.58}, -1.8) rectangle ({\centro+0.58}, -2.2);
+            \foreach \filho in {1,...,\tamanho} {
+              \node[vertice ramificacao] (filho\indice-\filho)
+                at ({\centro+0.35*(\filho-(\tamanho+1)/2)}, -2) {};
+              \draw[aresta ramificacao] (pai\indice) -- (filho\indice-\filho);
+            }
+          \fi
+          \node[font=\scriptsize, text=teal!80!black]
+            at (\centro, -2.43) {$C_{\indice}=\tamanho$};
+        }
+        \node[font=\small, text=text] at (0, -2.93) {$Z_2=\soma$};
+      \end{scope}
+    }
+  \end{tikzpicture}
+  \caption{Três realizações da soma que dá $Z_2$. Cada retângulo contém
+    os $C_i$ filhos do indivíduo $i$ da primeira geração. Um retângulo
+    tracejado representa uma família vazia. Os exemplos supõem
+    \mbox{$p_0,p_1,p_2,p_3>0$}.}
+  \label{fig:soma-aleatoria-z2}
+\end{figure}
+
+Dado um valor realizado $Z_1=m>0$, as $m$ parcelas $C_1,\ldots,C_m$ são
+independentes e têm a mesma função de probabilidade $p$.
+Se $Z_1=0$, a soma é vazia e $Z_2=0$. Mais geralmente, para $n=1,2,\ldots$,
 % Origem: G&W, eq. (9.3).
 \begin{equation}\label{eq:recursao-geracao}
 Z_n=C_1'+C_2'+\cdots+C_{Z_{n-1}}',
