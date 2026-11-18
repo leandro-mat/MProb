@@ -697,12 +697,8 @@ seguintes, com o número de parcelas dado pelo tamanho da geração anterior.
 
 Antes de usar a fórmula da soma aleatória, precisamos construir o modelo
 populacional que ela descreve. No tempo $n=0$, existe apenas um indivíduo.
-Esse indivíduo vive por uma unidade de tempo e então, no tempo $n=1$, morre
-no ato do parto e é substituído por uma família de filhos. Esses
-indivíduos têm biografias semelhantes: cada um sobrevive apenas até o
-tempo $n=2$, quando morre e é substituído por uma família de filhos.
-Esse processo de morte e nascimento continua em todos os tempos
-seguintes $n=3,4,\ldots$.
+Cada indivíduo vive por uma unidade de tempo. Ao morrer, deixa zero ou mais
+filhos. Os filhos nascidos no mesmo instante formam a geração seguinte.
 
 Se conhecemos o tamanho de cada família, então conhecemos tudo sobre o
 desenvolvimento da população, e podemos representar esse
@@ -782,12 +778,10 @@ p_k\neq 1
 
 Vamos introduzir alguma notação. O conjunto dos indivíduos nascidos no
 tempo $n$ é chamado de $n$-ésima geração do processo de ramificação, e
-escrevemos $Z_n$ para o número de indivíduos dessa geração. Assim,
-$Z_0=1$, pois a população começa com apenas um indivíduo, e cada $Z_n$
-conta quantos indivíduos nascem no tempo $n$. Como os tamanhos de família
-são aleatórios,
-cada $Z_n$ é uma variável aleatória, e não um número previsível de
-antemão. A evolução do processo é descrita pela sequência
+escrevemos $Z_n$ para o número de indivíduos dessa geração. Como a
+população começa com apenas um indivíduo, $Z_0=1$. Os tamanhos de família
+são aleatórios, de modo que cada $Z_n$ é uma variável aleatória. A
+evolução do processo é descrita pela sequência
 $Z_0,Z_1,\ldots$ de variáveis aleatórias, e é com essa sequência
 que vamos trabalhar. Propriedades específicas dos $Z_n$ serão obtidas na
 próxima seção; encerramos esta seção com uma lista de perguntas
@@ -811,7 +805,7 @@ probabilidade $p$ dos tamanhos de família. Claramente, $Z_0=1$ e
 \mathbb{P}(Z_1=k)=p_k
 \quad\text{para } k=0,1,2,\ldots,
 \end{equation}
-pois $Z_1$ é o número de filhos da geração inicial.
+pois $Z_1$ conta os filhos do indivíduo que iniciou a população.
 
 Não é fácil escrever diretamente a função de probabilidade de $Z_2$:
 essa variável é a soma de um número aleatório de tamanhos de família,
@@ -1329,11 +1323,9 @@ já ocorreu até um tempo prefixado. Escrevemos
 \[
 E_n=\{Z_n=0\}
 \]
-para o evento de que o processo esteja extinto (isto é, de que os
-indivíduos tenham desaparecido) até a $n$-ésima geração, e
+para o evento de que a população já esteja extinta na $n$-ésima geração e
 $e_n=\mathbb{P}(E_n)$ para sua probabilidade. A extinção em algum momento é
-a reunião dos eventos
-$E_n$:
+a reunião dos eventos $E_n$:
 \[
 \bigl\{Z_n=0\ \text{para algum } n\geqslant 0\bigr\}
 =\bigcup_{n=0}^{\infty}E_n ,
@@ -1792,10 +1784,10 @@ Q_n(s)=s\,P_1\bigl(Q_{n-1}(s)\bigr),
 em que $P_1$ é a função geradora de probabilidade da distribuição do tamanho de
 família.
 
-\emph{Sugestão:} o fator $s$ isola a contribuição da geração $0$, que
-comparece em $T_n$ e não é contada por nenhuma das linhagens descendentes; a
-composição reúne os totais das $Y_1$ linhagens que partem da primeira geração,
-cada uma delas com $n-1$ gerações contadas a partir de seu próprio fundador.
+\emph{Sugestão:} o fator $s$ conta o indivíduo da geração $0$ em $T_n$.
+A composição reúne os totais das $Y_1$ linhagens que partem da primeira
+geração, cada uma delas com $n-1$ gerações contadas a partir de seu próprio
+fundador.
 
 \smallskip
 \noindent\emph{(Oxford, 1974)}
