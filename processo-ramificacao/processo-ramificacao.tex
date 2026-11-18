@@ -722,11 +722,11 @@ probabilidade: o mecanismo de reprodução não muda de um indivíduo para
 outro nem de uma geração para outra.
 
 Um processo desse tipo é chamado de \emph{processo de ramificação} e pode
-ser usado como modelo simples para o crescimento de bactérias ou para a
-propagação de um sobrenome de família (para dar apenas dois exemplos).
-Estabelecido o modelo, o problema básico é dizer algo sobre como o
-desenvolvimento do processo depende da função de probabilidade $p$ dos
-tamanhos de família. Para evitar trivialidades, vamos excluir os casos
+ser usado como modelo simples para fenômenos como o crescimento de
+bactérias ou a propagação de um sobrenome de família. Estabelecido o
+modelo, o problema básico é descrever como o desenvolvimento do processo
+depende da função de probabilidade $p$ dos tamanhos de família. Para
+evitar trivialidades, vamos excluir os casos
 determinísticos, em que todo indivíduo tem exatamente $k$ filhos com
 probabilidade um, e supor ao longo destas notas que
 \[
@@ -962,9 +962,9 @@ Do \Cref{thm:media-geracao} segue que, quando $n\to\infty$,
 o que indica que o comportamento do processo depende substancialmente
 de qual dos três casos $\mu<1$, $\mu=1$ ou $\mu>1$ ocorre.
 Veremos esse contraste com mais detalhe na \Cref{sec:extincao}:
-se $\mu\leqslant 1$, a população está fadada à extinção, enquanto se
-$\mu>1$ há probabilidade estritamente positiva de que a linhagem continue
-para sempre.
+se $\mu\leqslant 1$, a extinção é certa, enquanto se $\mu>1$ há
+probabilidade estritamente positiva de que a linhagem continue
+indefinidamente.
 
 Essa dependência da média $\mu$ do tamanho de família é natural.
 A condição $\mu<1$ significa que cada morte é reposta, em média,
@@ -977,8 +977,8 @@ de um nascimento, de modo que a população aumenta em média.
 O caso $\mu=1$ é chamado \emph{crítico}: a média do tamanho da população
 é igual a $1$ em todos os tempos. Isso não significa que a população
 permaneça parada em $1$; ela oscila aleatoriamente, e essas flutuações
-fazem com que o tamanho da população assuma o valor $0$ mais cedo
-ou mais tarde. A partir daí, a população está extinta.
+fazem com que o tamanho da população assuma o valor $0$ em algum momento.
+A partir daí, a população está extinta.
 
 % Origem: G&W, exercício 9.10.
 \begin{exercise}\label{exercise:composicao-geracoes}
@@ -1029,8 +1029,8 @@ p_k=\left(\frac{1}{2}\right)^{k+1}
 \]
 A normalização segue da soma da série geométrica,
 $\sum_{k\geqslant 0}p_k=\tfrac{1}{2}\sum_{k\geqslant 0}(1/2)^k=1$, de modo
-que a família vazia ocorre com probabilidade $1/2$ e os tamanhos de família mais
-prováveis são os pequenos.
+que a família vazia ocorre com probabilidade $1/2$ e os tamanhos pequenos
+são os mais prováveis.
 
 Essa lei é, a menos de uma unidade, a distribuição geométrica de parâmetro
 $\tfrac{1}{2}$. De fato, se $Y\sim\mathrm{Geom}\bigl(\tfrac{1}{2}\bigr)$, de
@@ -1439,8 +1439,8 @@ quando $1$ é o único ponto fixo de $G$ nesse intervalo.
 
 Essa descrição é
 exata, mas por si só não decide a questão que mais interessa na prática, isto é,
-se a população está fadada a desaparecer ou se há probabilidade
-positiva de que ela sobreviva para sempre. Veremos que a resposta depende
+se a extinção é certa ou se há probabilidade positiva de que a população
+sobreviva indefinidamente. Veremos que a resposta depende
 apenas da média $\mu$ do tamanho de família e que a fronteira entre os dois
 comportamentos ocorre em $\mu=1$.
 
@@ -1625,9 +1625,10 @@ sob a hipótese $p_1\neq1$, vale $e=1$ se e somente se $\mu\leqslant1$.
 \end{proof}
 
 O critério separa, portanto, dois regimes. Quando $\mu\leqslant1$, a extinção é
-certa; quando $\mu>1$, a linhagem sobrevive para sempre com probabilidade
-$1-e>0$, e $e$ é justamente a menor raiz da equação $x=G(x)$ no intervalo
-$[0,1)$, cuja existência a prova acima estabelece. O critério não calcula esse
+certa; quando $\mu>1$, a linhagem sobrevive indefinidamente com
+probabilidade $1-e>0$, e $e$ é justamente a menor raiz da equação $x=G(x)$
+no intervalo $[0,1)$, cuja existência a prova acima estabelece. O critério
+não calcula esse
 valor: para obtê-lo é preciso resolver a equação, o que só é viável quando a
 função geradora de probabilidade tem forma simples. Os dois exercícios a seguir
 ilustram a situação com funções geradoras cujas raízes podem ser encontradas
