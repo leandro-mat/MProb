@@ -698,9 +698,56 @@ seguintes, com o número de parcelas dado pelo tamanho da geração anterior.
 Antes de usar a fórmula da soma aleatória, precisamos construir o modelo
 populacional que ela descreve. No tempo $n=0$, existe apenas um indivíduo.
 Cada indivíduo vive por uma unidade de tempo. Ao morrer, deixa zero ou mais
-filhos. Os filhos nascidos no mesmo instante formam uma geração.
-%%%Tikz aqui 
+filhos. Os filhos nascidos no mesmo instante formam uma geração. A
+\Cref{fig:ciclo-de-vida} ilustra as regras do modelo.
 
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+    x=1cm, y=1.26cm,
+    individuo/.style={circle, fill=text, inner sep=0pt, minimum size=2.2mm},
+  ]
+    \foreach \instante/\coluna/\linha in {0/0/0, 1/9.66/0,
+                                         2/0/-3.85, 3/9.66/-3.85,
+                                         4/0/-10.15, 5/9.66/-10.15} {
+      \begin{scope}[xshift=\coluna cm, yshift=\linha cm, name prefix=t\instante-]
+        \node[font=\small, text=text] at (0, 6.08mm) {$n=\instante$};
+
+        % Cada vértice é dado pelo nome, pelo pai, pela geração e pela abscissa.
+        \foreach \nome/\pai/\geracao/\posicao in {
+          g0/raiz/0/0,
+          g1a/g0/1/-2, g1b/g0/1/2,
+          g2a/g1a/2/-3.8, g2b/g1a/2/-2, g2c/g1a/2/-0.2, g2d/g1b/2/2,
+          g3a/g2b/3/-2.8, g3b/g2b/3/-1.2, g3c/g2c/3/-0.2,
+          g4a/g3a/4/-3.4, g4b/g3a/4/-2.2, g4c/g3b/4/-1.2, g4d/g3c/4/-0.2,
+          g5a/g4b/5/-2.2, g5b/g4d/5/-0.75, g5c/g4d/5/0.35
+        } {
+          \ifnum\geracao>\instante\relax
+          \else
+            \def\opacidade{0.16}
+            \def\espessura{0.6pt}
+            \ifnum\geracao=\instante\relax
+              \def\opacidade{1}
+              \def\espessura{0.8pt}
+            \fi
+            \node[individuo, opacity=\opacidade] (\nome) at (\posicao, -\geracao) {};
+            \ifnum\geracao>0\relax
+              \draw[draw=text, line width=\espessura, opacity=\opacidade]
+                (\pai) -- (\nome);
+            \fi
+          \fi
+        }
+      \end{scope}
+    }
+  \end{tikzpicture}
+  \caption{Ciclo de vida do modelo. A cada passo, os indivíduos da geração
+    anterior morrem e seus filhos nascem. Os vértices da geração viva e as
+    arestas que chegam até eles aparecem em tom escuro. As gerações
+    anteriores e as ligações entre elas ficam esmaecidas.}
+  \label{fig:ciclo-de-vida}
+\end{figure}
+
+\begin{samepage}
 Se conhecemos o tamanho de cada família, então conhecemos tudo sobre o
 desenvolvimento da população, e podemos representar esse
 desenvolvimento da maneira usual por uma árvore genealógica (veja a
@@ -709,6 +756,8 @@ podem ter números distintos de filhos, e esses números
 podem não ser inteiramente previsíveis de antemão. Vamos supor aqui que
 os tamanhos de família são variáveis aleatórias que satisfazem as duas
 condições a seguir:
+\par
+\end{samepage}
 \begin{enumerate}[label=\Roman*.]
   \item os tamanhos de família são variáveis aleatórias independentes,
         cada uma com valores em $\{0,1,2,\ldots\}$;
