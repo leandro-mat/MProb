@@ -78,7 +78,7 @@
 citecolor={red}, urlcolor={blue!80!black}]{hyperref}
 
 \hypersetup{
-pdftitle={Introdução aos Processos Estocásticos e o Processo de Ramificação},
+pdftitle={Introdução ao Processo de Ramificação},
 pdfauthor={L. Cioletti},
 pdfsubject={processos estocásticos, processo de ramificação, funções
 geradoras de probabilidade, soma aleatória, probabilidade de extinção},
@@ -220,19 +220,20 @@ longo do tempo e desenvolvemos o primeiro exemplo completo dessa classe: o
 processo de ramificação, modelo simples para o crescimento de uma população
 que se reproduz. Apresentamos o modelo com tamanhos de família independentes
 e identicamente distribuídos e mostramos como a função geradora de
-probabilidade do tamanho da $n$-ésima geração é obtida como a $n$-ésima iterada da função
-geradora do tamanho de família. Obtemos também o valor médio da população neste modelo
-e analisamos seu comportamento assintótico. Resolvemos em forma fechada o
-caso em que os tamanhos de família têm distribuição geométrica, determinamos
-a probabilidade de extinção como a menor raiz não negativa da equação
-$x=G(x)$ e demonstramos que a extinção é certa se e somente se
-$\mu\leqslant 1$. Para tornar a exposição autossuficiente, reapresentamos com
-provas os instrumentos necessários sobre funções geradoras de probabilidade,
-em particular a fórmula da soma aleatória. O texto conta com duas figuras, a
-árvore genealógica do processo e as interseções de $y=G(x)$ com $y=x$, e com
-exercícios e problemas propostos.
-A exposição segue de perto as Seções 9.1 a 9.6 do Capítulo 9 da
-referência \cite{GrimmettWelsh2014}.
+probabilidade do tamanho da $n$-ésima geração é obtida como a $n$-ésima
+iterada da função geradora de probabilidade do tamanho de uma família. 
+Obtemos também o valor
+médio da população neste modelo e analisamos seu comportamento assintótico.
+No caso geométrico, obtemos em forma fechada as funções geradoras $G_n$, a
+distribuição de $Z_n$ quando $p=1/2$ e o limite da probabilidade de extinção.
+Para um processo geral, determinamos a probabilidade de extinção como a
+menor raiz não negativa da equação $x=G(x)$ e demonstramos que, sob a
+hipótese $p_1\neq 1$, a extinção é certa se, e somente se, $\mu\leqslant 1$.
+Para tornar o texto o mais auto-contido possível, apresentamos as provas o Lema de
+Abel, e a fórmula da soma aleatória. O texto conta com diversas figuras figuras
+que ajudam a entender o desenvolvimento das ideias e também uma lista 
+de exercícios. A exposição é baseado nos Capítulo~4 e Seções~9.1
+a~9.6 do Capítulo~9 da referência \cite{GrimmettWelsh2014}.
 \end{abstract}
 
 % --- LICENÇA NO RODAPÉ ---
@@ -249,9 +250,9 @@ referência \cite{GrimmettWelsh2014}.
 % Origem: G&W, seção 9.1 (Random processes).
 \section{Introdução}\label{sec:introducao}
 
-Nas notas de aula anteriores desenvolvemos diversos dos resultados
-básicos da Teoria de probabilidade.
-Nestas notas iniciamos o estudo de aplicações dessa teoria
+Nas notas de aula anteriores, desenvolvemos diversos resultados
+básicos da Teoria de Probabilidade.
+Nestas notas, iniciamos o estudo de aplicações dessa teoria
 a fenômenos que evoluem aleatoriamente ao longo do tempo.
 
 A passagem do tempo faz parte do mundo em que vivemos
@@ -268,8 +269,8 @@ evolui segundo regras complicadas demais
 para serem descritas com exatidão,
 e bons modelos probabilísticos para esses processos
 podem ser bastante complexos.
-Até o final do curso vamos nos restringir a alguns dos processos aleatórios mais simples,
-entre eles vamos considerar com mais profundidade 
+Até o final do curso, vamos nos restringir a alguns dos processos aleatórios mais simples;
+entre eles, vamos considerar com mais profundidade:
 \begin{enumerate}[label=(\alph*)]
   \item \emph{processos de ramificação}: modelam o crescimento de uma
         população que se reproduz por si mesma (como a população humana);
@@ -295,43 +296,43 @@ geração seguinte é a soma desses números. O objeto central destas notas é,
 portanto, uma soma com um número aleatório de parcelas, e a ferramenta natural
 para analisá-la é a função geradora de probabilidade. 
 
-Para conveniência do leitor revisamos alguns dos conceitos e resultados fundamentais 
-sobre funções geradoras necessários para o desenvolvimento do texto. 
-Para maiores detalhes o leitor pode consultar as notas
+Para conveniência do leitor, revisamos alguns dos conceitos e resultados básicos
+sobre funções geradoras necessários para o desenvolvimento do texto.
+Para mais detalhes, o leitor pode consultar as notas
 de aula sobre \href{https://mat.unb.br/~cioletti/ensino/func-gen-discretas.pdf}{\emph{Funções
 Geradoras de Probabilidade}}.
 
 \begin{definition}\label{def:fgp}
-Seja $X$ uma variável aleatória tomando valores em $\{0,1,2,\ldots\}$ e para cada
-$k\in\{0,1,2,\ldots\}$ seja $p_k\equiv p_X(k)\equiv \mathbb{P}(X=k)$. A \emph{função
+Seja $X$ uma variável aleatória tomando valores em $\{0,1,2,\ldots\}$ e, para cada
+$k\in\{0,1,2,\ldots\}$, seja $p_k\equiv p_X(k)\equiv \mathbb{P}(X=k)$. A \emph{função
 geradora de probabilidade} de $X$ é a função
 definida por
 \begin{equation}\label{eq:def-fgp}
 G_X(s)\equiv \mathbb{E}[s^X] =\sum_{k=0}^{\infty}s^k p_k,
 \end{equation}
-para cada valor de $s\in\mathbb{R}$, onde a série acima converge absolutamente. 
+para cada valor de $s\in\mathbb{R}$ em que a série acima converge absolutamente.
 \end{definition}
 
 A normalização da função de probabilidade garante um domínio comum a todas as
-funções geradoras de probabilidade. 
+funções geradoras de probabilidade.
 Mais precisamente, para qualquer variável aleatória
-tomando valores em $\{0,1,2,\ldots\}$ temos
+tomando valores em $\{0,1,2,\ldots\}$, temos
 \begin{equation}\label{eq:fgp-convergencia}
 \sum_{k=0}^{\infty}|p_k s^k|
 =\sum_{k=0}^{\infty}p_k|s|^k
 \leqslant\sum_{k=0}^{\infty}p_k=1
-\qquad \forall s\in [-1,1]. 
+\qquad \text{para todo } s\in [-1,1].
 \end{equation}
 Logo, toda função geradora de probabilidade
-converge absolutamente para $|s|\leqslant 1$ e, vista como série
+converge absolutamente em $|s|\leqslant 1$ e, vista como série
 de potências, tem raio de convergência pelo menos um. Em particular,
 $G_X$ é contínua em $[0,1)$, pois toda série de potências é contínua no
-interior do seu disco de convergência. Esse argumento, porém, não alcança
+interior do seu intervalo de convergência. Esse argumento, porém, não alcança
 o ponto $s=1$: se o raio de convergência for exatamente um, esse ponto fica
-na fronteira do disco, e a continuidade de uma série de potências não se
+na fronteira do intervalo, e a continuidade de uma série de potências não se
 estende automaticamente à fronteira. Para examinar o comportamento de $G_X$
 em $s=1$, enunciamos e provamos a seguir um resultado clássico sobre séries
-com coeficientes não negativos, o lema de Abel.
+com coeficientes não negativos, o Lema de Abel.
 
 % Origem: G&W, p. 55 (lema de Abel).
 \begin{lemma}[Lema de Abel]\label{lem:abel}
@@ -356,9 +357,9 @@ e somando, obtemos
 \]
 e, fazendo $n\to\infty$ e usando que as somas parciais convergem a $A(s)$ e
 a $A(t)$, concluímos que $A(s)\leqslant A(t)$. Como toda função não decrescente admite
-limite à esquerda como um único ponto em $[0,+\infty]$, podemos afirmar que 
-está bem-definido $L=\lim_{s\uparrow 1}A(s)$.
-Além do mais este limite coincide com o supremo dos valores $A(s)$, tomado sobre $0\leqslant s<1$.
+limite à esquerda em $[0,+\infty]$, podemos afirmar que
+está bem definido o limite $L=\lim_{s\uparrow 1}A(s)$.
+Além do mais, este limite coincide com o supremo dos valores $A(s)$, tomado sobre $0\leqslant s<1$.
 
 Para ver que $\sum_{k=0}^{\infty}a_k\leqslant L$, fixe $n$. Como
 $a_k\geqslant 0$, a soma parcial de ordem $n$ não ultrapassa a soma
@@ -375,14 +376,14 @@ desigualdade, obtemos
 \qquad\text{para todo } n.
 \]
 Como os $a_k$ são não negativos, as somas parciais $\sum_{k=0}^{n}a_k$
-são não decrescentes em $n$. Além do mais supremo destas somas é dado por 
-$\sum_{k=0}^{\infty}a_k$. Como a desigualdade acima, é valida para todo $n\in\mathbb{N}$
-ela também é válida para o supremo e portanto
+são não decrescentes em $n$. Além do mais, o supremo dessas somas é dado por
+$\sum_{k=0}^{\infty}a_k$. Como a desigualdade acima é válida para todo $n\geqslant 0$,
+ela também é válida para o supremo e, portanto,
 \[
 \sum_{k=0}^{\infty}a_k\leqslant L.
 \]
 
-Para a desigualdade oposta, fixe $s\in[0,1)$. Já que $s^k\leqslant 1$ segue
+Para a desigualdade oposta, fixe $s\in[0,1)$. Já que $s^k\leqslant 1$, segue que
 \[
 \sum_{k=0}^{n}a_ks^k\leqslant\sum_{k=0}^{n}a_k\leqslant\sum_{k=0}^{\infty}a_k
 \qquad\text{para todo } n,
@@ -393,9 +394,9 @@ $A(s)$, concluímos que $L\leqslant\sum_{k=0}^{\infty}a_k$, o que encerra a
 demonstração.
 \end{proof}
 
-Observe que no caso de uma função geradora $G_X$, os coeficientes $p_k$ são não negativos
-e a série converge absolutamente para $|s|\leqslant 1$, de modo que a
-hipótese do \Cref{lem:abel} é satisfeita. Neste caso o lema garante que 
+Observe que, no caso de uma função geradora $G_X$, os coeficientes $p_k$ são não negativos
+e a série converge absolutamente em $|s|\leqslant 1$, de modo que a
+hipótese do \Cref{lem:abel} é satisfeita. Nesse caso, o lema garante que
 \[
 \lim_{s\uparrow 1}G_X(s)=\sum_{k=0}^{\infty}p_k=1=G_X(1),
 \]
@@ -538,7 +539,7 @@ justificativas distintas; o próximo resultado separa essas duas passagens.
 
 \begin{theorem}\label{thm:fgp-momentos}
 Seja $X$ uma variável aleatória com valores em $\{0,1,2,\ldots\}$ e seja $G_X$
-sua função geradora de probabilidade. Para todo inteiro $r\geqslant 1$ e todo $|s|<1$,
+sua função geradora de probabilidade. Para todo inteiro $r\geqslant 1$ e todo $s$ com $|s|<1$,
 \[
 G_X^{(r)}(s)=\sum_{k=r}^{\infty}(k)_r\,s^{k-r}\,\mathbb{P}(X=k).
 \]
@@ -689,7 +690,7 @@ avaliada no ponto $G_X(s)$. Essa avaliação é legítima: para
 $|s|\leqslant 1$, os coeficientes não negativos de $G_X$ dão
 $|G_X(s)|\leqslant G_X(|s|)\leqslant G_X(1)=1$, de modo que $G_X(s)$
 pertence ao domínio em que $G_N$ converge absolutamente. Assim, decompor sobre os
-valores de $N$, aplicar o produto em cada caso e reunir os casos faz a
+valores de $N$, aplicar o produto em cada caso e reunir os casos fazem a
 composição surgir, o que encerra a demonstração.
 \end{proof}
 
@@ -843,6 +844,11 @@ probabilidade um, e supor ao longo destas notas que
 p_k\neq 1
 \quad\text{para } k=0,1,2,\ldots.
 \]
+
+Chamamos de $n$-ésima geração o conjunto de indivíduos nascidos no tempo
+$n$. Denotamos seu tamanho por $Z_n$, com $Z_0=1$. Na
+\Cref{fig:arvore-ramificacao}, os valores de $Z_n$ aparecem à direita da árvore.
+
 \begin{figure}[htbp]
   \centering
   \begin{tikzpicture}[x=1cm, y=1.26cm, >=Stealth]
@@ -876,10 +882,6 @@ p_k\neq 1
     e aos respectivos tamanhos $Z_n$, à direita.}
   \label{fig:arvore-ramificacao}
 \end{figure}
-
-Chamamos de $n$-ésima geração o conjunto de indivíduos nascidos no tempo
-$n$. Denotamos seu tamanho por $Z_n$, com $Z_0=1$. Na
-\Cref{fig:arvore-ramificacao}, os valores de $Z_n$ aparecem à direita da árvore.
 
 Os tamanhos das gerações seguintes dependem dos números aleatórios de
 filhos. Vamos estudar a sequência $Z_0,Z_1,\ldots$ a partir das seguintes
@@ -1001,7 +1003,7 @@ igualdade vale em distribuição, e não entre as variáveis do processo. Como
 as funções geradoras de probabilidade dependem apenas das leis, essa versão
 forneceria resultados corretos para os cálculos desta seção. Entretanto,
 essa tentativa de definir o processo não leva em conta o acoplamento entre
-as gerações. No estudo da extinção usaremos que $Z_n=0$ força $Z_{n+1}=0$,
+as gerações. No estudo da extinção, usaremos que $Z_n=0$ implica $Z_{n+1}=0$,
 uma propriedade dos eventos definidos pelo processo, e não apenas das leis
 de suas variáveis.
 
@@ -1110,7 +1112,7 @@ G(s)=\sum_{k=0}^{\infty}s^k\,p_k,
 \end{equation}
 para a função geradora de probabilidade do tamanho de cada família.
 Como $Z_n$ e os tamanhos de família são variáveis aleatórias inteiras e
-não negativas, ambas as séries convergem absolutamente para
+não negativas, ambas as séries convergem absolutamente em
 $|s|\leqslant 1$, pelo argumento apresentado na \Cref{sec:preliminares-fgp}.
 Nosso objetivo é expressar $G_n$ em termos de $G$, e fazemos isso no
 teorema a seguir.
@@ -1170,10 +1172,10 @@ que $Z_{r-1}=m$, a recorrência \eqref{eq:recursao-geracao} consome as $m$
 primeiras entradas $C_{r,1},\ldots,C_{r,m}$ da linha $r$ (nenhuma se
 $m=0$, caso em que a soma vazia vale $0$), deixando
 $C_{r,m+1},C_{r,m+2},\ldots$ sem uso nessa realização. Como as entradas
-da tabela são independentes e têm lei $p$, essa construção realiza
-exatamente as hipóteses~I e~II do modelo.
+da tabela são independentes e têm lei $p$, essa construção satisfaz
+exatamente as condições~I e~II do modelo.
 
-Essa representação torna transparente de que dados depende $Z_{n-1}$.
+Essa representação deixa claro de quais dados $Z_{n-1}$ depende.
 Quando $n=1$, temos $Z_0=1$ constante, logo independente da linha~$1$.
 Quando $n\geqslant 2$, podemos acompanhar a evolução linha a linha:
 $Z_1=C_{1,1}$ depende apenas da linha~$1$; conhecido $Z_1$, a soma
@@ -1332,10 +1334,10 @@ logo $\mu\in(0,+\infty]$.
 Passamos agora à demonstração de \eqref{eq:media-mu-n} por indução em $n$,
 começando pelos casos $n=0$ e $n=1$. Para $n=0$, como $Z_0=1$ e $\mu^0=1$
 por convenção, vale imediatamente $\mathbb{E}[Z_0]=1=\mu^0$. Para $n=1$,
-a identidade \eqref{eq:zn-um} mostra que $Z_1$ tem a distribuição $p$ do
+a identidade \eqref{eq:zn-um} mostra que $Z_1$ tem a função de probabilidade $p$ do
 tamanho de uma família, logo $\mathbb{E}[Z_1]=\mu=\mu^1$ e $G_1=G$; além
-disso, o \Cref{thm:fgp-momentos} garante que vale a
-seguinte igualdade $G'(1)=\mathbb{E}[Z_1]=\mu$.
+disso, o \Cref{thm:fgp-momentos} garante a
+igualdade $G'(1)=\mathbb{E}[Z_1]=\mu$.
 
 Resta o passo indutivo para $n\geqslant 2$. Suponha que
 $\mathbb{E}[Z_{n-1}]=\mu^{n-1}$. Pelo \Cref{thm:fgp-momentos}, podemos
@@ -1395,7 +1397,7 @@ o primeiro fator converge para
 \]
 Para o segundo fator, o \Cref{thm:fgp-momentos} fornece diretamente
 $\lim_{s\uparrow 1}G'(s)=G'(1)=\mu$. Como $\mu\in(0,+\infty]$, tanto $\mu^{n-1}$
-quanto $\mu$ pertencem a $(0,+\infty]$; assim não ocorre a
+quanto $\mu$ pertencem a $(0,+\infty]$; assim, não ocorre a
 indeterminação $0\cdot(+\infty)$, e o limite do produto é o produto dos
 limites no sentido estendido (inclusive quando $\mu=+\infty$, em que
 $(+\infty)\cdot(+\infty)=+\infty$). Portanto,
@@ -1438,11 +1440,11 @@ probabilidade estritamente positiva de que a linhagem continue
 indefinidamente.
 
 Essa dependência da média $\mu$ do tamanho de família é natural.
-A condição $\mu<1$ significa que cada morte é reposta, em média,
+A condição $\mu<1$ significa que cada morte é compensada, em média,
 por menos de um nascimento: cada indivíduo gera, em média, estritamente
 menos filhos do que o necessário para preencher a lacuna deixada pela sua
 morte.
-Já $\mu>1$ significa que cada morte é reposta, em média, por mais
+Já $\mu>1$ significa que cada morte é compensada, em média, por mais
 de um nascimento, de modo que a população aumenta em média.
 
 O caso $\mu=1$ é chamado \emph{crítico}: a média do tamanho da população
@@ -1453,13 +1455,13 @@ A partir daí, a população está extinta.
 
 % Origem: G&W, exercício 9.10.
 \begin{exercise}\label{exercise:composicao-geracoes}
-Mostre que, no processo de ramificação acima,
+Mostre que, no processo de ramificação definido nesta seção,
 \[
 G_n(s) = G_r\bigl(G_{n-r}(s)\bigr),
 \]
 para todo $r = 0, 1, 2, \ldots, n$. Isso pode ser provado diretamente
 a partir da conclusão do \Cref{thm:fgp-iterada} ou adaptando o método
-de prova de \eqref{eq:passo-recursao}.
+da prova de \eqref{eq:passo-recursao}.
 \end{exercise}
 
 % Origem: G&W, exercício 9.11.
@@ -1512,10 +1514,10 @@ assume os valores $0,1,2,\ldots$ e
 \[
 \mathbb{P}(C=k)=\mathbb{P}(Y=k+1)=\left(\frac{1}{2}\right)^{k+1}=p_k.
 \]
-Da igualdade acima segue que o tamanho de uma família pode ser interpretado
+Da igualdade acima, segue que o tamanho de uma família pode ser interpretado
 como o número de tentativas até o primeiro
 sucesso, contando a tentativa vencedora, menos um. Nas notas de aula sobre
-funções geradoras de probabilidade calculamos a função geradora da distribuição
+funções geradoras de probabilidade, calculamos a função geradora da distribuição
 geométrica e discutimos esse deslocamento do suporte; o cálculo a seguir repete
 aquele, com um fator $s$ a menos, e por isso o apresentamos em detalhe.
 
@@ -1560,29 +1562,29 @@ G_3(s)
 =\frac{3-2s}{4-3s}.
 \]
 
-Os três resultados seguem o mesmo padrão. Em $G_n$, o numerador é
+Os três resultados seguem o mesmo padrão. Na expressão de $G_n$, o numerador é
 $n-(n-1)s$ e o denominador é $n+1-ns$: para $n=1$ isso reproduz $1/(2-s)$,
 para $n=2$ temos $(2-s)/(3-2s)$ e para $n=3$, $(3-2s)/(4-3s)$. Isso sugere a
-seguinte fórmula, válida para todo $n\geqslant 1$ e todo $|s|\leqslant 1$:
+seguinte fórmula, válida para todo $n\geqslant 1$ e todo $s$ com $|s|\leqslant 1$:
 \begin{equation}\label{eq:gn-meio}
 G_n(s)=\frac{n-(n-1)s}{n+1-ns}.
 \end{equation}
 O denominador em \eqref{eq:gn-meio} não se anula no domínio considerado, pois
 sua parte real é $n+1-n\operatorname{Re}(s)\geqslant 1$, de modo que a
-expressão está bem definida em todo $|s|\leqslant 1$.
+expressão está bem definida para todo $s$ com $|s|\leqslant 1$.
 
 Vamos demonstrar a fórmula \eqref{eq:gn-meio} por indução em $n$.
 
 \begin{proof}
 Para $n=1$, a substituição direta em \eqref{eq:gn-meio} dá $1/(2-s)$, que é o
-valor já obtido para $G_1$. Suponhamos agora que a fórmula vale para $n-1$,
+valor já obtido para $G_1$. Suponhamos agora que a fórmula valha para $n-1$,
 com $n\geqslant 2$, e deduzamos o caso $n$. Pela equação funcional
 \eqref{eq:recursao-fgp}, escrita como $G_n=G\circ G_{n-1}$,
 \[
 G_n(s)=G\bigl(G_{n-1}(s)\bigr)=\frac{1}{2-G_{n-1}(s)}.
 \]
 A composição é legítima porque $|G_{n-1}(s)|\leqslant 1$ para $|s|\leqslant 1$,
-conforme observamos na \Cref{sec:preliminares-fgp}, e porque $2-G_{n-1}(s)$ não
+conforme observamos em \eqref{eq:fgp-convergencia}, e porque $2-G_{n-1}(s)$ não
 se anula. Substituindo a hipótese de indução e reunindo os termos sobre um único
 denominador,
 \begin{align*}
@@ -1649,25 +1651,25 @@ a $n$-ésima geração, e sua probabilidade vale
 \quad\text{quando } n\to\infty.
 \]
 
-Já que 
-\begin{align*}
-\{Z_{n}=0\}  \subseteq \{Z_{n+1}=0\},\qquad \forall n\in\mathbb{N}\cup\{0\}
-\end{align*}
-temos da propriedade de continuidade da medida que 
-\begin{align*}
-\mathbb{P}\left( \bigcup_{n=0}^{\infty} \{Z_n=0\} \right) 
+Já que
+\[
+\{Z_{n}=0\}\subseteq \{Z_{n+1}=0\},\qquad \text{para todo } n\geqslant 0,
+\]
+temos, pela propriedade de continuidade da probabilidade, que
+\[
+\mathbb{P}\left( \bigcup_{n=0}^{\infty} \{Z_n=0\} \right)
 =
-\lim_{n\to\infty} \mathbb{P}(Z_n=0) 
+\lim_{n\to\infty} \mathbb{P}(Z_n=0)
 =
-\lim_{n\to\infty} 1-\frac{1}{n+1} = 1. 
-\end{align*} 
+\lim_{n\to\infty} \left(1-\frac{1}{n+1}\right) = 1.
+\]
 Neste exemplo, portanto, a
 extinção ocorre com probabilidade $1$.
 
 
-\medskip 
-É importante observar como os cálculos feito até aqui fornecem 
-informações complementares sobre o modelo. Por exemplo, já que 
+\medskip
+É importante observar como os cálculos feitos até aqui fornecem
+informações complementares sobre o modelo. Por exemplo, já que
 $G'(s)=1/(2-s)^2$, o valor médio do tamanho de uma
 família é $\mu=G'(1)=1$, de modo que o processo está no caso crítico e, pelo
 \Cref{thm:media-geracao}, $\mathbb{E}[Z_n]=1$ para todo $n$. A média permanece
@@ -1678,10 +1680,10 @@ ela assume valores cada vez maiores, e é essa massa que sustenta a média. Na
 implica extinção quase certa.
 
 
-\bigskip 
+\bigskip
 
 % Origem: G&W, seção 9.4 (Um exemplo), caso geral e exercício 9.17.
-O exemplo analisado acima é o caso particular em que cada tamanho de uma família tem
+O exemplo analisado acima é o caso particular em que o tamanho de cada família tem
 distribuição geométrica deslocada, de parâmetro $1/2$. Vale a pena
 considerar a família geométrica completa, porque ela permite acompanhar o efeito
 da média do tamanho de família sobre a extinção sem abandonar o cálculo
@@ -1692,8 +1694,8 @@ p_k=pq^k,
 \qquad k=0,1,2,\ldots,
 \]
 onde $0<p=1-q<1$. Neste caso, $p_0=p>0$, de modo que uma família vazia é
-possível e a extinção já pode ocorrer na primeira geração. 
-Neste caso o valor médio do tamanho de uma família é dado pela seguinte expressão
+possível e a extinção já pode ocorrer na primeira geração.
+Nesse caso, o valor médio do tamanho de uma família é dado pela seguinte expressão:
 \[
 \mu=\sum_{k=0}^{\infty}k\,pq^k
 =pq\sum_{k=1}^{\infty}k\,q^{k-1}
@@ -1709,7 +1711,7 @@ G(s)=\sum_{k=0}^{\infty}s^k pq^k
 =p\sum_{k=0}^{\infty}(qs)^k
 =\frac{p}{1-qs}.
 \end{equation}
-O raio de convergência desta série é $q^{-1}>1$, portanto o domínio de
+O raio de convergência dessa série é $q^{-1}>1$; portanto, o domínio de
 \eqref{eq:fgp-geometrica-geral} contém o intervalo $|s|\leqslant 1$, que é o
 único que usaremos daqui em diante. Quando $p=q=1/2$, a expressão
 \eqref{eq:fgp-geometrica-geral} se reduz a $1/(2-s)$, como no exemplo anterior.
@@ -1717,9 +1719,9 @@ Convém supor agora $p\neq q$, ou seja, $\mu\neq 1$, já que o caso $\mu=1$ é e
 o exemplo anterior.
 
 
-\medskip 
+\medskip
 
-Iterando \eqref{eq:fgp-geometrica-geral} obtemos uma fórmula fechada para
+Iterando \eqref{eq:fgp-geometrica-geral}, obtemos uma fórmula fechada para
 $G_n$. Como a composição de funções é associativa e $G_1=G$, a recursão
 \eqref{eq:recursao-fgp} pode ser escrita também na forma
 $G_n=G\circ G_{n-1}$. Partindo dessa forma, uma indução em $n$ mostra que, para
@@ -1777,27 +1779,27 @@ Reunindo os dois casos,
 
 No primeiro caso, a probabilidade de que a população já esteja extinta na
 $n$-ésima geração tende a $1$ e, uma vez extinta a população, ela permanece
-extinta, de modo que a extinção em algum momento tem probabilidade $1$. 
-Mais precisamente, como argumentado no exemplo anterior segue 
-de $\{Z_n=0\}\subseteq \{Z_{n+1}=0\}$ que se $\mu<1$, então
-\begin{align*}
-\mathbb{P}\left( \bigcup_{n=0}^{\infty} \{Z_n=0\} \right) 
+extinta, de modo que a extinção em algum momento tem probabilidade $1$.
+Mais precisamente, como argumentado no exemplo anterior, segue
+de $\{Z_n=0\}\subseteq \{Z_{n+1}=0\}$ que, se $\mu<1$, então
+\[
+\mathbb{P}\left( \bigcup_{n=0}^{\infty} \{Z_n=0\} \right)
 =
-\lim_{n\to\infty} \mathbb{P}(Z_n=0) 
+\lim_{n\to\infty} \mathbb{P}(Z_n=0)
 =
-1. 
-\end{align*} 
+1.
+\]
 
 
-No segundo caso o mesmo limite é $1/\mu<1$: para todo $n$ suficientemente grande a
+No segundo caso, o mesmo limite é $1/\mu<1$: para todo $n$ suficientemente grande, a
 probabilidade de extinção até a $n$-ésima geração fica abaixo de um número
-estritamente menor que $1$, o número esperado de filhos por indivíduo supera a
-reposição, e a extinção em algum momento pode não ocorrer com probabilidade positiva,
-ou seja, há portanto probabilidade positiva de que a linhagem sobreviva em todos os tempos.
-Acrescentando o caso $p=q=1/2$, em que $\mu=1$ e a extinção em algum momento
-também tem probabilidade $1$, como vimos no exemplo anterior, chegamos à
-conclusão de que a extinção é certa se, e somente se, $\mu\leqslant 1$. 
-Na próxima seção veremos que esse critério não depende da forma geométrica da função de
+estritamente menor que $1$, pois o número esperado de filhos por indivíduo supera a
+reposição; a extinção em algum momento tem, portanto, probabilidade estritamente menor que $1$,
+ou seja, há probabilidade positiva de que a linhagem sobreviva em todos os tempos.
+Ao acrescentar o caso $p=q=1/2$, em que $\mu=1$ e a extinção em algum momento
+também tem probabilidade $1$, como vimos no exemplo anterior, concluímos
+que a extinção é certa se e somente se $\mu\leqslant 1$.
+Na próxima seção, veremos que esse critério não depende da forma geométrica da função de
 probabilidade: ele vale para qualquer processo de ramificação com tamanhos de
 família não degenerados.
 
@@ -1812,7 +1814,7 @@ que $\operatorname{Var}(Z_n)\to 0$ se e somente se $p>1/2$.
 \section{O Critério Geral de Extinção}\label{sec:extincao}
 
 No caso geométrico da seção anterior, o processo de ramificação se extingue
-com probabilidade um se, e somente se, a média $\mu$ do tamanho de família
+com probabilidade um se e somente se a média $\mu$ do tamanho de família
 satisfaz $\mu\leqslant 1$. Vamos mostrar nesta seção um resultado que
 reduz o cálculo da probabilidade de extinção, em qualquer processo de
 ramificação, ao estudo de uma equação envolvendo a função geradora $G$.
@@ -1831,31 +1833,31 @@ já ocorreu até um tempo prefixado. Escrevemos
 E_n=\{Z_n=0\}
 \]
 para o evento de que a população já esteja extinta na $n$-ésima geração e
-denotamos a probabilidade deste evento por
-\[ 
+denotamos a probabilidade desse evento por
+\[
 e_n\equiv \mathbb{P}(E_n).
-\] 
+\]
 
-A extinção em algum momento é o evento dado pela união de todos os eventos $E_n$'s, isto é,
+A extinção em algum momento é o evento dado pela união de todos os eventos $E_n$, isto é,
 \[
 \bigl\{Z_n=0, \ \text{para algum } n\geqslant 0\bigr\}
 =\bigcup_{n=0}^{\infty}E_n.
 \]
 
-Como já mencionado anterioremente a família de eventos $(E_n)_{n\in\mathbb{N}}$ 
-é uma família crescente de eventos. 
+Como já mencionado anteriormente, a família de eventos $(E_n)_{n\geqslant 0}$
+é uma família crescente de eventos.
 De fato, se $Z_n=0$, então a $n$-ésima
 geração é vazia, nenhum indivíduo existe para se reproduzir e a geração
 seguinte também é vazia, isto é, $Z_{n+1}=0$. Logo
 $E_n\subseteq E_{n+1}$ e, em particular, $e_n\leqslant e_{n+1}$. Para uma
 sequência crescente de eventos, a continuidade da probabilidade, discutida
 nas notas de aula sobre probabilidade, identifica a probabilidade da
-reunião com o limite das probabilidades. Logo temos
+reunião com o limite das probabilidades. Logo, temos
 \begin{equation}\label{eq:limite-en}
-e=\lim_{n\to\infty}e_n .
+e=\lim_{n\to\infty}e_n.
 \end{equation}
 A igualdade \eqref{eq:limite-en} transfere o problema para a sequência
-$(e_n)_{n\in\mathbb{N}}$, que é mais tratável porque cada $e_n$ é a probabilidade de um
+$(e_n)_{n\geqslant 0}$, que é mais tratável porque cada $e_n$ é a probabilidade de um
 evento descrito em um único instante. Além disso, como a sequência é
 crescente, ela tem limite, e esse limite é o valor procurado mesmo quando
 as probabilidades $e_n$ não são conhecidas explicitamente.
@@ -1883,7 +1885,7 @@ Como $e_n=\mathbb{P}(Z_n=0)$ e $G_n$ é a função geradora de $Z_n$, a
 \Cref{prop:fgp-basica} aplicada a $Z_n$ fornece
 \[
 e_n=G_n(0)
-\quad\text{para } n=0,1,2,\ldots .
+\quad\text{para } n=0,1,2,\ldots.
 \]
 Precisamos agora de uma relação de recorrência entre os $e_n$. Para
 $|s|\leqslant 1$, o \Cref{thm:fgp-iterada} garante que $G_n$ é a
@@ -1897,7 +1899,7 @@ o caso particular de \eqref{eq:fgp-iterada} em que a primeira das $n$
 aplicações de $G$ é destacada. Avaliando em $s=0$, obtemos
 \begin{equation}\label{eq:recursao-en}
 e_n=G(e_{n-1})
-\quad\text{para } n=1,2,\ldots ,
+\quad\text{para } n=1,2,\ldots,
 \end{equation}
 com a condição inicial $e_0=G_0(0)=0$.
 
@@ -1918,24 +1920,24 @@ Logo $e$ é uma raiz não negativa de \eqref{eq:equacao-extincao}.
 Resta mostrar que $e$ não é maior que qualquer outra raiz não negativa.
 Seja então $\eta\geqslant 0$ uma solução qualquer de \eqref{eq:equacao-extincao},
 de modo que $G(\eta)=\eta$. Se $\eta>1$, então $e\leqslant 1<\eta$ e não há
-nada a provar; suponha portanto $0\leqslant\eta\leqslant 1$. Como os
+nada a provar; suponha, portanto, $0\leqslant\eta\leqslant 1$. Como os
 coeficientes $p_k$ de $G$ são não negativos, $G$ é não decrescente em
 $[0,1]$: se $0\leqslant u\leqslant v\leqslant 1$,
 então $u^k\leqslant v^k$ para todo $k$ e, multiplicando por $p_k\geqslant 0$
 e somando, $G(u)\leqslant G(v)$. A partir da condição inicial, a
 recorrência \eqref{eq:recursao-en} produz
 \[
-e_1=G(e_0)=G(0)\leqslant G(\eta)=\eta .
+e_1=G(e_0)=G(0)\leqslant G(\eta)=\eta.
 \]
 Repetindo o argumento, e usando agora $e_1\leqslant\eta$,
 \[
-e_2=G(e_1)\leqslant G(\eta)=\eta .
+e_2=G(e_1)\leqslant G(\eta)=\eta.
 \]
 Por indução em $n$, obtemos $e_n\leqslant\eta$ para todo $n\geqslant 1$.
 Fazendo $n\to\infty$ e usando \eqref{eq:limite-en}, concluímos que
 $e\leqslant\eta$.
 
-Assim $e$ é uma raiz não negativa de \eqref{eq:equacao-extincao} e é menor
+Assim, $e$ é uma raiz não negativa de \eqref{eq:equacao-extincao} e é menor
 ou igual a todas as demais, o que encerra a demonstração.
 \end{proof}
 
@@ -1954,9 +1956,9 @@ Teorema do Valor Intermediário.
 \end{exercise}
 
 
-\bigskip 
+\bigskip
 
-A descrição apresentada acima é exata, mas por si só não decide a questão 
+A descrição obtida no \Cref{thm:extincao-raiz} é exata, mas por si só não decide a questão
 que mais interessa na prática, isto é,
 se a extinção é certa ou se há probabilidade positiva de que a população
 sobreviva indefinidamente. Veremos que a resposta depende
@@ -1990,7 +1992,7 @@ $(1,1)$; o que a inclinação de $G$ em $1$ decide é se há ou não um segundo
 encontro no interior do quadrado. A \Cref{fig:extincao-raizes} registra os dois
 casos. A prova que apresentamos a seguir é analítica e não depende do desenho:
 ela compara $G$ com a diagonal por meio da função $h(x)=G(x)-x$ e usa apenas
-monotonicidade, convexidade e o teorema do valor intermediário.
+monotonicidade, convexidade e o Teorema do Valor Intermediário.
 
 \begin{figure}[htbp]
   \centering
@@ -2058,7 +2060,7 @@ imediata.
 \smallskip
 \noindent\textbf{O caso $p_0=0$.}
 Se $p_0=0$, então uma geração vazia nunca pode aparecer e, portanto, $e=0$.
-Nesse caso a média é estritamente maior que $1$. De fato, a hipótese
+Nesse caso, a média é estritamente maior que $1$. De fato, a hipótese
 $p_1\neq1$ garante que existe algum $k\geqslant2$ com $p_k>0$ e, como $p_0=0$,
 temos $\sum_{k\geqslant2}p_k=1-p_1$; logo
 \[
@@ -2067,11 +2069,11 @@ temos $\sum_{k\geqslant2}p_k=1-p_1$; logo
 \geqslant p_1+2\sum_{k=2}^{\infty}p_k
 =p_1+2(1-p_1)
 =2-p_1
->1 .
+>1.
 \]
-Assim, quando $p_0=0$, vale $e\neq1$ e $\mu>1$, em acordo com o enunciado.
+Assim, quando $p_0=0$, vale $e\neq1$ e $\mu>1$, de acordo com o enunciado.
 
-Suponha, de agora em diante, que $p_0>0$. Nesse caso a função auxiliar
+Suponha, de agora em diante, que $p_0>0$. Nesse caso, a função auxiliar
 \[
 h(x)=G(x)-x,\qquad 0\leqslant x\leqslant1,
 \]
@@ -2086,7 +2088,7 @@ $0\leqslant x<1$,
 \[
 G'(x)=\sum_{k=1}^{\infty}kp_k\,x^{k-1}\geqslant0,
 \qquad
-G''(x)=\sum_{k=2}^{\infty}k(k-1)p_k\,x^{k-2}\geqslant0 .
+G''(x)=\sum_{k=2}^{\infty}k(k-1)p_k\,x^{k-2}\geqslant0.
 \]
 Consequentemente, $G$ é não decrescente e convexa em $[0,1]$, e $G'$ é não
 decrescente em $[0,1)$. Pelo \Cref{thm:fgp-momentos}, a derivada lateral
@@ -2132,7 +2134,7 @@ h(x)<0
 \quad\text{para todo } x\in(a,1).
 \]
 Perto de $0$, ao contrário, $h$ decresce a partir de $h(0)=p_0>0$. Fixe
-$x_1\in(a,1)$; então $h(x_1)<0<h(0)=p_0$. O teorema do valor intermediário
+$x_1\in(a,1)$; então $h(x_1)<0<h(0)=p_0$. O Teorema do Valor Intermediário
 aplicado a $h$ no intervalo $[0,x_1]$ produz $\eta\in(0,x_1)$ com
 $h(\eta)=0$, isto é, uma raiz de $x=G(x)$ no interior de $[0,1]$. Pelo
 \Cref{thm:extincao-raiz}, $e\leqslant\eta<1$ e, portanto, a probabilidade de
@@ -2173,7 +2175,7 @@ Suponha que cada família de um processo de ramificação tenha distribuição
 $\mathrm{Bin}(2,p)$, com $0\leqslant p\leqslant1$ e $q=1-p$, isto é, que cada
 indivíduo deixe nenhum, um ou dois filhos com probabilidades $q^2$, $2pq$
 e $p^2$,
-respectivamente. Mostre que a probabilidade de extinção eventual é
+respectivamente. Mostre que a probabilidade de extinção em algum momento é
 \[
 e=
 \begin{cases}
@@ -2184,6 +2186,8 @@ e=
 Compare o resultado com o \Cref{thm:extincao-criterio}, lembrando que a média
 do tamanho de família é $\mu=2p$.
 \end{exercise}
+
+\break 
 
 % Origem: G&W, seção 9.6.
 \section{Problemas}\label{sec:problemas}
@@ -2260,7 +2264,7 @@ para a geração $n$ com esperança $\mu^{n-m}$, como no
 \Cref{thm:media-geracao}.
 
 \item
-Seja $(Z_n:n\geqslant 0)$ um processo de ramificação com $Z_0=1$. Escreva $P_r$
+Seja $(Z_n)_{n\geqslant 0}$ um processo de ramificação com $Z_0=1$. Escreva $P_r$
 para a função geradora de probabilidade do tamanho da $r$-ésima geração, de
 modo que $P_r=G_r$ na notação da \Cref{sec:metodo-geradoras}. Mostre que
 \[
@@ -2269,7 +2273,7 @@ P_n(s)=P_r\bigl(P_{n-r}(s)\bigr),
 \]
 e compare essa identidade com o \Cref{exercise:composicao-geracoes}. A leitura
 probabilística é que primeiro se formam as gerações até a $r$-ésima e, a partir
-de cada indivíduo aí presente, se forma um processo independente com a mesma
+de cada indivíduo aí presente, forma-se um processo independente com a mesma
 lei, agora com $n-r$ gerações a percorrer.
 
 Suponha agora que o processo seja modificado de tal modo que a geração inicial
@@ -2290,10 +2294,10 @@ da geração inicial reaparecer na expressão.
 \item
 Neste problema usamos $Y_n$ para o tamanho da $n$-ésima geração e $T_n$ para o
 total de indivíduos, para não sobrecarregar a notação $Z_n$ já usada nas seções
-anteriores. Seja então $(Y_n:n\geqslant 0)$ um processo de ramificação com
+anteriores. Seja então $(Y_n)_{n\geqslant 0}$ um processo de ramificação com
 $\mathbb{P}(Y_0=1)=1$, e seja
 \[
-T_n=Y_0+Y_1+\cdots+Y_{n-1}
+T_n=Y_0+Y_1+\cdots+Y_{n-1},
 \]
 o número total de indivíduos nas $n$ primeiras gerações, contando a geração
 $0$. Escreva $Q_n$ para a função geradora de probabilidade de $T_n$. Mostre
@@ -2333,14 +2337,14 @@ fundador.
         $G_n$ explicitamente.
   \item Encontre a probabilidade $\mathbb{P}(Z_n=0)$, mostre que ela converge,
         quando $n\to\infty$, para $1-\alpha^{1/(1-\beta)}$, e explique por que
-        isso implica que a probabilidade de extinção final do processo é
+        isso implica que a probabilidade de extinção em algum momento do processo é
         $1-\alpha^{1/(1-\beta)}$.
 \end{enumerate}
 
 \emph{Sugestões:} em (b), use a definição de $G_n$ como iterada de $G$; em
 (c), examine os coeficientes da expansão de $(1-s)^{\beta}$ e use a parte (b);
 em (d), use a continuidade da probabilidade para identificar o limite de
-$\mathbb{P}(Z_n=0)$ com a probabilidade de que a população se aniquile em
+$\mathbb{P}(Z_n=0)$ com a probabilidade de que a população se extinga em
 algum momento.
 
 \smallskip
