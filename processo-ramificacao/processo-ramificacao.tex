@@ -8,6 +8,7 @@
 \usepackage[utf8]{inputenc}       % Codificação de entrada
 \usepackage[T1]{fontenc}          % Codificação da fonte
 \usepackage{lmodern}              % Fonte escalável
+\usepackage{microtype}            % Microtipografia (expansão e protrusão)
 
 %----------------------------------------------------------------------
 % PACOTES MATEMÁTICOS
@@ -189,6 +190,14 @@ equação de extinção, MAT-UnB} }
 
 % Seno na convenção em português
 \renewcommand{\sin}{\operatorname{sen}}
+
+% Evita hifenização e quebra de sílabas no abstract mantendo a justificação
+\expandafter\def\expandafter\abstract\expandafter{%
+  \abstract
+  \hyphenpenalty=10000
+  \exhyphenpenalty=10000
+  \emergencystretch=1.5em
+}
 
 %----------------------------------------------------------------------
 % DOCUMENTO PRINCIPAL
