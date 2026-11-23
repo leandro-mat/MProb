@@ -439,6 +439,10 @@ a seu favor. Retornaremos a esse exemplo mais adiante, ao tratar do Problema
 da Ruína do Jogador.
 \end{example}
 
+
+
+\bigskip 
+
 Nos exercícios a seguir, $(S_n)_{n \geqslant 0}$ é um passeio aleatório
 simples nos inteiros com 
 \begin{align*}
@@ -454,6 +458,67 @@ Calcule a esperança e a variância de $S_n$ quando $S_0 = 0$.
 
 \begin{exercise}\label{exercise:sn-extremo}
 Calcule a probabilidade de que $S_n = n + k$, dado que $S_0 = k$.
+\end{exercise}
+
+\begin{exercise}\label{exercise:velocidade-media}
+Suponha que $S_0 = 0$. Após $n \geqslant 1$ passos, chamamos
+$V_n = S_n/n$ de \emph{velocidade média} do passeio. Ela é o deslocamento
+total dividido pelo número de passos.
+\begin{enumerate}[label=(\alph*)]
+  \item Use \eqref{eq:passeio-soma} para escrever $V_n$ como a média dos
+  primeiros $n$ incrementos e calcule $\mathbb{E}[X_1]$.
+  \item Use a Lei Forte dos Grandes Números para determinar o limite de
+  $V_n$ com probabilidade $1$. Lembre que as médias amostrais de variáveis
+  independentes e identicamente distribuídas convergem com probabilidade
+  $1$ para a média comum quando o valor absoluto de cada variável tem
+  esperança finita.
+  \item Nos casos $p > q$, $p < q$ e $p = q$, diga se o limite indica
+  deslocamento médio para a direita, para a esquerda ou igual a zero.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:distancia-media-quadratica}
+Suponha que $S_0 = 0$. Ao fim de $n \geqslant 1$ passos, a distância à
+origem é $|S_n|$. A \emph{distância média quadrática por passo} é
+\[
+  \frac{1}{n}\,\mathbb{E}[S_n^2].
+\]
+\begin{enumerate}[label=(\alph*)]
+  \item No passeio simétrico, $\mathbb{E}[S_n] = 0$ e, portanto,
+  $\mathbb{E}[S_n^2] = \operatorname{Var}(S_n)$. Use a variância obtida no
+  \cref{exercise:media-variancia-sn} para calcular $\mathbb{E}[S_n^2]/n$.
+  \item Para $p$ e $q$ quaisquer, calcule $\mathbb{E}[S_n^2]/n$ usando a
+  esperança e a variância do mesmo exercício e a identidade
+  \[
+    \mathbb{E}[S_n^2] = \operatorname{Var}(S_n) + \bigl(\mathbb{E}[S_n]\bigr)^2.
+  \]
+  \item Se $p \neq q$, o que acontece com $\mathbb{E}[S_n^2]/n$ quando
+  $n$ tende a infinito? Identifique na expressão do item anterior o termo
+  que determina esse comportamento.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{exercise:limite-central}
+Suponha que $S_0 = 0$. Para medir a diferença entre a posição $S_n$ e sua
+média em unidades de desvio padrão, considere
+\[
+  Z_n = \frac{S_n - \mathbb{E}[S_n]}{\sqrt{\operatorname{Var}(S_n)}},
+  \qquad n \geqslant 1.
+\]
+Seja $\Phi$ a função de distribuição da normal padrão.
+\begin{enumerate}[label=(\alph*)]
+  \item Use o \cref{exercise:media-variancia-sn} para escrever $Z_n$ em
+  termos de $S_n$, $n$, $p$ e $q$.
+  \item Use o Teorema do Limite Central para mostrar que, para todo $t$ real,
+  $\mathbb{P}(Z_n \leqslant t) \to \Phi(t)$. Aplique o teorema à soma dos
+  incrementos em \eqref{eq:passeio-soma} e verifique que eles têm a mesma
+  distribuição, são independentes e têm variância finita e positiva.
+  \item Use o item (a) do \cref{exercise:distancia-media-quadratica} para
+  verificar que, no passeio simétrico, $Z_n = S_n/\sqrt{n}$. Escreva o evento
+  $\{-\sqrt{n} < S_n \leqslant \sqrt{n}\}$ em termos de $Z_n$ e calcule o
+  limite de sua probabilidade em termos de $\Phi$. Use a diferença entre
+  as probabilidades de $\{Z_n \leqslant 1\}$ e $\{Z_n \leqslant -1\}$.
+\end{enumerate}
 \end{exercise}
 
 \section{Probabilidades de Transição}\label{sec:probabilidades-transicao}
@@ -1117,12 +1182,13 @@ fique sem dinheiro.
   \caption{Regra de pagamento em cada lançamento da moeda. Se o resultado é
     cara, o jogador $B$ entrega $\mathrm{R\$}~1$ ao jogador $A$; se é coroa,
     é o jogador $A$ quem entrega $\mathrm{R\$}~1$ ao jogador $B$. A moeda é
-    uma peça de 2000 réis de 1888, com a efígie de D.~Pedro~II no anverso e a
-    coroa imperial no reverso.}
+    uma peça de 2000 réis de 1888, com a efígie de D.~Pedro~II em uma face e a
+    coroa imperial no verso.}
   \label{fig:pagamento-cara-coroa}
 \end{figure}
 
-Para modelar a evolução da partida, registramos o capital do jogador A após cada
+Para modelar a evolução do capital dos jogadores durante esta partida,
+basta acompanharmos o capital do jogador A após cada
 lançamento. A sequência resultante de capitais é um passeio aleatório simples
 sobre o conjunto finito $\{0, 1, \ldots, N\}$, iniciado no ponto $a$, que segue
 suas transições usuais até atingir $0$ ou $N$, instante em que o processo é
@@ -1134,7 +1200,7 @@ também que A \emph{vence o jogo} se o passeio é absorvido em $N$, e que B
 \cref{exercise:termino-ruina,exercise:vitoria-b}, a probabilidade de o jogo
 continuar indefinidamente é zero, de modo que, quase certamente, exatamente um
 dos jogadores vence. Qual é, então, a probabilidade de o jogador A vencer o
-jogo? A resposta é dada pelo teorema a seguir.
+jogo?
 
 \begin{figure}[htbp]
   \centering
@@ -1194,13 +1260,61 @@ jogo? A resposta é dada pelo teorema a seguir.
   \label{fig:barreiras-absorventes}
 \end{figure}
 
+Para responder a essa pergunta, usaremos um fato sobre probabilidades
+condicionais que ainda não apareceu no curso: a aplicação
+$E \mapsto \mathbb{P}(E \mid C)$ é ela própria uma medida de probabilidade, e
+condicioná-la a um evento $D$ equivale a condicionar $\mathbb{P}$ à interseção
+$C \cap D$. Escrevemos $\mathbb{P}(E \mid C, D)$ para denotar
+$\mathbb{P}(E \mid C \cap D)$. Provamos este fato no lema a seguir.
+
+\begin{lemma}[Condicionar uma probabilidade condicional]\label{lem:condicional}
+  Seja $(\Omega, \mathcal{F}, \mathbb{P})$ um espaço de probabilidade, seja
+  $C \in \mathcal{F}$ com $\mathbb{P}(C) > 0$ e defina
+  \[
+    \mathbb{Q}(E) \equiv \mathbb{P}(E \mid C), \qquad E \in \mathcal{F}.
+  \]
+  Então $\mathbb{Q}$ é uma medida de probabilidade em $(\Omega, \mathcal{F})$
+  e, para todo $D \in \mathcal{F}$ com $\mathbb{Q}(D) > 0$,
+  \[
+    \mathbb{Q}(E \mid D) = \mathbb{P}(E \mid C \cap D)
+    \qquad \text{para todo } E \in \mathcal{F}.
+  \]
+\end{lemma}
+
+\begin{proof}
+  A primeira afirmação segue direto da definição: $\mathbb{Q}(\varnothing) = 0$,
+  $\mathbb{Q}(\Omega) = 1$ e, se $(E_n)_{n \geqslant 1}$ são eventos dois a
+  dois disjuntos, então
+  \[
+    \mathbb{Q}\Bigl(\bigcup_{n \geqslant 1} E_n\Bigr)
+    = \frac{\mathbb{P}\bigl(\bigcup_{n \geqslant 1} E_n \cap C\bigr)}{\mathbb{P}(C)}
+    = \sum_{n \geqslant 1} \frac{\mathbb{P}(E_n \cap C)}{\mathbb{P}(C)}
+    = \sum_{n \geqslant 1} \mathbb{Q}(E_n),
+  \]
+  em que a segunda igualdade usa a aditividade de $\mathbb{P}$.
+
+  Para a segunda afirmação, pela definição de probabilidade condicional
+  aplicada à medida $\mathbb{Q}$,
+  \[
+    \mathbb{Q}(E \mid D)
+    = \frac{\mathbb{Q}(E \cap D)}{\mathbb{Q}(D)}
+    = \frac{\mathbb{P}(E \cap D \mid C)}{\mathbb{P}(D \mid C)}
+    = \frac{\mathbb{P}(E \cap D \cap C)}{\mathbb{P}(D \cap C)}
+    = \mathbb{P}(E \mid C \cap D),
+  \]
+  o que conclui a demonstração.
+\end{proof}
+
+Com a definições e os resultados preliminares em mãos podemos provar o seguinte
+resultado.
+
 \begin{theorem}[Ruína do Jogador]\label{thm:ruina-probabilidade}
   Considere um passeio aleatório simples sobre $\{0, 1, \ldots, N\}$ com
   barreiras absorventes em $0$ e $N$. Se o passeio começa no ponto $a$, com
-  $0 \leqslant a \leqslant N$, então a probabilidade $v(a)$ de que o passeio
-  seja absorvido em $N$ é dada por
+  $0 \leqslant a \leqslant N$, então a probabilidade de o jogador A vencer o
+  jogo, dado que seu capital inicial é $\mathrm{R\$}~a$, é
   \begin{equation}\label{eq:ruina-v}
-    v(a) =
+    v(a) \equiv \mathbb{P}(\text{A vence} \mid S_0 = a) =
     \begin{cases}
       \dfrac{(q/p)^a - 1}{(q/p)^N - 1}, & \text{se } p \neq q, \\[0.35cm]
       \dfrac{a}{N}, & \text{se } p = q = \tfrac{1}{2}.
@@ -1208,33 +1322,50 @@ jogo? A resposta é dada pelo teorema a seguir.
   \end{equation}
 \end{theorem}
 
-Assim, a probabilidade de que o jogador A vença o jogo é dada por
-\eqref{eq:ruina-v}. Nossa demonstração utiliza a linguagem do Problema da Ruína
-do Jogador e resolve explicitamente a equação de recorrência obtida pelo
-condicionamento no primeiro lançamento.
-
 \begin{proof}
-  Para cada $0 \leqslant a \leqslant N$, seja $v(a)$ a probabilidade de o
-  jogador A vencer o jogo quando seu capital inicial é $\mathrm{R\$}~a$. Se
+  Para cada $0 \leqslant a \leqslant N$, seja
+  $v(a) = \mathbb{P}(\text{A vence} \mid S_0 = a)$. Se
   $a = 0$, o jogador A já perdeu, logo $v(0) = 0$; se $a = N$, o jogador A já
   venceu, logo $v(N) = 1$.
 
   Suponha agora que $1 \leqslant a \leqslant N - 1$ e seja $H$ o evento em que
-  o primeiro lançamento da moeda resulta em cara, de modo que
-  $\mathbb{P}(H) = p$ e $\mathbb{P}(H^c) = q$. Pelo Teorema da Partição, temos
+  o primeiro lançamento da moeda resulta em cara. Fixado esse $a$, seja
   \[
-    \mathbb{P}(\text{A vence})
-    = \mathbb{P}(\text{A vence} \mid H)\,\mathbb{P}(H)
-    + \mathbb{P}(\text{A vence} \mid H^c)\,\mathbb{P}(H^c).
+    \mathbb{Q}(E) \equiv \mathbb{P}(E \mid S_0 = a), \qquad E \in \mathcal{F}.
   \]
-  Se $H$ ocorre, o capital do jogador A passa de $\mathrm{R\$}~a$ para
-  $\mathrm{R\$}~(a + 1)$ após o primeiro lançamento. Como os lançamentos
-  subsequentes são independentes do primeiro e têm a mesma distribuição, o jogo
-  recomeça a partir do capital $a + 1$, o que fornece
-  $\mathbb{P}(\text{A vence} \mid H) = v(a + 1)$. De modo análogo, se $H^c$
-  ocorre, o capital de A passa para $\mathrm{R\$}~(a - 1)$ e
-  $\mathbb{P}(\text{A vence} \mid H^c) = v(a - 1)$. Substituindo essas
-  identidades na fórmula acima, obtemos a equação de diferenças
+  Pelo \Cref{lem:condicional}, $\mathbb{Q}$ é uma medida de probabilidade e
+  \[
+    \mathbb{Q}(E \mid D) = \mathbb{P}(E \mid S_0 = a, D)
+  \]
+  para todo evento $D$ com $\mathbb{Q}(D) > 0$. Como
+  $v(a) = \mathbb{Q}(\text{A vence})$, o Teorema da Partição aplicado a
+  $\mathbb{Q}$ e à partição $\{H, H^c\}$ fornece
+  \begin{align*}
+    v(a)
+    &= \mathbb{Q}(\text{A vence}) \\
+    &= \mathbb{Q}(\text{A vence} \mid H)\,\mathbb{Q}(H)
+     + \mathbb{Q}(\text{A vence} \mid H^c)\,\mathbb{Q}(H^c).
+  \end{align*}
+
+  Resta identificar os quatro fatores. Como o resultado do primeiro lançamento
+  não depende do capital inicial,
+  $\mathbb{Q}(H) = \mathbb{P}(H \mid S_0 = a) = p$ e
+  $\mathbb{Q}(H^c) = \mathbb{P}(H^c \mid S_0 = a) = q$. Quando $H$ ocorre, o
+  capital do jogador A passa de $\mathrm{R\$}~a$ para $\mathrm{R\$}~(a + 1)$
+  após o primeiro lançamento; como os lançamentos subsequentes são
+  independentes do primeiro e têm a mesma distribuição, 
+  o processo evoluiu como se estivéssemos começando o jogo com o 
+  jogador $A$ tendo capital inicial igual $\mathrm{R\$}~(a + 1)$. 
+  Usando novamente o \Cref{lem:condicional} podemos concluir que
+  \[ \mathbb{Q}(\text{A vence} \mid H)
+   = \mathbb{P}(\text{A vence} \mid S_0 = a, H) = v(a + 1).
+   \] 
+  De modo análogo,
+  quando $H^c$ ocorre o capital cai para $\mathrm{R\$}~(a - 1)$ e
+  $\mathbb{Q}(\text{A vence} \mid H^c) = v(a - 1)$.
+
+  Substituindo essas identidades na fórmula da partição, obtemos a equação de
+  diferenças
   \begin{equation}\label{eq:ruina-dif-v}
     v(a) = p\,v(a + 1) + q\,v(a - 1), \qquad 1 \leqslant a \leqslant N - 1,
   \end{equation}
@@ -1313,94 +1444,101 @@ Portanto, o número esperado de lançamentos da moeda até que A ou B vá à ru�
 é dado por \eqref{eq:ruina-e}.
 
 \begin{proof}
-  Seja $F$ o número de lançamentos da moeda até o término do jogo, de modo que
-  $e(a) = \mathbb{E}[F]$ quando o passeio parte de $a$. Observemos primeiro que
-  $e(a) < \infty$ para todo $0 \leqslant a \leqslant N$. De fato, se dividirmos
-  os lançamentos em blocos disjuntos de comprimento $N$, cada bloco consiste
-  exclusivamente de caras com probabilidade $p^N > 0$, evento que garante que o
-  passeio atinja $N$ caso ainda não tenha sido absorvido. Assim, para qualquer
-  estado inicial $a$ e todo $k \geqslant 0$, vale
-  $\mathbb{P}(F > kN) \leqslant (1 - p^N)^k$, donde
-  \[
-    \mathbb{E}[F]
-    = \sum_{n=0}^{\infty} \mathbb{P}(F > n)
-    \leqslant N \sum_{k=0}^{\infty} (1 - p^N)^k
-    = \frac{N}{p^N} < \infty.
-  \]
-  Essa finitude assegura que todas as esperanças abaixo estão bem definidas e
-  podem ser manipuladas algebricamente.
+Seja $F$ o número de lançamentos da moeda até o término do jogo, de modo que
+$e(a) = \mathbb{E}[F]$ quando o passeio parte de $a$. Observemos primeiro que
+$e(a) < \infty$ para todo $0 \leqslant a \leqslant N$. De fato, se dividirmos
+os lançamentos em blocos disjuntos de comprimento $N$, cada bloco consiste
+exclusivamente de caras com probabilidade $p^N > 0$, evento que garante que o
+passeio atinja $N$ caso ainda não tenha sido absorvido. Assim, para qualquer
+estado inicial $a$ e todo $k \geqslant 0$, vale
+$\mathbb{P}(F > kN) \leqslant (1 - p^N)^k$. Para transportar essa estimativa
+ao valor esperado, usamos a fórmula da cauda e agrupamos os índices $n$ em
+blocos de $N$ termos consecutivos. Como a sequência
+$n \mapsto \mathbb{P}(F > n)$ é não crescente, todos os termos do bloco
+$\{kN, kN + 1, \ldots, kN + N - 1\}$ são majorados por
+$\mathbb{P}(F > kN)$, donde
+\begin{align*}
+  \mathbb{E}[F]
+  &= \sum_{n=0}^{\infty} \mathbb{P}(F > n)
+   = \sum_{k=0}^{\infty} \sum_{j=0}^{N-1} \mathbb{P}(F > kN + j)
+  \\
+  &\leqslant \sum_{k=0}^{\infty} N\,(1 - p^N)^k
+   = \frac{N}{p^N} < \infty.
+\end{align*}
+Essa finitude assegura que todas as esperanças abaixo estão bem definidas e
+podem ser manipuladas algebricamente.
 
-  Para $a = 0$ ou $a = N$, o jogo já está encerrado no instante inicial, logo
-  $e(0) = e(N) = 0$. Suponha agora que $1 \leqslant a \leqslant N - 1$ e seja
-  $H$ o evento em que o primeiro lançamento mostra cara. Pelo Teorema da
-  Partição para esperanças, temos
-  \[
-    e(a) = \mathbb{E}[F]
-    = \mathbb{E}[F \mid H]\,\mathbb{P}(H)
-    + \mathbb{E}[F \mid H^c]\,\mathbb{P}(H^c).
-  \]
-  Se $H$ ocorre, o capital do jogador A sobe para $\mathrm{R\$}~(a + 1)$ após
-  o primeiro lançamento, logo $\mathbb{E}[F \mid H] = 1 + e(a + 1)$, em que a
-  parcela $1$ contabiliza o primeiro lançamento e $e(a + 1)$ é o número médio
-  de lançamentos subsequentes. Analogamente,
-  $\mathbb{E}[F \mid H^c] = 1 + e(a - 1)$. A relação acima torna-se então
-  \[
-    e(a) = \bigl(1 + e(a + 1)\bigr)p + \bigl(1 + e(a - 1)\bigr)q.
-  \]
-  Como $p + q = 1$, podemos reescrever essa identidade como a equação de
-  diferenças não homogênea
-  \begin{equation}\label{eq:ruina-dif-e}
-    p\,e(a + 1) - e(a) + q\,e(a - 1) = -1,
-    \qquad 1 \leqslant a \leqslant N - 1,
-  \end{equation}
-  sujeita às condições de contorno $e(0) = e(N) = 0$.
+Para $a = 0$ ou $a = N$, o jogo já está encerrado no instante inicial, logo
+$e(0) = e(N) = 0$. Suponha agora que $1 \leqslant a \leqslant N - 1$ e seja
+$H$ o evento em que o primeiro lançamento mostra cara. Pelo Teorema da
+Partição para esperanças, temos
+\[
+e(a) = \mathbb{E}[F]
+= \mathbb{E}[F \mid H]\,\mathbb{P}(H)
++ \mathbb{E}[F \mid H^c]\,\mathbb{P}(H^c).
+\]
+Se $H$ ocorre, o capital do jogador A sobe para $\mathrm{R\$}~(a + 1)$ após
+o primeiro lançamento, logo $\mathbb{E}[F \mid H] = 1 + e(a + 1)$, em que a
+parcela $1$ contabiliza o primeiro lançamento e $e(a + 1)$ é o número médio
+de lançamentos subsequentes. Analogamente,
+$\mathbb{E}[F \mid H^c] = 1 + e(a - 1)$. A relação acima torna-se então
+\[
+e(a) = \bigl(1 + e(a + 1)\bigr)p + \bigl(1 + e(a - 1)\bigr)q.
+\]
+Como $p + q = 1$, podemos reescrever essa identidade como a equação de
+diferenças não homogênea
+\begin{equation}\label{eq:ruina-dif-e}
+p\,e(a + 1) - e(a) + q\,e(a - 1) = -1,
+\qquad 1 \leqslant a \leqslant N - 1,
+\end{equation}
+sujeita às condições de contorno $e(0) = e(N) = 0$.
 
-  Para resolver \eqref{eq:ruina-dif-e}, reduzimos o problema à equação
-  homogênea já resolvida na demonstração do \Cref{thm:ruina-probabilidade}
-  subtraindo uma solução particular explícita.
+Para resolver \eqref{eq:ruina-dif-e}, reduzimos o problema à equação
+homogênea já resolvida na demonstração do \Cref{thm:ruina-probabilidade}
+subtraindo uma solução particular explícita.
 
-  \smallskip
-  \noindent\textbf{Caso 1: $p \neq q$.}
-  Verificamos diretamente que $e_{\mathrm{part}}(a) = -a/(p - q)$ satisfaz
-  \eqref{eq:ruina-dif-e}, pois $p + q = 1$ implica
-  \[
-    p\left(-\frac{a + 1}{p - q}\right)
-    - \left(-\frac{a}{p - q}\right)
-    + q\left(-\frac{a - 1}{p - q}\right)
-    = \frac{-p(a + 1) + (p + q)a - q(a - 1)}{p - q}
-    = \frac{q - p}{p - q} = -1.
-  \]
-  Defina $u(a) = e(a) + a/(p - q)$ para $0 \leqslant a \leqslant N$. Pela
-  linearidade da equação de diferenças, $u(a)$ satisfaz a equação homogênea
-  \[
-    p\,u(a + 1) - u(a) + q\,u(a - 1) = 0,
-    \qquad 1 \leqslant a \leqslant N - 1,
-  \]
-  com condições de contorno $u(0) = 0$ e $u(N) = N/(p - q)$. Pelo argumento
-  telescópico da demonstração do \Cref{thm:ruina-probabilidade}, toda solução
-  dessa equação homogênea com valor nulo em $0$ é proporcional a $v(a)$, ou
-  seja,
-  \[
-    u(a) = u(N)\,v(a)
-    = \frac{N}{p - q}\,\frac{(q/p)^a - 1}{(q/p)^N - 1},
-    \qquad 0 \leqslant a \leqslant N.
-  \]
-  Subtraindo $a/(p - q)$, obtemos a primeira linha de \eqref{eq:ruina-e}.
+\smallskip
+\noindent\textbf{Caso 1: $p \neq q$.}
+A função $a \mapsto -a/(p - q)$ é uma solução particular de
+\eqref{eq:ruina-dif-e}, pois $p + q = 1$ implica
+\[
+p\left(-\frac{a + 1}{p - q}\right)
+- \left(-\frac{a}{p - q}\right)
++ q\left(-\frac{a - 1}{p - q}\right)
+= \frac{-p(a + 1) + (p + q)a - q(a - 1)}{p - q}
+= \frac{q - p}{p - q} = -1.
+\]
+Defina $u(a) = e(a) + a/(p - q)$ para $0 \leqslant a \leqslant N$. Pela
+linearidade da equação de diferenças, $u(a)$ satisfaz a equação homogênea
+\[
+p\,u(a + 1) - u(a) + q\,u(a - 1) = 0,
+\qquad 1 \leqslant a \leqslant N - 1,
+\]
+com condições de contorno $u(0) = 0$ e $u(N) = N/(p - q)$. Pelo argumento
+telescópico da demonstração do \Cref{thm:ruina-probabilidade}, toda solução
+dessa equação homogênea com valor nulo em $0$ é proporcional a $v(a)$, ou
+seja,
+\[
+u(a) = u(N)\,v(a)
+= \frac{N}{p - q}\,\frac{(q/p)^a - 1}{(q/p)^N - 1},
+\qquad 0 \leqslant a \leqslant N.
+\]
+Subtraindo $a/(p - q)$, obtemos a primeira linha de \eqref{eq:ruina-e}.
 
-  \smallskip
-  \noindent\textbf{Caso 2: $p = q = \tfrac{1}{2}$.}
-  Nesse caso, a equação \eqref{eq:ruina-dif-e} admite a solução particular
-  $e_{\mathrm{part}}(a) = -a^2$, já que
-  \[
-    \frac{1}{2}\bigl(-(a + 1)^2\bigr) - (-a^2) + \frac{1}{2}\bigl(-(a - 1)^2\bigr)
-    = -\frac{a^2 + 2a + 1 - 2a^2 + a^2 - 2a + 1}{2} = -1.
-  \]
-  Definindo $u(a) = e(a) + a^2$, obtemos novamente uma solução da equação
-  homogênea $\tfrac{1}{2}u(a + 1) - u(a) + \tfrac{1}{2}u(a - 1) = 0$, agora com
-  $u(0) = 0$ e $u(N) = N^2$. Como qualquer solução dessa equação com $u(0) = 0$
-  é da forma $u(a) = a\,u(1)$, a condição em $N$ dá $u(1) = N$, logo
-  $u(a) = Na$. Consequentemente, $e(a) = Na - a^2 = a(N - a)$, o que conclui a
-  demonstração.
+\smallskip
+\noindent\textbf{Caso 2: $p = q = \tfrac{1}{2}$.}
+Nesse caso, a equação \eqref{eq:ruina-dif-e} admite a solução particular
+$a \mapsto -a^2$, já que
+\[
+\frac{1}{2}\bigl(-(a + 1)^2\bigr) - (-a^2) + \frac{1}{2}\bigl(-(a - 1)^2\bigr)
+= -\frac{a^2 + 2a + 1 - 2a^2 + a^2 - 2a + 1}{2} = -1.
+\]
+Definindo $u(a) = e(a) + a^2$, obtemos novamente uma solução da equação
+homogênea $\tfrac{1}{2}u(a + 1) - u(a) + \tfrac{1}{2}u(a - 1) = 0$, agora com
+$u(0) = 0$ e $u(N) = N^2$. Como qualquer solução dessa equação com $u(0) = 0$
+é da forma $u(a) = a\,u(1)$, a condição em $N$ dá $u(1) = N$, logo
+$u(a) = Na$. Consequentemente, $e(a) = Na - a^2 = a(N - a)$, o que conclui a
+demonstração.
 \end{proof}
 
 A \Cref{fig:curvas-ruina} ilustra o comportamento de $v(a)$ e $e(a)$ para
@@ -1561,130 +1699,255 @@ unidimensionais.
   \end{equation}
 \end{theorem}
 
-Desse modo, a probabilidade de que o jogador A consiga jogar indefinidamente é
-estritamente positiva se, e somente se, as probabilidades forem favoráveis a
-ele em cada lançamento da moeda, justificando \eqref{eq:ruina-exemplo}. Uma
-abordagem intuitiva para esse resultado consiste em encarar esse novo jogo como
-o limite do jogo finito anterior quando o capital total $N$ tende a infinito e
-o capital inicial $a$ de A permanece fixo, escrevendo
-$\pi(a) = \lim_{N\to\infty} \bigl(1 - v_N(a)\bigr)$. Apresentamos primeiro uma
-demonstração direta que evita o argumento de limite; logo em seguida, na
-\Cref{rem:ruina-limite}, tornamos rigorosa a passagem ao limite $N \to \infty$.
+Com capital inicial $a > 0$, o jogador A tem probabilidade positiva de jogar
+indefinidamente se, e somente se, $p > q$, o que justifica \eqref{eq:ruina-exemplo}.
+Na \Cref{rem:ruina-limite}, obtemos a mesma fórmula a partir do jogo finito,
+mantendo fixo o capital inicial $a$ de A e fazendo o capital total $N$ tender
+a infinito.
 
 \begin{proof}
-  Condicionando no primeiro lançamento da moeda pelo mesmo argumento utilizado
-  para deduzir \eqref{eq:ruina-dif-v}, vemos que a sequência
-  $(\pi(a))_{a \geqslant 0}$ satisfaz a equação de diferenças
+  Se $a = 0$, o passeio já está absorvido, logo $\pi(0) = 1$. Para
+  $a \geqslant 1$, o capital sobe para $a + 1$ com probabilidade $p$ ou cai
+  para $a - 1$ com probabilidade $q$ no primeiro lançamento. Como os
+  lançamentos seguintes são independentes do primeiro, a probabilidade de
+  ruína em cada caso é a de um jogo que começa com o novo capital.
+  Condicionando no primeiro lançamento, como em \eqref{eq:ruina-dif-v}, obtemos
   \[
-    \pi(a) = p\,\pi(a + 1) + q\,\pi(a - 1), \qquad a = 1, 2, \ldots,
+    \pi(a) = p\,\pi(a + 1) + q\,\pi(a - 1), \qquad a = 1, 2, \ldots.
   \]
-  com a condição de contorno $\pi(0) = 1$. Pelo mesmo método telescópico da
-  demonstração do \Cref{thm:ruina-probabilidade}, temos
+  Como no \Cref{thm:ruina-probabilidade}, usamos $p + q = 1$ para escrever
+  a recorrência em termos das diferenças entre valores consecutivos de $\pi$.
+  Com $r = q/p$, temos
   \[
-    \pi(k + 1) - \pi(k) = \left(\frac{q}{p}\right)^k \bigl(\pi(1) - 1\bigr),
-    \qquad k = 0, 1, 2, \ldots,
+    \pi(a + 1) - \pi(a) = r\bigl(\pi(a) - \pi(a - 1)\bigr),
+    \qquad a = 1, 2, \ldots.
   \]
-  e a soma telescópica de $k = 0$ até $a - 1$ fornece
-  \[
-    \pi(a) =
-    \begin{cases}
-      \beta \left(\dfrac{q}{p}\right)^a + 1 - \beta, & \text{se } p \neq q, \\[0.3cm]
-      1 + \beta a, & \text{se } p = q = \tfrac{1}{2},
-    \end{cases}
-  \]
-  em que $\beta = \bigl(\pi(1) - 1\bigr)/\bigl((q/p) - 1\bigr)$ quando
-  $p \neq q$, e $\beta = \pi(1) - 1$ quando $p = q$. Ao contrário do caso
-  finito, dispomos apenas de uma condição de contorno, $\pi(0) = 1$, que não
-  basta sozinha para fixar $\beta \in \mathbb{R}$.
+  Cada diferença é $r$ vezes a anterior. Assim, a primeira diferença
+  $\pi(1) - 1$ determina todas as demais, com
+  $\pi(k + 1) - \pi(k) = r^k\bigl(\pi(1) - 1\bigr)$ para $k \geqslant 0$.
+  Recuperamos $\pi(a)$ somando essas diferenças a partir de $\pi(0)$.
+  A soma é telescópica e, para $a \geqslant 1$, dá
+  \begin{equation}\label{eq:ruina-pi-geral}
+    \pi(a) = \pi(0) + \sum_{k=0}^{a-1} \bigl(\pi(k + 1) - \pi(k)\bigr)
+    = 1 + \bigl(\pi(1) - 1\bigr) \sum_{k=0}^{a-1} r^k.
+  \end{equation}
 
-  Entretanto, como $\pi(a)$ é uma probabilidade, vale $0 \leqslant \pi(a)
-  \leqslant 1$ para todo $a \geqslant 0$. Se $p = q = \tfrac{1}{2}$, essa
-  limitação em $1 + \beta a$ para todo $a \geqslant 0$ obriga $\beta = 0$,
-  donde $\pi(a) = 1$. Se $p < q$, então $q/p > 1$ e $(q/p)^a \to \infty$ quando
-  $a \to \infty$; novamente, a limitação de $\pi(a)$ força $\beta = 0$.
-  Concluímos assim que
+  No jogo finito, a condição de contorno na barreira $N$ fixava a primeira
+  diferença. Aqui, a única barreira é $0$, e a condição $\pi(0) = 1$ já foi
+  usada. Podemos ainda exigir que \eqref{eq:ruina-pi-geral} tome valores entre
+  $0$ e $1$ para todo $a$. O que essa restrição nos diz sobre $\pi(1)$ depende
+  de como a soma geométrica se comporta quando $a$ cresce.
+
+  \smallskip
+  \noindent\textbf{Caso $p \leqslant q$.}
+  Como $r \geqslant 1$, cada parcela da soma em \eqref{eq:ruina-pi-geral}
+  é pelo menos $1$, de modo que a soma cresce sem limite com $a$. Se
+  $\pi(1) < 1$, o coeficiente $\pi(1) - 1$ é negativo e a fórmula acabaria
+  dando $\pi(a) < 0$ para $a$ suficientemente grande. Portanto, $\pi(1) = 1$.
+  Substituindo em \eqref{eq:ruina-pi-geral}, concluímos que
+  \begin{equation}\label{eq:ruina-certa}
+    \text{se } p \leqslant q, \qquad \pi(a) = 1 \quad
+    \text{para todo } a \geqslant 0.
+  \end{equation}
+
+  \smallskip
+  \noindent\textbf{Caso $p > q$.}
+  Agora $0 < r < 1$, e a soma em \eqref{eq:ruina-pi-geral} é limitada por
+  $1/(1 - r)$. Para qualquer escolha de $\pi(1)$ em $[r, 1]$, temos
+  $0 \leqslant 1 - \pi(1) \leqslant 1 - r$. Multiplicando pela soma,
+  vemos que a quantidade subtraída de $1$ em \eqref{eq:ruina-pi-geral} fica
+  entre $0$ e $1$. Logo, toda escolha nesse intervalo é compatível com a
+  restrição $0 \leqslant \pi(a) \leqslant 1$.
+
+  Para determinar $\pi(1)$, podemos interpretar a ruína a partir de $1$
+  como um retorno a $0$ após um primeiro passo para a direita. Essa
+  interpretação permite usar a fórmula \eqref{eq:prob-retorno} do
+  \Cref{thm:recorrencia-transiencia}.
+
+  Considere então um passeio aleatório simples $(T_n)_{n \geqslant 0}$ em
+  $\mathbb{Z}$ com os mesmos parâmetros $p$ e $q$, iniciado em $T_0 = 0$, e
+  seja $C = \{T_n = 0 \text{ para algum } n \geqslant 1\}$ o evento de
+  retorno à origem. Como $T_1$ vale $1$ ou $-1$, o retorno só pode ocorrer
+  a partir do instante $2$.
+
+  Para ler a trajetória a partir do instante $1$, escrevemos
+  $X_j = T_j - T_{j-1}$ para o deslocamento no passo $j$. Pela representação
+  \eqref{eq:passeio-soma}, temos
   \[
-    \pi(a) = 1 \qquad \text{se } p \leqslant q, \quad \text{para } a = 0, 1, 2, \ldots
+    T_{m+1} = T_1 + \sum_{j=2}^{m+1} X_j, \qquad m = 0, 1, 2, \ldots.
+  \]
+  Nessa expressão, $T_1$ é a posição inicial do trecho que começa depois do
+  primeiro passo, e $m$ conta os passos a partir dali. Como $T_1 = X_1$ e os
+  incrementos são independentes, sob cada uma das condições $T_1 = 1$ e
+  $T_1 = -1$, os deslocamentos $X_2, X_3, \ldots$ continuam independentes e
+  cada um vale $1$ com probabilidade $p$ e $-1$ com probabilidade $q$.
+
+  \smallskip
+  \noindent\textit{Primeiro passo para a direita $(T_1 = 1)$.}
+  O trecho parte de $1$ e permanece nos inteiros positivos até a primeira
+  visita a $0$, pois cada passo tem tamanho $1$. Se a trajetória atinge $0$,
+  podemos mantê-la ali de então em diante para obter o jogo com capital
+  inicial $1$ e barreira absorvente em $0$. A primeira visita a $0$ é ao
+  mesmo tempo o retorno do passeio original e o instante da ruína no jogo.
+  Portanto,
+  \[
+    \mathbb{P}(C \mid T_1 = 1) = \pi(1).
   \]
 
-  Resta determinar $\beta$ (ou, equivalentemente, $\pi(1)$) no caso $p > q$.
-  Para enfatizar a dependência nos parâmetros da moeda, escrevemos
-  $\pi(a) = \pi_{p,q}(a)$; o que acabamos de provar lê-se então
-  $\pi_{p,q}(a) = 1$ sempre que $p \leqslant q$. Considere um passeio
-  aleatório simples $(T_n)_{n \geqslant 0}$ iniciado em $T_0 = 0$, no qual cada passo
-  é para a direita com probabilidade $p$ e para a esquerda com probabilidade
-  $q$, e seja $C = \{T_n = 0 \text{ para algum } n \geqslant 1\}$ o evento em
-  que o passeio revisita a origem. Pelo \Cref{thm:recorrencia-transiencia},
+  \smallskip
+  \noindent\textit{Primeiro passo para a esquerda ($T_1 = -1$).}
+  Para aproveitar \eqref{eq:ruina-certa}, que trata de capital inicial
+  positivo, refletimos a trajetória pela transformação $x \mapsto -x$.
+  O trecho refletido começa em $-T_1 = 1$. Para $j \geqslant 2$, seu
+  incremento no passo $j$ é $(-T_j) - (-T_{j-1}) = -X_j$. Logo, um passo
+  para a esquerda no passeio original vira um passo para a direita no
+  refletido, e vice-versa. Sob a condição $T_1 = -1$, temos
   \[
-    \mathbb{P}(C) = 1 - |p - q|.
+    \mathbb{P}(-X_j = 1 \mid T_1 = -1) = q,
+    \qquad
+    \mathbb{P}(-X_j = -1 \mid T_1 = -1) = p.
   \]
-  Por outro lado, condicionando no primeiro passo $H = \{T_1 = 1\}$ pelo
-  Teorema da Partição, obtemos
+  Os passos refletidos continuam independentes, pois cada um é obtido
+  trocando o sinal de um único incremento. Assim, até a primeira visita a
+  $0$, o trecho refletido representa um jogo com capital inicial $1$, no
+  qual o capital sobe com probabilidade $q$ e desce com probabilidade $p$.
+  Como $q < p$, a probabilidade de subir é menor que a de descer, e
+  \eqref{eq:ruina-certa} dá probabilidade de ruína igual a $1$ para esse
+  jogo. Em cada instante, temos $-T_n = 0$ exatamente quando $T_n = 0$.
+  Portanto, a ruína do passeio refletido corresponde ao retorno do passeio
+  original, e
   \[
-    \mathbb{P}(C)
-    = \mathbb{P}(C \mid H)\,\mathbb{P}(H)
-    + \mathbb{P}(C \mid H^c)\,\mathbb{P}(H^c).
+    \mathbb{P}(C \mid T_1 = -1) = 1.
   \]
-  Ora, $\mathbb{P}(C \mid H) = \pi_{p,q}(1)$, pois trata-se da probabilidade de
-  um passeio com parâmetros $(p, q)$ atingir $0$ partindo de $1$. Analogamente,
-  $\mathbb{P}(C \mid H^c) = \pi_{q,p}(1)$, pois, considerando o passeio
-  espelhado $(-T_n)_{n \geqslant 0}$ (em que cada passo de $T$ é substituído
-  pelo passo oposto, com probabilidades $q$ para a direita e $p$ para a
-  esquerda), revisitar $0$ após $T_1 = -1$ equivale a um passeio de parâmetros
-  $(q, p)$ atingir $0$ partindo de $1$. Portanto,
+
+  Aplicando o Teorema da Partição aos eventos $\{T_1 = 1\}$ e $\{T_1 = -1\}$,
+  como na dedução de \eqref{eq:ruina-dif-v} na prova do
+  \Cref{thm:ruina-probabilidade}, obtemos
+  \begin{equation}\label{eq:ruina-pi-pi1}
+    \begin{aligned}
+      \mathbb{P}(C)
+      &= p\,\mathbb{P}(C \mid T_1 = 1) + q\,\mathbb{P}(C \mid T_1 = -1) \\
+      &= p\,\pi(1) + q \cdot 1.
+    \end{aligned}
+  \end{equation}
+  Por \eqref{eq:prob-retorno}, como $p > q$, também temos
+  $\mathbb{P}(C) = 1 - (p - q) = 2q$. Comparando com \eqref{eq:ruina-pi-pi1},
+  obtemos $p\,\pi(1) = q$ e, portanto, $\pi(1) = r$. Já sabemos que
+  $\pi(0) = 1 = r^0$. Para $a \geqslant 1$, substituímos $\pi(1) = r$ em
+  \eqref{eq:ruina-pi-geral} e avaliamos a soma geométrica.
   \[
-    1 - |p - q| = p\,\pi_{p,q}(1) + q\,\pi_{q,p}(1).
+    \pi(a) = 1 + (r - 1)\frac{1 - r^a}{1 - r} = r^a
+    = \left(\frac{q}{p}\right)^a. \qedhere
   \]
-  Quando $p > q$, temos $q < p$, e pelo caso já estabelecido vale
-  $\pi_{q,p}(1) = 1$. Substituindo essa igualdade na relação acima, obtemos
-  \[
-    1 - (p - q) = p\,\pi_{p,q}(1) + q,
-  \]
-  donde $p\,\pi_{p,q}(1) = q$, isto é, $\pi_{p,q}(1) = q/p$. Substituindo
-  $\pi(1) = q/p$ na expressão de $\beta$ para $p \neq q$, encontramos
-  $\beta = 1$, e portanto $\pi(a) = (q/p)^a$ para todo $a \geqslant 0$.
 \end{proof}
 
 \begin{remark}[Justificativa rigorosa via limite $N \to \infty$]\label{rem:ruina-limite}
-  É possível obter \eqref{eq:ruina-pi} diretamente a partir do
-  \Cref{thm:ruina-probabilidade} por meio de um argumento de continuidade da
-  medida de probabilidade. Para $a = 0$, tem-se $\pi(0) = 1$ de imediato.
-  Fixe $a \geqslant 1$ e considere o passeio aleatório simples
-  $(S_n)_{n \geqslant 0}$ iniciado em $S_0 = a$. Para cada inteiro $N > a$, defina o
-  evento de absorção em $0$ antes de atingir $N$:
-  \[
-    E_N = \{\text{existe } n \geqslant 1 \text{ tal que } S_n = 0
-    \text{ e } S_k < N \text{ para todo } 0 \leqslant k \leqslant n\}.
-  \]
-  Denotando por $v_N(a)$ a probabilidade \eqref{eq:ruina-v} no jogo com
-  barreiras em $0$ e $N$, temos $\mathbb{P}(E_N) = 1 - v_N(a)$, pois o jogo
-  finito termina com probabilidade $1$ (\cref{exercise:termino-ruina,exercise:vitoria-b})
-  e os eventos de atingir $0$ antes de $N$ e de atingir $N$ antes de $0$ são
-  complementares a menos de um evento de probabilidade nula.
+  Podemos deduzir \eqref{eq:ruina-pi} a partir do
+  \Cref{thm:ruina-probabilidade} mantendo fixo o capital inicial de A e
+  aumentando o de B. Para comparar os jogos, usamos a mesma sequência de
+  lançamentos em todos eles. Assim, para cada trajetória podemos perguntar
+  se A chegaria à ruína antes que o jogo terminasse na barreira superior.
 
-  Claramente, $E_N \subseteq E_{N+1}$ para todo $N > a$, pois a condição
-  $S_k < N$ implica $S_k < N + 1$. Além disso, afirmamos que
+  Se $a = 0$, o jogador A já começa na ruína, logo $\pi(0) = 1$. Fixe agora
+  um inteiro $a \geqslant 1$. Sejam $X_1, X_2, \ldots$ os incrementos dos
+  lançamentos, independentes, iguais a $1$ com probabilidade $p$ e a $-1$
+  com probabilidade $q$. Como em \eqref{eq:passeio-soma}, construímos o
+  passeio em $\mathbb{Z}$ que começa em $a$ pela fórmula
   \[
-    \bigcup_{N > a} E_N = \{\text{existe } n \geqslant 1 \text{ tal que } S_n = 0\}.
+    S_n^{(a)} = a + \sum_{j=1}^n X_j, \qquad n = 0, 1, 2, \ldots.
   \]
-  De fato, a inclusão da esquerda para a direita é imediata. Reciprocamente, se
-  um ponto amostral satisfaz $S_n = 0$ para algum $n \geqslant 1$, então a
-  trajetória finita $(S_0, S_1, \ldots, S_n)$ é limitada superiormente; logo,
-  escolhendo qualquer inteiro $N > \max\{S_0, S_1, \ldots, S_n\}$, garantimos
-  a ocorrência de $E_N$. Pela continuidade da medida de probabilidade por baixo,
-  segue que
+  A soma é vazia em $n = 0$, de modo que $S_0^{(a)} = a$. Para cada
+  $b \in \mathbb{Z}$, escrevemos $\tau_b^{(a)}$ para o primeiro instante
+  $n \geqslant 0$ em que o passeio atinge $b$. Se $b$ nunca é atingido,
+  tomamos $\tau_b^{(a)} = \infty$.
+
+  No jogo contra o adversário infinitamente rico, A vai à ruína na
+  primeira visita a $0$. Como o passeio começa em $a \geqslant 1$, essa
+  visita, se ocorrer, será em algum instante $n \geqslant 1$. O evento de
+  ruína é
   \[
-    \pi(a)
-    = \mathbb{P}\left(\bigcup_{N > a} E_N\right)
-    = \lim_{N \to \infty} \mathbb{P}(E_N)
-    = \lim_{N \to \infty} \bigl(1 - v_N(a)\bigr).
+    \begin{aligned}
+      E^{(a)} &= \{\tau_0^{(a)} < \infty\} \\
+              &= \{\text{existe } n \geqslant 1 \text{ tal que } S_n^{(a)} = 0\} \\
+              &= \{\text{existe } n \geqslant 1 \text{ tal que } X_1 + \cdots + X_n = -a\}.
+    \end{aligned}
   \]
-  Calculando esse limite a partir de \eqref{eq:ruina-v}, recuperamos
-  \eqref{eq:ruina-pi}: se $p = q = \tfrac{1}{2}$, então
-  $1 - v_N(a) = 1 - a/N \to 1$; se $p < q$, então $q/p > 1$, logo
-  $(q/p)^N \to \infty$ e $v_N(a) \to 0$, donde $\pi(a) = 1$; se $p > q$, então
-  $0 < q/p < 1$, logo $(q/p)^N \to 0$ e $v_N(a) \to 1 - (q/p)^a$, donde
-  $\pi(a) = (q/p)^a$.
+  A última expressão mostra como o evento depende do capital inicial. Para
+  levar o capital de A do valor inicial $a$ até zero, a soma dos incrementos
+  precisa atingir $-a$. Pela definição de $\pi(a)$, temos
+  $\mathbb{P}(E^{(a)}) = \pi(a)$.
+
+  Para cada inteiro $N > a$, o jogo com capital inicial $N - a$ para B usa
+  os mesmos lançamentos e termina na primeira visita a $0$ ou a $N$. Nesse
+  jogo, o evento de ruína de A é
+  \[
+    E_N^{(a)} = \{\tau_0^{(a)} < \tau_N^{(a)}\}.
+  \]
+  O \Cref{thm:ruina-duracao} dá esperança finita para o tempo de absorção.
+  Logo, o jogo termina com probabilidade $1$, pois um tempo infinito com
+  probabilidade positiva teria esperança infinita. Assim, quase certamente,
+  uma das duas barreiras é atingida primeiro. Se $v_N(a)$ denota a
+  probabilidade de A vencer nesse jogo, dada por \eqref{eq:ruina-v}, então
+  \[
+    \mathbb{P}(E_N^{(a)}) = 1 - v_N(a).
+  \]
+
+  Ao passar de $N$ para $N + 1$, toda trajetória que atinge $0$ antes de
+  $N$ também atinge $0$ antes de $N + 1$. Com efeito, partindo de $a < N$
+  e dando passos de uma unidade, o passeio só chega a $N + 1$ depois de
+  passar por $N$. Portanto, $E_N^{(a)} \subseteq E_{N+1}^{(a)}$.
+
+  A união desses eventos contém exatamente as trajetórias em que A vai à
+  ruína contra o adversário infinitamente rico. Se uma trajetória pertence a
+  algum $E_N^{(a)}$, ela chega a $0$ em tempo finito e, portanto, pertence a
+  $E^{(a)}$. Para a inclusão inversa, considere uma trajetória em $E^{(a)}$
+  e seja $m$ o instante de sua primeira visita a $0$. A lista das posições
+  registradas do instante $0$ ao instante $m$ tem $m + 1$ termos, de modo
+  que existe um maior valor
+  \[
+    M = \max\{S_0^{(a)}, S_1^{(a)}, \ldots, S_m^{(a)}\}.
+  \]
+  Como $S_0^{(a)} = a$, temos $M \geqslant a$. Tomando $N = M + 1$,
+  obtemos $N > a$ e garantimos que o passeio chega a $0$ no instante $m$
+  antes de atingir $N$.
+  Logo, essa trajetória pertence a $E_N^{(a)}$. A escolha de $N$ pode
+  depender da trajetória, pois basta que ela pertença a um dos eventos da
+  união. Concluímos que
+  \[
+    \bigcup_{N = a + 1}^{\infty} E_N^{(a)} = E^{(a)}.
+  \]
+
+  Por exemplo, uma trajetória que começa com as posições $2, 3, 2, 1, 0$
+  pertence a $E_4^{(2)}$, pois chega a $0$ sem atingir $4$. Com a barreira
+  em $3$, o jogo teria terminado no primeiro passo com a vitória de A.
+
+  A passagem ao limite usa a continuidade da probabilidade por baixo.
+  Como os eventos são crescentes, podemos decompor a união em partes
+  disjuntas. A primeira é $E_{a+1}^{(a)}$ e cada uma das seguintes é
+  $E_N^{(a)} \setminus E_{N-1}^{(a)}$, para $N \geqslant a + 2$. A soma
+  das probabilidades dessas partes até a etapa $N$ vale
+  $\mathbb{P}(E_N^{(a)})$. Ao incluir todas as partes, a aditividade
+  enumerável dá a probabilidade da união. Portanto,
+  \[
+    \begin{aligned}
+      \pi(a) &= \mathbb{P}(E^{(a)})
+              = \mathbb{P}\left(\bigcup_{N = a + 1}^{\infty} E_N^{(a)}\right) \\
+             &= \lim_{N \to \infty} \mathbb{P}(E_N^{(a)})
+              = \lim_{N \to \infty} \bigl(1 - v_N(a)\bigr).
+    \end{aligned}
+  \]
+
+  Para calcular o limite, mantemos $a$ fixo em \eqref{eq:ruina-v} e
+  escrevemos $r = q/p$.
+  \begin{itemize}
+    \item Se $p = q$, então $v_N(a) = a/N \to 0$, logo $\pi(a) = 1$.
+    \item Se $p < q$, então $r > 1$. O numerador $r^a - 1$ é constante e
+    o denominador $r^N - 1$ tende a infinito, logo $v_N(a) \to 0$ e
+    $\pi(a) = 1$.
+    \item Se $p > q$, então $0 < r < 1$, de modo que $r^N \to 0$. Assim,
+    $v_N(a) \to (r^a - 1)/(-1) = 1 - r^a$, logo $\pi(a) = r^a = (q/p)^a$.
+  \end{itemize}
+  Recuperamos, assim, a fórmula \eqref{eq:ruina-pi}.
 \end{remark}
 
 \begin{exercise}\label{exercise:termino-ruina}
@@ -1725,8 +1988,6 @@ demonstração direta que evita o argumento de limite; logo em seguida, na
   $k - 1$?
 \end{exercise}
 
-\break
-% Origem: G&W, seção 10.5.
 \section{Problemas}\label{sec:problemas}
 
 Os problemas a seguir ampliam o que desenvolvemos nas seções anteriores,
