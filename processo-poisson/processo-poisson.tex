@@ -1603,12 +1603,44 @@ postulados A e B.
 
 \smallskip
 \noindent\textbf{Parte 2 (falta de memória do tempo restante).}
-Fixemos um instante $s\geqslant 0$. Para verificar o postulado D, vamos
-mostrar que, para $h>0$, a contagem em $(s,s+h]$ é independente da
-trajetória observada até $s$. Para calcular essa contagem, precisamos das
-esperas entre as chegadas depois de $s$, a começar pelo tempo que
-\emph{ainda} falta para a primeira chegada, como na
-\Cref{fig:incremento-apos-s}.
+Fixemos um instante $s\geqslant 0$ e denotemos por
+$\mathcal{F}_s=\sigma(N_u^*:0\leqslant u\leqslant s)$ a $\sigma$-álgebra
+gerada pela trajetória do processo até $s$. Para verificar o postulado D,
+vamos mostrar que, para todo $h>0$, o incremento $N_{s+h}^*-N_s^*$ tem
+distribuição $\mathrm{Poisson}(\lambda h)$ e é independente de $\mathcal{F}_s$.
+
+Como cada $X_i^*\sim\mathrm{Exp}(\lambda)$ satisfaz $\mathbb{P}(X_i^*>0)=1$ e
+$T_k^*\to\infty$ quase certamente, o evento
+\[
+  \Omega_0
+  =\Bigl(\bigcap_{i=1}^{\infty}\{X_i^*>0\}\Bigr)
+   \cap\Bigl\{\lim_{k\to\infty}T_k^*=\infty\Bigr\}
+\]
+tem probabilidade $1$. Como intersectar qualquer evento com $\Omega_0$ não
+altera sua probabilidade, trabalharemos sempre sobre $\Omega_0$, onde vale
+$0=T_0^*<T_1^*<T_2^*<\cdots\to\infty$ (adotando $T_0^*=0$). Se $s=0$, então
+$N_0^*=0$ em $\Omega_0$; logo todo evento $A\in\mathcal{F}_0$ satisfaz
+$A\cap\Omega_0=\varnothing$ ou $A\cap\Omega_0=\Omega_0$, donde
+$\mathbb{P}(A)\in\{0,1\}$. Nesse caso, $N_h^*-N_0^*=N_h^*$ é trivialmente
+independente de $\mathcal{F}_0$ e tem distribuição $\mathrm{Poisson}(\lambda h)$
+pela Parte~1. Suponhamos, portanto, $s>0$.
+
+Para estudar a contagem em $(s,s+h]$, definimos em $\Omega_0$ o número de
+chegadas até $s$, $K=N_s^*$, e a sequência de esperas deslocadas a partir de
+$s$:
+\[
+  W_1=R_s=T_{K+1}^*-s,
+  \qquad W_j=X_{K+j}^*\quad\text{para }j\geqslant 2,
+\]
+em que $R_s$ é o tempo que \emph{ainda} falta em $s$ para a próxima chegada,
+como na \Cref{fig:incremento-apos-s}. A estratégia tem duas etapas: primeiro,
+usamos a falta de memória da espera em curso para mostrar que $R_s$ guarda a
+cauda exponencial $e^{-\lambda h}$ mesmo quando fixamos $A\in\mathcal{F}_s$ e
+$K=k$; em seguida, combinamos essa identidade com a independência das esperas
+futuras $X_{k+2}^*,X_{k+3}^*,\ldots$ e somamos em $k\geqslant 0$ para concluir
+que $W_1,W_2,\ldots$ são i.i.d.\ $\mathrm{Exp}(\lambda)$ e independentes de
+$\mathcal{F}_s$, o que permite aplicar diretamente a Parte~1 à contagem em
+$(s,s+h]$.
 
 \begin{figure}[H]
   \centering
@@ -1679,15 +1711,11 @@ esperas entre as chegadas depois de $s$, a começar pelo tempo que
   \label{fig:incremento-apos-s}
 \end{figure}
 
-Escrevemos $K=N_s^*$ para o número de chegadas até $s$ e $R_s=T_{K+1}^*-s$
-para o tempo restante. Adotamos $T_0^*=0$ para incluir o caso em que ainda
-não houve chegadas. Em $\{K=k\}$, o instante $s$ divide a espera completa
-$X_{k+1}^*$ em duas partes, como na \Cref{fig:tempo-restante}. A primeira
-parte, $s-T_k^*$, é o tempo já transcorrido desde a última chegada
-(desde a origem, se $k=0$). A segunda parte é
-\[
-  R_s=X_{k+1}^*-(s-T_k^*)\qquad\text{em }\{K=k\}.
-\]
+Em $\{K=k\}\cap\Omega_0$, temos $T_k^*\leqslant s<T_{k+1}^*$, de modo que o
+instante $s$ divide a espera completa $X_{k+1}^*=T_{k+1}^*-T_k^*$ em duas
+partes, como na \Cref{fig:tempo-restante}: o tempo já transcorrido
+$s-T_k^*\geqslant 0$ e o tempo restante $R_s=X_{k+1}^*-(s-T_k^*)>0$. Em
+particular, $\{K=k\}\cap\Omega_0=\{T_k^*\leqslant s,\; X_{k+1}^*>s-T_k^*\}\cap\Omega_0$.
 
 \begin{figure}[H]
   \centering
@@ -1738,245 +1766,163 @@ parte, $s-T_k^*$, é o tempo já transcorrido desde a última chegada
   \label{fig:tempo-restante}
 \end{figure}
 
-Há exatamente $k$ chegadas até $s$ quando $T_k^*\leqslant s<T_{k+1}^*$.
-A escala inferior da \Cref{fig:exatamente-k-chegadas} toma $T_k^*$ como
-origem. Nessa escala, a condição $s<T_{k+1}^*$ diz que a espera completa
-$X_{k+1}^*$ ultrapassa o tempo transcorrido $s-T_k^*$. Assim,
-\[
-  \{K=k\}=\{T_k^*\leqslant s\}\cap\{X_{k+1}^*>s-T_k^*\}.
-\]
-
-\begin{figure}[H]
-  \centering
-  \begin{tikzpicture}[x=1cm, y=1cm, >=Stealth, font=\small]
-    \def\ultima{4.1}
-    \def\observacao{7.35}
-    \def\proxima{11.25}
-
-    \draw[teal!25, line width=6pt, line cap=butt]
-      (\ultima,0) -- (\proxima,0);
-    \draw[->, black!65, line width=0.55pt] (2.9,0) -- (12.65,0)
-      node[right=2pt, text=text] {$t$};
-
-    \node[anchor=west, font=\scriptsize, text=muted] at (0,0.29)
-      {Relógio original};
-    \node[anchor=west, font=\scriptsize, text=muted] at (0,-0.29)
-      {A partir de $T_k^*$};
-    \foreach \x/\original/\deslocado in {
-      \ultima/{T_k^*}/{0},
-      \observacao/{s}/{s-T_k^*},
-      \proxima/{T_{k+1}^*}/{X_{k+1}^*}} {
-      \node[above=3pt, text=text] at (\x,0) {$\original$};
-      \node[below=3pt, text=text] at (\x,0) {$\deslocado$};
-    }
-
-    \draw[draw=text, line width=0.7pt]
-      (\observacao,-0.10) -- (\observacao,0.10);
-    \fill[teal!85!black] (\ultima,0) circle (1.8pt);
-    \draw[teal!85!black, fill=white, line width=0.85pt]
-      (\proxima,0) circle (1.8pt);
-  \end{tikzpicture}
-  \caption{Posições de $s$ para as quais há exatamente $k$ chegadas. O
-    trecho destacado inclui $T_k^*$, indicado pelo ponto cheio, e termina
-    antes de $T_{k+1}^*$, indicado pelo círculo aberto. Na escala de baixo,
-    o tempo transcorrido $s-T_k^*$ fica à esquerda da espera completa
-    $X_{k+1}^*$.}
-  \label{fig:exatamente-k-chegadas}
-\end{figure}
-
-Fixemos $h\geqslant 0$. Em $\{K=k\}$, a condição $R_s>h$ significa que a
-espera completa ultrapassa o tempo transcorrido $s-T_k^*$ mais $h$.
-Como $h\geqslant 0$, essa espera também ultrapassa $s-T_k^*$. Portanto,
+Para qualquer $h\geqslant 0$, exigir $R_s>h$ em $\{K=k\}\cap\Omega_0$ equivale
+a exigir $X_{k+1}^*>s-T_k^*+h$, o que já implica $X_{k+1}^*>s-T_k^*$. Logo,
 \begin{equation}\label{eq:evento-tempo-restante}
-  \{K=k\}\cap\{R_s>h\}
-  =\{T_k^*\leqslant s\}\cap\{X_{k+1}^*>s-T_k^*+h\}.
+  \{K=k\}\cap\{R_s>h\}\cap\Omega_0
+  =\{T_k^*\leqslant s,\; X_{k+1}^*>s-T_k^*+h\}\cap\Omega_0.
 \end{equation}
-Em $\{K=k\}$, a próxima chegada ocorre estritamente depois de $s$, de
-modo que $R_s>0$ nesse evento. Vamos usar $h=0$ em
-\eqref{eq:evento-tempo-restante} para recuperar a condição $K=k$ e comparar
-as probabilidades para $h>0$ e para $h=0$ com a mesma informação sobre a
-trajetória até $s$.
+Como $R_s>0$ em $\{K=k\}\cap\Omega_0$, tomar $h=0$ em
+\eqref{eq:evento-tempo-restante} recupera o evento $\{K=k\}\cap\Omega_0$.
 
 \smallskip
 \noindent\textbf{A trajetória até $s$ e o tempo restante.}
-Seja $A$ um evento determinado pela trajetória até $s$, isto é, um evento
-da $\sigma$-álgebra gerada pelas contagens $N_u^*$, $0\leqslant u\leqslant s$.
-Por exemplo, $A$ pode ser o evento de ter havido pelo menos uma chegada até
-$s/2$. Em $\{K=k\}$, os instantes $T_1^*,\ldots,T_k^*$ bastam para
-reconstruir a trajetória até $s$. Para cada $0\leqslant u\leqslant s$,
-\[
-  N_u^*=\sum_{i=1}^k\mathds{1}_{\{T_i^*\leqslant u\}}
-  \qquad\text{em }\{K=k\}.
-\]
-A soma conta quantas das $k$ chegadas ocorreram até $u$.
-
-Consideremos primeiro $k\geqslant 1$. Para usar a densidade conjunta das
-esperas, escrevemos $\mathbf U=(X_1^*,\ldots,X_k^*)$ e $V=X_{k+1}^*$.
-Quando $\mathbf U=\mathbf x=(x_1,\ldots,x_k)$, os instantes das
-primeiras $k$ chegadas são $t_i(\mathbf x)=x_1+\cdots+x_i$, para
-$1\leqslant i\leqslant k$. Seja $C_k$ o conjunto dos vetores
-$\mathbf x\in(0,\infty)^k$ para os quais $t_k(\mathbf x)\leqslant s$ e
-a trajetória reconstruída com esses $k$ instantes satisfaz a condição que
-define $A$. No exemplo $A=\{N_{s/2}^*\geqslant 1\}$, basta exigir, além de
-$t_k(\mathbf x)\leqslant s$, que $x_1\leqslant s/2$.
-
-Para ver que $C_k$ é boreliano, comecemos pelos eventos
-$A=\{N_u^*=j\}$. A contagem reconstruída em $u$ é uma soma de
-indicadoras das condições $t_i(\mathbf x)\leqslant u$, que definem
-borelianos. Logo, exigir que a soma seja igual a $j$ define um
-boreliano no domínio $t_k(\mathbf x)\leqslant s$. O complementar de
-um evento $A$ corresponde ao complementar de $C_k$ dentro desse
-domínio, e uma união enumerável de eventos corresponde à união dos
-conjuntos $C_k$. Assim, $C_k$ é boreliano para todo evento da
-$\sigma$-álgebra gerada pelas contagens.
-
-A condição $\mathbf U\in C_k$ garante que as primeiras $k$ chegadas
-ocorreram até $s$ e que a trajetória reconstruída satisfaz a condição
-que define $A$.
-Para garantir também que a chegada seguinte ocorra depois de $s+h$,
-acrescentamos a desigualdade de
-\eqref{eq:evento-tempo-restante}. A região que reúne as duas condições é
-\[
-  D_{k,h}=\bigl\{(\mathbf x,v):\mathbf x\in C_k,\,
-                  v>s-t_k(\mathbf x)+h\bigr\}.
-\]
-Logo,
-\begin{equation}\label{eq:probabilidade-como-esperanca}
-  \mathbb{P}(A\cap\{K=k\}\cap\{R_s>h\})
-  =\mathbb{P}\bigl((\mathbf U,V)\in D_{k,h}\bigr)
-  =\mathbb{E}\bigl[\mathds{1}_{D_{k,h}}(\mathbf U,V)\bigr].
-\end{equation}
-
-Para calcular a esperança em \eqref{eq:probabilidade-como-esperanca}, usamos
-a fórmula de mudança de variáveis para a esperança. Para a indicadora de
-$D_{k,h}$, a fórmula dá a integral da densidade conjunta sobre $D_{k,h}$,
-como no cálculo de probabilidades de regiões nas notas de aula sobre
-vetores contínuos. Pela independência das esperas, a densidade conjunta é
-\[
-  f_{\mathbf U,V}(\mathbf x,v)=f_{\mathbf U}(\mathbf x)f_V(v),
-  \qquad f_V(v)=\lambda e^{-\lambda v}\quad\text{para }v>0.
-\]
-Para cada $\mathbf x\in C_k$, a seção de $D_{k,h}$ na coordenada $v$ é o
-intervalo $(s-t_k(\mathbf x)+h,\infty)$. O limite inferior é não negativo
-porque $t_k(\mathbf x)\leqslant s$ e $h\geqslant 0$. Como $D_{k,h}$ é
-boreliano e a densidade é não negativa, o Teorema de Tonelli permite
-integrar primeiro em $v$ nas seções da região. Obtemos a integral de
-Lebesgue
-\begin{equation}\label{eq:esperanca-em-duas-etapas}
-  \mathbb{P}(A\cap\{K=k\}\cap\{R_s>h\})
-  =\int_{C_k}
-    \left(\int_{s-t_k(\mathbf x)+h}^{\infty}
-      \lambda e^{-\lambda v}\,dv\right)
-    f_{\mathbf U}(\mathbf x)\,d\mathbf x.
-\end{equation}
-
-Fixado $\mathbf x\in C_k$, escrevemos $a=s-t_k(\mathbf x)$ para o tempo
-transcorrido. A integral em $v$ é a probabilidade de uma espera exponencial
-ultrapassar $a+h$. Pela falta de memória, na forma
-\eqref{eq:equacao-funcional-falta-memoria},
-\begin{equation}\label{eq:falta-memoria-espera-completa}
-  \int_{a+h}^{\infty}\lambda e^{-\lambda v}\,dv
-  =\mathbb{P}(V>a+h)
-  =e^{-\lambda h}\,\mathbb{P}(V>a)
-  =e^{-\lambda h}\int_a^{\infty}\lambda e^{-\lambda v}\,dv.
-\end{equation}
-O fator $e^{-\lambda h}$ é o mesmo para todo $\mathbf x\in C_k$ e pode
-sair da integral em $\mathbf x$. A integral que sobra é exatamente
-\eqref{eq:esperanca-em-duas-etapas} com $h=0$, ou seja, é
-$\mathbb{P}(A\cap\{K=k\})$. Assim,
+Fixemos $A\in\mathcal{F}_s$ e $k\geqslant 0$. Vamos mostrar que, para todo
+$h\geqslant 0$,
 \begin{equation}\label{eq:passado-tempo-restante}
   \mathbb{P}(A\cap\{K=k\}\cap\{R_s>h\})
   =e^{-\lambda h}\,\mathbb{P}(A\cap\{K=k\}).
 \end{equation}
 
-Para $k=0$, a trajetória até $s$ é constante igual a zero. Se essa
-trajetória satisfaz a condição que define $A$, então
-$A\cap\{K=0\}=\{X_1^*>s\}$ e a condição adicional $R_s>h$ equivale a
-$X_1^*>s+h$. Nesse caso, \eqref{eq:passado-tempo-restante} segue da falta
-de memória com $a=s$. Se a trajetória constante não satisfaz $A$,
-as duas probabilidades em \eqref{eq:passado-tempo-restante} são nulas.
+No caso $k=0$, temos $\{K=0\}\cap\Omega_0=\{X_1^*>s\}\cap\Omega_0$, e nesse
+evento vale $N_u^*=0$ para todo $u\in[0,s]$. Assim, a coleção $\mathcal{G}_0$
+dos eventos $E$ tais que $E\cap\{K=0\}\cap\Omega_0$ é igual a $\varnothing$ ou
+a $\{K=0\}\cap\Omega_0$ é uma $\sigma$-álgebra que contém $\{N_u^*=j\}$ para
+todos $u\in[0,s]$ e $j\geqslant 0$; logo $\mathcal{F}_s\subseteq\mathcal{G}_0$.
+Se $A\cap\{K=0\}\cap\Omega_0=\varnothing$, os dois lados de
+\eqref{eq:passado-tempo-restante} são nulos. Se
+$A\cap\{K=0\}\cap\Omega_0=\{X_1^*>s\}\cap\Omega_0$, então
+\eqref{eq:evento-tempo-restante} dá
+$A\cap\{K=0\}\cap\{R_s>h\}\cap\Omega_0=\{X_1^*>s+h\}\cap\Omega_0$, e
+\eqref{eq:passado-tempo-restante} segue diretamente da falta de memória de
+$X_1^*$ na forma \eqref{eq:equacao-funcional-falta-memoria}.
 
-Sempre que $\mathbb{P}(A\cap\{K=k\})>0$, podemos dividir
-\eqref{eq:passado-tempo-restante} por essa probabilidade. Obtemos
+Para $k\geqslant 1$, escrevamos $\mathbf U=(X_1^*,\ldots,X_k^*)$ e
+$V=X_{k+1}^*$. Para $\mathbf x=(x_1,\ldots,x_k)\in(0,\infty)^k$, ponhamos
+$t_i(\mathbf x)=x_1+\cdots+x_i$ ($1\leqslant i\leqslant k$) e
+$\Delta_k=\{\mathbf x\in(0,\infty)^k:t_k(\mathbf x)\leqslant s\}$. Considere a
+coleção $\mathcal{G}_k$ dos eventos $E$ para os quais existe um boreliano
+$C_k\subseteq\Delta_k$ tal que
 \[
-  \mathbb{P}\bigl(R_s>h\bigm|A\cap\{K=k\}\bigr)=e^{-\lambda h},
-  \qquad h\geqslant 0.
+  E\cap\{K=k\}\cap\Omega_0
+  =\bigl\{\mathbf U\in C_k,\; V>s-t_k(\mathbf U)\bigr\}\cap\Omega_0.
 \]
-Portanto, sob a condição $A\cap\{K=k\}$, o tempo restante $R_s$ tem
-distribuição $\mathrm{Exp}(\lambda)$.
+Verifica-se imediatamente que $\mathcal{G}_k$ é uma $\sigma$-álgebra: contém
+$\Omega$ (com $C_k=\Delta_k$), é fechada por complementos (trocando $C_k$ por
+$\Delta_k\setminus C_k$) e por uniões enumeráveis (tomando a união dos
+respectivos borelianos $C_{k,n}$). Além disso, em $\{K=k\}\cap\Omega_0$, todas
+as chegadas até $s$ estão entre $T_1^*,\ldots,T_k^*$, de modo que
+\[
+  N_u^*=\sum_{i=1}^{k}\mathds{1}_{\{T_i^*\leqslant u\}}
+  =\sum_{i=1}^{k}\mathds{1}_{\{t_i(\mathbf U)\leqslant u\}}
+  \qquad\text{para todo }u\in[0,s].
+\]
+Como cada $t_i$ é contínua, para quaisquer $u\in[0,s]$ e $j\geqslant 0$ o
+conjunto
+$\bigl\{\mathbf x\in\Delta_k:\sum_{i=1}^k\mathds{1}_{\{t_i(\mathbf x)\leqslant u\}}=j\bigr\}$
+é boreliano, logo $\{N_u^*=j\}\in\mathcal{G}_k$. Portanto
+$\mathcal{F}_s\subseteq\mathcal{G}_k$, e existe um boreliano
+$C_k\subseteq\Delta_k$ que representa $A\cap\{K=k\}\cap\Omega_0$.
 
-\smallskip
-\noindent\textbf{As chegadas depois de $s$.}
-Agora vamos fixar $k\geqslant 0$ e considerar $B=A\cap\{K=k\}$. Para descrever as
-chegadas depois de $s$ em $B$, definimos
+Combinando essa representação com \eqref{eq:evento-tempo-restante}, obtemos,
+para todo $h\geqslant 0$,
 \[
-  W_1=T_{k+1}^*-s,
-  \qquad W_j=X_{k+j}^* \quad\text{para }j\geqslant 2.
+  A\cap\{K=k\}\cap\{R_s>h\}\cap\Omega_0
+  =\bigl\{\mathbf U\in C_k,\; V>s-t_k(\mathbf U)+h\bigr\}\cap\Omega_0.
 \]
-Em $B$, a primeira espera $W_1$ é o tempo restante $R_s$. As demais
-$W_j$ são esperas completas e a $j$-ésima chegada depois de $s$ ocorre
-no instante $s+W_1+\cdots+W_j$.
-
-Suponhamos $\mathbb{P}(B)>0$. Para verificar a independência das
-esperas sob a condição $B$, vamos fatorar a função de distribuição
-conjunta. O evento $B$ e a variável $W_1$ são determinados pelo vetor
-$(X_1^*,\ldots,X_{k+1}^*)$. Pela independência das esperas $X_j^*$,
-o vetor $(X_{k+2}^*,\ldots,X_{k+\ell}^*)$ é independente desse primeiro
-vetor, e as esperas do segundo vetor são independentes entre si.
-Assim, para calcular a probabilidade da interseção de
-$B\cap\{W_1\leqslant y_1\}$ com os eventos
-$\{X_{k+j}^*\leqslant y_j\}$, $2\leqslant j\leqslant\ell$,
-multiplicamos as probabilidades. Dividindo o resultado por
-$\mathbb{P}(B)$, obtemos
-\[
-  \mathbb{P}(W_1\leqslant y_1,\ldots,W_\ell\leqslant y_\ell\mid B)
-  =\mathbb{P}(W_1\leqslant y_1\mid B)
-    \prod_{j=2}^{\ell}\mathbb{P}(X_{k+j}^*\leqslant y_j).
-\]
-A fatoração vale para todo $\ell\geqslant 2$ e todos os limites
-$y_1,\ldots,y_\ell$. Tomando os demais limites para $+\infty$, vemos
-também que cada $W_j$, $j\geqslant 2$, conserva sua distribuição
-$\mathrm{Exp}(\lambda)$ sob a condição $B$. Logo, condicionadas a $B$,
-as esperas $W_1,W_2,\ldots$ são independentes e todas têm distribuição
-$\mathrm{Exp}(\lambda)$.
-
-\smallskip
-\noindent\textbf{A contagem em $(s,s+h]$.}
-Para transportar a contagem da Parte 1 para o intervalo $(s,s+h]$,
-escrevemos $S_0=0$ e $S_m=W_1+\cdots+W_m$ para $m\geqslant 1$.
-Em $B$, há exatamente $m$ chegadas em $(s,s+h]$ quando
-$S_m\leqslant h<S_{m+1}$. Para $m=0$, a condição se reduz a $W_1>h$.
-Sob a condição $B$, as somas das esperas $W_j$ têm as mesmas
-distribuições conjuntas que as somas das esperas $X_j^*$ usadas para
-construir $N^*$. Assim,
-\[
-  \mathbb{P}(N_{s+h}^*-N_s^*=m\mid B)
-  =\mathbb{P}(N_h^*=m),\qquad m\geqslant 0.
-\]
-Multiplicando por $\mathbb{P}(B)$ e retomando $B=A\cap\{K=k\}$,
-obtemos
-\begin{equation}\label{eq:incremento-condicionado-k}
-  \mathbb{P}(A\cap\{K=k\}\cap\{N_{s+h}^*-N_s^*=m\})
-  =\mathbb{P}(A\cap\{K=k\})\,\mathbb{P}(N_h^*=m).
+Como $\mathbb{P}(\Omega_0)=1$ e $\mathbf U$ é independente de $V$, a densidade
+conjunta de $(\mathbf U,V)$ é $f_{\mathbf U,V}(\mathbf x,v)=f_{\mathbf U}(\mathbf x)\,\lambda e^{-\lambda v}$
+para $\mathbf x\in(0,\infty)^k$ e $v>0$. A região
+$\{(\mathbf x,v)\in(0,\infty)^k\times(0,\infty):\mathbf x\in C_k,\;v>s-t_k(\mathbf x)+h\}$
+é boreliana e a densidade é não negativa; pelo Teorema de Tonelli, podemos
+integrar primeiro em $v$:
+\begin{equation}\label{eq:esperanca-em-duas-etapas}
+  \mathbb{P}(A\cap\{K=k\}\cap\{R_s>h\})
+  =\int_{C_k}
+    \left(\int_{s-t_k(\mathbf x)+h}^{\infty}\lambda e^{-\lambda v}\,dv\right)
+    f_{\mathbf U}(\mathbf x)\,d\mathbf x.
 \end{equation}
-A identidade também vale se $\mathbb{P}(A\cap\{K=k\})=0$, pois os dois
-lados são nulos.
+Para cada $\mathbf x\in C_k$, escrevendo $a=s-t_k(\mathbf x)\geqslant 0$, a
+falta de memória de $V\sim\mathrm{Exp}(\lambda)$ na forma
+\eqref{eq:equacao-funcional-falta-memoria} fornece
+\[
+  \int_{a+h}^{\infty}\lambda e^{-\lambda v}\,dv
+  =\mathbb{P}(V>a+h)
+  =e^{-\lambda h}\,\mathbb{P}(V>a)
+  =e^{-\lambda h}\int_a^{\infty}\lambda e^{-\lambda v}\,dv.
+\]
+O fator $e^{-\lambda h}$ não depende de $\mathbf x$ e sai da integral em
+\eqref{eq:esperanca-em-duas-etapas}. A integral restante é exatamente
+\eqref{eq:esperanca-em-duas-etapas} com $h=0$, ou seja,
+$\mathbb{P}(A\cap\{K=k\})$. Isso estabelece \eqref{eq:passado-tempo-restante}
+para todo $k\geqslant 0$.
 
-Como $K$ é finito quase certamente, os eventos $\{K=k\}$, $k\geqslant 0$,
-formam uma partição a menos de um evento de probabilidade nula.
-Somando \eqref{eq:incremento-condicionado-k} em $k$, obtemos
+\smallskip
+\noindent\textbf{As esperas depois de $s$ e a contagem em $(s,s+h]$.}
+Denotemos por $F(y)=\mathbb{P}(X_1^*\leqslant y)$ a função de distribuição de
+$\mathrm{Exp}(\lambda)$ (isto é, $F(y)=1-e^{-\lambda y}$ para $y\geqslant 0$ e
+$F(y)=0$ para $y<0$). Fixados $A\in\mathcal{F}_s$ e $k\geqslant 0$, de
+\eqref{eq:passado-tempo-restante} e do fato de que $W_1=R_s>0$ em
+$\{K=k\}\cap\Omega_0$, segue que, para todo $y_1\in\mathbb{R}$,
+\[
+  \mathbb{P}(A\cap\{K=k\}\cap\{W_1\leqslant y_1\})
+  =F(y_1)\,\mathbb{P}(A\cap\{K=k\}).
+\]
+(Para $y_1\geqslant 0$, basta tomar o complementar de $\{R_s>y_1\}$ dentro de
+$A\cap\{K=k\}$; para $y_1<0$, os dois lados são nulos.)
+
+Fixemos agora $\ell\geqslant 1$ e reais $y_1,\ldots,y_\ell$. Em
+$\{K=k\}\cap\Omega_0$, temos $W_j=X_{k+j}^*$ para $2\leqslant j\leqslant\ell$.
+Além disso, pela representação obtida acima (tanto para $k=0$ quanto para
+$k\geqslant 1$), a menos do evento nulo $\Omega_0^c$, o evento
+$A\cap\{K=k\}\cap\{W_1\leqslant y_1\}$ depende apenas do vetor
+$(X_1^*,\ldots,X_{k+1}^*)$. Pela independência das esperas $X_i^*$, esse evento
+e os eventos $\{X_{k+2}^*\leqslant y_2\},\ldots,\{X_{k+\ell}^*\leqslant y_\ell\}$
+são independentes entre si. Logo,
 \begin{align*}
-  \mathbb{P}(A\cap\{N_{s+h}^*-N_s^*=m\})
-  &=\mathbb{P}(N_h^*=m)
-    \sum_{k=0}^\infty\mathbb{P}(A\cap\{K=k\})\\[0.3cm]
-  &=\mathbb{P}(N_h^*=m)\,\mathbb{P}(A).
+  \MoveEqLeft[2]\mathbb{P}\bigl(A\cap\{K=k\}\cap\{W_1\leqslant y_1,\ldots,W_\ell\leqslant y_\ell\}\bigr)\\[0.15cm]
+  &=\mathbb{P}\bigl(A\cap\{K=k\}\cap\{W_1\leqslant y_1\}\bigr)
+    \prod_{j=2}^{\ell}\mathbb{P}(X_{k+j}^*\leqslant y_j)\\[0.2cm]
+  &=\mathbb{P}(A\cap\{K=k\})\prod_{j=1}^{\ell}F(y_j).
 \end{align*}
-Com $A=\Omega$, vemos que $N_{s+h}^*-N_s^*$ tem a mesma distribuição que
-$N_h^*$, isto é, $\mathrm{Poisson}(\lambda h)$ pela Parte 1. Para um
-evento $A$ qualquer da trajetória até $s$, a fatoração mostra que cada
-evento $\{N_{s+h}^*-N_s^*=m\}$ é independente de $A$. Somando sobre os
-valores $m$ de qualquer conjunto de contagens, obtemos a independência
-do incremento em relação à trajetória até $s$, como exige o postulado D.
+Como os eventos $\{K=k\}$, $k\geqslant 0$, são dois a dois disjuntos e sua
+união contém $\Omega_0$, somar em $k\geqslant 0$ fornece imediatamente
+\begin{equation}\label{eq:fatoracao-esperas-deslocadas}
+  \mathbb{P}\bigl(A\cap\{W_1\leqslant y_1,\ldots,W_\ell\leqslant y_\ell\}\bigr)
+  =\mathbb{P}(A)\prod_{j=1}^{\ell}F(y_j).
+\end{equation}
+
+Para contar as chegadas em $(s,s+h]$, ponhamos $S_0=0$ e
+$S_r=W_1+\cdots+W_r$ para $r\geqslant 1$. Em $\Omega_0$, vale
+$S_r=(T_{K+1}^*-s)+X_{K+2}^*+\cdots+X_{K+r}^*=T_{K+r}^*-s$, de modo que
+$S_r\leqslant h$ se, e somente se, $T_{K+r}^*\leqslant s+h$. Portanto, em
+$\Omega_0$,
+\[
+  N_{s+h}^*-N_s^*=\max\{r\geqslant 0:S_r\leqslant h\}.
+\]
+Se $\mathbb{P}(A)>0$, dividir \eqref{eq:fatoracao-esperas-deslocadas} por
+$\mathbb{P}(A)$ mostra que, sob a medida de probabilidade condicional
+$\mathbb{P}_A(\cdot)=\mathbb{P}(\cdot\mid A)$, as variáveis aleatórias
+$W_1,W_2,\ldots$ são independentes e têm distribuição $\mathrm{Exp}(\lambda)$.
+Aplicando a Parte~1 à sequência $W_1,W_2,\ldots$ sob $\mathbb{P}_A$, concluímos
+que, para todo $m\geqslant 0$,
+\[
+  \mathbb{P}(N_{s+h}^*-N_s^*=m\mid A)
+  =e^{-\lambda h}\frac{(\lambda h)^m}{m!}
+  =\mathbb{P}(N_h^*=m).
+\]
+Multiplicando por $\mathbb{P}(A)$, obtemos
+\[
+  \mathbb{P}(A\cap\{N_{s+h}^*-N_s^*=m\})
+  =\mathbb{P}(A)\,\mathbb{P}(N_h^*=m),
+\]
+igualdade que também vale trivialmente quando $\mathbb{P}(A)=0$. Com
+$A=\Omega$, vemos que $N_{s+h}^*-N_s^*$ tem a mesma distribuição que $N_h^*$,
+isto é, $\mathrm{Poisson}(\lambda h)$ pela Parte~1. Para um evento
+$A\in\mathcal{F}_s$ qualquer, a fatoração mostra que cada evento
+$\{N_{s+h}^*-N_s^*=m\}$ é independente de $A$. Somando sobre os valores $m$ de
+qualquer conjunto de contagens, obtemos a independência do incremento em
+relação à trajetória até $s$, como exige o postulado D.
 
 \smallskip
 \noindent\textbf{Verificação do postulado E.}
