@@ -267,7 +267,7 @@ observações consecutivas. O número de chamadas telefônicas que chegam a uma
 central, o número de partículas detectadas por um contador Geiger e o número de
 clientes que entram em uma loja são contagens desse tipo. A partir daqui o
 índice do processo deixa de ser um inteiro e passa a ser um instante $t$, e o
-modelo que organiza toda a exposição é o processo de Poisson.
+modelo que vamos usar para introduzir estas ideias é o chamado Processo de Poisson.
 
 \subsection{Do Tempo Discreto ao Tempo Contínuo}
 \label{subsec:discreto-continuo}
@@ -289,31 +289,33 @@ exige lidar com famílias não enumeráveis de variáveis aleatórias. Boa parte
 dessas dificuldades desaparece quando nos restringimos a processos que assumem
 apenas valores inteiros. Para o que faremos, basta que cada $Z_t$ seja uma
 variável aleatória e que as trajetórias $t\mapsto Z_t(\omega)$ tenham as
-propriedades de monotonia enunciadas adiante; não precisaremos construir a
-família inteira por meio de um teorema de extensão.
+propriedades de monotonicidade como enunciadas adiante. Isto evita a necessidade 
+de construir a família inteira por meio do Teorema de Extensão de Kolmogorov.
 
-A diferença de método em relação ao tempo discreto é simples de descrever.
+As diferenças entre os principais métodos utilizados nas notas anteriores, 
+no caso de tempo discreto, e os que vamos precisar aqui são simples de descrever.
 Para um processo $(Z_n)_{n\geqslant0}$ a tempo discreto, relacionamos $Z_{n+1}$
 com $Z_n$ e obtemos \emph{equações de recorrência} e \emph{equações de
 diferenças} para as probabilidades envolvidas, como fizemos no estudo dos
 passeios aleatórios. Para um processo a tempo contínuo, relacionamos $Z_{t+h}$
 com $Z_t$ para um acréscimo pequeno $h>0$ e, em seguida, fazemos $h\downarrow0$.
 O que era uma equação de diferenças passa a ser uma \emph{equação diferencial}.
-Essa é a única mudança conceitual relevante, e ela organiza toda a exposição
-seguinte.
+Essa é a única mudança conceitual relevante, e o objetivo destas notas é tornar
+esta adaptação o mais simples possível.
 
 \subsection{O Modelo da Central Telefônica}\label{subsec:modelo-central}
 
 Apresentamos o exemplo que serve de protótipo. Bill é o chefe dos mensageiros
 de um grande hotel e parte de seu trabalho consiste em atender as ligações
 telefônicas que chegam. Ele não consegue prever com certeza quando o telefone
-vai tocar; do seu ponto de vista, as chamadas chegam ao acaso. Fazemos duas
-simplificações sobre essas chamadas. Primeiro, supomos que Bill atende cada
+vai tocar; do seu ponto de vista, as chamadas chegam ao acaso. 
+
+Vamos fazer algumas hipóteses sobre como essas chamadas chegam. Primeiro, supomos que Bill atende cada
 chamada instantaneamente, de modo que nenhuma chamada se perde, a menos que
 chegue exatamente no mesmo instante que outra. Segundo, supomos que as
 chamadas chegam de modo \emph{homogêneo} no tempo, no sentido de que a chance
-de o telefone tocar em um período depende apenas da duração desse período. A
-segunda hipótese é grosseira para um dia inteiro de trabalho, mas pode ser
+de o telefone tocar em um período de tempo depende apenas da duração desse período. A
+segunda hipótese é muito forte e pouco realista para um dia inteiro de trabalho, mas pode ser
 razoável em certos períodos do dia.
 
 Descrevemos o tempo por um parâmetro $t$ que percorre $[0,\infty)$ e denotamos
@@ -350,42 +352,89 @@ aproximação melhora quando $h$ diminui.
 \subsection{O Postulado de Taxa e a Notação \texorpdfstring{$o(h)$}{o(h)}}
 \label{subsec:taxa-o-h}
 
-Antes de usar o postulado E, precisamos fixar o significado da expressão
-$o(h)$. Escrevemos $f(h)=o(h)$ quando
+Para medir como uma probabilidade varia de $t$ a $t+h$, vamos dividir
+essa variação pela duração $h$ do intervalo. É o quociente que aparece
+na definição de derivada. A notação $o(h)$ indica quais parcelas tendem
+a zero depois dessa divisão. Escrevemos $f(h)=o(h)$ quando
 \[
-  \lim_{h\downarrow0}\frac{f(h)}{h}=0,
+  \lim_{h\downarrow0}\frac{f(h)}{h}=0.
 \]
-isto é, quando $f$ é de ordem de grandeza menor que $h$ para $h$ pequeno.
-Analogamente, escrevemos $f(h)=O(h)$ quando existe uma constante $C>0$ tal que
-$|f(h)|\leqslant Ch$ para todo $h$ suficientemente pequeno. Nessa
-notação, $o(h)$ representa uma função de $h$ que pode ser diferente a cada
-aparição; em particular, a soma de duas parcelas $o(h)$ é ainda $o(h)$. Assim,
-ao escrevermos
-\[
-  \mathbb{P}(N_{t+h}=n+1\mid N_t=n)=\lambda h+o(h),
-\]
-afirmamos que a diferença entre o lado esquerdo e $\lambda h$ é uma função de
-$h$ cuja razão por $h$ tende a zero quando $h\downarrow0$.
+Por exemplo, $h^2=o(h)$, pois $h^2/h=h$ tende a zero quando $h\downarrow0$.
+Cada ocorrência de $o(h)$ pode representar uma função diferente.
 
-O postulado E determina a probabilidade de uma chegada em um intervalo curto.
-A partir dele obtemos também a probabilidade de duas ou mais chegadas no mesmo
-intervalo. Como os eventos $\{N_{t+h}=n\}$, $\{N_{t+h}=n+1\}$ e
-$\{N_{t+h}\geqslant n+2\}$ são dois a dois disjuntos e cobrem $\{N_t=n\}$, temos
+Também usaremos a notação $f(h)=O(h)$ para dizer que existe uma constante
+$C>0$ tal que $|f(h)|\leqslant Ch$ para todo $h>0$ suficientemente pequeno.
+Isso significa que o quociente $|f(h)|/h$ fica limitado quando $h\downarrow0$.
+Por exemplo, $\lambda h=O(h)$ porque $(\lambda h)/h=\lambda$.
+
+Fixemos $t$ e $n$ com $\mathbb{P}(N_t=n)>0$. O postulado E dá duas
+aproximações para as probabilidades condicionadas a $N_t=n$. Vamos chamar
+de $r_0(h)$ o resto na aproximação para nenhuma chegada e de $r_1(h)$ o
+resto na aproximação para exatamente uma chegada. Com esses nomes, as
+igualdades do postulado E ficam
+\begin{align*}
+  \mathbb{P}(N_{t+h}=n\mid N_t=n)&=1-\lambda h+r_0(h),\\
+  \mathbb{P}(N_{t+h}=n+1\mid N_t=n)&=\lambda h+r_1(h),
+\end{align*}
+com $r_0(h)/h\to0$ e $r_1(h)/h\to0$ quando $h\downarrow0$. Como
+$r_0(h)=h\,[r_0(h)/h]$, temos também $r_0(h)\to0$. Na primeira igualdade,
+$\lambda h$ e $r_0(h)$ tendem a zero, e a probabilidade de nenhuma chegada
+tende a $1$.
+
+Para ver como a taxa $\lambda$ aparece, dividimos a probabilidade de
+exatamente uma chegada pela duração do intervalo e passamos ao limite.
+\begin{align*}
+  \frac{\mathbb{P}(N_{t+h}=n+1\mid N_t=n)}{h}
+  &=\frac{\lambda h+r_1(h)}{h}\\
+  &=\lambda+\frac{r_1(h)}{h}
+  \longrightarrow\lambda.
+\end{align*}
+
+Como aproveitar as duas probabilidades do postulado E para estimar a
+probabilidade de duas ou mais chegadas? Ao condicionarmos a $N_t=n$,
+consideramos apenas os resultados em que a contagem no instante $t$ é $n$.
+O número de chegadas em $(t,t+h]$ é então $N_{t+h}-n$. Pelo postulado A,
+esse número é inteiro, e, pelo postulado C, $N_{t+h}\geqslant n$.
+Com nenhuma chegada, temos $N_{t+h}=n$. Com exatamente uma, temos
+$N_{t+h}=n+1$. Com duas ou mais, temos $N_{t+h}\geqslant n+2$.
+Portanto,
+\begin{align*}
+\mathbb{P}(N_{t+h}=n\mid N_t=n)
++\mathbb{P}(N_{t+h}=n+1\mid N_t=n)
++\mathbb{P}(N_{t+h}\geqslant n+2\mid N_t=n)=1.
+\end{align*}
+Os dois primeiros casos formam o complemento do terceiro entre os
+resultados com $N_t=n$. O postulado E já nos dá as duas primeiras
+probabilidades. Para isolar a terceira, subtraímos as duas primeiras
+de ambos os lados da igualdade.
 \begin{align*}
   \mathbb{P}(N_{t+h}\geqslant n+2\mid N_t=n)
   &=1-\mathbb{P}(N_{t+h}=n\mid N_t=n)
-  \\[0.2cm]
-  &\quad-\mathbb{P}(N_{t+h}=n+1\mid N_t=n)
-  \\[0.3cm]
-  &=1-\bigl[1-\lambda h+o(h)\bigr]-\bigl[\lambda h+o(h)\bigr]
-  \\[0.3cm]
-  &=o(h).
+  -\mathbb{P}(N_{t+h}=n+1\mid N_t=n)\\
+  &=1-\bigl[1-\lambda h+r_0(h)\bigr]-\bigl[\lambda h+r_1(h)\bigr]\\
+  &=1-1+\lambda h-r_0(h)-\lambda h-r_1(h)\\
+  &=-r_0(h)-r_1(h).
 \end{align*}
-Concluímos que, em um intervalo curto, os únicos eventos cuja probabilidade
-não é $o(h)$ são o de nenhuma chegada e o de exatamente uma chegada. A
-igualdade anterior também mostra que as duas identidades do postulado E são
-compatíveis entre si: somando as probabilidades dos três eventos, os dois
-termos $o(h)$ se cancelam e resta $1$.
+Ao abrir os colchetes, o sinal de menos troca o sinal de cada parcela
+dentro deles. Na última linha, cancelamos $1$ com $-1$ e $\lambda h$
+com $-\lambda h$.
+
+Para saber se a probabilidade que restou é $o(h)$, dividimos por $h$.
+Como cada razão $r_i(h)/h$ tende a zero, obtemos
+\[
+  \frac{\mathbb{P}(N_{t+h}\geqslant n+2\mid N_t=n)}{h}
+  =\frac{-r_0(h)-r_1(h)}{h}
+  =-\frac{r_0(h)}{h}-\frac{r_1(h)}{h}
+  \longrightarrow 0.
+\]
+Pela definição de $o(h)$, isso dá
+\[
+  \mathbb{P}(N_{t+h}\geqslant n+2\mid N_t=n)=o(h).
+\]
+A mesma conta explica por que somas e diferenças de termos $o(h)$ ainda
+são $o(h)$. Na \Cref{sec:distribuicao-nt}, esse limite fará desaparecer a
+contribuição de duas ou mais chegadas quando dividirmos por $h$ para
+obter as equações diferenciais.
 
 Esse é o nosso modelo para a chegada de chamadas telefônicas. Trata-se de um
 modelo primitivo, baseado na ideia de chegadas ao acaso e obtido com o auxílio
@@ -456,7 +505,7 @@ permanece em cada nível por um intervalo de tempo aleatório.
     \draw[teal!85!black, densely dashed, line width=0.7pt]
       (2.1,2.18) -- (3.6,2.18);
     \node[font=\scriptsize, text=teal!85!black, fill=white, inner sep=1.5pt]
-      at (2.85,2.18) {$N_t=2$};
+      at (2.85,2.20) {$N_t=2$};
 
   \end{tikzpicture}
   \caption{Trajetória de um processo de Poisson. A função $N_t$ é constante
@@ -497,7 +546,7 @@ Por isso, a sequência dos $T_i$ pode ser pensada como o \emph{processo inverso}
 de $N$. A passagem de $N$ para os $T_i$ e de volta para $N$ será usada com
 frequência nas próximas seções.
 
-Duas perguntas organizam o que vem a seguir, e ambas foram enunciadas de forma
+Duas perguntas guiam as discussões a seguir, e ambas foram enunciadas de forma
 vaga até aqui. Qual é a função de probabilidade de $N_t$ para um valor fixado
 de $t$? O que pode ser dito sobre a distribuição da sequência
 $T_0,T_1,\ldots$? A \Cref{sec:distribuicao-nt} responde à primeira e a
@@ -516,7 +565,7 @@ diferencial
 e resolva essa equação para obter $p_0(t)$.
 \end{exercise}
 
-\begin{exercise}[Afinamento]\label{exercise:afinamento}
+\begin{exercise}[(Refinamento)]\label{exercise:afinamento}
 Suponha que chamadas telefônicas cheguem a uma central segundo um processo de
 Poisson $N=(N_t)_{t\geqslant0}$ de taxa $\lambda$ e que o equipamento esteja
 com defeito, de modo que cada chamada que chega não seja registrada com
@@ -525,7 +574,7 @@ chamadas registradas até o instante $t$. Mostre que $N'=(N'_t)_{t\geqslant0}$
 é um processo de Poisson de taxa $\lambda(1-q)$.
 \end{exercise}
 
-\begin{exercise}[Superposição]\label{exercise:superposicao}
+\begin{exercise}[(Superposição)]\label{exercise:superposicao}
 Dois fluxos independentes de chamadas telefônicas chegam a uma central: o
 primeiro é um processo de Poisson de taxa $\lambda$ e o segundo é um processo
 de Poisson de taxa $\mu$. Mostre que o fluxo combinado de chamadas é um
@@ -598,17 +647,17 @@ a contribuição dessas parcelas para a soma é $o(h)$. Restam, portanto, apenas
 as parcelas $i=k-1$ e $i=k$, e o postulado E fornece
 
 \begin{align}
-  \mathbb{P}(N_{t+h}=k)
+  \mathbb{P}(&N_{t+h}=k)
+  \notag\\[0.3cm]
   &=\mathbb{P}(N_{t+h}=k\mid N_t=k-1)\,\mathbb{P}(N_t=k-1)
     \notag
-  \\[0.2cm]
-  &\quad+\mathbb{P}(N_{t+h}=k\mid N_t=k)\,\mathbb{P}(N_t=k)+o(h)
+  +\mathbb{P}(N_{t+h}=k\mid N_t=k)\,\mathbb{P}(N_t=k)+o(h)
     \notag
-  \\[0.2cm]
+  \\[0.3cm]
   &=\bigl[\lambda h+o(h)\bigr]\mathbb{P}(N_t=k-1)
     +\bigl[1-\lambda h+o(h)\bigr]\mathbb{P}(N_t=k)+o(h)
     \notag
-  \\[0.2cm]
+  \\[0.3cm]
   &=\lambda h\,\mathbb{P}(N_t=k-1)
     +(1-\lambda h)\,\mathbb{P}(N_t=k)+o(h),
     \label{eq:sistema-recursivo}
@@ -705,72 +754,168 @@ e a fórmula \eqref{eq:distribuicao-nt} segue dividindo por $e^{\lambda t}$.
 
 \medskip
 \noindent\textbf{Solução B (funções geradoras).}
-O segundo método é mais econômico e se aplica, com pequenas adaptações, aos
-processos das próximas notas de aula. Ele usa a função geradora de
-probabilidade de $N_t$, isto é,
+A equação \eqref{eq:edo-nt} relaciona probabilidades cujos índices diferem de
+uma unidade, $p_k(t)$ e $p_{k-1}(t)$. Podemos representar esse deslocamento
+com uma multiplicação. Se colocarmos cada $p_k(t)$ como coeficiente de $s^k$,
+multiplicar a série por $s$ desloca $p_0(t)$ para o termo de grau $1$,
+$p_1(t)$ para o de grau $2$ e, em geral, $p_{k-1}(t)$ para o de grau $k$.
+Isso sugere reunir todas as probabilidades em uma única função,
+a \emph{função geradora de probabilidade} de $N_t$,
 \[
   G(s,t)=\mathbb{E}\bigl[s^{N_t}\bigr]=\sum_{k=0}^{\infty}p_k(t)\,s^k,
   \qquad |s|\leqslant1.
 \]
-A ideia é trocar o sistema infinito \eqref{eq:edo-nt} e \eqref{eq:edo-nt-zero}
-por uma única equação diferencial para $G$. Para isso, multiplicamos
-\eqref{eq:edo-nt} por $s^k$ e somamos em $k\geqslant1$. Obtemos
+O termo $s^0$ vale $1$, inclusive em $s=0$. A série converge absolutamente
+porque $|s|^k\leqslant1$ e as probabilidades $p_k(t)$ somam $1$. De fato,
 \[
-  \sum_{k=1}^{\infty}p_k'(t)\,s^k
-  =\lambda\sum_{k=1}^{\infty}p_{k-1}(t)\,s^k
-   -\lambda\sum_{k=1}^{\infty}p_k(t)\,s^k.
+  \sum_{k=0}^{\infty}\bigl|p_k(t)s^k\bigr|
+  =\sum_{k=0}^{\infty}p_k(t)|s|^k
+  \leqslant\sum_{k=0}^{\infty}p_k(t)=1.
 \]
-A primeira soma do lado direito é $s\,G(s,t)$, pela reindexação $j=k-1$. Para
-a soma do lado esquerdo, observe que $p_0'=-\lambda p_0$ por
-\eqref{eq:edo-nt-zero} e que
+
+Para combinar as equações diferenciais, começamos com um número finito
+de termos. Para $m=0,1,2,\ldots$, escrevemos
 \[
-  \sum_{k=1}^{\infty}p_k(t)\,s^k=G(s,t)-p_0(t).
+  G_m(s,t)=\sum_{k=0}^{m}p_k(t)s^k,\qquad G_0(s,t)=p_0(t).
 \]
-Somando $p_0'(t)$ aos dois lados da igualdade anterior, chegamos a
+Fixamos $s$ e derivamos a soma finita em relação a $t$. Para cada
+$k=1,\ldots,m$, o termo que aparece é $p_k'(t)s^k$, pois $s^k$ é
+constante em $t$. Substituímos $p_k'(t)$ por \eqref{eq:edo-nt} e usamos
+a equação \eqref{eq:edo-nt-zero} para o termo de índice $0$. 
+Desta forma, para cada $m\geqslant1$ fixado, ficamos com
+\begin{align}\label{eq-aux1-poisson-B}
+  \frac{\partial G_m}{\partial t}(s,t)
+  &=p_0'(t)+\sum_{k=1}^{m}p_k'(t)s^k
+  \notag\\[0.3cm]
+  &=-\lambda p_0(t)
+    +\lambda\sum_{k=1}^{m}p_{k-1}(t)s^k
+    -\lambda\sum_{k=1}^{m}p_k(t)s^k.
+\end{align}
+
+Na primeira soma do lado direito, o termo $p_{k-1}(t)$ vem com a
+potência $s^k$. Fazemos $j=k-1$ para escrever a soma em termos de $p_j(t)$.
+Os valores $k=1$ e $k=m$ correspondem a $j=0$ e $j=m-1$. Como $k=j+1$,
+podemos pôr um fator $s$ em evidência e obter
+\[
+  \sum_{k=1}^{m}p_{k-1}(t)s^k
+  =\sum_{j=0}^{m-1}p_j(t)s^{j+1}
+  =s\sum_{j=0}^{m-1}p_j(t)s^j
+  =s\,G_{m-1}(s,t).
+\]
+No segundo somatório do lado direito de \eqref{eq-aux1-poisson-B}, o índice $k$ já coincide com o expoente
+de $s$. Como ela começa em $k=1$, contém todos os termos de $G_m(s,t)$
+a partir de $p_1(t)s$. Logo,
+\[
+  \sum_{k=1}^{m}p_k(t)s^k=G_m(s,t)-p_0(t).
+\]
+No limite $m\to\infty$, a primeira soma vale $s\,G(s,t)$ e a segunda
+vale $G(s,t)-p_0(t)$. Ainda com $m$ finito, substituímos as duas
+expressões na equação para $G_m$ e obtemos
+\begin{align*}
+  \frac{\partial G_m}{\partial t}(s,t)
+  &=-\lambda p_0(t)+\lambda s\,G_{m-1}(s,t)
+    -\lambda\bigl[G_m(s,t)-p_0(t)\bigr]\\
+  &=-\lambda p_0(t)+\lambda s\,G_{m-1}(s,t)
+    -\lambda G_m(s,t)+\lambda p_0(t)\\
+  &=\lambda\bigl[s\,G_{m-1}(s,t)-G_m(s,t)\bigr].
+\end{align*}
+O termo $+\lambda p_0(t)$, que aparece ao distribuir $-\lambda$ nos
+colchetes, cancela o termo $-\lambda p_0(t)$ vindo de $p_0'(t)$.
+
+Para usar a convergência de $G_m$ para $G$ dos dois lados da equação,
+integramos de $0$ a $t$. Pelo Teorema Fundamental do Cálculo, a integral
+da derivada no lado esquerdo depende apenas dos valores de $G_m$ nos
+extremos e vale $G_m(s,t)-G_m(s,0)$. A condição inicial
+\eqref{eq:condicao-inicial-nt} dá $G_m(s,0)=1$, pois $p_0(0)=1$ e
+$p_k(0)=0$ para $k\geqslant1$. Escrevendo $u$ para a variável de integração,
+obtemos
+\[
+  G_m(s,t)-1
+  =\lambda\int_0^t\bigl[s\,G_{m-1}(s,u)-G_m(s,u)\bigr]\,du.
+\]
+
+Para tomar o limite dentro dessa integral, precisamos estimar o tamanho
+dos termos que ficaram de fora de $G_m$ para todos os instantes
+$u\in[0,t]$. Pelo postulado C, $N_u\leqslant N_t$ nesse intervalo.
+Portanto, se $N_u\geqslant m+1$, então $N_t\geqslant m+1$. Como
+$|s|\leqslant1$, segue que
+\begin{align*}
+  \bigl|G(s,u)-G_m(s,u)\bigr|
+  &=\left|\sum_{k=m+1}^{\infty}p_k(u)s^k\right|\\
+  &\leqslant\sum_{k=m+1}^{\infty}p_k(u)|s|^k\\
+  &\leqslant\sum_{k=m+1}^{\infty}p_k(u)
+  =\mathbb{P}(N_u\geqslant m+1)\\
+  &\leqslant\mathbb{P}(N_t\geqslant m+1).
+\end{align*}
+A cota tende a zero quando $m\to\infty$, pois $N_t$ assume valores finitos.
+Ela é a mesma para todo $u\in[0,t]$, de modo que a convergência de
+$G_m(s,u)$ para $G(s,u)$ é uniforme nesse intervalo. Para $G_{m-1}$,
+a mesma conta dá a cota $\mathbb{P}(N_t\geqslant m)$. Podemos, então,
+estimar o erro ao trocar o integrando por seu limite,
+\begin{align*}
+  \bigl|s\,G_{m-1}(s,u)\!-\!G_m(s,u)\!-\!(s-1)G(s,u)\bigr|
+  &\leqslant |s|\,\bigl|G_{m-1}(s,u)\!-\!G(s,u)\bigr|
+               +\bigl|G_m(s,u)-G(s,u)\bigr|
+  \\[0.3cm]
+  &\leqslant \mathbb{P}(N_t\geqslant m)+\mathbb{P}(N_t\geqslant m+1)
+  \\[0.3cm]
+  &\leqslant 2\,\mathbb{P}(N_t\geqslant m).
+\end{align*}
+Depois de integrar em $[0,t]$ e multiplicar por $\lambda$, o erro é no
+máximo $2\lambda t\,\mathbb{P}(N_t\geqslant m)$, que tende a zero.
+Fazendo $m\to\infty$ na equação integral para $G_m$, obtemos
+\[
+  G(s,t)-1=\lambda(s-1)\int_0^t G(s,u)\,du.
+\]
+Para $s$ fixado, $G(s,u)$ é contínua em $u$, pois é o limite uniforme
+de funções contínuas em cada intervalo limitado. Podemos, portanto,
+derivar a equação integral pelo Teorema Fundamental do Cálculo e chegamos
+a uma única equação diferencial,
 \[
   \frac{\partial G}{\partial t}(s,t)
-  =\lambda s\,G(s,t)-\lambda\bigl[G(s,t)-p_0(t)\bigr]-\lambda p_0(t)
-  =\lambda(s-1)\,G(s,t).
+  =\lambda(s-1)\,G(s,t),\qquad G(s,0)=1.
 \]
-A derivação termo a termo é legítima: por \eqref{eq:edo-nt},
-$|p_k'(t)|\leqslant\lambda\bigl(p_{k-1}(t)+p_k(t)\bigr)$, de modo que, para
-$|s|\leqslant1$,
-\[
-  \sum_{k=1}^{\infty}\bigl|p_k'(t)\bigr|\,|s|^k
-  \leqslant2\lambda\sum_{k=0}^{\infty}p_k(t)=2\lambda,
-\]
-e a cota não depende de $t$. O teste de Weierstrass, aplicado às caudas dessa
-série, mostra então que ela converge uniformemente em $t$: o supremo em $t$ do
-módulo de cada termo é somável, com soma no máximo $2\lambda$. Para cada $s$
-fixado com $|s|\leqslant1$, a função $t\mapsto G(s,t)$ é derivável e sua
-derivada é a série das derivadas.
 
-Resta resolver a equação diferencial ordinária
+Com $s$ fixado, a derivada de $G$ é $\lambda(s-1)$ vezes a própria função.
+Buscamos um fator que, na regra do produto, produza um termo com o sinal
+oposto. O fator integrante $e^{-\lambda t(s-1)}$ tem essa propriedade,
+pois sua derivada em $t$ é $-\lambda(s-1)e^{-\lambda t(s-1)}$. De fato,
+\begin{align*}
+  \frac{\partial}{\partial t}\bigl(e^{-\lambda t(s-1)}G(s,t)\bigr)
+  &=-\lambda(s-1)e^{-\lambda t(s-1)}G(s,t)
+    +e^{-\lambda t(s-1)}\frac{\partial G}{\partial t}(s,t)\\
+  &=-\lambda(s-1)e^{-\lambda t(s-1)}G(s,t)
+    +\lambda(s-1)e^{-\lambda t(s-1)}G(s,t)\\
+  &=0.
+\end{align*}
+O produto é, portanto, constante em $t$. Em $t=0$, a exponencial vale $1$
+e $G(s,0)=1$, de modo que a constante é $1$. Multiplicando a igualdade
+$e^{-\lambda t(s-1)}G(s,t)=1$ por $e^{\lambda t(s-1)}$, obtemos
 \[
-  \frac{\partial G}{\partial t}=\lambda(s-1)\,G,
+  G(s,t)=e^{\lambda t(s-1)}.
 \]
-na variável $t$, com $s$ fixado. Ela é linear de primeira ordem e se resolve
-por fator integrante. Multiplicando por $e^{-\lambda t(s-1)}$, obtemos
+
+Para recuperar $p_k(t)$, escrevemos essa expressão como uma série de
+potências em $s$. Separamos o fator $e^{-\lambda t}$, que é constante
+em $s$, e aplicamos a série da exponencial ao argumento $\lambda t s$.
+\begin{align*}
+  G(s,t)
+  &=e^{\lambda t s-\lambda t}
+  =e^{-\lambda t}\,e^{\lambda t s}\\
+  &=e^{-\lambda t}\sum_{j=0}^{\infty}\frac{(\lambda t s)^j}{j!}\\
+  &=\sum_{j=0}^{\infty}\left(e^{-\lambda t}\frac{(\lambda t)^j}{j!}\right)s^j.
+\end{align*}
+Pela definição de $G$, o coeficiente de $s^k$ é $p_k(t)$. Esse
+coeficiente é determinado pela função, como vimos nas notas sobre
+funções geradoras. Para $k=0$, basta avaliar a função em $s=0$. Para
+$k\geqslant1$, derivamos $k$ vezes em $s$ e avaliamos em $s=0$.
+As potências de grau menor que $k$ se anulam na derivação, e as de grau
+maior ainda têm uma potência positiva de $s$ e se anulam em $s=0$.
+Só resta $k!$ vezes o coeficiente de $s^k$. Assim, comparando as duas
+séries para $G$, obtemos
 \[
-  \frac{\partial}{\partial t}\Bigl(e^{-\lambda t(s-1)}G(s,t)\Bigr)=0,
+  \mathbb{P}(N_t=k)=p_k(t)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}.
 \]
-de modo que $e^{-\lambda t(s-1)}G(s,t)=A(s)$ depende apenas de $s$. A condição
-inicial vem de \eqref{eq:condicao-inicial-nt}:
-\[
-  G(s,0)=\sum_{k=0}^{\infty}p_k(0)\,s^k=1,
-\]
-para todo $s$, logo $A(s)=1$. Portanto
-\[
-  G(s,t)=e^{\lambda t(s-1)}
-  =e^{-\lambda t}\sum_{k=0}^{\infty}\frac{(\lambda t)^k}{k!}\,s^k,
-\]
-onde usamos a série da exponencial. O lado direito é uma série de potências em
-$s$ e, pela unicidade dos coeficientes de uma série de potências, o coeficiente
-de $s^k$ coincide com $p_k(t)$. Assim,
-\[
-  p_k(t)=\frac{1}{k!}(\lambda t)^k e^{-\lambda t},
-\]
-como queríamos.
 \end{proof}
 
 A fórmula \eqref{eq:distribuicao-nt} mostra que $N_t$ tem distribuição
@@ -883,12 +1028,15 @@ aleatória padronizada
 \[
   U_t=\frac{N_t-\mathbb{E}[N_t]}{\sqrt{\operatorname{Var}(N_t)}}.
 \]
-Mostre que a função geradora de momentos de $U_t$ é
+Mostre que a função característica de $U_t$ é
 \[
-  M_t(x)=\mathbb{E}\bigl[e^{xU_t}\bigr]
-  =\exp\Bigl[-x\sqrt{\lambda t}+\lambda t\bigl(e^{x/\sqrt{\lambda t}}-1\bigr)\Bigr],
+  \varphi_{U_t}(x)=\mathbb{E}\bigl[e^{ixU_t}\bigr]
+  =\exp\Bigl[-ix\sqrt{\lambda t}+\lambda t\bigl(e^{ix/\sqrt{\lambda t}}-1\bigr)\Bigr],
 \]
-para $x\in\mathbb{R}$. Deduza que, quando $t\to\infty$,
+para $x\in\mathbb{R}$. Mostre que $\varphi_{U_t}(x)\to e^{-\frac{1}{2}x^2}$
+quando $t\to\infty$, para todo $x\in\mathbb{R}$, e use o Teorema da
+Continuidade de Lévy, demonstrado nas notas de aula sobre funções
+características, para deduzir que, quando $t\to\infty$,
 \[
   \mathbb{P}(U_t\leqslant u)
   \longrightarrow
@@ -905,8 +1053,9 @@ Na seção anterior descrevemos a distribuição de $N_t$ para cada instante $t$
 fixado. Passamos agora à segunda pergunta anunciada na
 \Cref{subsec:trajetorias}: como se distribuem os tempos de chegada
 $T_0,T_1,\ldots$? Veremos que os intervalos entre chegadas sucessivas são
-variáveis aleatórias independentes com distribuição exponencial, e que a
-propriedade que torna essa descrição possível é a falta de memória.
+variáveis aleatórias independentes com distribuição exponencial. Em seguida,
+usaremos a falta de memória da exponencial para reconstruir o processo a
+partir desses intervalos.
 
 \subsection{Tempos de Chegada e Tempos entre Chegadas}
 \label{subsec:tempos-entre-chegadas}
@@ -968,49 +1117,333 @@ e os tempos entre chegadas são as diferenças sucessivas dos tempos de chegada.
   \label{fig:tempos-entre-chegadas}
 \end{figure}
 
+Antes de enunciar o próximo resultado, vamos recordar a definição e as
+propriedades básicas da distribuição exponencial, já estudadas nas notas de
+aula sobre funções de distribuição e sobre vetores contínuos.
+
+\begin{definition}[Distribuição exponencial]\label{def:distribuicao-exponencial}
+Seja $\lambda>0$. Dizemos que uma variável aleatória $X$ tem
+\emph{distribuição exponencial de parâmetro} $\lambda$, e escrevemos
+$X\sim\mathrm{Exp}(\lambda)$, quando $X$ é absolutamente contínua e admite a
+função densidade
+\[
+  f_X(x)=
+  \begin{cases}
+    \lambda e^{-\lambda x}, & \text{se } x\geqslant 0,
+    \\[0.2cm]
+    0, & \text{se } x<0.
+  \end{cases}
+\]
+O parâmetro $\lambda$ também é chamado de \emph{taxa} da distribuição.
+\end{definition}
+
+Integrando a densidade $f_X$, obtemos a função de distribuição de
+$X\sim\mathrm{Exp}(\lambda)$:
+\[
+  F_X(x)=\mathbb{P}(X\leqslant x)=
+  \begin{cases}
+    1-e^{-\lambda x}, & \text{se } x\geqslant 0,
+    \\[0.2cm]
+    0, & \text{se } x<0.
+  \end{cases}
+\]
+Em particular, para todo $x\geqslant 0$, a \emph{cauda} da distribuição é dada
+por
+\begin{equation}\label{eq:cauda-exponencial}
+  \mathbb{P}(X>x)=1-F_X(x)=e^{-\lambda x}.
+\end{equation}
+Reciprocamente, se uma variável aleatória $X$ satisfaz
+\eqref{eq:cauda-exponencial} para todo $x\geqslant 0$, então em $x=0$ temos
+$\mathbb{P}(X>0)=1$, o que implica $F_X(x)=0$ para todo $x\leqslant 0$; para
+$x\geqslant 0$, obtemos
+$F_X(x)=1-\mathbb{P}(X>x)=1-e^{-\lambda x}=\int_0^x \lambda e^{-\lambda t}\,dt$.
+Logo $X$ admite a densidade da \Cref{def:distribuicao-exponencial}, isto é,
+$X\sim\mathrm{Exp}(\lambda)$. Assim, a distribuição exponencial fica
+completamente caracterizada por sua cauda \eqref{eq:cauda-exponencial}, que é
+precisamente o critério que usaremos na demonstração a seguir para identificar
+a distribuição de $X_1$.
+
 \begin{theorem}\label{thm:exponenciais-iid}
 Em um processo de Poisson de taxa $\lambda$, os tempos entre chegadas
 $X_1,X_2,\ldots$ são variáveis aleatórias independentes, cada uma com
 distribuição exponencial de parâmetro $\lambda$.
 \end{theorem}
 
-Esse resultado liga os postulados do processo de Poisson à distribuição
-exponencial. Nos processos que satisfazem uma condição de independência como o
-postulado D, a distribuição dos tempos de espera é exponencial, e a razão é a
-propriedade de falta de memória, que discutiremos na
-\Cref{subsec:falta-memoria} e que caracteriza a exponencial entre as
-distribuições de variáveis positivas.
+Para calcular a primeira espera, observamos a contagem a partir de $0$.
+Gostaríamos de fazer a mesma conta a partir de $T_k$, para obter a espera
+pela chegada seguinte. Os postulados D e E foram enunciados para instantes
+fixados de antemão. A mudança para $T_k$, que é determinado pelas próprias
+chegadas, será justificada pela \emph{propriedade forte de Markov}.
+
+Ao observar o processo até $t$, já podemos decidir se a $k$-ésima chegada
+ocorreu, pois $\{T_k\leqslant t\}=\{N_t\geqslant k\}$. A
+\Cref{rem:tempos-finitos} garante que cada $T_k$ é finito com probabilidade $1$.
+Usaremos a propriedade na forma abaixo, que assumimos sem demonstração.
+
+\begin{property}[Reinício nos tempos de chegada]
+Seja $N=(N_t)_{t\geqslant 0}$ um processo de Poisson de taxa $\lambda$. Para
+cada inteiro $k\geqslant 1$, o processo deslocado
+\[
+  N^{(k)}_t=N_{T_k+t}-N_{T_k},
+  \qquad t\geqslant 0,
+\]
+é um processo de Poisson de taxa $\lambda$, independente do vetor
+$(X_1,\ldots,X_k)$.
+\end{property}
+
+Na \Cref{fig:construcao-trajetoria-deslocada}, tomamos $k=2$ e escolhemos uma
+trajetória em que $T_2=3$. Para construir o gráfico de baixo, lemos a
+trajetória a partir de $s=3$. Um ponto que estava no instante $s$ e tinha
+altura $N_s$ passa para o instante $t=s-3$ e para a altura $N_s-2$, pois
+duas chegadas já foram contadas em $T_2$. Por exemplo, a chegada em $s=5$
+é a primeira no novo relógio, onde ocorre em $t=5-3=2$.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+    x=1.25cm, y=0.85cm, >=Stealth, font=\small,
+    espera/.style={line width=0.6pt, decorate,
+      decoration={brace, amplitude=3.5pt, mirror}},
+  ]
+    \def\alturaEixoSuperior{8.93}
+    \pgfmathsetmacro{\alturaReinicio}{\alturaEixoSuperior+2}
+
+    % Os dois relógios leem cada chegada na mesma coluna.
+    \foreach \x/\y in {3/0, 5/1, 7/2, 10/3} {
+      \draw[black!30, densely dashed, line width=0.45pt]
+        (\x,\y) -- (\x,{\alturaReinicio+\y});
+    }
+
+    \begin{scope}[shift={(0,\alturaEixoSuperior)}]
+      \draw[->, black!65, line width=0.55pt] (0,0) -- (11.8,0)
+        node[right=2pt, text=text] {$s$};
+      \draw[->, black!65, line width=0.55pt] (0,0) -- (0,5.45)
+        node[above=2pt, text=text] {$N_s$};
+      \foreach \y in {1,...,5} {
+        \draw[black!55, line width=0.45pt] (-0.03,\y) -- (0.03,\y);
+        \node[left=2pt, font=\scriptsize, text=muted] at (0,\y) {$\y$};
+      }
+      \foreach \i/\x in {1/1, 2/3, 3/5, 4/7, 5/10} {
+        \draw[black!55, line width=0.45pt] (\x,-0.045) -- (\x,0.045);
+        \node[below=2pt, font=\scriptsize, text=text, fill=white, inner sep=1pt]
+          at (\x,0) {$T_\i=\x$};
+      }
+      \node[below=2pt, font=\scriptsize, text=muted] at (0,0) {$0$};
+
+      \draw[muted, line width=1.4pt] (0,0) -- (1,0) (1,1) -- (3,1);
+      \fill[muted] (0,0) circle (1.8pt) (1,1) circle (1.8pt);
+      \draw[muted, fill=white, line width=0.85pt]
+        (1,0) circle (1.8pt) (3,1) circle (1.8pt);
+
+      \foreach \a/\b/\i/\cor in {0/1/1/muted, 1/3/2/muted,
+                                 3/5/3/teal!85!black, 5/7/4/teal!85!black,
+                                 7/10/5/teal!85!black} {
+        \draw[espera, \cor]
+          ([xshift=0.65pt]\a,-0.60) -- ([xshift=-0.65pt]\b,-0.60);
+        \node[below=7pt, font=\scriptsize, text=\cor]
+          at ({(\a+\b)/2},-0.60) {$X_{\i}$};
+      }
+    \end{scope}
+
+    \draw[->, black!65, line width=0.55pt] (3,0) -- (11.8,0)
+      node[right=2pt, text=text] {$t$};
+    \draw[->, black!65, line width=0.55pt] (3,0) -- (3,3.55)
+      node[left=4pt, text=text] {$N_{T_2+t}-N_{T_2}  \equiv  N^{(2)}_t$};
+    \foreach \y in {1,2,3} {
+      \draw[black!55, line width=0.45pt] (2.97,\y) -- (3.03,\y);
+      \node[left=2pt, font=\scriptsize, text=muted] at (3,\y) {$\y$};
+    }
+    \foreach \x in {3,5,7,10} {
+      \draw[black!55, line width=0.45pt] (\x,-0.045) -- (\x,0.045);
+    }
+    \node[below=2pt, font=\scriptsize, text=text] at (3,0) {$0$};
+    \foreach \x/\lab/\i in {5/2/3, 7/4/4, 10/7/5} {
+      \node[below=2pt, font=\scriptsize, text=text] at (\x,0) {%
+        \shortstack{%
+          $\lab$ \\
+          \rotatebox[origin=c]{90}{$=$} \\
+          $T_{\i}-T_2$}};
+    }
+    \foreach \a/\b/\i in {3/5/3, 5/7/4, 7/10/5} {
+      \draw[espera, teal!85!black]
+        ([xshift=0.65pt]\a,-1.45) -- ([xshift=-0.65pt]\b,-1.45);
+      \node[below=7pt, font=\scriptsize, text=teal!85!black]
+        at ({(\a+\b)/2},-1.45) {$X_{\i}$};
+    }
+
+    % Repete os patamares a partir de T_2, com origens verticais distintas.
+    \foreach \base in {0,\alturaReinicio} {
+      \begin{scope}[shift={(0,\base)}]
+        \draw[teal, line width=1.4pt]
+          (3,0) -- (5,0) (5,1) -- (7,1) (7,2) -- (10,2) (10,3) -- (11.1,3);
+        \draw[teal, densely dotted, line width=1.1pt] (11.1,3) -- (11.5,3);
+        \foreach \x/\y in {3/0, 5/1, 7/2, 10/3} {
+          \fill[teal] (\x,\y) circle (1.8pt);
+        }
+        \foreach \x/\y in {5/0, 7/1, 10/2} {
+          \draw[teal, fill=white, line width=0.85pt] (\x,\y) circle (1.8pt);
+        }
+      \end{scope}
+    }
+  \end{tikzpicture}
+  \caption{Construção da trajetória deslocada $N^{(2)}$. A segunda chegada
+    ocorre em $s=T_2=3$ no gráfico de cima. No de baixo, esse instante é a
+    origem do relógio e da contagem. As guias tracejadas alinham os instantes
+    correspondentes. Cada chave marca uma espera de duração
+    $X_i=T_i-T_{i-1}$.}
+  \label{fig:construcao-trajetoria-deslocada}
+\end{figure}
+
+Em geral, a $j$-ésima chegada após $T_k$ ocorre no instante $T_{k+j}-T_k$ do
+novo relógio e eleva a nova contagem de $j-1$ para $j$.
 
 \begin{proof}[Prova do \Cref{thm:exponenciais-iid}]
-Consideremos primeiro $X_1$. Para $u\geqslant0$, o evento $\{X_1>u\}$ é o
-evento de não haver chegada no intervalo $[0,u]$, isto é,
-\[
-  \mathbb{P}(X_1>u)=\mathbb{P}(N_u=0).
-\]
-Pelo \Cref{thm:distribuicao-nt}, a cauda de $X_1$ é
-\[
-  \mathbb{P}(X_1>u)=e^{-\lambda u},
-  \qquad u\geqslant0,
-\]
-e portanto $X_1$ tem distribuição exponencial de parâmetro $\lambda$.
+Qualquer subcoleção finita das esperas está contida em algum bloco inicial
+$X_1,\ldots,X_n$. Vamos mostrar por indução que, para cada $n\geqslant 1$,
+as esperas desse bloco são independentes e têm distribuição
+$\mathrm{Exp}(\lambda)$.
 
-Pelo postulado D, as chegadas no intervalo $(0,X_1]$ são independentes das
-chegadas posteriores a $X_1$. Segue que o tempo de espera $X_2$ pela chegada
-seguinte é independente de $X_1$. Além disso, as chegadas ocorrem de modo
-homogêneo no tempo, pois a probabilidade de uma chegada em $(t,t+h]$ depende
-apenas de $h$ e não de $t$, como registra o postulado E. Logo $X_2$ tem a
-mesma distribuição que $X_1$. Repetindo o argumento, todos os $X_i$ são
-independentes e têm a mesma distribuição que $X_1$.
+\smallskip
+\noindent\textbf{Caso base ($n=1$).}
+Como $T_0=0$, a primeira espera $X_1$ é o próprio instante $T_1$ da primeira
+chegada. Para calcular sua cauda, fixemos $u\geqslant 0$. A espera ultrapassa
+$u$ exatamente quando, ao fim desse intervalo, a contagem ainda está em zero.
+Podemos então ler o mesmo evento como uma afirmação sobre a espera ou sobre
+a contagem, como na \Cref{fig:primeira-espera-poisson},
+\[
+  \{X_1>u\}=\{N_u=0\}.
+\]
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1cm, >=Stealth, font=\small]
+    \draw[->, black!65, line width=0.55pt] (0,0) -- (8.15,0)
+      node[right=2pt, text=text] {$t$};
+    \draw[teal, line width=1.3pt] (0,0) -- (4.1,0);
+    \foreach \x/\lab in {0/{0}, 4.1/{u}} {
+      \draw[black!55, line width=0.45pt] (\x,-0.04) -- (\x,0.04);
+      \node[below=2pt, font=\scriptsize, text=muted] at (\x,0) {$\lab$};
+    }
+    \node[above=3pt, font=\scriptsize, text=teal!85!black] at (2.05,0)
+      {nenhuma chegada};
+    \fill[teal] (6.25,0) circle (1.8pt);
+    \node[below=2pt, font=\scriptsize, text=text] at (6.25,0) {$T_1$};
+  \end{tikzpicture}
+  \caption{A primeira espera em uma trajetória do processo. O trecho
+    destacado vai de $0$ a $u$, antes da primeira chegada $T_1$. Uma chegada
+    exatamente em $u$ já entraria na contagem $N_u$.}
+  \label{fig:primeira-espera-poisson}
+\end{figure}
+
+Tomando $k=0$ na fórmula de Poisson \eqref{eq:distribuicao-nt}, obtemos, para
+$u>0$,
+\[
+  \mathbb{P}(X_1>u)=\mathbb{P}(N_u=0)=e^{-\lambda u}.
+\]
+A igualdade também vale em $u=0$, pois $N_0=0$. Essa é a cauda que
+caracteriza a distribuição $\mathrm{Exp}(\lambda)$ em
+\eqref{eq:cauda-exponencial}.
+
+\smallskip
+\noindent\textbf{Passo indutivo.}
+Suponhamos que $X_1,\ldots,X_n$ sejam independentes e tenham distribuição
+$\mathrm{Exp}(\lambda)$. Vamos olhar para $X_{n+1}=T_{n+1}-T_n$ como a primeira
+espera a partir de $T_n$. No relógio de $N^{(n)}$, o instante $u$ corresponde
+a $T_n+u$ no relógio original. Subtrair $N_{T_n}=n$ retira da contagem as
+$n$ chegadas já observadas, inclusive a que ocorreu em $T_n$, como na
+\Cref{subsec:trajetorias}. Assim, $N^{(n)}_u$ conta as chegadas em
+$(T_n,T_n+u]$.
+
+A \Cref{fig:reinicio-tempo-chegada} mostra a espera nos dois relógios.
+Ela ultrapassa $u$ exatamente quando o contador deslocado ainda está em zero.
+Para $u\geqslant 0$, temos
+\begin{equation}\label{eq:cauda-xn-mais-um}
+  \{X_{n+1}>u\}=\{N_{T_n+u}=N_{T_n}\}=\{N^{(n)}_u=0\}.
+\end{equation}
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+    x=1cm, y=1cm, >=Stealth, font=\small,
+    marca/.style={teal!25, line width=6pt, line cap=butt},
+  ]
+    \draw[marca] (1.45,0) -- (3.55,0);
+    \draw[->, black!65, line width=0.55pt] (0,0) -- (6.9,0)
+      node[right=2pt, text=text] {$s$};
+    \draw[->, black!65, line width=0.55pt] (0,0) -- (0,3.15)
+      node[above=2pt, text=text] {$N_s$};
+    \foreach \y/\lab in {0.35/{n-1}, 1.35/{n}, 2.35/{n+1}} {
+      \draw[black!55, line width=0.45pt] (-0.04,\y) -- (0.04,\y);
+      \node[left=2pt, font=\scriptsize, text=muted] at (0,\y) {$\lab$};
+    }
+    \foreach \x/\y/\lab in {1.45/1.35/{T_n}, 3.55/1.35/{T_n+u},
+                            5.2/2.35/{T_{n+1}}} {
+      \draw[black!30, densely dashed, line width=0.45pt] (\x,0) -- (\x,\y);
+      \draw[black!55, line width=0.45pt] (\x,-0.04) -- (\x,0.04);
+      \node[below=2pt, font=\scriptsize, text=muted] at (\x,0) {$\lab$};
+    }
+    \draw[muted, line width=1.3pt] (0.32,0.35) -- (1.45,0.35);
+    \draw[muted, fill=white, line width=0.85pt] (1.45,0.35) circle (1.8pt);
+    \draw[teal, line width=1.4pt] (1.45,1.35) -- (5.2,1.35)
+      (5.2,2.35) -- (6.55,2.35);
+    \fill[teal] (1.45,1.35) circle (1.8pt);
+    \fill[teal] (5.2,2.35) circle (1.8pt);
+    \draw[teal, fill=white, line width=0.85pt] (5.2,1.35) circle (1.8pt);
+
+    % Os dois painéis usam a mesma escala de tempo e de contagem.
+    \begin{scope}[xshift=8.7cm]
+      \draw[marca] (0,0) -- (2.1,0);
+      \draw[->, black!65, line width=0.55pt] (0,0) -- (5.45,0)
+        node[right=2pt, text=text] {$t$};
+      \draw[->, black!65, line width=0.55pt] (0,0) -- (0,3.15)
+        node[above=2pt, text=text] {$N^{(n)}_t$};
+      \draw[black!55, line width=0.45pt] (-0.04,1) -- (0.04,1);
+      \node[left=2pt, font=\scriptsize, text=muted] at (0,1) {$1$};
+      \draw[black!30, densely dashed, line width=0.45pt] (3.75,0) -- (3.75,1);
+      \draw[teal, line width=1.4pt] (0,0) -- (3.75,0) (3.75,1) -- (5.1,1);
+      \foreach \x/\lab in {0/{0}, 2.1/{u}, 3.75/{X_{n+1}}} {
+        \draw[black!55, line width=0.45pt] (\x,-0.04) -- (\x,0.04);
+        \node[below=2pt, font=\scriptsize, text=muted] at (\x,0) {$\lab$};
+      }
+      \fill[teal] (0,0) circle (1.8pt);
+      \fill[teal] (3.75,1) circle (1.8pt);
+      \draw[teal, fill=white, line width=0.85pt] (3.75,0) circle (1.8pt);
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Reinício da contagem em $T_n$. Os traços de marca-texto nos eixos
+    do tempo destacam o mesmo intervalo sem novas chegadas. À esquerda,
+    o traço vai de $T_n$ a $T_n+u$. À direita, vai de $0$ a $u$.}
+  \label{fig:reinicio-tempo-chegada}
+\end{figure}
+
+Pela propriedade de reinício com $k=n$, $N^{(n)}$ é um processo de Poisson
+com a mesma taxa $\lambda$. Podemos aplicar a ele a conta do caso base,
+\[
+  \mathbb{P}(X_{n+1}>u)=\mathbb{P}(N^{(n)}_u=0)=e^{-\lambda u},
+  \qquad u\geqslant 0.
+\]
+Por \eqref{eq:cauda-exponencial}, segue que $X_{n+1}\sim\mathrm{Exp}(\lambda)$.
+
+Para verificar a independência, vamos fatorar a função de distribuição
+conjunta, como nas notas de aula sobre vetores contínuos. Fixemos reais
+$x_1,\ldots,x_n,u$ e escrevamos $A=\{X_1\leqslant x_1,\ldots,X_n\leqslant x_n\}$
+para o evento que envolve as esperas anteriores. Podemos decidir se
+$X_{n+1}\leqslant u$ olhando só o contador deslocado. Por
+\eqref{eq:cauda-xn-mais-um}, esse evento é $\{N^{(n)}_u\geqslant 1\}$ para
+$u\geqslant 0$ e é vazio para $u<0$.
+
+Pela propriedade de reinício, $N^{(n)}$ é independente do vetor inteiro
+$(X_1,\ldots,X_n)$. Isso permite separar o fator da última espera. Pela
+hipótese de indução, a probabilidade de $A$ também se fatora. Obtemos
+\begin{align*}
+  \mathbb{P}\bigl(A\cap\{X_{n+1}\leqslant u\}\bigr)
+  &=\mathbb{P}(A)\,\mathbb{P}(X_{n+1}\leqslant u)\\
+  &=\left(\prod_{i=1}^n \mathbb{P}(X_i\leqslant x_i)\right)
+    \mathbb{P}(X_{n+1}\leqslant u).
+\end{align*}
+Como os limites $x_1,\ldots,x_n,u$ são arbitrários, essa é a fatoração que
+caracteriza a independência de $X_1,\ldots,X_{n+1}$. Isso conclui a indução.
 \end{proof}
-
-A demonstração acima está incompleta, e vale registrar por quê. O passo que
-usa a independência trata de um intervalo $(0,X_1]$ de comprimento
-\emph{aleatório}, e o postulado D foi enunciado para intervalos de
-comprimento fixo. Tornar esse passo rigoroso não é imediato: é preciso
-mostrar que o processo ``recomeça do zero'' em um instante aleatório, e essa é
-a chamada \emph{propriedade de Markov forte}, que estudaremos em notas de aula
-futuras, primeiramente no contexto de processos a tempo discreto. Por essa
-razão, apresentamos apenas um esboço de prova.
 
 A \Cref{prop:construcao-poisson} mostra que a recíproca vale, isto é, que
 uma sequência de exponenciais independentes produz de fato um processo de
@@ -1024,7 +1457,7 @@ aula sobre vetores contínuos.
 
 \begin{definition}\label{def:falta-memoria}
 Dizemos que uma variável aleatória $X$ com $\mathbb{P}(X>0)=1$ tem a
-propriedade de \emph{falta de memória} se
+propriedade de \emph{falta de memória} se a seguinte igualdade é satisfeita
 \begin{equation}\label{eq:falta-memoria}
   \mathbb{P}(X>u+v\mid X>u)=\mathbb{P}(X>v)
 \end{equation}
