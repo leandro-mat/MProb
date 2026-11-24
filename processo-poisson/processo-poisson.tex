@@ -1169,16 +1169,68 @@ $X_1,X_2,\ldots$ são variáveis aleatórias independentes, cada uma com
 distribuição exponencial de parâmetro $\lambda$.
 \end{theorem}
 
-Para calcular a primeira espera, observamos a contagem a partir de $0$.
-Gostaríamos de fazer a mesma conta a partir de $T_k$, para obter a espera
-pela chegada seguinte. Os postulados D e E foram enunciados para instantes
-fixados de antemão. A mudança para $T_k$, que é determinado pelas próprias
-chegadas, será justificada pela \emph{propriedade forte de Markov}.
+\begin{proof}[Prova do \Cref{thm:exponenciais-iid}]
+Para provar a independência de $X_1,X_2,\ldots$, precisamos verificar que
+$X_{i_1},\ldots,X_{i_m}$ são independentes para qualquer escolha finita de
+índices $i_1<\cdots<i_m$. Como $i_m$ é o maior índice escolhido, a
+independência de $X_1,\ldots,X_{i_m}$ implica a de $X_{i_1},\ldots,X_{i_m}$.
+Vamos então mostrar por indução que, para todo $n\geqslant 1$, as variáveis
+aleatórias $X_1,\ldots,X_n$ são independentes e que cada uma tem distribuição
+$\mathrm{Exp}(\lambda)$.
 
-Ao observar o processo até $t$, já podemos decidir se a $k$-ésima chegada
-ocorreu, pois $\{T_k\leqslant t\}=\{N_t\geqslant k\}$. A
-\Cref{rem:tempos-finitos} garante que cada $T_k$ é finito com probabilidade $1$.
-Usaremos a propriedade na forma abaixo, que assumimos sem demonstração.
+\smallskip
+\noindent\textbf{Caso base ($n=1$).}
+Como $T_0=0$, a primeira espera $X_1$ é o próprio instante $T_1$ da primeira
+chegada. Para calcular sua cauda, fixemos $u\geqslant 0$. A espera ultrapassa
+$u$ exatamente quando, ao fim desse intervalo, a contagem ainda está em zero.
+Podemos então ler o mesmo evento como uma afirmação sobre a espera ou sobre
+a contagem, como na \Cref{fig:primeira-espera-poisson},
+\[
+  \{X_1>u\}=\{N_u=0\}.
+\]
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1cm, >=Stealth, font=\small]
+    \draw[->, black!65, line width=0.55pt] (0,0) -- (8.15,0)
+      node[right=2pt, text=text] {$t$};
+    \draw[teal, line width=1.3pt] (0,0) -- (4.1,0);
+    \foreach \x/\lab in {0/{0}, 4.1/{u}} {
+      \draw[black!55, line width=0.45pt] (\x,-0.04) -- (\x,0.04);
+      \node[below=2pt, font=\scriptsize, text=muted] at (\x,0) {$\lab$};
+    }
+    \node[above=3pt, font=\scriptsize, text=teal!85!black] at (2.05,0)
+      {nenhuma chegada};
+    \fill[teal] (6.25,0) circle (1.8pt);
+    \node[below=2pt, font=\scriptsize, text=text] at (6.25,0) {$T_1$};
+  \end{tikzpicture}
+  \caption{A primeira espera em uma trajetória do processo. O trecho
+    destacado vai de $0$ a $u$, antes da primeira chegada $T_1$. Uma chegada
+    exatamente em $u$ já entraria na contagem $N_u$.}
+  \label{fig:primeira-espera-poisson}
+\end{figure}
+
+Tomando $k=0$ na fórmula de Poisson \eqref{eq:distribuicao-nt}, obtemos, para
+$u>0$,
+\[
+  \mathbb{P}(X_1>u)=\mathbb{P}(N_u=0)=e^{-\lambda u}.
+\]
+A igualdade também vale em $u=0$, pois $N_0=0$. Essa é a cauda que
+caracteriza a distribuição $\mathrm{Exp}(\lambda)$ em
+\eqref{eq:cauda-exponencial}.
+
+Queremos repetir o cálculo a partir de $T_k$. Os postulados D e E tratam de
+instantes fixados de antemão (determinísticos). 
+Aqui, $T_k$ é determinado pelas chegadas (aleatórios).
+
+Podemos reconhecer a $k$-ésima chegada à medida que observamos o
+processo. De fato, no instante $t$, basta consultar a contagem $N_t$
+para saber se já chegamos a $T_k$, pois
+\mbox{$\{T_k\leqslant t\}=\{N_t\geqslant k\}$}. Pela
+\Cref{rem:tempos-finitos}, essa chegada ocorre em tempo finito com
+probabilidade $1$. Para descrever as chegadas a partir de $T_k$,
+usaremos, sem demonstração, a seguinte forma da
+\emph{propriedade forte de Markov}.
 
 \begin{property}[Reinício nos tempos de chegada]
 Seja $N=(N_t)_{t\geqslant 0}$ um processo de Poisson de taxa $\lambda$. Para
@@ -1191,12 +1243,10 @@ cada inteiro $k\geqslant 1$, o processo deslocado
 $(X_1,\ldots,X_k)$.
 \end{property}
 
-Na \Cref{fig:construcao-trajetoria-deslocada}, tomamos $k=2$ e escolhemos uma
-trajetória em que $T_2=3$. Para construir o gráfico de baixo, lemos a
-trajetória a partir de $s=3$. Um ponto que estava no instante $s$ e tinha
-altura $N_s$ passa para o instante $t=s-3$ e para a altura $N_s-2$, pois
-duas chegadas já foram contadas em $T_2$. Por exemplo, a chegada em $s=5$
-é a primeira no novo relógio, onde ocorre em $t=5-3=2$.
+Na \Cref{fig:construcao-trajetoria-deslocada}, usamos $k=2$ e uma trajetória
+em que $T_2=3$. A partir de $s=3$, um ponto do gráfico original com altura
+$N_s$ passa ao instante $t=s-3$ e à altura $N_s-2$, pois as duas primeiras
+chegadas já foram contadas. Assim, a chegada em $s=5$ aparece em $t=2$.
 
 \begin{figure}[H]
   \centering
@@ -1243,6 +1293,10 @@ duas chegadas já foram contadas em $T_2$. Por exemplo, a chegada em $s=5$
         \node[below=7pt, font=\scriptsize, text=\cor]
           at ({(\a+\b)/2},-0.60) {$X_{\i}$};
       }
+      \node[below=2pt, align=center, font=\scriptsize, text=muted] at (1.4,-1.65)
+        {Pela propriedade de reinício,\\
+         $N^{(2)}$ é independente\\
+         de $(X_1,X_2)$.};
     \end{scope}
 
     \draw[->, black!65, line width=0.55pt] (3,0) -- (11.8,0)
@@ -1290,72 +1344,27 @@ duas chegadas já foram contadas em $T_2$. Por exemplo, a chegada em $s=5$
     ocorre em $s=T_2=3$ no gráfico de cima. No de baixo, esse instante é a
     origem do relógio e da contagem. As guias tracejadas alinham os instantes
     correspondentes. Cada chave marca uma espera de duração
-    $X_i=T_i-T_{i-1}$.}
+    $X_i=T_i-T_{i-1}$. A chave $X_3$, por exemplo, vai de $T_2$ a $T_3$
+    no gráfico de cima e de $0$ a $T_3-T_2$ no de baixo. Ela marca a
+    primeira espera depois do reinício.}
   \label{fig:construcao-trajetoria-deslocada}
 \end{figure}
-
-Em geral, a $j$-ésima chegada após $T_k$ ocorre no instante $T_{k+j}-T_k$ do
-novo relógio e eleva a nova contagem de $j-1$ para $j$.
-
-\begin{proof}[Prova do \Cref{thm:exponenciais-iid}]
-Qualquer subcoleção finita das esperas está contida em algum bloco inicial
-$X_1,\ldots,X_n$. Vamos mostrar por indução que, para cada $n\geqslant 1$,
-as esperas desse bloco são independentes e têm distribuição
-$\mathrm{Exp}(\lambda)$.
-
-\smallskip
-\noindent\textbf{Caso base ($n=1$).}
-Como $T_0=0$, a primeira espera $X_1$ é o próprio instante $T_1$ da primeira
-chegada. Para calcular sua cauda, fixemos $u\geqslant 0$. A espera ultrapassa
-$u$ exatamente quando, ao fim desse intervalo, a contagem ainda está em zero.
-Podemos então ler o mesmo evento como uma afirmação sobre a espera ou sobre
-a contagem, como na \Cref{fig:primeira-espera-poisson},
-\[
-  \{X_1>u\}=\{N_u=0\}.
-\]
-
-\begin{figure}[H]
-  \centering
-  \begin{tikzpicture}[x=1cm, y=1cm, >=Stealth, font=\small]
-    \draw[->, black!65, line width=0.55pt] (0,0) -- (8.15,0)
-      node[right=2pt, text=text] {$t$};
-    \draw[teal, line width=1.3pt] (0,0) -- (4.1,0);
-    \foreach \x/\lab in {0/{0}, 4.1/{u}} {
-      \draw[black!55, line width=0.45pt] (\x,-0.04) -- (\x,0.04);
-      \node[below=2pt, font=\scriptsize, text=muted] at (\x,0) {$\lab$};
-    }
-    \node[above=3pt, font=\scriptsize, text=teal!85!black] at (2.05,0)
-      {nenhuma chegada};
-    \fill[teal] (6.25,0) circle (1.8pt);
-    \node[below=2pt, font=\scriptsize, text=text] at (6.25,0) {$T_1$};
-  \end{tikzpicture}
-  \caption{A primeira espera em uma trajetória do processo. O trecho
-    destacado vai de $0$ a $u$, antes da primeira chegada $T_1$. Uma chegada
-    exatamente em $u$ já entraria na contagem $N_u$.}
-  \label{fig:primeira-espera-poisson}
-\end{figure}
-
-Tomando $k=0$ na fórmula de Poisson \eqref{eq:distribuicao-nt}, obtemos, para
-$u>0$,
-\[
-  \mathbb{P}(X_1>u)=\mathbb{P}(N_u=0)=e^{-\lambda u}.
-\]
-A igualdade também vale em $u=0$, pois $N_0=0$. Essa é a cauda que
-caracteriza a distribuição $\mathrm{Exp}(\lambda)$ em
-\eqref{eq:cauda-exponencial}.
 
 \smallskip
 \noindent\textbf{Passo indutivo.}
 Suponhamos que $X_1,\ldots,X_n$ sejam independentes e tenham distribuição
-$\mathrm{Exp}(\lambda)$. Vamos olhar para $X_{n+1}=T_{n+1}-T_n$ como a primeira
-espera a partir de $T_n$. No relógio de $N^{(n)}$, o instante $u$ corresponde
-a $T_n+u$ no relógio original. Subtrair $N_{T_n}=n$ retira da contagem as
-$n$ chegadas já observadas, inclusive a que ocorreu em $T_n$, como na
-\Cref{subsec:trajetorias}. Assim, $N^{(n)}_u$ conta as chegadas em
-$(T_n,T_n+u]$.
+$\mathrm{Exp}(\lambda)$. Para estudar $X_{n+1}$, vamos usar o relógio que
+começa em $T_n$. Nesse relógio, a primeira chegada ocorre no instante
+$T_{n+1}-T_n=X_{n+1}$. O instante $u$, neste novo relógio, corresponde a $T_n+u$ no relógio
+original. Subtrair $N_{T_n}=n$ retira da contagem as $n$ chegadas já
+observadas, inclusive a que ocorreu em $T_n$. 
+Assim, $N^{(n)}_u$ conta as chegadas em $(T_n,T_n+u]$.
 
-A \Cref{fig:reinicio-tempo-chegada} mostra a espera nos dois relógios.
-Ela ultrapassa $u$ exatamente quando o contador deslocado ainda está em zero.
+A \Cref{fig:reinicio-tempo-chegada} destaca, nos dois relógios, as
+primeiras $u$ unidades de tempo após $T_n$. Na trajetória desenhada,
+a chegada seguinte ocorre depois do trecho marcado, de modo que
+$X_{n+1}=T_{n+1}-T_n>u$. Em geral, a espera $X_{n+1}$ ultrapassa $u$
+exatamente quando o contador deslocado ainda está em zero no instante $u$.
 Para $u\geqslant 0$, temos
 \begin{equation}\label{eq:cauda-xn-mais-um}
   \{X_{n+1}>u\}=\{N_{T_n+u}=N_{T_n}\}=\{N^{(n)}_u=0\}.
@@ -1553,7 +1562,14 @@ Em particular, $T_k^*\to\infty$ quase certamente e, para cada $t$, o conjunto
 $\{k:T_k^*\leqslant t\}$ é finito, de modo que o máximo que define $N_t^*$
 existe.
 
-Verificamos agora os postulados A a E.
+\medskip 
+
+Próximo passo é verificar a validade dos postulados A a E que definem um Processo
+de Poisson.
+
+\medskip 
+
+
 
 \smallskip
 \noindent\textbf{Parte 1 (distribuição de $N_t^*$).}
@@ -1561,18 +1577,18 @@ Como $\mathrm{Exp}(\lambda)$ é a distribuição $\mathrm{Gama}(1,\lambda)$,
 podemos usar o exemplo das notas de aula sobre somas de variáveis aleatórias
 contínuas: a soma de variáveis aleatórias independentes com distribuição Gama
 de mesmo parâmetro tem distribuição Gama com os parâmetros somados. Logo
-$T_k^*\sim\mathrm{Gama}(k,\lambda)$. Assim, para $x>0$,
+$T_k^*\sim\mathrm{Gama}(k,\lambda)$. Para $t>0$, a densidade é dada por
 \[
-  f_{T_k^*}(x)=\frac{\lambda^k}{(k-1)!}\,x^{k-1}e^{-\lambda x}.
+  f_{T_k^*}(t)=\frac{\lambda^k}{(k-1)!}\,t^{k-1}e^{-\lambda t}.
 \]
-A função de distribuição correspondente é
+Para $t\geqslant 0$, a função de distribuição correspondente é
 \[
   \mathbb{P}(T_k^*\leqslant t)
   =1-e^{-\lambda t}\sum_{j=0}^{k-1}\frac{(\lambda t)^j}{j!}.
 \]
-De fato, as duas funções de $t$ têm a mesma derivada,
-$\lambda^k t^{k-1}e^{-\lambda t}/(k-1)!$, e coincidem em $t=0$. Logo, para
-$k\geqslant1$,
+De fato, a expressão à direita vale zero em $t=0$, assim como a função de
+distribuição de $T_k^*$. Ao derivar essa expressão para $t>0$, obtemos a
+densidade $f_{T_k^*}(t)$. Logo, para $k\geqslant1$,
 \begin{align*}
   \mathbb{P}(N_t^*=k)
   &=\mathbb{P}\bigl(T_k^*\leqslant t<T_{k+1}^*\bigr)
@@ -1587,39 +1603,402 @@ postulados A e B.
 
 \smallskip
 \noindent\textbf{Parte 2 (falta de memória do tempo restante).}
-Fixe $s\geqslant0$ e condicione no que ocorreu até o instante $s$, isto é, no
-valor $N_s^*=k$ e no instante $T_k^*=u\leqslant s$ da última chegada. O tempo
-que falta até a próxima chegada é $R_s=T_{k+1}^*-s=X_{k+1}^*-(s-u)$. Como
-$X_{k+1}^*$ é independente de $X_1^*,\ldots,X_k^*$ e
-$\mathbb{P}(X_{k+1}^*>s-u)>0$, a falta de memória dá
+Fixemos um instante $s\geqslant 0$. Para verificar o postulado D, vamos
+mostrar que, para $h>0$, a contagem em $(s,s+h]$ é independente da
+trajetória observada até $s$. Para calcular essa contagem, precisamos das
+esperas entre as chegadas depois de $s$, a começar pelo tempo que
+\emph{ainda} falta para a primeira chegada, como na
+\Cref{fig:incremento-apos-s}.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+    x=1cm, y=0.58cm, >=Stealth, font=\small,
+    marca/.style={line width=6pt, line cap=butt},
+    patamar/.style={line width=1.4pt},
+    aberto/.style={fill=white, line width=0.85pt},
+    guia/.style={black!30, densely dashed, line width=0.45pt},
+    espera/.style={teal!85!black, line width=0.6pt, decorate,
+      decoration={brace, amplitude=3.5pt, mirror}},
+  ]
+    \def\observacao{5}
+    \def\primeira{7.1}
+    \def\segunda{9.55}
+    \def\fim{10.9}
+    \def\cota{11.35}
+
+    \draw[marca, black!12] (0,0) -- (\observacao,0);
+    \draw[marca, teal!25] (\observacao,0) -- (\fim,0);
+    \draw[guia] (\observacao,0) -- (\observacao,2) (\fim,0) -- (\fim,4);
+    \draw[guia] (\primeira,-0.58) -- (\primeira,3)
+      (\segunda,-0.58) -- (\segunda,4);
+    \draw[guia] (\observacao,2) -- (\cota,2) (\fim,4) -- (\cota,4);
+
+    \draw[->, black!65, line width=0.55pt] (0,0) -- (12,0)
+      node[right=2pt, text=text] {$t$};
+    \draw[->, black!65, line width=0.55pt] (0,0) -- (0,4.9)
+      node[above=2pt, text=text] {$N_t^*$};
+    \foreach \x/\rotulo in {0/{0}, \observacao/{s}, \fim/{s+h}} {
+      \draw[black!55, line width=0.45pt] (\x,-0.075) -- (\x,0.075);
+      \node[below=2pt, font=\scriptsize, text=muted] at (\x,0) {$\rotulo$};
+    }
+    \node[font=\scriptsize, text=muted] at (2.5,3.4)
+      {Trajetória até $s$};
+    \node[above=4pt, font=\scriptsize, text=teal!85!black]
+      at ({(\observacao+\fim)/2},0) {$(s,s+h]$};
+
+    \draw[muted, patamar]
+      (0,0) -- (1.2,0) (1.2,1) -- (3.2,1) (3.2,2) -- (\observacao,2);
+    \fill[muted] (0,0) circle (1.8pt) (1.2,1) circle (1.8pt)
+      (3.2,2) circle (1.8pt) (\observacao,2) circle (1.8pt);
+    \draw[muted, aberto] (1.2,0) circle (1.8pt) (3.2,1) circle (1.8pt);
+
+    \draw[teal, patamar]
+      (\observacao,2) -- (\primeira,2) (\primeira,3) -- (\segunda,3)
+      (\segunda,4) -- (\fim,4);
+    \fill[teal] (\primeira,3) circle (1.8pt) (\segunda,4) circle (1.8pt)
+      (\fim,4) circle (1.8pt);
+    \draw[teal, aberto] (\primeira,2) circle (1.8pt) (\segunda,3) circle (1.8pt);
+
+    \draw[teal!85!black, line width=0.6pt, decorate,
+      decoration={brace, amplitude=3.5pt}]
+      (\cota,4) -- (\cota,2)
+      node[midway, right=7pt] {$N_{s+h}^*-N_s^*$};
+
+    \draw[espera] (\observacao,-0.65) -- ([xshift=-1pt]\primeira,-0.65)
+      node[midway, below=6pt, font=\scriptsize] {Espera restante};
+    \draw[espera] ([xshift=1pt]\primeira,-0.65) -- (\segunda,-0.65)
+      node[midway, below=6pt, font=\scriptsize] {Espera seguinte};
+  \end{tikzpicture}
+  \caption{Contagem de chegadas em $(s,s+h]$ em uma trajetória de $N^*$.
+    A parte cinza é a trajetória observada até $s$. O trecho destacado no
+    eixo do tempo marca o intervalo de contagem. Cada salto nesse intervalo
+    acrescenta uma unidade ao incremento $N_{s+h}^*-N_s^*$.
+    A primeira chave abaixo do eixo mede o tempo de $s$ até a primeira
+    chegada depois de $s$. A segunda mede o intervalo até a chegada seguinte.}
+  \label{fig:incremento-apos-s}
+\end{figure}
+
+Escrevemos $K=N_s^*$ para o número de chegadas até $s$ e $R_s=T_{K+1}^*-s$
+para o tempo restante. Adotamos $T_0^*=0$ para incluir o caso em que ainda
+não houve chegadas. Em $\{K=k\}$, o instante $s$ divide a espera completa
+$X_{k+1}^*$ em duas partes, como na \Cref{fig:tempo-restante}. A primeira
+parte, $s-T_k^*$, é o tempo já transcorrido desde a última chegada
+(desde a origem, se $k=0$). A segunda parte é
 \[
-  \mathbb{P}(R_s>h\mid N_s^*=k,\,T_k^*=u)
-  =\mathbb{P}\bigl(X_{k+1}^*>s-u+h\mid X_{k+1}^*>s-u\bigr)
-  =e^{-\lambda h}
+  R_s=X_{k+1}^*-(s-T_k^*)\qquad\text{em }\{K=k\}.
 \]
-para todo $h\geqslant0$. O lado direito não depende de $k$, de $u$ nem de
-$s$: condicionado ao passado, o tempo restante é $\mathrm{Exp}(\lambda)$ e é
-independente desse passado. Além disso, os tempos entre chegadas
-$X_{k+2}^*,X_{k+3}^*,\ldots$ são independentes do passado e do tempo
-residual, de modo que toda a sequência de chegadas posterior a $s$ tem a mesma
-lei e é independente da trajetória até $s$. Daí seguem os postulados D e E,
-pois
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+    x=1cm, y=1cm, >=Stealth, font=\small,
+    marca/.style={line width=6pt, line cap=butt},
+    chave/.style={line width=0.6pt, decorate,
+      decoration={brace, amplitude=3.5pt, mirror}},
+  ]
+    \def\ultima{4.2}
+    \def\observacao{7.55}
+    \def\proxima{11.7}
+
+    \draw[marca, black!12] (\ultima,0) -- (\observacao,0);
+    \draw[marca, teal!25] (\observacao,0) -- (\proxima,0);
+    \draw[->, black!65, line width=0.55pt] (0,0) -- (13.05,0)
+      node[right=2pt, text=text] {$t$};
+
+    \foreach \x/\rotulo in {0/{T_0^*=0}, 1.55/{T_1^*}, \ultima/{T_k^*},
+                           \observacao/{s}, \proxima/{T_{k+1}^*}} {
+      \draw[black!55, line width=0.45pt] (\x,-0.04) -- (\x,0.04);
+      \node[below=2pt, text=text] at (\x,0) {$\rotulo$};
+    }
+    \node[fill=white, inner sep=2pt, text=muted] at (2.85,0) {$\cdots$};
+    \fill[fill=text] (1.55,0) circle (1.8pt);
+    \fill[fill=text] (\ultima,0) circle (1.8pt);
+    \draw[teal!85!black, fill=white, line width=0.85pt]
+      (\proxima,0) circle (1.8pt);
+
+    \draw[draw=text, line width=0.7pt] (\observacao,-0.10) -- (\observacao,0.16)
+      node[above=3pt, align=center, text=text]
+        {$K=N_s^*=k$\\{\scriptsize chegadas até $s$}};
+
+    \draw[chave, muted] (\ultima,-0.68) -- ([xshift=-1.2pt]\observacao,-0.68)
+      node[midway, below=5pt, align=center]
+        {$s-T_k^*$\\{\scriptsize tempo transcorrido}};
+    \draw[chave, teal!85!black] ([xshift=1.2pt]\observacao,-0.68) -- (\proxima,-0.68)
+      node[midway, below=5pt, align=center]
+        {$R_s=T_{k+1}^*-s$\\{\scriptsize tempo restante}};
+    \draw[chave, draw=text] (\ultima,-1.95) -- (\proxima,-1.95)
+      node[midway, below=5pt, align=center]
+        {$X_{k+1}^*=T_{k+1}^*-T_k^*$\\{\scriptsize espera completa}};
+  \end{tikzpicture}
+  \caption{Tempo restante até a próxima chegada em uma trajetória com
+    $K=k$. Os pontos cheios indicam chegadas já observadas, e o círculo
+    aberto marca a próxima chegada. Quando $k=0$, a espera começa na origem
+    $T_0^*=0$.}
+  \label{fig:tempo-restante}
+\end{figure}
+
+Há exatamente $k$ chegadas até $s$ quando $T_k^*\leqslant s<T_{k+1}^*$.
+A escala inferior da \Cref{fig:exatamente-k-chegadas} toma $T_k^*$ como
+origem. Nessa escala, a condição $s<T_{k+1}^*$ diz que a espera completa
+$X_{k+1}^*$ ultrapassa o tempo transcorrido $s-T_k^*$. Assim,
 \[
-  \mathbb{P}(N_{s+h}^*=k\mid N_s^*=k)=e^{-\lambda h}=1-\lambda h+o(h)
+  \{K=k\}=\{T_k^*\leqslant s\}\cap\{X_{k+1}^*>s-T_k^*\}.
 \]
-e, como $\{N_{s+h}^*=k+1\}\subseteq\{R_s\leqslant h\}$,
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=1cm, >=Stealth, font=\small]
+    \def\ultima{4.1}
+    \def\observacao{7.35}
+    \def\proxima{11.25}
+
+    \draw[teal!25, line width=6pt, line cap=butt]
+      (\ultima,0) -- (\proxima,0);
+    \draw[->, black!65, line width=0.55pt] (2.9,0) -- (12.65,0)
+      node[right=2pt, text=text] {$t$};
+
+    \node[anchor=west, font=\scriptsize, text=muted] at (0,0.29)
+      {Relógio original};
+    \node[anchor=west, font=\scriptsize, text=muted] at (0,-0.29)
+      {A partir de $T_k^*$};
+    \foreach \x/\original/\deslocado in {
+      \ultima/{T_k^*}/{0},
+      \observacao/{s}/{s-T_k^*},
+      \proxima/{T_{k+1}^*}/{X_{k+1}^*}} {
+      \node[above=3pt, text=text] at (\x,0) {$\original$};
+      \node[below=3pt, text=text] at (\x,0) {$\deslocado$};
+    }
+
+    \draw[draw=text, line width=0.7pt]
+      (\observacao,-0.10) -- (\observacao,0.10);
+    \fill[teal!85!black] (\ultima,0) circle (1.8pt);
+    \draw[teal!85!black, fill=white, line width=0.85pt]
+      (\proxima,0) circle (1.8pt);
+  \end{tikzpicture}
+  \caption{Posições de $s$ para as quais há exatamente $k$ chegadas. O
+    trecho destacado inclui $T_k^*$, indicado pelo ponto cheio, e termina
+    antes de $T_{k+1}^*$, indicado pelo círculo aberto. Na escala de baixo,
+    o tempo transcorrido $s-T_k^*$ fica à esquerda da espera completa
+    $X_{k+1}^*$.}
+  \label{fig:exatamente-k-chegadas}
+\end{figure}
+
+Fixemos $h\geqslant 0$. Em $\{K=k\}$, a condição $R_s>h$ significa que a
+espera completa ultrapassa o tempo transcorrido $s-T_k^*$ mais $h$.
+Como $h\geqslant 0$, essa espera também ultrapassa $s-T_k^*$. Portanto,
+\begin{equation}\label{eq:evento-tempo-restante}
+  \{K=k\}\cap\{R_s>h\}
+  =\{T_k^*\leqslant s\}\cap\{X_{k+1}^*>s-T_k^*+h\}.
+\end{equation}
+Em $\{K=k\}$, a próxima chegada ocorre estritamente depois de $s$, de
+modo que $R_s>0$ nesse evento. Vamos usar $h=0$ em
+\eqref{eq:evento-tempo-restante} para recuperar a condição $K=k$ e comparar
+as probabilidades para $h>0$ e para $h=0$ com a mesma informação sobre a
+trajetória até $s$.
+
+\smallskip
+\noindent\textbf{A trajetória até $s$ e o tempo restante.}
+Seja $A$ um evento determinado pela trajetória até $s$, isto é, um evento
+da $\sigma$-álgebra gerada pelas contagens $N_u^*$, $0\leqslant u\leqslant s$.
+Por exemplo, $A$ pode ser o evento de ter havido pelo menos uma chegada até
+$s/2$. Em $\{K=k\}$, os instantes $T_1^*,\ldots,T_k^*$ bastam para
+reconstruir a trajetória até $s$. Para cada $0\leqslant u\leqslant s$,
+\[
+  N_u^*=\sum_{i=1}^k\mathds{1}_{\{T_i^*\leqslant u\}}
+  \qquad\text{em }\{K=k\}.
+\]
+A soma conta quantas das $k$ chegadas ocorreram até $u$.
+
+Consideremos primeiro $k\geqslant 1$. Para usar a densidade conjunta das
+esperas, escrevemos $\mathbf U=(X_1^*,\ldots,X_k^*)$ e $V=X_{k+1}^*$.
+Quando $\mathbf U=\mathbf x=(x_1,\ldots,x_k)$, os instantes das
+primeiras $k$ chegadas são $t_i(\mathbf x)=x_1+\cdots+x_i$, para
+$1\leqslant i\leqslant k$. Seja $C_k$ o conjunto dos vetores
+$\mathbf x\in(0,\infty)^k$ para os quais $t_k(\mathbf x)\leqslant s$ e
+a trajetória reconstruída com esses $k$ instantes satisfaz a condição que
+define $A$. No exemplo $A=\{N_{s/2}^*\geqslant 1\}$, basta exigir, além de
+$t_k(\mathbf x)\leqslant s$, que $x_1\leqslant s/2$.
+
+Para ver que $C_k$ é boreliano, comecemos pelos eventos
+$A=\{N_u^*=j\}$. A contagem reconstruída em $u$ é uma soma de
+indicadoras das condições $t_i(\mathbf x)\leqslant u$, que definem
+borelianos. Logo, exigir que a soma seja igual a $j$ define um
+boreliano no domínio $t_k(\mathbf x)\leqslant s$. O complementar de
+um evento $A$ corresponde ao complementar de $C_k$ dentro desse
+domínio, e uma união enumerável de eventos corresponde à união dos
+conjuntos $C_k$. Assim, $C_k$ é boreliano para todo evento da
+$\sigma$-álgebra gerada pelas contagens.
+
+A condição $\mathbf U\in C_k$ garante que as primeiras $k$ chegadas
+ocorreram até $s$ e que a trajetória reconstruída satisfaz a condição
+que define $A$.
+Para garantir também que a chegada seguinte ocorra depois de $s+h$,
+acrescentamos a desigualdade de
+\eqref{eq:evento-tempo-restante}. A região que reúne as duas condições é
+\[
+  D_{k,h}=\bigl\{(\mathbf x,v):\mathbf x\in C_k,\,
+                  v>s-t_k(\mathbf x)+h\bigr\}.
+\]
+Logo,
+\begin{equation}\label{eq:probabilidade-como-esperanca}
+  \mathbb{P}(A\cap\{K=k\}\cap\{R_s>h\})
+  =\mathbb{P}\bigl((\mathbf U,V)\in D_{k,h}\bigr)
+  =\mathbb{E}\bigl[\mathds{1}_{D_{k,h}}(\mathbf U,V)\bigr].
+\end{equation}
+
+Para calcular a esperança em \eqref{eq:probabilidade-como-esperanca}, usamos
+a fórmula de mudança de variáveis para a esperança. Para a indicadora de
+$D_{k,h}$, a fórmula dá a integral da densidade conjunta sobre $D_{k,h}$,
+como no cálculo de probabilidades de regiões nas notas de aula sobre
+vetores contínuos. Pela independência das esperas, a densidade conjunta é
+\[
+  f_{\mathbf U,V}(\mathbf x,v)=f_{\mathbf U}(\mathbf x)f_V(v),
+  \qquad f_V(v)=\lambda e^{-\lambda v}\quad\text{para }v>0.
+\]
+Para cada $\mathbf x\in C_k$, a seção de $D_{k,h}$ na coordenada $v$ é o
+intervalo $(s-t_k(\mathbf x)+h,\infty)$. O limite inferior é não negativo
+porque $t_k(\mathbf x)\leqslant s$ e $h\geqslant 0$. Como $D_{k,h}$ é
+boreliano e a densidade é não negativa, o Teorema de Tonelli permite
+integrar primeiro em $v$ nas seções da região. Obtemos a integral de
+Lebesgue
+\begin{equation}\label{eq:esperanca-em-duas-etapas}
+  \mathbb{P}(A\cap\{K=k\}\cap\{R_s>h\})
+  =\int_{C_k}
+    \left(\int_{s-t_k(\mathbf x)+h}^{\infty}
+      \lambda e^{-\lambda v}\,dv\right)
+    f_{\mathbf U}(\mathbf x)\,d\mathbf x.
+\end{equation}
+
+Fixado $\mathbf x\in C_k$, escrevemos $a=s-t_k(\mathbf x)$ para o tempo
+transcorrido. A integral em $v$ é a probabilidade de uma espera exponencial
+ultrapassar $a+h$. Pela falta de memória, na forma
+\eqref{eq:equacao-funcional-falta-memoria},
+\begin{equation}\label{eq:falta-memoria-espera-completa}
+  \int_{a+h}^{\infty}\lambda e^{-\lambda v}\,dv
+  =\mathbb{P}(V>a+h)
+  =e^{-\lambda h}\,\mathbb{P}(V>a)
+  =e^{-\lambda h}\int_a^{\infty}\lambda e^{-\lambda v}\,dv.
+\end{equation}
+O fator $e^{-\lambda h}$ é o mesmo para todo $\mathbf x\in C_k$ e pode
+sair da integral em $\mathbf x$. A integral que sobra é exatamente
+\eqref{eq:esperanca-em-duas-etapas} com $h=0$, ou seja, é
+$\mathbb{P}(A\cap\{K=k\})$. Assim,
+\begin{equation}\label{eq:passado-tempo-restante}
+  \mathbb{P}(A\cap\{K=k\}\cap\{R_s>h\})
+  =e^{-\lambda h}\,\mathbb{P}(A\cap\{K=k\}).
+\end{equation}
+
+Para $k=0$, a trajetória até $s$ é constante igual a zero. Se essa
+trajetória satisfaz a condição que define $A$, então
+$A\cap\{K=0\}=\{X_1^*>s\}$ e a condição adicional $R_s>h$ equivale a
+$X_1^*>s+h$. Nesse caso, \eqref{eq:passado-tempo-restante} segue da falta
+de memória com $a=s$. Se a trajetória constante não satisfaz $A$,
+as duas probabilidades em \eqref{eq:passado-tempo-restante} são nulas.
+
+Sempre que $\mathbb{P}(A\cap\{K=k\})>0$, podemos dividir
+\eqref{eq:passado-tempo-restante} por essa probabilidade. Obtemos
+\[
+  \mathbb{P}\bigl(R_s>h\bigm|A\cap\{K=k\}\bigr)=e^{-\lambda h},
+  \qquad h\geqslant 0.
+\]
+Portanto, sob a condição $A\cap\{K=k\}$, o tempo restante $R_s$ tem
+distribuição $\mathrm{Exp}(\lambda)$.
+
+\smallskip
+\noindent\textbf{As chegadas depois de $s$.}
+Agora vamos fixar $k\geqslant 0$ e considerar $B=A\cap\{K=k\}$. Para descrever as
+chegadas depois de $s$ em $B$, definimos
+\[
+  W_1=T_{k+1}^*-s,
+  \qquad W_j=X_{k+j}^* \quad\text{para }j\geqslant 2.
+\]
+Em $B$, a primeira espera $W_1$ é o tempo restante $R_s$. As demais
+$W_j$ são esperas completas e a $j$-ésima chegada depois de $s$ ocorre
+no instante $s+W_1+\cdots+W_j$.
+
+Suponhamos $\mathbb{P}(B)>0$. Para verificar a independência das
+esperas sob a condição $B$, vamos fatorar a função de distribuição
+conjunta. O evento $B$ e a variável $W_1$ são determinados pelo vetor
+$(X_1^*,\ldots,X_{k+1}^*)$. Pela independência das esperas $X_j^*$,
+o vetor $(X_{k+2}^*,\ldots,X_{k+\ell}^*)$ é independente desse primeiro
+vetor, e as esperas do segundo vetor são independentes entre si.
+Assim, para calcular a probabilidade da interseção de
+$B\cap\{W_1\leqslant y_1\}$ com os eventos
+$\{X_{k+j}^*\leqslant y_j\}$, $2\leqslant j\leqslant\ell$,
+multiplicamos as probabilidades. Dividindo o resultado por
+$\mathbb{P}(B)$, obtemos
+\[
+  \mathbb{P}(W_1\leqslant y_1,\ldots,W_\ell\leqslant y_\ell\mid B)
+  =\mathbb{P}(W_1\leqslant y_1\mid B)
+    \prod_{j=2}^{\ell}\mathbb{P}(X_{k+j}^*\leqslant y_j).
+\]
+A fatoração vale para todo $\ell\geqslant 2$ e todos os limites
+$y_1,\ldots,y_\ell$. Tomando os demais limites para $+\infty$, vemos
+também que cada $W_j$, $j\geqslant 2$, conserva sua distribuição
+$\mathrm{Exp}(\lambda)$ sob a condição $B$. Logo, condicionadas a $B$,
+as esperas $W_1,W_2,\ldots$ são independentes e todas têm distribuição
+$\mathrm{Exp}(\lambda)$.
+
+\smallskip
+\noindent\textbf{A contagem em $(s,s+h]$.}
+Para transportar a contagem da Parte 1 para o intervalo $(s,s+h]$,
+escrevemos $S_0=0$ e $S_m=W_1+\cdots+W_m$ para $m\geqslant 1$.
+Em $B$, há exatamente $m$ chegadas em $(s,s+h]$ quando
+$S_m\leqslant h<S_{m+1}$. Para $m=0$, a condição se reduz a $W_1>h$.
+Sob a condição $B$, as somas das esperas $W_j$ têm as mesmas
+distribuições conjuntas que as somas das esperas $X_j^*$ usadas para
+construir $N^*$. Assim,
+\[
+  \mathbb{P}(N_{s+h}^*-N_s^*=m\mid B)
+  =\mathbb{P}(N_h^*=m),\qquad m\geqslant 0.
+\]
+Multiplicando por $\mathbb{P}(B)$ e retomando $B=A\cap\{K=k\}$,
+obtemos
+\begin{equation}\label{eq:incremento-condicionado-k}
+  \mathbb{P}(A\cap\{K=k\}\cap\{N_{s+h}^*-N_s^*=m\})
+  =\mathbb{P}(A\cap\{K=k\})\,\mathbb{P}(N_h^*=m).
+\end{equation}
+A identidade também vale se $\mathbb{P}(A\cap\{K=k\})=0$, pois os dois
+lados são nulos.
+
+Como $K$ é finito quase certamente, os eventos $\{K=k\}$, $k\geqslant 0$,
+formam uma partição a menos de um evento de probabilidade nula.
+Somando \eqref{eq:incremento-condicionado-k} em $k$, obtemos
 \begin{align*}
-  \mathbb{P}(N_{s+h}^*=k+1\mid N_s^*=k)
-  &=\mathbb{P}(R_s\leqslant h)-\mathbb{P}\bigl(R_s\leqslant h,\,
-    T_{k+2}^*\leqslant s+h\bigr)
-  \\[0.3cm]
-  &=\bigl[\lambda h+o(h)\bigr]-o(h)
-  =\lambda h+o(h),
+  \mathbb{P}(A\cap\{N_{s+h}^*-N_s^*=m\})
+  &=\mathbb{P}(N_h^*=m)
+    \sum_{k=0}^\infty\mathbb{P}(A\cap\{K=k\})\\[0.3cm]
+  &=\mathbb{P}(N_h^*=m)\,\mathbb{P}(A).
 \end{align*}
-onde o segundo termo é $o(h)$ porque exige duas chegadas em $(s,s+h]$: dois
-tempos restantes consecutivos menores que $h$, condicionalmente independentes,
-cada um com probabilidade $O(h)$, de modo que o produto das duas
-probabilidades é $O(h^2)=o(h)$.
+Com $A=\Omega$, vemos que $N_{s+h}^*-N_s^*$ tem a mesma distribuição que
+$N_h^*$, isto é, $\mathrm{Poisson}(\lambda h)$ pela Parte 1. Para um
+evento $A$ qualquer da trajetória até $s$, a fatoração mostra que cada
+evento $\{N_{s+h}^*-N_s^*=m\}$ é independente de $A$. Somando sobre os
+valores $m$ de qualquer conjunto de contagens, obtemos a independência
+do incremento em relação à trajetória até $s$, como exige o postulado D.
+
+\smallskip
+\noindent\textbf{Verificação do postulado E.}
+Tomemos $A=\{N_s^*=k\}$, com $\mathbb{P}(N_s^*=k)>0$. Pela independência
+do incremento em relação a $A$, as probabilidades condicionais dos
+incrementos $0$ e $1$ são as probabilidades correspondentes de $N_h^*$.
+Logo, para $h>0$,
+\begin{align*}
+  \mathbb{P}(N_{s+h}^*=k\mid N_s^*=k)
+  &=\mathbb{P}(N_h^*=0)=e^{-\lambda h},\\[0.2cm]
+  \mathbb{P}(N_{s+h}^*=k+1\mid N_s^*=k)
+  &=\mathbb{P}(N_h^*=1)=\lambda h\,e^{-\lambda h}.
+\end{align*}
+A derivada da função $h\mapsto e^{-\lambda h}$ em $h=0$ dá
+$e^{-\lambda h}=1-\lambda h+o(h)$. Além disso,
+\[
+  \frac{\lambda h\,e^{-\lambda h}-\lambda h}{h}
+  =\lambda(e^{-\lambda h}-1)\longrightarrow 0
+  \qquad\text{quando }h\downarrow 0.
+\]
+Portanto, $\lambda h\,e^{-\lambda h}=\lambda h+o(h)$, como exige o
+postulado E.
 
 \medskip
 \noindent\textbf{Parte 3 (monotonicidade).}
