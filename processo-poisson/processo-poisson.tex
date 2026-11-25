@@ -1602,329 +1602,581 @@ Logo $N_t^*\sim\mathrm{Poisson}(\lambda t)$, e em particular valem os
 postulados A e B.
 
 \smallskip
-\noindent\textbf{Parte 2 (falta de memória do tempo restante).}
-Fixemos um instante $s\geqslant 0$ e denotemos por
-$\mathcal{F}_s=\sigma(N_u^*:0\leqslant u\leqslant s)$ a $\sigma$-álgebra
-gerada pela trajetória do processo até $s$. Para verificar o postulado D,
-vamos mostrar que, para todo $h>0$, o incremento $N_{s+h}^*-N_s^*$ tem
-distribuição $\mathrm{Poisson}(\lambda h)$ e é independente de $\mathcal{F}_s$.
+\noindent\textbf{Parte 2 (incrementos independentes e postulado D).}
+Vamos mostrar diretamente que, para qualquer partição
+$0=s_0<s_1<\cdots<s_r$, os incrementos
+$N_{s_1}^*-N_{s_0}^*,\ldots,N_{s_r}^*-N_{s_{r-1}}^*$ são variáveis aleatórias
+independentes e que cada 
+\begin{align*}
+N_{s_j}^*-N_{s_{j-1}}^* \overset{d}{=} \mathrm{Poisson}\bigl(\lambda(s_j-s_{j-1})\bigr). 
+\end{align*}
+A ideia central é
+descrever esses incrementos por meio dos tempos de chegada $T_1^*,T_2^*,\ldots$,
+cuja densidade conjunta assume uma forma surpreendentemente simples.
 
-Como cada $X_i^*\sim\mathrm{Exp}(\lambda)$ satisfaz $\mathbb{P}(X_i^*>0)=1$ e
-$T_k^*\to\infty$ quase certamente, o evento
+\smallskip
+\noindent\textbf{Densidade conjunta dos tempos de chegada.}
+Fixemos um inteiro $m\geqslant 1$. Como $X_1^*,\ldots,X_m^*$ são independentes
+com distribuição $\mathrm{Exp}(\lambda)$, sua densidade conjunta é
 \[
-  \Omega_0
-  =\Bigl(\bigcap_{i=1}^{\infty}\{X_i^*>0\}\Bigr)
-   \cap\Bigl\{\lim_{k\to\infty}T_k^*=\infty\Bigr\}
+  f_{X_1^*,\ldots,X_m^*}(x_1,\ldots,x_m)
+  =\lambda^m e^{-\lambda(x_1+\cdots+x_m)},
+  \qquad x_1,\ldots,x_m>0,
 \]
-tem probabilidade $1$. Como intersectar qualquer evento com $\Omega_0$ não
-altera sua probabilidade, trabalharemos sempre sobre $\Omega_0$, onde vale
-$0=T_0^*<T_1^*<T_2^*<\cdots\to\infty$ (adotando $T_0^*=0$). Se $s=0$, então
-$N_0^*=0$ em $\Omega_0$; logo todo evento $A\in\mathcal{F}_0$ satisfaz
-$A\cap\Omega_0=\varnothing$ ou $A\cap\Omega_0=\Omega_0$, donde
-$\mathbb{P}(A)\in\{0,1\}$. Nesse caso, $N_h^*-N_0^*=N_h^*$ é trivialmente
-independente de $\mathcal{F}_0$ e tem distribuição $\mathrm{Poisson}(\lambda h)$
-pela Parte~1. Suponhamos, portanto, $s>0$.
+e nula fora de $(0,\infty)^m$. A transformação linear
+$(t_1,\ldots,t_m)=(x_1,x_1+x_2,\ldots,x_1+\cdots+x_m)$ leva $(0,\infty)^m$
+bijetivamente sobre a região ordenada $0<t_1<t_2<\cdots<t_m$, com inversa
+\[
+  x_1=t_1,
+  \qquad x_i=t_i-t_{i-1}\quad\text{para }2\leqslant i\leqslant m.
+\]
+A matriz jacobiana dessa inversa é triangular inferior com entradas iguais a
+$1$ na diagonal principal, de modo que seu determinante vale $1$. Pela fórmula
+de mudança de variáveis para vetores contínuos, a soma no expoente se cancela
+telescopicamente e obtemos
+\begin{equation}\label{eq:densidade-conjunta-chegadas}
+  f_{T_1^*,\ldots,T_m^*}(t_1,\ldots,t_m)
+  =\lambda^m\exp\Bigl(-\lambda\bigl[t_1+(t_2-t_1)+\cdots+(t_m-t_{m-1})\bigr]\Bigr)
+  =\lambda^m e^{-\lambda t_m}
+\end{equation}
+para $0<t_1<t_2<\cdots<t_m$, e $0$ fora dessa região. Observe que todos os
+instantes intermediários $t_1,\ldots,t_{m-1}$ desaparecem da densidade: esse
+cancelamento vem da propriedade funcional $e^{-\lambda(u+v)}=e^{-\lambda u}e^{-\lambda v}$
+que está por trás da falta de memória da exponencial.
 
-Para estudar a contagem em $(s,s+h]$, definimos em $\Omega_0$ o número de
-chegadas até $s$, $K=N_s^*$, e a sequência de esperas deslocadas a partir de
-$s$:
+\smallskip
+\noindent\textbf{Volume de um simplexo ordenado.}
+Para o cálculo de integrais a seguir, precisaremos do volume da região de
+$k$ instantes ordenados em um intervalo $(a,b)$, com $a<b$: para todo
+inteiro $k\geqslant 1$,
+\begin{equation}\label{eq:volume-simplexo}
+  \int_{a<u_1<\cdots<u_k<b} du_1\cdots du_k=\frac{(b-a)^k}{k!}.
+\end{equation}
+De fato, para $k=1$ temos $\int_a^b du_1=b-a$; supondo a fórmula válida para
+$k-1$, integramos primeiro em $u_1,\ldots,u_{k-1}$ sobre $(a,u_k)$ e depois em
+$u_k\in(a,b)$:
 \[
-  W_1=R_s=T_{K+1}^*-s,
-  \qquad W_j=X_{K+j}^*\quad\text{para }j\geqslant 2,
+  \int_a^b\left(\int_{a<u_1<\cdots<u_{k-1}<u_k}du_1\cdots du_{k-1}\right)du_k
+  =\int_a^b\frac{(u_k-a)^{k-1}}{(k-1)!}\,du_k
+  =\frac{(b-a)^k}{k!}.
 \]
-em que $R_s$ é o tempo que \emph{ainda} falta em $s$ para a próxima chegada,
-como na \Cref{fig:incremento-apos-s}. A estratégia tem duas etapas: primeiro,
-usamos a falta de memória da espera em curso para mostrar que $R_s$ guarda a
-cauda exponencial $e^{-\lambda h}$ mesmo quando fixamos $A\in\mathcal{F}_s$ e
-$K=k$; em seguida, combinamos essa identidade com a independência das esperas
-futuras $X_{k+2}^*,X_{k+3}^*,\ldots$ e somamos em $k\geqslant 0$ para concluir
-que $W_1,W_2,\ldots$ são i.i.d.\ $\mathrm{Exp}(\lambda)$ e independentes de
-$\mathcal{F}_s$, o que permite aplicar diretamente a Parte~1 à contagem em
-$(s,s+h]$.
+
+\smallskip
+\noindent\textbf{Distribuição conjunta dos incrementos.}
+Fixemos os instantes de observação $0=s_0<s_1<\cdots<s_r$,
+representados na \Cref{fig:instantes-observacao}.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1.16cm, y=1cm, >=Stealth, font=\small]
+    \def\anterior{4.9}
+    \def\atual{8.3}
+
+    \draw[teal!25, line width=6pt, line cap=butt]
+      (\anterior,0) -- (\atual,0);
+    \draw[->, black!65, line width=0.55pt] (0,0) -- (12.5,0)
+      node[right=2pt, text=text] {$t$};
+
+    \foreach \x/\rotulo in {0/{s_0=0}, 2/{s_1}, \anterior/{s_{j-1}},
+                            \atual/{s_j}, 11.2/{s_r}} {
+      \draw[draw=text, line width=0.55pt] (\x,-0.12) -- (\x,0.12);
+      \node[below=4pt, text=text] at (\x,0) {$\rotulo$};
+    }
+    \foreach \x in {3.45, 9.75} {
+      \node[below=4pt, text=muted] at (\x,0) {$\cdots$};
+    }
+    \node[above=5pt, text=teal!85!black] at ({(\anterior+\atual)/2},0)
+      {$(s_{j-1},s_j]$};
+  \end{tikzpicture}
+  \caption{Partição do tempo pelos instantes de observação.}
+  \label{fig:instantes-observacao}
+\end{figure}
+
+Ao subtrair $N_{s_{j-1}}^*$ de $N_{s_j}^*$, retiramos as chegadas já contadas até
+$s_{j-1}$ e ficamos com as que ocorreram em $(s_{j-1},s_j]$. Para obter a
+distribuição conjunta dos incrementos, fixemos inteiros não negativos
+$k_1,\ldots,k_r$. Queremos calcular a probabilidade de que ocorram
+exatamente $k_j$ chegadas em $(s_{j-1},s_j]$ para todo $j=1,\ldots,r$.
+O evento correspondente é
+\[
+  E=\bigl\{N_{s_j}^*-N_{s_{j-1}}^*=k_j, \text{ para todo } j=1,\ldots,r\bigr\}.
+\]
+
+Para usar a densidade conjunta dos tempos de chegada, precisamos saber quais
+chegadas ficam em cada intervalo. Como as esperas $X_i^*$ são positivas quase
+certamente, temos $0<T_1^*<T_2^*<\cdots$ e a contagem começa em $N_0^*=0$.
+Somando os valores prescritos para os primeiros $j$ intervalos, obtemos
+o total $m_j$ exigido até o corte $s_j$,
+\[
+  m_0=0,\qquad m_j=k_1+\cdots+k_j \quad (1\leqslant j\leqslant r).
+\]
 
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[
-    x=1cm, y=0.58cm, >=Stealth, font=\small,
-    marca/.style={line width=6pt, line cap=butt},
-    patamar/.style={line width=1.4pt},
-    aberto/.style={fill=white, line width=0.85pt},
-    guia/.style={black!30, densely dashed, line width=0.45pt},
-    espera/.style={teal!85!black, line width=0.6pt, decorate,
+    x=1.25cm, y=1cm, >=Stealth, font=\small,
+    faixa/.style={teal!18, line width=6pt, line cap=butt},
+    chave/.style={teal!85!black, line width=0.6pt, decorate,
       decoration={brace, amplitude=3.5pt, mirror}},
   ]
-    \def\observacao{5}
-    \def\primeira{7.1}
-    \def\segunda{9.55}
-    \def\fim{10.9}
-    \def\cota{11.35}
+    \def\primeiro{2.45}
+    \def\segundo{4.95}
+    \def\penultimo{8.15}
+    \def\fim{10.85}
 
-    \draw[marca, black!12] (0,0) -- (\observacao,0);
-    \draw[marca, teal!25] (\observacao,0) -- (\fim,0);
-    \draw[guia] (\observacao,0) -- (\observacao,2) (\fim,0) -- (\fim,4);
-    \draw[guia] (\primeira,-0.58) -- (\primeira,3)
-      (\segunda,-0.58) -- (\segunda,4);
-    \draw[guia] (\observacao,2) -- (\cota,2) (\fim,4) -- (\cota,4);
-
+    \draw[faixa] (0,0) -- (\primeiro,0)
+      (\primeiro,0) -- (\segundo,0) (\penultimo,0) -- (\fim,0);
     \draw[->, black!65, line width=0.55pt] (0,0) -- (12,0)
       node[right=2pt, text=text] {$t$};
-    \draw[->, black!65, line width=0.55pt] (0,0) -- (0,4.9)
-      node[above=2pt, text=text] {$N_t^*$};
-    \foreach \x/\rotulo in {0/{0}, \observacao/{s}, \fim/{s+h}} {
-      \draw[black!55, line width=0.45pt] (\x,-0.075) -- (\x,0.075);
-      \node[below=2pt, font=\scriptsize, text=muted] at (\x,0) {$\rotulo$};
+
+    \foreach \x/\instante/\total in {
+      0/{s_0=0}/{m_0=0},
+      \primeiro/{s_1}/{m_1=k_1},
+      \segundo/{s_2}/{m_2=k_1+k_2},
+      \penultimo/{s_{r-1}}/{m_{r-1}},
+      \fim/{s_r}/{m_r=m_{r-1}+k_r}
+    } {
+      \draw[draw=text, line width=0.55pt] (\x,-0.12) -- (\x,0.12);
+      \node[below=4pt, text=text] at (\x,0) {$\instante$};
+      \node[above=5pt, text=text] at (\x,0.12) {$\total$};
     }
-    \node[font=\scriptsize, text=muted] at (2.5,3.4)
-      {Trajetória até $s$};
-    \node[above=4pt, font=\scriptsize, text=teal!85!black]
-      at ({(\observacao+\fim)/2},0) {$(s,s+h]$};
 
-    \draw[muted, patamar]
-      (0,0) -- (1.2,0) (1.2,1) -- (3.2,1) (3.2,2) -- (\observacao,2);
-    \fill[muted] (0,0) circle (1.8pt) (1.2,1) circle (1.8pt)
-      (3.2,2) circle (1.8pt) (\observacao,2) circle (1.8pt);
-    \draw[muted, aberto] (1.2,0) circle (1.8pt) (3.2,1) circle (1.8pt);
-
-    \draw[teal, patamar]
-      (\observacao,2) -- (\primeira,2) (\primeira,3) -- (\segunda,3)
-      (\segunda,4) -- (\fim,4);
-    \fill[teal] (\primeira,3) circle (1.8pt) (\segunda,4) circle (1.8pt)
-      (\fim,4) circle (1.8pt);
-    \draw[teal, aberto] (\primeira,2) circle (1.8pt) (\segunda,3) circle (1.8pt);
-
-    \draw[teal!85!black, line width=0.6pt, decorate,
-      decoration={brace, amplitude=3.5pt}]
-      (\cota,4) -- (\cota,2)
-      node[midway, right=7pt] {$N_{s+h}^*-N_s^*$};
-
-    \draw[espera] (\observacao,-0.65) -- ([xshift=-1pt]\primeira,-0.65)
-      node[midway, below=6pt, font=\scriptsize] {Espera restante};
-    \draw[espera] ([xshift=1pt]\primeira,-0.65) -- (\segunda,-0.65)
-      node[midway, below=6pt, font=\scriptsize] {Espera seguinte};
+    \foreach \esquerda/\direita/\indice in {
+      0/\primeiro/1, \primeiro/\segundo/2, \penultimo/\fim/r
+    } {
+      \draw[chave] ([xshift=2.5pt]\esquerda,-0.65)
+        -- ([xshift=-2.5pt]\direita,-0.65)
+        node[midway, below=5pt, text=teal!85!black] {$k_\indice$};
+    }
+    \node[below=5pt, text=muted] at ({(\segundo+\penultimo)/2},-0.65)
+      {$\cdots$};
   \end{tikzpicture}
-  \caption{Contagem de chegadas em $(s,s+h]$ em uma trajetória de $N^*$.
-    A parte cinza é a trajetória observada até $s$. O trecho destacado no
-    eixo do tempo marca o intervalo de contagem. Cada salto nesse intervalo
-    acrescenta uma unidade ao incremento $N_{s+h}^*-N_s^*$.
-    A primeira chave abaixo do eixo mede o tempo de $s$ até a primeira
-    chegada depois de $s$. A segunda mede o intervalo até a chegada seguinte.}
-  \label{fig:incremento-apos-s}
+  \caption{Cada chave indica a contagem $k_j$ prescrita no intervalo
+    $(s_{j-1},s_j]$. Acima de cada corte $s_j$ está o total $m_j$ exigido
+    até aquele instante.}
+  \label{fig:contagens-prescritas-particao}
 \end{figure}
 
-Em $\{K=k\}\cap\Omega_0$, temos $T_k^*\leqslant s<T_{k+1}^*$, de modo que o
-instante $s$ divide a espera completa $X_{k+1}^*=T_{k+1}^*-T_k^*$ em duas
-partes, como na \Cref{fig:tempo-restante}: o tempo já transcorrido
-$s-T_k^*\geqslant 0$ e o tempo restante $R_s=X_{k+1}^*-(s-T_k^*)>0$. Em
-particular, $\{K=k\}\cap\Omega_0=\{T_k^*\leqslant s,\; X_{k+1}^*>s-T_k^*\}\cap\Omega_0$.
+A \Cref{fig:contagem-acumulada-particao} mostra como ler os $k_j$ e os $m_j$
+em uma trajetória com três intervalos de observação.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+    x=1.35cm, y=0.77cm, >=Stealth, font=\small,
+    eixo/.style={->, black!65, line width=0.55pt},
+    guia/.style={black!35, densely dashed, line width=0.45pt},
+    patamar/.style={teal, line width=1.3pt},
+    chave/.style={teal!85!black, line width=0.6pt, decorate,
+      decoration={brace, amplitude=3.5pt, mirror}},
+  ]
+    \def\primeiro{3.6}
+    \def\segundo{6.5}
+    \def\fim{9.55}
+    \def\chegadaum{1.15}
+    \def\chegadadois{2.65}
+    \def\chegadatres{8.1}
+
+    % Guias entre os cortes e os níveis da contagem
+    \draw[guia] (\primeiro,0) -- (\primeiro,2)
+      (\segundo,0) -- (\segundo,2) (\fim,0) -- (\fim,3);
+    \draw[teal!50, densely dotted, line width=0.55pt]
+      (\chegadaum,0) -- (\chegadaum,1)
+      (\chegadadois,0) -- (\chegadadois,2)
+      (\chegadatres,0) -- (\chegadatres,3);
+
+    \draw[eixo] (0,0) -- (10.5,0) node[right=2pt, text=text] {$t$};
+    \draw[eixo] (0,0) -- (0,4.5) node[left=2pt, text=text] {$N_t^*$};
+    \foreach \nivel in {1,2,3} {
+      \draw[black!55, line width=0.45pt] (-0.07,\nivel) -- (0.07,\nivel);
+      \node[left=2pt, text=muted] at (-0.07,\nivel) {$\nivel$};
+    }
+
+    % Trajetória e saltos de uma unidade
+    \draw[patamar] (0,0) -- (\chegadaum,0)
+      (\chegadaum,1) -- (\chegadadois,1)
+      (\chegadadois,2) -- (\chegadatres,2)
+      (\chegadatres,3) -- (\fim,3);
+    \foreach \x/\anterior/\nivel in {
+      \chegadaum/0/1, \chegadadois/1/2, \chegadatres/2/3
+    } {
+      \draw[teal, fill=white, line width=0.75pt] (\x,\anterior) circle (1.7pt);
+      \fill[teal] (\x,\nivel) circle (1.7pt);
+      \node[below=4pt, text=teal!85!black] at (\x,0) {$T_{\nivel}^*$};
+    }
+
+    % Contagens acumuladas nos cortes
+    \fill[fill=text] (0,0) circle (1.7pt);
+    \node[left=5pt, text=text] at (0,0) {$m_0=0$};
+    \node[below=4pt, text=text] at (0,0) {$s_0=0$};
+    \foreach \x/\indice/\nivel in {\primeiro/1/2, \segundo/2/2, \fim/3/3} {
+      \draw[draw=text, line width=0.55pt] (\x,-0.14) -- (\x,0.14);
+      \node[below=4pt, text=text] at (\x,0) {$s_\indice$};
+      \fill[fill=text] (\x,\nivel) circle (1.7pt);
+      \node[above=5pt, text=text] at (\x,\nivel) {$m_\indice=\nivel$};
+    }
+
+    \draw[chave] (0,-1.10) -- ([xshift=-2.5pt]\primeiro,-1.10)
+      node[midway, below=5pt] {$k_1=2$};
+    \draw[chave, muted] ([xshift=2.5pt]\primeiro,-1.10)
+      -- ([xshift=-2.5pt]\segundo,-1.10)
+      node[midway, below=5pt] {$k_2=0$};
+    \draw[chave] ([xshift=2.5pt]\segundo,-1.10) -- (\fim,-1.10)
+      node[midway, below=5pt] {$k_3=1$};
+  \end{tikzpicture}
+  \caption{Cada chegada eleva a contagem em uma unidade. As chaves mostram
+    o número de chegadas em cada intervalo, e as guias ligam os instantes
+    $s_j$ aos respectivos totais $m_j$. Como $k_2=0$, a contagem fica no mesmo
+    nível entre $s_1$ e $s_2$, com $m_2=m_1=2$.}
+  \label{fig:contagem-acumulada-particao}
+\end{figure}
+
+Em $E$, podemos escrever cada $k_i$ como $N_{s_i}^*-N_{s_{i-1}}^*$.
+Somando os três incrementos da figura, obtemos
+\[
+  k_1+k_2+k_3
+  =(N_{s_1}^*-N_{s_0}^*)+(N_{s_2}^*-N_{s_1}^*)+(N_{s_3}^*-N_{s_2}^*)
+  =N_{s_3}^*-N_{s_0}^*.
+\]
+A soma é telescópica. Cada contagem intermediária aparece com sinal
+positivo no fim de um intervalo e com sinal negativo no início do seguinte.
+O mesmo cancelamento vale para os primeiros $j$ intervalos. Como
+$N_{s_0}^*=0$, temos, em $E$,
+\[
+  m_j=\sum_{i=1}^j k_i
+  =\sum_{i=1}^j (N_{s_i}^*-N_{s_{i-1}}^*)
+  =N_{s_j}^*-N_{s_0}^*=N_{s_j}^*.
+\]
+Para a volta, suponhamos que as contagens acumuladas de uma mesma
+trajetória satisfaçam $N_{s_1}^*=m_1,\ldots,N_{s_r}^*=m_r$. Como
+$N_{s_0}^*=m_0=0$ quase certamente, recuperamos cada incremento
+subtraindo duas contagens consecutivas,
+\[
+  N_{s_j}^*-N_{s_{j-1}}^*=m_j-m_{j-1}=k_j
+  \qquad (1\leqslant j\leqslant r).
+\]
+Essas são as igualdades que definem o evento $E$.
+Assim, para as trajetórias com $N_0^*=0$, exigir exatamente $k_j$ chegadas
+em cada intervalo $(s_{j-1},s_j]$ equivale a exigir exatamente $m_j$
+chegadas acumuladas até cada corte $s_j$.
+
+Cada $T_i^*$ tem densidade, de modo que $\mathbb{P}(T_i^*=s_j)=0$ para
+cada par de índices $i,j$. O evento de alguma coincidência é uma união
+enumerável desses eventos de probabilidade zero e, portanto, também tem
+probabilidade zero. Podemos, assim, usar os intervalos abertos $(s_{j-1},s_j)$
+no cálculo da probabilidade de $E$.
+
+Até $s_{j-1}$ já ocorreram $m_{j-1}$ chegadas. Se $k_j>0$, as $k_j$ chegadas
+do intervalo seguinte vão da chegada de número $m_{j-1}+1$ até a de
+número $m_j$. Em termos dos tempos de chegada, isso significa exigir
+\[
+  s_{j-1}<T_{m_{j-1}+1}^*<\cdots<T_{m_j}^*<s_j.
+\]
+Se $k_j=0$, esse intervalo fica sem chegadas e a contagem acumulada se
+mantém em $m_j=m_{j-1}$.
+
+
+\bigskip 
+
+
+Essas condições localizam as $n=m_r$ primeiras chegadas. Para que a
+contagem até $s_r$ seja exatamente $n$, a próxima chegada precisa ficar
+depois do último corte, ou seja, $T_{n+1}^*>s_r$. Pela ordem dos tempos de
+chegada, todas as seguintes também ficam depois de $s_r$.
+A \Cref{fig:incrementos-particao} retoma a mesma trajetória e mostra
+também a primeira chegada após $s_3$.
 
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[
     x=1cm, y=1cm, >=Stealth, font=\small,
     marca/.style={line width=6pt, line cap=butt},
+    chave/.style={teal!85!black, line width=0.6pt, decorate,
+      decoration={brace, amplitude=3.5pt, mirror}},
+  ]
+    \def\primeiro{3.6}
+    \def\segundo{6.5}
+    \def\fim{9.55}
+    \def\proxima{11.5}
+
+    \draw[marca, teal!25] (0,0) -- (\primeiro,0)
+      (\segundo,0) -- (\fim,0);
+    \draw[marca, black!12] (\primeiro,0) -- (\segundo,0);
+    \draw[->, black!65, line width=0.55pt] (0,0) -- (12.65,0)
+      node[right=2pt, text=text] {$t$};
+
+    \foreach \x/\rotulo in {0/{s_0=0}, \primeiro/{s_1},
+                            \segundo/{s_2}, \fim/{s_3}} {
+      \draw[draw=text, line width=0.55pt] (\x,-0.12) -- (\x,0.12);
+      \node[below=3pt, text=text] at (\x,-0.08) {$\rotulo$};
+    }
+
+    \foreach \x/\rotulo in {1.15/{T_1^*}, 2.65/{T_2^*}, 8.1/{T_3^*}} {
+      \fill[teal!85!black] (\x,0) circle (1.8pt);
+      \node[above=4pt, text=text] at (\x,0.08) {$\rotulo$};
+    }
+    \draw[teal!85!black, fill=white, line width=0.85pt]
+      (\proxima,0) circle (1.8pt);
+    \node[above=4pt, text=teal!85!black] at (\proxima,0.08) {$T_4^*$};
+
+    \draw[chave] (0,-0.73) -- ([xshift=-1.5pt]\primeiro,-0.73)
+      node[midway, below=5pt] {$k_1=2$};
+    \draw[chave, muted] ([xshift=1.5pt]\primeiro,-0.73)
+      -- ([xshift=-1.5pt]\segundo,-0.73)
+      node[midway, below=5pt] {$k_2=0$};
+    \draw[chave] ([xshift=1.5pt]\segundo,-0.73) -- (\fim,-0.73)
+      node[midway, below=5pt] {$k_3=1$};
+  \end{tikzpicture}
+  \caption{Uma trajetória com duas chegadas no primeiro intervalo, nenhuma
+    no segundo e uma no terceiro. A contagem vale $m_1=2$ em $s_1$ e
+    permanece em $m_2=2$ em $s_2$. Até $s_3$ contamos $n=m_3=3$ chegadas.
+    A quarta chegada, marcada pelo círculo aberto, ocorre depois de $s_3$.}
+  \label{fig:incrementos-particao}
+\end{figure}
+
+Se $n=0$, todos os $k_j$ são zero. Nesse caso, $E$ ocorre exatamente quando
+a espera pela primeira chegada, $T_1^*=X_1^*$, excede o tempo total de
+observação $s_r$. Pela cauda da distribuição exponencial,
+\[
+  \mathbb{P}(E)=\mathbb{P}(T_1^*>s_r)=e^{-\lambda s_r}.
+\]
+Como $s_r=\sum_{j=1}^r(s_j-s_{j-1})$, essa exponencial se escreve como
+um produto com um fator para cada intervalo.
+
+Para dar a cada fator a forma da probabilidade de zero de uma Poisson de
+parâmetro $\lambda(s_j-s_{j-1})$, multiplicamos cada um por
+$1=[\lambda(s_j-s_{j-1})]^0/0!$. Escrevendo por extenso a probabilidade de
+$E$ neste caso, obtemos
+\begin{align*}
+  \mathbb{P}\bigl(N_{s_1}^*-N_{s_0}^*=0,\ldots,
+                  N_{s_r}^*-N_{s_{r-1}}^*=0\bigr)
+  &=\prod_{j=1}^{r} e^{-\lambda(s_j-s_{j-1})} \\
+  &=\prod_{j=1}^{r}\left(e^{-\lambda(s_j-s_{j-1})}
+    \frac{\bigl[\lambda(s_j-s_{j-1})\bigr]^0}{0!}\right) \\
+  &=\prod_{j=1}^{r}\mathbb{P}\bigl(N_{s_j-s_{j-1}}^*=0\bigr).
+\end{align*}
+A última igualdade usa a Parte~1, aplicada à contagem que começa em $0$ e
+vai até $s_j-s_{j-1}$, a duração do $j$-ésimo intervalo. Isso prova a fórmula
+conjunta no caso $k_1=\cdots=k_r=0$.
+
+Suponhamos agora $n\geqslant 1$. A menos de um evento de probabilidade nula, $E$
+ocorre quando $(T_1^*,\ldots,T_n^*,T_{n+1}^*)$ pertence a $R\times(s_r,\infty)$,
+em que $R\subseteq\mathbb{R}^n$ é o produto cartesiano dos simplexos
+\[
+  R_j=\bigl\{(t_{m_{j-1}+1},\ldots,t_{m_j}) :
+    s_{j-1}<t_{m_{j-1}+1}<\cdots<t_{m_j}<s_j\bigr\}
+\]
+percorrendo os índices $j\in\{1,\ldots,r\}$ com $k_j\geqslant 1$. Como os
+intervalos $(s_0,s_1)$, $\ldots$, $(s_{r-1},s_r)$ e $(s_r,\infty)$ estão em ordem
+crescente, todo ponto de $R\times(s_r,\infty)$ satisfaz automaticamente
+$0<t_1<\cdots<t_n<t_{n+1}$. Integrando a densidade conjunta
+\eqref{eq:densidade-conjunta-chegadas} (com $m=n+1$) primeiro na variável
+$t_{n+1}\in(s_r,\infty)$, obtemos
+\[
+  \int_{s_r}^{\infty}\lambda^{n+1}e^{-\lambda t_{n+1}}\,dt_{n+1}
+  =\lambda^n e^{-\lambda s_r},
+\]
+que não depende de $t_1,\ldots,t_n$. O integrando restante é constante sobre o
+produto de simplexos $R$; aplicando \eqref{eq:volume-simplexo} a cada bloco
+$R_j$ (e notando que eventuais índices com $k_j=0$ contribuem com o fator
+$(s_j-s_{j-1})^0/0!=1$), encontramos
+\[
+  \mathbb{P}(E)
+  =\lambda^n e^{-\lambda s_r}\int_{R}dt_1\cdots dt_n
+  =\lambda^n e^{-\lambda s_r}\prod_{j=1}^{r}\frac{(s_j-s_{j-1})^{k_j}}{k_j!}.
+\]
+Usando $\lambda^n=\prod_{j=1}^r\lambda^{k_j}$ e
+$e^{-\lambda s_r}=\prod_{j=1}^r e^{-\lambda(s_j-s_{j-1})}$, concluímos que,
+para quaisquer inteiros $k_1,\ldots,k_r\geqslant 0$ (incluindo $n=0$),
+\begin{equation}\label{eq:distribuicao-conjunta-incrementos}
+  \mathbb{P}\bigl(N_{s_1}^*-N_{s_0}^*=k_1,\ldots,N_{s_r}^*-N_{s_{r-1}}^*=k_r\bigr)
+  =\prod_{j=1}^{r}\left(e^{-\lambda(s_j-s_{j-1})}
+    \frac{\bigl[\lambda(s_j-s_{j-1})\bigr]^{k_j}}{k_j!}\right).
+\end{equation}
+
+\smallskip
+\noindent\textbf{Independência e verificação do postulado D.}
+Fixado um índice $i\in\{1,\ldots,r\}$, somamos
+\eqref{eq:distribuicao-conjunta-incrementos} sobre todos os inteiros
+$k_j\geqslant 0$ com $j\neq i$. Como $\sum_{k=0}^\infty e^{-\mu}\mu^k/k!=1$,
+cada fator com $j\neq i$ soma $1$, e obtemos
+\[
+  \mathbb{P}(N_{s_i}^*-N_{s_{i-1}}^*=k_i)
+  =e^{-\lambda(s_i-s_{i-1})}
+   \frac{\bigl[\lambda(s_i-s_{i-1})\bigr]^{k_i}}{k_i!}.
+\]
+Logo cada incremento $N_{s_i}^*-N_{s_{i-1}}^*$ tem distribuição
+$\mathrm{Poisson}\bigl(\lambda(s_i-s_{i-1})\bigr)$, ou seja, a mesma distribuição de
+$N_{s_i-s_{i-1}}^*$ pela Parte~1 e \eqref{eq:distribuicao-conjunta-incrementos}
+reescreve-se como
+\[
+  \mathbb{P}\bigl(N_{s_1}^*-N_{s_0}^*=k_1,\ldots,N_{s_r}^*-N_{s_{r-1}}^*=k_r\bigr)
+  =\prod_{j=1}^{r}\mathbb{P}(N_{s_j}^*-N_{s_{j-1}}^*=k_j).
+\]
+Portanto, os incrementos em intervalos disjuntos são independentes.
+
+
+\bigskip 
+
+
+Fixemos $0\leqslant s<t$ e escrevamos $t=s+h$, com $h=t-s>0$. O incremento
+$N_{s+h}^*-N_s^*$ conta as chegadas no intervalo $(s,s+h]$ e, pelo cálculo
+acima, tem distribuição $\mathrm{Poisson}(\lambda h)$. Para concluir a
+verificação do postulado D, precisamos mostrar que esse incremento é
+independente da história das chegadas até $s$.
+
+Se $s=0$, a única contagem disponível até esse instante é $N_0^*$, que vale
+zero quase certamente. Como uma variável constante quase certamente é
+independente de qualquer outra, a independência vale nesse caso.
+
+Suponhamos agora $s>0$ e escolhamos uma lista finita de instantes de
+observação até $s$. Podemos incluir $0$ e $s$ nessa lista, pois todas as
+contagens da lista original continuam disponíveis na lista ampliada.
+Acrescentamos $s+h$ e escrevemos os instantes em ordem crescente, cada um
+uma única vez. Obtemos a partição
+\[
+  0=u_0<u_1<\cdots<u_m=s<s+h.
+\]
+O último intervalo é $(s,s+h]$, destacado na \Cref{fig:particao-postulado-d}.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+    x=1.2cm, y=1cm, >=Stealth, font=\small,
+    faixa/.style={line width=6pt, line cap=butt},
     chave/.style={line width=0.6pt, decorate,
       decoration={brace, amplitude=3.5pt, mirror}},
   ]
-    \def\ultima{4.2}
-    \def\observacao{7.55}
-    \def\proxima{11.7}
+    \def\primeiro{2.05}
+    \def\segundo{4.05}
+    \def\penultimaobs{7.0}
+    \def\ultimaobs{9.55}
+    \def\fim{12.55}
 
-    \draw[marca, black!12] (\ultima,0) -- (\observacao,0);
-    \draw[marca, teal!25] (\observacao,0) -- (\proxima,0);
-    \draw[->, black!65, line width=0.55pt] (0,0) -- (13.05,0)
-      node[right=2pt, text=text] {$t$};
+    \draw[faixa, black!10] (0,0) -- (\segundo,0)
+      (\penultimaobs,0) -- (\ultimaobs,0);
+    \draw[faixa, teal!25] (\ultimaobs,0) -- (\fim,0);
+    \draw[->, black!65, line width=0.55pt] (0,0) -- (13.0,0);
 
-    \foreach \x/\rotulo in {0/{T_0^*=0}, 1.55/{T_1^*}, \ultima/{T_k^*},
-                           \observacao/{s}, \proxima/{T_{k+1}^*}} {
-      \draw[black!55, line width=0.45pt] (\x,-0.04) -- (\x,0.04);
-      \node[below=2pt, text=text] at (\x,0) {$\rotulo$};
+    \foreach \x/\instante in {
+      0/{0=u_0}, \primeiro/{u_1}, \segundo/{u_2},
+      \penultimaobs/{u_{m-1}}, \ultimaobs/{u_m=s}, \fim/{s+h}
+    } {
+      \draw[draw=text, line width=0.55pt] (\x,-0.12) -- (\x,0.12);
+      \node[below=4pt, text=text] at (\x,0) {$\instante$};
     }
-    \node[fill=white, inner sep=2pt, text=muted] at (2.85,0) {$\cdots$};
-    \fill[fill=text] (1.55,0) circle (1.8pt);
-    \fill[fill=text] (\ultima,0) circle (1.8pt);
-    \draw[teal!85!black, fill=white, line width=0.85pt]
-      (\proxima,0) circle (1.8pt);
+    \node[below=4pt, text=muted] at ({(\segundo+\penultimaobs)/2},0)
+      {$\cdots$};
 
-    \draw[draw=text, line width=0.7pt] (\observacao,-0.10) -- (\observacao,0.16)
-      node[above=3pt, align=center, text=text]
-        {$K=N_s^*=k$\\{\scriptsize chegadas até $s$}};
-
-    \draw[chave, muted] (\ultima,-0.68) -- ([xshift=-1.2pt]\observacao,-0.68)
-      node[midway, below=5pt, align=center]
-        {$s-T_k^*$\\{\scriptsize tempo transcorrido}};
-    \draw[chave, teal!85!black] ([xshift=1.2pt]\observacao,-0.68) -- (\proxima,-0.68)
-      node[midway, below=5pt, align=center]
-        {$R_s=T_{k+1}^*-s$\\{\scriptsize tempo restante}};
-    \draw[chave, draw=text] (\ultima,-1.95) -- (\proxima,-1.95)
-      node[midway, below=5pt, align=center]
-        {$X_{k+1}^*=T_{k+1}^*-T_k^*$\\{\scriptsize espera completa}};
+    \foreach \esquerda/\direita/\incremento in {
+      0/\primeiro/{N_{u_1}^*-N_{u_0}^*},
+      \primeiro/\segundo/{N_{u_2}^*-N_{u_1}^*},
+      \penultimaobs/\ultimaobs/{N_s^*-N_{u_{m-1}}^*}
+    } {
+      \draw[chave, muted] ([xshift=2.5pt]\esquerda,-0.65)
+        -- ([xshift=-2.5pt]\direita,-0.65)
+        node[midway, below=5pt, text=muted] {$\incremento$};
+    }
+    \node[below=5pt, text=muted] at ({(\segundo+\penultimaobs)/2},-0.65)
+      {$\cdots$};
+    \draw[chave, teal!85!black] ([xshift=2.5pt]\ultimaobs,-0.65)
+      -- ([xshift=-2.5pt]\fim,-0.65)
+      node[midway, below=5pt, text=teal!85!black] {$N_{s+h}^*-N_s^*$};
   \end{tikzpicture}
-  \caption{Tempo restante até a próxima chegada em uma trajetória com
-    $K=k$. Os pontos cheios indicam chegadas já observadas, e o círculo
-    aberto marca a próxima chegada. Quando $k=0$, a espera começa na origem
-    $T_0^*=0$.}
-  \label{fig:tempo-restante}
+  \caption{Os instantes de observação são os cortes da partição até $s$.
+    Cada chave indica a contagem no intervalo correspondente. Em destaque,
+    o incremento em $(s,s+h]$.}
+  \label{fig:particao-postulado-d}
 \end{figure}
 
-Para qualquer $h\geqslant 0$, exigir $R_s>h$ em $\{K=k\}\cap\Omega_0$ equivale
-a exigir $X_{k+1}^*>s-T_k^*+h$, o que já implica $X_{k+1}^*>s-T_k^*$. Logo,
-\begin{equation}\label{eq:evento-tempo-restante}
-  \{K=k\}\cap\{R_s>h\}\cap\Omega_0
-  =\{T_k^*\leqslant s,\; X_{k+1}^*>s-T_k^*+h\}\cap\Omega_0.
+Pela independência dos incrementos da partição, $N_{s+h}^*-N_s^*$ é
+independente do vetor de contagens dos intervalos até $s$,
+\[
+  \bigl(N_{u_1}^*-N_{u_0}^*,\ldots,N_{u_m}^*-N_{u_{m-1}}^*\bigr).
+\]
+Para saber quantas chegadas ocorreram até $u_i$, somamos as contagens
+dos primeiros $i$ intervalos. As contagens nos cortes intermediários
+se cancelam nessa soma, e $N_{u_0}^*=N_0^*=0$ quase certamente. Assim,
+para $1\leqslant i\leqslant m$,
+\[
+  \sum_{j=1}^{i}(N_{u_j}^*-N_{u_{j-1}}^*)
+  =N_{u_i}^*-N_{u_0}^*=N_{u_i}^*\qquad\text{quase certamente}.
+\]
+Assim recuperamos as contagens observadas até $s$ a partir dos incrementos
+dos intervalos até $s$.
+
+Fixemos inteiros não negativos $a_1,\ldots,a_m$. Queremos saber o que
+podemos dizer sobre o próximo intervalo quando os totais observados até
+$s$ são justamente esses valores. O evento que registra essa informação é
+\[
+  A=\{N_{u_1}^*=a_1,\ldots,N_{u_m}^*=a_m\}.
+\]
+Toda chegada contada até $u_{i-1}$ também é contada até $u_i$. Assim, para
+que $A$ tenha probabilidade positiva, é preciso que
+$a_1\leqslant\cdots\leqslant a_m$. Se $a_i<a_{i-1}$ para algum $i\geqslant 2$,
+então $\mathbb{P}(A)=0$. A igualdade $a_i=a_{i-1}$ corresponde a um intervalo
+$(u_{i-1},u_i]$ sem chegadas.
+
+Vamos expressar $A$ em termos das chegadas em cada intervalo. Como a
+contagem começa em zero quase certamente, atingir o total $a_1$ em $u_1$
+significa contar $a_1$ chegadas no primeiro intervalo. Para cada corte
+seguinte $u_i$, passar do total $a_{i-1}$ ao total $a_i$ significa contar
+$a_i-a_{i-1}$ chegadas em $(u_{i-1},u_i]$. Portanto, em $A$ valem, quase
+certamente, as condições
+\[
+  N_{u_1}^*-N_{u_0}^*=a_1,
+  \qquad N_{u_i}^*-N_{u_{i-1}}^*=a_i-a_{i-1}\quad (2\leqslant i\leqslant m).
+\]
+Reciprocamente, suponhamos que esses sejam os incrementos observados.
+Em $u_1$, a contagem é $a_1$. Se $m\geqslant 2$, em $u_2$ a contagem é
+$a_1+(a_2-a_1)=a_2$. Para chegar ao total em $u_i$, somamos da mesma forma
+os primeiros $i$ incrementos. Os valores intermediários se cancelam e
+sobra $a_i$. Assim recuperamos, quase certamente, todos os totais que
+definem $A$.
+
+Podemos, portanto, verificar se $A$ ocorreu a partir das contagens dos
+intervalos que terminam até $s$. Já provamos que o incremento em
+$(s,s+h]$ é independente do vetor dessas contagens. Se pedirmos também
+$k$ chegadas no próximo intervalo, a probabilidade de que os dois eventos
+ocorram é o produto de suas probabilidades. Para cada inteiro $k\geqslant 0$,
+\begin{equation}\label{eq:fatoracao-contagens-finitas}
+  \mathbb{P}\bigl(\{N_{s+h}^*-N_s^*=k\}\cap A\bigr)
+  =\mathbb{P}(N_{s+h}^*-N_s^*=k)\,\mathbb{P}(A).
 \end{equation}
-Como $R_s>0$ em $\{K=k\}\cap\Omega_0$, tomar $h=0$ em
-\eqref{eq:evento-tempo-restante} recupera o evento $\{K=k\}\cap\Omega_0$.
-
-\smallskip
-\noindent\textbf{A trajetória até $s$ e o tempo restante.}
-Fixemos $A\in\mathcal{F}_s$ e $k\geqslant 0$. Vamos mostrar que, para todo
-$h\geqslant 0$,
-\begin{equation}\label{eq:passado-tempo-restante}
-  \mathbb{P}(A\cap\{K=k\}\cap\{R_s>h\})
-  =e^{-\lambda h}\,\mathbb{P}(A\cap\{K=k\}).
-\end{equation}
-
-No caso $k=0$, temos $\{K=0\}\cap\Omega_0=\{X_1^*>s\}\cap\Omega_0$, e nesse
-evento vale $N_u^*=0$ para todo $u\in[0,s]$. Assim, a coleção $\mathcal{G}_0$
-dos eventos $E$ tais que $E\cap\{K=0\}\cap\Omega_0$ é igual a $\varnothing$ ou
-a $\{K=0\}\cap\Omega_0$ é uma $\sigma$-álgebra que contém $\{N_u^*=j\}$ para
-todos $u\in[0,s]$ e $j\geqslant 0$; logo $\mathcal{F}_s\subseteq\mathcal{G}_0$.
-Se $A\cap\{K=0\}\cap\Omega_0=\varnothing$, os dois lados de
-\eqref{eq:passado-tempo-restante} são nulos. Se
-$A\cap\{K=0\}\cap\Omega_0=\{X_1^*>s\}\cap\Omega_0$, então
-\eqref{eq:evento-tempo-restante} dá
-$A\cap\{K=0\}\cap\{R_s>h\}\cap\Omega_0=\{X_1^*>s+h\}\cap\Omega_0$, e
-\eqref{eq:passado-tempo-restante} segue diretamente da falta de memória de
-$X_1^*$ na forma \eqref{eq:equacao-funcional-falta-memoria}.
-
-Para $k\geqslant 1$, escrevamos $\mathbf U=(X_1^*,\ldots,X_k^*)$ e
-$V=X_{k+1}^*$. Para $\mathbf x=(x_1,\ldots,x_k)\in(0,\infty)^k$, ponhamos
-$t_i(\mathbf x)=x_1+\cdots+x_i$ ($1\leqslant i\leqslant k$) e
-$\Delta_k=\{\mathbf x\in(0,\infty)^k:t_k(\mathbf x)\leqslant s\}$. Considere a
-coleção $\mathcal{G}_k$ dos eventos $E$ para os quais existe um boreliano
-$C_k\subseteq\Delta_k$ tal que
+Se $\mathbb{P}(A)>0$, pela definição de probabilidade condicional e pela
+igualdade acima,
 \[
-  E\cap\{K=k\}\cap\Omega_0
-  =\bigl\{\mathbf U\in C_k,\; V>s-t_k(\mathbf U)\bigr\}\cap\Omega_0.
+  \mathbb{P}(N_{s+h}^*-N_s^*=k\mid A)
+  =\frac{\mathbb{P}\bigl(\{N_{s+h}^*-N_s^*=k\}\cap A\bigr)}{\mathbb{P}(A)}
+  =\mathbb{P}(N_{s+h}^*-N_s^*=k).
 \]
-Verifica-se imediatamente que $\mathcal{G}_k$ é uma $\sigma$-álgebra: contém
-$\Omega$ (com $C_k=\Delta_k$), é fechada por complementos (trocando $C_k$ por
-$\Delta_k\setminus C_k$) e por uniões enumeráveis (tomando a união dos
-respectivos borelianos $C_{k,n}$). Além disso, em $\{K=k\}\cap\Omega_0$, todas
-as chegadas até $s$ estão entre $T_1^*,\ldots,T_k^*$, de modo que
-\[
-  N_u^*=\sum_{i=1}^{k}\mathds{1}_{\{T_i^*\leqslant u\}}
-  =\sum_{i=1}^{k}\mathds{1}_{\{t_i(\mathbf U)\leqslant u\}}
-  \qquad\text{para todo }u\in[0,s].
-\]
-Como cada $t_i$ é contínua, para quaisquer $u\in[0,s]$ e $j\geqslant 0$ o
-conjunto
-$\bigl\{\mathbf x\in\Delta_k:\sum_{i=1}^k\mathds{1}_{\{t_i(\mathbf x)\leqslant u\}}=j\bigr\}$
-é boreliano, logo $\{N_u^*=j\}\in\mathcal{G}_k$. Portanto
-$\mathcal{F}_s\subseteq\mathcal{G}_k$, e existe um boreliano
-$C_k\subseteq\Delta_k$ que representa $A\cap\{K=k\}\cap\Omega_0$.
+Ou seja, dadas essas contagens até $s$, a probabilidade de $k$ chegadas
+em $(s,s+h]$ é a mesma que tínhamos antes de conhecê-las.
 
-Combinando essa representação com \eqref{eq:evento-tempo-restante}, obtemos,
-para todo $h\geqslant 0$,
-\[
-  A\cap\{K=k\}\cap\{R_s>h\}\cap\Omega_0
-  =\bigl\{\mathbf U\in C_k,\; V>s-t_k(\mathbf U)+h\bigr\}\cap\Omega_0.
-\]
-Como $\mathbb{P}(\Omega_0)=1$ e $\mathbf U$ é independente de $V$, a densidade
-conjunta de $(\mathbf U,V)$ é $f_{\mathbf U,V}(\mathbf x,v)=f_{\mathbf U}(\mathbf x)\,\lambda e^{-\lambda v}$
-para $\mathbf x\in(0,\infty)^k$ e $v>0$. A região
-$\{(\mathbf x,v)\in(0,\infty)^k\times(0,\infty):\mathbf x\in C_k,\;v>s-t_k(\mathbf x)+h\}$
-é boreliana e a densidade é não negativa; pelo Teorema de Tonelli, podemos
-integrar primeiro em $v$:
-\begin{equation}\label{eq:esperanca-em-duas-etapas}
-  \mathbb{P}(A\cap\{K=k\}\cap\{R_s>h\})
-  =\int_{C_k}
-    \left(\int_{s-t_k(\mathbf x)+h}^{\infty}\lambda e^{-\lambda v}\,dv\right)
-    f_{\mathbf U}(\mathbf x)\,d\mathbf x.
-\end{equation}
-Para cada $\mathbf x\in C_k$, escrevendo $a=s-t_k(\mathbf x)\geqslant 0$, a
-falta de memória de $V\sim\mathrm{Exp}(\lambda)$ na forma
-\eqref{eq:equacao-funcional-falta-memoria} fornece
-\[
-  \int_{a+h}^{\infty}\lambda e^{-\lambda v}\,dv
-  =\mathbb{P}(V>a+h)
-  =e^{-\lambda h}\,\mathbb{P}(V>a)
-  =e^{-\lambda h}\int_a^{\infty}\lambda e^{-\lambda v}\,dv.
-\]
-O fator $e^{-\lambda h}$ não depende de $\mathbf x$ e sai da integral em
-\eqref{eq:esperanca-em-duas-etapas}. A integral restante é exatamente
-\eqref{eq:esperanca-em-duas-etapas} com $h=0$, ou seja,
-$\mathbb{P}(A\cap\{K=k\})$. Isso estabelece \eqref{eq:passado-tempo-restante}
-para todo $k\geqslant 0$.
+Um evento definido por um número finito de contagens até $s$ pode admitir
+várias listas de valores observados. Cada lista dá um evento como $A$,
+e eventos de listas diferentes são disjuntos. Como as listas têm
+comprimento fixo e valores inteiros, formam um conjunto enumerável.
+Somando os dois lados de \eqref{eq:fatoracao-contagens-finitas} sobre as
+listas admitidas, obtemos a mesma fatoração para a união desses eventos.
+Como os instantes de observação foram escolhidos arbitrariamente, a
+fatoração vale para todo evento definido por um número finito de
+contagens até $s$.
 
-\smallskip
-\noindent\textbf{As esperas depois de $s$ e a contagem em $(s,s+h]$.}
-Denotemos por $F(y)=\mathbb{P}(X_1^*\leqslant y)$ a função de distribuição de
-$\mathrm{Exp}(\lambda)$ (isto é, $F(y)=1-e^{-\lambda y}$ para $y\geqslant 0$ e
-$F(y)=0$ para $y<0$). Fixados $A\in\mathcal{F}_s$ e $k\geqslant 0$, de
-\eqref{eq:passado-tempo-restante} e do fato de que $W_1=R_s>0$ em
-$\{K=k\}\cap\Omega_0$, segue que, para todo $y_1\in\mathbb{R}$,
-\[
-  \mathbb{P}(A\cap\{K=k\}\cap\{W_1\leqslant y_1\})
-  =F(y_1)\,\mathbb{P}(A\cap\{K=k\}).
-\]
-(Para $y_1\geqslant 0$, basta tomar o complementar de $\{R_s>y_1\}$ dentro de
-$A\cap\{K=k\}$; para $y_1<0$, os dois lados são nulos.)
+O Teorema $\pi$-$\lambda$ de Dynkin estende essa independência a toda a história
+até $s$, isto é, à $\sigma$-álgebra $\sigma(N_u^*:0\leqslant u\leqslant s)$.
+Isso conclui a verificação do postulado D.\footnote{Para cada inteiro
+$k\geqslant 0$, os eventos $B$ dessa $\sigma$-álgebra que satisfazem a
+igualdade~\eqref{eq:fatoracao-contagens-finitas} com $B$ no lugar de $A$
+formam um $\lambda$-sistema.
+Os eventos $A$ definidos por valores de um número finito de contagens, junto
+com $\varnothing$ e $\Omega$, formam um $\pi$-sistema que gera a
+$\sigma$-álgebra. Pelo Teorema
+$\pi$-$\lambda$, a igualdade vale para todo evento $B$ da história até $s$.
+Como o incremento assume valores inteiros, basta verificar essa igualdade
+para cada $k$ para concluir a independência.}
 
-Fixemos agora $\ell\geqslant 1$ e reais $y_1,\ldots,y_\ell$. Em
-$\{K=k\}\cap\Omega_0$, temos $W_j=X_{k+j}^*$ para $2\leqslant j\leqslant\ell$.
-Além disso, pela representação obtida acima (tanto para $k=0$ quanto para
-$k\geqslant 1$), a menos do evento nulo $\Omega_0^c$, o evento
-$A\cap\{K=k\}\cap\{W_1\leqslant y_1\}$ depende apenas do vetor
-$(X_1^*,\ldots,X_{k+1}^*)$. Pela independência das esperas $X_i^*$, esse evento
-e os eventos $\{X_{k+2}^*\leqslant y_2\},\ldots,\{X_{k+\ell}^*\leqslant y_\ell\}$
-são independentes entre si. Logo,
-\begin{align*}
-  \MoveEqLeft[2]\mathbb{P}\bigl(A\cap\{K=k\}\cap\{W_1\leqslant y_1,\ldots,W_\ell\leqslant y_\ell\}\bigr)\\[0.15cm]
-  &=\mathbb{P}\bigl(A\cap\{K=k\}\cap\{W_1\leqslant y_1\}\bigr)
-    \prod_{j=2}^{\ell}\mathbb{P}(X_{k+j}^*\leqslant y_j)\\[0.2cm]
-  &=\mathbb{P}(A\cap\{K=k\})\prod_{j=1}^{\ell}F(y_j).
-\end{align*}
-Como os eventos $\{K=k\}$, $k\geqslant 0$, são dois a dois disjuntos e sua
-união contém $\Omega_0$, somar em $k\geqslant 0$ fornece imediatamente
-\begin{equation}\label{eq:fatoracao-esperas-deslocadas}
-  \mathbb{P}\bigl(A\cap\{W_1\leqslant y_1,\ldots,W_\ell\leqslant y_\ell\}\bigr)
-  =\mathbb{P}(A)\prod_{j=1}^{\ell}F(y_j).
-\end{equation}
-
-Para contar as chegadas em $(s,s+h]$, ponhamos $S_0=0$ e
-$S_r=W_1+\cdots+W_r$ para $r\geqslant 1$. Em $\Omega_0$, vale
-$S_r=(T_{K+1}^*-s)+X_{K+2}^*+\cdots+X_{K+r}^*=T_{K+r}^*-s$, de modo que
-$S_r\leqslant h$ se, e somente se, $T_{K+r}^*\leqslant s+h$. Portanto, em
-$\Omega_0$,
-\[
-  N_{s+h}^*-N_s^*=\max\{r\geqslant 0:S_r\leqslant h\}.
-\]
-Se $\mathbb{P}(A)>0$, dividir \eqref{eq:fatoracao-esperas-deslocadas} por
-$\mathbb{P}(A)$ mostra que, sob a medida de probabilidade condicional
-$\mathbb{P}_A(\cdot)=\mathbb{P}(\cdot\mid A)$, as variáveis aleatórias
-$W_1,W_2,\ldots$ são independentes e têm distribuição $\mathrm{Exp}(\lambda)$.
-Aplicando a Parte~1 à sequência $W_1,W_2,\ldots$ sob $\mathbb{P}_A$, concluímos
-que, para todo $m\geqslant 0$,
-\[
-  \mathbb{P}(N_{s+h}^*-N_s^*=m\mid A)
-  =e^{-\lambda h}\frac{(\lambda h)^m}{m!}
-  =\mathbb{P}(N_h^*=m).
-\]
-Multiplicando por $\mathbb{P}(A)$, obtemos
-\[
-  \mathbb{P}(A\cap\{N_{s+h}^*-N_s^*=m\})
-  =\mathbb{P}(A)\,\mathbb{P}(N_h^*=m),
-\]
-igualdade que também vale trivialmente quando $\mathbb{P}(A)=0$. Com
-$A=\Omega$, vemos que $N_{s+h}^*-N_s^*$ tem a mesma distribuição que $N_h^*$,
-isto é, $\mathrm{Poisson}(\lambda h)$ pela Parte~1. Para um evento
-$A\in\mathcal{F}_s$ qualquer, a fatoração mostra que cada evento
-$\{N_{s+h}^*-N_s^*=m\}$ é independente de $A$. Somando sobre os valores $m$ de
-qualquer conjunto de contagens, obtemos a independência do incremento em
-relação à trajetória até $s$, como exige o postulado D.
-
-\smallskip
+\bigskip
 \noindent\textbf{Verificação do postulado E.}
 Tomemos $A=\{N_s^*=k\}$, com $\mathbb{P}(N_s^*=k)>0$. Pela independência
 do incremento em relação a $A$, as probabilidades condicionais dos
