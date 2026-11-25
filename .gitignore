@@ -36,6 +36,10 @@ skills/traducao-livro/
 # Guia local de notações e convenções (uso interno, não publicar)
 NOTACOES-E-CONVENCOES.md
 
+# Instruções para agentes de IA (uso interno, não publicar)
+AGENTS.md
+AGENTS.md.*
+
 # Instruções para LLM atualizar a homepage (uso interno, não publicar)
 INSTRUCOES-ATUALIZACAO.md
 
