@@ -267,7 +267,7 @@ observações consecutivas. O número de chamadas telefônicas que chegam a uma
 central, o número de partículas detectadas por um contador Geiger e o número de
 clientes que entram em uma loja são contagens desse tipo. A partir daqui o
 índice do processo deixa de ser um inteiro e passa a ser um instante $t$, e o
-modelo que vamos usar para introduzir estas ideias é o chamado Processo de Poisson.
+modelo que vamos usar para introduzir estas ideias é o chamado processo de Poisson.
 
 \subsection{Do Tempo Discreto ao Tempo Contínuo}
 \label{subsec:discreto-continuo}
@@ -289,11 +289,11 @@ exige lidar com famílias não enumeráveis de variáveis aleatórias. Boa parte
 dessas dificuldades desaparece quando nos restringimos a processos que assumem
 apenas valores inteiros. Para o que faremos, basta que cada $Z_t$ seja uma
 variável aleatória e que as trajetórias $t\mapsto Z_t(\omega)$ tenham as
-propriedades de monotonicidade como enunciadas adiante. Isto evita a necessidade 
+propriedades de monotonicidade enunciadas adiante. Isto evita a necessidade
 de construir a família inteira por meio do Teorema de Extensão de Kolmogorov.
 
-As diferenças entre os principais métodos utilizados nas notas anteriores, 
-no caso de tempo discreto, e os que vamos precisar aqui são simples de descrever.
+As diferenças entre os principais métodos utilizados nas notas anteriores,
+no caso de tempo discreto, e os de que vamos precisar aqui são simples de descrever.
 Para um processo $(Z_n)_{n\geqslant0}$ a tempo discreto, relacionamos $Z_{n+1}$
 com $Z_n$ e obtemos \emph{equações de recorrência} e \emph{equações de
 diferenças} para as probabilidades envolvidas, como fizemos no estudo dos
@@ -415,8 +415,8 @@ de ambos os lados da igualdade.
   &=1-1+\lambda h-r_0(h)-\lambda h-r_1(h)\\
   &=-r_0(h)-r_1(h).
 \end{align*}
-Ao abrir os colchetes, o sinal de menos troca o sinal de cada parcela
-dentro deles. Na última linha, cancelamos $1$ com $-1$ e $\lambda h$
+Ao abrirmos os colchetes, trocamos o sinal de cada parcela dentro deles.
+Na última linha, cancelamos $1$ com $-1$ e $\lambda h$
 com $-\lambda h$.
 
 Para saber se a probabilidade que restou é $o(h)$, dividimos por $h$.
@@ -802,9 +802,9 @@ podemos pôr um fator $s$ em evidência e obter
   =s\sum_{j=0}^{m-1}p_j(t)s^j
   =s\,G_{m-1}(s,t).
 \]
-No segundo somatório do lado direito de \eqref{eq-aux1-poisson-B}, o índice $k$ já coincide com o expoente
-de $s$. Como ela começa em $k=1$, contém todos os termos de $G_m(s,t)$
-a partir de $p_1(t)s$. Logo,
+No segundo somatório do lado direito de \eqref{eq-aux1-poisson-B}, o índice $k$
+já coincide com o expoente de $s$. Como ele começa em $k=1$, contém todos os
+termos de $G_m(s,t)$ a partir de $p_1(t)s$. Logo,
 \[
   \sum_{k=1}^{m}p_k(t)s^k=G_m(s,t)-p_0(t).
 \]
@@ -970,8 +970,8 @@ probabilidade de $N_1$ e de $N_4$ no caso $\lambda=1$.
 
   \end{tikzpicture}
   \caption{Funções de probabilidade de $N_t$ para $\lambda=1$, com $t=1$
-    (barras escuras) e $t=4$ (barras cinzas). Ao crescer $t$, as barras se
-    deslocam para a direita e a distribuição se espalha, acompanhando o
+    (barras escuras) e $t=4$ (barras cinzas). À medida que $t$ cresce, as
+    barras se deslocam para a direita e a distribuição se espalha, acompanhando o
     crescimento da média e da variância, ambas iguais a $\lambda t$.}
   \label{fig:poisson-hastes}
 \end{figure}
@@ -1185,10 +1185,7 @@ chegada. Para calcular sua cauda, fixemos $u\geqslant 0$. A espera ultrapassa
 $u$ exatamente quando, ao fim desse intervalo, a contagem ainda está em zero.
 Podemos então ler o mesmo evento como uma afirmação sobre a espera ou sobre
 a contagem, como na \Cref{fig:primeira-espera-poisson},
-\[
-  \{X_1>u\}=\{N_u=0\}.
-\]
-
+$\{X_1>u\}=\{N_u=0\}$.
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[x=1cm, y=1cm, >=Stealth, font=\small]
@@ -1204,9 +1201,7 @@ a contagem, como na \Cref{fig:primeira-espera-poisson},
     \fill[teal] (6.25,0) circle (1.8pt);
     \node[below=2pt, font=\scriptsize, text=text] at (6.25,0) {$T_1$};
   \end{tikzpicture}
-  \caption{A primeira espera em uma trajetória do processo. O trecho
-    destacado vai de $0$ a $u$, antes da primeira chegada $T_1$. Uma chegada
-    exatamente em $u$ já entraria na contagem $N_u$.}
+  \caption{A primeira espera em uma trajetória do processo.}
   \label{fig:primeira-espera-poisson}
 \end{figure}
 
@@ -1220,8 +1215,8 @@ caracteriza a distribuição $\mathrm{Exp}(\lambda)$ em
 \eqref{eq:cauda-exponencial}.
 
 Queremos repetir o cálculo a partir de $T_k$. Os postulados D e E tratam de
-instantes fixados de antemão (determinísticos). 
-Aqui, $T_k$ é determinado pelas chegadas (aleatórios).
+instantes determinísticos, fixados de antemão. Aqui, $T_k$ é um instante
+aleatório, determinado pelas chegadas.
 
 Podemos reconhecer a $k$-ésima chegada à medida que observamos o
 processo. De fato, no instante $t$, basta consultar a contagem $N_t$
@@ -1466,7 +1461,7 @@ aula sobre vetores contínuos.
 
 \begin{definition}\label{def:falta-memoria}
 Dizemos que uma variável aleatória $X$ com $\mathbb{P}(X>0)=1$ tem a
-propriedade de \emph{falta de memória} se a seguinte igualdade é satisfeita
+propriedade de \emph{falta de memória} se a seguinte igualdade é satisfeita:
 \begin{equation}\label{eq:falta-memoria}
   \mathbb{P}(X>u+v\mid X>u)=\mathbb{P}(X>v)
 \end{equation}
@@ -1474,11 +1469,12 @@ para todos $u,v\geqslant0$ tais que $\mathbb{P}(X>u)>0$.
 \end{definition}
 
 A condição $\mathbb{P}(X>u)>0$ garante que a probabilidade condicional esteja
-definida. Quando $X$ tem suporte limitado, ela pode falhar para $u$ grande; e,
-nesse caso, nada há a exigir, pois o evento $\{X>u\}$ tem probabilidade nula.
+definida. Quando $X$ tem suporte limitado, essa condição pode falhar para
+valores grandes de $u$; nesse caso, nada há a exigir, pois o evento $\{X>u\}$
+tem probabilidade nula.
 
-Pensando em $X$ como o tempo que transcorre até a ocorrência de um evento $A$,
-a condição \eqref{eq:falta-memoria} exige que, se $A$ ainda não ocorreu no
+Se pensarmos em $X$ como o tempo que transcorre até a ocorrência de um evento
+$A$, a condição \eqref{eq:falta-memoria} exige que, se $A$ ainda não ocorreu no
 instante $u$, então o tempo adicional até a ocorrência de $A$ não dependa de
 $u$. Em outras palavras, a distribuição do tempo adicional até a ocorrência de
 $A$ não depende de $u$: $X$ não se lembra de quanto tempo já passou.
@@ -1530,141 +1526,352 @@ qualquer instante fixado, com a mesma lei que tinha no instante inicial.
 \subsection{A Recíproca: Construindo o Processo a Partir das
 Exponenciais}\label{subsec:construcao-exponenciais}
 
-Vimos que os tempos entre chegadas de um processo de Poisson são
-independentes e exponenciais. Vale a recíproca: uma sequência de exponenciais
-independentes, acumulada, produz um processo de Poisson. Esse é o sentido em
-que a distribuição exponencial caracteriza o processo.
+No \Cref{thm:exponenciais-iid}, partimos de um processo de Poisson $N$ de taxa
+$\lambda$ e concluímos que os seus tempos entre chegadas $X_1,X_2,\ldots$ são
+variáveis aleatórias independentes com distribuição $\mathrm{Exp}(\lambda)$.
+Agora faremos o caminho inverso. Em vez de supor de saída os postulados A a E,
+partimos de uma sequência $X_1^*,X_2^*,\ldots$ de variáveis aleatórias
+independentes com distribuição $\mathrm{Exp}(\lambda)$, somamos essas esperas
+para definir os instantes de chegada $T_k^*$ e contamos quantas chegadas
+ocorrem até cada instante $t$ para obter um processo $N^*$. O asterisco serve
+apenas para distinguir esse processo candidato do processo $N$ da seção
+anterior. A proposição a seguir mostra que $N^*$ satisfaz todos os postulados de
+um processo de Poisson de taxa $\lambda$, o que completa a equivalência entre as
+duas descrições.
 
 \begin{proposition}\label{prop:construcao-poisson}
 Sejam $X_1^*,X_2^*,\ldots$ variáveis aleatórias independentes, cada uma com
-distribuição $\mathrm{Exp}(\lambda)$, com $\lambda>0$. Defina, para
-$k\geqslant1$ e $t\geqslant0$,
+distribuição $\mathrm{Exp}(\lambda)$, com $\lambda>0$. Defina, para cada
+inteiro $k\geqslant1$ e cada $t\geqslant0$,
 \begin{gather*}
   T_k^*=X_1^*+X_2^*+\cdots+X_k^*,
   \\[0.2cm]
-  N_t^*=\max\{k:T_k^*\leqslant t\},
+  N_t^*=\max\{k\geqslant 1 : T_k^*\leqslant t\},
 \end{gather*}
 com a convenção de que o máximo do conjunto vazio é $0$. Então
 $N^*=(N_t^*)_{t\geqslant0}$ é um processo de Poisson de taxa $\lambda$.
 \end{proposition}
 
 \begin{proof}
-Antes de verificar os postulados, é preciso garantir que $N_t^*$ esteja bem
-definido, isto é, que $T_k^*\to\infty$ quase certamente. Como
-$\mathbb{E}[X_1^*]=1/\lambda<\infty$, a Lei Forte dos Grandes Números,
+Antes de verificar os postulados A a E da \Cref{subsec:modelo-central},
+precisamos garantir que $N_t^*$ esteja bem definido. Na definição acima,
+$N_t^*$ é o maior inteiro $k\geqslant1$ tal que $T_k^*\leqslant t$. Se, para
+algum ponto $\omega\in\Omega$, infinitos termos da sequência $(T_k^*(\omega))_{k\geqslant1}$
+permanecessem menores ou iguais a $t$, o conjunto $\{k\geqslant1:T_k^*(\omega)\leqslant t\}$
+seria infinito e não teria máximo. Precisamos, portanto, assegurar que
+$T_k^*\to\infty$ quase certamente quando $k\to\infty$.
+
+Para verificar essa divergência, observamos que as variáveis $X_1^*,X_2^*,\ldots$
+são independentes e identicamente distribuídas, com média finita
+$\mathbb{E}[X_1^*]=1/\lambda\in(0,\infty)$. A Lei Forte dos Grandes Números,
 demonstrada nas notas de aula correspondentes, garante que
 \[
   \frac{T_k^*}{k}=\frac{1}{k}\sum_{i=1}^{k}X_i^*
   \longrightarrow\frac{1}{\lambda}
-  \qquad\text{quase certamente.}
+  \qquad\text{quase certamente quando }k\to\infty.
 \]
-Em particular, $T_k^*\to\infty$ quase certamente e, para cada $t$, o conjunto
-$\{k:T_k^*\leqslant t\}$ é finito, de modo que o máximo que define $N_t^*$
-existe.
-
-\medskip 
-
-Próximo passo é verificar a validade dos postulados A a E que definem um Processo
-de Poisson.
-
-\medskip 
-
-
-
-\smallskip
-\noindent\textbf{Parte 1 (distribuição de $N_t^*$).}
-Como $\mathrm{Exp}(\lambda)$ é a distribuição $\mathrm{Gama}(1,\lambda)$,
-podemos usar o exemplo das notas de aula sobre somas de variáveis aleatórias
-contínuas: a soma de variáveis aleatórias independentes com distribuição Gama
-de mesmo parâmetro tem distribuição Gama com os parâmetros somados. Logo
-$T_k^*\sim\mathrm{Gama}(k,\lambda)$. Para $t>0$, a densidade é dada por
+Sempre que $T_k^*(\omega)/k$ converge para o número positivo $1/\lambda$, existe
+um índice $K$ a partir do qual $T_k^*(\omega)/k\geqslant 1/(2\lambda)$, isto é,
+$T_k^*(\omega)\geqslant k/(2\lambda)$ para todo $k\geqslant K$. Como
+$k/(2\lambda)\to\infty$ quando $k\to\infty$, segue que $T_k^*(\omega)\to\infty$.
+Além disso, como cada $X_i^*\sim\mathrm{Exp}(\lambda)$ tem densidade suportada em
+$(0,\infty)$, vale $\mathbb{P}(X_i^*\leqslant 0)=0$ para todo $i\geqslant1$. A
+união enumerável $\bigcup_{i=1}^{\infty}\{X_i^*\leqslant 0\}$ tem, portanto,
+probabilidade zero. Reunindo as duas condições, consideramos o conjunto
 \[
-  f_{T_k^*}(t)=\frac{\lambda^k}{(k-1)!}\,t^{k-1}e^{-\lambda t}.
+  \Omega_0
+  =\bigl\{\omega\in\Omega : X_i^*(\omega)>0 \text{ para todo } i\geqslant1
+  \;\text{ e }\; \lim_{k\to\infty}T_k^*(\omega)=\infty\bigr\}.
 \]
-Para $t\geqslant 0$, a função de distribuição correspondente é
+Ele pertence a $\mathcal{F}$, pois se obtém por meio de operações enumeráveis,
+como
 \[
+  \Omega_0
+  =\left(\bigcap_{i=1}^{\infty}\{X_i^*>0\}\right)
+   \cap\left(\bigcap_{M=1}^{\infty}\bigcup_{k=1}^{\infty}\{T_k^*>M\}\right),
+\]
+e satisfaz $\mathbb{P}(\Omega_0)=1$.
+
+Para todo $\omega\in\Omega_0$, valem duas propriedades simples e decisivas:
+primeiro, $T_k^*(\omega)$ cresce estritamente com $k$, isto é,
+$0<T_1^*(\omega)<T_2^*(\omega)<\cdots$, pois $T_k^*(\omega)-T_{k-1}^*(\omega)=X_k^*(\omega)>0$;
+segundo, para cada $t\geqslant0$, como $T_k^*(\omega)\to\infty$, existe $K$ tal que
+$T_k^*(\omega)>t$ para todo $k\geqslant K$, logo o conjunto
+$\{k\geqslant1:T_k^*(\omega)\leqslant t\}$ está contido em $\{1,\ldots,K-1\}$ e
+é finito (e vazio quando $t=0$, pois $T_1^*(\omega)>0$). Assim, $N_t^*(\omega)$
+está bem definido para todo $\omega\in\Omega_0$ e todo $t\geqslant0$. No evento
+excepcional $\Omega\setminus\Omega_0$, que tem probabilidade zero, fixamos
+$N_t^*(\omega)=0$ para todo $t\geqslant0$. Como $\mathbb{P}(\Omega\setminus\Omega_0)=0$,
+essa escolha completa a definição de $N_t^*$ em todo $\Omega$ e garante que
+$\mathbb{P}(B)=\mathbb{P}(B\cap\Omega_0)$ para qualquer evento $B\in\mathcal{F}$,
+sem alterar probabilidades ou independência.
+
+A verificação dos postulados A a E seguirá em três etapas: na \textbf{Parte 1},
+calcularemos a distribuição de $N_t^*$ em um instante fixado $t$, o que
+estabelecerá os postulados A e B; na \textbf{Parte 2}, encontraremos a
+distribuição conjunta dos incrementos em intervalos disjuntos e verificaremos os
+postulados D e E; na \textbf{Parte 3}, conferiremos a monotonicidade exigida
+pelo postulado C.
+
+\bigskip 
+\bigskip 
+
+\noindent\textbf{Parte 1 (distribuição de $N_t^*$ e postulados A e B).}
+Por construção, $N_t^*$ assume apenas valores inteiros não negativos em
+$\{0,1,2,\ldots\}$ para todo $t\geqslant0$. Em $t=0$, como $T_k^*(\omega)>0$
+para todo $\omega\in\Omega_0$ e $k\geqslant1$, o conjunto
+$\{k\geqslant1:T_k^*(\omega)\leqslant0\}$ é vazio, donde $N_0^*(\omega)=0$ pela
+convenção do máximo do conjunto vazio; fora de $\Omega_0$, também fixamos
+$N_0^*(\omega)=0$. Logo $N_0^*=0$ em todo $\Omega$, o que estabelece o
+\textbf{postulado B}.
+
+Resta verificar, para completar o \textbf{postulado A}, que cada $N_t^*$ é uma
+variável aleatória (isto é, que os eventos $\{N_t^*=k\}$ pertencem a $\mathcal{F}$)
+e, ao mesmo tempo, determinar sua distribuição para $t>0$. Para isso, vamos
+traduzir as afirmações sobre a contagem $N_t^*$ em desigualdades sobre os
+tempos de chegada $T_k^*$. Fixe $t>0$ e um inteiro $k\geqslant1$. Para todo
+$\omega\in\Omega_0$, como $0<T_1^*(\omega)<T_2^*(\omega)<\cdots$, temos a
+equivalência
+\[
+  N_t^*(\omega)\geqslant k
+  \quad\Longleftrightarrow\quad
+  T_k^*(\omega)\leqslant t.
+\]
+De fato, se $N_t^*(\omega)\geqslant k$, existe algum índice $j\geqslant k$ com
+$T_j^*(\omega)\leqslant t$, e a monotonicidade $T_k^*(\omega)\leqslant T_j^*(\omega)$
+dá $T_k^*(\omega)\leqslant t$; reciprocamente, se $T_k^*(\omega)\leqslant t$,
+então $k$ pertence ao conjunto $\{j\geqslant1:T_j^*(\omega)\leqslant t\}$, cujo
+máximo $N_t^*(\omega)$ é ao menos $k$. Em termos de eventos, isso significa que
+\begin{equation}\label{eq:nt-maior-igual-k}
+  \{N_t^*\geqslant k\}\cap\Omega_0 = \{T_k^*\leqslant t\}\cap\Omega_0
+  \qquad\text{para todo } k\geqslant1.
+\end{equation}
+Como $T_k^*$ é soma de variáveis aleatórias, $\{T_k^*\leqslant t\}\in\mathcal{F}$.
+Tomando o complementar em $\Omega_0$ para $k=1$, temos
+$\{N_t^*=0\}\cap\Omega_0=\{T_1^*>t\}\cap\Omega_0\in\mathcal{F}$; além disso,
+fora de $\Omega_0$ vale $N_t^*=0$, logo $\{N_t^*=0\}=(\{T_1^*>t\}\cap\Omega_0)\cup(\Omega\setminus\Omega_0)\in\mathcal{F}$.
+Para $k\geqslant1$, haver exatamente $k$ chegadas até $t$ equivale a haver ao
+menos $k$ chegadas e não haver $k+1$ chegadas, isto é,
+\[
+  \{N_t^*=k\}
+  =\{N_t^*\geqslant k\}\setminus\{N_t^*\geqslant k+1\}
+  =\{T_k^*\leqslant t<T_{k+1}^*\}\cap\Omega_0\in\mathcal{F},
+\]
+pois $N_t^*=0$ em $\Omega\setminus\Omega_0$. Como os eventos $\{N_t^*\geqslant k\}$
+pertencem a $\mathcal{F}$ (e $N_t^*$ só assume valores inteiros não negativos),
+segue que $\{N_t^*\leqslant x\}\in\mathcal{F}$ para todo $x\in\mathbb{R}$, de
+modo que $N_t^*$ é uma variável aleatória. Isso estabelece o \textbf{postulado A}.
+
+Calculemos agora $\mathbb{P}(N_t^*=k)$ para $t>0$. Para $k=0$, como
+$\mathbb{P}(\Omega_0)=1$ e $T_1^*=X_1^*\sim\mathrm{Exp}(\lambda)$, a fórmula da
+cauda \eqref{eq:cauda-exponencial} dá
+\[
+  \mathbb{P}(N_t^*=0)=\mathbb{P}(T_1^*>t)=\mathbb{P}(X_1^*>t)=e^{-\lambda t}.
+\]
+Para $k\geqslant1$, como $T_k^*<T_{k+1}^*$ em $\Omega_0$, o evento
+$\{T_{k+1}^*\leqslant t\}\cap\Omega_0$ está contido em
+$\{T_k^*\leqslant t\}\cap\Omega_0$, donde
+\begin{equation}\label{eq:prob-nt-diferenca-tk}
+  \mathbb{P}(N_t^*=k)
+  =\mathbb{P}\bigl(T_k^*\leqslant t<T_{k+1}^*\bigr)
+  =\mathbb{P}(T_k^*\leqslant t)-\mathbb{P}(T_{k+1}^*\leqslant t).
+\end{equation}
+
+Para calcular $\mathbb{P}(T_k^*\leqslant t)$, identificamos primeiro a
+distribuição de $T_k^*$. Recorde que a distribuição exponencial
+$\mathrm{Exp}(\lambda)$ coincide com a distribuição gama $\mathrm{Gama}(1,\lambda)$.
+Nas notas de aula sobre somas de variáveis aleatórias contínuas, provamos que a
+soma de duas variáveis aleatórias independentes com distribuição gama de mesma
+taxa $\lambda$ tem distribuição gama com os parâmetros de forma somados e a taxa
+$\lambda$ preservada. Aplicando esse fato repetidamente por indução em $k$ às
+variáveis independentes $X_1^*,\ldots,X_k^*\sim\mathrm{Gama}(1,\lambda)$,
+concluímos que $T_k^*\sim\mathrm{Gama}(k,\lambda)$. Como $\Gamma(k)=(k-1)!$
+para todo inteiro $k\geqslant1$, a função densidade de $T_k^*$ para $t>0$ é
+\[
+  f_{T_k^*}(t)=\frac{\lambda^k}{(k-1)!}\,t^{k-1}e^{-\lambda t},
+\]
+e vale $f_{T_k^*}(t)=0$ para $t\leqslant0$.
+
+Afirmamos que a função de distribuição de $T_k^*$ para $t\geqslant0$ é dada por
+\begin{equation}\label{eq:fda-gama-erlang}
   \mathbb{P}(T_k^*\leqslant t)
   =1-e^{-\lambda t}\sum_{j=0}^{k-1}\frac{(\lambda t)^j}{j!}.
+\end{equation}
+Para verificar \eqref{eq:fda-gama-erlang}, denote por $H_k(t)$ o lado direito
+para $t\geqslant0$. Em $t=0$, apenas a parcela $j=0$ sobrevive na soma (com a
+convenção $0^0=1$), logo $H_k(0)=1-1\cdot 1=0=\mathbb{P}(T_k^*\leqslant0)$.
+Para $k=1$, temos $H_1(t)=1-e^{-\lambda t}$, cuja derivada em $t>0$ é
+$H_1'(t)=\lambda e^{-\lambda t}=f_{T_1^*}(t)$. Para $k\geqslant2$ e $t>0$,
+aplicando a regra do produto ao termo
+$e^{-\lambda t}\sum_{j=0}^{k-1}\frac{(\lambda t)^j}{j!}$, obtemos
+\begin{align*}
+  H_k'(t)
+  &=\lambda e^{-\lambda t}\sum_{j=0}^{k-1}\frac{(\lambda t)^j}{j!}
+    -e^{-\lambda t}\sum_{j=1}^{k-1}\lambda\,\frac{(\lambda t)^{j-1}}{(j-1)!}
+  \\[0.3cm]
+  &=\lambda e^{-\lambda t}\left(
+    \sum_{j=0}^{k-1}\frac{(\lambda t)^j}{j!}
+    -\sum_{i=0}^{k-2}\frac{(\lambda t)^i}{i!}
+  \right),
+\end{align*}
+onde fizemos a mudança de índice $i=j-1$ na segunda soma. Todos os termos de
+índices $0$ até $k-2$ se cancelam entre os dois somatórios e resta apenas a
+parcela $j=k-1$ do primeiro, o que fornece
+\[
+  H_k'(t)
+  =\lambda e^{-\lambda t}\,\frac{(\lambda t)^{k-1}}{(k-1)!}
+  =\frac{\lambda^k}{(k-1)!}\,t^{k-1}e^{-\lambda t}
+  =f_{T_k^*}(t).
 \]
-De fato, a expressão à direita vale zero em $t=0$, assim como a função de
-distribuição de $T_k^*$. Ao derivar essa expressão para $t>0$, obtemos a
-densidade $f_{T_k^*}(t)$. Logo, para $k\geqslant1$,
+Pelo Teorema Fundamental do Cálculo,
+$H_k(t)=H_k(0)+\int_0^t f_{T_k^*}(s)\,ds=\mathbb{P}(T_k^*\leqslant t)$, o que
+prova \eqref{eq:fda-gama-erlang}.
+
+Substituindo \eqref{eq:fda-gama-erlang} em \eqref{eq:prob-nt-diferenca-tk},
+todos os termos de $j=0$ até $j=k-1$ se cancelam na subtração e sobra apenas a
+parcela $j=k$:
 \begin{align*}
   \mathbb{P}(N_t^*=k)
-  &=\mathbb{P}\bigl(T_k^*\leqslant t<T_{k+1}^*\bigr)
-  \\
-  &=\mathbb{P}(T_k^*\leqslant t)-\mathbb{P}(T_{k+1}^*\leqslant t)
+  &=\left(1-e^{-\lambda t}\sum_{j=0}^{k-1}\frac{(\lambda t)^j}{j!}\right)
+   -\left(1-e^{-\lambda t}\sum_{j=0}^{k}\frac{(\lambda t)^j}{j!}\right)
   \\[0.3cm]
-  &=e^{-\lambda t}\frac{(\lambda t)^k}{k!},
+  &=e^{-\lambda t}\frac{(\lambda t)^k}{k!}.
 \end{align*}
-e, para $k=0$, a mesma fórmula vale, pois $\mathbb{P}(N_t^*=0)=e^{-\lambda t}$.
-Logo $N_t^*\sim\mathrm{Poisson}(\lambda t)$, e em particular valem os
-postulados A e B.
+Como essa expressão também coincide com $\mathbb{P}(N_t^*=0)=e^{-\lambda t}$
+quando $k=0$, concluímos que $N_t^*\sim\mathrm{Poisson}(\lambda t)$ para todo
+$t>0$.
 
-\smallskip
-\noindent\textbf{Parte 2 (incrementos independentes e postulado D).}
-Vamos mostrar diretamente que, para qualquer partição
-$0=s_0<s_1<\cdots<s_r$, os incrementos
+\medskip
+\noindent\textbf{Parte 2 (incrementos independentes e postulados D e E).}
+Na Parte~1 estudamos $N_t^*$ em um único instante $t$. Agora precisamos estudar
+a dependência entre contagens em vários instantes ao mesmo tempo. Nosso
+objetivo principal nesta etapa é provar que, para qualquer escolha finita de
+instantes $0=s_0<s_1<\cdots<s_r$, os incrementos
 $N_{s_1}^*-N_{s_0}^*,\ldots,N_{s_r}^*-N_{s_{r-1}}^*$ são variáveis aleatórias
-independentes e que cada 
-\begin{align*}
-N_{s_j}^*-N_{s_{j-1}}^* \overset{d}{=} \mathrm{Poisson}\bigl(\lambda(s_j-s_{j-1})\bigr). 
-\end{align*}
-A ideia central é
-descrever esses incrementos por meio dos tempos de chegada $T_1^*,T_2^*,\ldots$,
-cuja densidade conjunta assume uma forma surpreendentemente simples.
+independentes e que cada um satisfaz
+\[
+  N_{s_j}^*-N_{s_{j-1}}^* \sim \mathrm{Poisson}\bigl(\lambda(s_j-s_{j-1})\bigr).
+\]
+A partir dessa propriedade, obteremos o postulado D (primeiro para um número
+finito de observações anteriores e depois para toda a história até $s$) e, em
+seguida, o postulado E.
+
+Como o processo $N^*$ foi definido a partir dos tempos de chegada $T_k^*$, a
+estratégia é traduzir os eventos sobre incrementos de $N^*$ em regiões para o
+vetor $(T_1^*,\ldots,T_n^*)$ e calcular suas probabilidades por integração.
+Dividimos esse percurso em cinco subetapas:
+(2.1) calcular a densidade conjunta dos tempos de chegada;
+(2.2) calcular o volume da região de $k$ pontos ordenados em um intervalo;
+(2.3) deduzir a distribuição conjunta dos incrementos;
+(2.4) extrair a independência dos incrementos e verificar o postulado D; e
+(2.5) verificar o postulado E.
 
 \smallskip
-\noindent\textbf{Densidade conjunta dos tempos de chegada.}
-Fixemos um inteiro $m\geqslant 1$. Como $X_1^*,\ldots,X_m^*$ são independentes
-com distribuição $\mathrm{Exp}(\lambda)$, sua densidade conjunta é
+\noindent\textit{2.1. Densidade conjunta dos tempos de chegada.}
+Fixemos um inteiro $n\geqslant1$. Como as esperas $X_1^*,\ldots,X_n^*$ são
+independentes, cada uma com densidade $\lambda e^{-\lambda x}$ para $x>0$ e
+nula para $x\leqslant0$, sua densidade conjunta é dada pelo produto das
+densidades marginais:
 \[
-  f_{X_1^*,\ldots,X_m^*}(x_1,\ldots,x_m)
-  =\lambda^m e^{-\lambda(x_1+\cdots+x_m)},
-  \qquad x_1,\ldots,x_m>0,
+  f_{X_1^*,\ldots,X_n^*}(x_1,\ldots,x_n)
+  =\prod_{i=1}^{n}\bigl(\lambda e^{-\lambda x_i}\bigr)
+  =\lambda^n e^{-\lambda(x_1+\cdots+x_n)}
 \]
-e nula fora de $(0,\infty)^m$. A transformação linear
-$(t_1,\ldots,t_m)=(x_1,x_1+x_2,\ldots,x_1+\cdots+x_m)$ leva $(0,\infty)^m$
-bijetivamente sobre a região ordenada $0<t_1<t_2<\cdots<t_m$, com inversa
+para $(x_1,\ldots,x_n)\in D\equiv(0,\infty)^n$, e vale $0$ fora de $D$.
+
+Queremos passar dessa densidade para a densidade conjunta do vetor
+$(T_1^*,\ldots,T_n^*)$, definido por $T_i^*=X_1^*+\cdots+X_i^*$. Para usar a
+Fórmula do Jacobiano, estudada nas notas de aula sobre mudança de variáveis (na
+sua versão para $n$ dimensões), consideramos a aplicação linear
+$\Phi:D\to\mathbb{R}^n$ dada por
+\[
+  \Phi(x_1,\ldots,x_n)
+  =(x_1,\,x_1+x_2,\,\ldots,\,x_1+\cdots+x_n)
+  =(t_1,\ldots,t_n).
+\]
+Se $(x_1,\ldots,x_n)\in D$, isto é, $x_i>0$ para todo $i$, então $t_1=x_1>0$ e
+$t_i-t_{i-1}=x_i>0$ para $2\leqslant i\leqslant n$, de modo que
+$0<t_1<t_2<\cdots<t_n$. Reciprocamente, dado qualquer ponto $(t_1,\ldots,t_n)$
+na região ordenada
+\[
+  S=\{(t_1,\ldots,t_n)\in\mathbb{R}^n : 0<t_1<t_2<\cdots<t_n\},
+\]
+o sistema $t_i=x_1+\cdots+x_i$ ($1\leqslant i\leqslant n$) determina
+unicamente os valores
 \[
   x_1=t_1,
-  \qquad x_i=t_i-t_{i-1}\quad\text{para }2\leqslant i\leqslant m.
+  \qquad
+  x_i=t_i-t_{i-1}\quad(2\leqslant i\leqslant n),
 \]
-A matriz jacobiana dessa inversa é triangular inferior com entradas iguais a
-$1$ na diagonal principal, de modo que seu determinante vale $1$. Pela fórmula
-de mudança de variáveis para vetores contínuos, a soma no expoente se cancela
-telescopicamente e obtemos
-\begin{equation}\label{eq:densidade-conjunta-chegadas}
-  f_{T_1^*,\ldots,T_m^*}(t_1,\ldots,t_m)
-  =\lambda^m\exp\Bigl(-\lambda\bigl[t_1+(t_2-t_1)+\cdots+(t_m-t_{m-1})\bigr]\Bigr)
-  =\lambda^m e^{-\lambda t_m}
-\end{equation}
-para $0<t_1<t_2<\cdots<t_m$, e $0$ fora dessa região. Observe que todos os
-instantes intermediários $t_1,\ldots,t_{m-1}$ desaparecem da densidade: esse
-cancelamento vem da propriedade funcional $e^{-\lambda(u+v)}=e^{-\lambda u}e^{-\lambda v}$
-que está por trás da falta de memória da exponencial.
+todos estritamente positivos, logo pertencentes a $D$. Assim, $\Phi:D\to S$ é
+uma bijeção com inversa $\Phi^{-1}:S\to D$ dada pelas fórmulas acima.
 
-\smallskip
-\noindent\textbf{Volume de um simplexo ordenado.}
-Para o cálculo de integrais a seguir, precisaremos do volume da região de
-$k$ instantes ordenados em um intervalo $(a,b)$, com $a<b$: para todo
-inteiro $k\geqslant 1$,
-\begin{equation}\label{eq:volume-simplexo}
-  \int_{a<u_1<\cdots<u_k<b} du_1\cdots du_k=\frac{(b-a)^k}{k!}.
-\end{equation}
-De fato, para $k=1$ temos $\int_a^b du_1=b-a$; supondo a fórmula válida para
-$k-1$, integramos primeiro em $u_1,\ldots,u_{k-1}$ sobre $(a,u_k)$ e depois em
-$u_k\in(a,b)$:
+As derivadas parciais $\partial x_i/\partial t_j$ são constantes e formam a
+matriz jacobiana da inversa $\Phi^{-1}$:
 \[
-  \int_a^b\left(\int_{a<u_1<\cdots<u_{k-1}<u_k}du_1\cdots du_{k-1}\right)du_k
-  =\int_a^b\frac{(u_k-a)^{k-1}}{(k-1)!}\,du_k
-  =\frac{(b-a)^k}{k!}.
+  \left(\frac{\partial x_i}{\partial t_j}\right)_{1\leqslant i,j\leqslant n}
+  =\begin{pmatrix}
+     1      & 0      & 0      & \cdots & 0 \\
+    -1      & 1      & 0      & \cdots & 0 \\
+     0      & -1     & 1      & \cdots & 0 \\
+     \vdots & \vdots & \ddots & \ddots & \vdots \\
+     0      & 0      & \cdots & -1     & 1
+   \end{pmatrix}.
 \]
+Trata-se de uma matriz triangular inferior com todas as entradas da diagonal
+principal iguais a $1$, portanto seu determinante é $J(t_1,\ldots,t_n)=1$ em
+todo ponto de $S$. Pela Fórmula do Jacobiano, $(T_1^*,\ldots,T_n^*)$ possui
+densidade conjunta igual a zero fora de $S$ e, para $(t_1,\ldots,t_n)\in S$,
+dada por
+\[
+  f_{T_1^*,\ldots,T_n^*}(t_1,\ldots,t_n)
+  =f_{X_1^*,\ldots,X_n^*}\bigl(t_1,\,t_2-t_1,\,\ldots,\,t_n-t_{n-1}\bigr)\,|1|.
+\]
+Na soma $x_1+x_2+\cdots+x_n$, cada termo intermediário $t_i$ ($1\leqslant i\leqslant n-1$)
+aparece somado em $t_i-t_{i-1}$ e subtraído em $t_{i+1}-t_i$, cancelando-se
+telescopicamente e deixando apenas $t_n$:
+\begin{equation}\label{eq:densidade-conjunta-chegadas}
+  f_{T_1^*,\ldots,T_n^*}(t_1,\ldots,t_n)
+  =\lambda^n\exp\Bigl(-\lambda\bigl[t_1+(t_2-t_1)+\cdots+(t_n-t_{n-1})\bigr]\Bigr)
+  =\lambda^n e^{-\lambda t_n}
+\end{equation}
+para $0<t_1<t_2<\cdots<t_n$, e $0$ fora dessa região. Note que os instantes
+intermediários $t_1,\ldots,t_{n-1}$ aparecem apenas na restrição de ordenação
+$0<t_1<\cdots<t_n$, e não na fórmula $\lambda^n e^{-\lambda t_n}$ do integrando.
+Essa simplificação decorre da identidade $e^{-\lambda(u+v)}=e^{-\lambda u}e^{-\lambda v}$,
+a mesma propriedade algébrica por trás da falta de memória da exponencial.
 
 \smallskip
-\noindent\textbf{Distribuição conjunta dos incrementos.}
-Fixemos os instantes de observação $0=s_0<s_1<\cdots<s_r$,
-representados na \Cref{fig:instantes-observacao}.
+\noindent\textit{2.2. Integral sobre instantes ordenados em um intervalo.}
+Ao integrar a densidade \eqref{eq:densidade-conjunta-chegadas}, as coordenadas
+que caem dentro de um mesmo intervalo $(a,b)$ aparecem apenas ordenadas entre si,
+com integrando constante em relação a elas. Precisaremos, por isso, da integral
+da função constante $1$ sobre o conjunto de $k$ instantes ordenados em $(a,b)$.
+Para quaisquer reais $a<b$ e todo inteiro $k\geqslant1$, vale
+\begin{equation}\label{eq:volume-simplexo}
+  \int\cdots\int_{a<v_1<\cdots<v_k<b} dv_1\cdots dv_k=\frac{(b-a)^k}{k!}.
+\end{equation}
+Para provar \eqref{eq:volume-simplexo} por indução em $k$, observamos que para
+$k=1$ a integral reduz-se ao comprimento do intervalo:
+$\int_a^b dv_1=b-a=(b-a)^1/1!$. Supondo a fórmula válida para $k-1\geqslant1$,
+observamos que exigir $a<v_1<\cdots<v_{k-1}<v_k<b$ equivale a escolher primeiro
+$v_k\in(a,b)$ e depois $(v_1,\ldots,v_{k-1})$ com
+$a<v_1<\cdots<v_{k-1}<v_k$. Integrando nessa ordem (o integrando é igual a $1$
+e não negativo, pelo Teorema de Tonelli), obtemos
+\begin{align*}
+  \int\cdots\int_{a<v_1<\cdots<v_k<b} dv_1\cdots dv_k
+  &=\int_a^b\left(\int\cdots\int_{a<v_1<\cdots<v_{k-1}<v_k}dv_1\cdots dv_{k-1}\right)dv_k
+  \\[0.3cm]
+  &=\int_a^b\frac{(v_k-a)^{k-1}}{(k-1)!}\,dv_k
+  =\left.\frac{(v_k-a)^k}{k!}\right|_{v_k=a}^{v_k=b}
+  =\frac{(b-a)^k}{k!},
+\end{align*}
+o que completa a indução.
+
+\smallskip
+\noindent\textit{2.3. Distribuição conjunta dos incrementos.}
+Fixemos os instantes de observação $0=s_0<s_1<\cdots<s_r$, representados na
+\Cref{fig:instantes-observacao}.
 
 \begin{figure}[H]
   \centering
@@ -1692,24 +1899,27 @@ representados na \Cref{fig:instantes-observacao}.
   \label{fig:instantes-observacao}
 \end{figure}
 
-Ao subtrair $N_{s_{j-1}}^*$ de $N_{s_j}^*$, retiramos as chegadas já contadas até
-$s_{j-1}$ e ficamos com as que ocorreram em $(s_{j-1},s_j]$. Para obter a
-distribuição conjunta dos incrementos, fixemos inteiros não negativos
-$k_1,\ldots,k_r$. Queremos calcular a probabilidade de que ocorram
-exatamente $k_j$ chegadas em $(s_{j-1},s_j]$ para todo $j=1,\ldots,r$.
-O evento correspondente é
+Para entender o significado do incremento $N_{s_j}^*-N_{s_{j-1}}^*$, note que
+$N_{s_j}^*$ conta as chegadas ocorridas até $s_j$ (inclusive) e $N_{s_{j-1}}^*$
+conta as chegadas ocorridas até $s_{j-1}$ (inclusive). Ao subtrair
+$N_{s_{j-1}}^*$ de $N_{s_j}^*$, restam exatamente as chegadas ocorridas no
+intervalo $(s_{j-1},s_j]$.
+
+Fixemos agora inteiros não negativos $k_1,\ldots,k_r$. Queremos calcular a
+probabilidade do evento em que ocorrem exatamente $k_j$ chegadas em cada
+intervalo $(s_{j-1},s_j]$:
 \[
   E=\bigl\{N_{s_j}^*-N_{s_{j-1}}^*=k_j, \text{ para todo } j=1,\ldots,r\bigr\}.
 \]
-
-Para usar a densidade conjunta dos tempos de chegada, precisamos saber quais
-chegadas ficam em cada intervalo. Como as esperas $X_i^*$ são positivas quase
-certamente, temos $0<T_1^*<T_2^*<\cdots$ e a contagem começa em $N_0^*=0$.
-Somando os valores prescritos para os primeiros $j$ intervalos, obtemos
-o total $m_j$ exigido até o corte $s_j$,
+Para traduzir $E$ em condições sobre os tempos de chegada $T_1^*,T_2^*,\ldots$,
+somamos as contagens prescritas nos primeiros $j$ intervalos e definimos os
+totais acumulados
 \[
   m_0=0,\qquad m_j=k_1+\cdots+k_j \quad (1\leqslant j\leqslant r).
 \]
+As \Cref{fig:contagens-prescritas-particao,fig:contagem-acumulada-particao}
+ilustram como as contagens por intervalo $k_j$ se relacionam com os totais
+acumulados $m_j$.
 
 \begin{figure}[H]
   \centering
@@ -1756,9 +1966,6 @@ o total $m_j$ exigido até o corte $s_j$,
     até aquele instante.}
   \label{fig:contagens-prescritas-particao}
 \end{figure}
-
-A \Cref{fig:contagem-acumulada-particao} mostra como ler os $k_j$ e os $m_j$
-em uma trajetória com três intervalos de observação.
 
 \begin{figure}[H]
   \centering
@@ -1831,60 +2038,82 @@ em uma trajetória com três intervalos de observação.
   \label{fig:contagem-acumulada-particao}
 \end{figure}
 
-Em $E$, podemos escrever cada $k_i$ como $N_{s_i}^*-N_{s_{i-1}}^*$.
-Somando os três incrementos da figura, obtemos
-\[
-  k_1+k_2+k_3
-  =(N_{s_1}^*-N_{s_0}^*)+(N_{s_2}^*-N_{s_1}^*)+(N_{s_3}^*-N_{s_2}^*)
-  =N_{s_3}^*-N_{s_0}^*.
-\]
-A soma é telescópica. Cada contagem intermediária aparece com sinal
-positivo no fim de um intervalo e com sinal negativo no início do seguinte.
-O mesmo cancelamento vale para os primeiros $j$ intervalos. Como
-$N_{s_0}^*=0$, temos, em $E$,
+Verifiquemos primeiro que descrever as contagens por intervalo equivale a
+descrever as contagens acumuladas nos cortes, isto é, que para quaisquer
+instantes $0=s_0<s_1<\cdots<s_r$ e inteiros não negativos $k_1,\ldots,k_r$, com
+$m_j=k_1+\cdots+k_j$ ($m_0=0$), vale a igualdade de eventos
+\begin{equation}\label{eq:equivalencia-incrementos-acumulados}
+  \bigl\{N_{s_j}^*-N_{s_{j-1}}^*=k_j \text{ para todo } 1\leqslant j\leqslant r\bigr\}
+  =\bigl\{N_{s_j}^*=m_j \text{ para todo } 1\leqslant j\leqslant r\bigr\}.
+\end{equation}
+Com efeito, suponha que $N_{s_i}^*-N_{s_{i-1}}^*=k_i$ para todo
+$1\leqslant i\leqslant r$. Para cada $j\in\{1,\ldots,r\}$, somando as
+primeiras $j$ igualdades, a soma é telescópica: cada contagem intermediária
+aparece somada em um termo e subtraída no seguinte, e resta apenas
+$N_{s_j}^*-N_{s_0}^*$. Como $N_{s_0}^*=N_0^*=0$ em todo $\Omega$, obtemos
 \[
   m_j=\sum_{i=1}^j k_i
   =\sum_{i=1}^j (N_{s_i}^*-N_{s_{i-1}}^*)
   =N_{s_j}^*-N_{s_0}^*=N_{s_j}^*.
 \]
-Para a volta, suponhamos que as contagens acumuladas de uma mesma
-trajetória satisfaçam $N_{s_1}^*=m_1,\ldots,N_{s_r}^*=m_r$. Como
-$N_{s_0}^*=m_0=0$ quase certamente, recuperamos cada incremento
-subtraindo duas contagens consecutivas,
+Reciprocamente, se $N_{s_j}^*=m_j$ para todo $1\leqslant j\leqslant r$, então,
+usando $N_{s_0}^*=0=m_0$, subtraímos duas igualdades consecutivas e recuperamos
+cada incremento:
 \[
   N_{s_j}^*-N_{s_{j-1}}^*=m_j-m_{j-1}=k_j
   \qquad (1\leqslant j\leqslant r).
 \]
-Essas são as igualdades que definem o evento $E$.
-Assim, para as trajetórias com $N_0^*=0$, exigir exatamente $k_j$ chegadas
-em cada intervalo $(s_{j-1},s_j]$ equivale a exigir exatamente $m_j$
-chegadas acumuladas até cada corte $s_j$.
+Isso prova \eqref{eq:equivalencia-incrementos-acumulados}. Em particular,
+$E=\{N_{s_1}^*=m_1,\ldots,N_{s_r}^*=m_r\}$.
 
-Cada $T_i^*$ tem densidade, de modo que $\mathbb{P}(T_i^*=s_j)=0$ para
-cada par de índices $i,j$. O evento de alguma coincidência é uma união
-enumerável desses eventos de probabilidade zero e, portanto, também tem
-probabilidade zero. Podemos, assim, usar os intervalos abertos $(s_{j-1},s_j)$
-no cálculo da probabilidade de $E$.
-
-Até $s_{j-1}$ já ocorreram $m_{j-1}$ chegadas. Se $k_j>0$, as $k_j$ chegadas
-do intervalo seguinte vão da chegada de número $m_{j-1}+1$ até a de
-número $m_j$. Em termos dos tempos de chegada, isso significa exigir
+Para integrar sobre regiões abertas, descartamos primeiro a possibilidade de
+alguma chegada coincidir exatamente com um dos cortes $s_1,\ldots,s_r$. Como
+cada variável aleatória $T_i^*$ tem densidade (Parte~1), vale
+$\mathbb{P}(T_i^*=s_j)=0$ para quaisquer $i\geqslant1$ e $1\leqslant j\leqslant r$.
+Logo o evento
 \[
-  s_{j-1}<T_{m_{j-1}+1}^*<\cdots<T_{m_j}^*<s_j.
+  C=\bigcup_{i=1}^{\infty}\bigcup_{j=1}^{r}\{T_i^*=s_j\}
 \]
-Se $k_j=0$, esse intervalo fica sem chegadas e a contagem acumulada se
-mantém em $m_j=m_{j-1}$.
+é uma união enumerável de eventos de probabilidade zero, de modo que
+$\mathbb{P}(C)=0$. Trabalhando sobre o evento $\Omega_0\setminus C$, que tem
+probabilidade $1$, temos $0<T_1^*<T_2^*<\cdots$ e nenhum $T_i^*$ coincide com
+qualquer $s_j$.
 
-
-\bigskip 
-
-
-Essas condições localizam as $n=m_r$ primeiras chegadas. Para que a
-contagem até $s_r$ seja exatamente $n$, a próxima chegada precisa ficar
-depois do último corte, ou seja, $T_{n+1}^*>s_r$. Pela ordem dos tempos de
-chegada, todas as seguintes também ficam depois de $s_r$.
-A \Cref{fig:incrementos-particao} retoma a mesma trajetória e mostra
-também a primeira chegada após $s_3$.
+Agora traduzimos, em $\Omega_0\setminus C$, as igualdades
+$N_{s_1}^*=m_1,\ldots,N_{s_r}^*=m_r$ em condições sobre os tempos de chegada
+$T_1^*,T_2^*,\ldots$:
+\begin{itemize}
+  \item Se $m_r=0$, então $k_1=\cdots=k_r=0$, e exigir $N_{s_r}^*=0$ equivale,
+        pela Parte~1, a exigir que a primeira chegada ocorra depois do último
+        corte, isto é, $T_1^*>s_r$ (e nesse caso $N_{s_j}^*=0$ para todos os
+        cortes anteriores também).
+  \item Se $m_r\geqslant1$, então em $\Omega_0\setminus C$ temos $N_{s_j}^*=m_j$
+        para todo $1\leqslant j\leqslant r$ se, e somente se, as primeiras $m_r$
+        chegadas se distribuem nos intervalos abertos conforme os $k_j$, ou seja,
+        \begin{equation}\label{eq:condicoes-ti-nos-intervalos}
+          \begin{gathered}
+            s_{j-1}<T_{m_{j-1}+1}^*<\cdots<T_{m_j}^*<s_j
+            \quad\text{para todo } j\in\{1,\ldots,r\}\text{ com }k_j\geqslant1,
+            \\[0.2cm]
+            \text{e}\qquad T_{m_r+1}^*>s_r.
+          \end{gathered}
+        \end{equation}
+\end{itemize}
+Para conferir essa equivalência quando $m_r\geqslant1$, note que em
+\eqref{eq:condicoes-ti-nos-intervalos} os índices $j$ com $k_j=0$ não
+acrescentam novas desigualdades porque já estão automaticamente contemplados: se
+$k_j=0$, então $m_j=m_{j-1}$; as chegadas até $m_{j-1}$ já são menores que
+$s_{j-1}$ (se $m_{j-1}\geqslant1$) e a próxima chegada $T_{m_{j-1}+1}^*$ está
+situada após $s_j$ (seja em um intervalo posterior com $k_p\geqslant1$, seja
+após $s_r$ em $T_{m_r+1}^*>s_r$), de modo que nenhuma chegada cai em
+$(s_{j-1},s_j)$. Por exemplo, na \Cref{fig:incrementos-particao}, com
+$(k_1,k_2,k_3)=(2,0,1)$ e $(m_1,m_2,m_3)=(2,2,3)$, as condições são
+$0<T_1^*<T_2^*<s_1$ (no primeiro intervalo), $s_2<T_3^*<s_3$ (no terceiro) e
+$T_4^*>s_3$, o que automaticamente deixa $(s_1,s_2)$ sem chegadas, pois
+$T_2^*<s_1<s_2<T_3^*$. Por outro lado, para qualquer $j\in\{1,\ldots,r\}$, as
+condições \eqref{eq:condicoes-ti-nos-intervalos} colocam $T_1^*,\ldots,T_{m_j}^*$
+menores que $s_j$ e $T_{m_j+1}^*>s_j$, o que significa precisamente
+$N_{s_j}^*=m_j$.
 
 \begin{figure}[H]
   \centering
@@ -1929,65 +2158,95 @@ também a primeira chegada após $s_3$.
   \end{tikzpicture}
   \caption{Uma trajetória com duas chegadas no primeiro intervalo, nenhuma
     no segundo e uma no terceiro. A contagem vale $m_1=2$ em $s_1$ e
-    permanece em $m_2=2$ em $s_2$. Até $s_3$ contamos $n=m_3=3$ chegadas.
+    permanece em $m_2=2$ em $s_2$. Até $s_3$ contamos $m_3=3$ chegadas.
     A quarta chegada, marcada pelo círculo aberto, ocorre depois de $s_3$.}
   \label{fig:incrementos-particao}
 \end{figure}
 
-Se $n=0$, todos os $k_j$ são zero. Nesse caso, $E$ ocorre exatamente quando
-a espera pela primeira chegada, $T_1^*=X_1^*$, excede o tempo total de
-observação $s_r$. Pela cauda da distribuição exponencial,
+Calculemos agora $\mathbb{P}(E)$ tratando separadamente os dois casos acima.
+
+\smallskip
+\noindent\emph{Caso $m_r=0$ (isto é, $k_1=\cdots=k_r=0$).}
+Neste caso, como vimos, $E\cap(\Omega_0\setminus C)=\{T_1^*>s_r\}\cap(\Omega_0\setminus C)$.
+Como $T_1^*=X_1^*\sim\mathrm{Exp}(\lambda)$ e $\mathbb{P}(\Omega_0\setminus C)=1$,
+segue que
 \[
   \mathbb{P}(E)=\mathbb{P}(T_1^*>s_r)=e^{-\lambda s_r}.
 \]
-Como $s_r=\sum_{j=1}^r(s_j-s_{j-1})$, essa exponencial se escreve como
-um produto com um fator para cada intervalo.
-
-Para dar a cada fator a forma da probabilidade de zero de uma Poisson de
-parâmetro $\lambda(s_j-s_{j-1})$, multiplicamos cada um por
-$1=[\lambda(s_j-s_{j-1})]^0/0!$. Escrevendo por extenso a probabilidade de
-$E$ neste caso, obtemos
+Escrevendo $s_r=\sum_{j=1}^r(s_j-s_{j-1})$ como soma telescópica e usando que
+$[\lambda(s_j-s_{j-1})]^0/0!=1$, obtemos
 \begin{align*}
-  \mathbb{P}\bigl(N_{s_1}^*-N_{s_0}^*=0,\ldots,
-                  N_{s_r}^*-N_{s_{r-1}}^*=0\bigr)
-  &=\prod_{j=1}^{r} e^{-\lambda(s_j-s_{j-1})} \\
-  &=\prod_{j=1}^{r}\left(e^{-\lambda(s_j-s_{j-1})}
-    \frac{\bigl[\lambda(s_j-s_{j-1})\bigr]^0}{0!}\right) \\
-  &=\prod_{j=1}^{r}\mathbb{P}\bigl(N_{s_j-s_{j-1}}^*=0\bigr).
+  \mathbb{P}(E)
+  =e^{-\lambda\sum_{j=1}^r(s_j-s_{j-1})}
+  =\prod_{j=1}^{r} e^{-\lambda(s_j-s_{j-1})}
+  =\prod_{j=1}^{r}\left(e^{-\lambda(s_j-s_{j-1})}
+    \frac{\bigl[\lambda(s_j-s_{j-1})\bigr]^0}{0!}\right).
 \end{align*}
-A última igualdade usa a Parte~1, aplicada à contagem que começa em $0$ e
-vai até $s_j-s_{j-1}$, a duração do $j$-ésimo intervalo. Isso prova a fórmula
-conjunta no caso $k_1=\cdots=k_r=0$.
 
-Suponhamos agora $n\geqslant 1$. A menos de um evento de probabilidade nula, $E$
-ocorre quando $(T_1^*,\ldots,T_n^*,T_{n+1}^*)$ pertence a $R\times(s_r,\infty)$,
-em que $R\subseteq\mathbb{R}^n$ é o produto cartesiano dos simplexos
+\smallskip
+\noindent\emph{Caso $m_r\geqslant1$.}
+Para escrever \eqref{eq:condicoes-ti-nos-intervalos} como um conjunto no espaço
+euclidiano $\mathbb{R}^{m_r+1}$, definimos, para cada índice $j\in\{1,\ldots,r\}$
+com $k_j\geqslant1$, o simplexo
 \[
-  R_j=\bigl\{(t_{m_{j-1}+1},\ldots,t_{m_j}) :
-    s_{j-1}<t_{m_{j-1}+1}<\cdots<t_{m_j}<s_j\bigr\}
+  R_j=\bigl\{(t_{m_{j-1}+1},\ldots,t_{m_j})\in\mathbb{R}^{k_j} :
+    s_{j-1}<t_{m_{j-1}+1}<\cdots<t_{m_j}<s_j\bigr\},
 \]
-percorrendo os índices $j\in\{1,\ldots,r\}$ com $k_j\geqslant 1$. Como os
-intervalos $(s_0,s_1)$, $\ldots$, $(s_{r-1},s_r)$ e $(s_r,\infty)$ estão em ordem
-crescente, todo ponto de $R\times(s_r,\infty)$ satisfaz automaticamente
-$0<t_1<\cdots<t_n<t_{n+1}$. Integrando a densidade conjunta
-\eqref{eq:densidade-conjunta-chegadas} (com $m=n+1$) primeiro na variável
-$t_{n+1}\in(s_r,\infty)$, obtemos
+e seja $R\subseteq\mathbb{R}^{m_r}$ o produto cartesiano dos conjuntos $R_j$
+sobre todos os $j$ tais que $k_j\geqslant1$. Como as dimensões dos blocos $R_j$
+são $k_j$, a soma das dimensões dos fatores de $R$ é $\sum_{j=1}^r k_j=m_r$,
+logo cada ponto de $R$ especifica as $m_r$ coordenadas $(t_1,\ldots,t_{m_r})$.
+Além disso, como os intervalos $(s_0,s_1),\ldots,(s_{r-1},s_r)$ e $(s_r,\infty)$
+são ordenados e $s_0=0$, todo vetor $(t_1,\ldots,t_{m_r},t_{m_r+1})$ em
+$R\times(s_r,\infty)$ satisfaz automaticamente
+$0<t_1<\cdots<t_{m_r}<t_{m_r+1}$. As condições \eqref{eq:condicoes-ti-nos-intervalos}
+significam então exatamente que
+$(T_1^*,\ldots,T_{m_r}^*,T_{m_r+1}^*)\in R\times(s_r,\infty)$.
+
+Como $\mathbb{P}(\Omega_0\setminus C)=1$, podemos restringir o cálculo a
+$\Omega_0\setminus C$ e integrar a densidade conjunta
+\eqref{eq:densidade-conjunta-chegadas} (com $n=m_r+1$) sobre a região
+$R\times(s_r,\infty)$:
+\begin{align*}
+  \mathbb{P}(E)
+  &=\mathbb{P}\bigl((T_1^*,\ldots,T_{m_r+1}^*)\in R\times(s_r,\infty)\bigr)
+  \\[0.3cm]
+  &=\int\cdots\int_{R\times(s_r,\infty)}
+    \lambda^{m_r+1}e^{-\lambda t_{m_r+1}}\,
+    dt_1\cdots dt_{m_r}\,dt_{m_r+1}.
+\end{align*}
+O integrando $\lambda^{m_r+1}e^{-\lambda t_{m_r+1}}$ é não negativo e depende
+apenas da última variável $t_{m_r+1}$. Pelo Teorema de Tonelli, integramos
+primeiro em $t_{m_r+1}\in(s_r,\infty)$:
 \[
-  \int_{s_r}^{\infty}\lambda^{n+1}e^{-\lambda t_{n+1}}\,dt_{n+1}
-  =\lambda^n e^{-\lambda s_r},
+  \int_{s_r}^{\infty}\lambda^{m_r+1}e^{-\lambda t_{m_r+1}}\,dt_{m_r+1}
+  =\lambda^{m_r}\left.\bigl(-e^{-\lambda t_{m_r+1}}\bigr)\right|_{t_{m_r+1}=s_r}^{\infty}
+  =\lambda^{m_r}e^{-\lambda s_r},
 \]
-que não depende de $t_1,\ldots,t_n$. O integrando restante é constante sobre o
-produto de simplexos $R$; aplicando \eqref{eq:volume-simplexo} a cada bloco
-$R_j$ (e notando que eventuais índices com $k_j=0$ contribuem com o fator
-$(s_j-s_{j-1})^0/0!=1$), encontramos
+uma constante que sai da integral sobre $R$. Em seguida, como $R$ é o produto
+cartesiano dos blocos $R_j$ (para os $j$ com $k_j\geqslant1$) e o integrando
+restante vale $1$, a integral sobre $R$ fatora-se no produto das integrais
+sobre cada $R_j$ (novamente pelo Teorema de Tonelli):
+\[
+  \int\cdots\int_R dt_1\cdots dt_{m_r}
+  =\prod_{\substack{1\leqslant j\leqslant r\\ k_j\geqslant1}}
+    \left(\int\cdots\int_{R_j} dt_{m_{j-1}+1}\cdots dt_{m_j}\right).
+\]
+Pela fórmula \eqref{eq:volume-simplexo} aplicada a $(a,b)=(s_{j-1},s_j)$ com
+$k=k_j$, cada integral sobre $R_j$ vale $(s_j-s_{j-1})^{k_j}/k_j!$. Para
+escrever o produto sobre todos os $j$ de $1$ a $r$, basta observar que um
+eventual índice com $k_j=0$ contribui com o fator $(s_j-s_{j-1})^0/0!=1$.
+Portanto,
 \[
   \mathbb{P}(E)
-  =\lambda^n e^{-\lambda s_r}\int_{R}dt_1\cdots dt_n
-  =\lambda^n e^{-\lambda s_r}\prod_{j=1}^{r}\frac{(s_j-s_{j-1})^{k_j}}{k_j!}.
+  =\lambda^{m_r}e^{-\lambda s_r}\prod_{j=1}^{r}\frac{(s_j-s_{j-1})^{k_j}}{k_j!}.
 \]
-Usando $\lambda^n=\prod_{j=1}^r\lambda^{k_j}$ e
-$e^{-\lambda s_r}=\prod_{j=1}^r e^{-\lambda(s_j-s_{j-1})}$, concluímos que,
-para quaisquer inteiros $k_1,\ldots,k_r\geqslant 0$ (incluindo $n=0$),
+Por fim, usando $m_r=k_1+\cdots+k_r$ e $s_r=\sum_{j=1}^r(s_j-s_{j-1})$, temos
+$\lambda^{m_r}=\prod_{j=1}^r\lambda^{k_j}$ e
+$e^{-\lambda s_r}=\prod_{j=1}^r e^{-\lambda(s_j-s_{j-1})}$. Reunindo cada fator
+com o índice $j$ correspondente, obtemos uma expressão que vale tanto para
+$m_r\geqslant1$ quanto para $m_r=0$: para quaisquer inteiros
+$k_1,\ldots,k_r\geqslant0$,
 \begin{equation}\label{eq:distribuicao-conjunta-incrementos}
   \mathbb{P}\bigl(N_{s_1}^*-N_{s_0}^*=k_1,\ldots,N_{s_r}^*-N_{s_{r-1}}^*=k_r\bigr)
   =\prod_{j=1}^{r}\left(e^{-\lambda(s_j-s_{j-1})}
@@ -1995,49 +2254,55 @@ para quaisquer inteiros $k_1,\ldots,k_r\geqslant 0$ (incluindo $n=0$),
 \end{equation}
 
 \smallskip
-\noindent\textbf{Independência e verificação do postulado D.}
-Fixado um índice $i\in\{1,\ldots,r\}$, somamos
-\eqref{eq:distribuicao-conjunta-incrementos} sobre todos os inteiros
-$k_j\geqslant 0$ com $j\neq i$. Como $\sum_{k=0}^\infty e^{-\mu}\mu^k/k!=1$,
-cada fator com $j\neq i$ soma $1$, e obtemos
+\noindent\textit{2.4. Independência e verificação do postulado D.}
+Começamos verificando que os $r$ incrementos são independentes e têm as
+distribuições de Poisson anunciadas. Fixe um índice $i\in\{1,\ldots,r\}$ e um
+inteiro $k_i\geqslant0$. O evento $\{N_{s_i}^*-N_{s_{i-1}}^*=k_i\}$ é a união
+disjunta dos eventos em \eqref{eq:distribuicao-conjunta-incrementos} quando os
+demais índices $k_j$ ($j\neq i$) percorrem os inteiros não negativos
+$\{0,1,2,\ldots\}$. Somando \eqref{eq:distribuicao-conjunta-incrementos} sobre
+todos esses valores (com a série exponencial $\sum_{k=0}^\infty e^{-\mu}\mu^k/k!=1$
+para $\mu=\lambda(s_j-s_{j-1})$), cada fator com $j\neq i$ soma $1$, e resta
+apenas o $i$-ésimo fator:
 \[
   \mathbb{P}(N_{s_i}^*-N_{s_{i-1}}^*=k_i)
   =e^{-\lambda(s_i-s_{i-1})}
    \frac{\bigl[\lambda(s_i-s_{i-1})\bigr]^{k_i}}{k_i!}.
 \]
-Logo cada incremento $N_{s_i}^*-N_{s_{i-1}}^*$ tem distribuição
-$\mathrm{Poisson}\bigl(\lambda(s_i-s_{i-1})\bigr)$, ou seja, a mesma distribuição de
-$N_{s_i-s_{i-1}}^*$ pela Parte~1 e \eqref{eq:distribuicao-conjunta-incrementos}
-reescreve-se como
+Logo $N_{s_i}^*-N_{s_{i-1}}^*\sim\mathrm{Poisson}\bigl(\lambda(s_i-s_{i-1})\bigr)$.
+Substituindo cada fator à direita de \eqref{eq:distribuicao-conjunta-incrementos}
+pela probabilidade marginal que acabamos de calcular, obtemos
 \[
   \mathbb{P}\bigl(N_{s_1}^*-N_{s_0}^*=k_1,\ldots,N_{s_r}^*-N_{s_{r-1}}^*=k_r\bigr)
-  =\prod_{j=1}^{r}\mathbb{P}(N_{s_j}^*-N_{s_{j-1}}^*=k_j).
+  =\prod_{j=1}^{r}\mathbb{P}(N_{s_j}^*-N_{s_{j-1}}^*=k_j)
 \]
-Portanto, os incrementos em intervalos disjuntos são independentes.
+para todos os inteiros $k_1,\ldots,k_r\geqslant0$ (e ambos os lados são zero se
+alguma das contagens estiver fora de $\{0,1,2,\ldots\}$). Portanto, os
+incrementos $N_{s_1}^*-N_{s_0}^*,\ldots,N_{s_r}^*-N_{s_{r-1}}^*$ são variáveis
+aleatórias independentes.
 
+Verificaremos agora o \textbf{postulado D}. Fixemos $0\leqslant s<t$ e
+escrevamos $t=s+h$, com $h=t-s>0$. O incremento $N_{s+h}^*-N_s^*$ conta as
+chegadas no intervalo $(s,s+h]$ e, pelo que acabamos de provar, tem
+distribuição $\mathrm{Poisson}(\lambda h)$. Precisamos mostrar que esse
+incremento é independente das chegadas anteriores ao instante $s$.
 
-\bigskip 
+Se $s=0$, a única contagem anterior é $N_0^*$, que vale $0$ em todo $\Omega$.
+Logo os eventos determinados por $N_0^*$ são apenas $\Omega$ (como $\{N_0^*=0\}$)
+e $\varnothing$ (como $\{N_0^*=a\}$ para $a\neq0$), ambos independentes de
+qualquer evento. Assim, o postulado vale imediatamente quando $s=0$.
 
-
-Fixemos $0\leqslant s<t$ e escrevamos $t=s+h$, com $h=t-s>0$. O incremento
-$N_{s+h}^*-N_s^*$ conta as chegadas no intervalo $(s,s+h]$ e, pelo cálculo
-acima, tem distribuição $\mathrm{Poisson}(\lambda h)$. Para concluir a
-verificação do postulado D, precisamos mostrar que esse incremento é
-independente da história das chegadas até $s$.
-
-Se $s=0$, a única contagem disponível até esse instante é $N_0^*$, que vale
-zero quase certamente. Como uma variável constante quase certamente é
-independente de qualquer outra, a independência vale nesse caso.
-
-Suponhamos agora $s>0$ e escolhamos uma lista finita de instantes de
-observação até $s$. Podemos incluir $0$ e $s$ nessa lista, pois todas as
-contagens da lista original continuam disponíveis na lista ampliada.
-Acrescentamos $s+h$ e escrevemos os instantes em ordem crescente, cada um
-uma única vez. Obtemos a partição
+Suponhamos agora $s>0$. Para conectar a informação anterior a $s$ aos incrementos
+que já sabemos ser independentes, escolhamos uma lista finita qualquer de
+instantes de observação no intervalo $[0,s]$. Podemos incluir $0$ e $s$ nessa
+lista sem perder informação, pois toda condição imposta apenas sobre os
+instantes originais continua expressa na lista ampliada. Acrescentando também
+$s+h$ e ordenando todos os pontos distintos, obtemos uma partição
 \[
   0=u_0<u_1<\cdots<u_m=s<s+h.
 \]
-O último intervalo é $(s,s+h]$, destacado na \Cref{fig:particao-postulado-d}.
+O último intervalo dessa partição é $(s,s+h]$, destacado na
+\Cref{fig:particao-postulado-d}.
 
 \begin{figure}[H]
   \centering
@@ -2089,138 +2354,197 @@ O último intervalo é $(s,s+h]$, destacado na \Cref{fig:particao-postulado-d}.
   \label{fig:particao-postulado-d}
 \end{figure}
 
-Pela independência dos incrementos da partição, $N_{s+h}^*-N_s^*$ é
-independente do vetor de contagens dos intervalos até $s$,
-\[
-  \bigl(N_{u_1}^*-N_{u_0}^*,\ldots,N_{u_m}^*-N_{u_{m-1}}^*\bigr).
-\]
-Para saber quantas chegadas ocorreram até $u_i$, somamos as contagens
-dos primeiros $i$ intervalos. As contagens nos cortes intermediários
-se cancelam nessa soma, e $N_{u_0}^*=N_0^*=0$ quase certamente. Assim,
-para $1\leqslant i\leqslant m$,
-\[
-  \sum_{j=1}^{i}(N_{u_j}^*-N_{u_{j-1}}^*)
-  =N_{u_i}^*-N_{u_0}^*=N_{u_i}^*\qquad\text{quase certamente}.
-\]
-Assim recuperamos as contagens observadas até $s$ a partir dos incrementos
-dos intervalos até $s$.
-
-Fixemos inteiros não negativos $a_1,\ldots,a_m$. Queremos saber o que
-podemos dizer sobre o próximo intervalo quando os totais observados até
-$s$ são justamente esses valores. O evento que registra essa informação é
+Fixemos inteiros não negativos $a_1,\ldots,a_m$ e consideremos o evento que
+registra os totais observados até $s$:
 \[
   A=\{N_{u_1}^*=a_1,\ldots,N_{u_m}^*=a_m\}.
 \]
-Toda chegada contada até $u_{i-1}$ também é contada até $u_i$. Assim, para
-que $A$ tenha probabilidade positiva, é preciso que
-$a_1\leqslant\cdots\leqslant a_m$. Se $a_i<a_{i-1}$ para algum $i\geqslant 2$,
-então $\mathbb{P}(A)=0$. A igualdade $a_i=a_{i-1}$ corresponde a um intervalo
-$(u_{i-1},u_i]$ sem chegadas.
-
-Vamos expressar $A$ em termos das chegadas em cada intervalo. Como a
-contagem começa em zero quase certamente, atingir o total $a_1$ em $u_1$
-significa contar $a_1$ chegadas no primeiro intervalo. Para cada corte
-seguinte $u_i$, passar do total $a_{i-1}$ ao total $a_i$ significa contar
-$a_i-a_{i-1}$ chegadas em $(u_{i-1},u_i]$. Portanto, em $A$ valem, quase
-certamente, as condições
-\[
-  N_{u_1}^*-N_{u_0}^*=a_1,
-  \qquad N_{u_i}^*-N_{u_{i-1}}^*=a_i-a_{i-1}\quad (2\leqslant i\leqslant m).
-\]
-Reciprocamente, suponhamos que esses sejam os incrementos observados.
-Em $u_1$, a contagem é $a_1$. Se $m\geqslant 2$, em $u_2$ a contagem é
-$a_1+(a_2-a_1)=a_2$. Para chegar ao total em $u_i$, somamos da mesma forma
-os primeiros $i$ incrementos. Os valores intermediários se cancelam e
-sobra $a_i$. Assim recuperamos, quase certamente, todos os totais que
-definem $A$.
-
-Podemos, portanto, verificar se $A$ ocorreu a partir das contagens dos
-intervalos que terminam até $s$. Já provamos que o incremento em
-$(s,s+h]$ é independente do vetor dessas contagens. Se pedirmos também
-$k$ chegadas no próximo intervalo, a probabilidade de que os dois eventos
-ocorram é o produto de suas probabilidades. Para cada inteiro $k\geqslant 0$,
+Mostremos que, para todo inteiro $k\geqslant0$, o evento $\{N_{s+h}^*-N_s^*=k\}$
+é independente de $A$, isto é,
 \begin{equation}\label{eq:fatoracao-contagens-finitas}
   \mathbb{P}\bigl(\{N_{s+h}^*-N_s^*=k\}\cap A\bigr)
   =\mathbb{P}(N_{s+h}^*-N_s^*=k)\,\mathbb{P}(A).
 \end{equation}
-Se $\mathbb{P}(A)>0$, pela definição de probabilidade condicional e pela
-igualdade acima,
+Com efeito, como $u_{i-1}<u_i$, toda chegada contada até $u_{i-1}$ também é
+contada até $u_i$, de modo que $N_{u_{i-1}}^*\leqslant N_{u_i}^*$ em todo
+$\Omega$; assim, se existir algum índice $i\geqslant2$ com $a_i<a_{i-1}$,
+temos $A=\varnothing$, logo $\mathbb{P}(A)=0$ e ambos os lados de
+\eqref{eq:fatoracao-contagens-finitas} valem zero. Caso contrário,
+temos $0=a_0\leqslant a_1\leqslant\cdots\leqslant a_m$, e os incrementos
+$k_i=a_i-a_{i-1}$ ($1\leqslant i\leqslant m$) são inteiros não negativos cuja
+soma até $i$ vale $a_i$. Pela equivalência telescópica
+\eqref{eq:equivalencia-incrementos-acumulados} aplicada à partição
+$0=u_0<u_1<\cdots<u_m$, o evento $A$ escreve-se exatamente em termos dos
+incrementos dos primeiros $m$ intervalos:
+\[
+  A=\bigl\{N_{u_i}^*-N_{u_{i-1}}^*=a_i-a_{i-1}\text{ para todo }1\leqslant i\leqslant m\bigr\}.
+\]
+Pela independência dos $m+1$ incrementos da partição
+$0=u_0<u_1<\cdots<u_m<s+h$, segue imediatamente que
+\begin{align*}
+  \mathbb{P}\bigl(\{N_{s+h}^*-N_s^*=k\}\cap A\bigr)
+  &=\mathbb{P}\bigl(N_{u_1}^*-N_{u_0}^*=a_1,\ldots,N_{u_m}^*-N_{u_{m-1}}^*=a_m-a_{m-1},
+  \\[0.15cm]
+  &\qquad\qquad N_{s+h}^*-N_s^*=k\bigr)
+  \\[0.3cm]
+  &=\left(\prod_{i=1}^{m}\mathbb{P}(N_{u_i}^*-N_{u_{i-1}}^*=a_i-a_{i-1})\right)
+    \mathbb{P}(N_{s+h}^*-N_s^*=k)
+  \\[0.3cm]
+  &=\mathbb{P}(A)\,\mathbb{P}(N_{s+h}^*-N_s^*=k),
+\end{align*}
+onde, na última passagem, usamos novamente a independência dos primeiros $m$
+incrementos para identificar o produto entre parênteses com $\mathbb{P}(A)$.
+Isso estabelece \eqref{eq:fatoracao-contagens-finitas}. Quando $\mathbb{P}(A)>0$,
+a definição de probabilidade condicional dá
 \[
   \mathbb{P}(N_{s+h}^*-N_s^*=k\mid A)
   =\frac{\mathbb{P}\bigl(\{N_{s+h}^*-N_s^*=k\}\cap A\bigr)}{\mathbb{P}(A)}
-  =\mathbb{P}(N_{s+h}^*-N_s^*=k).
+  =\mathbb{P}(N_{s+h}^*-N_s^*=k),
 \]
-Ou seja, dadas essas contagens até $s$, a probabilidade de $k$ chegadas
-em $(s,s+h]$ é a mesma que tínhamos antes de conhecê-las.
+isto é, conhecer as contagens observadas em $u_1,\ldots,u_m$ não altera a
+distribuição do número de chegadas em $(s,s+h]$.
 
-Um evento definido por um número finito de contagens até $s$ pode admitir
-várias listas de valores observados. Cada lista dá um evento como $A$,
-e eventos de listas diferentes são disjuntos. Como as listas têm
-comprimento fixo e valores inteiros, formam um conjunto enumerável.
-Somando os dois lados de \eqref{eq:fatoracao-contagens-finitas} sobre as
-listas admitidas, obtemos a mesma fatoração para a união desses eventos.
-Como os instantes de observação foram escolhidos arbitrariamente, a
-fatoração vale para todo evento definido por um número finito de
-contagens até $s$.
+Mais geralmente, qualquer evento determinado pelas contagens nos instantes
+$u_1,\ldots,u_m$ é uma união de eventos da forma $A$ para um conjunto
+$\mathcal{L}\subseteq\{0,1,2,\ldots\}^m$ de listas $(a_1,\ldots,a_m)$ admitidas.
+Como listas distintas correspondem a eventos $A$ disjuntos e o conjunto
+$\{0,1,2,\ldots\}^m$ é enumerável, somar os dois lados de
+\eqref{eq:fatoracao-contagens-finitas} sobre $(a_1,\ldots,a_m)\in\mathcal{L}$
+mostra que \eqref{eq:fatoracao-contagens-finitas} continua válida para todo
+evento definido por um número finito de contagens no intervalo $[0,s]$.
 
-O Teorema $\pi$-$\lambda$ de Dynkin estende essa independência a toda a história
-até $s$, isto é, à $\sigma$-álgebra $\sigma(N_u^*:0\leqslant u\leqslant s)$.
-Isso conclui a verificação do postulado D.\footnote{Para cada inteiro
-$k\geqslant 0$, os eventos $B$ dessa $\sigma$-álgebra que satisfazem a
-igualdade~\eqref{eq:fatoracao-contagens-finitas} com $B$ no lugar de $A$
-formam um $\lambda$-sistema.
-Os eventos $A$ definidos por valores de um número finito de contagens, junto
-com $\varnothing$ e $\Omega$, formam um $\pi$-sistema que gera a
-$\sigma$-álgebra. Pelo Teorema
-$\pi$-$\lambda$, a igualdade vale para todo evento $B$ da história até $s$.
-Como o incremento assume valores inteiros, basta verificar essa igualdade
-para cada $k$ para concluir a independência.}
+Resta observar que alguns eventos referentes ao passado até $s$ podem depender da
+trajetória em todo o intervalo $[0,s]$, e não apenas dos valores em uma lista
+finita fixada de instantes (por exemplo, eventos que envolvem os instantes
+exatos de chegada ocorridos no intervalo contínuo $(0,s]$). Para abranger todos os eventos que podemos descrever a
+partir das observações do processo até o instante $s$, reunimos na mesma coleção
+todos os conjuntos que se obtêm dos eventos básicos $\{N_u^*=a\}$ ($0\leqslant u\leqslant s$,
+$a\in\{0,1,2,\ldots\}$) por complementares e uniões ou interseções enumeráveis:
+trata-se da menor $\sigma$-álgebra de subconjuntos de $\Omega$ que contém todos
+os eventos $\{N_u^*=a\}$ com $0\leqslant u\leqslant s$, denotada por
+$\sigma(N_u^*:0\leqslant u\leqslant s)$. O Teorema $\pi$-$\lambda$ de Dynkin estende essa independência à família
+$\sigma(N_u^*:0\leqslant u\leqslant s)$ (isto é, a fatoração
+\eqref{eq:fatoracao-contagens-finitas} passa a valer para todo evento
+$B\in\sigma(N_u^*:0\leqslant u\leqslant s)$).\footnote{Uma família $\mathcal{P}$
+de subconjuntos de $\Omega$ é um \emph{$\pi$-sistema} se é fechada por
+interseções finitas, e uma família $\mathcal{L}$ é um \emph{$\lambda$-sistema} se
+contém $\Omega$, é fechada por complementares e é fechada por uniões enumeráveis
+de conjuntos dois a dois disjuntos; o Teorema $\pi$-$\lambda$ de Dynkin afirma que
+se $\mathcal{P}\subseteq\mathcal{L}$, então a menor $\sigma$-álgebra que contém
+$\mathcal{P}$ está contida em $\mathcal{L}$. Aqui, fixado $k\geqslant0$, os
+eventos $B\in\sigma(N_u^*:0\leqslant u\leqslant s)$ que satisfazem
+$\mathbb{P}(\{N_{s+h}^*-N_s^*=k\}\cap B)=\mathbb{P}(N_{s+h}^*-N_s^*=k)\,\mathbb{P}(B)$
+formam um $\lambda$-sistema (como se confere diretamente pelas propriedades da
+medida de probabilidade). Por outro lado, os eventos $A=\{N_{u_1}^*=a_1,\ldots,N_{u_m}^*=a_m\}$
+definidos por um número finito de contagens em $[0,s]$, juntamente com $\varnothing$
+e $\Omega$, formam um $\pi$-sistema (a interseção de dois deles apenas junta os
+instantes de observação, sendo vazia se algum instante receber valores
+distintos) que gera $\sigma(N_u^*:0\leqslant u\leqslant s)$. Logo a fatoração
+vale para todo $B\in\sigma(N_u^*:0\leqslant u\leqslant s)$, e como
+$N_{s+h}^*-N_s^*$ assume apenas valores inteiros não negativos, isso prova a
+independência em relação a toda a história até $s$.}
+Isso conclui a verificação do \textbf{postulado D}.
 
-\bigskip
-\noindent\textbf{Verificação do postulado E.}
-Tomemos $A=\{N_s^*=k\}$, com $\mathbb{P}(N_s^*=k)>0$. Pela independência
-do incremento em relação a $A$, as probabilidades condicionais dos
-incrementos $0$ e $1$ são as probabilidades correspondentes de $N_h^*$.
-Logo, para $h>0$,
-\begin{align*}
-  \mathbb{P}(N_{s+h}^*=k\mid N_s^*=k)
-  &=\mathbb{P}(N_h^*=0)=e^{-\lambda h},\\[0.2cm]
-  \mathbb{P}(N_{s+h}^*=k+1\mid N_s^*=k)
-  &=\mathbb{P}(N_h^*=1)=\lambda h\,e^{-\lambda h}.
-\end{align*}
-A derivada da função $h\mapsto e^{-\lambda h}$ em $h=0$ dá
-$e^{-\lambda h}=1-\lambda h+o(h)$. Além disso,
+\smallskip
+\noindent\textit{2.5. Verificação do postulado E.}
+Fixemos $t\geqslant0$ e um inteiro $n\geqslant0$ com $\mathbb{P}(N_t^*=n)>0$, e
+tomemos $h>0$. O evento $\{N_t^*=n\}$ pertence à história do processo até o
+instante $t$, logo, pelo postulado D, é independente do incremento
+$N_{t+h}^*-N_t^*$. Além disso, escrever $N_{t+h}^*=n$ junto com $N_t^*=n$
+equivale a dizer que o incremento em $(t,t+h]$ é zero e $N_t^*=n$, isto é,
 \[
-  \frac{\lambda h\,e^{-\lambda h}-\lambda h}{h}
-  =\lambda(e^{-\lambda h}-1)\longrightarrow 0
-  \qquad\text{quando }h\downarrow 0.
+  \{N_{t+h}^*=n\}\cap\{N_t^*=n\}=\{N_{t+h}^*-N_t^*=0\}\cap\{N_t^*=n\}.
 \]
-Portanto, $\lambda h\,e^{-\lambda h}=\lambda h+o(h)$, como exige o
-postulado E.
+Usando a definição de probabilidade condicional, essa independência e o fato de
+que $N_{t+h}^*-N_t^*\sim\mathrm{Poisson}(\lambda h)$, obtemos
+\[
+  \mathbb{P}(N_{t+h}^*=n\mid N_t^*=n)
+  =\frac{\mathbb{P}\bigl(\{N_{t+h}^*-N_t^*=0\}\cap\{N_t^*=n\}\bigr)}{\mathbb{P}(N_t^*=n)}
+  =\mathbb{P}(N_{t+h}^*-N_t^*=0)
+  =e^{-\lambda h}.
+\]
+De modo inteiramente análogo, $\{N_{t+h}^*=n+1\}\cap\{N_t^*=n\}=\{N_{t+h}^*-N_t^*=1\}\cap\{N_t^*=n\}$,
+de onde resulta
+\[
+  \mathbb{P}(N_{t+h}^*=n+1\mid N_t^*=n)
+  =\mathbb{P}(N_{t+h}^*-N_t^*=1)
+  =\lambda h\,e^{-\lambda h}.
+\]
+
+Resta mostrar que essas duas expressões têm, respectivamente, as formas
+$1-\lambda h+o(h)$ e $\lambda h+o(h)$ exigidas pelo postulado E. Pela definição
+da derivada da função
+$h\mapsto e^{-\lambda h}$ em $h=0$, que vale $-\lambda$, temos
+\[
+  \lim_{h\downarrow 0}\frac{e^{-\lambda h}-(1-\lambda h)}{h}
+  =\lim_{h\downarrow 0}\frac{e^{-\lambda h}-1}{h}+\lambda
+  =-\lambda+\lambda=0,
+\]
+logo $e^{-\lambda h}=1-\lambda h+o(h)$ pela definição de $o(h)$ na
+\Cref{subsec:taxa-o-h}. Para a segunda probabilidade, dividimos a diferença
+$\lambda h\,e^{-\lambda h}-\lambda h$ por $h$ e passamos ao limite:
+\[
+  \lim_{h\downarrow 0}\frac{\lambda h\,e^{-\lambda h}-\lambda h}{h}
+  =\lim_{h\downarrow 0}\lambda(e^{-\lambda h}-1)
+  =0,
+\]
+o que dá $\lambda h\,e^{-\lambda h}=\lambda h+o(h)$. Isso estabelece o
+\textbf{postulado E}.
 
 \medskip
-\noindent\textbf{Parte 3 (monotonicidade).}
-Por construção, $N_t^*$ conta o número de termos da sequência $T_k^*$ que não
-excedem $t$. Como $T_1^*\leqslant T_2^*\leqslant\cdots$, a contagem é não
-decrescente em $t$, o que é o postulado C.
+\noindent\textbf{Parte 3 (monotonicidade e postulado C).}
+Sejam $0\leqslant s\leqslant t$. Fora de $\Omega_0$, temos
+$N_s^*(\omega)=0=N_t^*(\omega)$ e, portanto, vale
+$N_s^*(\omega)\leqslant N_t^*(\omega)$.
+Para $\omega\in\Omega_0$, todo inteiro $k\geqslant1$ que satisfaz
+$T_k^*(\omega)\leqslant s$ também satisfaz $T_k^*(\omega)\leqslant t$, ou seja,
+\[
+  \{k\geqslant1:T_k^*(\omega)\leqslant s\}\subseteq\{k\geqslant1:T_k^*(\omega)\leqslant t\}.
+\]
+Como o máximo de um conjunto finito (ou $0$, se vazio) não pode diminuir quando
+se amplia o conjunto por inclusão, segue que $N_s^*(\omega)\leqslant N_t^*(\omega)$.
+Logo $N_s^*\leqslant N_t^*$ em todo $\Omega$ sempre que $s\leqslant t$, o que
+verifica o \textbf{postulado C} e conclui a demonstração.
 \end{proof}
 
-A proposição anterior mostra que os postulados A a E descrevem a mesma classe
-de processos que a construção por exponenciais independentes. É por isso que
-podemos escolher, em cada aplicação, a descrição mais conveniente: os
-postulados são úteis para deduzir equações diferenciais, e a construção por
-exponenciais é útil para simular trajetórias e para calcular tempos de espera.
+A \Cref{prop:construcao-poisson} mostra que os postulados A a E descrevem a mesma
+classe de processos que a construção obtida ao somar variáveis exponenciais
+independentes. Por isso, podemos escolher a descrição mais conveniente para
+cada tarefa: os postulados são naturais para deduzir equações diferenciais para
+as probabilidades do processo, enquanto a soma de exponenciais independentes é
+direta para simular trajetórias e estudar tempos de espera.
 
 \begin{example}[Esperando o ônibus]\label{ex:esperando-onibus}
 Suponha que os ônibus para o centro cheguem ao ponto da esquina segundo um
-processo de Poisson. Sabendo disso, Davi espera um tempo exponencialmente
-distribuído até que um ônibus o apanhe. Se ele chega ao ponto e Doris lhe diz
-que espera o ônibus há $50$ minutos, isso não é uma boa nem uma má notícia para
-Davi, pois a distribuição exponencial tem a propriedade de falta de memória.
-Do mesmo modo, se ele chega bem no momento em que um ônibus parte, não precisa
-temer que sua espera seja maior que o habitual. Essas propriedades são
-características do processo de Poisson e não valem, por exemplo, quando os
-ônibus seguem um horário fixo.
+processo de Poisson $N=(N_s)_{s\geqslant0}$ de taxa $\lambda$. Se Davi chega ao
+ponto em um instante fixado $t\geqslant0$ e denotamos por $W$ o seu tempo de
+espera até o próximo ônibus, esperar mais do que $u\geqslant0$ unidades de
+tempo significa não chegar nenhum ônibus em $(t,t+u]$, isto é,
+$\{W>u\}=\{N_{t+u}-N_t=0\}$. Pela equivalência estabelecida entre o processo de
+Poisson de taxa $\lambda$ e o processo construído na \Cref{prop:construcao-poisson},
+o incremento $N_{t+u}-N_t$ tem distribuição $\mathrm{Poisson}(\lambda u)$
+(subetapa~2.4). Logo $\mathbb{P}(W>u)=e^{-\lambda u}$ para todo $u\geqslant0$,
+isto é, $W\sim\mathrm{Exp}(\lambda)$.
+
+Suponha agora que, ao chegar ao ponto (com $t\geqslant50$), Davi encontre Doris
+e ela lhe conte que espera o ônibus há $50$ minutos. Isso não é uma boa nem uma
+má notícia para Davi. A informação de Doris refere-se ao evento
+$\{N_t-N_{t-50}=0\}$, que depende apenas das chegadas ocorridas até o instante
+$t$. Pelo postulado D, os incrementos futuros $N_{t+u}-N_t$ são independentes
+dessa informação; equivalentemente, do ponto de vista dos intervalos entre
+chegadas, a propriedade de falta de memória da distribuição exponencial garante
+que o tempo que falta até o próximo ônibus tem a mesma distribuição
+$\mathrm{Exp}(\lambda)$, independentemente dos $50$ minutos já transcorridos.
+
+Do mesmo modo, se Davi chega exatamente no instante $T_k$ em que o $k$-ésimo
+ônibus parte, sua espera até o próximo ônibus é o tempo entre chegadas
+$X_{k+1}=T_{k+1}-T_k$, que pelo \Cref{thm:exponenciais-iid} também tem
+distribuição $\mathrm{Exp}(\lambda)$. Ele não precisa, portanto, temer que sua
+espera seja maior do que o habitual só porque acabou de perder um ônibus. Esse
+comportamento é próprio do processo de Poisson e não ocorre, por exemplo, quando
+os ônibus obedecem a uma tabela de horários fixos (como passar a cada $60$
+minutos): nesse caso, quem acabou de perder um ônibus espera quase $60$ minutos,
+enquanto quem encontra alguém esperando há $50$ minutos espera no máximo $10$.
 \end{example}
 
 \begin{exercise}\label{exercise:soma-poisson-processos}
@@ -2254,14 +2578,6 @@ chamadas sucessivas que recebem atendimento?
 \end{exercise}
 
 \section{Problemas}\label{sec:problemas}
-
-Os problemas a seguir ampliam o que desenvolvemos nas seções anteriores. Os
-quatro primeiros exploram consequências diretas dos postulados e da
-distribuição de $N_t$; os dois últimos introduzem duas variantes do processo
-de Poisson que aparecem com frequência em aplicações, o processo de Poisson
-composto e o processo de Poisson não homogêneo. Não apresentamos soluções.
-Quando necessário, indicamos em cada enunciado qual resultado já disponível
-deve ser empregado.
 
 \providecommand{\starredproblem}{%
 \stepcounter{enumi}\llap{\textasteriskcentered\,}\arabic{enumi}.}
