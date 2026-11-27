@@ -309,7 +309,7 @@ Este fato irá permitir aplicar o critério de Borel-Cantelli,
 apresentado nas notas anteriores, para concluir a ocorrência da convergência quase
 certa.
 Embora esta versão seja ainda um caso particular ela é suficiente 
-para resolver o problema da frequência relativa do dígitos, porque as variáveis
+para resolver o problema da frequência relativa dos dígitos, porque as variáveis
 indicadoras são limitadas e portanto possuem todos os momentos finitos. 
 
 Depois, voltamos nossas atenções para o caso geral. 
@@ -341,7 +341,7 @@ Na \Cref{sec:preliminares} recordamos
 as ferramentas de cálculo de probabilidades que serão usadas: as desigualdades
 de Markov e Chebyshev, os dois lemas de Borel-Cantelli, o critério de
 convergência quase certa por somabilidade e a representação da esperança pela
-integral da cauda. Na seção \Cref{sec:espaco-produto} apresentamos mais alguns detalhes 
+integral da cauda. Na \Cref{sec:espaco-produto} apresentamos mais alguns detalhes 
 sobre a construção do espaço produto e sobre o problema das frequências relativas. 
 Na \Cref{sec:quarto-momento} demonstramos a lei forte sob a hipótese de quarto momento finito 
 e em seguida, mostramos como este resultado é aplicado para resolver o problema
@@ -530,7 +530,7 @@ Somando essas desigualdades e usando \eqref{eq:esperanca-cauda}, obtemos
 \end{equation}
 As séries dos extremos diferem apenas pelo termo $\mathbb{P}(W>0)\leqslant1$.
 Portanto, $\mathbb{E}[W]<\infty$ se, e somente se,
-$\sum_{k=1}^{\infty}\mathbb{P}(W>k)<\infty$. Aplicaremos essa equivalência a
+$\sum_{k=1}^{\infty}\mathbb{P}(W>k)<\infty$. Aplicaremos essa equivalência à
 variável aleatória
 $W \equiv |X_1|$. A integrabilidade tornará raros os truncamentos na prova de
 Etemadi, enquanto sua ausência produzirá termos grandes infinitas vezes na
@@ -1329,8 +1329,7 @@ negativas. Aplicando-o a cada família, obtemos, quase certamente,
 \frac{1}{n}\sum_{k=1}^{n}X_k^-\longrightarrow\mathbb{E}[X_1^-].
 \]
 Os dois conjuntos de convergência têm probabilidade $1$, logo a interseção
-também tem probabilidade $1$. Em cada ponto dessa interseção, subtraindo as
-os dois limites, obtemos
+também tem probabilidade $1$. Em cada ponto dessa interseção, subtraindo os dois limites, obtemos
 \[
 \frac{S_n}{n}
 =
@@ -1369,7 +1368,7 @@ $\mathbb{E}[Y_k^2]\leqslant k^2<\infty$. A independência dois a dois também
 $X_k$. Como o nível de truncamento varia com $k$, as variáveis $Y_k$ não
 são, em geral, identicamente distribuídas.
 
-A escolha do nível $k$ é motivado pelo critério de comparação
+A escolha do nível $k$ é motivada pelo critério de comparação
 \eqref{eq:comparacao-cauda} que está relacionado a integrabilidade de $X_1$ via a convergência
 da série $\sum_{k=1}^{\infty}\mathbb{P}(X_1>k)$. Como $X_k$ e $X_1$ têm a
 mesma distribuição, temos
@@ -1385,7 +1384,7 @@ diferença entre as médias tende a zero, como afirma o lema.
 
 \begin{lemma}[Truncamento]\label{lem:truncamento}
 Assuma que são válidas as hipóteses do \Cref{thm:lei-forte} e sejam $Y_k$ e $T_n$ as variáveis aleatórias
-definidos em \eqref{eq:truncamento}. Então
+definidas em \eqref{eq:truncamento}. Então
 \[
 \frac{S_n-T_n}{n}\longrightarrow0
 \qquad\text{quase certamente.}
@@ -1582,7 +1581,7 @@ Somando em $k\geqslant m$,
 \frac{1}{m-1}.
 \end{equation}
 
-O restante da prova é divido em dois casos. Suponha inicialmente que $y\geqslant1$.
+O restante da prova é dividido em dois casos. Suponha inicialmente que $y\geqslant1$.
 Neste caso, a soma $\sum_{k>y}k^{-2}$ começa em
 $k=\lfloor y\rfloor+1\geqslant2$, de modo que \eqref{eq:cota-harmonica} se
 aplica com $m=\lfloor y\rfloor+1$, fornecendo a seguinte desigualdade
@@ -1600,7 +1599,7 @@ y\rfloor$.
 
 Para finalizar resta obter a desigualdade para o caso $0\leqslant y<1$.
 Neste caso, temos que todo inteiro positivo $k$ satisfaz
-$k>y$, e portanto segue de uma aplicação diretta de \eqref{eq:cota-harmonica} com $m=2$ que
+$k>y$, e portanto segue de uma aplicação direta de \eqref{eq:cota-harmonica} com $m=2$ que
 \[
 2y\sum_{k>y}\frac{1}{k^2}
 =
@@ -2168,7 +2167,7 @@ de modo que o \Cref{thm:reciproca} se aplica: $S_n/n$ não converge quase
 certamente.
 
 Por outro lado, a média de variáveis de Cauchy independentes também é de
-Cauchy. Este fato será provado mais a frente quando introduzirmos a função característica.
+Cauchy. Este fato será provado mais à frente quando introduzirmos a função característica.
 De qualquer forma usando este resultado podemos afirmar que $S_n/n$ tem
 exatamente a mesma distribuição para todo $n$ e, em particular,
 $S_n/n\Rightarrow X_1$. O exemplo mostra que a convergência em distribuição
